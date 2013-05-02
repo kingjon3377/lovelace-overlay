@@ -18,8 +18,12 @@ IUSE=""
 DEPEND=""
 RDEPEND="${DEPEND}"
 
-src_prepare() {
+src_unpack() {
+	default_src_unpack
 	cd "${WORKDIR}" && mv -i ${P}.orig ${P} || die "renaming directory failed"
+}
+
+src_prepare() {
 	cd "${S}/.." && epatch "${FILESDIR}/wordplay_7.22-17.diff"
 	cd "${S}"
 	sed -i -e 's:-O:$(CFLAGS):' makefile || die "sed failed"
