@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE repositories SYSTEM "/dtd/repositories.dtd">
+<repositories xmlns="" version="1.0">
+  <repo quality="experimental" status="unofficial">
+    <name><![CDATA[lovelace]]></name>
+    <description lang="en"><![CDATA[Personal overlay shared between computers]]></description>
+    <homepage>https://bitbucket.org/kingjon/lovelace-overlay</homepage>
+    <owner type="person">
+      <email>kingjon3377@gmail.com</email>
+      <name><![CDATA[Jonathan Lovelace]]></name>
+    </owner>
+    <source type="mercurial">https://kingjon@bitbucket.org/kingjon/lovelace-overlay</source>
+  </repo>
+</repositories>
