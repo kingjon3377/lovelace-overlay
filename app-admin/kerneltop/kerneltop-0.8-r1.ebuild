@@ -18,6 +18,8 @@ IUSE=""
 DEPEND=""
 RDEPEND="${DEPEND}"
 
+S="${WORKDIR}"
+
 src_prepare() {
 	epatch "${FILESDIR}/kerneltop_0.8-2.1.diff"
 #	mv kerneltop-0.8/debian debian && rmdir kerneltop-0.8 || die "fix failed"
