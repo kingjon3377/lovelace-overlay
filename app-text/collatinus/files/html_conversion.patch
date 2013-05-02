@@ -1,0 +1,918 @@
+--- collatinus-9.3.orig/doc/node5.html
++++ collatinus-9.3/doc/node5.html
+@@ -13,7 +13,7 @@
+ <META NAME="resource-type" CONTENT="document">
+ <META NAME="distribution" CONTENT="global">
+ 
+-<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
++<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">
+ <META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+ <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+ 
+@@ -39,7 +39,7 @@
+   HREF="node6.html">La Flexion et les</A>
+ <B> monter:</B> <A NAME="tex2html63"
+   HREF="collatinus.html">Manuel d'utilisation de COLLATINVS</A>
+-<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html57"
++<B> précédent:</B> <A NAME="tex2html57"
+   HREF="node4.html">Le Texte Latin</A>
+ <BR>
+ <BR></DIV>
+@@ -48,12 +48,12 @@
+ <H1><A NAME="SECTION00050000000000000000">
+ La Lemmatisation</A>
+ </H1>
+-     Elle peut &#195;^atre accomplie de plusieurs mani&#195;&#168;res.
++     Elle peut être accomplie de plusieurs manières.
+      
+ <UL>
+-<LI>simplement en arr&#195;^atant le curseur de la souris sur une
+-     forme latine. Une bulle d'aide appara&#195;t, donnant tous les
+-     lemmes pouvant g&#195;&#169;n&#195;&#169;rer cette forme, avec toutes les analyses
++<LI>simplement en arrêtant le curseur de la souris sur une
++     forme latine. Une bulle d'aide apparaît, donnant tous les
++     lemmes pouvant générer cette forme, avec toutes les analyses
+      morphologiques possibles.
+ 
+ <P>
+@@ -63,16 +63,16 @@
+      en propose trois :
+         
+ <OL>
+-<LI>le texte pur, destin&#195;&#169; &#195;&nbsp; &#195;^atre retravaill&#195;&#169; dans un
++<LI>le texte pur, destiné à être retravaillé dans un
+            traitement de textes ;
+ </LI>
+-<LI>Html, destin&#195;&#169; &#195;&nbsp; &#195;^atre retouch&#195;&#169; avec un &#195;&#169;diteur 
+-           sp&#195;&#169;cialis&#195;&#169;, pour &#195;^atre mis en ligne ;
++<LI>Html, destiné à être retouché avec un éditeur 
++           spécialisé, pour être mis en ligne ;
+ </LI>
+-<LI>LaTeX, qui permet, apr&#195;&#168;s retouche et compilation,
+-           de r&#195;&#169;aliser des impressions de grande qualit&#195;&#169;. De
+-           nombreux sites proposent de se former &#195;&nbsp; LaTeX, qui
+-           est &#195;&nbsp; mon avis une solution pr&#195;&#169;f&#195;&#169;rable &#195;&nbsp; celle du
++<LI>LaTeX, qui permet, après retouche et compilation,
++           de réaliser des impressions de grande qualité. De
++           nombreux sites proposent de se former à LaTeX, qui
++           est à mon avis une solution préférable à celle du
+            traitement de textes.
+         
+ </LI>
+@@ -82,30 +82,30 @@
+ 
+ <P>
+ </LI>
+-<LI>si on veut lemmatiser tout le texte en une seule op&#195;&#169;ration,
++<LI>si on veut lemmatiser tout le texte en une seule opération,
+      on peut cliquer sur le bonton "Omnia lemmatizare", 
+      ou demander le menu Lemmata/Omnia lemmatizare. Dans ce
+-     cas, la morphologie n'est pas ajout&#195;&#169;e, mais on peut d&#195;&#169;cider
+-     de classer les lemmes par ordre alphab&#195;&#169;tique, et m&#195;^ame de faire
+-     pr&#195;&#169;c&#195;&#169;der chaque lemmatisation de la forme fl&#195;&#169;chie du texte.
++     cas, la morphologie n'est pas ajoutée, mais on peut décider
++     de classer les lemmes par ordre alphabétique, et même de faire
++     précéder chaque lemmatisation de la forme fléchie du texte.
+      
+ </LI>
+ </UL>
+ 
+ <P>
+-Collatinus n'&#195;&#169;tant pas un outil infaillible, il est chaudement
+-     conseill&#195;&#169; de relire et de corriger ce qu'il a produit. En 
+-     particulier, il fournit sans h&#195;&#169;siter des interpr&#195;&#169;tations que tout
+-     lecteur humain &#195;&#169;limine sans m&#195;^ame s'en apercevoir, comme les 
+-     formes du lemme <SPAN  CLASS="textit">sus, suis,</SPAN> f. : le cochon, formes tr&#195;&#168;s rares
++Collatinus n'étant pas un outil infaillible, il est chaudement
++     conseillé de relire et de corriger ce qu'il a produit. En 
++     particulier, il fournit sans hésiter des interprétations que tout
++     lecteur humain élimine sans même s'en apercevoir, comme les 
++     formes du lemme <SPAN  CLASS="textit">sus, suis,</SPAN> f. : le cochon, formes très rares
+      et pourtant homonymes du possessif <SPAN  CLASS="textit">suus, sua, suum,</SPAN> qui, lui,
+-     est omnipr&#195;&#169;sent.
++     est omniprésent.
+ 
+ <P>
+-On peut &#195;&nbsp; tout moment effacer toute la fen&#195;^atre inf&#195;&#169;rieure
++On peut à tout moment effacer toute la fenêtre inférieure
+      avec un bouton de la barre d'outils, ou une option du menu 
+      Edition. On peut aussi tout effacer, avec le premier bouton
+-     &#195;&nbsp; gauche.
++     à gauche.
+ 
+ <P>
+ 
+@@ -122,7 +122,7 @@
+   HREF="node6.html">La Flexion et les</A>
+ <B> monter:</B> <A NAME="tex2html63"
+   HREF="collatinus.html">Manuel d'utilisation de COLLATINVS</A>
+-<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html57"
++<B> précédent:</B> <A NAME="tex2html57"
+   HREF="node4.html">Le Texte Latin</A></DIV>
+ <!--End of Navigation Panel-->
+ <ADDRESS>
+--- collatinus-9.3.orig/doc/node9.html
++++ collatinus-9.3/doc/node9.html
+@@ -13,7 +13,7 @@
+ <META NAME="resource-type" CONTENT="document">
+ <META NAME="distribution" CONTENT="global">
+ 
+-<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
++<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">
+ <META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+ <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+ 
+@@ -36,10 +36,10 @@
+   HREF="node8.html">[<]</A>   
+ <BR>
+ <B> suivant:</B> <A NAME="tex2html105"
+-  HREF="node10.html">&#192; propos de ce</A>
++  HREF="node10.html">À propos de ce</A>
+ <B> monter:</B> <A NAME="tex2html103"
+   HREF="collatinus.html">Manuel d'utilisation de COLLATINVS</A>
+-<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html97"
++<B> précédent:</B> <A NAME="tex2html97"
+   HREF="node8.html">données syntaxiques</A>
+ <BR>
+ <BR></DIV>
+@@ -48,22 +48,22 @@
+ <H1><A NAME="SECTION00090000000000000000">
+ Licence</A>
+ </H1>
+-     Collatinus est plac&#195;&#169; sous licence GNU/GPL. Le texte de cette
+-     licence est d&#195;&#169;finitivement li&#195;&#169; au logiciel, et doit voyager
+-     partout avec lui. Il vous est recommand&#195;&#169; de le lire 
++     Collatinus est placé sous licence GNU/GPL. Le texte de cette
++     licence est définitivement lié au logiciel, et doit voyager
++     partout avec lui. Il vous est recommandé de le lire 
+      attentivement, et de prendre conscience que les logiciels
+-     et documents plac&#195;&#169;s sous cette licence sont de plus en plus
+-     nombreux. En r&#195;&#169;sum&#195;&#169;, le code source de Collatinus doit &#195;^atre 
+-     facilement accessible, et sans surco&#195;&#187;t. Dans sa distribution
+-     originale, il est livr&#195;&#169; dans la m&#195;^ame archive que l'ex&#195;&#169;cutable.
+-     Tout travail ult&#195;&#169;rieur qui utilisera tout
+-     ou partie de Collatinus devra &#195;^atre plac&#195;&#169; sous cette m&#195;^ame licence.
++     et documents placés sous cette licence sont de plus en plus
++     nombreux. En résumé, le code source de Collatinus doit être 
++     facilement accessible, et sans surcoît. Dans sa distribution
++     originale, il est livré dans la même archive que l'exécutable.
++     Tout travail ultérieur qui utilisera tout
++     ou partie de Collatinus devra être placé sous cette même licence.
+ 
+ <P>
+ Enfin, j'ai voulu Collatinus gratuit pour aider la langue
+-     latine &#195;&nbsp; demeurer ce qu'elle est depuis l'antiquit&#195;&#169; : le
+-     symbole d'une culture europ&#195;&#169;enne et m&#195;^ame mondiale, indispensable
+-     malgr&#195;&#169; ce qu'on se permet souvent de dire.
++     latine à demeurer ce qu'elle est depuis l'antiquité : le
++     symbole d'une culture européenne et même mondiale, indispensable
++     malgré ce qu'on se permet souvent de dire.
+ 
+ <P>
+ <BR><HR>
+--- collatinus-9.3.orig/doc/node1.html
++++ collatinus-9.3/doc/node1.html
+@@ -13,7 +13,7 @@
+ <META NAME="resource-type" CONTENT="document">
+ <META NAME="distribution" CONTENT="global">
+ 
+-<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
++<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">
+ <META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+ <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+ 
+@@ -39,31 +39,31 @@
+   HREF="node2.html">Installation, désinstallation</A>
+ <B> monter:</B> <A NAME="tex2html23"
+   HREF="collatinus.html">Manuel d'utilisation de COLLATINVS</A>
+-<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html17"
++<B> précédent:</B> <A NAME="tex2html17"
+   HREF="collatinus.html">Manuel d'utilisation de COLLATINVS</A>
+ <BR>
+ <BR></DIV>
+ <!--End of Navigation Panel-->
+ 
+ <H1><A NAME="SECTION00010000000000000000">
+-Pr&#195;&#169;sentation de la version 9</A>
++Présentation de la version 9</A>
+ </H1>
+ 
+ <P>
+ Collatinus est un lemmatiseur de textes latins : il est 
+-  capable, si on lui donne une forme d&#195;&#169;clin&#195;&#169;e ou conjugu&#195;&#169;e,
++  capable, si on lui donne une forme déclinée ou conjuguée,
+   de trouver quel mot il faudra chercher dans le dictionnaire pour
+-  avoir sa traduction dans une autre langue, ses diff&#195;&#169;rents sens,
+-  et toutes les autres donn&#195;&#169;es que fournit habituellement le
++  avoir sa traduction dans une autre langue, ses différents sens,
++  et toutes les autres données que fournit habituellement le
+   dictionnaire.
+ 
+ <P>
+-Cette neuvi&#195;&#168;me version tente d'ajouter une dimension &#195;&nbsp; l'analyse du texte : 
+-  elle pr&#195;&#169;tend pouvoir identifier les expressions, aussi appel&#195;&#169;es locutions.
+-  Une locution est une unit&#195;&#169; fonctionnelle du langage, compos&#195;&#169;e de plusieurs
+-  mots graphiques, appartenant &#195;&nbsp; la langue et devant &#195;^atre apprise en tant que
++Cette neuvième version tente d'ajouter une dimension à l'analyse du texte : 
++  elle prétend pouvoir identifier les expressions, aussi appelées locutions.
++  Une locution est une unité fonctionnelle du langage, composée de plusieurs
++  mots graphiques, appartenant à la langue et devant être apprise en tant que
+   forme globale non divisible. Autrement dit, une locution est la rencontre de
+-  plusieurs mots cr&#195;&#169;ant un sens autre que la simple addition de ces mots. Un bel
++  plusieurs mots créant un sens autre que la simple addition de ces mots. Un bel
+   exemple est l'expression <SPAN  CLASS="textit">nauis longa</SPAN>. Collatinus 8 donnait :
+ 
+ <P>
+@@ -72,26 +72,26 @@
+ nauis, is, f. : navire
+ 
+ <P>
+-Or <SPAN  CLASS="textit">nauis longa</SPAN> ne signifie pas &#171; navire long &#187;, mais &#171; navire de guerre &#187;,
++Or <SPAN  CLASS="textit">nauis longa</SPAN> ne signifie pas «&nbsp;navire long&nbsp;», mais «&nbsp;navire de guerre&nbsp;»,
+   et Collatinus 9 analyse ainsi <SPAN  CLASS="textit">nauis longa</SPAN> :
+ 
+ <P>
+ nauis, is, f. : navire
+-<BR>&nbsp;&nbsp;&nbsp;&#194;&#182; nauis longa : navire de guerre
++<BR>&nbsp;&nbsp;&nbsp;÷ nauis longa : navire de guerre
+ <BR>
+ longus, a, um : long
+ 
+ <P>
+-Collatinus est n&#195;&#169; du besoin de me lib&#195;&#169;rer de la petite collection de textes
++Collatinus est né du besoin de me libérer de la petite collection de textes
+   que nous proposent les manuels. Son but principal est d'ajouter
+-  automatiquement &#195;&nbsp; un texte pris sur la Toile, ou saisi manuellement, toutes
+-  les indications lexicales qui pourraient manquer &#195;&nbsp; l'&#195;&#169;l&#195;&#168;ve. J'ai pu ainsi,
+-  pendant plusieurs ann&#195;&#169;es, proposer anecdotes, po&#195;&#168;mes ou discours que j'avais
+-  moi-m&#195;^ame lus la veille, et que je voulais partager avec eux.
++  automatiquement à un texte pris sur la Toile, ou saisi manuellement, toutes
++  les indications lexicales qui pourraient manquer à l'élève. J'ai pu ainsi,
++  pendant plusieurs années, proposer anecdotes, poèmes ou discours que j'avais
++  moi-même lus la veille, et que je voulais partager avec eux.
+ 
+ <P>
+ Collatinus est aussi un analyseur morphologique : si on lui 
+-   demande d'analyser par exemple la forme <SPAN  CLASS="textit">legem</SPAN>, il r&#195;&#169;pondra :
++   demande d'analyser par exemple la forme <SPAN  CLASS="textit">legem</SPAN>, il répondra :
+ 
+ <P>
+ <PRE>
+@@ -105,15 +105,15 @@
+ 
+ <P>
+ En pratique, il est utile surtout au professeur de latin,
+-   qui peut ainsi tr&#195;&#168;s rapidement, &#195;&nbsp; partir d'un texte hors-manuel,
+-   distribuer &#195;&nbsp; ses &#195;&#169;l&#195;&#168;ves un texte in&#195;&#169;dit avec son aide lexicale.
+-   Les &#195;&#169;l&#195;&#168;ves s'en servent souvent pour lire plus facilement le 
++   qui peut ainsi très rapidement, à partir d'un texte hors-manuel,
++   distribuer à ses élèves un texte inédit avec son aide lexicale.
++   Les élèves s'en servent souvent pour lire plus facilement le 
+    latin lorsque leurs connaissances lexicales et morphologiques
+    sont encore insuffisantes.
+ 
+ <P>
+ Evidemment, pour un bon latiniste qui ne cherche que le plaisir
+-   personnel de lire, Collatinus n'est d'aucune utilit&#195;&#169;.
++   personnel de lire, Collatinus n'est d'aucune utilité.
+ 
+ <P>
+ 
+@@ -130,7 +130,7 @@
+   HREF="node2.html">Installation, désinstallation</A>
+ <B> monter:</B> <A NAME="tex2html23"
+   HREF="collatinus.html">Manuel d'utilisation de COLLATINVS</A>
+-<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html17"
++<B> précédent:</B> <A NAME="tex2html17"
+   HREF="collatinus.html">Manuel d'utilisation de COLLATINVS</A></DIV>
+ <!--End of Navigation Panel-->
+ <ADDRESS>
+--- collatinus-9.3.orig/doc/node3.html
++++ collatinus-9.3/doc/node3.html
+@@ -13,7 +13,7 @@
+ <META NAME="resource-type" CONTENT="document">
+ <META NAME="distribution" CONTENT="global">
+ 
+-<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
++<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">
+ <META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+ <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+ 
+@@ -39,7 +39,7 @@
+   HREF="node4.html">Le Texte Latin</A>
+ <B> monter:</B> <A NAME="tex2html43"
+   HREF="collatinus.html">Manuel d'utilisation de COLLATINVS</A>
+-<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html37"
++<B> précédent:</B> <A NAME="tex2html37"
+   HREF="node2.html">Installation, désinstallation</A>
+ <BR>
+ <BR></DIV>
+@@ -48,33 +48,33 @@
+ <H1><A NAME="SECTION00030000000000000000">
+ Prise en main rapide</A>
+ </H1>
+-  Si vous voulez essayer Collatinus sans &#195;^atre oblig&#195;&#169; de
+-  lire tout le manuel, voici la marche &#195;&nbsp; suivre pour une 
+-  premi&#195;&#168;re utilisation.
++  Si vous voulez essayer Collatinus sans être obligé de
++  lire tout le manuel, voici la marche à suivre pour une 
++  première utilisation.
+ 
+ <OL>
+ <LI>Lancer Collatinus, en ligne de commande : 
+   <PRE>
+      $./collatinus
+ </PRE>
+-  ... ou en cliquant sur son icone, ou &#195;&nbsp; partir du menu de votre bureau.
++  ... ou en cliquant sur son icone, ou à partir du menu de votre bureau.
+ </LI>
+-<LI>Cliquer sur le bouton <SPAN  CLASS="textit">Onerare</SPAN>, le deuxi&#195;&#168;me &#195;&nbsp; partir de la gauche ;
++<LI>Cliquer sur le bouton <SPAN  CLASS="textit">Onerare</SPAN>, le deuxième à partir de la gauche ;
+ </LI>
+-<LI>Dans le dialogue qui appara&#195;t, choisir un fichier et cliquer sur le
++<LI>Dans le dialogue qui apparaît, choisir un fichier et cliquer sur le
+   bouton de validation (Valider, ou OK, le plus souvent) ;
+ </LI>
+-<LI>Le texte latin appara&#195;t. On peut laisser le pointeur de souris une
+-  seconde sur une forme pour conna&#195;tre ses analyses morphologiques. 
++<LI>Le texte latin apparaît. On peut laisser le pointeur de souris une
++  seconde sur une forme pour connaître ses analyses morphologiques. 
+ </LI>
+-<LI>Cliquer sur le bouton "Omnia lemmatizare", le troisi&#195;&#168;me &#195;&nbsp; partir de la
++<LI>Cliquer sur le bouton "Omnia lemmatizare", le troisième à partir de la
+   gauche ;
+ </LI>
+-<LI>Le vocabulaire du texte appara&#195;t &#195;&nbsp; son tour ;
++<LI>Le vocabulaire du texte apparaît à son tour ;
+ </LI>
+ <LI>Dans le menu Fichier, choisissez l'option Scribere. Un dialogue vous
+      propose d'enregistrer votre travail. Le format sera celui de l'onglet
+-     s&#195;&#169;lectionn&#195;&#169; tout en bas de la fen&#195;^atre : texte, html ou <SPAN  CLASS="textbf">LaTeX</SPAN> 
++     sélectionné tout en bas de la fenêtre : texte, html ou <SPAN  CLASS="textbf">LaTeX</SPAN> 
+ </LI>
+ </OL>
+ 
+--- collatinus-9.3.orig/doc/node2.html
++++ collatinus-9.3/doc/node2.html
+@@ -13,7 +13,7 @@
+ <META NAME="resource-type" CONTENT="document">
+ <META NAME="distribution" CONTENT="global">
+ 
+-<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
++<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">
+ <META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+ <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+ 
+@@ -39,38 +39,38 @@
+   HREF="node3.html">Prise en main rapide</A>
+ <B> monter:</B> <A NAME="tex2html33"
+   HREF="collatinus.html">Manuel d'utilisation de COLLATINVS</A>
+-<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html27"
++<B> précédent:</B> <A NAME="tex2html27"
+   HREF="node1.html">Présentation de la version</A>
+ <BR>
+ <BR></DIV>
+ <!--End of Navigation Panel-->
+ 
+ <H1><A NAME="SECTION00020000000000000000">
+-Installation, d&#195;&#169;sinstallation </A>
++Installation, désinstallation </A>
+ </H1>   
+ 
+ <UL>
+ <LI><SPAN  CLASS="textbf">Sous Linux</SPAN>. Georges Khaznadar, qui se charge de l'empaquetage de
+    Collatinus sous Linux, a construit pour Debian, Ubuntu et autres distributions
+-   d&#195;&#169;riv&#195;&#169;es, des paquets *.deb. Il a &#195;&#169;galement pr&#195;&#169;vu, pour RedHat, Mandriva et 
+-   d&#195;&#169;riv&#195;&#169;es, des paquets *.rpm. Ces paquets s'installent et se d&#195;&#169;sinstallent selon
++   dérivées, des paquets *.deb. Il a également prévu, pour RedHat, Mandriva et 
++   dérivées, des paquets *.rpm. Ces paquets s'installent et se désinstallent selon
+    les usages de leur distribution.
+ </LI>
+ <LI><SPAN  CLASS="textbf">Sous Macintosh</SPAN> Une version de Collatinus existe pour Macintosh, 
+-   sensiblement diff&#195;&#169;rente de celle-ci. Voir &#195;&nbsp; l'adresse
++   sensiblement différente de celle-ci. Voir à l'adresse
+ <BR>
+ <P>
+ <A NAME="tex2html1"
+   HREF="http://www.infx.info/quidnovi/article.php3?id_article=792">http://www.infx.info/quidnovi/article.php3?id_article=792</A>
+ <P>
+ </LI>
+-<LI><SPAN  CLASS="textbf">Sous Windows</SPAN> L'installeur est disponible sur le site de l'acad&#195;&#169;mie de Poitiers
++<LI><SPAN  CLASS="textbf">Sous Windows</SPAN> L'installeur est disponible sur le site de l'académie de Poitiers
+ <BR>
+ <P>
+ <A NAME="tex2html2"
+   HREF="http://www.ac-poitiers.fr/lettres/lang_anc/Collatinus.htm">http://www.ac-poitiers.fr/lettres/lang_anc/Collatinus.htm</A>
+ <P>
+-Pour d&#195;&#169;sinstaller, il faut localiser le r&#195;&#169;pertoire d'installation, en g&#195;&#169;n&#195;&#169;ral 
++Pour désinstaller, il faut localiser le répertoire d'installation, en général 
+ 
+ <P>
+ <PRE>
+--- collatinus-9.3.orig/doc/index.html
++++ collatinus-9.3/doc/index.html
+@@ -13,7 +13,7 @@
+ <META NAME="resource-type" CONTENT="document">
+ <META NAME="distribution" CONTENT="global">
+ 
+-<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
++<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">
+ <META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+ <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+ 
+@@ -73,7 +73,7 @@
+ <LI><A NAME="tex2html14"
+   HREF="node9.html">Licence</A>
+ <LI><A NAME="tex2html15"
+-  HREF="node10.html">&#192; propos de ce document...</A>
++  HREF="node10.html">À propos de ce document...</A>
+ </UL>
+ <!--End of Table of Child-Links-->
+ <BR><HR>
+--- collatinus-9.3.orig/doc/collatinus.html
++++ collatinus-9.3/doc/collatinus.html
+@@ -13,7 +13,7 @@
+ <META NAME="resource-type" CONTENT="document">
+ <META NAME="distribution" CONTENT="global">
+ 
+-<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
++<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">
+ <META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+ <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+ 
+@@ -73,7 +73,7 @@
+ <LI><A NAME="tex2html14"
+   HREF="node9.html">Licence</A>
+ <LI><A NAME="tex2html15"
+-  HREF="node10.html">&#192; propos de ce document...</A>
++  HREF="node10.html">À propos de ce document...</A>
+ </UL>
+ <!--End of Table of Child-Links-->
+ <BR><HR>
+--- collatinus-9.3.orig/doc/node10.html
++++ collatinus-9.3/doc/node10.html
+@@ -7,13 +7,13 @@
+   Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+ <HTML>
+ <HEAD>
+-<TITLE>&#192; propos de ce document...</TITLE>
+-<META NAME="description" CONTENT="&#192; propos de ce document...">
++<TITLE>À propos de ce document...</TITLE>
++<META NAME="description" CONTENT="À propos de ce document...">
+ <META NAME="keywords" CONTENT="collatinus">
+ <META NAME="resource-type" CONTENT="document">
+ <META NAME="distribution" CONTENT="global">
+ 
+-<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
++<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">
+ <META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+ <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+ 
+@@ -33,24 +33,24 @@
+ <BR>
+ <B> monter:</B> <A NAME="tex2html111"
+   HREF="collatinus.html">Manuel d'utilisation de COLLATINVS</A>
+-<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html107"
++<B> précédent:</B> <A NAME="tex2html107"
+   HREF="node9.html">Licence</A>
+ <BR>
+ <BR></DIV>
+ <!--End of Navigation Panel-->
+ 
+ <H1><A NAME="SECTION000100000000000000000">
+-&#192; propos de ce document...</A>
++À propos de ce document...</A>
+ </H1>
+  <STRONG>Manuel d'utilisation de COLLATINVS</STRONG><P>
+ This document was generated using the
+ <A HREF="http://www.latex2html.org/"><STRONG>LaTeX</STRONG>2<tt>HTML</tt></A> translator Version 2002-2-1 (1.71)
+ <P>
+-Copyright &#169; 1993, 1994, 1995, 1996,
++Copyright © 1993, 1994, 1995, 1996,
+ Nikos Drakos, 
+ Computer Based Learning Unit, University of Leeds.
+ <BR>
+-Copyright &#169; 1997, 1998, 1999,
++Copyright © 1997, 1998, 1999,
+ <A HREF="http://www.maths.mq.edu.au/~ross/">Ross Moore</A>, 
+ Mathematics Department, Macquarie University, Sydney.
+ <P>
+--- collatinus-9.3.orig/doc/node8.html
++++ collatinus-9.3/doc/node8.html
+@@ -13,7 +13,7 @@
+ <META NAME="resource-type" CONTENT="document">
+ <META NAME="distribution" CONTENT="global">
+ 
+-<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
++<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">
+ <META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+ <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+ 
+@@ -39,17 +39,17 @@
+   HREF="node9.html">Licence</A>
+ <B> monter:</B> <A NAME="tex2html93"
+   HREF="collatinus.html">Manuel d'utilisation de COLLATINVS</A>
+-<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html87"
++<B> précédent:</B> <A NAME="tex2html87"
+   HREF="node7.html">Les données</A>
+ <BR>
+ <BR></DIV>
+ <!--End of Navigation Panel-->
+ 
+ <H1><A NAME="SECTION00080000000000000000">
+-donn&#195;&#169;es syntaxiques</A>
++données syntaxiques</A>
+ </H1>
+-	 Les expressions sont enregistr&#195;&#169;es dans le fichier expressions.fr, dont
+-	 voici le format. Les &#195;&#169;l&#195;&#169;ments sont num&#195;&#169;rot&#195;&#169;s &#195;&nbsp; partir de z&#195;&#169;ro :
++	 Les expressions sont enregistrées dans le fichier expressions.fr, dont
++	 voici le format. Les éléments sont numérotés à partir de zéro :
+ 
+ <P>
+ <PRE>
+@@ -64,18 +64,18 @@
+ </PRE>
+ 
+ <P>
+-Dans la premi&#195;&#168;re expression appara&#195;tra sous la lemmatisation de
+-  <SPAN  CLASS="textit">dentes</SPAN>. <SPAN  CLASS="textit">dens</SPAN> peut &#195;^atre &#195;&nbsp; n'importe quel cas, et l'adjectif
+-  <SPAN  CLASS="textit">aduersus</SPAN> sera accord&#195;&#169; en cas et nombre (cn) avec le n&#194;^0, c'est &#195;&nbsp;
++Dans la première expression apparaîtra sous la lemmatisation de
++  <SPAN  CLASS="textit">dentes</SPAN>. <SPAN  CLASS="textit">dens</SPAN> peut être à n'importe quel cas, et l'adjectif
++  <SPAN  CLASS="textit">aduersus</SPAN> sera accordé en cas et nombre (cn) avec le n°, c'est à
+   dire <SPAN  CLASS="textit">dens</SPAN>.
+ 
+ <P>
+-Dans la deuxi&#195;&#168;me, quatre formes sont d&#195;&#169;finies. les champs morpho et accord
+-  sont laiss&#195;&#169;s vides pour la pr&#195;&#169;position <SPAN  CLASS="textit">a</SPAN>. L'expression appara&#195;tra
++Dans la deuxième, quatre formes sont définies. les champs morpho et accord
++  sont laissés vides pour la préposition <SPAN  CLASS="textit">a</SPAN>. L'expression apparaîtra
+   sous <SPAN  CLASS="textit">ciuitas</SPAN>.
+ 
+ <P>
+-<SPAN  CLASS="textbf">r&#195;&#169;f&#195;&#169;rences</SPAN>
++<SPAN  CLASS="textbf">références</SPAN>
+ <PRE>
+   cas : n v ac g d ab
+   nombres : n p
+--- collatinus-9.3.orig/doc/node6.html
++++ collatinus-9.3/doc/node6.html
+@@ -13,7 +13,7 @@
+ <META NAME="resource-type" CONTENT="document">
+ <META NAME="distribution" CONTENT="global">
+ 
+-<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
++<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">
+ <META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+ <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+ 
+@@ -39,7 +39,7 @@
+   HREF="node7.html">Les données</A>
+ <B> monter:</B> <A NAME="tex2html73"
+   HREF="collatinus.html">Manuel d'utilisation de COLLATINVS</A>
+-<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html67"
++<B> précédent:</B> <A NAME="tex2html67"
+   HREF="node5.html">La Lemmatisation</A>
+ <BR>
+ <BR></DIV>
+@@ -49,59 +49,59 @@
+ La Flexion et les autres utilisations</A>
+ </H1>
+      L'onglet Flexio permet d'afficher la flexion de la forme sur laquelle
+-     on a cliqu&#195;&#169;. Cette fonctionnalit&#195;&#169; est fournie sans garantie, et on
+-     prendra la pr&#195;&#169;caution de dire aux &#195;&#169;l&#195;&#168;ves que ces tableaux risquent d'&#195;^atre faux.
++     on a cliqué. Cette fonctionnalité est fournie sans garantie, et on
++     prendra la précaution de dire aux élèves que ces tableaux risquent d'être faux.
+      En particulier, elle affiche le passif de verbes qui n'en ont pas, elle
+-     d&#195;&#169;cline de mani&#195;&#168;re r&#195;&#169;guli&#195;&#168;re certains mots irr&#195;&#169;guliers.
++     décline de manière régulière certains mots irréguliers.
+ 
+ <P>
+-Collatinus est souvent utilis&#195;&#169; dans d'autres buts que de pr&#195;&#169;parer
+-     un texte &#195;&nbsp; imprimer et &#195;&nbsp; distribuer aux &#195;&#169;l&#195;&#168;ves. C'est pourquoi
+-     nous avons pr&#195;&#169;vu la possibilit&#195;&#169; pour le ma&#195;tre de limiter ses
+-     fonctionnalit&#195;&#169;s, qui pourraient inciter l'&#195;&#169;l&#195;&#168;ve &#195;&nbsp; n&#195;&#169;gliger ses
+-     d&#195;&#169;clinaisons et conjugaisons, ou &#195;&nbsp; ne plus apprendre son vocabulaire.
++Collatinus est souvent utilisé dans d'autres buts que de préparer
++     un texte à imprimer et à distribuer aux élèves. C'est pourquoi
++     nous avons prévu la possibilité pour le maître de limiter ses
++     fonctionnalités, qui pourraient inciter l'élève à négliger ses
++     déclinaisons et conjugaisons, ou à ne plus apprendre son vocabulaire.
+ 
+ <P>
+-Un Collatinus neuf est livr&#195;&#169; avec toutes ses possibilit&#195;&#169;s. On peut les
+-	 limiter dans le menu Lemmata/Magister. Pour une utilisation en r&#195;&#169;seau, il
+-	 suffira de mettre le r&#195;&#169;pertoire de Collatinus en lecture seule pour les
+-	 utilisateurs &#195;&nbsp; qui on veut interdire ce param&#195;&#169;trage.
++Un Collatinus neuf est livré avec toutes ses possibilités. On peut les
++	 limiter dans le menu Lemmata/Magister. Pour une utilisation en réseau, il
++	 suffira de mettre le répertoire de Collatinus en lecture seule pour les
++	 utilisateurs à qui on veut interdire ce paramétrage.
+ 
+ <P>
+ Le formulaire qui surgit alors permet
+      
+ <UL>
+-<LI>de d&#195;&#169;cider &#195;&nbsp; partir de quel degr&#195;&#169; de raret&#195;&#169; lexicale l'&#195;&#169;l&#195;&#168;ve
+-        peut obtenir de l'aide sur un mot. Le degr&#195;&#169; est de 0 pour les
+-        mots les plus courants, &#195;&nbsp; 5 pour le plus rares ;
++<LI>de décider à partir de quel degré de rareté lexicale l'élève
++        peut obtenir de l'aide sur un mot. Le degré est de 0 pour les
++        mots les plus courants, à 5 pour le plus rares ;
+ </LI>
+-<LI>de d&#195;&#169;cider si l'&#195;&#169;l&#195;&#168;ve aura acc&#195;&#168;s &#195;&nbsp; l'analyse morphologique
++<LI>de décider si l'élève aura accès à l'analyse morphologique
+         qui apparait dans les bulles lorsque le curseur de la souris 
+-        s'arr&#195;^ate sur une forme ;
++        s'arrête sur une forme ;
+      
+ </LI>
+ </UL> 
+ 
+ <P>
+-Quelques utilisations p&#195;&#169;dagogiques de Collatinus :
++Quelques utilisations pédagogiques de Collatinus :
+      
+ <UL>
+-<LI>Il peut servir comme aide &#195;&nbsp; la lecture : on charge le texte,
+-        on essaie de lire, et en cas de difficult&#195;&#169; on place le curseur de
+-        la souris sur un mot qu'on ne parvient pas &#195;&nbsp; &#195;&#169;lucider. Quelquefois,
++<LI>Il peut servir comme aide à la lecture : on charge le texte,
++        on essaie de lire, et en cas de difficulté on place le curseur de
++        la souris sur un mot qu'on ne parvient pas à élucider. Quelquefois,
+         c'est le contraire qui se produit. Collatinus ignore un mot que
+-        conna&#195;t le lecteur. Dans ce cas, il faut l'ajouter au lexique.
+-        Je n'ai pas encore publi&#195;&#169; le programme qui me sert &#195;&nbsp; &#195;&#169;diter le
+-        lexique, il n'est vraiment pas pr&#195;&#169;sentable, mais je le ferai 
+-        d&#195;&#168;s que j'en aurai moins honte.
++        connaît le lecteur. Dans ce cas, il faut l'ajouter au lexique.
++        Je n'ai pas encore publié le programme qui me sert à éditer le
++        lexique, il n'est vraiment pas présentable, mais je le ferai 
++        dès que j'en aurai moins honte.
+ </LI>
+-<LI>On peut le mettre entre les mains des &#195;&#169;l&#195;&#168;ves, en leur demandant
+-        de dresser des listes pr&#195;&#169;cises : tous les noms de la troisi&#195;&#168;me
+-        d&#195;&#169;clinaison, le champ lexical de la justice, les mots de la 
++<LI>On peut le mettre entre les mains des élèves, en leur demandant
++        de dresser des listes précises : tous les noms de la troisième
++        déclinaison, le champ lexical de la justice, les mots de la 
+         famille de <SPAN  CLASS="textit">duco</SPAN>, etc.
+ </LI>
+ <LI>Collatinus peut servir aussi, au prix de quelques manipulations,
+-        &#195;&nbsp; faire des statistiques lexicales. 
++        à faire des statistiques lexicales. 
+      
+ </LI>
+ </UL>  
+@@ -121,7 +121,7 @@
+   HREF="node7.html">Les données</A>
+ <B> monter:</B> <A NAME="tex2html73"
+   HREF="collatinus.html">Manuel d'utilisation de COLLATINVS</A>
+-<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html67"
++<B> précédent:</B> <A NAME="tex2html67"
+   HREF="node5.html">La Lemmatisation</A></DIV>
+ <!--End of Navigation Panel-->
+ <ADDRESS>
+--- collatinus-9.3.orig/doc/node7.html
++++ collatinus-9.3/doc/node7.html
+@@ -13,7 +13,7 @@
+ <META NAME="resource-type" CONTENT="document">
+ <META NAME="distribution" CONTENT="global">
+ 
+-<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
++<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">
+ <META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+ <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+ 
+@@ -39,23 +39,23 @@
+   HREF="node8.html">données syntaxiques</A>
+ <B> monter:</B> <A NAME="tex2html83"
+   HREF="collatinus.html">Manuel d'utilisation de COLLATINVS</A>
+-<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html77"
++<B> précédent:</B> <A NAME="tex2html77"
+   HREF="node6.html">La Flexion et les</A>
+ <BR>
+ <BR></DIV>
+ <!--End of Navigation Panel-->
+ 
+ <H1><A NAME="SECTION00070000000000000000">
+-Les donn&#195;&#169;es</A>
++Les données</A>
+ </H1>     
+-     Toutes les donn&#195;&#169;es de Collatinus sont dans les fichiers lemmata.??. La
+-     version 8 est livr&#195;&#169;e avec trois fichiers, chacun correspondant &#195;&nbsp; une 
+-     langue europ&#195;&#169;enne :
++     Toutes les données de Collatinus sont dans les fichiers lemmata.??. La
++     version 8 est livrée avec trois fichiers, chacun correspondant à une 
++     langue européenne :
+      
+ <UL>
+ <LI><SPAN  CLASS="textit">lemmata.de</SPAN> pour l'allemand ;
+ </LI>
+-<LI><SPAN  CLASS="textit">lemmata.fr</SPAN> pour le fran&#195;&#167;ais ;
++<LI><SPAN  CLASS="textit">lemmata.fr</SPAN> pour le français ;
+ </LI>
+ <LI><SPAN  CLASS="textit">lemmata.uk</SPAN> pour l'anglais ;
+      
+@@ -63,8 +63,8 @@
+ </UL> 
+      
+ <OL>
+-<LI>La premi&#195;&#168;re partie d'un fichier lemmata est le dictionnaire proprement dit,
+-     et son format est tr&#195;&#168;s simple :
++<LI>La première partie d'un fichier lemmata est le dictionnaire proprement dit,
++     et son format est très simple :
+ <BR>
+ <P>
+ <PRE>
+@@ -74,13 +74,13 @@
+ </PRE>
+ 
+ <P>
+-Pour le num&#195;&#169;ro de mod&#195;&#168;le, cf. les d&#195;&#169;sinences.
++Pour le numéro de modèle, cf. les désinences.
+ <BR>
+ <P>
+-Le texte de l'entr&#195;&#169;e donne les donn&#195;&#169;es morphologiques (g&#195;&#169;nitif, genre, temps primitifs, traduction).
+-       un " p. " en t&#195;^ate de texte indique que le mot est toujours d&#195;&#169;clin&#195;&#169; au pluriel.
+-     Les noms de la premi&#195;&#168;re et deuxi&#195;&#168;me d&#195;&#169;clinaison et les verbes du mod&#195;&#168;le <SPAN  CLASS="textit">amo</SPAN> ne donnent pas leurs
+-     radicaux, qui sont calcul&#195;&#169;s automatiquement. On peut cependant signaler des irr&#195;&#169;gularit&#195;&#169;s :
++Le texte de l'entrée donne les données morphologiques (génitif, genre, temps primitifs, traduction).
++       un " p. " en tête de texte indique que le mot est toujours décliné au pluriel.
++     Les noms de la première et deuxième déclinaison et les verbes du modèle <SPAN  CLASS="textit">amo</SPAN> ne donnent pas leurs
++     radicaux, qui sont calculés automatiquement. On peut cependant signaler des irrégularités :
+ 
+ <P>
+ <PRE>
+@@ -91,7 +91,7 @@
+ 
+ <P>
+ </LI>
+-<LI>la seconde partie est imp&#195;&#169;rativement pr&#195;&#169;c&#195;&#169;d&#195;&#169;e de la ligne
++<LI>la seconde partie est impérativement précédée de la ligne
+ 
+ <P>
+ <PRE>
+@@ -99,7 +99,7 @@
+ </PRE>
+ 
+ <P>
+-Voici le format d'une d&#195;&#169;sinence :
++Voici le format d'une désinence :
+ <BR>     <PRE>
+      désinence|cas|genre|nombre|degré|personne|temps|mode|voix|modèle|numéro de radical\\
+ </PRE>
+@@ -109,7 +109,7 @@
+ </PRE>
+ 
+ <P>
+-Et voici le r&#195;&#169;f&#195;&#169;rentiel de ces valeurs:
++Et voici le référentiel de ces valeurs:
+ 
+ <P>
+ <PRE>
+@@ -150,10 +150,10 @@
+ 
+ <P>
+ </LI>
+-<LI>La troisi&#195;&#168;me et derni&#195;&#168;re partie est r&#195;&#169;serv&#195;&#169;e aux formes irr&#195;&#169;guli&#195;&#168;res.
++<LI>La troisième et dernière partie est réservée aux formes irrégulières.
+ 
+ <P>
+-Elle est imp&#195;&#169;rativement pr&#195;&#169;c&#195;&#169;d&#195;&#169;e de la ligne
++Elle est impérativement précédée de la ligne
+ 
+ <P>
+ <PRE>
+@@ -161,7 +161,7 @@
+ </PRE>
+ 
+ <P>
+-Voici le format d'une forme irr&#195;&#169;guli&#195;&#168;re :
++Voici le format d'une forme irrégulière :
+ <BR>
+ <P>
+ <PRE>
+@@ -171,7 +171,7 @@
+ </PRE>
+ 
+ <P>
+-le r&#195;&#169;f&#195;&#169;rentiel est le m&#195;^ame que celui des d&#195;&#169;sinences
++le référentiel est le même que celui des désinences
+ 
+ <P>
+ </LI>
+@@ -192,7 +192,7 @@
+   HREF="node8.html">données syntaxiques</A>
+ <B> monter:</B> <A NAME="tex2html83"
+   HREF="collatinus.html">Manuel d'utilisation de COLLATINVS</A>
+-<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html77"
++<B> précédent:</B> <A NAME="tex2html77"
+   HREF="node6.html">La Flexion et les</A></DIV>
+ <!--End of Navigation Panel-->
+ <ADDRESS>
+--- collatinus-9.3.orig/doc/node4.html
++++ collatinus-9.3/doc/node4.html
+@@ -13,7 +13,7 @@
+ <META NAME="resource-type" CONTENT="document">
+ <META NAME="distribution" CONTENT="global">
+ 
+-<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
++<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">
+ <META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+ <META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+ 
+@@ -39,7 +39,7 @@
+   HREF="node5.html">La Lemmatisation</A>
+ <B> monter:</B> <A NAME="tex2html53"
+   HREF="collatinus.html">Manuel d'utilisation de COLLATINVS</A>
+-<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html47"
++<B> précédent:</B> <A NAME="tex2html47"
+   HREF="node3.html">Prise en main rapide</A>
+ <BR>
+ <BR></DIV>
+@@ -49,32 +49,32 @@
+ Le Texte Latin</A>
+ </H1>
+    Collatinus permet de publier facilement des textes latins peu
+-   connus, et de les faire conna&#195;tre aux non sp&#195;&#169;cialistes en leur
++   connus, et de les faire connaître aux non spécialistes en leur
+    donnant le vocabulaire qui leur manque. Comment se procurer ces
+    textes ?
+    
+ <UL>
+-<LI>A partir d'un livre, en saisie manuelle (long) ou en num&#195;&#169;risant
+-     et traitant l'image avec un logiciel de reconnaissance de caract&#195;&#168;res.
++<LI>A partir d'un livre, en saisie manuelle (long) ou en numérisant
++     et traitant l'image avec un logiciel de reconnaissance de caractères.
+      Solution longue elle aussi, et peu fiable : il est presque
+      impossible d'assurer une correction parfaite, et les logiciels
+-     sont incapables de reconnaitre les caract&#195;&#168;res utilis&#195;&#169;s par les
++     sont incapables de reconnaitre les caractères utilisés par les
+      livres anciens ;
+ </LI>
+-<LI>A partir d'un CD-ROM. La solution est co&#195;&#187;teuse, mais tr&#195;&#168;s int&#195;&#169;ressante
+-     Je connais au moins deux &#195;&#169;diteurs qui proposent l'int&#195;&#169;gralit&#195;&#169; du
++<LI>A partir d'un CD-ROM. La solution est coîteuse, mais très intéressante
++     Je connais au moins deux éditeurs qui proposent l'intégralité du
+      corpus antique : PHI (Packard Humanities Institute) et Teubner. On
+      trouvera facilement leur adresse via un moteur de recherches ;
+ </LI>
+-<LI>Internet : Solution de plus en plus f&#195;&#169;conde. Dans un moteur de 
++<LI>Internet : Solution de plus en plus féconde. Dans un moteur de 
+      recherche, on saisit entre guillemets l'incipit de l'oeuvre ou 
+      du passage qu'on veut lire. Par exemple :
+            "is fuit in uultu uisae sine ueste Dianae."
+-     Devrait conduire, apr&#195;&#168;s quelques h&#195;&#169;sitations, au texte int&#195;&#169;gral
+-     des M&#195;&#169;tamorphoses d'Ovide. Notez que <SPAN  CLASS="textit">uultu</SPAN> a &#195;&#169;t&#195;&#169; utilis&#195;&#169; plut&#195;&#180;t
+-     que <SPAN  CLASS="textit">vultu</SPAN>. L'un et l'autre donnent des r&#195;&#169;ponses, mais il faut
+-     penser aux deux possibilti&#195;&#169;s. Quelques sites, qu'on conna&#195;tra vite, sont
+-     sp&#195;&#169;cialis&#195;&#169;s dans la publication du latin. Ils sont r&#195;&#169;f&#195;&#169;renc&#195;&#169;s par exemple
++     Devrait conduire, après quelques hésitations, au texte intégral
++     des Métamorphoses d'Ovide. Notez que <SPAN  CLASS="textit">uultu</SPAN> a été utilisé plutôt
++     que <SPAN  CLASS="textit">vultu</SPAN>. L'un et l'autre donnent des réponses, mais il faut
++     penser aux deux possibiltiés. Quelques sites, qu'on connaîtra vite, sont
++     spécialisés dans la publication du latin. Ils sont référencés par exemple
+      sur Weblettres : 
+      <A NAME="tex2html3"
+   HREF="http://www.weblettres.net/sommaire.php?entree=16&amp;rubrique=54">http://www.weblettres.net/sommaire.php?entree=16&amp;rubrique=54</A>
+@@ -82,9 +82,9 @@
+ </UL>
+ 
+ <P>
+-Le but est ensuite d'afficher le texte latin dans la fen&#195;^atre de 
+-     Collatinus. Il faudra, &#195;&#169;videmment, lancer Collatinus. Se placer
+-     dans le r&#195;&#169;pertoire d'installation, et lancer la commande
++Le but est ensuite d'afficher le texte latin dans la fenêtre de 
++     Collatinus. Il faudra, évidemment, lancer Collatinus. Se placer
++     dans le répertoire d'installation, et lancer la commande
+ 
+ <P>
+ <PRE>
+@@ -93,13 +93,13 @@
+ 
+ <P>
+ On peut utiliser le copier-coller : dans le navigateur 
+-     Internet, s&#195;&#169;lectionner le texte et copier (Ctrl+C) ; Dans 
+-     Collatinus, cliquer dans la partie sup&#195;&#169;rieure, puis coller (Ctrl+V).
+-     On peut aussi enregistrer sur son disque dur le texte trouv&#195;&#169; 
++     Internet, sélectionner le texte et copier (Ctrl+C) ; Dans 
++     Collatinus, cliquer dans la partie supérieure, puis coller (Ctrl+V).
++     On peut aussi enregistrer sur son disque dur le texte trouvé 
+      sur le CD ou sur Internet, puis le charger avec Fichier/Ouvrir.
+ 
+ <P>
+-Une fois le texte charg&#195;&#169;, on doit souvent le relire, le 
++Une fois le texte chargé, on doit souvent le relire, le 
+      modifier ou le corriger.
+ 
+ <P>
+@@ -117,7 +117,7 @@
+   HREF="node5.html">La Lemmatisation</A>
+ <B> monter:</B> <A NAME="tex2html53"
+   HREF="collatinus.html">Manuel d'utilisation de COLLATINVS</A>
+-<B> pr&eacute;c&eacute;dent:</B> <A NAME="tex2html47"
++<B> précédent:</B> <A NAME="tex2html47"
+   HREF="node3.html">Prise en main rapide</A></DIV>
+ <!--End of Navigation Panel-->
+ <ADDRESS>

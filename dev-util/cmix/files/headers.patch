@@ -1,0 +1,417 @@
+diff -ru src.old/analyzer/ALoc.cc src/analyzer/ALoc.cc
+--- src.old/analyzer/ALoc.cc	2010-12-03 01:32:05.000000000 -0500
++++ src/analyzer/ALoc.cc	2010-12-03 01:32:08.000000000 -0500
+@@ -13,8 +13,8 @@
+ 
+ #include <cmixconf.h>
+ #include "ALoc.h"
+-#include <string.h>
+-#include <stdlib.h>
++#include <cstring>
++#include <cstdlib>
+ #include "outcore.h"
+ #include "commonout.h"
+ #include "renamer.h"
+diff -ru src.old/analyzer/ALoc.h src/analyzer/ALoc.h
+--- src.old/analyzer/ALoc.h	2010-12-03 01:32:05.000000000 -0500
++++ src/analyzer/ALoc.h	2010-12-03 01:32:08.000000000 -0500
+@@ -14,7 +14,7 @@
+ #include "auxilary.h"
+ #include "output.h"
+ #include "Pset.h"
+-#include <iostream.h>
++#include <iostream>
+ 
+ class C_Decl;
+ struct ALocSet: public Pset<C_Decl>, public Numbered {
+diff -ru src.old/analyzer/analyses.h src/analyzer/analyses.h
+--- src.old/analyzer/analyses.h	2010-12-03 01:32:06.000000000 -0500
++++ src/analyzer/analyses.h	2010-12-03 01:32:08.000000000 -0500
+@@ -17,7 +17,7 @@
+ #include "array.h"
+ #include "ALoc.h"
+ #include "InvALocSet.h"
+-#include <iostream.h>
++#include <iostream>
+ 
+ class GegenStream;
+ 
+diff -ru src.old/analyzer/auxilary.cc src/analyzer/auxilary.cc
+--- src.old/analyzer/auxilary.cc	2010-12-03 01:32:06.000000000 -0500
++++ src/analyzer/auxilary.cc	2010-12-03 01:32:08.000000000 -0500
+@@ -10,13 +10,14 @@
+  */
+ 
+ #include <cmixconf.h>
+-#include <stdio.h>
+-#include <iostream.h>
+-#include <stdarg.h>
+-#include <math.h>
+-#include <stdlib.h>
+-#include <stddef.h>
+-#include <limits.h>
++#include <cstdio>
++#include <iostream>
++#include <cstdarg>
++#include <cmath>
++#include <cstdlib>
++#include <cstddef>
++#include <climits>
++#include <cstring>
+ #include "auxilary.h"
+ #include "diagnostic.h"
+ 
+diff -ru src.old/analyzer/auxilary.h src/analyzer/auxilary.h
+--- src.old/analyzer/auxilary.h	2010-12-03 01:32:06.000000000 -0500
++++ src/analyzer/auxilary.h	2010-12-03 01:32:08.000000000 -0500
+@@ -14,7 +14,7 @@
+ #ifndef __CMIX_CONFIGURE__
+ #error Include <cmixconf.h> before auxilary.h
+ #endif
+-#include <iostream.h>
++#include <iostream>
+ 
+ extern char CmixRelease[] ; // in release.cc
+ extern char CPP[] ;             // in varstrings.cc or bindist.cc
+diff -ru src.old/analyzer/c2core.cc src/analyzer/c2core.cc
+--- src.old/analyzer/c2core.cc	2010-12-03 01:32:05.000000000 -0500
++++ src/analyzer/c2core.cc	2010-12-03 01:32:08.000000000 -0500
+@@ -7,7 +7,7 @@
+  */
+ 
+ #include <cmixconf.h>
+-#include <string.h>
++#include <cstring>
+ #include "array.h"
+ #include "options.h"
+ #include "diagnostic.h"
+diff -ru src.old/analyzer/check.cc src/analyzer/check.cc
+--- src.old/analyzer/check.cc	2010-12-03 01:32:06.000000000 -0500
++++ src/analyzer/check.cc	2010-12-03 01:32:08.000000000 -0500
+@@ -10,11 +10,11 @@
+ #include <cmixconf.h>
+ #ifdef HAVE_REGEX_H
+ #include <sys/types.h>
+-#include <stddef.h> // for redhat machines which otherwise choke on regex.h
++#include <cstddef> // for redhat machines which otherwise choke on regex.h
+ #include <regex.h>  // for OSF alphas with buggy GCC installations
+ #endif
+-#include <ctype.h>
+-#include <string.h>
++#include <cctype>
++#include <cstring>
+ #include "auxilary.h"
+ #include "cpgm.h"
+ #include "options.h"
+diff -ru src.old/analyzer/corec.cc src/analyzer/corec.cc
+--- src.old/analyzer/corec.cc	2010-12-03 01:32:06.000000000 -0500
++++ src/analyzer/corec.cc	2010-12-03 01:32:08.000000000 -0500
+@@ -9,9 +9,9 @@
+  */
+ 
+ #include <cmixconf.h>
+-#include <stdio.h>
++#include <cstdio>
+ #include "Plist.h"
+-#include <string.h>
++#include <cstring>
+ #include "corec.h"
+ #include "auxilary.h"
+ #include "diagnostic.h"
+diff -ru src.old/analyzer/cpgm.cc src/analyzer/cpgm.cc
+--- src.old/analyzer/cpgm.cc	2010-12-03 01:32:05.000000000 -0500
++++ src/analyzer/cpgm.cc	2010-12-03 01:32:08.000000000 -0500
+@@ -9,10 +9,10 @@
+ 
+ #include <cmixconf.h>
+ #include "Plist.h"
+-#include <limits.h>
+-#include <stdio.h>
+-#include <string.h>
+-#include <stdlib.h>
++#include <climits>
++#include <cstdio>
++#include <cstring>
++#include <cstdlib>
+ #include "cpgm.h"
+ #include "auxilary.h"
+ #include "options.h"
+diff -ru src.old/analyzer/cpgm.h src/analyzer/cpgm.h
+--- src.old/analyzer/cpgm.h	2010-12-03 01:32:06.000000000 -0500
++++ src/analyzer/cpgm.h	2010-12-03 01:32:08.000000000 -0500
+@@ -12,7 +12,7 @@
+ #define __CPGM__
+ 
+ #include "Plist.h"
+-#include <iostream.h>
++#include <iostream>
+ #include "diagnostic.h"
+ #include "auxilary.h"
+ #include "tags.h"
+diff -ru src.old/analyzer/diagnostic.h src/analyzer/diagnostic.h
+--- src.old/analyzer/diagnostic.h	2010-12-03 01:32:06.000000000 -0500
++++ src/analyzer/diagnostic.h	2010-12-03 01:32:43.000000000 -0500
+@@ -10,9 +10,10 @@
+ #ifndef __DIAGNOSTIC__
+ #define __DIAGNOSTIC__
+ 
+-#include <stdarg.h>
+-#include <stdlib.h>
+-#include <iostream.h>
++#include <cstdarg>
++#include <cstdlib>
++#include <iostream>
++using namespace std;
+ 
+ //--------------------------------------------------------------
+ // class Position
+diff -ru src.old/analyzer/direc-tab.cc src/analyzer/direc-tab.cc
+--- src.old/analyzer/direc-tab.cc	2010-12-03 01:32:06.000000000 -0500
++++ src/analyzer/direc-tab.cc	2010-12-03 01:32:08.000000000 -0500
+@@ -70,12 +70,12 @@
+ #  endif
+ #endif
+ 
+-#include <stdlib.h>
+-#include <string.h>
++#include <cstdlib>
++#include <cstring>
+ #ifdef HAVE_REGEX_H
+ #include <regex.h>  // for OSF alphas with buggy GCC installations
+ #endif
+-#include <ctype.h>
++#include <cctype>
+ #include "auxilary.h"
+ #include "diagnostic.h"
+ #include "directives.h"
+diff -ru src.old/analyzer/directives.cc src/analyzer/directives.cc
+--- src.old/analyzer/directives.cc	2010-12-03 01:32:05.000000000 -0500
++++ src/analyzer/directives.cc	2010-12-03 01:32:08.000000000 -0500
+@@ -7,9 +7,9 @@
+  */
+ 
+ #include <cmixconf.h>
+-#include <stdio.h>
+-#include <string.h>
+-#include <stdlib.h>
++#include <cstdio>
++#include <cstring>
++#include <cstdlib>
+ #include "cpgm.h"
+ #include "corec.h"
+ #include "directives.h"
+diff -ru src.old/analyzer/directives.h src/analyzer/directives.h
+--- src.old/analyzer/directives.h	2010-12-03 01:32:05.000000000 -0500
++++ src/analyzer/directives.h	2010-12-03 01:32:08.000000000 -0500
+@@ -13,9 +13,9 @@
+ #ifndef __DIRECTIVES__
+ #define __DIRECTIVES__
+ 
+-#include <stdio.h>
+-#include <stdarg.h>
+-#include <iostream.h>
++#include <cstdio>
++#include <cstdarg>
++#include <iostream>
+ #include "Plist.h"
+ #include "diagnostic.h"
+ #include "cpgm.h"
+diff -ru src.old/analyzer/direc.y src/analyzer/direc.y
+--- src.old/analyzer/direc.y	2010-12-03 01:32:06.000000000 -0500
++++ src/analyzer/direc.y	2010-12-03 01:32:08.000000000 -0500
+@@ -27,9 +27,9 @@
+ #  endif
+ #endif
+ 
+-#include <stdlib.h>
+-#include <string.h>
+-#include <ctype.h>
++#include <cstdlib>
++#include <cstring>
++#include <cctype>
+ #include "auxilary.h"
+ #include "diagnostic.h"
+ #include "directives.h"
+diff -ru src.old/analyzer/fileops.cc src/analyzer/fileops.cc
+--- src.old/analyzer/fileops.cc	2010-12-03 01:32:05.000000000 -0500
++++ src/analyzer/fileops.cc	2010-12-03 01:32:08.000000000 -0500
+@@ -8,7 +8,7 @@
+  */
+ 
+ #include <cmixconf.h>
+-#include <string.h>
++#include <cstring>
+ #include <sys/stat.h>
+ #include "fileops.h"
+ #include "diagnostic.h"
+diff -ru src.old/analyzer/fileops.h src/analyzer/fileops.h
+--- src.old/analyzer/fileops.h	2010-12-03 01:32:05.000000000 -0500
++++ src/analyzer/fileops.h	2010-12-03 01:32:08.000000000 -0500
+@@ -11,7 +11,7 @@
+ #ifndef __FILESOP__
+ #define __FILESOP__
+ 
+-#include <fstream.h>
++#include <fstream>
+ 
+ bool CheckFile (const char*);
+ 
+diff -ru src.old/analyzer/gegen.cc src/analyzer/gegen.cc
+--- src.old/analyzer/gegen.cc	2010-12-03 01:32:05.000000000 -0500
++++ src/analyzer/gegen.cc	2010-12-03 01:32:08.000000000 -0500
+@@ -10,9 +10,9 @@
+  */
+ 
+ #include <cmixconf.h>
+-#include <string.h>
+-#include <stdlib.h>
+-#include <time.h>
++#include <cstring>
++#include <cstdlib>
++#include <ctime>
+ #include "gegen.h"
+ #include "directives.h"
+ 
+diff -ru src.old/analyzer/generator.cc src/analyzer/generator.cc
+--- src.old/analyzer/generator.cc	2010-12-03 01:32:05.000000000 -0500
++++ src/analyzer/generator.cc	2010-12-03 01:32:08.000000000 -0500
+@@ -13,12 +13,12 @@
+ #include "corec.h"
+ #include "cpgm.h"
+ #include "strings.h"
+-#include <string.h>
++#include <cstring>
+ #ifdef HAVE_REGEX_H
+-#include <stddef.h> // for redhat machines which otherwise choke on regex.h
++#include <cstddef> // for redhat machines which otherwise choke on regex.h
+ #include <regex.h>  // for OSF alphas with buggy GCC installations
+ #endif
+-#include <ctype.h>
++#include <cctype>
+ 
+ // This module translates each generator directive into a Core C
+ // pseudo-function that can be binding-time analysed directly.
+diff -ru src.old/analyzer/InvALocSet.h src/analyzer/InvALocSet.h
+--- src.old/analyzer/InvALocSet.h	2010-12-03 01:32:05.000000000 -0500
++++ src/analyzer/InvALocSet.h	2010-12-03 01:32:08.000000000 -0500
+@@ -17,7 +17,7 @@
+ #include "ALoc.h"
+ #include "output.h"
+ #include "corec.h"
+-#include <iostream.h>
++#include <iostream>
+ 
+ struct InvALocSet : public InvPset<C_Decl>, public Numbered
+ {
+diff -ru src.old/analyzer/lex-yy.cc src/analyzer/lex-yy.cc
+--- src.old/analyzer/lex-yy.cc	2010-12-03 01:32:05.000000000 -0500
++++ src/analyzer/lex-yy.cc	2010-12-03 01:32:08.000000000 -0500
+@@ -18,10 +18,10 @@
+ /* First, we deal with  platform-specific or compiler-specific issues. */
+ 
+ /* begin standard C headers. */
+-#include <stdio.h>
+-#include <string.h>
+-#include <errno.h>
+-#include <stdlib.h>
++#include <cstdio>
++#include <cstring>
++#include <cerrno>
++#include <cstdlib>
+ 
+ /* end standard C headers. */
+ 
+diff -ru src.old/analyzer/options.cc src/analyzer/options.cc
+--- src.old/analyzer/options.cc	2010-12-03 01:32:06.000000000 -0500
++++ src/analyzer/options.cc	2010-12-03 01:32:08.000000000 -0500
+@@ -11,15 +11,15 @@
+  */
+ 
+ #include <cmixconf.h>
+-#include <stdlib.h>
+-#include <string.h>
++#include <cstdlib>
++#include <cstring>
+ #ifdef HAVE_REGEX_H
+-#include <stddef.h> // for redhat machines which otherwise choke on regex.h
++#include <cstddef> // for redhat machines which otherwise choke on regex.h
+ #include <regex.h>  // for OSF alphas with buggy GCC installations
+ #endif
+ #line 18
+ 
+-#include <ctype.h>
++#include <cctype>
+ #include "options.h"
+ #include "directives.h"
+ #include "auxilary.h"
+diff -ru src.old/analyzer/output.h src/analyzer/output.h
+--- src.old/analyzer/output.h	2010-12-03 01:32:06.000000000 -0500
++++ src/analyzer/output.h	2010-12-03 01:32:08.000000000 -0500
+@@ -12,7 +12,7 @@
+ 
+ #include "Plist.h"
+ #include "array.h"
+-#include <iostream.h>
++#include <iostream>
+ #include "auxilary.h"
+ 
+ // Output types are organized in trees. Each piece of output must have a type.
+diff -ru src.old/analyzer/renamer.cc src/analyzer/renamer.cc
+--- src.old/analyzer/renamer.cc	2010-12-03 01:32:06.000000000 -0500
++++ src/analyzer/renamer.cc	2010-12-03 01:32:08.000000000 -0500
+@@ -9,12 +9,12 @@
+  */
+ 
+ #include <cmixconf.h>
+-#include <string.h>
+-#include <stdlib.h>
++#include <cstring>
++#include <cstdlib>
+ #ifdef HAVE_REGEX_H
+ #include <regex.h>  // for OSF alphas with buggy GCC installations
+ #endif
+-#include <ctype.h>
++#include <cctype>
+ #include "analyses.h"
+ #include "renamer.h"
+ #include "directives.h"
+diff -ru src.old/analyzer/symboltable.h src/analyzer/symboltable.h
+--- src.old/analyzer/symboltable.h	2010-12-03 01:32:06.000000000 -0500
++++ src/analyzer/symboltable.h	2010-12-03 01:32:08.000000000 -0500
+@@ -11,9 +11,9 @@
+ #ifndef __SYMBOLTABLE__
+ #define __SYMBOLTABLE__
+ 
+-#include <stdio.h>
+-#include <string.h>
+-#include <math.h>
++#include <cstdio>
++#include <cstring>
++#include <cmath>
+ #include "auxilary.h"
+ #include "diagnostic.h"
+ 
+diff -ru src.old/analyzer/syntax.cc src/analyzer/syntax.cc
+--- src.old/analyzer/syntax.cc	2010-12-03 01:32:06.000000000 -0500
++++ src/analyzer/syntax.cc	2010-12-03 01:32:08.000000000 -0500
+@@ -8,7 +8,7 @@
+  */
+ 
+ #include <cmixconf.h>
+-#include <string.h>
++#include <cstring>
+ #include "syntax.h"
+ #include "auxilary.h"
+ #include "diagnostic.h"
+diff -ru src.old/analyzer/tags.h src/analyzer/tags.h
+--- src.old/analyzer/tags.h	2010-12-03 01:32:06.000000000 -0500
++++ src/analyzer/tags.h	2010-12-03 01:32:08.000000000 -0500
+@@ -12,7 +12,7 @@
+ #ifndef __TAGS__
+ #define __TAGS__
+ 
+-#include <iostream.h>
++#include <iostream>
+ #include "diagnostic.h"
+ 
+ enum SideEffects { SEPure, SEStateless, SEROState, SERWState } ;

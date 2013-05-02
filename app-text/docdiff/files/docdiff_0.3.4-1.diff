@@ -1,0 +1,1001 @@
+--- docdiff-0.3.4.orig/debian/changelog
++++ docdiff-0.3.4/debian/changelog
+@@ -0,0 +1,107 @@
++docdiff (0.3.4-1) unstable; urgency=low
++
++  * New upstream release
++  * Specify implicit ruby version (current 1.8) to docdiff script. 
++    (closes: #301910)
++  * Ready to accept ignore-whitespace and wordwrap patches contributed from
++    Andrew. Thanks. But because they cause unit-test failure, I disable
++    them at this time. I'll enable them when upstream accept.
++    (#452737)
++
++ -- Kenshi Muto <kmuto@debian.org>  Mon, 10 Dec 2007 05:24:26 +0000
++
++docdiff (0.3.3-1) unstable; urgency=low
++
++  * New upstream release
++  * Apply embeded anchor patch (closes: #346365)
++
++ -- Kenshi Muto <kmuto@debian.org>  Sat,  4 Feb 2006 03:23:55 +0000
++
++docdiff (0.3.2-1) unstable; urgency=low
++
++  * New upstream release
++
++ -- Kenshi Muto <kmuto@debian.org>  Tue,  8 Feb 2005 20:19:28 +0900
++
++docdiff (0.3.1-2) unstable; urgency=low
++
++  * New maintainer.
++  * Fix build-dep. This solves #291089 indeed.
++
++ -- Kenshi Muto <kmuto@debian.org>  Tue,  8 Feb 2005 20:03:38 +0900
++
++docdiff (0.3.1-1) unstable; urgency=low
++
++  * new upstream version.
++  * added debian/watch file.
++
++ -- akira yamada <akira@debian.org>  Sat,  9 Oct 2004 13:42:24 +0900
++
++docdiff (0.3.0-2) unstable; urgency=high
++
++  * debian/control: docdiff depends on ruby1.8 and libiconv-ruby1.8.
++    (closes: #267176)
++  * debian/manpage.sgml: removed desciption about "--format=terminal" and
++    "--format=stat".  (closes: #267159, #267160)
++
++ -- akira yamada <akira@debian.org>  Wed, 25 Aug 2004 13:47:53 +0900
++
++docdiff (0.3.0-1) unstable; urgency=low
++
++  * new upstream version.
++  * updated description.  Thanks to Hisashi MORITA.
++
++ -- akira yamada <akira@debian.org>  Thu,  3 Jun 2004 15:10:49 +0900
++
++docdiff (0.1.8+0.3.0rc3-1) unstable; urgency=low
++
++  * new upstream version. (0.3.0 RC3)
++
++ -- akira yamada <akira@debian.org>  Mon, 17 May 2004 01:17:03 +0900
++
++docdiff (0.1.8+0.3.0pre20040411-1) unstable; urgency=low
++
++  * new upstream version. (0.3.0 RC)
++  * removed chasen from Suggests.  docdiff-0.3.0 does not require ChaSen at
++    any time.
++  * updated debian/copyright.
++  
++ -- akira yamada <akira@debian.org>  Sat, 15 May 2004 03:09:08 +0900
++
++docdiff (0.1.8-1) unstable; urgency=low
++
++  * new upstream version.
++  * the version of docdiff reads ~/.chasenrc.docdiff or /etc/docdiff/chasenrc.
++    this package provides /etc/docdiff/chasenrc. (closes: #192261)
++
++ -- akira yamada <akira@debian.org>  Sun, 14 Dec 2003 14:45:09 +0900
++
++docdiff (0.1.5-4) unstable; urgency=low
++
++  * added docbook-to-man to Build-Depends-Indep, closes: #134908.
++    Thanks to Matt Hope <dopey@debian.org> and Otavio Real Salvador
++    <otavio@freedom.ind.br>.
++
++ -- akira yamada <akira@debian.org>  Mon, 25 Feb 2002 15:26:33 +0900
++
++docdiff (0.1.5-3) unstable; urgency=low
++
++  * Suggests: chasen (closes: #92585, #97142)
++  * docdiff.sgml: removed sentence "it  has documentation in the GNU
++    Info format; see below" because no info file available
++    (closes: #97143)
++
++ -- akira yamada <akira@debian.org>  Sat, 19 May 2001 13:00:49 +0900
++
++docdiff (0.1.5-2) unstable; urgency=low
++
++  * Depends: diff.
++  * rewrite .chasenrc.docdiff for ipadic.
++
++ -- akira yamada <akira@debian.org>  Thu, 15 Mar 2001 17:11:29 +0900
++
++docdiff (0.1.5-1) unstable; urgency=low
++
++  * Initial Release.
++
++ -- akira yamada <akira@debian.org>  Wed,  7 Feb 2001 15:48:59 +0900
+--- docdiff-0.3.4.orig/debian/compat
++++ docdiff-0.3.4/debian/compat
+@@ -0,0 +1 @@
++5
+--- docdiff-0.3.4.orig/debian/patches/02svndocdiff.dpatch
++++ docdiff-0.3.4/debian/patches/02svndocdiff.dpatch
+@@ -0,0 +1,20 @@
++#! /bin/sh /usr/share/dpatch/dpatch-run
++## 02svndocdiff.dpatch by Kenshi Muto <kmuto@debian.org>
++##
++## All lines beginning with `## DP:' are a description of the patch.
++## DP: No description.
++
++@DPATCH@
++diff -urNad docdiff-0.3.4~/docdiff/view.rb docdiff-0.3.4/docdiff/view.rb
++--- docdiff-0.3.4~/docdiff/view.rb	2007-12-09 08:14:09.000000000 +0000
+++++ docdiff-0.3.4/docdiff/view.rb	2007-12-10 05:54:55.000000000 +0000
++@@ -262,7 +262,8 @@
++     [(@eol_char||"") + '</div></body></html>' + (@eol_char||"")]
++   end
++   HTMLEscapeDic = {'<'=>'&lt;', '>'=>'&gt;', '&'=>'&amp;', '  '=>'&nbsp;&nbsp;',
++-                   "\r\n" => "<br />\r\n", "\r" => "<br />\r", "\n" => "<br />\n"}
+++                   "\r\n" => "<br />\r\n", "\r" => "<br />\r", "\n" => "<br />\n",
+++                   "" => "<a name=\"currentloc\"></a>"}
++   HTMLEscapePat = /(\r\n|#{HTMLEscapeDic.keys.collect{|k|Regexp.quote(k)}.join('|')})/m
++   def html_tags()
++     {:outside_escape_dic  => HTMLEscapeDic,
+--- docdiff-0.3.4.orig/debian/patches/00list
++++ docdiff-0.3.4/debian/patches/00list
+@@ -0,0 +1,5 @@
++01path.dpatch
++02svndocdiff.dpatch
++03cgipath.dpatch
++#04ignorewhitespace.dpatch
++#05wordwrap.dpatch
+--- docdiff-0.3.4.orig/debian/patches/01path.dpatch
++++ docdiff-0.3.4/debian/patches/01path.dpatch
+@@ -0,0 +1,115 @@
++#! /bin/sh /usr/share/dpatch/dpatch-run
++## 01patch.dpatch by Kenshi Muto <kmuto@debian.org>
++##
++## All lines beginning with `## DP:' are a description of the patch.
++## DP: No description.
++
++@DPATCH@
++diff -urNad docdiff-0.3.4~/devutil/char_by_charclass.rb docdiff-0.3.4/devutil/char_by_charclass.rb
++--- docdiff-0.3.4~/devutil/char_by_charclass.rb	2007-10-06 16:58:41.000000000 +0000
+++++ docdiff-0.3.4/devutil/char_by_charclass.rb	2007-12-10 05:49:39.000000000 +0000
++@@ -1,4 +1,4 @@
++-#!/usr/bin/ruby
+++#!/usr/bin/ruby1.8
++ # test character classes on ASCII characters.
++ # 2003-03-10 Hisashi MORITA
++ 
++diff -urNad docdiff-0.3.4~/devutil/charclass_by_char.rb docdiff-0.3.4/devutil/charclass_by_char.rb
++--- docdiff-0.3.4~/devutil/charclass_by_char.rb	2007-10-06 16:58:41.000000000 +0000
+++++ docdiff-0.3.4/devutil/charclass_by_char.rb	2007-12-10 05:49:49.000000000 +0000
++@@ -1,4 +1,4 @@
++-#!/usr/bin/ruby
+++#!/usr/bin/ruby1.8
++ # test character classes on ASCII characters.
++ # 2003-03-10 Hisashi MORITA
++ 
++diff -urNad docdiff-0.3.4~/devutil/jis0208.rb docdiff-0.3.4/devutil/jis0208.rb
++--- docdiff-0.3.4~/devutil/jis0208.rb	2007-10-06 16:58:41.000000000 +0000
+++++ docdiff-0.3.4/devutil/jis0208.rb	2007-12-10 05:49:55.000000000 +0000
++@@ -1,4 +1,4 @@
++-#!/usr/bin/ruby
+++#!/usr/bin/ruby1.8
++ # Extracts multibyte characters from JIS0208.TXT.
++ # (ftp://ftp.unicode.org/Public/MAPPINGS/OBSOLETE/EASTASIA/JIS/JIS0208.TXT)
++ # 2003-03-03 .. 20xx-xx-xx, Hisashi MORITA.  Use freely at your own risk.
++diff -urNad docdiff-0.3.4~/docdiff/charstring.rb docdiff-0.3.4/docdiff/charstring.rb
++--- docdiff-0.3.4~/docdiff/charstring.rb	2007-10-06 16:58:40.000000000 +0000
+++++ docdiff-0.3.4/docdiff/charstring.rb	2007-12-10 05:50:51.000000000 +0000
++@@ -1,4 +1,4 @@
++-#!/usr/bin/ruby
+++#!/usr/bin/ruby1.8
++ # Character String module.
++ # To use, include to String, or extend String.
++ # 2003- Hisashi MORITA
++diff -urNad docdiff-0.3.4~/docdiff/view.rb docdiff-0.3.4/docdiff/view.rb
++--- docdiff-0.3.4~/docdiff/view.rb	2007-12-09 08:14:09.000000000 +0000
+++++ docdiff-0.3.4/docdiff/view.rb	2007-12-10 05:50:53.000000000 +0000
++@@ -1,4 +1,4 @@
++-#!/usr/bin/ruby
+++#!/usr/bin/ruby1.8
++ 
++ class String
++   def scan_lines(eol)
++diff -urNad docdiff-0.3.4~/docdiff.rb docdiff-0.3.4/docdiff.rb
++--- docdiff-0.3.4~/docdiff.rb	2007-12-09 06:56:40.000000000 +0000
+++++ docdiff-0.3.4/docdiff.rb	2007-12-10 05:49:02.000000000 +0000
++@@ -1,4 +1,4 @@
++-#!/usr/bin/ruby
+++#!/usr/bin/ruby1.8
++ # DocDiff: word/char-oriented text comparison utility
++ # 2002-06-27 Thu ... 200x-xx-xx xxx
++ # Hisashi MORITA
++diff -urNad docdiff-0.3.4~/docdiffwebui.cgi docdiff-0.3.4/docdiffwebui.cgi
++--- docdiff-0.3.4~/docdiffwebui.cgi	2007-10-06 16:58:41.000000000 +0000
+++++ docdiff-0.3.4/docdiffwebui.cgi	2007-12-10 05:49:21.000000000 +0000
++@@ -1,4 +1,4 @@
++-#!/usr/bin/ruby
+++#!/usr/bin/ruby1.8
++ # DocDiff Web UI (CGI)
++ # 2005-10-08.. Hisashi Morita
++ # requirement: Ruby 1.8+ (for timeout.rb)
++diff -urNad docdiff-0.3.4~/testcharstring.rb docdiff-0.3.4/testcharstring.rb
++--- docdiff-0.3.4~/testcharstring.rb	2007-10-06 16:58:41.000000000 +0000
+++++ docdiff-0.3.4/testcharstring.rb	2007-12-10 05:50:23.000000000 +0000
++@@ -1,4 +1,4 @@
++-#!/usr/bin/ruby
+++#!/usr/bin/ruby1.8
++ require 'test/unit'
++ require 'docdiff/charstring'
++ require 'nkf'
++diff -urNad docdiff-0.3.4~/testdifference.rb docdiff-0.3.4/testdifference.rb
++--- docdiff-0.3.4~/testdifference.rb	2007-10-06 16:58:41.000000000 +0000
+++++ docdiff-0.3.4/testdifference.rb	2007-12-10 05:50:25.000000000 +0000
++@@ -1,4 +1,4 @@
++-#!/usr/bin/ruby
+++#!/usr/bin/ruby1.8
++ require 'test/unit'
++ require 'docdiff/difference'
++ require 'nkf'
++diff -urNad docdiff-0.3.4~/testdocdiff.rb docdiff-0.3.4/testdocdiff.rb
++--- docdiff-0.3.4~/testdocdiff.rb	2007-10-06 16:58:41.000000000 +0000
+++++ docdiff-0.3.4/testdocdiff.rb	2007-12-10 05:50:27.000000000 +0000
++@@ -1,4 +1,4 @@
++-#!/usr/bin/ruby
+++#!/usr/bin/ruby1.8
++ require 'test/unit'
++ require 'docdiff'
++ require 'nkf'
++diff -urNad docdiff-0.3.4~/testdocument.rb docdiff-0.3.4/testdocument.rb
++--- docdiff-0.3.4~/testdocument.rb	2007-10-06 16:58:41.000000000 +0000
+++++ docdiff-0.3.4/testdocument.rb	2007-12-10 05:50:30.000000000 +0000
++@@ -1,4 +1,4 @@
++-#!/usr/bin/ruby
+++#!/usr/bin/ruby1.8
++ require 'test/unit'
++ require 'docdiff/document'
++ require 'nkf'
++diff -urNad docdiff-0.3.4~/testview.rb docdiff-0.3.4/testview.rb
++--- docdiff-0.3.4~/testview.rb	2007-12-09 06:11:31.000000000 +0000
+++++ docdiff-0.3.4/testview.rb	2007-12-10 05:50:33.000000000 +0000
++@@ -1,4 +1,4 @@
++-#!/usr/bin/ruby
+++#!/usr/bin/ruby1.8
++ require 'test/unit'
++ require 'docdiff/view'
++ require 'docdiff/difference'
+--- docdiff-0.3.4.orig/debian/patches/03cgipath.dpatch
++++ docdiff-0.3.4/debian/patches/03cgipath.dpatch
+@@ -0,0 +1,19 @@
++#! /bin/sh /usr/share/dpatch/dpatch-run
++## 03cgipath.dpatch by Kenshi Muto <kmuto@debian.org>
++##
++## All lines beginning with `## DP:' are a description of the patch.
++## DP: No description.
++
++@DPATCH@
++diff -urNad docdiff-0.3.4~/docdiffwebui.html docdiff-0.3.4/docdiffwebui.html
++--- docdiff-0.3.4~/docdiffwebui.html	2007-10-06 16:58:41.000000000 +0000
+++++ docdiff-0.3.4/docdiffwebui.html	2007-12-10 05:56:44.000000000 +0000
++@@ -43,7 +43,7 @@
++   <p><a href="http://www.kt.rim.or.jp/~hisashim/docdiff/">DocDiff</a> is a word/char oriented text file comparison utility.</p>
++   <p><strong>Caution: This web ui is totally experimental and insecure!  Do not use it on public site.</strong></p>
++   <div class="form">
++-  <form action="cgi-bin/docdiffwebui.cgi" method="post" enctype="multipart/form-data" target="_blank">
+++  <form action="/cgi-bin/docdiffwebui.cgi" method="post" enctype="multipart/form-data" target="_blank">
++     <fieldset>
++       <legend>Files to compare</legend>
++       <ol>
+--- docdiff-0.3.4.orig/debian/patches/04ignorewhitespace.dpatch
++++ docdiff-0.3.4/debian/patches/04ignorewhitespace.dpatch
+@@ -0,0 +1,117 @@
++#! /bin/sh /usr/share/dpatch/dpatch-run
++## 04ignorewhitespace.dpatch by Kenshi Muto <kmuto@debian.org>
++##
++## All lines beginning with `## DP:' are a description of the patch.
++## DP: No description.
++
++@DPATCH@
++diff -urNad docdiff-0.3.4~/docdiff/charstring.rb docdiff-0.3.4/docdiff/charstring.rb
++--- docdiff-0.3.4~/docdiff/charstring.rb	2007-12-10 06:37:07.000000000 +0000
+++++ docdiff-0.3.4/docdiff/charstring.rb	2007-12-10 06:37:08.000000000 +0000
++@@ -14,9 +14,20 @@
++ #    @encoding = CharString.guess_encoding(string)
++ #    @eol     = CharString.guess_eol(string)
++ =end unnecessary
+++    @fullstring = string
++     super
++   end
++ 
+++  # Fullstring includes non-graphical characters like newlines and spaces.
+++  # These are (optionally) kept separate, because users comparing documents
+++  # don't care about whitespace changes.
+++  attr_reader :fullstring
+++  attr_writer :fullstring
+++
+++  def to_s()
+++    @fullstring
+++  end
+++
++   def encoding()
++     @encoding
++ #     if @encoding
++@@ -292,7 +303,8 @@
++     count_latin_blank_char() + count_ja_blank_char()
++   end
++ 
++-  def split_to_word()
+++  # splits a string into words, treating whitespaces as words.
+++  def split_to_word_verbose()
++     raise "Encodings[encoding] is #{Encodings[encoding].inspect}: encoding not specified or auto-detection failed." unless Encodings[encoding]
++     # raise "EOLChars[eol] is #{EOLChars[eol].inspect}: eol not specified or auto-detection failed." unless EOLChars[eol]
++     scan(Regexp.new(Encodings[encoding]::WORD_REGEXP_SRC, 
++@@ -300,6 +312,21 @@
++                     encoding.sub(/ASCII/i, 'none'))
++     )
++   end
+++  # splits a string into words, storing whitespaces in an attribute of
+++  # the preceeding word.
+++  def split_to_word()
+++    words = split_to_word_verbose()
+++    word_regex = Regexp.new(Encodings[encoding]::PURE_WORD_REGEXP_SRC,
+++                    Regexp::MULTILINE,
+++                    encoding.sub(/ASCII/i, 'none'))
+++    result = words.collect { |word|
+++      word_text = word.scan(word_regex).select{|x| x != ""}[0]
+++      word_text.extend CharString
+++      word_text.fullstring = word
+++      word_text
+++    }
+++  end
+++
++   alias to_words split_to_word
++ 
++   def count_word()
++diff -urNad docdiff-0.3.4~/docdiff/encoding/en_ascii.rb docdiff-0.3.4/docdiff/encoding/en_ascii.rb
++--- docdiff-0.3.4~/docdiff/encoding/en_ascii.rb	2007-12-10 06:37:03.000000000 +0000
+++++ docdiff-0.3.4/docdiff/encoding/en_ascii.rb	2007-12-10 06:37:08.000000000 +0000
++@@ -67,9 +67,10 @@
++     PRINT.replace(Regexp.quote(PRINT)) # kludge to avoid warning "character class has `[' without escape"
++     GRAPH.replace(Regexp.quote(GRAPH)) # kludge to avoid warning "character class has `[' without escape"
++ 
++-    WORD_REGEXP_SRC = ["(?:[#{GRAPH}]+[#{BLANK}]?)", 
++-                       "|(?:[#{SPACE}]+)", 
++-                       "|(?:.+?)"].join
+++    WORD_REGEXP_SRC = ["(?:[#{PUNCT}]+[#{SPACE}]?)", 
+++                       "|(?:[#{ALNUM}]+[#{SPACE}]*)",
+++                       "|(?:[^#{GRAPH}]+)"].join
+++    PURE_WORD_REGEXP_SRC = "[#{GRAPH}]+"
++ 
++     # override default method, as ASCII has no Japanese in it
++     def count_ja_graph_char()
++diff -urNad docdiff-0.3.4~/docdiff/view.rb docdiff-0.3.4/docdiff/view.rb
++--- docdiff-0.3.4~/docdiff/view.rb	2007-12-10 06:37:07.000000000 +0000
+++++ docdiff-0.3.4/docdiff/view.rb	2007-12-10 06:38:26.000000000 +0000
++@@ -52,20 +52,27 @@
++     str.gsub(tags[:outside_escape_pat]){|m| tags[:outside_escape_dic][m]}
++   end
++ 
+++  def format_block(block)
+++    if block == nil
+++        ""
+++    else
+++        block.collect {|x| x.to_s}.to_s
+++    end
+++  end
+++
++   def apply_style(tags, headfoot = true)
++     result = []
++     @difference.each{|block|
++       operation = block.first
+++      src = format_block(block[1])
+++      tgt = format_block(block[2])
++       if block_given?
++-        src = yield block[1].to_s
++-        tgt = yield block[2].to_s
++-      else
++-        src = block[1].to_s
++-        tgt = block[2].to_s
+++        src = yield source
+++        tgt = yield target
++       end
++       case operation
++       when :common_elt_elt
++-        result << (tags[:start_common] + escape_outside(src, tags) + tags[:end_common])
+++        result << (tags[:start_common] + escape_outside(tgt, tags) + tags[:end_common])
++       when :change_elt
++         result << (tags[:start_before_change] + escape_inside(src, tags) + tags[:end_before_change] +
++                    tags[:start_after_change]  + escape_inside(tgt, tags) + tags[:end_after_change])
+--- docdiff-0.3.4.orig/debian/patches/05wordwrap.dpatch
++++ docdiff-0.3.4/debian/patches/05wordwrap.dpatch
+@@ -0,0 +1,89 @@
++#! /bin/sh /usr/share/dpatch/dpatch-run
++## 05wordwrap.dpatch by Kenshi Muto <kmuto@debian.org>
++##
++## All lines beginning with `## DP:' are a description of the patch.
++## DP: No description.
++
++@DPATCH@
++diff -urNad docdiff-0.3.4~/docdiff/document.rb docdiff-0.3.4/docdiff/document.rb
++--- docdiff-0.3.4~/docdiff/document.rb	2007-10-06 16:58:40.000000000 +0000
+++++ docdiff-0.3.4/docdiff/document.rb	2007-12-10 06:26:21.000000000 +0000
++@@ -55,6 +55,9 @@
++   def split_to_word()
++     @body.split_to_word
++   end
+++  def split_to_word_verbose()
+++    @body.split_to_word_verbose
+++  end
++   def split_to_char()
++     @body.split_to_char
++   end
++diff -urNad docdiff-0.3.4~/docdiff.rb docdiff-0.3.4/docdiff.rb
++--- docdiff-0.3.4~/docdiff.rb	2007-12-10 06:26:04.000000000 +0000
+++++ docdiff-0.3.4/docdiff.rb	2007-12-10 06:26:21.000000000 +0000
++@@ -61,6 +61,26 @@
++                                      doc1.encoding, doc1.eol)
++         after_change  = Document.new(line[2].to_s,
++                                      doc2.encoding, doc2.eol)
+++        Difference.new(before_change.split_to_word_verbose,
+++                       after_change.split_to_word_verbose).each{|word|
+++          words << word
+++        }
+++      else  # :common_elt_elt, :del_elt, or :add_elt
+++        words << line
+++      end
+++    }
+++    words
+++  end
+++
+++  def compare_by_wordwrap(doc1, doc2)
+++    lines = compare_by_line(doc1, doc2)
+++    words = Difference.new
+++    lines.each{|line|
+++      if line.first == :change_elt
+++        before_change = Document.new(line[1].to_s,
+++                                     doc1.encoding, doc1.eol)
+++        after_change  = Document.new(line[2].to_s,
+++                                     doc2.encoding, doc2.eol)
++         Difference.new(before_change.split_to_word,
++                        after_change.split_to_word).each{|word|
++           words << word
++@@ -120,6 +140,7 @@
++     case option[:resolution]
++     when "line"; then difference = compare_by_line(doc1, doc2)
++     when "word"; then difference = compare_by_line_word(doc1, doc2)
+++    when "wordwrap"; then difference = compare_by_wordwrap(doc1, doc2)
++     when "char"; then difference = compare_by_line_word_char(doc1, doc2)
++     else
++       raise "Unsupported resolution: #{option[:resolution].inspect}"
++@@ -184,7 +205,7 @@
++   # do_config_stuff
++ 
++   default_config = {
++-    :resolution    => "word",
+++    :resolution    => "wordwrap",
++     :encoding      => "auto",
++     :eol           => "auto",
++     :format        => "html",
++@@ -198,18 +219,20 @@
++   # if invoked as "worddiff" or "chardiff",
++   # appropriate resolution is set respectively.
++   case File.basename($0, ".*")
+++  when "wordwrapdiff" then; clo[:resolution] = "wordwrap"
++   when "worddiff" then; clo[:resolution] = "word"
++   when "chardiff" then; clo[:resolution] = "char"
++   end
++ 
++   ARGV.options {|o|
++     o.def_option('--resolution=RESOLUTION',
++-                 possible_resolutions = ['line', 'word', 'char'],
+++                 possible_resolutions = ['line', 'word', 'wordwrap', 'char'],
++                  'specify resolution (granularity)',
++                  possible_resolutions.join('|') + ' (default is word)'
++                 ){|clo[:resolution]| clo[:resolution] ||= "word"}
++     o.def_option('--line', 'set resolution to line'){clo[:resolution] = "line"}
++     o.def_option('--word', 'set resolution to word'){clo[:resolution] = "word"}
+++    o.def_option('--wordwrap', 'set resolution to wordwrap'){clo[:resolution] = "word"}
++     o.def_option('--char', 'set resolution to char'){clo[:resolution] = "char"}
++ 
++     o.def_option('--encoding=ENCODING',
+--- docdiff-0.3.4.orig/debian/dirs
++++ docdiff-0.3.4/debian/dirs
+@@ -0,0 +1,3 @@
++usr/bin
++etc/docdiff
++usr/share/man/man1
+--- docdiff-0.3.4.orig/debian/rules
++++ docdiff-0.3.4/debian/rules
+@@ -0,0 +1,22 @@
++#!/usr/bin/make -f
++include /usr/share/cdbs/1/rules/debhelper.mk
++include /usr/share/cdbs/1/rules/dpatch.mk
++
++DEB_MAKE_CLEAN_TARGET = 
++DEB_MAKE_BUILD_TARGET =
++DEB_MAKE_INSTALL_TARGET =
++RUBY := ruby1.8
++RLIBDIR := $(shell $(RUBY) -rrbconfig -e 'print Config::CONFIG["rubylibdir"]')
++
++clean::
++	-rm -f docdiff.1
++
++build/docdiff::
++	/usr/bin/docbook-to-man debian/manpage.sgml > docdiff.1
++
++install/docdiff::
++	install -o root -g root -d $(DEB_DESTDIR)$(RLIBDIR)
++	tar cf - docdiff | ( cd $(DEB_DESTDIR)$(RLIBDIR) && tar xvf -)
++	install -o root -g root -m 0755 docdiff.rb $(DEB_DESTDIR)/usr/bin/docdiff
++	install -o root -g root -m 0644 docdiff.conf.example $(DEB_DESTDIR)/etc/docdiff/docdiff.conf
++	install -o root -g root -m 0644 docdiff.1 $(DEB_DESTDIR)/usr/share/man/man1
+--- docdiff-0.3.4.orig/debian/control
++++ docdiff-0.3.4/debian/control
+@@ -0,0 +1,18 @@
++Source: docdiff
++Section: text
++Priority: optional
++Maintainer: Kenshi Muto <kmuto@debian.org>
++Build-Depends-Indep: debhelper (>> 5.0), cdbs (>= 0.4.27), dpatch (>= 1.11), ruby1.8, ruby1.8-dev, docbook-to-man
++Standards-Version: 3.7.3
++
++Package: docdiff
++Architecture: all
++Depends: ruby1.8, libiconv-ruby1.8
++Suggests: httpd
++Description: Compares two files word by word / char by char
++ DocDiff compares two files and shows the difference.  It can compare files
++ word by word, char by char, or line by line. 
++ .
++ It has several output formats such as HTML/XHTML, tty, Manued, or
++ user-defined markup.  It supports several encodings and end-of-line
++ characters, including ASCII, UTF-8, EUC-JP, Shift_JIS, CR, LF, and CRLF.
+--- docdiff-0.3.4.orig/debian/docs
++++ docdiff-0.3.4/debian/docs
+@@ -0,0 +1,7 @@
++readme.en.html
++readme.ja.html
++index.html
++img
++debian/contrib
++docdiffwebui.cgi
++docdiffwebui.html
+--- docdiff-0.3.4.orig/debian/examples
++++ docdiff-0.3.4/debian/examples
+@@ -0,0 +1,17 @@
++docdiff.conf.example
++sample/01.en.ascii.cr
++sample/01.en.ascii.crlf
++sample/01.en.ascii.lf
++sample/01.ja.eucjp.lf
++sample/01.ja.sjis.cr
++sample/01.ja.sjis.crlf
++sample/01.ja.utf8.crlf
++sample/02.en.ascii.cr
++sample/02.en.ascii.crlf
++sample/02.en.ascii.lf
++sample/02.ja.eucjp.lf
++sample/02.ja.sjis.cr
++sample/02.ja.sjis.crlf
++sample/02.ja.utf8.crlf
++sample/humpty_dumpty01.ascii.lf
++sample/humpty_dumpty02.ascii.lf
+--- docdiff-0.3.4.orig/debian/copyright
++++ docdiff-0.3.4/debian/copyright
+@@ -0,0 +1,48 @@
++This package was debianized by akira yamada <akira@debian.org> on
++Wed,  7 Feb 2001 15:48:59 +0900.
++
++It was downloaded from <URL:http://www.kt.rim.or.jp/~hisashim/docdiff/>
++
++Upstream Author: Hisashi Morita <hisashim at kt.rim.or.jp>
++
++Copyright:
++
++This software is distributed under so-called modified BSD style
++license ( http://www.opensource.org/licenses/bsd-license.php (without
++advertisement clause).  By contributing to this software, you agree
++that your contribution may be incorporated under the same license.
++
++Copyright and condition of use of main portion of the source:
++
++    Copyright (C) Hisashi MORITA.  All rights reserved.
++
++    Redistribution and use in source and binary forms, with or without
++    modification, are permitted provided that the following conditions
++    are met:
++    1. Redistributions of source code must retain the above copyright
++       notice, this list of conditions and the following disclaimer.
++    2. Redistributions in binary form must reproduce the above copyright
++       notice, this list of conditions and the following disclaimer in the 
++       documentation and/or other materials provided with the distribution.
++    3. Neither the name of the University nor the names of its contributors
++       may be used to endorse or promote products derived from this software
++       without specific prior written permission.
++
++    THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
++    ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
++    IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
++    ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
++    FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
++    DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
++    OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
++    HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
++    LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
++    OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
++    SUCH DAMAGE.
++
++diff library (docdiff/diff.rb and docdiff/diff/*) was originally a
++part of Ruby /CVS by Akira TANAKA. Ruby/CVS is licensed under modified
++BSD style license.  See the following for detail.
++
++  * http://raa.ruby-lang.org/list.rhtml?name=ruby-cvs
++  * http://cvs.m17n.org/~akr/ruby-cvs/
+--- docdiff-0.3.4.orig/debian/watch
++++ docdiff-0.3.4/debian/watch
+@@ -0,0 +1,2 @@
++version=2
++http://www.kt.rim.or.jp/~hisashim/docdiff/docdiff-([0-9].*)\.tar\.gz
+--- docdiff-0.3.4.orig/debian/manpage.sgml
++++ docdiff-0.3.4/debian/manpage.sgml
+@@ -0,0 +1,322 @@
++<!doctype refentry PUBLIC "-//OASIS//DTD DocBook V4.1//EN" [
++
++<!-- Process this file with docbook-to-man to generate an nroff manual
++     page: `docbook-to-man manpage.sgml > manpage.1'.  You may view
++     the manual page with: `docbook-to-man manpage.sgml | nroff -man |
++     less'.  A typical entry in a Makefile or Makefile.am is:
++
++manpage.1: manpage.sgml
++	docbook-to-man $< > $@
++
++    
++	The docbook-to-man binary is found in the docbook-to-man package.
++	Please remember that if you create the nroff version in one of the
++	debian/rules file targets (such as build), you will need to include
++	docbook-to-man in your Build-Depends control field.
++
++  -->
++
++  <!-- Fill in your name for FIRSTNAME and SURNAME. -->
++  <!ENTITY dhfirstname "<firstname>AKIRA</firstname>">
++  <!ENTITY dhsurname   "<surname>YAMADA</surname>">
++  <!-- Please adjust the date whenever revising the manpage. -->
++  <!ENTITY dhdate      "<date>5 15, 2004</date>">
++  <!-- SECTION should be 1-8, maybe w/ subsection other parameters are
++       allowed: see man(7), man(1). -->
++  <!ENTITY dhsection   "<manvolnum>1</manvolnum>">
++  <!ENTITY dhemail     "<email>akira@debian.org</email>">
++  <!ENTITY dhusername  "akira yamada">
++  <!ENTITY dhucpackage "<refentrytitle>DOCDIFF</refentrytitle>">
++  <!ENTITY dhpackage   "docdiff">
++
++  <!ENTITY debian      "<productname>Debian</productname>">
++  <!ENTITY gnu         "<acronym>GNU</acronym>">
++  <!ENTITY gpl         "&gnu; <acronym>GPL</acronym>">
++]>
++
++<refentry>
++  <refentryinfo>
++    <address>
++      &dhemail;
++    </address>
++    <author>
++      &dhfirstname;
++      &dhsurname;
++    </author>
++    <copyright>
++      <year>2004</year>
++      <holder>&dhusername;</holder>
++    </copyright>
++    &dhdate;
++  </refentryinfo>
++  <refmeta>
++    &dhucpackage;
++
++    &dhsection;
++  </refmeta>
++  <refnamediv>
++    <refname>&dhpackage;</refname>
++
++    <refpurpose>character/word-oriented diff</refpurpose>
++  </refnamediv>
++  <refsynopsisdiv>
++    <cmdsynopsis>
++      <command>&dhpackage;</command>
++
++
++      <arg><option>options</option></arg>
++
++      <arg choice="req"><replaceable>file1</replaceable></arg>
++
++      <arg choice="req"><replaceable>file2</replaceable></arg>
++    </cmdsynopsis>
++  </refsynopsisdiv>
++  <refsect1>
++    <title>DESCRIPTION</title>
++
++    <para>This manual page documents briefly the
++      <command>&dhpackage;</command>
++      commands.</para>
++
++    <para>This manual page was written for the &debian; distribution
++      because the original program does not have a manual page.
++      Instead, it has documentation in the HTML
++      format; see below.</para>
++
++    <para><command>&dhpackage;</command> is a program that
++      compares two files and shows the difference. 
++      It can compare files word by word, char by char, or line by line. 
++      It has several output formats such as 
++      HTML/XHTML, tty, Manued, or user-defined markup.</para>
++
++    <para>It supports several encodings and end-of-line characters, 
++      including ASCII, UTF-8, EUC-JP, Shift_JIS, CR, LF, and CRLF.</para>
++
++  </refsect1>
++  <refsect1>
++    <title>OPTIONS</title>
++
++    <variablelist>
++      <varlistentry>
++	<term><option>--resolution=<replaceable>RESOLUTION</replaceable></option></term>
++	<listitem>
++	  <para>specify resolution (granularity)
++	    line|word|char (default is word)</para>
++	</listitem>
++      </varlistentry>
++      
++      <varlistentry>
++	<term><option>--line</option></term>
++	<listitem>
++	  <para>set resolution to line</para>
++	</listitem>
++      </varlistentry>
++
++      <varlistentry>
++	<term><option>--word</option></term>
++	<listitem>
++	  <para>set resolution to word</para>
++	</listitem>
++      </varlistentry>
++
++      <varlistentry>
++	<term><option>--char</option></term>
++	<listitem>
++	  <para>set resolution to char</para>
++	</listitem>
++      </varlistentry>
++
++      <varlistentry>
++	<term><option>--encoding=<replaceable>ENCODING</replaceable></option></term>
++	<listitem>
++	  <para>specify character encoding
++	    ASCII|EUC-JP|Shift_JIS|UTF-8|auto
++	    (default is auto)</para>
++	</listitem>
++      </varlistentry>
++
++      <varlistentry>
++	<term><option>--ascii</option></term>
++	<listitem>
++	  <para>same as --encoding=ASCII</para>
++	</listitem>
++      </varlistentry>
++
++      <varlistentry>
++	<term><option>--eucjp</option></term>
++	<listitem>
++	  <para>same as --encoding=EUC-JP</para>
++	</listitem>
++      </varlistentry>
++
++      <varlistentry>
++	<term><option>--sjis</option></term>
++	<listitem>
++	  <para>same as --encoding=Shift_JIS</para>
++	</listitem>
++      </varlistentry>
++
++      <varlistentry>
++	<term><option>--utf8</option></term>
++	<listitem>
++	  <para>same as --encoding=UTF-8</para>
++	</listitem>
++      </varlistentry>
++
++      <varlistentry>
++	<term><option>--eol=<replaceable>EOL</replaceable></option></term>
++	<listitem>
++	  <para>specify end-of-line character
++	    CR|LF|CRLF|auto
++	    (default is auto)</para>
++	</listitem>
++      </varlistentry>
++
++      <varlistentry>
++	<term><option>--cr</option></term>
++	<listitem>
++	  <para>same as --eol=CR</para>
++	</listitem>
++      </varlistentry>
++
++      <varlistentry>
++	<term><option>--lf</option></term>
++	<listitem>
++	  <para>same as --eol=LF</para>
++	</listitem>
++      </varlistentry>
++
++      <varlistentry>
++	<term><option>--crlf</option></term>
++	<listitem>
++	  <para>same as --eol=CRLF</para>
++	</listitem>
++      </varlistentry>
++
++      <varlistentry>
++	<term><option>--format=FORMAT</option></term>
++	<listitem>
++	  <para>specify output format
++	    tty|manued|html|wdiff|user
++	    (default is html; 
++	    user tags have to be described in config file)</para>
++	</listitem>
++      </varlistentry>
++
++      <varlistentry>
++	<term><option>--tty</option></term>
++	<listitem>
++	  <para>same as --format=tty</para>
++	</listitem>
++      </varlistentry>
++
++      <varlistentry>
++	<term><option>--manued</option></term>
++	<listitem>
++	  <para>same as --format=manued</para>
++	</listitem>
++      </varlistentry>
++
++      <varlistentry>
++	<term><option>--html</option></term>
++	<listitem>
++	  <para>same as --format=html</para>
++	</listitem>
++      </varlistentry>
++
++      <varlistentry>
++	<term><option>--wdiff</option></term>
++	<listitem>
++	  <para>same as --format=wdiff</para>
++	</listitem>
++      </varlistentry>
++
++      <varlistentry>
++	<term><option>--digest</option></term>
++	<listitem>
++	  <para>digest output, do not show all</para>
++	</listitem>
++      </varlistentry>
++
++      <varlistentry>
++	<term><option>--cache</option></term>
++	<listitem>
++	  <para>use file cache</para>
++	</listitem>
++      </varlistentry>
++
++      <varlistentry>
++	<term><option>--no-config-file</option></term>
++	<listitem>
++	  <para>do not read config files</para>
++	</listitem>
++      </varlistentry>
++
++      <varlistentry>
++	<term><option>--verbose</option></term>
++	<listitem>
++	  <para>run verbosely</para>
++	</listitem>
++      </varlistentry>
++
++      <varlistentry>
++	<term><option>--help</option></term>
++	<listitem>
++	  <para>show usage</para>
++	</listitem>
++      </varlistentry>
++                             
++      <varlistentry>
++	<term><option>--version</option></term>
++	<listitem>
++	  <para>show version</para>
++	</listitem>
++      </varlistentry>
++
++      <varlistentry>
++	<term><option>--license</option></term>
++	<listitem>
++	  <para>show license</para>
++	</listitem>
++      </varlistentry>
++
++      <varlistentry>
++	<term><option>--author</option></term>
++	<listitem>
++	  <para>show author(s)</para>
++	</listitem>
++      </varlistentry>
++    </variablelist>
++  </refsect1>
++  <refsect1>
++    <title>SEE ALSO</title>
++
++    <para>/usr/share/doc/docdiff/readme.html.</para>
++  </refsect1>
++  <refsect1>
++    <title>AUTHOR</title>
++
++    <para>This manual page was written by &dhusername; &dhemail; for
++      the &debian; system (but may be used by others).</para>
++
++  </refsect1>
++</refentry>
++
++<!-- Keep this comment at the end of the file
++Local variables:
++mode: sgml
++sgml-omittag:t
++sgml-shorttag:t
++sgml-minimize-attributes:nil
++sgml-always-quote-attributes:t
++sgml-indent-step:2
++sgml-indent-data:t
++sgml-parent-document:nil
++sgml-default-dtd-file:nil
++sgml-exposed-tags:nil
++sgml-local-catalogs:nil
++sgml-local-ecat-files:nil
++End:
++-->
++
++
+--- docdiff-0.3.4.orig/debian/contrib/svndocdiff.el
++++ docdiff-0.3.4/debian/contrib/svndocdiff.el
+@@ -0,0 +1,38 @@
++;; The following kind of elisp, which shows a docdiff of the current file
++;; controlled with svn. Mozilla will jump to the current point.
++;; Enjoy.
++;;	--dancerj (7 Jan 2006, Junichi Uekawa <dancer@debian.org>)
++
++(defun svndocdiff-current ()
++  "Invoke svn docdiff for the current buffer,
++and run mozilla-firefox -remote openfile(filename)
++to preview the diff"
++  (interactive)
++  (let* ((currentname 
++	  (buffer-file-name (current-buffer)))
++	 (svnorigname
++	  (concat default-directory
++		  ".svn/text-base/" 
++		  (file-name-nondirectory 
++		   (buffer-file-name (current-buffer)))
++		  ".svn-base"))
++	 (diff-command
++	  "/usr/bin/docdiff --html %s %s > %s")
++	 (mozilla-command-line
++	  "mozilla-firefox -remote 'openurl(file://%s#currentloc)'")
++	 (moztmpfile-name
++	  (concat default-directory
++		  ".svn/.docdifftmp.html")))
++    (insert "")
++    (save-buffer)
++    (backward-delete-char 1)
++    (shell-command
++     (format diff-command 
++	     svnorigname 
++	     currentname
++	     moztmpfile-name)
++     "*svndocdiff*" "*svndocdiff-err*")
++    (shell-command
++     (format mozilla-command-line
++	     moztmpfile-name)
++     "*svndocdiff*" "*svndocdiff-err*")))

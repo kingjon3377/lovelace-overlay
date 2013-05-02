@@ -1,0 +1,621 @@
+--- wp2x-2.5-mhi.orig/debian/patches/01_misc.dpatch
++++ wp2x-2.5-mhi/debian/patches/01_misc.dpatch
+@@ -0,0 +1,378 @@
++#! /bin/sh /usr/share/dpatch/dpatch-run
++## 01_misc.dpatch by Unknown
++##
++## All lines beginning with `## DP:' are a description of the patch.
++## DP: All debian-specific patches included in wp2x 2.5-mhi-7.
++
++@DPATCH@
++--- wp2x-2.5-mhi.orig/test/do-regress
+++++ wp2x-2.5-mhi/test/do-regress
++@@ -1,5 +1,7 @@
++ #!/bin/sh
++ 
+++RETVAL=0
+++
++ for input in ${INPUTS}
++ do 
++   for cfg in ${CFGFILES}
++@@ -12,10 +14,13 @@
++       echo passed;
++     else
++       echo failed;
+++      RETVAL=1
++     fi
++   done
++ done 
++ 
+++exit $RETVAL
+++
++ 
++ 
++ 
++--- wp2x-2.5-mhi.orig/filters/htmlcleanup1.pl
+++++ wp2x-2.5-mhi/filters/htmlcleanup1.pl
++@@ -1,4 +1,4 @@
++-#!/usr/local/bin/perl
+++#!/usr/bin/perl
++ 
++ # things this script does:
++ #    1. removes empty lines
++--- wp2x-2.5-mhi.orig/filters/htmlcleanup2.pl
+++++ wp2x-2.5-mhi/filters/htmlcleanup2.pl
++@@ -1,4 +1,4 @@
++-#!/usr/local/bin/perl
+++#!/usr/bin/perl
++ 
++ # things this script does:
++ #    1. removes consecutive <p>'s
++--- wp2x-2.5-mhi.orig/filters/htmlcleanup3.pl
+++++ wp2x-2.5-mhi/filters/htmlcleanup3.pl
++@@ -1,4 +1,4 @@
++-#!/usr/local/bin/perl
+++#!/usr/bin/perl
++ 
++ # things this script does:
++ #    2. converts single lines followed by <p> to <PRE> blocks.
++--- wp2x-2.5-mhi.orig/Makefile
+++++ wp2x-2.5-mhi/Makefile
++@@ -1,9 +1,12 @@
++ # Copyright (c) 2000 Martin Hinner <mhi@penguin.cz>
++ # The original Makefile was removed.
++ 
++-WP2X_DIR = /usr/local/lib/wp2x
++-BINDIR = /usr/local/bin
++-MANDIR = /usr/local/man
+++# Install paths adjusted for Debian by Dr. Guenter Bechly
+++DESTDIR =
+++prefix = /usr
+++WP2X_DIR = $(prefix)/share/wp2x
+++BINDIR = $(prefix)/bin
+++MANDIR = $(prefix)/share/man
++ VERSION = 2.5
++ 
++ all:	wp2x
++@@ -12,12 +15,15 @@
++ 	cd src && make wp2x WP2X_DIR=$(WP2X_DIR) VERSION=$(VERSION)
++ 
++ install:
++-	mkdir -p $(BINDIR)
++-	mkdir -p $(MANDIR)/man1
++-	mkdir -p $(WP2X_DIR)
++-	cd src && make install BINDIR=$(BINDIR) WP2X_DIR=$(WP2X_DIR)
++-	cd cfg && make install BINDIR=$(BINDIR) WP2X_DIR=$(WP2X_DIR)
++-	cd doc && make install MANDIR=$(MANDIR) WP2X_DIR=$(WP2X_DIR)
+++	mkdir -p $(DESTDIR)$(BINDIR)
+++	mkdir -p $(DESTDIR)$(MANDIR)/man1
+++	mkdir -p $(DESTDIR)$(WP2X_DIR)
+++	make -C src install BINDIR=$(DESTDIR)$(BINDIR) \
+++		WP2X_DIR=$(DESTDIR)$(WP2X_DIR)
+++	make -C cfg install BINDIR=$(DESTDIR)$(BINDIR) \
+++		WP2X_DIR=$(DESTDIR)$(WP2X_DIR)
+++	make -C doc install MANDIR=$(DESTDIR)$(MANDIR) \
+++		WP2X_DIR=$(DESTDIR)$(WP2X_DIR)
++ 
++ depend: 
++ 	cd src && make depend
++--- wp2x-2.5-mhi.orig/doc/wp2x.1l
+++++ wp2x-2.5-mhi/doc/wp2x.1l
++@@ -27,6 +27,9 @@
++ .Tx ,
++ .Lt ,
++ troff, GML and HTML.
+++For a quick result without manual configuration you can try the following
+++command to convert a WP file into HTML:
+++.I wp2x html foo.wp > foo.html.
++ .PP
++ .I Wp2x
++ reads a configuration file and a WordPerfect 5.1 input file, and
++@@ -86,7 +89,7 @@
++ switch is given.
++ The value
++ .I blip
++-must appear imediately following the
+++must appear immediately following the
++ .B \-n
++ without an intervening space.
++ If no
++@@ -108,7 +111,7 @@
++ Standard C-style backslash-escape sequences are recognized, as well
++ as \exFF for hex values.
++ You do not have to backslash-protect a newline.  Some identifiers
++-supply replacable parameters, which can be interpolated as follows:
+++supply replaceable parameters, which can be interpolated as follows:
++ .TP
++ %1
++ interpolate first parameter as a decimal integer.
++@@ -703,7 +706,7 @@
++ encountered.
++ .TP
++ Internal error: Invalid escape C
++-An error occured while processing an expansion escape (%x
+++An error occurred while processing an expansion escape (%x
++ substitution). Probably it was not a recognized escape, check the
++ config file.
++ .TP
++--- wp2x-2.5-mhi.orig/src/dopen.c
+++++ wp2x-2.5-mhi/src/dopen.c
++@@ -37,8 +37,12 @@
++ 
++ #include <stdio.h>
++ #include <stdlib.h>
+++#define __USE_XOPEN_EXTENDED /* To find strdup() in <string.h> */
++ #include <string.h>
++ #include <alloca.h>
+++#include <unistd.h>
+++
+++#include "wp2x.h"
++ 
++ #ifdef UNIX
++ #define HAS_ENV
++@@ -190,7 +194,7 @@
++   if (!IS_ABS (f))
++     {
++       /* Iterate through the possible directories */
++-      while (s = get_dir ())
+++      while ((s = get_dir ()))
++ 	{
++ 	  if ((d = try_directory (s, f)) != NULL)
++ 	    return d;
++--- wp2x-2.5-mhi.orig/src/tokens.c
+++++ wp2x-2.5-mhi/src/tokens.c
++@@ -6,6 +6,7 @@
++ 
++ #include <stdio.h>
++ 
+++#include "wp2x.h"
++ #include "tokens.h"
++ #include "charsets.h"
++ 
++--- wp2x-2.5-mhi.orig/src/tokens.h
+++++ wp2x-2.5-mhi/src/tokens.h
++@@ -1,3 +1,5 @@
+++#ifndef _TOKENS_H
+++#define _TOKENS_H
++ /*
++  * Structure to hold all the tokens
++  * 
++@@ -232,3 +234,4 @@
++ #define process1(st,c,a)   process(st,c,a,0)
++ #define process2(st,c,a,b) process(st,c,a,b)
++ 
+++#endif /* _TOKENS_H */
++--- wp2x-2.5-mhi.orig/src/wp2x.c
+++++ wp2x-2.5-mhi/src/wp2x.c
++@@ -114,10 +114,6 @@
++ #define const
++ #endif
++ 
++-#ifndef Cdecl			/* default is nothing */
++-#define Cdecl
++-#endif
++-
++ /************************************************************************
++  * This program divides naturally into two parts.
++  *
++@@ -143,21 +139,19 @@
++ #include <sys/types.h>
++ #include <unistd.h>
++ #include <netinet/in.h>
+++#include <errno.h>
++ #include <assert.h>
+++#include <getopt.h>
++ 
+++#include "wp2x.h"
++ #include "tokens.h"
++ #include "patchlevel.h"
++ 
++-/* Some platforms do not define these externals in stdlib.h */
++-extern int Cdecl errno;
++-extern char *Cdecl sys_errlist[];
++-extern int Cdecl sys_nerr;
++-
++ /************************************************************************/
++ /* Some common idioms                                                   */
++ /************************************************************************/
++ 
++-#define do_nothing		/* twiddle thumbs */
+++#define do_nothing	{}	/* twiddle thumbs */
++ 
++ /************************************************************************/
++ /* Blowing up                                                           */
++@@ -1264,24 +1258,6 @@
++   return 1;
++ }
++ 
++-int
++-wptoh (int wpl)
++-{
++-  char *p, *q;
++-  int result;
++-
++-  /* convert to network byte order */
++-  /* WP is Intel byte order        */
++-  p = (char *) (&wpl);
++-  q = (char *) (&result);
++-
++-  q[0] = p[3];
++-  q[1] = p[2];
++-  q[2] = p[1];
++-  q[3] = p[0];
++-  return (htonl (result));
++-}
++-
++ static char *WPproducts[] =
++ {
++   "none",
++@@ -1302,7 +1278,7 @@
++   "DrawPerfect",
++   "LetterPerfect",
++ };
++-#define MAX_WP_PRODUCT 16
+++#define MAX_WP_PRODUCT (sizeof(WPproducts)/sizeof(WPproducts[0]) - 1)
++ 
++ 
++ int
++@@ -1311,6 +1287,9 @@
++   int c;
++   char prefix[16];
++   int documentAreaOffset;
+++  int productCode;
+++  int productVerMajor;
+++  int productVerMinor;
++ 
++   c = getc (st->infile);
++   if (c != 255)
++@@ -1335,14 +1314,18 @@
++       return 0;
++     }
++ 
++-  documentAreaOffset = *((int *) &prefix[4]);
++-  documentAreaOffset = wptoh (documentAreaOffset);
+++  documentAreaOffset = ((prefix[7] << 24) + (prefix[6] << 16) +
+++			(prefix[5] <<  8) + (prefix[4]));
++   fseek (st->infile, documentAreaOffset, SEEK_SET);
++ 
+++  productCode = prefix[8];
+++  productVerMajor = prefix[10] == 0 ? 5 : prefix[10];
+++  productVerMinor = prefix[11];
+++
++   fprintf (stderr, "Document created with %s %d.%d\nDocument starts at: %d [%4x]\n",
++-	   (prefix[8] > MAX_WP_PRODUCT) ? "unknown" : WPproducts[prefix[8]],
++-	   (prefix[10] == 0 ? 5 : prefix[10]),
++-	   prefix[11], documentAreaOffset, documentAreaOffset);
+++	   (productCode > MAX_WP_PRODUCT) ? "unknown" : WPproducts[productCode],
+++	   productVerMajor, productVerMinor,
+++	   documentAreaOffset, documentAreaOffset);
++   return 1;
++ }
++ 
++@@ -1363,8 +1346,7 @@
++   if (fp == NULL)
++     {
++       fprintf (stderr, "Error: Cannot open %s", s);
++-      if (errno > 0 && errno < sys_nerr)
++-	fprintf (stderr, " (%s)\n", s, sys_errlist[errno]);
+++      fprintf (stderr, " (%s)\n", strerror(errno));
++       fprintf (stderr, "\n");
++       exit (1);
++     }
++--- wp2x-2.5-mhi.orig/src/Makefile
+++++ wp2x-2.5-mhi/src/Makefile
++@@ -2,7 +2,7 @@
++ SRCS += getopt.c
++ OBJS = $(SRCS:.c=.o)
++ 
++-CC = gcc -g -O -ansi -funsigned-char 
+++CC = gcc -g -O -ansi -funsigned-char -W -Wall
++ CFLAGS = -DUNIX -DWP2X_DIR=\"$(WP2X_DIR)\" -DVERSION=\"$(VERSION)\"
++ 
++ wp2x:	$(OBJS)
++@@ -19,50 +19,3 @@
++ 
++ clean:
++ 	rm -f a.out core wp2x *~ *.o
++-
++-# DO NOT DELETE
++-
++-wp2x.o: /usr/include/stdio.h /usr/include/features.h /usr/include/sys/cdefs.h
++-wp2x.o: /usr/include/gnu/stubs.h
++-wp2x.o: /usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66/include/stddef.h
++-wp2x.o: /usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66/include/stdarg.h
++-wp2x.o: /usr/include/bits/types.h /usr/include/libio.h
++-wp2x.o: /usr/include/_G_config.h /usr/include/bits/stdio_lim.h
++-wp2x.o: /usr/include/stdlib.h /usr/include/sys/types.h /usr/include/time.h
++-wp2x.o: /usr/include/endian.h /usr/include/bits/endian.h
++-wp2x.o: /usr/include/sys/select.h /usr/include/bits/select.h
++-wp2x.o: /usr/include/bits/sigset.h /usr/include/sys/sysmacros.h
++-wp2x.o: /usr/include/alloca.h /usr/include/string.h /usr/include/ctype.h
++-wp2x.o: /usr/include/unistd.h /usr/include/bits/posix_opt.h
++-wp2x.o: /usr/include/bits/confname.h /usr/include/getopt.h
++-wp2x.o: /usr/include/netinet/in.h /usr/include/stdint.h
++-wp2x.o: /usr/include/bits/socket.h /usr/include/bits/sockaddr.h
++-wp2x.o: /usr/include/asm/socket.h /usr/include/asm/sockios.h
++-wp2x.o: /usr/include/bits/in.h /usr/include/bits/byteswap.h
++-wp2x.o: /usr/include/assert.h tokens.h patchlevel.h
++-dopen.o: /usr/include/stdio.h /usr/include/features.h
++-dopen.o: /usr/include/sys/cdefs.h /usr/include/gnu/stubs.h
++-dopen.o: /usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66/include/stddef.h
++-dopen.o: /usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66/include/stdarg.h
++-dopen.o: /usr/include/bits/types.h /usr/include/libio.h
++-dopen.o: /usr/include/_G_config.h /usr/include/bits/stdio_lim.h
++-dopen.o: /usr/include/stdlib.h /usr/include/sys/types.h /usr/include/time.h
++-dopen.o: /usr/include/endian.h /usr/include/bits/endian.h
++-dopen.o: /usr/include/sys/select.h /usr/include/bits/select.h
++-dopen.o: /usr/include/bits/sigset.h /usr/include/sys/sysmacros.h
++-dopen.o: /usr/include/alloca.h /usr/include/string.h
++-tokens.o: /usr/include/stdio.h /usr/include/features.h
++-tokens.o: /usr/include/sys/cdefs.h /usr/include/gnu/stubs.h
++-tokens.o: /usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66/include/stddef.h
++-tokens.o: /usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66/include/stdarg.h
++-tokens.o: /usr/include/bits/types.h /usr/include/libio.h
++-tokens.o: /usr/include/_G_config.h /usr/include/bits/stdio_lim.h tokens.h
++-tokens.o: charsets.h
++-charsets.o: charsets.h
++-getopt.o: /usr/include/stdio.h /usr/include/features.h
++-getopt.o: /usr/include/sys/cdefs.h /usr/include/gnu/stubs.h
++-getopt.o: /usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66/include/stddef.h
++-getopt.o: /usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66/include/stdarg.h
++-getopt.o: /usr/include/bits/types.h /usr/include/libio.h
++-getopt.o: /usr/include/_G_config.h /usr/include/bits/stdio_lim.h
++-getopt.o: /usr/include/string.h /usr/include/getopt.h
++--- wp2x-2.5-mhi.orig/src/wp2x.h
+++++ wp2x-2.5-mhi/src/wp2x.h
++@@ -0,0 +1,15 @@
+++#ifndef _WP2X_H
+++#define _WP2X_H
+++
+++#include <stdio.h>
+++#include "tokens.h" /* type state */
+++
+++#ifndef Cdecl                  /* default is nothing */
+++#define Cdecl
+++#endif
+++
+++void Cdecl error (FILE * fp, char *fmt,...);
+++void process (state * st, int c, int d1, int d2);
+++int process_token (state * st);
+++
+++#endif /* _WP2X_H */
+--- wp2x-2.5-mhi.orig/debian/patches/00list
++++ wp2x-2.5-mhi/debian/patches/00list
+@@ -0,0 +1 @@
++01_misc
+--- wp2x-2.5-mhi.orig/debian/README.debian
++++ wp2x-2.5-mhi/debian/README.debian
+@@ -0,0 +1,16 @@
++I have not marked the various .cfg files as configuration files. Is anyone
++out there customizing these files? If so email me so I can alter this
++decision.
++
++Three html post-processing scripts can be found in the 
++/usr/share/doc/wp2x/filters/ .
++
++As of 2.5-mhi-3 I moved /usr/lib/wp2x to /usr/share/wp2x . From the FHS:
++
++"/usr/lib includes object files, libraries, and internal binaries that are
++not intended to be executed directly by users or shell scripts."
++
++"Miscellaneous architecture-independent application-specific static files
++and subdirectories should be placed in /usr/share"
++
++  - Harry Henry Gebel <hgebel@debian.org>
+--- wp2x-2.5-mhi.orig/debian/docs
++++ wp2x-2.5-mhi/debian/docs
+@@ -0,0 +1,6 @@
++README
++TODO
++wp2x.lsm
++./doc/HACKERSGUIDE
++./doc/README.DOS
++./doc/README.original
+--- wp2x-2.5-mhi.orig/debian/changelog
++++ wp2x-2.5-mhi/debian/changelog
+@@ -0,0 +1,75 @@
++wp2x (2.5-mhi-9) unstable; urgency=low
++
++  * Really add suggest to libwpd-tools. (Closes: #317103)
++
++ -- Petter Reinholdtsen <pere@debian.org>  Mon, 10 Oct 2005 23:47:13 +0200
++
++wp2x (2.5-mhi-8) unstable; urgency=low
++
++  * Add suggest to libwpd-tools, as that package is similar to wp2x,
++    and might help where wp2x falls short. (Closes: #317103)
++  * Updated standard-version to 3.6.2.  No changes needed.
++  * Start using dpatch.  Move all debian patches into 01_misc.dpatch.
++
++ -- Petter Reinholdtsen <pere@debian.org>  Mon, 10 Oct 2005 20:06:42 +0200
++
++wp2x (2.5-mhi-7) unstable; urgency=low
++
++  * Fix typos in wp2x(1l). (Closes: #306732)
++
++ -- Petter Reinholdtsen <pere@debian.org>  Sun,  5 Jun 2005 14:16:25 +0200
++
++wp2x (2.5-mhi-6) unstable; urgency=low
++
++  * More endian fixes for process_preamble() to get this working on
++    big endian machines.
++
++ -- Petter Reinholdtsen <pere@debian.org>  Sat,  4 Sep 2004 15:04:44 +0200
++
++wp2x (2.5-mhi-5) unstable; urgency=low
++
++  * Adopted package. (Closes: #206860)
++  * Updated Standards-Version from 3.5.2 to 3.6.1.
++  * Fixed endian problem in process_preamble().
++  * Add -W and -Wall as compiler flags, and fix lots of compile
++    warnings.
++  * Run selftest during build to check if the package is working.
++
++ -- Petter Reinholdtsen <pere@debian.org>  Sat,  4 Sep 2004 13:45:09 +0200
++
++wp2x (2.5-mhi-4) unstable; urgency=low
++
++  * Upload with maintainer set to QA group
++  * debian/control: fixed up versioned dependency on debhelper
++  * debian/copyright: removed dh_make boilerplatedness
++
++ -- Andrew Pollock <apollock@debian.org>  Sat, 15 Nov 2003 19:42:42 +1100
++
++wp2x (2.5-mhi-3) unstable; urgency=low
++
++  * Adopted package (closes: #100272)
++  * Updated Standards-Version to 3.5.2
++  * Updated DH_COMPAT to 3
++  * Moved .cfg files to /usr/share/wp2x from /usr/lib/wp2x
++  * Added filters to doc directory
++  * Added README.debian
++  * Updated build dependancy to debhelper > 3.0
++
++ -- Harry Henry Gebel <hgebel@debian.org>  Thu, 21 Jun 2001 23:03:42 -0400
++
++wp2x (2.5-mhi-2) unstable; urgency=low
++
++  * Removed the installation of INSTALL file to fix lintian warning. 
++
++ -- Dr. Guenter Bechly <gbechly@debian.org>  Thu, 29 Mar 2001 16:12:46 +0200
++
++wp2x (2.5-mhi-1) unstable; urgency=low
++
++  * Initial Release, closes: Bug #81001.
++  * Adjusted the Makefile to fix $DESTDIR problems, and to set the
++    correct install paths.
++  * Modified ./src/Makefile for Debian.
++  * Corrected Perl paths in ./filters/*.
++  * Emended manpage.
++
++ -- Dr. Guenter Bechly <gbechly@debian.org>  Mon,  1 Jan 2001 16:55:35 +0100
+--- wp2x-2.5-mhi.orig/debian/control
++++ wp2x-2.5-mhi/debian/control
+@@ -0,0 +1,15 @@
++Source: wp2x
++Section: text
++Priority: optional
++Maintainer: Petter Reinholdtsen <pere@debian.org>
++Build-Depends: debhelper (>> 3.0), dpatch
++Standards-Version: 3.6.2
++
++Package: wp2x
++Architecture: any
++Depends: ${shlibs:Depends}
++Suggests: libwpd-tools
++Description: WordPerfect 5.x documents to whatever converter
++ This program converts simple WordPerfect 5.0 and 5.1 files into any
++ other document processing languages that use plain text files, like
++ TeX, LaTeX, troff, GML and HTML.
+--- wp2x-2.5-mhi.orig/debian/copyright
++++ wp2x-2.5-mhi/debian/copyright
+@@ -0,0 +1,13 @@
++This package was debianized by Dr. Guenter Bechly <gbechly@debian.org> on
++Mon,  1 Jan 2001 16:55:35 +0100.
++
++It was downloaded from ftp://ftp.penguin.cz/pub/users/mhi/wp2x/
++
++Upstream Author: Martin Hinner <mhi@penguin.cz>
++
++Copyright: Raymond Chen <raymond@math.berkeley.edu>
++
++This program and its supporting files are Copyright 1991 by
++Raymond Chen.  You may distribute the program freely, provided
++it is distributed in its entirety, including this README file.
++Any modifications to the program should be clearly marked as such.
+--- wp2x-2.5-mhi.orig/debian/dirs
++++ wp2x-2.5-mhi/debian/dirs
+@@ -0,0 +1,4 @@
++usr/bin
++usr/share/wp2x
++usr/share/doc/wp2x
++usr/share/man/man1
+--- wp2x-2.5-mhi.orig/debian/rules
++++ wp2x-2.5-mhi/debian/rules
+@@ -0,0 +1,81 @@
++#!/usr/bin/make -f
++# Sample debian/rules that uses debhelper.
++# GNU copyright 1997 to 1999 by Joey Hess.
++
++# Uncomment this to turn on verbose mode.
++#export DH_VERBOSE=1
++
++# This is the debhelper compatability version to use.
++export DH_COMPAT=3
++
++PACKAGE_DIR = debian/wp2x
++
++configure: configure-stamp
++configure-stamp: patch-stamp
++	dh_testdir
++	# Add here commands to configure the package.
++
++	touch configure-stamp
++
++build: configure-stamp build-stamp
++build-stamp:
++	dh_testdir
++
++	# Add here commands to compile the package.
++	$(MAKE) all test
++	#/usr/bin/docbook-to-man debian/wp2x.sgml > wp2x.1
++
++	touch build-stamp
++
++clean: unpatch
++	dh_testdir
++	dh_testroot
++	rm -f build-stamp configure-stamp
++
++	# Add here commands to clean up after the build process.
++	-$(MAKE) clean
++
++	dh_clean
++
++install: build
++	dh_testdir
++	dh_testroot
++	dh_clean -k
++	dh_installdirs
++
++	# Add here commands to install the package into debian/wp2x
++	$(MAKE) install DESTDIR=`pwd`/$(PACKAGE_DIR)
++
++	# Put filters in doc directory
++	cp -r filters/ $(PACKAGE_DIR)/usr/share/doc/wp2x
++
++
++# Build architecture-independent files here.
++binary-indep: build install
++# We have nothing to do by default.
++
++# Build architecture-dependent files here.
++binary-arch: build install
++#	dh_testversion
++	dh_testdir
++	dh_testroot
++	dh_installdocs
++#	dh_installexamples
++	dh_installmenu
++	dh_installman
++#	dh_installinfo
++	dh_installchangelogs ChangeLog
++	dh_link
++	dh_strip
++	dh_compress
++	dh_fixperms
++	dh_installdeb
++	dh_shlibdeps
++	dh_gencontrol
++	dh_md5sums
++	dh_builddeb
++
++binary: binary-indep binary-arch
++.PHONY: build clean binary-indep binary-arch binary install configure
++
++include /usr/share/dpatch/dpatch.make
+--- wp2x-2.5-mhi.orig/debian/menu
++++ wp2x-2.5-mhi/debian/menu
+@@ -0,0 +1,2 @@
++?package(wp2x):needs="text" section="Apps/Tools" \
++ title="wp2x" command="/usr/bin/wp2x"

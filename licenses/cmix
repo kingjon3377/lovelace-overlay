@@ -1,0 +1,132 @@
+C-Mix is copyright 1991-1999: University of Copenhagen
+
+LICENSE
+-------
+
+The University of Copenhagen hereby grants any person,
+organization, or institution who have obtained a copy of
+C-Mix, irrespective of how or wherefrom he obtained it,
+who is referred to as 'you', the following nonexclusive
+rights:
+
+1. You may use C-Mix and its accompanying programs,
+   whether for commercial, educational, research,
+   private, or any other purpose, provided that you
+   acknowledge the Disclaimer of Warranty set forth
+   at the end of this copyright statement.
+   The University of Copenhagen shall not claim any
+   rights relating to the output from C-Mix, except
+   those rights the University may already possess
+   relating to the data you provide as input to C-Mix.
+
+2. You may modify C-Mix and use the modified form yourself.
+
+3. You may redistribute C-Mix, in source or binary forms,
+   in whole or in parts, but without modifying it other
+   than compiling the source code you've received, provided
+   a) that you preserve this entire copyright statement.
+   b) that, when distributing only binaries, you include
+      information as to where sources can be obtained.
+   c) that you do not attempt to constrain the receiver
+      or any other third party from exercising the rights
+      granted in this copyright statement.
+
+4. You may distribute a version of C-Mix that you have
+   modified, under terms set forth in clause 3, provided
+   additionally
+   a) that neither the accompanying documentation nor
+      the output of the modified program can reasonably
+      be misread to the effect that the modified program
+      is the original C-Mix as distributed by the
+      University of Copenhagen.
+   b) that the accompanying documentation clearly
+      acknowledges the modified program's ancestry
+      from code developed at the University of Copenhagen.
+   c) that you state explicitly whether your modification
+      has been communicated to the C-Mix development team
+      (e.g. by email to cmix@diku.dk).
+   d) that you include information as to where the original
+      version can be obtained.
+   e) that you share your modifications with the C-Mix
+      user community by allowing the University of
+      Copenhagen to incorporate your modification or
+      parts of it in future releases of C-Mix, and to
+      distribute those future releases under any license
+      that meets the Open Source<tm> definition, in return
+      for giving you proper credit.
+
+5. You may distribute modified or unmodified binary forms
+   of the Specialization Library that is part of C-Mix,
+   either as a separate file or incorporated in an
+   executable, under any terms that you deem fit.
+
+6. If you modify C-Mix so much that it is neither a system
+   that performs program specialization, nor an essential
+   component of such a system, you may do whatever you like
+   to the modified system, including distributing it under
+   any terms that you deem fit.
+   However, this provision does not allow you or anypone
+   else to claim any exclusive rights regarding the parts
+   of the modified system that it has in common with C-Mix.
+
+DISCLAIMER OF WARRANTY (capitalize according to taste)
+----------------------
+
+Except when otherwise stated in writing the University of
+Copenhagen and/or other parties provide C-Mix "as is" without
+warranty of any kind, either expressed or implied, including,
+but not limited to, the implied warranties of merchantability
+and fitness for a particular purpose. The entire risk as to
+the quality and performance of C-Mix program (including but
+not limited to the faithfulness of specialized programs to
+the behavior of the original C code) is with you. Should
+the program prove defective, you assume the cost of all
+necessary servicing, repair or correction.
+
+In no event unless agreed to in writing will the University
+of Copenhagen, or any other party who may modify and/or
+redistribute C-Mix as permitted above, be liable to anyone
+for damages, including any general, special, incidental or
+consequential damages arising out of the use or inability
+to use the program (including but not limited to loss of
+data or data being rendered inaccurate or losses sustained
+by you or third parties or a failure of the program to
+operate with or on any other programs), even if the
+University of Copenhagen or other party has been advised
+of the possibility of such damages.
+
+NON-LEGAL REQUIREMENTS
+----------------------
+
+The following requests are specifically not part of the
+legal provisions for using and distributing C-Mix because
+they would prevent the license from meeting the Open
+Source<tm> specification.
+
+1. We strongly encourage you to tell us if you use C-Mix,
+   and to tell us about your experience with the system.
+
+2. We strongly encourage you to send us patches if you make
+   useful modifications to the system. The development team
+   can be reaced at cmix@diku.dk.
+
+3. We encourage you to tell us if you distribute C-Mix.
+
+4. Needless to say, we believe it to be common scientific
+   moral that computer science studies employing C-Mix
+   should not be published without giving due credit to
+   its developers, either by citing one of the published
+   papers describing C-Mix, or by including a statement
+   such as:
+      This study made use of the C-Mix partial evaluator
+      developed at the University of Copenhagen's
+      computer science departement.
+
+5. If you feel that that the legal section of this
+   copyright notice constrains you unnecessarily from 
+   distributing C-Mix, we urge you to communicate to us
+   about the problem. Our top priority is to get C-Mix
+   and the idea of partial evaluation spread out as
+   widely as possible, but since we are computer
+   scientists, not lawyers, we might have overlooked
+   some essential angle.

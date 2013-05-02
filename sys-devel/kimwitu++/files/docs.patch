@@ -1,0 +1,11 @@
+diff -ru doc.old/kpp-manual.xml doc/kpp-manual.xml
+--- doc.old/kpp-manual.xml	2011-01-08 22:26:56.000000000 -0500
++++ doc/kpp-manual.xml	2011-01-08 22:28:28.000000000 -0500
+@@ -1956,6 +1956,7 @@
+ 	    <entry>--operator-cast</entry>
+ 	    <entry>generate <filename>operatork.h</filename> for
+ 	      <function>operator_cast&lt;&gt;</function></entry>
++	  </row>
+ 	  <!-- C++ Compiler Options -->
+ 	  <row>
+ 	    <entry>-n</entry>

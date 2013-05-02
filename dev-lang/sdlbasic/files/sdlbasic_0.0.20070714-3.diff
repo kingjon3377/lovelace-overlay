@@ -1,0 +1,1365 @@
+--- sdlbasic-0.0.20070714.orig/debian/sdlbasic.doc-base
++++ sdlbasic-0.0.20070714/debian/sdlbasic.doc-base
+@@ -0,0 +1,10 @@
++Document: sdlbasic
++Title: sdlBasic reference guide
++Author: sdlBasic development team
++Abstract: This manual is the official reference guide
++ for sdlBasic
++Section: Programming
++
++Format: HTML
++Index: /usr/share/doc/sdlbasic/english/index.html
++Files: /usr/share/doc/sdlbasic/english/*.html
+--- sdlbasic-0.0.20070714.orig/debian/changelog
++++ sdlbasic-0.0.20070714/debian/changelog
+@@ -0,0 +1,36 @@
++sdlbasic (0.0.20070714-3) unstable; urgency=low
++
++  [ Barry deFreese ]
++  * bison_code.patch - Fix syntax with sdlBrt_tab.y.
++    + Fixes FTBFS with newer Bison.
++  * Add Section: debug to sdlbasic-dbg package.
++  * Minor syntax fixes in debian/copyright.
++  * Add watch file.
++  * Bump Standards Version to 3.8.1. (No changes needed).
++
++  [ Evgeni Golov ]
++  * datadir.patch:
++    + Fix path to help in Global.properties. (LP: #372185)
++    + Obsolete properties.patch by correctly patching call of sdlBrt.
++  * x-www-browser.patch:
++    + Call x-www-browser instead of firefox, users might want another browser.
++  * quickhelp.patch:
++    + Fix the command for the Quick Help.
++  * debian/control:
++    + Update the homepage URL.
++
++ -- Miriam Ruiz <little_miry@yahoo.es>  Thu, 07 May 2009 00:07:30 +0200
++
++sdlbasic (0.0.20070714-2) unstable; urgency=low
++
++  * Fixed /etc/sdlbasic/sdlBasic.properties
++  * Fixed sdlbasic.sng so that it generates a non-null sdlbasic.png image
++
++ -- Miriam Ruiz <little_miry@yahoo.es>  Sat, 15 Nov 2008 17:14:52 +0100
++
++sdlbasic (0.0.20070714-1) unstable; urgency=low
++
++  * Initial release (Closes: #498762)
++
++ -- Miriam Ruiz <little_miry@yahoo.es>  Sat, 13 Sep 2008 03:47:40 +0200
++
+--- sdlbasic-0.0.20070714.orig/debian/sdlbrt.install
++++ sdlbasic-0.0.20070714/debian/sdlbrt.install
+@@ -0,0 +1 @@
++debian/tmp/usr/bin/sdlBrt
+--- sdlbasic-0.0.20070714.orig/debian/sdlBasic.1
++++ sdlbasic-0.0.20070714/debian/sdlBasic.1
+@@ -0,0 +1,11 @@
++.\" 
++.TH "sdlBasic" "1" "July 2007" "" "User Commands"
++.SH "NAME"
++sdlBasic \- sdlBasic program editor
++.SH "SYNTAX"
++sdlBrt [file ..]
++.SH "DESCRIPTION"
++sdlBrt is a graphical GTK+ based editor based on SciTE for programming games in sdlBasic, a small, efficient and multiplatform BASIC interpreter aimed to game creation using the power of SDL library. It was inspired by the old and glorious AMOS.
++.SH "SEE ALSO"
++The homepage of sdlBasic can be found at
++.B http://www.sdlbasic.altervista.org/
+--- sdlbasic-0.0.20070714.orig/debian/rules
++++ sdlbasic-0.0.20070714/debian/rules
+@@ -0,0 +1,123 @@
++#!/usr/bin/make -f
++
++# Uncomment this to turn on verbose mode.
++#export DH_VERBOSE=1
++
++CFLAGS = -Wall -g
++
++ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
++	CFLAGS += -O0
++else
++	CFLAGS += -O2
++endif
++
++LDFLAGS=-Wl,--as-needed -Wl,-z,defs -Wl,--no-undefined
++
++configure: configure-stamp
++configure-stamp:
++	dh_testdir
++	$(MAKE) -f /usr/share/quilt/quilt.make patch
++	chmod -x src/sdlBasic/share/sdlBasic/*.*
++	sng debian/*.sng
++	touch $@
++
++DESTBIN=/usr/bin
++DESTDOC=/usr/share/doc/sdlbasic
++DESTDATA=/usr/share/sdlbasic
++DESTPLUGINS=$(DESTDATA)/plugins
++
++ORIGSRC=$(CURDIR)/src/sdlBasic/src
++ORIGDATA=$(CURDIR)/src/sdlBasic/share
++
++XFLAGS= \
++	os=linux \
++	prefix="/usr" \
++	bindir="$(DESTBIN)" \
++	exec_prefix="$(DESTBIN)" \
++	datadir="$(DESTDATA)" \
++	font_prefix="/usr/share/fonts/truetype" \
++	SYSCONF_PATH="/etc/sdlbasic" \
++	DOC_PATH="$(DESTDOC)" \
++	PLUGINS_PATH="$(DESTPLUGINS)" \
++	stripped=no
++
++ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
++	XFLAGS += DEBUG=yes
++endif
++
++build: build-stamp
++build-stamp: configure-stamp 
++	dh_testdir
++	cd "$(ORIGSRC)/sdlBrt/" && sh bison_build.sh
++	$(MAKE) -C "$(ORIGSRC)/sdlBasic/scintilla/gtk" $(XFLAGS) LDFLAGS="$(LDFLAGS)"
++	$(MAKE) -C "$(ORIGSRC)/sdlBasic/gtk" $(XFLAGS) LDFLAGS="$(LDFLAGS)"
++	$(MAKE) -C "$(ORIGSRC)/sdlBrt/unzip" $(XFLAGS) CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)"
++	$(MAKE) -C "$(ORIGSRC)/sdlBrt/SDLengine" $(XFLAGS) CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)"
++	$(MAKE) -C "$(ORIGSRC)/sdlBrt/BASengine" $(XFLAGS) CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)"
++	$(MAKE) -C "$(ORIGSRC)/sdlBrt" $(XFLAGS) CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)"
++	#docbook-to-man debian/sdlbasic.sgml > sdlbasic.1
++	touch $@
++
++clean:
++	dh_testdir
++	dh_testroot
++	rm -f build-stamp configure-stamp
++	rm -f "$(ORIGSRC)/sdlBrt/y_tab.c"
++	$(MAKE) -C "$(ORIGSRC)/sdlBasic/scintilla/gtk" $(XFLAGS) clean
++	$(MAKE) -C "$(ORIGSRC)/sdlBasic/gtk" $(XFLAGS) clean
++	$(MAKE) -C "$(ORIGSRC)/sdlBrt" $(XFLAGS) clean RM="$(RM) -f"
++	$(MAKE) -C "$(ORIGSRC)/sdlBrt/SDLengine" $(XFLAGS) clean RM="$(RM) -f"
++	$(MAKE) -C "$(ORIGSRC)/sdlBrt/BASengine" $(XFLAGS) clean RM="$(RM) -f"
++	$(MAKE) -C "$(ORIGSRC)/sdlBrt/unzip" $(XFLAGS) clean RM="$(RM) -f"
++	rm -f debian/*.png
++	$(MAKE) -f /usr/share/quilt/quilt.make unpatch
++	dh_clean 
++
++DESTDIR=$(CURDIR)/debian/tmp
++
++install: build
++	dh_testdir
++	dh_testroot
++	dh_clean -k 
++	dh_installdirs
++
++	$(MAKE) -C $(ORIGSRC)/sdlBasic/gtk $(XFLAGS) install DESTDIR="$(DESTDIR)"
++	$(MAKE) -C $(ORIGSRC)/sdlBrt $(XFLAGS) install-bin DESTDIR="$(DESTDIR)"
++
++	mkdir -p "$(DESTDIR)$(DESTDOC)"
++	cp -r "$(ORIGDATA)"/doc/sdlBasic/* "$(DESTDIR)$(DESTDOC)"
++	mkdir -p "$(DESTDIR)$(DESTDATA)"
++	cp -r "$(ORIGDATA)"/sdlBasic/* "$(DESTDIR)$(DESTDATA)"
++
++	rm -f `find "$(DESTDIR)$(DESTDOC)" -name sdlBasic_IDE_License.txt`
++	rm -f `find "$(DESTDIR)$(DESTDOC)" -name font-license`
++
++binary-indep: build install
++
++binary-arch: build install
++	dh_testdir
++	dh_testroot
++	dh_installchangelogs 
++	dh_installdocs
++	dh_installexamples
++	dh_install
++	dh_installmenu
++#	dh_installdebconf
++#	dh_python
++	dh_installman -psdlbrt debian/sdlBrt.1
++	dh_installman -psdlbasic debian/sdlBasic.1
++	dh_link
++	dh_strip --dbg-package=sdlbasic-dbg
++	dh_compress
++	dh_fixperms
++#	dh_perl
++#	dh_makeshlibs
++	dh_installdeb
++	test -e /usr/bin/dh_buildinfo && dh_buildinfo
++	dh_shlibdeps
++	dh_gencontrol
++	dh_md5sums
++	dh_builddeb
++
++binary: binary-indep binary-arch
++.PHONY: build clean binary-indep binary-arch binary install configure
+--- sdlbasic-0.0.20070714.orig/debian/sdlbasic.menu
++++ sdlbasic-0.0.20070714/debian/sdlbasic.menu
+@@ -0,0 +1,5 @@
++?package(sdlbasic):needs="x11" \
++	section="Applications/Programming" \
++	title="sdlBasic" \
++	command="/usr/bin/sdlBasic" \
++	icon="/usr/share/pixmaps/sdlbasic.xpm"
+--- sdlbasic-0.0.20070714.orig/debian/compat
++++ sdlbasic-0.0.20070714/debian/compat
+@@ -0,0 +1 @@
++5
+--- sdlbasic-0.0.20070714.orig/debian/sdlBrt.1
++++ sdlbasic-0.0.20070714/debian/sdlBrt.1
+@@ -0,0 +1,37 @@
++.\" 
++.TH "sdlBrt" "1" "July 2007" "" "User Commands"
++.SH "NAME"
++sdlBrt \- sdlBasic runtime
++.SH "SYNTAX"
++sdlBrt [option] foo.sdlbas
++.SH "DESCRIPTION"
++sdlBrt is the runtime interpreter of sdlBasic, a small, efficient and multiplatform BASIC interpreter aimed to game creation using the power of SDL library. It was inspired by the old and glorious AMOS.
++.SH "OPTIONS"
++Options:
++.TP 
++\fB\-\-nosound\fR
++disable sound
++.TP 
++\fB\-\-nosocket\fR
++disable socket commands
++.TP 
++\fB\-\-nodefaults\fR
++disable creation of default display
++.TP 
++\fB\-\-debug\fR
++start the program step by step
++.TP 
++\fB\-\-version\fR
++software version
++.TP 
++\fB\-\-license\fR
++license of software
++.TP 
++\fB\-\-copyright\fR
++credits of software
++.TP 
++\fB\-\-help\fR
++this help
++.SH "SEE ALSO"
++The homepage of sdlBasic can be found at
++.B http://www.sdlbasic.altervista.org/
+--- sdlbasic-0.0.20070714.orig/debian/copyright
++++ sdlbasic-0.0.20070714/debian/copyright
+@@ -0,0 +1,145 @@
++This package was debianized by Miriam Ruiz <little_miry@yahoo.es> on
++Fri, 04 Apr 2008 10:39:30 +0000.
++
++It was downloaded from http://sourceforge.net/projects/sdlbasic/
++
++Upstream Authors:
++
++    Ilkka Lehtoranta <itix@users.sourceforge.net>
++    Ivanix  <ivanixdev@users.sourceforge.net>
++    Nicolas Mendoza <nicomen@users.sourceforge.net>
++    Paulo Silva <nitrofurano@users.sourceforge.net>
++    Tim Douglas <timdoug@users.sourceforge.net>
++    Roberto Viola <vroby@users.sourceforge.net>
++    Zoiba <zoiba@users.sourceforge.net>
++
++Copyright: 
++
++    Copyright (C) 2001-2007 sdlBasic team
++
++src/sdlBasic/src/sdlBrt/*
++
++    Copyright (C) 2001 David Cuny <dcuny@lanset.com>
++
++lizard.mod:
++
++    Copyright (C) 1993 Gustaf Grefberg <lizardking@triton.ct.se>
++
++Scintilla and sdlBasic Editor:
++
++    Copyright (C) 1998-2003 by Neil Hodgson <neilh@scintilla.org>
++    Copyright (C) 2005 by sdlBasic team <http://sdlBasic.sf.net>
++
++Bitstream Vera Fonts:
++
++    Copyright (C) 2003 by Bitstream, Inc. All Rights Reserved.
++    Bitstream Vera is a trademark of Bitstream, Inc.
++    DejaVu changes are in public domain.
++
++License:
++
++    This package is free software; you can redistribute it and/or modify
++    it under the terms of the GNU General Public License as published by
++    the Free Software Foundation; either version 2 of the License, or
++    (at your option) any later version.
++ 
++    This package is distributed in the hope that it will be useful,
++    but WITHOUT ANY WARRANTY; without even the implied warranty of
++    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++    GNU General Public License for more details.
++ 
++    You should have received a copy of the GNU General Public License
++    along with this package; if not, write to the Free Software
++    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
++
++On Debian systems, the complete text of the GNU General
++Public License can be found in `/usr/share/common-licenses/GPL'.
++
++
++License for Scintilla and sdlBasic Editor:
++
++Copyright (C) 1998-2003 by Neil Hodgson <neilh@scintilla.org>
++Copyright (C) 2005 by sdlBasic team http://sdlBasic.sf.net
++
++All Rights Reserved 
++
++Permission to use, copy, modify, and distribute this software and its 
++documentation for any purpose and without fee is hereby granted, 
++provided that the above copyright notice appear in all copies and that 
++both that copyright notice and this permission notice appear in 
++supporting documentation. 
++
++NEIL HODGSON DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS 
++SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY 
++AND FITNESS, IN NO EVENT SHALL NEIL HODGSON BE LIABLE FOR ANY 
++SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES 
++WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, 
++WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER 
++TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE 
++OR PERFORMANCE OF THIS SOFTWARE. 
++
++
++Fonts are Copyright (C) Bitstream (see below). DejaVu changes are in public domain.
++
++Bitstream Vera Fonts Copyright
++------------------------------
++
++Copyright (C) 2003 by Bitstream, Inc. All Rights Reserved. Bitstream Vera is
++a trademark of Bitstream, Inc.
++
++Permission is hereby granted, free of charge, to any person obtaining a copy
++of the fonts accompanying this license ("Fonts") and associated
++documentation files (the "Font Software"), to reproduce and distribute the
++Font Software, including without limitation the rights to use, copy, merge,
++publish, distribute, and/or sell copies of the Font Software, and to permit
++persons to whom the Font Software is furnished to do so, subject to the
++following conditions:
++
++The above copyright and trademark notices and this permission notice shall
++be included in all copies of one or more of the Font Software typefaces.
++
++The Font Software may be modified, altered, or added to, and in particular
++the designs of glyphs or characters in the Fonts may be modified and
++additional glyphs or characters may be added to the Fonts, only if the fonts
++are renamed to names not containing either the words "Bitstream" or the word
++"Vera".
++
++This License becomes null and void to the extent applicable to Fonts or Font
++Software that has been modified and is distributed under the "Bitstream
++Vera" names.
++
++The Font Software may be sold as part of a larger software package but no
++copy of one or more of the Font Software typefaces may be sold by itself.
++
++THE FONT SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
++OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF MERCHANTABILITY,
++FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT OF COPYRIGHT, PATENT,
++TRADEMARK, OR OTHER RIGHT. IN NO EVENT SHALL BITSTREAM OR THE GNOME
++FOUNDATION BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, INCLUDING
++ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL DAMAGES,
++WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF
++THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM OTHER DEALINGS IN THE
++FONT SOFTWARE.
++
++Except as contained in this notice, the names of Gnome, the Gnome
++Foundation, and Bitstream Inc., shall not be used in advertising or
++otherwise to promote the sale, use or other dealings in this Font Software
++without prior written authorization from the Gnome Foundation or Bitstream
++Inc., respectively. For further information, contact: fonts at gnome dot
++org. 
++
++
++lizard.mod:
++
++    Music created by Lizardking/alcatraz (Gustaf Grefberg, Sweden) [1],
++    presented at The Gathering 93 in Lillestrom/Norway (7 to 10 April
++    1994) [2]. Extracted from the game bumprace [3] and licensed under
++    the GPL license.
++    
++    [1] http://mody_collection.tripod.com/
++    [2] http://www.pouet.net/results.php?which=43&when=93&f=none
++    [3] http://user.cs.tu-berlin.de/~karlb/bumprace/
++
++
++The Debian packaging is Copyright (C) 2008, Miriam Ruiz <little_miry@yahoo.es> and
++is licensed under the same license as the program, see above.
+--- sdlbasic-0.0.20070714.orig/debian/control
++++ sdlbasic-0.0.20070714/debian/control
+@@ -0,0 +1,43 @@
++Source: sdlbasic
++Section: devel
++Priority: extra
++Maintainer: Debian Games Team <pkg-games-devel@lists.alioth.debian.org>
++Uploaders: Miriam Ruiz <little_miry@yahoo.es>
++Build-Depends: debhelper (>= 5), dh-buildinfo, quilt, sng, bison,
++ libsdl1.2-dev, libsdl-mixer1.2-dev, libsdl-ttf2.0-dev,
++ libsdl-net1.2-dev, libsdl-image1.2-dev,
++ libsmpeg-dev, libgtk2.0-dev, libglib2.0-dev, libasound2-dev
++Standards-Version: 3.8.1
++Homepage: http://sdlbasic.altervista.org/main/index.php
++Vcs-Svn: svn://svn.debian.org/svn/pkg-games/packages/trunk/sdlbasic/
++Vcs-Browser: http://svn.debian.org/wsvn/pkg-games/packages/trunk/sdlbasic/?op=log
++
++Package: sdlbrt
++Section: interpreters
++Architecture: any
++Depends: ttf-dejavu, ${shlibs:Depends}, ${misc:Depends}
++Description: BASIC interpreter for game development - runtime interpreter
++ sdlBasic is a small, efficient and multiplatform BASIC interpreter for
++ creating games using the power of SDL library. It was inspired by the old
++ and glorious AMOS.
++ .
++ This package includes sdlBasic runtime interpreter.
++
++Package: sdlbasic
++Architecture: any
++Depends: ttf-dejavu, sdlbrt (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
++Description: BASIC interpreter for game development
++ sdlBasic is a small, efficient and multiplatform BASIC interpreter for
++ creating games using the power of SDL library. It was inspired by the old
++ and glorious AMOS.
++
++Package: sdlbasic-dbg
++Section: debug
++Architecture: any
++Depends: sdlbasic (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
++Description: BASIC interpreter for game development - debug symbols
++ sdlBasic is a small, efficient and multiplatform BASIC interpreter for
++ creating games using the power of SDL library. It was inspired by the old
++ and glorious AMOS.
++ .
++ This package includes the symbols for debugging sdlBasic.
+--- sdlbasic-0.0.20070714.orig/debian/sdlbasic.xpm
++++ sdlbasic-0.0.20070714/debian/sdlbasic.xpm
+@@ -0,0 +1,70 @@
++/* XPM */
++static char * sdlbasic_xpm[] = {
++"32 32 35 1",
++" 	c None",
++".	c #336633",
++"+	c #356835",
++"@	c #609360",
++"#	c #487B48",
++"$	c #346734",
++"%	c #669966",
++"&	c #376A33",
++"*	c #79AC33",
++"=	c #71A433",
++"-	c #BAED33",
++";	c #CCFF33",
++">	c #598C59",
++",	c #3B6E3B",
++"'	c #548754",
++")	c #4A7D4A",
++"!	c #669933",
++"~	c #9CCF33",
++"{	c #457845",
++"]	c #5C8F5C",
++"^	c #4E814E",
++"/	c #376A37",
++"(	c #5E915E",
++"_	c #649764",
++":	c #A7DA3E",
++"<	c #ACDF43",
++"[	c #689B65",
++"}	c #72A560",
++"|	c #A3D648",
++"1	c #A3D647",
++"2	c #CAFD34",
++"3	c #A6D946",
++"4	c #C5F837",
++"5	c #96C94E",
++"6	c #699C64",
++"           .                    ",
++"         ...     .              ",
++"       .....     ...            ",
++"     .......     .....          ",
++"   +............ .......        ",
++"   @#$....................      ",
++"   %%@#$..................&*    ",
++"   %%%%@#$..............&=-;    ",
++"   >%%%%%@#$..........&=-;;;    ",
++"  ..,'%%%%%@........&=-;;;;;    ",
++")$....,'%%%%......&=-;;;;;;;    ",
++"%@#$....,'%%.....!-;;;;;;;;;..  ",
++"%%%@#$....,'.....~;;;;;;;;;;..&*",
++"%%%%%@#$.........~;;;;;;;;;;&=-;",
++"%%%%%%%@#$.......~;;;;;;;;;;-;;;",
++"%%%%%%%%%@#$.{]^/~;;;;;;;;;;;;;;",
++"%%%%%%%%%%%@(%%%_:;;;;;;;;;;;;;;",
++"%%%%%%%%%%%%%%%%%<;;;;;;;;;;;;;;",
++"%%%%%%%%%%%%%%%%%<;;;;;;;;;;;;;;",
++"%%%%%%%%%%%%%%[%%<;;;;;;;;;;;;;;",
++"%%%%%%%%%%%%}|1%%<;;;;;;;;;;;;;;",
++"%  %%%%%%%%%2;3%%<;;;;;;;;;;;;;;",
++"   %%%%%%%%%;;3%%<;;;;;;;;;;;;;;",
++"   %%%%%%%%%;;3%%<;;;;;;;;;;;;; ",
++"     %%%%%%%;;3%%<;;;;;;;;;;;   ",
++"    %%%%%%%%;;3%%<;;;;;;;;;     ",
++"  %%%%%%%%%%;;3%%<;;;;;;;       ",
++"   %%%%%%%%%;;3%%<;;;;;         ",
++"     %%%%%%%;;3%%<;;;           ",
++"       %%%%%;;456<;             ",
++"         %%%;;;                 ",
++"           %;                   "};
+--- sdlbasic-0.0.20070714.orig/debian/sdlbasic.desktop
++++ sdlbasic-0.0.20070714/debian/sdlbasic.desktop
+@@ -0,0 +1,9 @@
++[Desktop Entry]
++Type=Application
++Name=sdlBasic
++GenericName=sdlBasic
++Comment=Multiplatform basic interpreter for the development of videogames
++Icon=sdlbasic
++Categories=Development;
++Exec=sdlBasic
++Terminal=false
+--- sdlbasic-0.0.20070714.orig/debian/sdlbasic.sng
++++ sdlbasic-0.0.20070714/debian/sdlbasic.sng
+@@ -0,0 +1,73 @@
++#SNG: from sdlbasic.png
++IHDR {
++    width: 64; height: 64; bitdepth: 8;
++    using color alpha;
++}
++pHYs {xpixels: 3780; ypixels: 3780; per: meter;}  # (96 dpi)
++IMAGE {
++    pixels hex
++ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 336633ff ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 
++ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 336633ff 336633ff 336633ff ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 
++ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 336633ff 336633ff 336633ff 336633ff 336633ff ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 336633ff ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 
++ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 336633ff 336633ff 336633ff ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 
++ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 336633ff 336633ff 336633ff 336633ff 336633ff ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 
++ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 
++ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 
++ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff ffffff00 ffffff00 336633ff 336633ff 336633ff 336633ff ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 
++ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff ffffff00 ffffff00 ffffff00 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 
++ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 508350ff 386b38ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 
++ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 669966ff 649764ff 508350ff 386b38ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 
++ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 669966ff 669966ff 669966ff 649764ff 508350ff 386b38ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 
++ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 669966ff 669966ff 669966ff 669966ff 669966ff 649764ff 508350ff 386b38ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 4c8033ff ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 
++ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 649764ff 508350ff 386b38ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 417433ff 89bc33ff c7fa33ff ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 
++ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 649764ff 508350ff 386b38ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 417433ff 89bc33ff c7fa33ff ccff33ff ccff33ff ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 
++ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 649764ff 508350ff 386b38ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 417433ff 89bc33ff c7fa33ff ccff33ff ccff33ff ccff33ff ccff33ff ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 
++ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 649764ff 508350ff 386b38ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 417433ff 89bc33ff c7fa33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 
++ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 609360ff 497c49ff 508350ff 649764ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 649764ff 508350ff 386b38ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 417433ff 89bc33ff c7fa33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 
++ffffff00 ffffff00 ffffff00 ffffff00 336633ff 336633ff 336633ff 336633ff 386b38ff 508350ff 649764ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 649764ff 508350ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 417433ff 89bc33ff c7fa33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 
++ffffff00 ffffff00 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 386b38ff 508350ff 649764ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 417433ff 89bc33ff c7fa33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 
++3c6e3cff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 386b38ff 508350ff 649764ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 417433ff 89bc33ff c7fa33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 
++649764ff 508350ff 386b38ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 386b38ff 508350ff 649764ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 417433ff 89bc33ff c7fa33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff 336633ff 336633ff ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 
++669966ff 669966ff 649764ff 508350ff 386b38ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 386b38ff 508350ff 649764ff 669966ff 669966ff 669966ff 669966ff 669966ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 417433ff 89bc33ff c7fa33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff 336633ff 336633ff 336633ff 336633ff ffffff00 ffffff00 ffffff00 ffffff00 
++669966ff 669966ff 669966ff 669966ff 649764ff 508350ff 386b38ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 386b38ff 508350ff 649764ff 669966ff 669966ff 669966ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 5c8f33ff c7fa33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff ffffff00 ffffff00 
++669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 649764ff 508350ff 386b38ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 386b38ff 508350ff 649764ff 669966ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 6c9f33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 4c8033ff 
++669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 649764ff 508350ff 386b38ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 386b38ff 508350ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 6c9f33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff 336633ff 336633ff 336633ff 336633ff 336633ff 417433ff 89bc33ff c7fa33ff 
++669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 649764ff 508350ff 386b38ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 6c9f33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff 336633ff 336633ff 336633ff 417433ff 89bc33ff c7fa33ff ccff33ff ccff33ff 
++669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 649764ff 508350ff 386b38ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 6c9f33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff 336633ff 417433ff 89bc33ff c7fa33ff ccff33ff ccff33ff ccff33ff ccff33ff 
++669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 649764ff 508350ff 386b38ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 6c9f33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff 89bc33ff c7fa33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff 
++669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 649764ff 508350ff 386b38ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 6c9f33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff 
++669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 649764ff 508350ff 386b38ff 336633ff 336633ff 336633ff 336633ff 336633ff 336633ff 356835ff 497c49ff 598c59ff 437643ff 336633ff 336633ff 336633ff 6c9f33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff 
++669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 649764ff 508350ff 386b38ff 336633ff 336633ff 356835ff 497c49ff 619461ff 669966ff 669966ff 669966ff 5c8f5cff 437643ff 336633ff 6c9f33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff 
++669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 649764ff 4f824fff 497c49ff 619461ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 5c8f5cff 79ac40ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff 
++669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 8cbf53ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff 
++669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 8cbf53ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff 
++669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 8cbf53ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff 
++669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 8cbf53ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff 
++669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 8cbf53ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff 
++669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 8cbf53ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff 
++669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 699c64ff 6c9f63ff 669966ff 669966ff 669966ff 669966ff 8cbf53ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff 
++669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 699c64ff 93c650ff c2f538ff 80b259ff 669966ff 669966ff 669966ff 669966ff 8cbf53ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff 
++669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 699c64ff 93c650ff c2f538ff ccff33ff ccff33ff 80b259ff 669966ff 669966ff 669966ff 669966ff 8cbf53ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff 
++669966ff 669966ff 669966ff ffffff00 ffffff00 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff c2f538ff ccff33ff ccff33ff ccff33ff ccff33ff 80b259ff 669966ff 669966ff 669966ff 669966ff 8cbf53ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff 
++669966ff ffffff00 ffffff00 ffffff00 ffffff00 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff 80b259ff 669966ff 669966ff 669966ff 669966ff 8cbf53ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff 
++ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff 80b259ff 669966ff 669966ff 669966ff 669966ff 8cbf53ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff 
++ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff 80b259ff 669966ff 669966ff 669966ff 669966ff 8cbf53ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff 
++ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff 80b259ff 669966ff 669966ff 669966ff 669966ff 8cbf53ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ffffff00 
++ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff 80b259ff 669966ff 669966ff 669966ff 669966ff 8cbf53ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ffffff00 ffffff00 ffffff00 
++ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff 80b259ff 669966ff 669966ff 669966ff 669966ff 8cbf53ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 
++ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff 80b259ff 669966ff 669966ff 669966ff 669966ff 8cbf53ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 
++ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff 80b259ff 669966ff 669966ff 669966ff 669966ff 8cbf53ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 
++ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff 80b259ff 669966ff 669966ff 669966ff 669966ff 8cbf53ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 
++ffffff00 ffffff00 ffffff00 ffffff00 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff 80b259ff 669966ff 669966ff 669966ff 669966ff 8cbf53ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 
++ffffff00 ffffff00 ffffff00 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff 80b259ff 669966ff 669966ff 669966ff 669966ff 8cbf53ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 
++ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff 80b259ff 669966ff 669966ff 669966ff 669966ff 8cbf53ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 
++ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff 80b259ff 669966ff 669966ff 669966ff 669966ff 8cbf53ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 
++ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff 80b259ff 669966ff 669966ff 669966ff 669966ff 8cbf53ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 
++ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff 80b259ff 669966ff 669966ff 669966ff 669966ff 8cbf53ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 
++ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff afe241ff 79ac5cff 669966ff 669966ff 669966ff 8cbf53ff ccff33ff ccff33ff ccff33ff ccff33ff ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 
++ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff acdf43ff 74a75fff 669966ff 8cbf53ff ccff33ff ccff33ff ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 
++ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff 669966ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ffffff00 ffffff00 ffffff00 8ec152ff ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 
++ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 669966ff 669966ff 669966ff 669966ff 669966ff ccff33ff ccff33ff ccff33ff ccff33ff ccff33ff ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 
++ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 669966ff 669966ff 669966ff ccff33ff ccff33ff ccff33ff ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 
++ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 669966ff ccff33ff ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 ffffff00 
++}
+--- sdlbasic-0.0.20070714.orig/debian/sdlbasic.install
++++ sdlbasic-0.0.20070714/debian/sdlbasic.install
+@@ -0,0 +1,13 @@
++debian/tmp/usr/bin/sdlBasic
++debian/tmp/usr/share/sdlbasic/clickme.sdlbas usr/share/sdlbasic/demo/
++debian/tmp/usr/share/sdlbasic/lizard.mod usr/share/sdlbasic/demo/
++debian/tmp/usr/share/sdlbasic/sdlBasic.png usr/share/sdlbasic/demo/
++debian/tmp/usr/share/sdlbasic/sdlnow.gif usr/share/sdlbasic/demo/
++debian/tmp/usr/share/sdlbasic/*.properties etc/sdlbasic/
++debian/tmp/usr/share/sdlbasic/*.api usr/share/sdlbasic/
++debian/tmp/usr/share/sdlbasic/plugins usr/share/sdlbasic/
++debian/tmp/usr/share/doc/sdlbasic/english
++
++debian/*.xpm usr/share/pixmaps/
++debian/*.png usr/share/pixmaps/
++debian/*.desktop usr/share/applications/
+--- sdlbasic-0.0.20070714.orig/debian/watch
++++ sdlbasic-0.0.20070714/debian/watch
+@@ -0,0 +1,4 @@
++version=3
++
++opts="uversionmangle=s/(\d*)\.(\d*)\.(\d*)/0\.0\.$1$2$3/" \
++http://sf.net/sdlbasic/sdlBasic-src-([\d.]+)\.tgz
+--- sdlbasic-0.0.20070714.orig/debian/patches/fonts.patch
++++ sdlbasic-0.0.20070714/debian/patches/fonts.patch
+@@ -0,0 +1,81 @@
++# Copyright (C) 2008 by Miriam Ruiz <little_miry@yahoo.es>
++# Distributed under the same license as the program. See debian/copyright.
++
++Index: sdlbasic-0.0.20070714/src/sdlBasic/src/sdlBrt/SDLengine/SDLengine.c
++===================================================================
++--- sdlbasic-0.0.20070714.orig/src/sdlBasic/src/sdlBrt/SDLengine/SDLengine.c	2008-04-04 15:03:54.000000000 +0000
+++++ sdlbasic-0.0.20070714/src/sdlBasic/src/sdlBrt/SDLengine/SDLengine.c	2008-04-04 15:08:52.000000000 +0000
++@@ -278,6 +278,10 @@
++ 		enabledsound=0;
++ 	}
++ 
+++#if defined(DEJAVUSANS_TTF)
+++	fontPath=(char *)malloc(256);
+++	strcpy(fontPath,DEJAVUSANS_TTF);
+++#else
++ #if defined(WIN32)
++ 	fontPath=(char *)malloc(256);
++ 	strcpy(fontPath,getenv("WINDIR"));
++@@ -289,7 +293,7 @@
++ 	strcat(fontPath,"/dejavu/DejaVuSans.ttf\0");
++ 	if (!fileExist(fontPath))fontPath="./DejaVuSans.ttf";
++ #endif
++-
+++#endif
++ 
++ 
++ /*
++Index: sdlbasic-0.0.20070714/src/sdlBasic/src/sdlBrt/SDLengine/makefile
++===================================================================
++--- sdlbasic-0.0.20070714.orig/src/sdlBasic/src/sdlBrt/SDLengine/makefile	2008-04-04 15:10:46.000000000 +0000
+++++ sdlbasic-0.0.20070714/src/sdlBasic/src/sdlBrt/SDLengine/makefile	2008-04-04 15:13:25.000000000 +0000
++@@ -71,8 +71,9 @@
++ CPP=g++
++ RANLIB=	ranlib
++ RM=rm -f
+++DEJAVUSANS_TTF=/usr/share/fonts/truetype/ttf-dejavu/DejaVuSans.ttf
++ 
++-CFLAG=  -Wall -g -O2 -I/usr/include/SDL -D_REENTRAT -DPLAY_MOD -DUNIX -DLINUX
+++CFLAG=  -Wall -g -O2 -I/usr/include/SDL -D_REENTRAT -DPLAY_MOD -DUNIX -DLINUX -DDEJAVUSANS_TTF=\"$(DEJAVUSANS_TTF)\"
++ LIBS=-Wl,-rpath, -lSDL_mixer -lSDL_image -lSDL_ttf -lSDL_net -lvorbisfile -lvorbis -logg -lsmpeg -lasound -lSDL -lpng -ltiff -lz -ljpeg -lpthread -lm -lfreetype -ldl
++ #LIBS=-Wl,-rpath, -lSDL -lSDL_mixer -lSDL_image -lSDL_ttf -lSDL_net -lvorbisfile -lvorbis -logg -lsmpeg -lpthread -lm -lfreetype -lSDL -lpng -ljpeg -ltiff -lz -lartsdsp -lasound -lartsdsp -ldl
++ #LIBS=-lSDL_mixer -lSDL_image -lSDL_ttf -lSDL_net -lsmpeg
++Index: sdlbasic-0.0.20070714/src/sdlBasic/src/sdlBrt/makefile
++===================================================================
++--- sdlbasic-0.0.20070714.orig/src/sdlBasic/src/sdlBrt/makefile	2008-04-04 15:10:46.000000000 +0000
+++++ sdlbasic-0.0.20070714/src/sdlBasic/src/sdlBrt/makefile	2008-04-04 15:13:20.000000000 +0000
++@@ -95,8 +95,9 @@
++ INSTALL=/usr/bin/install
++ RM=rm
++ STRIP=strip
+++DEJAVUSANS_TTF=/usr/share/fonts/truetype/ttf-dejavu/DejaVuSans.ttf
++ 
++-CFLAG= -Wall -g -O2 -I/usr/include/SDL -D_REENTRAT -DPLAY_MOD -DUNIX -DLINUX
+++CFLAG= -Wall -g -O2 -I/usr/include/SDL -D_REENTRAT -DPLAY_MOD -DUNIX -DLINUX -DDEJAVUSANS_TTF=\"$(DEJAVUSANS_TTF)\"
++ 
++ COMPILE=$(CPP) $(CFLAG)
++ 
++Index: sdlbasic-0.0.20070714/src/sdlBasic/src/sdlBrt/sdlBrt.c
++===================================================================
++--- sdlbasic-0.0.20070714.orig/src/sdlBasic/src/sdlBrt/sdlBrt.c	2008-04-04 15:03:54.000000000 +0000
+++++ sdlbasic-0.0.20070714/src/sdlBasic/src/sdlBrt/sdlBrt.c	2008-04-04 15:08:51.000000000 +0000
++@@ -256,6 +256,10 @@
++ 
++ 
++ /* gp2x Problem with allocation strings ??? */
+++#if defined(DEJAVUSANS_TTF)
+++	fontPath=(char *)malloc(256);
+++	strcpy(fontPath,DEJAVUSANS_TTF);
+++#else
++ #if defined(WIN32)
++ 	fontPath=(char *)malloc(256);
++ 	strcpy(fontPath,getenv("WINDIR"));
++@@ -267,7 +271,7 @@
++ 	strcat(fontPath,"/dejavu/DejaVuSans.ttf\0");
++ 	if (!fileExist(fontPath))fontPath="./DejaVuSans.ttf";
++ #endif
++-
+++#endif
++ 
++ /*
++ #if defined(WIN32)
+--- sdlbasic-0.0.20070714.orig/debian/patches/x-www-browser.patch
++++ sdlbasic-0.0.20070714/debian/patches/x-www-browser.patch
+@@ -0,0 +1,26 @@
++Index: sdlbasic-0.0.20070714/src/sdlBasic/share/sdlBasic/Global.properties
++===================================================================
++--- sdlbasic-0.0.20070714.orig/src/sdlBasic/share/sdlBasic/Global.properties	2009-05-06 22:55:39.000000000 +0200
+++++ sdlbasic-0.0.20070714/src/sdlBasic/share/sdlBasic/Global.properties	2009-05-06 22:56:02.000000000 +0200
++@@ -207,7 +207,7 @@
++ 	command.scite.help=explorer "$(SciteDefaultHome)\..\share\doc\sdlBasic\english\index.html"
++ 	command.scite.help.subsystem=2
++ if PLAT_GTK
++-	BROWSER=firefox
+++	BROWSER=x-www-browser
++ 	#command.print.*=a2ps $(FileNameExt)
++ 	command.scite.help=$(BROWSER)  "file:/usr/share/doc/sdlbasic/english/index.html"
++ # Internationalisation
++Index: sdlbasic-0.0.20070714/src/sdlBasic/share/sdlBasic/sdlBasic.properties
++===================================================================
++--- sdlbasic-0.0.20070714.orig/src/sdlBasic/share/sdlBasic/sdlBasic.properties	2009-05-06 22:55:15.000000000 +0200
+++++ sdlbasic-0.0.20070714/src/sdlBasic/share/sdlBasic/sdlBasic.properties	2009-05-06 22:55:31.000000000 +0200
++@@ -652,7 +652,7 @@
++ 	# uncomment this if you use kde and have problems with audio
++ 	#ARTSDSP=artsdsp -m
++ 	SDLBRT=$(ARTSDSP) /usr/bin/sdlBrt
++-	BROWSER=firefox
+++	BROWSER=x-www-browser
++     command.go.*.sdlbas=$(SDLBRT) "$(FilePath)"
++ 	command.help.*.sdlbas=$(BROWSER) "file:/usr/share/doc/sdlbasic/english/QuickHelp.html"
++ 
+--- sdlbasic-0.0.20070714.orig/debian/patches/series
++++ sdlbasic-0.0.20070714/debian/patches/series
+@@ -0,0 +1,9 @@
++makefiles.patch
++fonts.patch
++64bit.patch
++fix_example.patch
++ldflags.patch
++datadir.patch
++bison_code.patch
++x-www-browser.patch
++quickhelp.patch
+--- sdlbasic-0.0.20070714.orig/debian/patches/datadir.patch
++++ sdlbasic-0.0.20070714/debian/patches/datadir.patch
+@@ -0,0 +1,62 @@
++# Copyright (C) 2008 by Miriam Ruiz <little_miry@yahoo.es>
++# Distributed under the same license as the program. See debian/copyright.
++
++Index: sdlbasic/src/sdlBasic/share/sdlBasic/sdlBasic.properties
++===================================================================
++--- sdlbasic.orig/src/sdlBasic/share/sdlBasic/sdlBasic.properties	2008-09-13 23:14:17.000000000 +0200
+++++ sdlbasic/src/sdlBasic/share/sdlBasic/sdlBasic.properties	2008-09-13 23:14:39.000000000 +0200
++@@ -651,21 +651,21 @@
++ 	BASEDIR=$(SciteDefaultHome)/../..
++ 	# uncomment this if you use kde and have problems with audio
++ 	#ARTSDSP=artsdsp -m
++-	SDLBRT=$(ARTSDSP) $(BASEDIR)/bin/sdlBrt
+++	SDLBRT=$(ARTSDSP) /usr/bin/sdlBrt
++ 	BROWSER=firefox
++     command.go.*.sdlbas=$(SDLBRT) "$(FilePath)"
++-	command.help.*.sdlbas=$(BROWSER) "file:$(BASEDIR)/share/doc/sdlBasic/english/QuickHelp.html"
+++	command.help.*.sdlbas=$(BROWSER) "file:/usr/share/doc/sdlbasic/english/QuickHelp.html"
++ 
++ 
++ command.name.1.*.sdlbas=Autoindent
++-command.1.*.sdlbas=$(SDLBRT) --nodefaults $(BASEDIR)/share/sdlBasic/plugins/autoindent.sdlbas "$(FilePath)"
+++command.1.*.sdlbas=$(SDLBRT) --nodefaults /usr/share/sdlbasic/plugins/autoindent.sdlbas "$(FilePath)"
++ command.is.filter.1.*.sdlbas=1
++ 
++ command.name.2.*.sdlbas=Unindent
++-command.2.*.sdlbas=$(SDLBRT) --nodefaults $(BASEDIR)/share/sdlBasic/plugins/unindent.sdlbas "$(FilePath)"
+++command.2.*.sdlbas=$(SDLBRT) --nodefaults /usr/share/sdlbasic/plugins/unindent.sdlbas "$(FilePath)"
++ command.is.filter.2.*.sdlbas=1
++ 
++ command.name.3.*.sdlbas=make executable
++-command.3.*.sdlbas=$(SDLBRT)  --nodefaults $(BASEDIR)/share/sdlBasic/plugins/bind.sdlbas $(SDLBRT) "$(FilePath)"
+++command.3.*.sdlbas=$(SDLBRT)  --nodefaults /usr/share/sdlbasic/plugins/bind.sdlbas $(SDLBRT) "$(FilePath)"
++ command.is.filter.3.*.sdlbas=1
++ 
++Index: sdlbasic/src/sdlBasic/src/sdlBasic/src/SciTEIO.cxx
++===================================================================
++--- sdlbasic.orig/src/sdlBasic/src/sdlBasic/src/SciTEIO.cxx	2008-09-13 23:14:17.000000000 +0200
+++++ sdlbasic/src/sdlBasic/src/sdlBasic/src/SciTEIO.cxx	2008-09-13 23:14:39.000000000 +0200
++@@ -91,8 +91,8 @@
++ const char propGlobalFileName[] = "../share/sdlBasic/Global.properties";
++ const char propAbbrevFileName[] = "../share/sdlBasic/abbrev.properties";
++ #else
++-const char propGlobalFileName[] = "Global.properties";
++-const char propAbbrevFileName[] = "abbrev.properties";
+++const char propGlobalFileName[] = "Global.properties";
+++const char propAbbrevFileName[] = "abbrev.properties";
++ #endif
++ 
++ #define PROPERTIES_EXTENSION	".properties"
++Index: sdlbasic-0.0.20070714/src/sdlBasic/share/sdlBasic/Global.properties
++===================================================================
++--- sdlbasic-0.0.20070714.orig/src/sdlBasic/share/sdlBasic/Global.properties	2009-05-06 14:12:57.000000000 +0200
+++++ sdlbasic-0.0.20070714/src/sdlBasic/share/sdlBasic/Global.properties	2009-05-06 14:14:48.000000000 +0200
++@@ -209,7 +209,7 @@
++ if PLAT_GTK
++ 	BROWSER=firefox
++ 	#command.print.*=a2ps $(FileNameExt)
++-	command.scite.help=$(BROWSER)  "file:$(SciteDefaultHome)/../doc/sdlBasic/english/index.html"
+++	command.scite.help=$(BROWSER)  "file:/usr/share/doc/sdlbasic/english/index.html"
++ # Internationalisation
++ # Japanese input code page 932 and ShiftJIS character set 128
++ #code.page=932
+--- sdlbasic-0.0.20070714.orig/debian/patches/64bit.patch
++++ sdlbasic-0.0.20070714/debian/patches/64bit.patch
+@@ -0,0 +1,259 @@
++# Copyright (C) 2008 by Peter De Wachter <pdewacht@gmail.com>
++# Distributed under the same license as the program. See debian/copyright.
++
++--- a/src/sdlBasic/src/sdlBasic/gtk/SciTEGTK.cxx
+++++ b/src/sdlBasic/src/sdlBasic/gtk/SciTEGTK.cxx
++@@ -2217,7 +2217,7 @@
++ }
++ 
++ void SciTEGTK::ButtonSignal(GtkWidget *, gpointer data) {
++-	instance->Command((guint)data);
+++	instance->Command((long)data);
++ }
++ 
++ void SciTEGTK::MenuSignal(SciTEGTK *scitew, guint action, GtkWidget *) {
++--- a/src/sdlBasic/src/sdlBasic/src/Exporters.cxx
+++++ b/src/sdlBasic/src/sdlBasic/src/Exporters.cxx
++@@ -941,7 +941,7 @@
++ 			// PDF1.4Ref(p38) EOL marker preceding endstream not counted
++ 			char *textObj = new char[pageData.length() + 100];
++ 			// concatenate stream within the text object
++-			sprintf(textObj, "<</Length %d>>\nstream\n%s"
+++			sprintf(textObj, "<</Length %zd>>\nstream\n%s"
++ 					 "ET\nendstream\n",
++ 					 pageData.length() - 1 + 3,
++ 					 pageData.c_str());
++--- a/src/sdlBasic/src/sdlBrt/BASengine/file.c
+++++ b/src/sdlBasic/src/sdlBrt/BASengine/file.c
++@@ -82,7 +82,7 @@
++         ePrintf( Runtime, "fileOpen: unknown file mode" );
++     }
++ 
++-    if ((int)(fileHandles[handle-1] ) == EOF) {
+++    if (!fileHandles[handle-1]) {
++         ePrintf( Runtime, "fileOpen: Error opening file #%d", handle );
++     }
++ }
++--- a/src/sdlBasic/src/sdlBrt/error.c
+++++ b/src/sdlBasic/src/sdlBrt/error.c
++@@ -157,7 +157,7 @@
++     }
++ 
++     /* set values */
++-    link->start = (int)p;
+++    link->start = (intptr_t)p;
++     link->end = link->start+(n-1);
++     link->next = lastMemLink;
++     lastMemLink = link;
++@@ -176,7 +176,7 @@
++ 
++     prev = NULL;
++     for ( link = lastMemLink; link != NULL; link = link->next ) {
++-        if (link->start == (int)address) {
+++        if (link->start == (intptr_t)address) {
++ 
++             if (prev == NULL) {
++                 lastMemLink = link->next;
++@@ -196,7 +196,7 @@
++     MemLink *link = lastMemLink;
++ 
++     for ( ; link != NULL; link = link->next ) {
++-        if ((int)p >= link->start && (int)p <= link->end) {
+++        if ((intptr_t)p >= link->start && (intptr_t)p <= link->end) {
++             return link;
++         }
++     }
++@@ -439,7 +439,7 @@
++ 					strncpy(indexvar,&binputvar[ba],a-ba);
++ 					indexvar[a-ba]='\0';
++ 				    }
++-				    printf("indexvar:%s - a:%d - ba:%d - i:%d -len:%d   \n",indexvar,a,ba,i,strlen(binputvar));
+++				    printf("indexvar:%s - a:%d - ba:%d - i:%d -len:%zd   \n",indexvar,a,ba,i,strlen(binputvar));
++ 				    strcpy(stackstring[i],indexvar);
++ 				}
++ 				i++;
++--- a/src/sdlBasic/src/sdlBrt/error.h
+++++ b/src/sdlBasic/src/sdlBrt/error.h
++@@ -6,13 +6,14 @@
++                 The Practice of Programming
++ */
++ 
+++#include <stdint.h>
++ 
++ typedef struct MemLink MemLink;
++ 
++ 
++ struct MemLink {
++-    int     start;     /* start of allocated block */
++-    int     end;       /* end of allocated block */
+++    intptr_t start;     /* start of allocated block */
+++    intptr_t end;       /* end of allocated block */
++     MemLink *next;      /* in list */
++ };
++ 
++--- a/src/sdlBasic/src/sdlBrt/sdlBrt_tab.y
+++++ b/src/sdlBasic/src/sdlBrt/sdlBrt_tab.y
++@@ -438,7 +438,7 @@
++         {   if (currentScope == NULL) {
++                 ePrintf( Syntax, "Shared illegal outside Sub or Function");
++             }
++-            pushStack(blockStack, (int)currentScope );
+++            pushStack(blockStack, (intptr_t)currentScope );
++             currentScope = NULL; }
++         sharedList sep
++         {   currentScope = (Symbol *)popStack(blockStack);
++@@ -824,7 +824,7 @@
++         {   if (currentScope == NULL) {
++                 ePrintf( Syntax, "Shared illegal outside Sub or Function");
++             }
++-            pushStack(blockStack, (int)currentScope );
+++            pushStack(blockStack, (intptr_t)currentScope );
++             currentScope = NULL; }
++         sharedList sep
++         {   currentScope = (Symbol *)popStack(blockStack);
++@@ -1521,11 +1521,11 @@
++         {   if ($1->scope != NULL) {
++                 ePrintf( Syntax, "Can't share local variable %s", $1->name );
++ 
++-            } else if (inStack(sharedStack,(int)$1)) {
+++            } else if (inStack(sharedStack,(intptr_t)$1)) {
++                 ePrintf( Syntax, "Variable %s is already shared", $1->name );
++ 
++             } else {
++-                pushStack( sharedStack, (int)$1 );
+++                pushStack( sharedStack, (intptr_t)$1 );
++ 
++             } }
++ 
++@@ -1534,11 +1534,11 @@
++         {   if ($1->scope != NULL) {
++                 ePrintf( Syntax, "Can't share local array %s", $1->name );
++ 
++-            } else if (inStack(sharedStack,(int)$1)) {
+++            } else if (inStack(sharedStack,(intptr_t)$1)) {
++                 ePrintf( Syntax, "Array %s is already shared", $1->name );
++ 
++             } else {
++-                pushStack( sharedStack, (int)$1 );
+++                pushStack( sharedStack, (intptr_t)$1 );
++ 
++             } }
++ 
++--- a/src/sdlBasic/src/sdlBrt/stack.c
+++++ b/src/sdlBasic/src/sdlBrt/stack.c
++@@ -13,7 +13,7 @@
++ 
++     /* allocate stack */
++     stack = (Stack *)eMalloc( sizeof( Stack ) +
++-                (sizeof(int) * (size)) );
+++                (sizeof(intptr_t) * (size)) );
++ 
++     stack->tos = -1;
++     stack->size = size;
++@@ -21,7 +21,7 @@
++ }
++ 
++ /* push an item on the stack */
++-void pushStack( Stack *stack, int value )
+++void pushStack( Stack *stack, intptr_t value )
++ {
++     if (stack->tos == stack->size) {
++         ePrintf( Runtime, "pushStack: stack overflow");
++@@ -31,13 +31,13 @@
++ }
++ 
++ /* incrStack: increment the value on the stack */
++-void incrStack( Stack *stack, int value )
+++void incrStack( Stack *stack, intptr_t value )
++ {
++     stack->data[stack->tos] += value;
++ }
++ 
++ /* decrStack: decrement the value on the stack */
++-void decrStack( Stack *stack, int value )
+++void decrStack( Stack *stack, intptr_t value )
++ {
++     stack->data[stack->tos] -= value;
++ }
++@@ -46,7 +46,7 @@
++ /* swapStack: swap top two stack items */
++ void swapStack( Stack *stack  )
++ {
++-    int tmp;
+++    intptr_t tmp;
++ 
++     if (stack->tos < 1) {
++         ePrintf( Runtime, "swapStack: stack underflow");
++@@ -71,7 +71,7 @@
++ 
++ 
++ /* return copy of top stack item */
++-int peekStack( Stack *stack  )
+++intptr_t peekStack( Stack *stack  )
++ {
++     if (stack->tos < 0) {
++         ePrintf( Runtime, "peekStack: underflow" );
++@@ -81,7 +81,7 @@
++ 
++ 
++ /* pop an item off the stack */
++-int popStack( Stack *stack  )
+++intptr_t popStack( Stack *stack  )
++ {
++     if (stack->tos < 0) {
++         ePrintf( Runtime, "popStack: underflow" );
++@@ -98,7 +98,7 @@
++ }
++ 
++ /* inStack: return true if item is in the stack */
++-int inStack( Stack *stack, int val  )
+++int inStack( Stack *stack, intptr_t val  )
++ {
++     int     i;
++     for ( i = stack->tos; i > -1; i-- ) {
++--- a/src/sdlBasic/src/sdlBrt/stack.h
+++++ b/src/sdlBasic/src/sdlBrt/stack.h
++@@ -6,21 +6,23 @@
++     Licence:    LGPL
++ */
++ 
+++#include <stdint.h>
+++
++ struct Stack {
++-    int     tos;        /* top of stack */
++-    int     size;       /* size of stack */
++-    int     data[1];    /* stack data */
+++    int      tos;        /* top of stack */
+++    int      size;       /* size of stack */
+++    intptr_t data[1];    /* stack data */
++ };
++ 
++ Stack *newStack( int size );
++-void pushStack( Stack *stack, int value );
++-void incrStack( Stack *stack, int value );
++-void decrStack( Stack *stack, int value );
+++void pushStack( Stack *stack, intptr_t value );
+++void incrStack( Stack *stack, intptr_t value );
+++void decrStack( Stack *stack, intptr_t value );
++ void swapStack( Stack *stack  );
++ void dupStack( Stack *stack  );
++-int peekStack( Stack *stack  );
++-int popStack( Stack *stack  );
+++intptr_t peekStack( Stack *stack  );
+++intptr_t popStack( Stack *stack  );
++ int isEmptyStack( Stack *stack  );
++-int inStack( Stack *stack, int val  );
+++int inStack( Stack *stack, intptr_t val  );
++ void clearStack( Stack *stack  );
++ void freeStack( Stack *stack );
++--- a/src/sdlBasic/src/sdlBrt/symbol.c
+++++ b/src/sdlBasic/src/sdlBrt/symbol.c
++@@ -28,7 +28,7 @@
++         }
++ 
++         /* visible if not shared */
++-        if (inStack(sharedStack, (int)s )) {
+++        if (inStack(sharedStack, (intptr_t)s )) {
++             return s;
++         }
++     }
+--- sdlbasic-0.0.20070714.orig/debian/patches/quickhelp.patch
++++ sdlbasic-0.0.20070714/debian/patches/quickhelp.patch
+@@ -0,0 +1,13 @@
++Index: sdlbasic-0.0.20070714/src/sdlBasic/share/sdlBasic/sdlBasic.properties
++===================================================================
++--- sdlbasic-0.0.20070714.orig/src/sdlBasic/share/sdlBasic/sdlBasic.properties	2009-05-06 22:57:03.000000000 +0200
+++++ sdlbasic-0.0.20070714/src/sdlBasic/share/sdlBasic/sdlBasic.properties	2009-05-06 22:57:23.000000000 +0200
++@@ -654,7 +654,7 @@
++ 	SDLBRT=$(ARTSDSP) /usr/bin/sdlBrt
++ 	BROWSER=x-www-browser
++     command.go.*.sdlbas=$(SDLBRT) "$(FilePath)"
++-	command.help.*.sdlbas=$(BROWSER) "file:/usr/share/doc/sdlbasic/english/QuickHelp.html"
+++	command.help.*=$(BROWSER) "file:/usr/share/doc/sdlbasic/english/QuickHelp.html"
++ 
++ 
++ command.name.1.*.sdlbas=Autoindent
+--- sdlbasic-0.0.20070714.orig/debian/patches/bison_code.patch
++++ sdlbasic-0.0.20070714/debian/patches/bison_code.patch
+@@ -0,0 +1,117 @@
++#Author: Barry deFreese <bdefreese@debian.org>
++#Description: Declare the tokens before the code.
++Index: sdlbasic-0.0.20070714/src/sdlBasic/src/sdlBrt/sdlBrt_tab.y
++===================================================================
++--- sdlbasic-0.0.20070714.orig/src/sdlBasic/src/sdlBrt/sdlBrt_tab.y	2009-05-06 10:51:48.000000000 -0400
+++++ sdlbasic-0.0.20070714/src/sdlBasic/src/sdlBrt/sdlBrt_tab.y	2009-05-06 10:52:16.000000000 -0400
++@@ -1,53 +1,3 @@
++-%{
++-
++-/* comma: return a sequence of items to execute */
++-Node *comma( Node *node1, Node *node2 )
++-{
++-    return opNode( OpComma, node1, node2 );
++-}
++-
++-/* blockName: returns name of block */
++-char *blockName( int klass )
++-{
++-    switch(klass) {
++-    case -1:        return eCopyString( "end-of-file" );
++-    case For:       return eCopyString( "End For/Next" );
++-    case Function:  return eCopyString( "End Function" );
++-    case If:        return eCopyString( "End If" );
++-    case While:     return eCopyString( "End While" );
++-    case Do:	    return eCopyString( "Loop" );
++-    case Select:    return eCopyString( "End Select" );
++-    case Sub:       return eCopyString( "End Sub" );
++-    default:        return eCopyString("block");
++-    }
++-}
++-
++-/* checkBlockEnd: make sure the block ends correctly */
++-void checkBlockEnd(int got)
++-{
++-    int     wanted;
++-    //char    *wantedName, *gotName;
++-
++-    if (isEmptyStack(blockStack)) {
++-        switch (got) {
++-        case For:       ePrintf( Syntax, "End For without For");break;
++-        case Function:  ePrintf( Syntax, "End Function without Function");break;
++-        case If:        ePrintf( Syntax, "End If without If");break;
++-        case While:     ePrintf( Syntax, "End While without While");break;
++-        case Do:        ePrintf( Syntax, "Loop without Do");break;
++-        case Select:    ePrintf( Syntax, "End Select without Select");break;
++-        case Sub:       ePrintf( Syntax, "End Sub without Sub");break;
++-        }
++-    }
++-
++-    wanted = peekStack(blockStack);
++-    if (got != wanted){
++-        ePrintf( Syntax, "expected %s, not %s", blockName(wanted), blockName(got));
++-    }
++-}
++-
++-%}
++-
++ /* %no_lines */
++ %union {
++     int     iValue;         /* integer value */
++@@ -184,6 +134,56 @@
++ %left '*' '/' '\\' '%' Shl Shr
++ %left '^'
++ 
+++%{
+++
+++/* comma: return a sequence of items to execute */
+++Node *comma( Node *node1, Node *node2 )
+++{
+++    return opNode( OpComma, node1, node2 );
+++}
+++
+++/* blockName: returns name of block */
+++char *blockName( int klass )
+++{
+++    switch(klass) {
+++    case -1:        return eCopyString( "end-of-file" );
+++    case For:       return eCopyString( "End For/Next" );
+++    case Function:  return eCopyString( "End Function" );
+++    case If:        return eCopyString( "End If" );
+++    case While:     return eCopyString( "End While" );
+++    case Do:	    return eCopyString( "Loop" );
+++    case Select:    return eCopyString( "End Select" );
+++    case Sub:       return eCopyString( "End Sub" );
+++    default:        return eCopyString("block");
+++    }
+++}
+++
+++/* checkBlockEnd: make sure the block ends correctly */
+++void checkBlockEnd(int got)
+++{
+++    int     wanted;
+++    //char    *wantedName, *gotName;
+++
+++    if (isEmptyStack(blockStack)) {
+++        switch (got) {
+++        case For:       ePrintf( Syntax, "End For without For");break;
+++        case Function:  ePrintf( Syntax, "End Function without Function");break;
+++        case If:        ePrintf( Syntax, "End If without If");break;
+++        case While:     ePrintf( Syntax, "End While without While");break;
+++        case Do:        ePrintf( Syntax, "Loop without Do");break;
+++        case Select:    ePrintf( Syntax, "End Select without Select");break;
+++        case Sub:       ePrintf( Syntax, "End Sub without Sub");break;
+++        }
+++    }
+++
+++    wanted = peekStack(blockStack);
+++    if (got != wanted){
+++        ePrintf( Syntax, "expected %s, not %s", blockName(wanted), blockName(got));
+++    }
+++}
+++
+++%}
+++
++ %%
++ 
++ program:
+--- sdlbasic-0.0.20070714.orig/debian/patches/ldflags.patch
++++ sdlbasic-0.0.20070714/debian/patches/ldflags.patch
+@@ -0,0 +1,24 @@
++# Copyright (C) 2008 by Miriam Ruiz <little_miry@yahoo.es>
++# Distributed under the same license as the program. See debian/copyright.
++
++Index: sdlbasic/src/sdlBasic/src/sdlBrt/makefile
++===================================================================
++--- sdlbasic.orig/src/sdlBasic/src/sdlBrt/makefile	2008-09-13 04:43:51.000000000 +0200
+++++ sdlbasic/src/sdlBasic/src/sdlBrt/makefile	2008-09-13 04:46:04.000000000 +0200
++@@ -98,6 +98,7 @@
++ DEJAVUSANS_TTF=/usr/share/fonts/truetype/ttf-dejavu/DejaVuSans.ttf
++ 
++ CFLAG= -Wall -g -O2 -I/usr/include/SDL -D_REENTRAT -DPLAY_MOD -DUNIX -DLINUX -DDEJAVUSANS_TTF=\"$(DEJAVUSANS_TTF)\"
+++LDFLAGS=
++ 
++ COMPILE=$(CPP) $(CFLAG)
++ 
++@@ -303,7 +304,7 @@
++ all: 		$(TARGET)
++ 
++ $(TARGET):	$(OBJECT) $(RC)
++-	$(COMPILE) -o $(TARGET) $^ $(LIBS)
+++	$(COMPILE) -o $(TARGET) $^ $(LIBS) $(LDFLAGS)
++ 
++ ifeq ($(stripped), yes)
++ 	    $(STRIP) $(TARGET)
+--- sdlbasic-0.0.20070714.orig/debian/patches/fix_example.patch
++++ sdlbasic-0.0.20070714/debian/patches/fix_example.patch
+@@ -0,0 +1,25 @@
++# Copyright (C) 2008 by Miriam Ruiz <little_miry@yahoo.es>
++# Distributed under the same license as the program. See debian/copyright.
++
++Index: sdlbasic/src/sdlBasic/share/sdlBasic/clickme.sdlbas
++===================================================================
++--- sdlbasic.orig/src/sdlBasic/share/sdlBasic/clickme.sdlbas	2008-09-03 15:30:03.000000000 +0200
+++++ sdlbasic/src/sdlBasic/share/sdlBasic/clickme.sdlbas	2008-09-03 15:30:45.000000000 +0200
++@@ -23,13 +23,13 @@
++ setalphachannel(0)
++ 'directscreen
++ autoback(-15)
++-loadmusic("lizard.mod")
+++loadmusic("/usr/share/sdlbasic/demo/lizard.mod")
++ playmusic(-1)
++ setcolorkey(-1)
++-loadimage("sdlBasic.png",100)
++-'loadimage("sdlnow.gif",100)
+++loadimage("/usr/share/sdlbasic/demo/sdlBasic.png",100)
+++'loadimage("/usr/share/sdlbasic/demo/sdlnow.gif",100)
++ hotspot (100,1,1)
++-loadimage("sdlnow.gif",101)
+++loadimage("/usr/share/sdlbasic/demo/sdlnow.gif",101)
++ hotspot(101,1,1)
++ 
++ 
+--- sdlbasic-0.0.20070714.orig/debian/patches/makefiles.patch
++++ sdlbasic-0.0.20070714/debian/patches/makefiles.patch
+@@ -0,0 +1,77 @@
++# Copyright (C) 2008 by Miriam Ruiz <little_miry@yahoo.es>
++# Distributed under the same license as the program. See debian/copyright.
++
++Index: sdlbasic-0.0.20070714/src/sdlBasic/src/sdlBasic/gtk/makefile
++===================================================================
++--- sdlbasic-0.0.20070714.orig/src/sdlBasic/src/sdlBasic/gtk/makefile	2008-04-04 14:51:15.000000000 +0000
+++++ sdlbasic-0.0.20070714/src/sdlBasic/src/sdlBasic/gtk/makefile	2008-04-04 14:53:30.000000000 +0000
++@@ -96,25 +96,26 @@
++ # This is OK - just means no SciTE in the Gnome Applications menu
++ # Dead:	install -D SciTEGTK.properties $(SYSCONF_PATH)/SciTEGlobal.properties
++ install:
++-	$(INSTALL) -m 755 -d $(bindir) $(SYSCONF_PATH)
++-	$(INSTALL) -m 755 -d $(bindir) $(DOC_PATH)
++-	$(INSTALL) -m 755 -d $(bindir) $(PLUGINS_PATH)
+++	$(INSTALL) -m 755 -d "$(DESTDIR)$(bindir)"
+++	$(INSTALL) -m 755 -d "$(DESTDIR)$(SYSCONF_PATH)"
+++	$(INSTALL) -m 755 -d "$(DESTDIR)$(DOC_PATH)"
+++	$(INSTALL) -m 755 -d "$(DESTDIR)$(PLUGINS_PATH)"
++ 
++-	$(INSTALL) -m 755 $(PROG) $(bindir)
+++	$(INSTALL) -m 755 $(PROG) "$(DESTDIR)$(bindir)"
++ 
++ 	for files in ../../../share/sdlBasic/*.properties ../../../share/sdlBasic/*.api; \
++ 	do \
++-		$(INSTALL) -m 644 $$files $(SYSCONF_PATH); \
+++		$(INSTALL) -m 644 $$files "$(DESTDIR)$(SYSCONF_PATH)"; \
++ 	done
++ 
++ #for files in ..../share/doc/sdlBasic/*.html ../doc/SciTEIco.png ../doc/PrintHi.png; \
++ #do \
++-#$(INSTALL) -m 644 $$files $(DOC_PATH); \
+++#$(INSTALL) -m 644 $$files "$(DESTDIR)$(DOC_PATH)"; \
++ #done
++ 
++ 	for files in ../../../share/sdlBasic/plugins/*.sdlbas; \
++ 	do \
++-		$(INSTALL) -m 644 $$files $(PLUGINS_PATH); \
+++		$(INSTALL) -m 644 $$files "$(DESTDIR)$(PLUGINS_PATH)"; \
++ 	done
++ 
++ uninstall:
++Index: sdlbasic-0.0.20070714/src/sdlBasic/src/sdlBrt/makefile
++===================================================================
++--- sdlbasic-0.0.20070714.orig/src/sdlBasic/src/sdlBrt/makefile	2008-04-04 14:51:15.000000000 +0000
+++++ sdlbasic-0.0.20070714/src/sdlBasic/src/sdlBrt/makefile	2008-04-04 14:58:48.000000000 +0000
++@@ -328,23 +328,23 @@
++ ifeq ($(compress), UPX)
++ 	upx -9 $(TARGET)
++ endif
++-	$(INSTALL) -c -m 755 -d ${exec_prefix}
++-	$(INSTALL) -c $(TARGET) ${exec_prefix}
+++	$(INSTALL) -c -m 755 -d "$(DESTDIR)$(exec_prefix)"
+++	$(INSTALL) -c $(TARGET) "$(DESTDIR)$(exec_prefix)"
++ 
++ 
++ install-fonts:
++-	$(INSTALL) -c -m 755 -d ${font_prefix}/dejavu
++-	$(INSTALL)  fonts/DejaVuSans.ttf ${font_prefix}/dejavu/DejaVuSans.ttf
++-	$(INSTALL)  fonts/DejaVuSansMono-Roman.ttf ${font_prefix}/dejavu/DejaVuSansMono-Roman.ttf
+++	$(INSTALL) -c -m 755 -d "$(DESTDIR)$(font_prefix)"/dejavu
+++	$(INSTALL)  fonts/DejaVuSans.ttf "$(DESTDIR)$(font_prefix)"/dejavu/DejaVuSans.ttf
+++	$(INSTALL)  fonts/DejaVuSansMono-Roman.ttf "$(DESTDIR)$(font_prefix)"/dejavu/DejaVuSansMono-Roman.ttf
++ 
++ remove:	remove-bin	remove-fonts
++ 
++ remove-bin:
++-	$(RM) ${exec_prefix}/$(TARGET)
+++	$(RM) "$(DESTDIR)$(exec_prefix)/$(TARGET)"
++ 
++ remove-fonts:
++-	$(RM) ${font_prefix}/dejavu/DejaVuSans.ttf
++-	$(RM) ${font_prefix}/dejavu/DejaVuSansMono-Roman.ttf
+++	$(RM) "$(DESTDIR)$(font_prefix)"/dejavu/DejaVuSans.ttf
+++	$(RM) "$(DESTDIR)$(font_prefix)"/dejavu/DejaVuSansMono-Roman.ttf
++ 
++ clean:
++ 	$(RM) *.o
+--- sdlbasic-0.0.20070714.orig/debian/patches/properties.patch
++++ sdlbasic-0.0.20070714/debian/patches/properties.patch
+@@ -0,0 +1,13 @@
++Index: sdlbasic/src/sdlBasic/share/sdlBasic/sdlBasic.properties
++===================================================================
++--- sdlbasic.orig/src/sdlBasic/share/sdlBasic/sdlBasic.properties	2008-11-15 18:25:48.000000000 +0100
+++++ sdlbasic/src/sdlBasic/share/sdlBasic/sdlBasic.properties	2008-11-15 18:26:06.000000000 +0100
++@@ -651,7 +651,7 @@
++ 	BASEDIR=$(SciteDefaultHome)/../..
++ 	# uncomment this if you use kde and have problems with audio
++ 	#ARTSDSP=artsdsp -m
++-	SDLBRT=$(ARTSDSP) $/usr/bin/sdlBrt
+++	SDLBRT=$(ARTSDSP) /usr/bin/sdlBrt
++ 	BROWSER=firefox
++     command.go.*.sdlbas=$(SDLBRT) "$(FilePath)"
++ 	command.help.*.sdlbas=$(BROWSER) "file:/usr/share/doc/sdlbasic/english/QuickHelp.html"
