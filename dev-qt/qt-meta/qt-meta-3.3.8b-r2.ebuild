@@ -18,7 +18,7 @@ SRC_URI="ftp://ftp.trolltech.com/qt/source/qt-x11-${SRCTYPE}-${PV}.tar.gz
 LICENSE="|| ( QPL-1.0 GPL-2 GPL-3 )"
 
 SLOT="3"
-K2EYWORDS="amd64 x86"
+KEYWORDS="amd64 x86"
 IUSE="cups debug doc examples firebird ipv6 mysql nas nis opengl postgres sqlite xinerama immqt immqt-bc"
 
 RDEPEND="
