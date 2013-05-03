@@ -20,9 +20,12 @@ DEPEND=""
 RDEPEND="${DEPEND}"
 
 src_prepare() {
+	default_src_prepare
 	cd "${WORKDIR}" && mv -i "${P}.orig" "${P}" || die "fixing source-dir name failed"
 	mv -i debian "${P}" || die "moving debian dir into source dir failed"
-	cd "${S}"
+}
+
+src_prepare() {
 	epatch debian/patches/*patch
 	sed -i -e 's:staff:root:g' Makefile || die "sed failed"
 }
