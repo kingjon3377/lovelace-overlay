@@ -34,14 +34,19 @@ src_prepare() {
 		-e 's/install: uninstall build/install:/' \
 			Makefile || die "sed failed"
 	sed -i -e '/^Version/d' bin/${PN}.desktop
-	# lt.po doesn't actually exist
-	for lang in lt ${LANGS}; do
-		if ! use linguas_${lang}; then
-			sed -i \
+	remove_lang() {
+		lang="$1"
+		sed -i \
 			-e "/^	msgfmt -o build\/locale\/${lang}.mo 	locale\/${lang}.po$/d" \
 			-e "/^	install -d \"\$(DESTDIR)\/share\/locale\/${lang}\/LC_MESSAGES\"$/d" \
 			-e "/^	install -m 644 build\/locale\/${lang}.mo		\"\$(DESTDIR)\/share\/locale\/${lang}\/LC_MESSAGES\/gprename.mo\"$/d" \
 				Makefile || die "removing language ${lang} failed"
+	}
+	# lt.po doesn't actually exist
+	remove_lang lt
+	for lang in ${LANGS}; do
+		if ! use linguas_${lang}; then
+			remove_lang ${lang}
 		else
 			einfo "Keeping language ${lang}"
 		fi
