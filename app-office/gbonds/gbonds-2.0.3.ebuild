@@ -5,7 +5,7 @@
 
 EAPI=5
 
-inherit gnome2
+inherit gnome2 eutils
 
 # This may be a little fragile; I was able to make it import savings bond wizard
 # format, read and write its own xml format, and download treasury databases. I
@@ -30,6 +30,12 @@ DEPEND=">=x11-libs/gtk+-2.2
 		nls? ( sys-devel/gettext )
 		x11-base/xorg-x11"
 RDEPEND="${DEPEND}"
+
+src_prepare() {
+	for patch in $(cat "${WORKDIR}/debian/patches/series"); do
+		epatch "${WORKDIR}/debian/patches/${patch}"
+	done
+}
 
 src_configure() {
 	local myconf=""
