@@ -18,6 +18,8 @@ IUSE=""
 DEPEND="sys-devel/flex"
 RDEPEND=""
 
+S="${WORKDIR}"
+
 src_prepare() {
 	epatch "${FILESDIR}"/fix-configuration.patch
 }
