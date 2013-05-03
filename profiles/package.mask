@@ -26,3 +26,6 @@
 # Cuneiform is masked, so mask the GUI that depends on it
 app-text/cuneiform-qt
 
+# Blender is masked, and this depends on it, so mask this too.
+media-gfx/luxblend
+
