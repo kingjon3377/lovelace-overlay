@@ -16,10 +16,11 @@ IUSE=""
 # PyGTK because I believe it hard-depends on libglade-python, which I can't
 # figure out how to install properly ... Another ebuild I created had
 # dev-util/glade[python], but that's clearly gtk 3 only by now.
-DEPEND="gnome-base/libglade:2.0
+RDEPEND="gnome-base/libglade:2.0
 	dev-python/pygtk:2
 	dev-python/libgnome-python:2"
-RDEPEND="${DEPEND}"
+DEPEND="${RDEPEND}
+	app-text/docbook-sgml-utils"
 
 S="${WORKDIR}/${PN}"
 
