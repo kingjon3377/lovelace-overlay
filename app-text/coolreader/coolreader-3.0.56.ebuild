@@ -44,7 +44,7 @@ src_prepare() {
 
 pkg_pretend() {
 	. "${ROOT}/var/lib/wxwidgets/current"
-	if [[ "${WXCONFIG}" -eq "none" ]]; then
+	if [[ "${WXCONFIG}" == "none" ]]; then
 	   	die "The wxGTK profile should be selected!"
 	fi
 }
