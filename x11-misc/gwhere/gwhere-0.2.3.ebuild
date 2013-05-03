@@ -17,7 +17,7 @@ SLOT="0"
 KEYWORDS="x86 amd64"
 IUSE=""
 
-DEPEND="x11-libs/gtk+:2
+DEPEND="x11-libs/gtk+:1
 	dev-libs/glib:2
 	x11-libs/libXi
 	x11-libs/libXext
