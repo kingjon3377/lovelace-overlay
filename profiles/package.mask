@@ -23,3 +23,6 @@
 =sys-fs/fusecompress-2.6
 =x11-misc/boats-9999
 
+# Cuneiform is masked, so mask the GUI that depends on it
+app-text/cuneiform-qt
+
