@@ -35,7 +35,7 @@ src_compile() {
 }
 
 src_install() {
-	dobin /usr/bin
+	dodir /usr/bin
 	emake DESTDIR="${D}" DESTBIN=/usr/bin DESTMAN="${D}/usr/share/man" STRIP= \
 		install
 	doman ${PN}.1
