@@ -34,7 +34,8 @@ DEPEND="${RDEPEND}
 S="${WORKDIR}/${PN}"
 
 src_unpack() {
-	default_src_unpack
+	cd "${WORKDIR}"
+	unpack ${A}
 	epatch "${FILESDIR}/lexer.patch" || die
 }
 
