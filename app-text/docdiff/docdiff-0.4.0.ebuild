@@ -26,7 +26,7 @@ RDEPEND="${DEPEND}"
 #}
 
 src_prepare() {
-	cd "${WORKDIR}"/all && epatch "${FILESDIR}/docdiff_0.4.0-1.diff" "${P}"/debian/patches/*patch
+	cd "${WORKDIR}"/all && epatch "${FILESDIR}/docdiff_0.4.0-1.diff"&&epatch "${P}"/debian/patches/*patch
 }
 
 each_ruby_install() {
