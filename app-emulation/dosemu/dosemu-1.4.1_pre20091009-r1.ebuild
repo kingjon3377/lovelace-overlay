@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/app-emulation/dosemu/dosemu-1.4.1_pre20091009.ebuild,v 1.3 2010/06/24 08:59:31 angelos Exp $
 
-inherit flag-o-matic
+inherit flag-o-matic eutils
 
 P_FD="dosemu-freedos-1.0-bin"
 DESCRIPTION="DOS Emulator"
@@ -32,6 +32,10 @@ DEPEND="${RDEPEND}
 	X? ( x11-proto/xf86dgaproto )
 	>=sys-devel/autoconf-2.57"
 S="${WORKDIR}/${PN}"
+
+src_prepare() {
+	epatch "${FILESDIR}/lexer.patch" || die
+}
 
 src_compile() {
 	# Has problems with -O3 on some systems
