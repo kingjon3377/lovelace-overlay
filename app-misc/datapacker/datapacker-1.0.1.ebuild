@@ -11,7 +11,7 @@ inherit haskell-cabal
 
 DESCRIPTION="Tool to help pack files into the minimum number of CDs/DVDs/etc"
 HOMEPAGE="http://software.complete.org/datapacker"
-SRC_URI="http://hackage.haskell.org/packages/archive/${PN}/${PV}/${P}.tar.gz"
+SRC_URI="mirror://hackage/packages/archive/${PN}/${PV}/${P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
