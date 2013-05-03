@@ -19,8 +19,8 @@ IUSE=""
 DEPEND=""
 RDEPEND="${DEPEND}"
 
-src_prepare() {
-	default_src_prepare
+src_unpack() {
+	default_src_unpack
 	cd "${WORKDIR}" && mv -i "${P}.orig" "${P}" || die "fixing source-dir name failed"
 	mv -i debian "${P}" || die "moving debian dir into source dir failed"
 }
