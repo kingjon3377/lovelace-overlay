@@ -17,8 +17,8 @@ KEYWORDS="~x86 amd64"
 IUSE="+grm"
 
 COMMON_DEPEND="dev-lang/ocaml"
-RDEPEND="${COMMON_DEPEND}
-	grm? ( app-text/polygen-grm )"
+RDEPEND="${COMMON_DEPEND}"
+#	grm? ( app-text/polygen-grm )"
 DEPEND="${COMMON_DEPEND}
 	app-arch/unzip"
 
