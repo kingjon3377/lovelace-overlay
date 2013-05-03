@@ -16,14 +16,20 @@ KEYWORDS="amd64"
 IUSE=""
 
 DEPEND="dev-lang/perl"
-RDEPEND="${DEPEND}"
+RDEPEND="${DEPEND}
+	app-crypt/gnupg"
+
+src_unpack() {
+	default_src_unpack
+	cd "${WORKDIR}" && mv -i ${PN}-0.45.orig ${P} || die "renaming directory failed"
+}
 
 src_prepare() {
-	cd "${WORKDIR}" && mv -i ${PN}-0.45.orig ${P} || die "renaming directory failed"
 	epatch "${FILESDIR}/premail_0.46-9.diff"
 }
 
 src_install() {
+	cp "${FILESDIR}/premail.1" . || die
 	ln -s premail prepost
 	ln -s premail.1 prepost.1
 	dobin premail prepost
@@ -32,4 +38,11 @@ src_install() {
 	insinto /etc/premail
 	doins preferences
 	dodoc doc* README
+	dodoc "${FILESDIR}/doc-0.46.txt" "${FILESDIR}/README.debian"
+	dohtml "${FILESDIR}/doc-0.46.html"
+}
+
+pkg_postinst() {
+	ewarn "If upgrading, please back up your ~/.premail/secrets and"
+	ewarn "~/.premail/secrets.pgp files."
 }
