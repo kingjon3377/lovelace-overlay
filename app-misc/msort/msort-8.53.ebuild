@@ -22,9 +22,9 @@ DEPEND="
 	dev-libs/icu"
 RDEPEND=""
 
-#src_prepare() {
-#	sed -i -e 's:-licutu:-licutu -licuuc:' Makefile.in
-#}
+src_prepare() {
+	sed -i -e 's:-licutu:-licutu -licuuc:' Makefile.in || die
+}
 
 src_configure() {
 	econf --disable-utf8proc --disable-uninum
