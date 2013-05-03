@@ -13,7 +13,7 @@ SRC_URI="http://people.csail.mit.edu/jasonkb/quackle/downloads/${P}/${P}-source.
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64 ~x86"
-IUSE=""
+IUSE="test"
 
 RDEPEND="
 	dev-qt/qtgui:4"
