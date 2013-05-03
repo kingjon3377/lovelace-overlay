@@ -24,7 +24,7 @@ DEPEND=">=dev-libs/boost-1.32
 	dev-qt/qt3support:4"
 RDEPEND="${DEPEND}"
 
-S="${WORKDIR}"/${PN}-${PV/_beta/b}
+S="${WORKDIR}"/${PN}-${PV/_beta/b}p2
 
 src_prepare() {
 #	sed -i -e 's:71,7:58,7:g' \
