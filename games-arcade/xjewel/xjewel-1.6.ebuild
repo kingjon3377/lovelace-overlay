@@ -18,9 +18,12 @@ IUSE=""
 DEPEND="x11-libs/libX11"
 RDEPEND="${DEPEND}"
 
-src_prepare() {
+src_unpack() {
+	default_src_unpack
 	cd "${WORKDIR}" && mv -i ${P}.orig ${P} || die "fixing work directory failed"
-	cd "${P}"
+}
+
+src_prepare() {
 	epatch "${FILESDIR}"/xjewel_1.6-24.diff
 }
 
