@@ -1,4 +1,4 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -18,7 +18,7 @@ SRC_URI="ftp://ftp.trolltech.com/qt/source/qt-x11-${SRCTYPE}-${PV}.tar.gz
 LICENSE="|| ( QPL-1.0 GPL-2 GPL-3 )"
 
 SLOT="3"
-KEYWORDS="amd64 x86"
+K2EYWORDS="amd64 x86"
 IUSE="cups debug doc examples firebird ipv6 mysql nas nis opengl postgres sqlite xinerama immqt immqt-bc"
 
 RDEPEND="
@@ -132,6 +132,9 @@ src_unpack() {
 
 	# Fix CJK script rendering, bug 229567
 	epatch "${FILESDIR}"/qt-3.3.8b-cjk-fix.patch
+
+	# cstddef contains ptrdiff_t prototype (for >=gcc-4.6)
+	epatch "${FILESDIR}"/qt-3.3.8b-cstddef.patch
 
 	# Fix libpng-1.5 issues
 	epatch "${FILESDIR}"/qt-3.3.8-libpng15.patch
