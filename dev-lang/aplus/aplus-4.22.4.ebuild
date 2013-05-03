@@ -31,6 +31,11 @@ S=${WORKDIR}/${PN}-fsf-${PV/22.4/22}
 
 SITEFILE=50aplus-gentoo.el
 
+# Tests fail---the GUI tests because they can't find fonts---but we want to
+# install anyway, as part of switching from per-machine overlays to a shared
+# overlay.
+RESTRICT=test
+
 pkg_setup() {
 	# make sure we get no collisions
 	# setup is not the nicest place, but preinst doesn't cut it
@@ -46,6 +51,11 @@ src_prepare() {
 	eautoreconf
 }
 
+src_configure() {
+	default_src_configure
+	find . -name Makefile -exec sed -i -e 's:-L -lX11:-lX11:' {} + || die
+}
+
 src_compile () {
 	emake
 
@@ -57,9 +67,9 @@ src_compile () {
 }
 
 src_test() {
-	src/main/aplus ./src/acore/fsftest.+
+	src/main/aplus ./src/acore/fsftest.+ || die
 
-	export maketype=src/main/aplus
+	export VIRTUALX_COMMAND=src/main/aplus
 	virtualmake src/acore/apter.+
 }
 
@@ -113,6 +123,9 @@ src_install () {
 
 	dodoc ANNOUNCE AUTHORS ChangeLog INSTALL NEWS README
 	mv -i "${D}/usr/doc/html" "${D}/usr/share/doc/${PF}/html"
+	make_desktop_entry /usr/bin/a+ aplus-fsf "" "Applications/Programming"
+	doman "${FILESDIR}"/a+.1
+	dodoc "${FILESDIR}"/aplus-fsf-el.README.Debian
 }
 
 pkg_postinst () {
