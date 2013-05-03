@@ -33,7 +33,8 @@ DEPEND="${RDEPEND}
 	>=sys-devel/autoconf-2.57"
 S="${WORKDIR}/${PN}"
 
-src_prepare() {
+src_unpack() {
+	default_src_unpack
 	epatch "${FILESDIR}/lexer.patch" || die
 }
 
