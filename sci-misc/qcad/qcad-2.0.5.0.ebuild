@@ -103,7 +103,7 @@ src_install () {
 	exeinto /usr/share/${PN}
 	newexe ${PN} ${PN}.bin
 	dodir /usr/bin
-	echo -e "#!/bin/sh\ncd /usr/share/${PN}\n${PN}.bin" > /usr/bin/${PN} \
+	echo -e "#!/bin/sh\ncd /usr/share/${PN}\n${PN}.bin" > "${D}"/usr/bin/${PN} \
 		|| die "Failed to create wrapper"
 	fperms +x /usr/bin/${PN}
 
