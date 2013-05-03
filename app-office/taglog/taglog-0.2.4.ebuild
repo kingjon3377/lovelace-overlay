@@ -16,12 +16,15 @@ IUSE=""
 DEPEND="dev-lang/tk"
 RDEPEND="${DEPEND}"
 
+src_prepare() {
+	sed -i -e "s:/usr/share/doc/${PN}\":/usr/share/doc/${PF}/html\":g" install.tcl \
+		|| die
+}
+
 src_install() {
 	dodir /usr/share/man/man1
 	dodir /usr/share/man/man3
 	dodir /usr/share/doc/${PF}/html
-	dosym ../${PF}/html /usr/share/doc/${PN}
 	tclsh install.tcl -debian "${D}" || die "install failed"
 	dodoc changelog README
-	rm -f "${D}/usr/share/doc/${PN}"
 }
