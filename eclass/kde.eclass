@@ -287,7 +287,7 @@ kde_src_configure() {
 				else
 					myconf="$myconf --disable-debug --without-debug"
 				fi
-				if hasq kdeenablefinal ${IUSE}; then
+				if has kdeenablefinal ${IUSE}; then
 					myconf="$myconf $(use_enable kdeenablefinal final)"
 				fi
 				if [[ ${ARTS_REQUIRED} == "never" ]]; then
@@ -403,7 +403,7 @@ EOF
 				# Visiblity stuff is broken. Just disable it when it's present.
 				export kde_cv_prog_cxx_fvisibility_hidden=no
 
-				if hasq kdehiddenvisibility ${IUSE} && use kdehiddenvisibility; then
+				if has kdehiddenvisibility ${IUSE} && use kdehiddenvisibility; then
 					if [[ $(gcc-major-version)$(gcc-minor-version) -ge 41 ]]; then
 						if [[ ${PN} != "kdelibs" && ${PN} != "arts" ]] && \
 							! fgrep -q "#define __KDE_HAVE_GCC_VISIBILITY" "${KDEDIR}/include/kdemacros.h"; then
