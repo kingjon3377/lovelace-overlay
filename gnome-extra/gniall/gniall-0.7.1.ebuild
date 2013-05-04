@@ -31,8 +31,7 @@ src_unpack() {
 
 src_prepare() {
 	epatch "${FILESDIR}"/gniall_0.7.1-7.diff
-	cd "${S}" && mv -i debian/gniall.1 debian/gniall.6 || die "switching man section failed"
-	mv -i otherStuff/console.c . || die "moving console.c failed"
+	cd "${S}" && mv -i otherStuff/console.c . || die "moving console.c failed"
 	default_src_prepare
 }
 
@@ -45,5 +44,6 @@ src_install() {
 	gnome2_src_install
 	dobin cNiall
 	dodoc AUTHORS NEWS README ChangeLog TODO otherStuff/example.niall
-	doman debian/gniall.6 || die "doman failed"
+	doman "${FILESDIR}"/gniall.6 || die "doman failed"
+	make_desktop_entry /usr/bin/gniall gNiall "" Games/Toys
 }
