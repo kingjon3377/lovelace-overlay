@@ -12,7 +12,7 @@ HOMEPAGE="http://doc.marsu.ru/FreeBSD/upt/ch45_32.htm"
 SRC_URI="${SRC_URI_BASE}/${P}/part01.gz -> ${P}-part01.shar.gz
 	${SRC_URI_BASE}/${P}/part02.gz -> ${P}-part02.shar.gz"
 
-LICENSE="as-is"
+LICENSE="grabchars"
 SLOT="0"
 KEYWORDS="amd64"
 IUSE=""
