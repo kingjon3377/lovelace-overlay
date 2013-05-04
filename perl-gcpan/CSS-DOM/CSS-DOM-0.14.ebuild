@@ -18,3 +18,4 @@ IUSE=""
 
 DEPEND="dev-perl/Clone
 	dev-lang/perl"
+RDEPEND="${DEPEND}"

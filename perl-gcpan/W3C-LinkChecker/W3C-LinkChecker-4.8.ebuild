@@ -28,3 +28,4 @@ DEPEND="dev-perl/URI
 	dev-perl/HTTP-Cookies
 	>=dev-perl/Net-HTTP-6.10.0
 	dev-lang/perl"
+RDEPEND="${DEPEND}"
