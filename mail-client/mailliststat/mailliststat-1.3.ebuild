@@ -23,7 +23,7 @@ S="${WORKDIR}/mls-${PV}"
 
 src_prepare() {
 	epatch "${FILESDIR}/mailliststat_1.3-5.diff"
-	epatch debian/patches/*patch
+	epatch "${FILESDIR}/*patch"
 	sed -i -e 's:(DESTDIR)/man:(DESTDIR)/share/man:' -e 's:gcc -D:$(USER_CC) -D:' Makefile || die "sed failed"
 	use nls || sed -i -e 's/all: po4a/all:/' man/Makefile || die "sed failed"
 }
@@ -39,7 +39,7 @@ src_compile() {
 
 src_install() {
 	emake DESTDIR="${D}" install
-	dodoc HISTORY.mls.txt README.txt debian/README.Debian
+	dodoc HISTORY.mls.txt README.txt "${FILESDIR}"/README.Debian
 	dohtml html/*
 	docinto examples
 	dodoc examples/*

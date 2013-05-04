@@ -1,0 +1,85 @@
+diff -Nur mailliststat-1.3/HISTORY.mls.txt mailliststat-1.3.new/HISTORY.mls.txt
+--- mailliststat-1.3/HISTORY.mls.txt	2005-12-01 22:29:21.000000000 +0100
++++ mailliststat-1.3.new/HISTORY.mls.txt	2005-12-01 22:44:18.000000000 +0100
+@@ -107,6 +107,5 @@
+ ~~~~~~~~~
+ * doesn't support header fields splitted to more lines
+   (you can use formail(1) to put them to one line before using MLS)
+-* charset conversion in MIME-decoding
+ * more stats
+ * file locking
+diff -Nur mailliststat-1.3/mls_mime.c mailliststat-1.3.new/mls_mime.c
+--- mailliststat-1.3/mls_mime.c	2005-12-01 22:42:19.000000000 +0100
++++ mailliststat-1.3.new/mls_mime.c	2005-12-01 22:44:18.000000000 +0100
+@@ -21,6 +21,8 @@
+ #include "mls.h"
+ #include "mls_mime.h"
+ #include "mls_stat.h"
++#include <iconv.h>
++#include <langinfo.h>
+ 
+ void replaceStr(char *input, int so, int eo, char *repl) {
+  // replace part of input from index so to eo with repl
+@@ -102,6 +104,35 @@
+  if (regcomp(&r_hex   , sH, REG_EXTENDED | REG_ICASE) > 0) myWarn("Error compiling regex!","(mime_hex)",5);
+ }
+ 
++char* ConvertToLocale(char *charset, char *txt) {
++  iconv_t cd = iconv_open(nl_langinfo(CODESET), charset);
++  char* retval = txt;
++  if (cd != (iconv_t) (-1)) {
++    size_t s_len = strlen(retval);
++    char *buf = alloca(4 * 3 * s_len);
++    {
++      char *ptr = buf;
++      size_t ptr_len = 4 * 3 * s_len;
++      while ((iconv(cd, &txt, &s_len, &ptr, &ptr_len)) == (size_t) (-1)) {
++        if (errno == EILSEQ) {
++          *txt = (char) 0x80;
++          while(s_len && (*txt & 0xC0) == 0x80)
++            ++txt, --s_len;
++            --txt;
++            ++s_len;
++            *txt = '?';
++        } else {
++          break;
++        }
++      }
++      *ptr = 0;
++      retval = buf;
++    }
++    iconv_close(cd);
++  }
++  return strdup(retval);
++}
++
+ void Decode_mime_string(char *txt, unsigned int max_size) {
+  // decode string containing 0 or more MIME-encoded parts; no newlines
+  // overwrite input, but it should be at most max_size
+@@ -120,6 +151,7 @@
+    myCopy(enc, txt+pm[3].rm_so, (i>76)?76:i);
+    Decode_QuotedPrint(enc,charset);
+    replaceStr(txt,pm[1].rm_so,pm[1].rm_eo-1,enc);
++   myCopy(txt,ConvertToLocale(charset, txt),strlen(txt)*2);
+  }
+  // try to decode Base64 parts
+  while (!regexec(&r_base64, txt, 10, pm, 0)) {
+@@ -129,5 +161,6 @@
+    myCopy(enc, txt+pm[3].rm_so, (i>76)?76:i);
+    Decode_base64(enc,charset);
+    replaceStr(txt,pm[1].rm_so,pm[1].rm_eo-1,enc);
++   myCopy(txt,ConvertToLocale(charset, txt),strlen(txt)*2);
+  }
+ }
+diff -Nur mailliststat-1.3/mls_stat.c mailliststat-1.3.new/mls_stat.c
+--- mailliststat-1.3/mls_stat.c	2005-12-01 22:33:17.000000000 +0100
++++ mailliststat-1.3.new/mls_stat.c	2005-12-01 22:44:18.000000000 +0100
+@@ -58,7 +58,7 @@
+   RemoveCR(subj);
+   Decode_mime_string(subj, MAX_SUBJ);
+   if (regexec(&r_re, subj, MAX_REGMATCH, pm, 0)) return; // should not happen
+-  myCopy(sub2, subj+pm[3].rm_so, pm[3].rm_eo - pm[3].rm_so + 1);
++  myCopy(sub2, subj+pm[3].rm_so, strlen(subj) - pm[3].rm_so + 1);
+   myCopy(subj, sub2, MAX_SUBJ);
+ }
+ 
