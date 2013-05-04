@@ -46,5 +46,4 @@ src_install() {
 	dobin cNiall
 	dodoc AUTHORS NEWS README ChangeLog TODO otherStuff/example.niall
 	doman debian/gniall.6 || die "doman failed"
-	make_desktop_entry 
 }
