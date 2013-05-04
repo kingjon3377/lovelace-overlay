@@ -26,6 +26,7 @@ DEPEND="${RDEPEND}
 
 src_prepare() {
 	sed -i -e "s:  check_license():# check_license():" "${S}"/configure.py
+	sed -i -e 's/ANY \*/void */g' sip/qt/*.sip sip/qtnetwork/*.sip || die
 }
 
 src_configure() {
