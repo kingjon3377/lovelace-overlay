@@ -6,9 +6,10 @@ EAPI=5
 
 inherit eutils gnome2 toolchain-funcs
 
+MY_P=${PN/n/N}-${PV}
 DESCRIPTION="program that tries to learn a human language"
 HOMEPAGE="http://gniall.sourceforge.net"
-SRC_URI="mirror://sourceforge/${PN}/${PN}/${PV}/gNiall-${PV}.tar.gz"
+SRC_URI="mirror://sourceforge/${PN}/${PN}/${PV}/${MY_P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
@@ -21,6 +22,8 @@ DEPEND="gnome-base/libbonoboui
 	gnome-base/gnome-vfs
 	x11-libs/pango"
 RDEPEND="${DEPEND}"
+
+S=${WORKDIR}/${MY_P}
 
 src_prepare() {
 	cd "${WORKDIR}"
