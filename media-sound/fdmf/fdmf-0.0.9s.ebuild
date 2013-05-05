@@ -20,7 +20,8 @@ DEPEND="dev-lang/perl[gdbm]
 	sys-libs/gdbm
 	virtual/perl-Digest-MD5"
 RDEPEND="${DEPEND}
-	media-video/mplayer"
+	media-video/mplayer
+	media-libs/plotutils"
 
 src_prepare() {
 	sed -i -e "s,^CC =  gcc$,CC = $(tc-getCC)," \
