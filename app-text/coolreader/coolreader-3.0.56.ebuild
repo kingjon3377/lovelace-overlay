@@ -52,16 +52,18 @@ pkg_pretend() {
 src_configure() {
 	CMAKE_BUILD_TYPE="Release"
 	if use qt4; then
-		mycmakeargs="-D GUI=QT"
+		mycmakeargs="-DGUI=QT"
 	elif use wxwidgets; then
 		. "${ROOT}/var/lib/wxwidgets/current"
 		if [[ "${WXCONFIG}" -eq "none" ]]; then
 	    	die "The wxGTK profile should be selected!"
 		fi
-		mycmakeargs="-D GUI=WX"
+		mycmakeargs="-DGUI=WX"
 	else
 	    die "Only one GUI must be selected"
 	fi
+	mycmakeargs="${mycmakeargs} -DDOC_DATA_COMPRESSION_LEVEL=3"
+	mycmakeargs="${mycmakeargs} -DDOC_BUFFER_SIZE=0x2500000 -DMAX_IMAGE_SCALE_MUL=2"
 	cmake-utils_src_configure
 }
 
