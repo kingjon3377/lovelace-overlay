@@ -30,6 +30,7 @@ src_prepare() {
 	find . -name \*.py -exec sed -i -e \
 		's/from \(\.\|\.\.\) \(import BeautifulSoup as bs\)/\2/' {} + || die
 	epatch "${FILESDIR}/system-config.patch"
+	cp "${FILESDIR}"/adapter_* "${PN}/adapters/" || die
 }
 
 src_install() {
