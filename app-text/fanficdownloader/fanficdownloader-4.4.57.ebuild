@@ -24,13 +24,13 @@ src_prepare() {
 #	rm epubmerge.py ${PN}/BeautifulSoup.py || die
 	rm ${PN}/BeautifulSoup.py || die
 	edos2unix $(find . -type f -print) || die
+	cp "${FILESDIR}"/adapter_* "${PN}/adapters/" || die
 	sed -i -e '1i\
 #!/usr/bin/python' downloader.py || die
 	sed -i -e '1s/^\xef\xbb\xbf//' ${PN}/translit.py || die
 	find . -name \*.py -exec sed -i -e \
 		's/from \(\.\|\.\.\) \(import BeautifulSoup as bs\)/\2/' {} + || die
 	epatch "${FILESDIR}/system-config.patch"
-	cp "${FILESDIR}"/adapter_* "${PN}/adapters/" || die
 }
 
 src_install() {
