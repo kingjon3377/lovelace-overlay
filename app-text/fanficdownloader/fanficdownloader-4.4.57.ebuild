@@ -30,6 +30,7 @@ src_prepare() {
 	sed -i -e '1s/^\xef\xbb\xbf//' ${PN}/translit.py || die
 	find . -name \*.py -exec sed -i -e \
 		's/from \(\.\|\.\.\) \(import BeautifulSoup as bs\)/\2/' {} + || die
+	epatch "${FILESDIR}/dwiggie.patch"
 	epatch "${FILESDIR}/system-config.patch"
 }
 
