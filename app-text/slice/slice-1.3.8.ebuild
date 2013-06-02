@@ -8,7 +8,7 @@ inherit toolchain-funcs eutils
 
 DESCRIPTION="Extract out pre-defined slices of an ASCII file"
 HOMEPAGE="ftp://ftp.ossp.org/pkg/tool/slice/"
-SRC_URI="ftp://ftp.ossp.org/pkg/tool/slice/${P}.tar.gz"
+SRC_URI="ftp://ftp.ossp.org/pkg/tool/${PN}/${P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
