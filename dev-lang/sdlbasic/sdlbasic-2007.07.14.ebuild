@@ -24,12 +24,16 @@ src_unpack() {
 }
 
 src_prepare() {
-	mv -i ../usr/src .
-	rmdir ../usr
-	epatch "${FILESDIR}/sdlbasic_0.0.20070714-3.diff"
-	mv -i sdlbasic-0.0.20070714/debian .
-	rmdir sdlbasic-0.0.20070714
+	mkdir debian
+	cp "${FILESDIR}/${PN}.menu" "${FILESDIR}/copyright" \
+		"${FILESDIR}/${PN}.xpm" "${FILESDIR}/${PN}.desktop" \
+		"${FILESDIR}/${PN}.sng" \
+		debian || die
 	epatch $(sed -e 's:^:debian/patches/:' debian/patches/series)
+	for file in makefiles fonts 64bit fix_example ldflags datadir \
+			bison_code x-www-browser quickhelp; do
+		epatch "${FILESDIR}/${file}.patch"
+	done
 	chmod -x src/sdlBasic/share/sdlBasic/*.*
 	epatch "${FILESDIR}"/warnings.patch
 	sed -i -e 's:-Wl,-rpath, ::g' src/sdlBasic/src/sdlBrt/makefile \
@@ -89,7 +93,7 @@ src_install() {
 	doins ${ORIGDATA}/*.*
 	insinto ${DESTPLUGINS}
 	doins ${ORIGDATA}/plugins/*
-	doman debian/*.1
+	doman "${FILESDIR}"/*.1 debian/*.1
 }
 
 pkg_postinst() {
