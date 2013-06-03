@@ -3,7 +3,7 @@
 # $Header: $
 # Copyright 1999-2009 Tiziano Müller
 
-EAPI="2"
+EAPI=5
 
 inherit autotools eutils
 
@@ -40,7 +40,7 @@ src_configure() {
 }
 
 src_install() {
-	emake DESTDIR="${D}" install || die "emake install failed"
+	emake DESTDIR="${D}" install
 
 	rm -rf "${D}/usr/share/doc/oprofileui"
 	dodoc AUTHORS ChangeLog NEWS README

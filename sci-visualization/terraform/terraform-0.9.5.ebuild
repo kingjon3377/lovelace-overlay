@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI=4
+EAPI=5
 
 inherit eutils
 
@@ -37,6 +37,7 @@ src_prepare() {
 }
 
 src_install() {
+	# FIXME: Why not emake?
 	make install "DESTDIR=${D}" || die "install failed!"
 
 	doicon pixmaps/terraform_logo.xpm
@@ -44,6 +45,5 @@ src_install() {
 			terraform \
 			Terrafrom \
 			terraform_logo \
-			3DGraphics \
-		|| einfo "Error: make_desktop_entry failed"
+			3DGraphics
 }

@@ -4,7 +4,7 @@
 
 # From bug #333309
 
-EAPI="3"
+EAPI=5
 PYTHON_DEPEND="2:2.5"
 inherit gnome2-utils distutils
 
@@ -28,6 +28,8 @@ RDEPEND=">=dev-python/pygtk-2.13
 	tesseract? ( app-text/tesseract )"
 
 DEPEND=""
+
+REQUIRED_USE="|| ( ocrad gocr tesseract )"
 pkg_setup() {
 	echo
 	einfo "The configuration XML file for the engine Ocrad is already included"
@@ -35,10 +37,6 @@ pkg_setup() {
 	einfo "configuration file that is placed in the OCRFeeder's configuration "
 	einfo "folder (~/.ocrfeeder) should perhaps be deleted."
 	echo
-
-	if ! use ocrad && ! use gocr && ! use tesseract ; then
-		die "You must put ocrad, gocr or tesseract in your USE"
-	fi
 }
 
 src_compile() {

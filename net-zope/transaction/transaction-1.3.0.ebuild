@@ -3,7 +3,7 @@
 # $Header: $
 # Copyright owners: Arfrever Frehtes Taifersar Arahesis
 
-EAPI="4"
+EAPI=5
 PYTHON_MULTIPLE_ABIS="1"
 PYTHON_RESTRICTED_ABIS="2.5"
 PYTHON_TESTS_FAILURES_TOLERANT_ABIS="*-jython"

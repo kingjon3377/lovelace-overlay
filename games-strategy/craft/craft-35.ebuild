@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI=4
+EAPI=5
 
 inherit games eutils
 
@@ -20,19 +20,17 @@ DEPEND=""
 RDEPEND=""
 
 src_unpack() {
-	unpack craftcc35.tar.Z || die "First unpack failed"
+	unpack craftcc35.tar.Z
 	use doc && {
 		mkdir doc
 		cd doc
-		unpack craftdoc.tar.Z || die "Second unpack failed"
+		unpack craftdoc.tar.Z
 	}
 }
 src_prepare() {
-	epatch "${FILESDIR}"/craft-install.patch || die "Patching failed"
-	epatch "${FILESDIR}"/fscanf-void.patch || die "Patching failed"
-	for a in field.hc cmap_edit.hc
-	do
-		echo >> "${WORKDIR}/${a}" || die "echo failed"
+	epatch "${FILESDIR}"/craft-install.patch "${FILESDIR}"/fscanf-void.patch
+	for a in field.hc cmap_edit.hc; do
+		echo >> "${WORKDIR}/${a}"
 	done
 }
 
@@ -43,10 +41,10 @@ src_compile() {
 
 src_install() {
 	cd "${WORKDIR}"
-	dobin craft || die "dobin craft failed"
+	dobin craft
 	use doc && {
 		dohtml doc/*html
 		docinto pic
-		dodoc doc/pic/* || die "dodoc failed"
+		dodoc doc/pic/*
 	}
 }

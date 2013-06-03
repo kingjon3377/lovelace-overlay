@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI=3
+EAPI=5
 
 DESCRIPTION="Privilege escalation detection system for GNU/Linux"
 HOMEPAGE="http://forkbomb.org/ninja"
@@ -18,7 +18,7 @@ RDEPEND="${DEPEND}"
 
 src_install() {
 	emake DESTDIR="${D}/usr/sbin" MANDIR="${D}/usr/share/man/man8" \
-		ETCDIR="${D}/etc/ninja" install || die "install failed"
+		ETCDIR="${D}/etc/ninja" install
 }
 
 pkg_postinst() {

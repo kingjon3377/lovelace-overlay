@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI=3
+EAPI=5
 
 inherit toolchain-funcs
 
@@ -42,33 +42,29 @@ pkg_setup() {
 
 src_compile() {
 	emake CC=$(tc-getCC) USER_CFLAGS="${CFLAGS}" USER_LDFLAGS="${LDFLAGS}" \
-		prefix=/usr || die "build failed"
-	if use doc; then
+		prefix=/usr
+	use doc && \
 		emake CC=$(tc-getCC) USER_CFLAGS="${CFLAGS}" USER_LDFLAGS="${LDFLAGS}" \
-		prefix=/usr spldoc || die "build failed"
-	fi
+		prefix=/usr spldoc
 }
 
 src_install() {
-	emake DESTDIR="${D}" prefix=/usr install || die "install failed"
-	dodoc README* vgsuppress.txt || die "installing docs failed"
-	use doc && dohtml spldoc/*html || die "installing html docs failed"
-	use doc && dodoc manual.tex || die "Installing manual failed"
+	emake DESTDIR="${D}" prefix=/usr install
+	dodoc README* vgsuppress.txt
+	use doc && dohtml spldoc/*html
+	use doc && dodoc manual.tex
 	docinto spldoc
-	use doc && dodoc spldoc/*txt || die "installing docs failed"
-	if use vim-syntax; then
-		insinto /usr/share/vim/vimfiles/syntax
+	use doc && dodoc spldoc/*txt
+	use vim-syntax && insinto /usr/share/vim/vimfiles/syntax && \
 		doins syntax-spl.vim syntax-spltpl.vim
-	fi
 }
 
 pkg_postinst() {
-	if use vim-syntax; then
-		einfo "If syntax highlighting for SPL is not automatically enabled,"
-		einfo "the source says to add the following lines to your .vimrc :"
+	use vim-syntax && \
+		einfo "If syntax highlighting for SPL is not automatically enabled," && \
+		einfo "the source says to add the following lines to your .vimrc :" && \
+		einfo && \
+		einfo 'au BufRead,BufNewFile *.spl,*.webspl set filetype=spl' && \
+		einfo 'au BufRead,BufNewFile *.spltpl set filetype=spltpl' && \
 		einfo
-		einfo 'au BufRead,BufNewFile *.spl,*.webspl set filetype=spl'
-		einfo 'au BufRead,BufNewFile *.spltpl set filetype=spltpl'
-		einfo
-	fi
 }

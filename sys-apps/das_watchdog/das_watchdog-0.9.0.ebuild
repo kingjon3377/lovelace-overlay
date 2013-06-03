@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI=4
+EAPI=5
 
 inherit toolchain-funcs
 RESTRICT="mirror"
@@ -28,8 +28,8 @@ src_prepare() {
 src_compile() {
 	#CONFIG="-O2 `pkg-config --libs --cflags libgtop-2.0` -Wall -lpthread -DWHICH_WISH=\"`which xmessage`\" -DVERSION=\"$(PV)\""
 	#$(tc-getCC) ${CFLAGS} das_watchdog.c -o  ${PN} ${CONFIG} || die "compile failed"
-	emake VERSION="${PV}" || die
-	gzip -d -c "${FILESDIR}/das_watchdog-init.d.gz" > das_watchdog-init.d || die "excracing rc-script"
+	emake VERSION="${PV}"
+	gzip -d -c "${FILESDIR}/das_watchdog-init.d.gz" > das_watchdog-init.d || die "extracting rc-script"
 }
 
 src_install() {

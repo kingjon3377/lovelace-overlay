@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI=4
+EAPI=5
 SUPPORT_PYTHON_ABIS=true
 
 inherit python
@@ -31,14 +31,13 @@ src_install() {
 
 	insinto /etc
 	doins ${PN}rc overrides.conf
-	dobin ${PN} || die "Install failed"
-	doman ${PN}.1 ${PN}rc.5 || die "Man pages failed"
+	dobin ${PN}
+	doman ${PN}.1 ${PN}rc.5
 	insinto /usr/share/${PN}-util
 	doins airports bp03ap12.dbx COOP-ACT.TXT Gaz_*.txt metar.tbl \
-		nsd_cccc.txt places stations slist zctas zlist zones || \
-		die "installing data failed"
-	doins -r zonecatalog.curr || die "installing data failed"
-	dodoc ChangeLog FAQ README NEWS || die "dodoc failed"
+		nsd_cccc.txt places stations slist zctas zlist zones
+	doins -r zonecatalog.curr
+	dodoc ChangeLog FAQ README NEWS
 }
 
 pkg_postinst () {

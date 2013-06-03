@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI=2
+EAPI=5
 
 inherit versionator
 
@@ -23,13 +23,13 @@ RDEPEND="${DEPEND}"
 S=${WORKDIR}/${MY_P}
 
 src_install() {
-	emake DESTDIR="${D}" install || die "Install failed"
-	dobin frontends/snipe || die
-	dodoc AUTHORS ChangeLog NEWS README TODO sample_auction.txt sample_config.txt || die
+	emake DESTDIR="${D}" install
+	dobin frontends/snipe
+	dodoc AUTHORS ChangeLog NEWS README TODO sample_auction.txt sample_config.txt
 }
 
 pkg_postinst() {
-	elog
-	elog "Please find a sample config at /usr/share/doc/${P}/sample_config.txt.bz2"
-	elog
+	einfo
+	einfo "Please find a sample config at /usr/share/doc/${P}/sample_config.txt.bz2"
+	einfo
 }

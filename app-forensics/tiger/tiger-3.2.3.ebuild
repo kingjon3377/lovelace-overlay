@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI=4
+EAPI=5
 
 inherit toolchain-funcs
 
@@ -25,18 +25,18 @@ src_prepare() {
 src_configure() {
 	econf --with-tigerhome=/usr/share/tiger --with-tigerconfig=/etc/tiger \
 		--with-tigerwork=/var/run/tiger --with-tigerlog=/var/log/tiger \
-		--with-tigerbin=/usr/sbin || die "configure failed"
+		--with-tigerbin=/usr/sbin
 }
 
 src_compile() {
-	emake "CC=$(tc-getCC)" -j1 || die "building failed"
+	emake "CC=$(tc-getCC)" -j1
 }
 
 src_install() {
 	dodir /usr/share/man/man8
 	dodir /etc/tiger
 	dodir /usr/sbin
-	emake DESTDIR="${D}" install || die "Install failed"
+	emake DESTDIR="${D}" install
 }
 
 pkg_postinst() {

@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI="3"
+EAPI=5
 
 inherit eutils
 
@@ -26,14 +26,14 @@ S="${WORKDIR}/${PN}"
 src_prepare() {
 	# allow parallel makes in all subdirectories
 	ls Puma/tools/Makefile || die "file to be patched is missing"
-	epatch "${FILESDIR}"/Makefile-jobserver.diff || die "makefile patch failed."
+	epatch "${FILESDIR}"/Makefile-jobserver.diff
 }
 
 src_compile() {
 	unset ROOT
-	emake -C Puma/ compile       || die "emake failed"
-	emake -C AspectC++/ SHARED=1 || die "emake failed"
-	emake -C Ag++/      SHARED=1 || die "emake failed"
+	emake -C Puma/ compile      
+	emake -C AspectC++/ SHARED=1
+	emake -C Ag++/      SHARED=1
 }
 
 src_install() {

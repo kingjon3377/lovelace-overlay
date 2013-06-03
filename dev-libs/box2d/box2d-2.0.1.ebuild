@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI="2"
+EAPI=5
 
 MY_PN=Box2D
 
@@ -19,19 +19,19 @@ SLOT="0"
 KEYWORDS="amd64 ~x86"
 IUSE=""
 
-RDEPEND="media-libs/freeglut
+RDEPEND="media-libs/freeglut"
+DEPEND="${RDEPEND}
 	app-arch/unzip"
-DEPEND="${RDEPEND}"
 
 S="${WORKDIR}"/${MY_PN}_v${PV}/${MY_PN}/Source
 
 src_prepare(){
 	epatch "${FILESDIR}"/${P}-gcc4.patch
-	sed -i -e "s:../Source/::g" -i ../Include/Box2D.h || die sed failed
+	sed -i -e "s:../Source/::g" -i ../Include/Box2D.h || die "sed failed"
 }
 
 src_compile() {
-	emake || die
+	emake
 }
 
 src_install() {

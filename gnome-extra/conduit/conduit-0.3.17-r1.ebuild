@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI="4"
+EAPI=5
 
 inherit eutils versionator
 
@@ -32,10 +32,9 @@ src_configure() {
 	econf \
 		$(use_enable nautilus nautilus-extension) \
 		$(use_enable eog eog-plugin) \
-		$(use_enable totem totem-plugin) \
-		|| die "configure failed"
+		$(use_enable totem totem-plugin)
 }
 
 src_install() {
-	make DESTDIR="${D}" install || die "Error installing ${PN}"
+	make DESTDIR="${D}" install
 }

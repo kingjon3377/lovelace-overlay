@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI=3
+EAPI=5
 
 DESCRIPTION="sys-fs/ntfsprogs has been replaced by part of ntfs-3g"
 HOMEPAGE=""

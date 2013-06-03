@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/dev-util/gambas/gambas-2.16.0.ebuild,v 1.3 2010/02/10 22:09:36 ssuominen Exp $
 
-EAPI=3
+EAPI=5
 
 inherit autotools eutils fdo-mime qt3 multilib toolchain-funcs
 
@@ -62,22 +62,16 @@ RDEPEND="${COMMON_DEPEND}"
 
 S=${WORKDIR}/${MY_P}
 
+REQUIRED_USE=""
+# ImageProvider implementers, see .component files for more info
+REQUIRED_USE="${REQUIRED_USE} pdf? ( || ( qt3 gtk sdl ) ) v4l? ( || ( qt3 gtk sdl ) )"
+
+# OpenGLViewer implementers, see .component files for more info
+REQUIRED_USE="${REQUIRED_USE} opengl? ( || ( qt3 sdl ) )"
+
+REQUIRED_USE="${REQUIRED_USE} svg? ( gtk )"
+
 pkg_setup() {
-	# ImageProvider implementers, see .component files for more info
-	if ! { use qt3 || use gtk || use sdl; } ; then
-		use pdf && die "PDF support depends on Qt, GTK or SDL being enabled"
-		use v4l && die "V4L support depends on Qt, GTK or SDL being enabled"
-	fi
-
-	# OpenGLViewer implementers, see .component files for more info
-	if ! { use qt3 || use sdl; } ; then
-		use opengl && die "OpenGL support depends on Qt or SDL being enabled"
-	fi
-
-	if ! use gtk; then
-		use svg && die "SVG support depends on GTK being enabled"
-	fi
-
 	if ! use qt3; then
 		einfo
 		ewarn "The Gambas IDE currently cannot be be build without Qt being enabled."
@@ -94,12 +88,12 @@ pkg_setup() {
 
 my_reduce_eautoreconf() {
 	sed -i -e "/^\(AC\|GB\)_CONFIG_SUBDIRS(${1}[,)]/d" \
-	configure.ac \
-	|| die "my_reduce_eautoreconf: sed on configure.ac failed with ${1}"
+		configure.ac \
+		|| die "my_reduce_eautoreconf: sed on configure.ac failed with ${1}"
 
 	sed -i -e "/^SUBDIRS/s/\ \(@${1}_dir@\|${1}\)//1" \
-	Makefile.am \
-	|| die "my_reduce_eautoreconf: sed on Makefile.am failed with ${1}"
+		Makefile.am \
+		|| die "my_reduce_eautoreconf: sed on Makefile.am failed with ${1}"
 }
 
 my_examine_components() {
@@ -122,16 +116,16 @@ src_prepare() {
 		ebegin "Applying sed no-Qt-use-GTK-workaround-patch (EXPERIMENTAL)"
 		# Gentoo-specific patch/workaround
 		sed -i -e 's/EXPORT = "gb.qt"/EXPORT = "gb.gtk"/' \
-		main/lib/gui/main.c \
-		|| die "sed no-Qt-use-GTK-workaround-patch (EXPERIMENTAL)"
-		eend 0
+			main/lib/gui/main.c \
+			|| die "sed no-Qt-use-GTK-workaround-patch (EXPERIMENTAL)"
+			eend 0
 	fi
 
 	ebegin "Applying sed no-automagic-patch"
 	# Gentoo-specific patch
 	sed -i -e 's/gb_enable_\$1=yes/gb_enable_\$1=no/' \
-	acinclude.m4 \
-	|| die "sed no-automagic-patch failed"
+		acinclude.m4 \
+		|| die "sed no-automagic-patch failed"
 	eend 0
 
 	# Gentoo-specific patches for libtool compatibility
@@ -155,25 +149,25 @@ src_prepare() {
 	ebegin "Applying sed remove-dist_gblib_DATA-patch"
 	# Prevent repeat installation of component files
 	sed -i -e '/^dist_gblib_DATA/d' \
-	component.am \
-	main/lib/Makefile.am \
-	|| die "sed remove-dist_gblib_DATA-patch failed"
+		component.am \
+		main/lib/Makefile.am \
+		|| die "sed remove-dist_gblib_DATA-patch failed"
 	eend 0
 
 	ebegin "Applying sed remove-libtool-patch"
 	# Gentoo-specific patch, may be obsoleted in the future
 	# Remove embedded libtool.m4 file
 	sed -i -e '/[-][*][-]Autoconf[-][*][-]$/,$d' \
-	acinclude.m4 \
-	|| die "sed remove-libtool-patch failed"
+		acinclude.m4 \
+		|| die "sed remove-libtool-patch failed"
 	eend 0
 
 	my_examine_components
 
 	ebegin "Removing provided libtool/libltdl"
 	rm config.guess config.sub install-sh \
-	&& rm */config.guess */config.sub */install-sh \
-	|| die "removing libtool failed"
+		&& rm */config.guess */config.sub */install-sh \
+		|| die "removing libtool failed"
 	eend 0
 
 	ebegin "Reducing eautoreconf"
@@ -214,7 +208,7 @@ src_prepare() {
 	use examples ||	my_reduce_eautoreconf examples
 	eend 0
 
-	eautoreconf || die "eautoreconf failed"
+	eautoreconf
 }
 
 src_configure() {
@@ -269,54 +263,52 @@ src_configure() {
 
 	# --without-xdg-utils comes from svn-r1636-xdg-utils.patch
 	econf --config-cache ${myconf} --without-xdg-utils \
-	--docdir=/usr/share/doc/${PF} --htmldir=/usr/share/doc/${PF}/html
+		--docdir=/usr/share/doc/${PF} --htmldir=/usr/share/doc/${PF}/html
 }
 
 my_dekstop_and_icon() {
 	# USAGE: <executable> <name> <category> <icon_source_file> <icon_target_dir>
 	local icon="${1}.png"
 
-	make_desktop_entry "${1}" "${2}" "${5}/${icon}" "${3}" \
-	|| die "make_desktop_entry failed for ${1}"
+	make_desktop_entry "${1}" "${2}" "${5}/${icon}" "${3}"
 
 	insinto ${5}
-	newins ${4} ${icon} || die "newins failed for ${1}"
+	newins ${4} ${icon}
 }
 
 src_compile() {
-	emake LIBTOOLFLAGS="--quiet" || die "emake failed"
+	emake LIBTOOLFLAGS="--quiet"
 }
 
 src_install() {
-	emake DESTDIR="${D}" LIBTOOLFLAGS="--quiet" install || die "emake install failed"
+	emake DESTDIR="${D}" LIBTOOLFLAGS="--quiet" install
 
-	dodoc AUTHORS ChangeLog NEWS README || die "dodoc failed"
-	newdoc gb.net/src/doc/README gb.net-README || die "newdoc failed"
-	newdoc gb.net/src/doc/changes.txt gb.net-ChangeLog || die "newdoc failed"
-	use pcre && { newdoc gb.pcre/src/README gb.pcre-README || die "newdoc failed"; }
+	dodoc AUTHORS ChangeLog NEWS README
+	newdoc gb.net/src/doc/README gb.net-README
+	newdoc gb.net/src/doc/changes.txt gb.net-ChangeLog
+	use pcre && newdoc gb.pcre/src/README gb.pcre-README
 
 	if { use qt3 || use gtk; } ; then
 		# Remove qt3 test when it works without it
 		use qt3 && \
-		my_dekstop_and_icon \
-		"${MY_PN}" "Gambas" "Development" \
-		"app/src/${MY_PN}/img/logo/new-logo.png" \
-		"/usr/share/icons/hicolor/128x128/apps"
+			my_dekstop_and_icon \
+			"${MY_PN}" "Gambas" "Development" \
+			"app/src/${MY_PN}/img/logo/new-logo.png" \
+			"/usr/share/icons/hicolor/128x128/apps"
 
 		my_dekstop_and_icon \
-		"${MY_PN}-database-manager" "Gambas Database Manager" "Development" \
-		"app/src/${MY_PN}-database-manager/img/logo/logo-128.png" \
-		"/usr/share/icons/hicolor/128x128/apps"
+			"${MY_PN}-database-manager" "Gambas Database Manager" "Development" \
+			"app/src/${MY_PN}-database-manager/img/logo/logo-128.png" \
+			"/usr/share/icons/hicolor/128x128/apps"
 
 		insinto /usr/share/icons/hicolor/64x64/mimetypes
-		doins app/mime/*.png main/mime/*.png || die "doins failed"
+		doins app/mime/*.png main/mime/*.png
 
 		insinto /usr/share/mime/application
-		doins app/mime/*.xml main/mime/*.xml || die "doins failed"
+		doins app/mime/*.xml main/mime/*.xml
 	fi
 
-	use doc && { dosym "/usr/share/${MY_PN}/help" "/usr/share/doc/${PF}/html" \
-	|| die "dosym failed"; }
+	use doc && dosym "/usr/share/${MY_PN}/help" "/usr/share/doc/${PF}/html"
 }
 
 my_fdo_update() {

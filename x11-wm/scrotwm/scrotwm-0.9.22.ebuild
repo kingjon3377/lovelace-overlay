@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI=2
+EAPI=5
 inherit multilib eutils toolchain-funcs
 
 DESCRIPTION="Small dynamic tiling window manager for X11"
@@ -26,20 +26,19 @@ S=${WORKDIR}/${PF}/linux
 src_prepare() {
 	# reset hardcoded flags (useless for NON scrotwm developers)
 	# FIX: LDFLAGS not respected and missing soname
-	epatch "${FILESDIR}"/${PN}-${PV}-makefile.patch
+	epatch "${FILESDIR}"/${P}-makefile.patch
 }
 
 src_compile() {
 	emake \
 		CC="$(tc-getCC)" \
 		PREFIX="/usr" \
-		LIBDIR="/usr/$(get_libdir)" \
-		|| die "emake failed"
+		LIBDIR="/usr/$(get_libdir)"
 }
 
 src_install() {
 	emake \
 		DESTDIR="${D}" \
 		PREFIX="/usr" \
-		install || die "emake install failed"
+		install
 }

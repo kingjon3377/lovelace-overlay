@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI=4
+EAPI=5
 
 inherit multilib toolchain-funcs
 
@@ -42,8 +42,7 @@ src_install() {
 	emake DESTDIR="${D}" install
 	dodoc README
 	doman vw.1
-	if use examples; then
-		insinto /usr/share/${PN}/examples
+	use examples && \
+		insinto /usr/share/${PN}/examples && \
 		doins -r test/*
-	fi
 }

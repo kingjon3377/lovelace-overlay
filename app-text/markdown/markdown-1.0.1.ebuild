@@ -5,7 +5,7 @@
 # From bug #145270 . Had been in Sunrise, but dev incorrectly claimed it's in
 # CPAN.
 
-EAPI=3
+EAPI=5
 
 MY_P=${PN/m/M}_${PV}
 
@@ -25,7 +25,7 @@ RDEPEND="${DEPEND}"
 S="${WORKDIR}/${MY_P}"
 
 src_install() {
-	dobin Markdown.pl || die "installing binary failed"
-	dosym Markdown.pl /usr/bin/markdown || die "installing symlink failed"
-	dodoc 'Markdown Readme.text' || die "installing doc failed"
+	dobin Markdown.pl
+	dosym Markdown.pl /usr/bin/markdown
+	newdoc 'Markdown Readme.text' readme.txt
 }

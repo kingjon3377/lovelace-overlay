@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI=2
+EAPI=5
 
 inherit games subversion autotools
 
@@ -34,11 +34,11 @@ src_prepare() {
 }
 
 src_configure() {
-	egamesconf --disable-hildon || die "egamesconf failed"
+	egamesconf --disable-hildon
 }
 
 src_install() {
-	emake DESTDIR="${D}" install || die "Install failed"
+	emake DESTDIR="${D}" install
 	doicon data/icon64/${PN}.png
 	make_desktop_entry "${PN}" "${PN}"
 	prepgamesdirs

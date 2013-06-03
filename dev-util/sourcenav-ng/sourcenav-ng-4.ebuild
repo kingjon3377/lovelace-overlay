@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/dev-util/sourcenav/sourcenav-5.2_beta2.ebuild,v 1.13 2009/12/29 13:47:33 flameeyes Exp $
 
-EAPI="2"
+EAPI=5
 
 #inherit autotools flag-o-matic eutils toolchain-funcs fdo-mime
 inherit flag-o-matic eutils toolchain-funcs fdo-mime
@@ -28,10 +28,12 @@ RDEPEND="x11-libs/libX11
 DEPEND="${RDEPEND}
 	x11-proto/xproto"
 
-src_configure() {
+src_prepare() {
 	# still needed for me
 	epatch "${FILESDIR}/sourcenav_tk-8.3-lastevent.patch"
+}
 
+src_configure() {
 	local conf="
 		--host=${CHOST}
 		--prefix=${SN}
@@ -47,9 +49,9 @@ src_configure() {
 }
 
 src_install() {
-	emake DESTDIR="${D}" install || die
+	emake DESTDIR="${D}" install
 
-	chmod -Rf 755 "${D}/${SN}/share/doc/${P}/demos"
+	fperms -Rf 755 "${SN}/share/doc/${P}/demos"
 	dodir /etc/env.d
 	echo "PATH=${SN}/bin" > "${D}"/etc/env.d/10snavigator
 

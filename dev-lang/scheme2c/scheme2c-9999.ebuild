@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI=4
+EAPI=5
 
 EGIT_REPO_URI="git://git.debian.org/git/collab-maint/${PN}.git"
 
@@ -28,31 +28,29 @@ my_compile() {
 	# guarantee that everything will always get built
 	touch scrt/*.c scsc/*.c
 
-	emake -j1 all || die "Failed to compile"
+	emake -j1 all
 
 	if use X; then
-		emake -C cdecl || die "cdecl couldn't build"
-		emake -C xlib -B sizeof.cdecl || die "cdecl couldn't run"
-		emake -C xlib all || die "xlib bindings failed to build"
+		emake -C cdecl
+		emake -C xlib -B sizeof.cdecl
+		emake -C xlib all
 	fi
 	popd > /dev/null
 }
 
 src_compile() {
-	if use doc; then
-		emake -C doc/ embedded.pdf index.pdf intro.pdf smithnotes.pdf || \
-			die "Failed to build documents"
-	fi
+	use doc && \
+		emake -C doc/ embedded.pdf index.pdf intro.pdf smithnotes.pdf
 
 	if use x86; then
-		emake forLINUX || die "Failed to set up Linux build"
+		emake forLINUX
 		my_compile LINUX
 	elif use amd64; then
 #		if use multilib; then
 #			emake forLINUX || die "Failed to set up Linux build"
 #			my_compile LINUX
 #		fi
-		emake forAMD64 || die "Failed to set up AMD64 build"
+		emake forAMD64
 		my_compile AMD64
 	else
 		die "Unimplemented architecture"
@@ -64,12 +62,9 @@ my_install() {
 	insinto /usr/$(get_libdir)/${PN}
 
 	# Only a small subset of files from scrt is required
-	doins scrt/libs2c.a scrt/predef.sc scrt/objects.h scrt/options.h ||  \
-		die "Failed to install scrt files"
+	doins scrt/libs2c.a scrt/predef.sc scrt/objects.h scrt/options.h
 
-	if use X; then
-		doins xlib/scxl.a || die "Failed to install X11 bindings"
-	fi
+	use X && doins xlib/scxl.a
 	popd > /dev/null
 }
 
@@ -87,22 +82,19 @@ src_install() {
 		die "Unimplemented architecture"
 	fi
 
-	dobin "${DIR}/scrt/s2ci" "${DIR}/scsc/"{s2cc,s2ccomp} || die "Failed to install binaries"
+	dobin "${DIR}/scrt/s2ci" "${DIR}/scsc/"{s2cc,s2ccomp}
 
-	if use X; then
-		dobin "${DIR}/xlib/scixl" || die "Failed to install X11-aware interpreter"
-		newdoc "${DIR}/xlib/doc.txt" xlib.txt || die "Failed to install X documentation"
-	fi
+	use X && \
+		dobin "${DIR}/xlib/scixl" && \
+		newdoc "${DIR}/xlib/doc.txt" xlib.txt
 
 	cp doc/s2cc.l doc/s2cc.1 || die
 	cp doc/s2ci.l doc/s2ci.1 || die
-	doman doc/{s2cc,s2ci}.1 || die "Failed to install man pages"
+	doman doc/{s2cc,s2ci}.1
 
-	if use doc; then
-		dodoc doc/*.pdf || die "Failed to install pdf documentation"
-	fi
+	use doc && dodoc doc/*.pdf
 
-	dodoc CHANGES README || die "Failed to install documentation"
+	dodoc CHANGES README
 
 	sed -i -e "s:.*sccomp:sccomp:g" \
 		-e "s:-LIBDIR.*t:-LIBDIR /usr/$(get_libdir)/scheme2c/ \

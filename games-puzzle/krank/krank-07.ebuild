@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI=3
+EAPI=5
 
 inherit games
 
@@ -26,16 +26,16 @@ src_prepare() {
 
 src_install() {
 	insinto /usr/share/games/${PN}/art
-	doins -r art/* || die "Installing art failed"
+	doins -r art/*
 	insinto /usr/share/games/${PN}/fonts
-	doins -r fonts/* || die "installing fonts failed"
+	doins -r fonts/*
 	insinto /usr/share/games/${PN}/levels
-	doins -r levels/* || die "installing levels failed"
+	doins -r levels/*
 	insinto /usr/share/games/${PN}/sounds
-	doins -r sounds/* || die "installing sounds failed"
+	doins -r sounds/*
 	insinto /usr/share/games/${PN}/src
-	doins -r src/* || die "installing code failed"
-	dogamesbin ${PN} || die "installing wrapper failed"
-	dohtml -r html/* || die "Installing HTML docs failed"
-	dodoc CHANGELOG.txt README || die "dodoc failed"
+	doins -r src/*
+	dogamesbin ${PN}
+	dohtml -r html/*
+	dodoc CHANGELOG.txt README
 }

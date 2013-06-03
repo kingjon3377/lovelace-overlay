@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/net-zope/zope-interface/zope-interface-3.5.3.ebuild,v 1.7 2010/04/29 23:42:23 arfrever Exp $
 
-EAPI="2"
+EAPI=5
 SUPPORT_PYTHON_ABIS="1"
 
 inherit distutils

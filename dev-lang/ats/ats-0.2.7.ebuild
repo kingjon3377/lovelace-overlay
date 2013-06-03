@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI=4
+EAPI=5
 
 inherit multilib
 
@@ -24,7 +24,7 @@ S="${WORKDIR}/${MY_P}"
 
 src_configure() {
 	econf
-	sed -i -e "s:lib:$(get_libdir):" config.mk
+	sed -i -e "s:lib:$(get_libdir):" config.mk || die
 }
 
 src_compile() {
