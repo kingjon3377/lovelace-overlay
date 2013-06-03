@@ -18,8 +18,12 @@ IUSE=""
 DEPEND=""
 RDEPEND="${DEPEND}"
 
-src_prepare() {
+src_unpack() {
+	default_src_unpack
 	cd "${WORKDIR}" && mv -i ${PN}-1.1 ${P} || die "fixing dir name failed"
+}
+
+src_prepare() {
 	epatch "${FILESDIR}"/perforate_1.2-5.diff
 }
 
