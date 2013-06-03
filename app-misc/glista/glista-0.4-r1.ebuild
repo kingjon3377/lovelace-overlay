@@ -19,6 +19,7 @@ RDEPEND=">=x11-libs/gtk+-2.12
 	dev-libs/libunique:1"
 
 DEPEND="${RDEPEND}
+	dev-util/gtk-builder-convert
 	virtual/pkgconfig"
 
 src_configure() {
