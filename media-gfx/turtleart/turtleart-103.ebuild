@@ -8,7 +8,7 @@ MY_PN=TurtleArt
 
 MY_P=${MY_PN}-${PV}
 
-DISTUTILS_GLOBAL_OPTIONS=("--no-sugar")
+DISTUTILS_GLOBAL_OPTIONS=("* --no-sugar")
 
 inherit distutils
 
