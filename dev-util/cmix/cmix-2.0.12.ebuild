@@ -21,7 +21,7 @@ DEPEND="${RDEPEND}
 
 src_prepare() {
 	epatch "${FILESDIR}/cmix_2.0.12-6.diff" "${FILESDIR}/cmix_2.0.12-6_2.diff" \
-		"${FILESDIR}/headers.patch" \
+		"${FILESDIR}/lex-yy.cc.patch" "${FILESDIR}/headers.patch" \
 		"${FILESDIR}/fileops.patch" "${FILESDIR}/output.patch" \
 		"${FILESDIR}/aloc.patch" "${FILESDIR}/direc.patch"
 }
