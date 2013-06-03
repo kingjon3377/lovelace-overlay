@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+<herd>proxy-maintainers</herd>
+<longdescription>
+GNU Bool is a utility for matching boolean queries in text or html files.
+The boolean operators supported are AND, OR and NOT. Also supported is
+the NEAR operator for locating two expressions within a short
+distance from each other. Its main purpose is to help find files that match
+certain criteria.</longdescription>
+</pkgmetadata>

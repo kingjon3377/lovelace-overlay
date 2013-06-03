@@ -1,0 +1,11 @@
+--- gift-0.1.15e.orig/scripts/perl/gift-start.pre-pl	2002-07-22 09:09:29.000000000 +0200
++++ gift-0.1.15e/scripts/perl/gift-start.pre-pl	2004-04-20 01:16:46.751203000 +0200
+@@ -103,7 +103,7 @@
+ 
+ while(1){
+   print "doing ps\n";
+-  open PS,"ps -axww|" or die "could not ps";
++  open PS,"ps axww|" or die "could not ps";
+   
+   my $lFound=0;
+   my $lPID=0;

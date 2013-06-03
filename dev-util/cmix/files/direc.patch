@@ -1,0 +1,42 @@
+diff -ru src.old/analyzer/direc.y src/analyzer/direc.y
+--- src.old/analyzer/direc.y	2011-01-09 16:07:20.000000000 -0500
++++ src/analyzer/direc.y	2011-01-09 16:08:10.000000000 -0500
+@@ -171,7 +171,7 @@
+ 		directives.add_funanno($1,$2);
+ 		$$ = $1 ;
+ 	  }
+-	| anno_start ',' { $$ = $1 }
++	| anno_start ',' { $$ = $1; }
+ 
+ anno_start
+ 	: user_annotation ':' { $$ = $1 ; }
+@@ -336,16 +336,16 @@
+ 	: wellknown_directive
+ 
+ wellknown_directive
+-	: WELLKNOWN ':' identifier	 { directives.add_wellknown($3) }
+-	| wellknown_directive identifier { directives.add_wellknown($2) }
++	: WELLKNOWN ':' identifier	 { directives.add_wellknown($3); }
++	| wellknown_directive identifier { directives.add_wellknown($2); }
+ 
+ /* * * * * * * * * * * * */
+ 
+ directive: taboo_directive
+ 
+ taboo_directive
+-	: TABOO ':' identifier		{ directives.add_taboo($3) }
+-	| taboo_directive identifier	{ directives.add_taboo($2) }
++	: TABOO ':' identifier		{ directives.add_taboo($3); }
++	| taboo_directive identifier	{ directives.add_taboo($2); }
+ 
+ /* * * * * * * * * * * * */
+ 
+@@ -364,7 +364,7 @@
+ 	| AT { $$ = stringDup("at"); }
+ 	| MOST { $$ = stringDup("most"); }
+ 
+-marker: { $$.set(cmxhere) }
++marker: { $$.set(cmxhere); }
+ 
+ 
+ %%

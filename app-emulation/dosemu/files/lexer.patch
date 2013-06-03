@@ -1,0 +1,8 @@
+--- dosemu/src/base/init/lexer.h.new	2013-02-25 11:32:17.000000000 +0000
++++ dosemu/src/base/init/lexer.h	2013-02-25 11:34:43.000000000 +0000
+@@ -36,5 +36,4 @@
+ extern int yylex_destroy(void);
+ extern FILE* yyget_in(void);
+ extern FILE* yyget_out(void);
+-extern int yyget_leng(void);
+ extern char *yyget_text(void);

@@ -1,0 +1,22 @@
+diff -ru src.old/error.k src/error.k
+--- src.old/error.k	2011-01-08 21:32:09.000000000 -0500
++++ src/error.k	2011-01-08 21:34:19.000000000 -0500
+@@ -45,6 +45,7 @@
+ #include <cstdlib>
+ #include <cctype>
+ #include <string>
++#include <cstring>
+ using std::string;
+ 
+ // Cater for broken compilers (eg. MacOS gcc)
+diff -ru src.old/Gen.boot/error.h src/Gen.boot/error.h
+--- src.old/Gen.boot/error.h	2011-01-08 21:44:37.000000000 -0500
++++ src/Gen.boot/error.h	2011-01-08 21:45:31.000000000 -0500
+@@ -36,6 +36,7 @@
+ #include <cstdlib>
+ #include <cctype>
+ #include <string>
++#include <cstring>
+ using std::string;
+ 
+ // Cater for broken compilers (eg. MacOS gcc)

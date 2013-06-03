@@ -1,0 +1,441 @@
+--- opensched-0.4.4.orig/debian/control
++++ opensched-0.4.4/debian/control
+@@ -0,0 +1,24 @@
++Source: opensched
++Section: misc
++Priority: optional
++Maintainer: Debian QA Group <packages@qa.debian.org>
++Build-Depends: debhelper (>= 6), dpatch, texlive-latex-extra, gs-common, psutils, autotools-dev
++Standards-Version: 3.7.3
++Homepage: http://opensched.sourceforge.net/
++
++Package: opensched
++Architecture: any
++Depends: ${shlibs:Depends}, ${misc:Depends}
++Suggests: texlive-latex-extra, gs-common, www-browser
++Description: Tool for project management
++ This program is used to automatically schedule resources for a project.
++ It takes as input a file describing the project and generates the following:
++    * Textural descriptions of the generated project plan.
++    * Gantt charts.
++    * Network diagrams. 
++ .
++ The textural description can be generated in one or more of raw text, HTML, 
++ and TeX formats. 
++ .
++ The Gantt charts and network diagrams are generated directly as EPS drawings. 
++ The package contains a routine to convert these to GIFs.
+--- opensched-0.4.4.orig/debian/watch
++++ opensched-0.4.4/debian/watch
+@@ -0,0 +1,2 @@
++version=3
++http://sf.net/opensched/opensched-([\d\.]+)\.tar\.gz
+--- opensched-0.4.4.orig/debian/compat
++++ opensched-0.4.4/debian/compat
+@@ -0,0 +1 @@
++6
+--- opensched-0.4.4.orig/debian/rules
++++ opensched-0.4.4/debian/rules
+@@ -0,0 +1,88 @@
++#!/usr/bin/make -f
++# Sample debian/rules that uses debhelper.
++# GNU copyright 1997 to 1999 by Joey Hess.
++
++# Uncomment this to turn on verbose mode.
++#export DH_VERBOSE=1
++
++# Uncomment this to compile with gcc-snapshot.
++#export  CC=/usr/lib/gcc-snapshot/bin/gcc
++#export CXX=/usr/lib/gcc-snapshot/bin/g++
++#export CPP=/usr/lib/gcc-snapshot/bin/cpp
++
++# These are used for cross-compiling and for saving the configure script
++# from having to guess our platform (since we know it already)
++DEB_HOST_GNU_TYPE   ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
++DEB_BUILD_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
++
++include /usr/share/dpatch/dpatch.make
++
++CFLAGS = -Wall -g
++
++ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
++	CFLAGS += -O0
++else
++	CFLAGS += -O2
++endif
++ifeq (,$(findstring nostrip,$(DEB_BUILD_OPTIONS)))
++	INSTALL_PROGRAM += -s
++endif
++
++config.status: configure patch-stamp
++	dh_testdir
++ifneq "$(wildcard /usr/share/misc/config.sub)" ""
++	cp -f /usr/share/misc/config.sub config.sub
++endif
++ifneq "$(wildcard /usr/share/misc/config.guess)" ""
++	cp -f /usr/share/misc/config.guess config.guess
++endif
++	./configure --host=$(DEB_HOST_GNU_TYPE) --build=$(DEB_BUILD_GNU_TYPE) --prefix=/usr --mandir=\$${prefix}/share/man --infodir=\$${prefix}/share/info
++
++
++build: build-stamp
++
++build-stamp: config.status
++	dh_testdir
++	$(MAKE)
++	touch build-stamp
++
++clean: clean-patched unpatch
++	rm -f config.sub config.guess
++
++clean-patched:
++	dh_testdir
++	dh_testroot
++	rm -f build-stamp
++	(cd examples;[ ! -f Makefile ] || $(MAKE) clean)
++	[ ! -f Makefile ] || $(MAKE) distclean
++	dh_clean 
++
++install: build
++	dh_testdir
++	dh_testroot
++	dh_clean -k 
++	dh_installdirs
++	$(MAKE) install DESTDIR=$(CURDIR)/debian/opensched
++
++
++binary-indep: build install
++
++binary-arch: build install
++	dh_testdir
++	dh_testroot
++	dh_installdocs
++	dh_installchangelogs
++	dh_installexamples -XChangeLog -XMakefile -X.aux -X.dvi -X.txt -X.eps -X.ps -X.log examples/*
++	dh_installman
++	dh_link
++	dh_strip
++	dh_compress -X.sched
++	dh_fixperms
++	dh_installdeb
++	dh_shlibdeps
++	dh_gencontrol
++	dh_md5sums
++	dh_builddeb
++
++binary: binary-indep binary-arch
++.PHONY: build clean binary-indep binary-arch binary install 
+--- opensched-0.4.4.orig/debian/docs
++++ opensched-0.4.4/debian/docs
+@@ -0,0 +1,3 @@
++NEWS
++README
++TODO
+--- opensched-0.4.4.orig/debian/copyright
++++ opensched-0.4.4/debian/copyright
+@@ -0,0 +1,26 @@
++Original source downloaded from http://opensched.sourceforge.net/
++
++Files: debian/*
++Copyright: © 2003-2005, Tommaso Moroni <moronito@debian.org>
++
++Files: *
++Copyright: © 2001 - 2003, Dr Alan M. McIvor <alan@users.sourceforge.net>
++	   © 2001 - 2003, Guilhem Bonnefille <guyou@users.sourceforge.net.
++	   © 2000 Idan Shoham <idan@m-tech.ab.ca>
++License: GPL-2+
++ This package is free software; you can redistribute it and/or modify
++ it under the terms of the GNU General Public License as published by
++ the Free Software Foundation; either version 2 of the License, or
++ (at your option) any later version.
++ .
++ This package is distributed in the hope that it will be useful,
++ but WITHOUT ANY WARRANTY; without even the implied warranty of
++ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ GNU General Public License for more details.
++ .
++ You should have received a copy of the GNU General Public License
++ along with this package; if not, write to the Free Software
++ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
++
++On Debian systems, the complete text of the GNU General
++Public License can be found in `/usr/share/common-licenses/GPL-2'.
+--- opensched-0.4.4.orig/debian/patches/01-sched.cc.dpatch
++++ opensched-0.4.4/debian/patches/01-sched.cc.dpatch
+@@ -0,0 +1,31 @@
++#! /bin/sh /usr/share/dpatch/dpatch-run
++## test.dpatch by Tommaso Moroni <moronito@debian.org>
++##
++## All lines beginning with `## DP:' are a description of the patch.
++## DP: Call WorkBlock instead of BookResource.
++
++@DPATCH@
++
++--- opensched-0.4.4.orig/src/sched.cc	2003-08-28 17:42:42.000000000 +0200
+++++ opensched/src/sched.cc	2004-02-29 14:41:14.000000000 +0100
++@@ -870,9 +870,8 @@
++ 	   if ( t->numCandidates() == 1 )
++ 	   {
++ 	       t->setAssigned( *(t->begin_cando()) );
++-	       BookResource( t, NULL, t->assigned(), t->start(), t->start(), 
++-			     TimeBlock::AUTO_SCHEDULE );
++-	       t->setDuration( t->duration() - 1 );
+++	       WorkBlock( t, t->assigned(), t->start(), t->start(), 
+++                      TimeBlock::AUTO_SCHEDULE );
++ 	   }
++ 
++ 	   // fix the start of the reverse schedule too!
++@@ -921,7 +920,7 @@
++ 		if ( t->duration() <= 0 )
++ 		    Error("Finish task date generates duration <= 0");
++ 	    }
++-  
+++
++ 	    if ( t->assigned() != NULL )
++ 	    {
++ 		BookResource( t, NULL, t->assigned(), t->start(), t->finish(), 
+--- opensched-0.4.4.orig/debian/patches/02-opensched.1.in.dpatch
++++ opensched-0.4.4/debian/patches/02-opensched.1.in.dpatch
+@@ -0,0 +1,28 @@
++#! /bin/sh /usr/share/dpatch/dpatch-run
++## 02-opensched.1.in.dpatch by Tommaso Moroni <moronito@debian.org>
++##
++## All lines beginning with `## DP:' are a description of the patch.
++## DP: Fix spelling errors in man page.
++
++@DPATCH@
++diff -urNad opensched-0.4.4/doc/opensched.1.in /tmp/dpep.TJKrkk/opensched-0.4.4/doc/opensched.1.in
++--- opensched-0.4.4/doc/opensched.1.in	2003-11-01 18:56:51.000000000 +0100
+++++ /tmp/dpep.TJKrkk/opensched-0.4.4/doc/opensched.1.in	2005-02-05 07:07:40.000000000 +0100
++@@ -6,7 +6,7 @@
++ .sp
++ .SH DESCRIPTION
++ The
++-.B openched
+++.B opensched
++ program accepts a project description
++ .I file\c
++ , assigns tasks to resources, schedules tasks to time
++@@ -16,7 +16,7 @@
++ what has to be done, who can do it, etc.
++ 
++ The user runs the
++-.B openched
+++.B opensched
++ program (perhaps using a Makefile).  The
++ program will schedule any tasks that have not been
++ assigned to people and time periods by the user.  It then
+--- opensched-0.4.4.orig/debian/patches/00list
++++ opensched-0.4.4/debian/patches/00list
+@@ -0,0 +1,4 @@
++01-sched.cc.dpatch
++02-opensched.1.in.dpatch
++03-gcc43_fix.dpatch
++04-manpage-typos.dpatch
+--- opensched-0.4.4.orig/debian/patches/04-manpage-typos.dpatch
++++ opensched-0.4.4/debian/patches/04-manpage-typos.dpatch
+@@ -0,0 +1,31 @@
++#! /bin/sh /usr/share/dpatch/dpatch-run
++## 04-manpage-typos.dpatch by  <varun@debian.org>
++##
++## All lines beginning with `## DP:' are a description of the patch.
++## DP: Fix spelling error in man pages.
++
++@DPATCH@
++diff -urNad opensched-0.4.4~/doc/opensched_eps2gif.1.in opensched-0.4.4/doc/opensched_eps2gif.1.in
++--- opensched-0.4.4~/doc/opensched_eps2gif.1.in	2003-04-25 01:33:14.000000000 +0530
+++++ opensched-0.4.4/doc/opensched_eps2gif.1.in	2007-12-14 16:06:14.000000000 +0530
++@@ -8,7 +8,7 @@
++ The
++ .B openched_eps2gif
++ program converts EPS file produced by
++-.B openched\c
+++.B opensched\c
++ .
++ 
++ .SH "SEE ALSO"
++diff -urNad opensched-0.4.4~/doc/opensched_eps2png.1.in opensched-0.4.4/doc/opensched_eps2png.1.in
++--- opensched-0.4.4~/doc/opensched_eps2png.1.in	2003-04-25 01:28:47.000000000 +0530
+++++ opensched-0.4.4/doc/opensched_eps2png.1.in	2007-12-14 16:06:02.000000000 +0530
++@@ -8,7 +8,7 @@
++ The
++ .B openched_eps2png
++ program converts EPS file produced by
++-.B openched\c
+++.B opensched\c
++ .
++ 
++ .SH "SEE ALSO"
+--- opensched-0.4.4.orig/debian/patches/03-gcc43_fix.dpatch
++++ opensched-0.4.4/debian/patches/03-gcc43_fix.dpatch
+@@ -0,0 +1,84 @@
++#! /bin/sh /usr/share/dpatch/dpatch-run
++## 03_gcc43_fix.dpatch by  <akumar@ee.iitm.ac.in>
++##
++## All lines beginning with `## DP:' are a description of the patch.
++## DP: Patch from Martin Michlmayr to fix FTBFS on GCC 4.3.
++
++@DPATCH@
++diff -urNad opensched-0.4.4~/src/loadfile.cc opensched-0.4.4/src/loadfile.cc
++--- opensched-0.4.4~/src/loadfile.cc	2003-08-28 21:08:34.000000000 +0530
+++++ opensched-0.4.4/src/loadfile.cc	2007-12-11 20:16:56.000000000 +0530
++@@ -16,6 +16,7 @@
++ ** Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
++ */
++ 
+++#include <cstdlib>
++ #include <iostream>
++ #include <string>
++ 
++diff -urNad opensched-0.4.4~/src/main.cc opensched-0.4.4/src/main.cc
++--- opensched-0.4.4~/src/main.cc	2003-11-15 03:28:07.000000000 +0530
+++++ opensched-0.4.4/src/main.cc	2007-12-11 20:16:26.000000000 +0530
++@@ -19,6 +19,7 @@
++ #include <config.h>
++ #endif
++ 
+++#include <cstdlib>
++ #include <iostream>
++ #include <cstdio>
++ #include <list>
++diff -urNad opensched-0.4.4~/src/network.cc opensched-0.4.4/src/network.cc
++--- opensched-0.4.4~/src/network.cc	2003-08-28 21:08:44.000000000 +0530
+++++ opensched-0.4.4/src/network.cc	2007-12-11 20:17:39.000000000 +0530
++@@ -23,6 +23,7 @@
++ 
++ #include "project.h"
++ #include "reporter.h"
+++#include <cstdlib>
++ 
++ static NETWORK_CELL **network_cols;
++ static int numX;
++diff -urNad opensched-0.4.4~/src/parseline.cc opensched-0.4.4/src/parseline.cc
++--- opensched-0.4.4~/src/parseline.cc	2003-08-28 21:08:44.000000000 +0530
+++++ opensched-0.4.4/src/parseline.cc	2007-12-11 20:17:49.000000000 +0530
++@@ -22,6 +22,7 @@
++ using namespace std;
++ 
++ #include "projectFile.h"
+++#include <cstdlib>
++ 
++ enum myparserstates
++   {
++diff -urNad opensched-0.4.4~/src/print.cc opensched-0.4.4/src/print.cc
++--- opensched-0.4.4~/src/print.cc	2003-08-28 21:08:44.000000000 +0530
+++++ opensched-0.4.4/src/print.cc	2007-12-11 20:17:27.000000000 +0530
++@@ -24,6 +24,7 @@
++ #include "messenger.h"
++ #include "project.h"
++ #include "reporter.h"
+++#include <cstdlib>
++ 
++ char *longMonthNames[] =
++ {
++diff -urNad opensched-0.4.4~/src/slippage.cc opensched-0.4.4/src/slippage.cc
++--- opensched-0.4.4~/src/slippage.cc	2003-08-28 21:08:44.000000000 +0530
+++++ opensched-0.4.4/src/slippage.cc	2007-12-11 20:17:14.000000000 +0530
++@@ -23,6 +23,7 @@
++ 
++ #include "project.h"
++ #include "reporter.h"
+++#include <cstdlib>
++ 
++ void Reporter::SlippageReport( Project *project )
++ {
++diff -urNad opensched-0.4.4~/src/task.h opensched-0.4.4/src/task.h
++--- opensched-0.4.4~/src/task.h	2003-06-17 13:02:49.000000000 +0200
+++++ opensched-0.4.4/src/task.h	2008-01-26 15:59:15.000000000 +0100
++@@ -24,6 +24,7 @@
++ #include <string>
++ #include <vector>
++ #include <cstdarg>
+++#include <cstring>
++ using namespace std;
++ 
++ #include "base.h"
+--- opensched-0.4.4.orig/debian/changelog
++++ opensched-0.4.4/debian/changelog
+@@ -0,0 +1,83 @@
++opensched (0.4.4-6) unstable; urgency=low
++
++  * QA upload.
++  * debian/patches/:
++    + 03-gcc43_fix.dpatch: Also add "#include <cstring>" to src/task.h.
++      (Closes: #417463 again)
++    + 04-manpage-typos.dpatch: Added description of the patch to make Lintian
++      happy.
++  * debian/control: Added comma between ${shlibs:Depends} and ${misc:Depends}.
++  * Bumped debhelper compat level from V5 to V6 since this is the current
++    recommended level and raised the build dependency to "debhelper (>= 6)".
++
++ -- Frank S. Thomas <fst@debian.org>  Sat, 26 Jan 2008 16:38:46 +0100
++
++opensched (0.4.4-5) unstable; urgency=low
++
++  * QA upload.
++  * debian/control:
++    + Depend and Build-Depend on texlive-latex-extra
++      instead of tetex-extra and tetex-bin.
++    + Add Homepage field.
++    + Bump Standards Version to 3.7.3 (no changes needed).
++    + Depend on debhelper 5 and above.
++    + Make Debian QA Group the maintainer.
++    + Depend on autotools-dev for config.{guess,sub}.
++  * debian/patches:
++    + 03-gcc43_fix.dpatch: Patch from Martin Michlmayr to
++      fix FTBFS on GCC 4.3. (Closes: #417463)
++    + 04-manpage-typos.dpatch: Fix typos in man pages.
++  * debian/rules:
++    + Remove config.{guess,sub} in clean.
++    + Explicitly run clean on examples to remove generated
++      binary documents and images. (Closes: #424366)
++    + Don't ignore make distclean errors.
++    + Don't install generated DVI, PS and text documents for examples.
++  * debian/compat: Bump to 5.
++  * debian/watch: Added.
++  * debian/copyright: Rewrite to conform to new proposed copyright format.
++
++ -- Kumar Appaiah <akumar@ee.iitm.ac.in>  Fri, 14 Dec 2007 08:38:28 +0530
++
++opensched (0.4.4-4) unstable; urgency=low
++
++  * debian/control: Standards-Version bumped to 3.6.2 (no changes)
++  * Rebuilt for g++ 4.0 ABI transition
++
++ -- Tommaso Moroni <moronito@debian.org>  Thu,  1 Sep 2005 19:53:43 +0200
++
++opensched (0.4.4-3) unstable; urgency=low
++
++  * Added a patch correcting some typos in doc/opensched.1.in. Closes: #288747
++  * debian/control: removed build-dep on automake1.7
++    and added one on psutils.
++
++ -- Tommaso Moroni <moronito@debian.org>  Sat,  5 Feb 2005 07:08:56 +0100
++
++opensched (0.4.4-2) unstable; urgency=low
++
++  * Added a patch for src/sched.cc cherrypicked from upstream CVS. Closes: #219272
++
++ -- Tommaso Moroni <moronito@debian.org>  Thu, 11 Nov 2004 18:59:23 +0100
++
++opensched (0.4.4-1) unstable; urgency=low
++
++  * New upstream release
++  * src/main.cc: throw exception if a invalid filename is specified. Closes: #219437
++  * doc/opensched.1.in: corrected some minor errors. Closes: #214539
++  
++ -- Tommaso Moroni <moronito@debian.org>  Sun,  7 Dec 2003 16:42:16 +0100
++
++opensched (0.4.3-2) unstable; urgency=low
++
++  * debian/dirs: minor tweak.
++  * debian/rules: examples installed.
++
++ -- Tommaso Moroni <moronito@debian.org>  Wed, 24 Sep 2003 12:11:37 +0200
++
++opensched (0.4.3-1) unstable; urgency=low
++
++  * Initial Release. Closes: #196824
++
++ -- Tommaso Moroni <moronito@debian.org>  Sat,  6 Sep 2003 09:45:31 +0200
++

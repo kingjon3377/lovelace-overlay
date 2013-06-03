@@ -1,0 +1,24 @@
+# Copyright (C) 2008 by Miriam Ruiz <little_miry@yahoo.es>
+# Distributed under the same license as the program. See debian/copyright.
+
+Index: sdlbasic/src/sdlBasic/src/sdlBrt/makefile
+===================================================================
+--- sdlbasic.orig/src/sdlBasic/src/sdlBrt/makefile	2008-09-13 04:43:51.000000000 +0200
++++ sdlbasic/src/sdlBasic/src/sdlBrt/makefile	2008-09-13 04:46:04.000000000 +0200
+@@ -98,6 +98,7 @@
+ DEJAVUSANS_TTF=/usr/share/fonts/truetype/ttf-dejavu/DejaVuSans.ttf
+ 
+ CFLAG= -Wall -g -O2 -I/usr/include/SDL -D_REENTRAT -DPLAY_MOD -DUNIX -DLINUX -DDEJAVUSANS_TTF=\"$(DEJAVUSANS_TTF)\"
++LDFLAGS=
+ 
+ COMPILE=$(CPP) $(CFLAG)
+ 
+@@ -303,7 +304,7 @@
+ all: 		$(TARGET)
+ 
+ $(TARGET):	$(OBJECT) $(RC)
+-	$(COMPILE) -o $(TARGET) $^ $(LIBS)
++	$(COMPILE) -o $(TARGET) $^ $(LIBS) $(LDFLAGS)
+ 
+ ifeq ($(stripped), yes)
+ 	    $(STRIP) $(TARGET)

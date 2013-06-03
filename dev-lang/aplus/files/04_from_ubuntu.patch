@@ -1,0 +1,157 @@
+--- aplus-fsf-4.22.1.orig/src/MSTypes/MSObjectTypeVectorInlines.C
++++ aplus-fsf-4.22.1/src/MSTypes/MSObjectTypeVectorInlines.C
+@@ -87,7 +87,7 @@
+ template <class Type>
+ INLINELINKAGE MSObjectVector<Type> MSObjectVector<Type>::operator[] (const MSBinaryVector & bVect_) const
+ {
+-  return compress (*this, bVect_);
++  return this->compress (*this, bVect_);
+ }
+ 
+ 
+--- aplus-fsf-4.22.1.orig/src/MSTypes/MSObservableTree.C
++++ aplus-fsf-4.22.1/src/MSTypes/MSObservableTree.C
+@@ -94,7 +94,7 @@
+ void MSObservableTree<Element>::removeSubtree(const MSTabularTreeCursor<Element>& cursor_)
+ {
+   MSTabularTreeCursor<Element> cursor2(cursor_);
+-  unsigned long pos=position(cursor2);
++  unsigned long pos=this->position(cursor2);
+   cursor2.setToParent();
+   MSTabularTree<Element>::removeSubtree(cursor_);
+   if (cursor2.isValid()) changed(cursor2,pos,MSObservableTreeDelete);
+@@ -162,7 +162,7 @@
+ void MSObservableTree<Element>::replaceAt(MSTabularTreeCursor<Element> const& cursor_,Element const& element_)
+ {
+   MSTabularTree<Element>::replaceAt(cursor_,element_);
+-  changed(cursor_,position(cursor_),MSObservableTreeAssign);
++  changed(cursor_,this->position(cursor_),MSObservableTreeAssign);
+ }
+ 
+ template <class Element>
+@@ -170,10 +170,10 @@
+ {
+   if (&tree_!=this)
+    {
+-     if (isRoot(cursor_)) copy(tree_);
++     if (this->isRoot(cursor_)) copy(tree_);
+      else
+       {
+-	unsigned long pos=position(cursor_);
++	unsigned long pos=this->position(cursor_);
+ 	MSTabularTreeCursor<Element> cursor=cursor_;
+ 	cursor.setToParent();
+ 	MSTabularTree<Element>::removeSubtree(cursor_);
+@@ -199,7 +199,7 @@
+ template <class Element>
+ void MSObservableTree<Element>::elementChanged(MSTabularTreeCursor<Element> const& cursor_)
+ {
+-  changed(cursor_,position(cursor_),MSObservableTreeAssign);
++  changed(cursor_,this->position(cursor_),MSObservableTreeAssign);
+ }
+ 
+ template <class Element>
+--- aplus-fsf-4.22.1.orig/src/MSTypes/MSTypeData.H
++++ aplus-fsf-4.22.1/src/MSTypes/MSTypeData.H
+@@ -9,6 +9,7 @@
+ //
+ ///////////////////////////////////////////////////////////////////////////////
+ 
++#include <cstddef>
+ 
+ #ifndef MSDefinesHEADER
+ #include <MSTypes/MSDefines.H>
+--- aplus-fsf-4.22.1.orig/src/MSTypes/MSBuiltinTypeVectorInlines.C
++++ aplus-fsf-4.22.1/src/MSTypes/MSBuiltinTypeVectorInlines.C
+@@ -77,7 +77,7 @@
+ template <class Type>
+ INLINELINKAGE MSBuiltinVector<Type> MSBuiltinVector<Type>::operator[] (const MSBinaryVector & bVect_) const
+ {
+-  return compress (*this, bVect_);
++  return this->compress (*this, bVect_);
+ }
+ 
+ 
+--- aplus-fsf-4.22.1.orig/src/MSGUI/Makefile.am
++++ aplus-fsf-4.22.1/src/MSGUI/Makefile.am
+@@ -382,6 +382,8 @@
+ 	MSWidgetView.H\
+ 	MSWindow.H
+ 
++libMSGUI_la_LIBADD = $(X_LIBS)
++
+ EXTRA_DIST = \
+ 	MSArrayViewInlines.C\
+ 	MSCompositeTextInlines.C\
+--- aplus-fsf-4.22.1.orig/src/MSGUI/Makefile.in
++++ aplus-fsf-4.22.1/src/MSGUI/Makefile.in
+@@ -466,6 +466,7 @@
+ 	MSWidgetView.H\
+ 	MSWindow.H
+ 
++libMSGUI_la_LIBADD = $(X_LIBS)
+ 
+ EXTRA_DIST = \
+ 	MSArrayViewInlines.C\
+--- aplus-fsf-4.22.1.orig/src/main/Makefile.am
++++ aplus-fsf-4.22.1/src/main/Makefile.am
+@@ -37,7 +37,8 @@
+ 	$(top_srcdir)/src/dap/libdap.la \
+ 	$(top_srcdir)/src/MSGUI/libMSGUI.la \
+ 	$(top_srcdir)/src/MSIPC/libMSIPC.la \
+-	$(top_srcdir)/src/MSTypes/libMSTypes.la 
++	$(top_srcdir)/src/MSTypes/libMSTypes.la \
++	$(X_LIBS) $(LIBS)
+ 
+ aplus_LDFLAGS = \
+ 	-L$(top_srcdir)/src/IPC \
+@@ -51,8 +52,7 @@
+ 	-L$(top_srcdir)/src/dap \
+ 	-L$(top_srcdir)/src/MSGUI \
+ 	-L$(top_srcdir)/src/MSIPC \
+-	-L$(top_srcdir)/src/MSTypes \
+-	$(X_LIBS) $(LIBS)
++	-L$(top_srcdir)/src/MSTypes
+ 
+ install-exec-hook:
+ 	mv $(DESTDIR)$(bindir)/aplus $(DESTDIR)$(bindir)/a+
+--- aplus-fsf-4.22.1.orig/src/main/Makefile.in
++++ aplus-fsf-4.22.1/src/main/Makefile.in
+@@ -122,7 +122,8 @@
+ 	$(top_srcdir)/src/dap/libdap.la \
+ 	$(top_srcdir)/src/MSGUI/libMSGUI.la \
+ 	$(top_srcdir)/src/MSIPC/libMSIPC.la \
+-	$(top_srcdir)/src/MSTypes/libMSTypes.la 
++	$(top_srcdir)/src/MSTypes/libMSTypes.la \
++	$(X_LIBS) $(LIBS)
+ 
+ 
+ aplus_LDFLAGS = \
+@@ -137,8 +138,7 @@
+ 	-L$(top_srcdir)/src/dap \
+ 	-L$(top_srcdir)/src/MSGUI \
+ 	-L$(top_srcdir)/src/MSIPC \
+-	-L$(top_srcdir)/src/MSTypes \
+-	$(X_LIBS) $(LIBS)
++	-L$(top_srcdir)/src/MSTypes
+ 
+ subdir = src/main
+ mkinstalldirs = $(SHELL) $(top_srcdir)/config/mkinstalldirs
+@@ -449,7 +449,7 @@
+ 	rm -f $@;\
+ 	cat version.h.template | sed -e s/%RCVAL%/$(VERSION)/ \
+ 		-e s/%FNVAL%/$(OWNER_FULLNAME)/ \
+-		-e s@%IMDIRVAL%@$(prefix)@ >$@;
++		-e s@%IMDIRVAL%@$(libdir)@ >$@;
+ 
+ FORCE:
+ # Tell versions [3.59,3.63) of GNU make to not export all variables.
+--- aplus-fsf-4.22.1.orig/src/main/version.h
++++ aplus-fsf-4.22.1/src/main/version.h
+@@ -12,5 +12,5 @@
+ /* external macro declarations */
+ #define RELEASE_CODE 	                "4.22"
+ #define OWNER_FULLNAME                  ""
+-#define IMDIR                           "/usr/local"
++#define IMDIR                           "/usr/lib/aplus-fsf"
+ #endif /* included_main_version_h */

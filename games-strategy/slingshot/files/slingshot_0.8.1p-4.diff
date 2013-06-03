@@ -1,0 +1,554 @@
+--- slingshot-0.8.1p.orig/debian/watch
++++ slingshot-0.8.1p/debian/watch
+@@ -0,0 +1,3 @@
++# Compulsory line, this is a version 3 file
++version=3
++http://download.slingshot-game.org/slingshot-([^-]+)\.tar\.gz
+--- slingshot-0.8.1p.orig/debian/slingshot-launcher
++++ slingshot-0.8.1p/debian/slingshot-launcher
+@@ -0,0 +1,7 @@
++#! /bin/sh
++# Launch slingshot.
++# cd into the directory first instead of running ``python
++# /usr/.../slingshot.py'' because slingshot.py depends on private modules stored
++# under /usr/share/games/slingshot/
++cd /usr/share/games/slingshot/
++exec python slingshot.py $@
+--- slingshot-0.8.1p.orig/debian/dirs
++++ slingshot-0.8.1p/debian/dirs
+@@ -0,0 +1,5 @@
++usr/games/
++usr/share/applications
++usr/share/games/slingshot
++usr/share/games/slingshot/data
++usr/share/pixmaps
+--- slingshot-0.8.1p.orig/debian/compat
++++ slingshot-0.8.1p/debian/compat
+@@ -0,0 +1 @@
++5
+--- slingshot-0.8.1p.orig/debian/slingshot.menu
++++ slingshot-0.8.1p/debian/slingshot.menu
+@@ -0,0 +1,3 @@
++?package(slingshot):needs="X11" section="Games/Strategy"\
++  title="slingshot" command="/usr/games/slingshot"\
++  icon="/usr/share/pixmaps/slingshot.xpm"
+--- slingshot-0.8.1p.orig/debian/copyright
++++ slingshot-0.8.1p/debian/copyright
+@@ -0,0 +1,40 @@
++This package was debianized by Ryan Kavanagh <ryanakca@kubuntu.org> on
++Sat, 14 Jun 2008 21:55:24 -0400.
++
++It was downloaded from http://www.slingshot-game.org/
++
++Upstream Authors: 
++ 
++    Jonathan Musther <jon@slingshot-game.org>
++    Bart Mak
++
++Copyright: 
++
++    Slingshot program:
++      Copyright (C) 2007 Jonathan Musther
++      Copyright (C) 2007 Bart Mak
++    slingshot/data/FreeSansBold.ttf:
++      Copyright (C) 2002, 2003, 2005, 2008 Free Software Foundation
++
++License:
++
++    This package is free software; you can redistribute it and/or modify
++    it under the terms of the GNU General Public License as published by
++    the Free Software Foundation; either version 2 of the License, or
++    (at your option) any later version.
++ 
++    This package is distributed in the hope that it will be useful,
++    but WITHOUT ANY WARRANTY; without even the implied warranty of
++    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++    GNU General Public License for more details.
++ 
++    You should have received a copy of the GNU General Public License
++    along with this package; if not, write to the Free Software
++    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
++
++On Debian systems, the complete text of the GNU General
++Public License can be found in `/usr/share/common-licenses/GPL-2'.
++
++The Debian packaging is Copyright (C) 2008--2009, Ryan Kavanagh
++<ryanakca@kubuntu.org> and is licensed under the GPL version 2, or (at your
++option), any later version, see above.
+--- slingshot-0.8.1p.orig/debian/rules
++++ slingshot-0.8.1p/debian/rules
+@@ -0,0 +1,17 @@
++#!/usr/bin/make -f
++
++include /usr/share/cdbs/1/rules/debhelper.mk
++
++DEB_COMPRESS_EXCLUDE := .py
++DEB_INSTALL_MANPAGES_slingshot := debian/slingshot.1
++
++binary-post-install/slingshot::
++	dh_pysupport
++	# Install the launcher
++	install --mode=755 $(CURDIR)/debian/slingshot-launcher \
++	    $(CURDIR)/debian/slingshot/usr/games/slingshot
++	# We don't need the graphics and fonts to be executable
++	chmod 644 $(CURDIR)/debian/slingshot/usr/share/games/slingshot/data/*
++	rm $(CURDIR)/debian/slingshot/usr/share/games/slingshot/data/FreeSansBold.ttf
++	ln -s ../../../fonts/truetype/freefont/FreeSansBold.ttf \
++	    $(CURDIR)/debian/slingshot/usr/share/games/slingshot/data/FreeSansBold.ttf
+--- slingshot-0.8.1p.orig/debian/slingshot.install
++++ slingshot-0.8.1p/debian/slingshot.install
+@@ -0,0 +1,4 @@
++slingshot/*.py usr/share/games/slingshot
++slingshot/data/* usr/share/games/slingshot/data
++debian/slingshot.desktop usr/share/applications/
++debian/slingshot.xpm usr/share/pixmaps/
+--- slingshot-0.8.1p.orig/debian/slingshot.xpm
++++ slingshot-0.8.1p/debian/slingshot.xpm
+@@ -0,0 +1,294 @@
++/* XPM */
++static char *slingshot[] = {
++/* columns rows colors chars-per-pixel */
++"32 32 256 2",
++"   c #0E0907",
++".  c #090C0A",
++"X  c #120504",
++"o  c #1F0504",
++"O  c #0A100E",
++"+  c #0D1412",
++"@  c #131B17",
++"#  c #280808",
++"$  c #370707",
++"%  c #340B0B",
++"&  c #221312",
++"*  c #231C19",
++"=  c #391110",
++"-  c #3F1C1A",
++";  c #1A241F",
++":  c #3E201D",
++">  c #1B2521",
++",  c #1F2C26",
++"<  c #292420",
++"1  c #252824",
++"2  c #3A2825",
++"3  c #26342E",
++"4  c #2F3F38",
++"5  c #2D3C36",
++"6  c #3A3833",
++"7  c #420202",
++"8  c #560B0B",
++"9  c #4E100F",
++"0  c #491312",
++"q  c #421F1B",
++"w  c #5B1818",
++"e  c #521616",
++"r  c #6D0202",
++"t  c #610B0A",
++"y  c #700606",
++"u  c #740C0C",
++"i  c #7B0A0A",
++"p  c #601E1E",
++"a  c #691F1E",
++"s  c #761010",
++"d  c #791515",
++"f  c #7D1C1C",
++"g  c #61201F",
++"h  c #422C27",
++"j  c #502321",
++"k  c #582622",
++"l  c #5E342F",
++"z  c #433832",
++"x  c #4E3A35",
++"c  c #5C3A34",
++"v  c #662222",
++"b  c #6C2B2B",
++"n  c #642A28",
++"m  c #742323",
++"M  c #6E3B33",
++"N  c #7A3130",
++"B  c #34433C",
++"V  c #3E433D",
++"C  c #44433C",
++"Z  c #63473F",
++"A  c #7C423F",
++"S  c #3F4E40",
++"D  c #3D5E4E",
++"F  c #3C6150",
++"G  c #474741",
++"H  c #4B4D46",
++"J  c #5A4E41",
++"K  c #445647",
++"L  c #4D5847",
++"P  c #405049",
++"I  c #435F4D",
++"U  c #52554E",
++"Y  c #4A5D54",
++"T  c #5A5E53",
++"R  c #67564B",
++"E  c #7C5B4E",
++"W  c #56604F",
++"Q  c #456254",
++"!  c #4C6B57",
++"~  c #4D6158",
++"^  c #4D6E5E",
++"/  c #54645B",
++"(  c #546B5B",
++")  c #5F6B58",
++"_  c #576453",
++"`  c #636352",
++"'  c #6B6253",
++"]  c #6F665D",
++"[  c #7E6458",
++"{  c #736B5C",
++"}  c #786254",
++"|  c #75725E",
++" . c #516E60",
++".. c #5A6E65",
++"X. c #4C7461",
++"o. c #537564",
++"O. c #5C7464",
++"+. c #5E786C",
++"@. c #616D62",
++"#. c #617764",
++"$. c #6C7365",
++"%. c #6E7966",
++"&. c #627A6D",
++"*. c #6E7A6F",
++"=. c #657169",
++"-. c #7C7767",
++";. c #757C6F",
++":. c #7E7C6F",
++">. c #637D71",
++",. c #850909",
++"<. c #8A1616",
++"1. c #991010",
++"2. c #812424",
++"3. c #832A2A",
++"4. c #9F2424",
++"5. c #813131",
++"6. c #8C3332",
++"7. c #823A34",
++"8. c #803B39",
++"9. c #B52A2A",
++"0. c #BF3F3D",
++"q. c #8D403F",
++"w. c #834B44",
++"e. c #924342",
++"r. c #994D4B",
++"t. c #82584F",
++"y. c #815F51",
++"u. c #995A50",
++"i. c #A24C4A",
++"p. c #A55452",
++"a. c #AF5351",
++"s. c #A75F59",
++"d. c #A35E57",
++"f. c #B35650",
++"g. c #BB5655",
++"h. c #856556",
++"j. c #8C6C5C",
++"k. c #89655A",
++"l. c #996257",
++"z. c #9D665B",
++"x. c #9E6A5D",
++"c. c #946359",
++"v. c #A26B5F",
++"b. c #B6615F",
++"n. c #B9635F",
++"m. c #8A6C60",
++"M. c #996B60",
++"N. c #877566",
++"B. c #8B7062",
++"V. c #847F6F",
++"C. c #997064",
++"Z. c #9A7168",
++"A. c #997B6D",
++"S. c #8D7C72",
++"D. c #9A7F72",
++"F. c #AF6C63",
++"G. c #B36C61",
++"H. c #BB6D64",
++"J. c #B96564",
++"K. c #A5776D",
++"L. c #BD766F",
++"P. c #B1756B",
++"I. c #BD7D75",
++"U. c #D35252",
++"Y. c #C26A67",
++"T. c #C97470",
++"R. c #CD7A74",
++"E. c #CA7E79",
++"W. c #D97776",
++"Q. c #D27874",
++"!. c #D17D7A",
++"~. c #E77B7B",
++"^. c #59806D",
++"/. c #5B8471",
++"(. c #5C8B75",
++"). c #6E8976",
++"_. c #648A78",
++"`. c #6B8B7D",
++"'. c #658572",
++"]. c #738A7C",
++"[. c #7B8B7C",
++"{. c #758475",
++"}. c #848071",
++"|. c #8C8272",
++" X c #8A8A79",
++".X c #868C7E",
++"XX c #9B8779",
++"oX c #938172",
++"OX c #AC8278",
++"+X c #D9807C",
++"@X c #6F8D80",
++"#X c #788E83",
++"$X c #738F82",
++"%X c #6F9D88",
++"&X c #6C9985",
++"*X c #759485",
++"=X c #7C9284",
++"-X c #7F9789",
++";X c #759B89",
++":X c #7A9C8C",
++">X c #78A28E",
++",X c #7CA492",
++"<X c #7CAA94",
++"1X c #839283",
++"2X c #8E9181",
++"3X c #83958A",
++"4X c #89998E",
++"5X c #929A8E",
++"6X c #869C90",
++"7X c #889D90",
++"8X c #969D90",
++"9X c #A49F91",
++"0X c #AC9F90",
++"qX c #82A494",
++"wX c #8CA194",
++"eX c #83AA96",
++"rX c #8EA598",
++"tX c #84AD9A",
++"yX c #8AAB9B",
++"uX c #91A396",
++"iX c #9EA699",
++"pX c #91AB9D",
++"aX c #87B59F",
++"sX c #8DB19F",
++"dX c #A6A79A",
++"fX c #8CB5A1",
++"gX c #8DB8A2",
++"hX c #92B4A3",
++"jX c #91BDA6",
++"kX c #96BCA9",
++"lX c #9ABBAA",
++"zX c #DB8481",
++"xX c #D48984",
++"cX c #DE8985",
++"vX c #D48E88",
++"bX c #DE8A89",
++"nX c #ED8281",
++"mX c #E5908D",
++"MX c #E8908E",
++"NX c #EC9393",
++"BX c #E79897",
++"VX c #EB9D9A",
++"CX c #F1A5A4",
++"ZX c #F5B3B3",
++"AX c #9EC0AD",
++"SX c #96C0AB",
++"DX c #9FC4B0",
++"FX c #9FC9B3",
++"GX c #A1C4B1",
++"HX c #A4C9B4",
++"JX c #B2D4BF",
++"KX c #B3D4C1",
++"LX c #F8C3C3",
++"PX c #FBD7D7",
++"IX c #FBE2E2",
++"UX c None",
++/* pixels */
++"UXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXf s r u 3.",
++"UXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXf d 2.UXUXu y ",
++"UXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXd UXUXUXUXUXd u ",
++"UXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXd 3.UXUXUXUXUXUXd s ",
++"UXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUX<.UXUXUXUXUXUXUXUXr UX",
++"UXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXm 2.UXUXUXUXUXUXUXUX2.u UX",
++"UXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXf UXUXUXUXUXUXUXUXUXUXy m UX",
++"UXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXd UXUXUXUXUXUXUXUXUXUX2.y UXUX",
++"UXUXUXUXUXUXUXUXtXtXfXyX6XwXpXrXE UXUXUXUXUXUXUXUXUXUXUXr UXUXUX",
++"UXUXUXUXUXUXyX;X;X;X:X$X=X3X6X6X3X#X{.UXUXUXUXUXUXUXUXu f UXUXUX",
++"UXUXUXUXUXyXGXHXgX<X_.+.&.`.:XeX3X3X=./ UXUXUXUXUXUX6.r UXUXUXUX",
++"UXUXUXUXaXFXJXjX<X&Xo.X. .&.=XwX8X3X*.U G UXUXUXUXe.r UXUXUXUXUX",
++"UXUXUXsXGXKXfX:X@X^.o. .O.#.)..X3X1X:.T C 6 UXUXUXr d UXUXUXUXUX",
++"UXUXqXhXKXjX>X_././.O.&.'.;.{. X XV.-.' x 2 2 UXi d UXUXUXUXUXUX",
++"UXUX;XlXHX%X^.o.^ X.( #.%.}.|.oXXXB.B.[ c q 2 i i UXUXUXUXUXUXUX",
++"UXsX,XhX<X(.X.Q F ! ~ _ { N.A.x.OXz.M.u.M k <.,.UXUXUXUXUXUXUXUX",
++"UXeX;XqXgXeXX.F K I W ) } j.P.v.I.H.G.s.5.4.1.p UXUXUXUXUXUXUXUX",
++"UXaX>X<XSXkX(.F C K _ { y.l.G.E.E.R.T.f.0.9.6.j UXUXUXUXUXUXUXUX",
++"UXgXeXtXGXDXeX! I L Z } C.P.Y.Q.!.mX!.U.U.g.8.e t UXUXUXUXUXUXUX",
++"UXjXsXsXSXDXSX'.( W R E l.L.vXzXMXVXnX~.W.i.3.p m UXUXUXUXUXUXUX",
++"UXjXhXlXlXHXAX.X^.) ` y.v.L.xXBXZXPXZXNX!.J.r.b m UXUXUXUXUXUXUX",
++"UXyXhXpXlXDXhX5X X%.| h.z.H.!.mXZXIXLXBX!.b.e.b UXUXUXUXUXUXUXUX",
++"UX*XeXrXsXhXpX5XiX X|.j.z.I.vXcXVXCXNXbX!.J.q.v UXUXUXUXUXUXUXUX",
++"UX].>.*X=X3X.XuXiXdX0XoXK.F.J.xXcXzXW.T.b.p.N n UXUXUXUXUXUXUXUX",
++"UXUX..&.].#X3X6X4XdX9XXXy.u.I.L.Y.Y.J.f.r.5.b 3.UXUXUXUXUXUXUXUX",
++"UXUX>.( +.`.$X*X[.#X.X|.m.K.z.d.i.p.i.6.5.a 9 UXUXUXUXUXUXUXUXUX",
++"UXUXUXY Y ..&.>.`.{.{.:.S.m.t.w.8.8.N a w 0 UXUXUXUXUXUXUXUXUXUX",
++"UXUXUXUXS P ~ Q Q ( ..$.] R Z l n k e 0 $ 8 UXUXUXUXUXUXUXUXUXUX",
++"UXUXUXUXUX3 5 4 B B V H G z h - q = % # 7 UXUXUXUXUXUXUXUXUXUXUX",
++"UXUXUXUXUXUX1 > > > > 1 < * & & # o o UXUXUXUXUXUXUXUXUXUXUXUXUX",
++"UXUXUXUXUXUXUXUX@ + + O .   X X X UXUXUXUXUXUXUXUXUXUXUXUXUXUXUX",
++"UXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUXUX"
++};
+--- slingshot-0.8.1p.orig/debian/changelog
++++ slingshot-0.8.1p/debian/changelog
+@@ -0,0 +1,52 @@
++slingshot (0.8.1p-4) unstable; urgency=low
++
++  [ Charlie Smotherman ]
++  * Changed XS-Python-Version: 2.5 to >=2.5 so slingshot will build and install
++    using python2.6.
++
++  [ Jakub Wilk ]
++  * Bumped Standards-Version to 3.8.4 (no changes needed)
++
++ -- Python Applications Packaging Team <python-apps-team@lists.alioth.debian.org>  Sat, 20 Mar 2010 19:23:14 +0100
++
++slingshot (0.8.1p-3) unstable; urgency=low
++
++  * No longer including backslashes in Depends/Build-Depends. (Closes: #535310)
++  * Bumped Standards-Version to 3.8.2 (no changes needed)
++
++ -- Ryan Kavanagh <ryanakca@kubuntu.org>  Fri, 03 Jul 2009 17:59:41 -0400
++
++slingshot (0.8.1p-2) unstable; urgency=low
++
++  [ Sandro Tosi]
++  * debian/control
++    - switch Vcs-Browser field to viewsvn
++    - bump Standards-Version to 3.8.1 (no changes needed)
++
++  [ Ryan Kavanagh ]
++  * Applied patch from Gabriel Ruiz for missing menu entry, (Closes: #511647)
++    - Installs XPM icon
++    - Installs desktop file to /usr/share/applications instead of
++      /usr/share/games/applications (update dirs and rules)
++  * Updated slingshot.desktop to have slingshot.xpm as icon
++  * Prefixed ``Copyright '' to the occurences of '(C)' where lacking in the
++    copyright file.
++  * Updated the path to the GPL (GPL-2 instead of symlink) in copyright file.
++  * Specified the version of the GPL for the packaging in the copyright file.
++  * Install a link to FreeSansBold.ttf from ttf-freefont instead of installing
++    it ourselves. Also updated the Depends to include ttf-freefont.
++  * Renamed debian/menu to debian/slingshot.menu so that the debhelper.mk
++    magic can do its thing and install / update the menu.
++  * Dropped debian/pycompat (No longer required) and debian/pyversions
++    (made redundant by XS-Python-Version in debian/control)
++  * Updated slingshot-launcher with comments explaining the logic behind it.
++
++ -- Ryan Kavanagh <ryanakca@kubuntu.org>  Sat, 14 Mar 2009 07:35:08 -0400
++
++slingshot (0.8.1p-1) unstable; urgency=low
++
++  * Initial release (Closes: #485522)
++  * Created a desktop file
++
++ -- Ryan Kavanagh <ryanakca@kubuntu.org>  Thu, 19 Jun 2008 18:06:10 -0400
++
+--- slingshot-0.8.1p.orig/debian/control
++++ slingshot-0.8.1p/debian/control
+@@ -0,0 +1,29 @@
++Source: slingshot
++Section: games
++Priority: extra
++Maintainer: Ryan Kavanagh <ryanakca@kubuntu.org>
++Uploaders: Python Applications Packaging Team <python-apps-team@lists.alioth.debian.org>
++Build-Depends: cdbs, debhelper (>= 5)
++Build-Depends-Indep: python (>= 2.5), python-support (>= 0.5.3)
++Standards-Version: 3.8.4
++Homepage: http://www.slingshot-game.org
++Vcs-Svn: svn://svn.debian.org/svn/python-apps/packages/slingshot/
++Vcs-Browser: http://svn.debian.org/viewsvn/python-apps/packages/slingshot/trunk/
++XS-Python-Version: >=2.5
++
++Package: slingshot
++Architecture: all
++XB-Python-Version: ${python:Versions}
++Depends: ${misc:Depends}, ${python:Depends}, python-pygame (>= 1.7.1),
++ ttf-freefont
++Description: simple 2D shooting strategy game set in space, with gravity
++ Slingshot is a two dimensional, turn based simulation-strategy game
++ set in the gravity fields of several planets. It is a highly
++ addictive game, and never the same from round to round due to its
++ randomly generated playing fields.
++ .
++ It is a deceptively simple game, the goal is to shoot the other
++ spacecraft through the field of planets, but their gravity makes it
++ tricky. The effects of the gravity mean that although it is easy to
++ learn how to play, and to enjoy playing, it could take a lifetime to
++ thoroughly master.
+--- slingshot-0.8.1p.orig/debian/slingshot.desktop
++++ slingshot-0.8.1p/debian/slingshot.desktop
+@@ -0,0 +1,9 @@
++[Desktop Entry]
++Name=Slingshot
++Name[xx]=xxslingshotxx
++Exec=slingshot
++Icon=/usr/share/pixmaps/slingshot.xpm
++Type=Application
++GenericName=2D space shooting game with gravity
++GenericName[fr]=Jeu d'espace 2D avec gravité
++Categories=Game;StrategyGame;
+--- slingshot-0.8.1p.orig/debian/slingshot.1
++++ slingshot-0.8.1p/debian/slingshot.1
+@@ -0,0 +1,51 @@
++.\"                                      Hey, EMACS: -*- nroff -*-
++.\" First parameter, NAME, should be all caps
++.\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
++.\" other parameters are allowed: see man(7), man(1)
++.TH SLINGSHOT 1 "June 14, 2008"
++.\" Please adjust this date whenever revising the manpage.
++.\"
++.\" Some roff macros, for reference:
++.\" .nh        disable hyphenation
++.\" .hy        enable hyphenation
++.\" .ad l      left justify
++.\" .ad b      justify to both left and right margins
++.\" .nf        disable filling
++.\" .fi        enable filling
++.\" .br        insert line break
++.\" .sp <n>    insert n+1 empty lines
++.\" for manpage-specific macros, see man(7)
++.SH NAME
++slingshot \- simple 2D shooting strategy game set in space, with gravity
++.SH SYNOPSIS
++.B slingshot
++.SH DESCRIPTION
++This manual page documents briefly the
++.B slingshot
++command.
++.PP
++.\" TeX users may be more comfortable with the \fB<whatever>\fP and
++.\" \fI<whatever>\fP escape sequences to invode bold face and italics, 
++.\" respectively.
++\fBslingshot\fP is a two dimensional, turn based simulation-strategy
++game set in the gravity fields of several planets. It is a highly
++addictive game, and never the same from round to round due to its
++randomly generated playing fields.
++.PP
++It is a deceptively simple game, the goal is to shoot the other
++spacecraft through the field of planets, but their gravity makes it
++tricky. The effects of the gravity mean that although it's easy to
++learn how to play, and to enjoy playing, it could take a lifetime to
++thoroughly master.
++.PP
++In order to hit your opponent, you can rotate you ship to aim in any
++direction, and you can change the power with which your projectile is
++launched - the initial speed at which it flies. 
++.SH OPTIONS
++This program has no command line options.
++.br
++.SH AUTHOR
++slingshot was written by Jonathan Musther and Bart Mak.
++.PP
++This manual page was written by Ryan Kavanagh <ryanakca@kubuntu.org>,
++for the Debian project (but may be used by others).
