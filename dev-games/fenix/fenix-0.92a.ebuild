@@ -31,7 +31,8 @@ src_prepare() {
 	local patches="configure.patch i18n_fxc.patch i18n_fxi.patch i18n_fpg.patch
 		i18n_map.patch fxi_binname.patch fxc_nosdlinit.patch common_stdfiles.patch
 		fxc_output.patch fxi_input.patch fxc_return_values.patch fxi_return_values.patch
-		plugins_dir.patch fxdll_version.patch fxi_apptitle.patch
+		plugins_dir.patch fxdll_version.patch fxi_apptitle.patch puts_gets.patch
+		version-bump.patch fxc_misc.patch fxi_misc_0.patch fxi_misc_1.patch
 		0.92a_to_cvs-20070713.1513.patch endianess.patch fxi_pal.patch fxi_sdl_mixer_use_rwops.patch
 		fxi_pal_get.patch build_portability.patch include_fixes.patch warning_fixes.patch
 		string_alloc_crash.patch"
