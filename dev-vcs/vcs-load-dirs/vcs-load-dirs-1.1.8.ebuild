@@ -14,13 +14,12 @@ LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64"
 #IUSE="+mercurial arch +git svk +darcs"
-IUSE="+mercurial +git svk +darcs"
+IUSE="+mercurial +git +darcs"
 
 DEPEND=""
 RDEPEND="${DEPEND}
 	mercurial? ( dev-vcs/mercurial )
 	git? ( dev-vcs/git )
-	svk? ( dev-vcs/svk )
 	darcs? ( dev-vcs/darcs )"
 
 src_compile() {
@@ -34,12 +33,11 @@ src_install() {
 	use mercurial || rm "${D}/usr/bin/hg_load_dirs"
 	rm "${D}/usr/bin/tla_load_dirs"
 	use git || rm "${D}/usr/bin/git_load_dirs"
-	use svk || rm "${D}/usr/bin/svk_load_dirs"
+	rm "${D}/usr/bin/svk_load_dirs"
 	use darcs || rm "${D}/usr/bin/darcs_load_dirs"
 	doman docs/vcs_load_dirs.1
 	dodoc docs/vcs_load_dirs.{txt,sgml}
 	use mercurial && doman docs/hg_load_dirs.1
 	use git && doman docs/git_load_dirs.1
-	use svk && doman docs/svk_load_dirs.1
 	use darcs && doman docs/darcs_load_dirs.1
 }
