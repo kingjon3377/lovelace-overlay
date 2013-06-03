@@ -14,7 +14,7 @@ HOMEPAGE="http://www.glom.org/wiki/index.php?title=Glom"
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE="postgres sqlite"
+IUSE="postgres sqlite test"
 
 RDEPEND="
 	>=dev-libs/glib-2.24:2
@@ -23,7 +23,7 @@ RDEPEND="
 	>=dev-libs/libxslt-1.1.10
 	>=dev-python/pygobject-2.29:3
 	>=dev-cpp/libgdamm-4.99.6:5
-	gnome-extra/libgda:5[postgres?]
+	gnome-extra/libgda:5[postgres,mysql]
 	dev-cpp/gtkmm:3.0
 	>=net-libs/libepc-0.4
 	>=dev-cpp/goocanvasmm-1.90.8:2.0
@@ -39,6 +39,7 @@ DEPEND="${RDEPEND}
 	>=sys-devel/gettext-0.17
 	>=app-text/gnome-doc-utils-0.9
 	dev-python/sphinx
+	test? ( gnome-extra/libgda:5[introspection] )
 "
 
 pkg_setup() {
