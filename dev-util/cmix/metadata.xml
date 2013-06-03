@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
-<herd>proxy-maintainers</herd>
-<maintainer>
-  <email>@gentoo.org</email>
-</maintainer>
+<longdescription>A program specializer or, as it is also called, a "partial
+evaluator" takes the source code for a program or a routine and (commonly) some
+of its input, and tries to produce faster but equivalent code, utilizing the
+fact that some of the variables will have known values so that some of the
+program's actions can be precomputed.
+
+This allows one to combine the maintainability of a generic parameterized source
+code with the speed of programs optimized for specific problem instances.
+
+C-Mix is a program specializer that works on portable C code. You will need a C
+compiler for compiling intermediate programs.</longdescription>
 <use>
   <flag name='install-tests'>Install the tests</flag>
 </use>
