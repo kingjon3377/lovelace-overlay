@@ -22,4 +22,3 @@ DEPEND="dev-python/PyQt4"
 RDEPEND="${DEPEND}"
 
 S="${WORKDIR}/${MY_P}"
-

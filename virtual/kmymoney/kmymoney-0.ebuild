@@ -15,4 +15,3 @@ IUSE=""
 
 DEPEND=""
 RDEPEND="|| ( app-office/kmymoney app-office/kmymoney2 )"
-

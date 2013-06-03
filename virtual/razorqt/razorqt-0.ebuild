@@ -15,4 +15,3 @@ IUSE=""
 
 DEPEND=""
 RDEPEND="|| ( razorqt-base/razorqt-meta x11-wm/razorqt )"
-
