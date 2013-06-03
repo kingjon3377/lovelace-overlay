@@ -4,7 +4,7 @@
 
 EAPI=5
 
-inherit games autotools
+inherit games cmake-utils
 
 DESCRIPTION="AI evolution simulation"
 HOMEPAGE="http://critterding.sourceforge.net"
@@ -22,12 +22,13 @@ DEPEND="${RDEPEND}
 
 S="${WORKDIR}/${PN}-beta${PV}"
 
-src_prepare() {
-	eautoreconf
-}
+#src_prepare() {
+	#eautoreconf
+#}
 
 src_install() {
 	default_src_install
+	die "That didn't actually install anything"
 	dodir "${GAMES_DATADIR}/${PN}/profiles"
 	insinto "${GAMES_DATADIR}/${PN}/profiles"
 	doins profiles/race
