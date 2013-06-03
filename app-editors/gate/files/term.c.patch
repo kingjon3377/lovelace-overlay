@@ -1,0 +1,10 @@
+--- term.c.old	2012-07-12 00:22:50.000000000 -0400
++++ term.c	2012-07-12 00:22:55.000000000 -0400
+@@ -30,7 +30,6 @@
+ int mycols= 0;		/* Screen size */
+ int mylines= 0;		/* Screen size */
+ char *tgetstr(), *tgoto(), *getenv();
+-char *malloc();
+ 
+ 
+ /* INITTERM()
