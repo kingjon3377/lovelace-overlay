@@ -40,6 +40,13 @@ pkg_setup() {
 		ewarn "Disabling documentation-building may also disable building the documentation tool."
 }
 
+src_prepare() {
+	sed -i -e 's/LDLIBS_DL =$/LDLIBS_DL = -ldl/' GNUmakefile || die
+	sed -i -e 's/$(CC) $(LDFLAGS) $< $(LDLIBS) -o $@/$(CC) $< $(LDLIBS) -o $@ $(LDFLAGS)/' GNUmakefile || die
+	sed -i -e 's;$(CC) $(LDFLAGS) webspl_common.o spl_modules/mod_cgi.o $< $(patsubst -lspl,$(SPL_OBJS),$(LDLIBS)) -o $@;$(CC) $< webspl_common.o spl_modules/mod_cgi.o $(patsubst -lspl,$(SPL_OBJS),$(LDLIBS)) -o $@ $(LDFLAGS);' GNUmakefile || die
+	sed -i -e 's;$(CC) $(LDFLAGS) webspl_common.o httpsrv.o spl_modules/mod_cgi.o $< $(patsubst -lspl,$(SPL_OBJS),$(LDLIBS)) -o $@;$(CC) $< webspl_common.o httpsrv.o spl_modules/mod_cgi.o $(patsubst -lspl,$(SPL_OBJS),$(LDLIBS)) -o $@ $(LDFLAGS);' GNUmakefile || die
+}
+
 src_compile() {
 	emake CC=$(tc-getCC) USER_CFLAGS="${CFLAGS}" USER_LDFLAGS="${LDFLAGS}" \
 		prefix=/usr
