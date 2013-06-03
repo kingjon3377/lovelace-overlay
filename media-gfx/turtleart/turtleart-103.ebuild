@@ -16,7 +16,7 @@ DESCRIPTION="a LOGO-like tool for teaching programming"
 HOMEPAGE="http://wiki.sugarlabs.org/go/Activities/Turtle_Art"
 SRC_URI="http://download.sugarlabs.org/sources/sucrose/fructose/${MY_PN}/${MY_P}.tar.bz2"
 
-LICENSE="as-is"
+LICENSE="BSD-1"
 SLOT="0"
 KEYWORDS="amd64"
 IUSE=""
