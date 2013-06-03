@@ -26,7 +26,7 @@ src_prepare() {
 }
 
 src_install() {
-	dobin /usr/bin
+	dodir /usr/bin
 	emake DESTDIR="${D}" install
 	doman ${PN}.1
 	dodoc debian/control debian/changelog debian/README
