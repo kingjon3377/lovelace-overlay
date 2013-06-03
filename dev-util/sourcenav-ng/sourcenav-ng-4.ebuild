@@ -49,7 +49,7 @@ src_configure() {
 }
 
 src_install() {
-	emake DESTDIR="${D}" install
+	emake -j1 DESTDIR="${D}" install
 
 	fperms -Rf 755 "${SN}/share/doc/${P}/demos"
 	dodir /etc/env.d
