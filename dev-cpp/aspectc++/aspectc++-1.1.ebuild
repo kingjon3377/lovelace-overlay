@@ -31,7 +31,7 @@ src_prepare() {
 
 src_compile() {
 	unset ROOT
-	emake -C Puma/ compile      
+	emake -C Puma/ compile
 	emake -C AspectC++/ SHARED=1
 	emake -C Ag++/      SHARED=1
 }
