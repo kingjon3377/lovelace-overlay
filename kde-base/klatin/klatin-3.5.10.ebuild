@@ -6,7 +6,7 @@ KMNAME=kdeedu
 inherit kde-meta
 
 DESCRIPTION="KDE: KLatin - a program to help revise Latin"
-KEYWORDS="amd64 x86"
+KEYWORDS="amd64 ~x86"
 IUSE=""
 
 DEPEND=">=kde-base/libkdeedu-${PV}:${SLOT}"
