@@ -1,0 +1,2 @@
+#!/bin/bash
+MKTREASURE_PATH=/usr/share/games/mktreasure/d20-treasure /usr/share/games/mktreasure/mktreasure "${@}"

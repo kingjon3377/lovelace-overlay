@@ -1,0 +1,53 @@
+Description: Upstream changes introduced in version 1.10-5
+ This patch has been created by dpkg-source during the package build.
+ Here's the last changelog entry, hopefully it gives details on why
+ those changes were made:
+ .
+ rolldice (1.10-5) unstable; urgency=low
+ .
+   * debian/control
+     - Bump debian standards version to 3.8.4 (No changes)
+     - Add ${misc:Depends} to Depends:
+   * debian/compat
+     - Bump debhelper compat version to 5
+   * Switch to dpkg-source 3.0 (quilt) format
+   * debian/copyright
+     - Fix the symlink to GPL-2
+ .
+ The person named in the Author field signed this changelog entry.
+Author: Luis Uribe <acme@eviled.org>
+
+---
+The information above should follow the Patch Tagging Guidelines, please
+checkout http://dep.debian.net/deps/dep3/ to learn about the format. Here
+are templates for supplementary fields that you might want to add:
+
+Origin: <vendor|upstream|other>, <url of original patch>
+Bug: <url in upstream bugtracker>
+Bug-Debian: http://bugs.debian.org/<bugnumber>
+Bug-Ubuntu: https://launchpad.net/bugs/<bugnumber>
+Forwarded: <no|not-needed|url proving that it has been forwarded>
+Reviewed-By: <name and email of someone who approved the patch>
+Last-Update: <YYYY-MM-DD>
+
+--- rolldice-1.10.orig/rolldice.c
++++ rolldice-1.10/rolldice.c
+@@ -28,11 +28,17 @@ void init_random(rand_type rand_file) {
+ 
+ static int get_random(int sides) {
+     unsigned int ret_value;
+-  
++
++    unsigned int max = UINT_MAX;
++
++    max -= max % sides;
++again:
+     if(!(fread(&ret_value, sizeof(unsigned int), 1, ran_dev) == 1)) {
+ 	printf("Error in reading random device!\n");
+ 	exit(EXIT_FAILURE);
+     }
++    if (ret_value >= max)
++        goto again;
+     return (int)(ret_value % sides);
+ }
+ 
