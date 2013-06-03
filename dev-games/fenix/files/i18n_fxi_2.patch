@@ -1,0 +1,723 @@
+Index: fxi/src/g_fpg.c
+===================================================================
+--- fxi/src/g_fpg.c	2007-08-28 14:38:48.000000000 +0200
++++ fxi/src/g_fpg.c	2007-08-28 14:44:31.000000000 +0200
+@@ -38,6 +38,13 @@
+ #include <windows.h>
+ #endif
+ 
++#ifdef USE_GETTEXT
++#include <libintl.h>
++#define _(String) gettext (String)
++#else
++#define _(String) String
++#endif
++
+ #include "fxi.h"
+ 
+ #define MAXLIBS 128
+@@ -78,7 +85,7 @@
+ 		}
+ 		if (i == lib_nextid)
+ 		{
+-			gr_error ("grlib_new: sin memoria");
++			gr_error (_("grlib_new: out of memory"));
+ 			return -1;
+ 		}
+ 		libs[i] = lib ;
+@@ -218,7 +225,7 @@
+ 	{
+ 		int new_reserved = (map->code & ~0x001F) + 32;
+ 		lib->maps = (GRAPH **) realloc (lib->maps, sizeof(GRAPH*) * new_reserved) ;
+-		if (!lib->maps) gr_error ("grlib_add_map: sin memoria\n") ;
++		if (!lib->maps) gr_error (_("grlib_add_map: out of memory\n")) ;
+ 		memset (lib->maps + lib->map_reserved, 0, (new_reserved - lib->map_reserved) * sizeof(GRAPH *));
+ 		lib->map_reserved = new_reserved;
+ 	}
+@@ -310,9 +317,9 @@
+ #ifdef WIN32
+ 		char buffer[2048];
+ 		GetCurrentDirectory(2048, buffer);
+-		gr_error ("Libreria %s no encontrada en %s\n", libname, buffer) ;
++		gr_error (_("'%s': Library not found in %s\n"), libname, buffer) ;
+ #else
+-		gr_error ("Libreria %s no encontrada\n", libname) ;
++		gr_error (_("'%s': Library not found\n"), libname) ;
+ #endif
+ 		return -1 ;
+ 	}
+Index: fxi/src/g_main.c
+===================================================================
+--- fxi/src/g_main.c	2007-08-28 14:38:48.000000000 +0200
++++ fxi/src/g_main.c	2007-08-28 14:44:31.000000000 +0200
+@@ -47,6 +47,13 @@
+ #include <assert.h>
+ #endif
+ 
++#ifdef USE_GETTEXT
++#include <libintl.h>
++#define _(String) gettext (String)
++#else
++#define _(String) String
++#endif
++
+ #include "fxi.h"
+ #include "dcb.h"
+ #include "grlib.h"
+@@ -734,7 +741,7 @@
+                             {
+                                 shot->info_flags |= GI_NOCOLORKEY;
+                                 gr_save_png (shot, name);
+-                                gr_con_printf ("[FXI] Screenshot %s grabado", name);
++                                gr_con_printf (_("[FXI] Screenshot %s saved"), name);
+                                 break;
+                             }
+                         }
+@@ -781,7 +788,7 @@
+                 k = sdl_equiv[e.key.keysym.sym];
+                 if (k == 0)
+                 {
+-                    gr_con_printf ("Warning: symbol %d not defined", e.key.keysym.sym);
++                    gr_con_printf (_("Warning: symbol %d not defined"), e.key.keysym.sym);
+                 }
+                 m = e.key.keysym.mod ;
+ 
+@@ -2288,7 +2295,7 @@
+ 
+     if (!screen)
+     {
+-        gr_con_printf ("Modo grafico %dx%d no disponible: %s\n", scr_width, scr_height, SDL_GetError()) ;
++        gr_con_printf (_("Graphic mode %dx%d not available: %s\n"), scr_width, scr_height, SDL_GetError()) ;
+         do_exit(1);
+     }
+ 
+@@ -2296,7 +2303,7 @@
+     {
+         if (screen->format->BytesPerPixel != 2)
+         {
+-            printf ("Profundidad de color de 16 bits no soportada\n") ;
++            printf (_("16 bit colour depth is not supported\n")) ;
+             do_exit(1) ;
+         }
+         for (n = 0 ; n < 65536 ; n++)
+@@ -2319,7 +2326,7 @@
+ 
+     if (!scr_initialized)   scr_initialized = 1 ;
+ 
+-    if (report_graphics)    gr_con_printf ("[GRAPH] Graphic mode started - %dx%d - %s\n", width, height, enable_16bits ? "16 bits":"8 bits") ;
++    if (report_graphics)    gr_con_printf (_("[GRAPH] Graphic mode started - %dx%d - %s\n"), width, height, enable_16bits ? "16 bits":"8 bits") ;
+ 
+     if (enable_16bits)
+     {
+@@ -2330,8 +2337,8 @@
+         for (m = screen->format->Bmask; m; m >>= 1) Bbits += (m&1) ;
+ 
+         if (report_graphics)
+-            gr_con_printf ( "[GRAPH] RGB %d%d%d: "
+-                            "Masks R=0x%04X G=0x%04X B=0x%04X\n",
++            gr_con_printf ( _("[GRAPH] RGB %d%d%d: "
++                            "Masks R=0x%04X G=0x%04X B=0x%04X\n"),
+                             Rbits, Gbits, Bbits,
+                             screen->format->Rmask,
+                             screen->format->Gmask,
+@@ -2339,7 +2346,7 @@
+     }
+ 
+     if (report_graphics && (screen->flags & SDL_DOUBLEBUF))
+-        gr_con_printf ("[GRAPH] Doble buffer activo\n") ;
++        gr_con_printf (_("[GRAPH] Double buffer active\n")) ;
+ 
+     SDL_ShowCursor (0) ;
+ 
+Index: fxi/src/g_maps.c
+===================================================================
+--- fxi/src/g_maps.c	2007-08-28 14:38:48.000000000 +0200
++++ fxi/src/g_maps.c	2007-08-28 14:44:31.000000000 +0200
+@@ -41,6 +41,13 @@
+ #include <string.h>
+ #include <stdlib.h>
+ 
++#ifdef USE_GETTEXT
++#include <libintl.h>
++#define _(String) gettext (String)
++#else
++#define _(String) String
++#endif
++
+ #include "fxi.h"
+ 
+ extern SDL_Surface * screen ;
+@@ -77,7 +84,7 @@
+ 
+ 	if (depth != 8 && depth != 16 && depth != 1)
+ 	{
+-		gr_con_printf ("Profundidad de color no soportada (new bitmap)\n") ;
++		gr_con_printf (_("Unsupported colour depth (new bitmap)\n")) ;
+ 		return NULL;
+ 	}
+ 	if (frames < 1)
+@@ -98,7 +105,7 @@
+ 	gr = (GRAPH *) malloc (sizeof(GRAPH)) ;
+ 	if (!gr)
+ 	{
+-		gr_con_printf ("bitmap_new(%dx%dx%d): sin memoria", w, h, depth) ; ;
++		gr_con_printf (_("bitmap_new(%dx%dx%d): out of memory"), w, h, depth) ; ;
+ 		return NULL;
+ 	}
+ 
+@@ -135,7 +142,7 @@
+ 			free(gr->sequences);
+ 		free (gr);
+ 
+-		gr_con_printf ("bitmap_new: sin memoria en calloc(%d, %d)", h, gr->pitch) ; ;
++		gr_con_printf (_("bitmap_new: out of memory in calloc(%d, %d)"), h, gr->pitch) ; ;
+ 		return NULL;
+ 	}
+ 
+@@ -380,7 +387,7 @@
+ 
+ 	if (!fp)
+ 	{
+-		gr_con_printf ("Mapa %s no encontrado\n", mapname) ;
++		gr_con_printf (_("'%s': map does not exist\n"), mapname) ;
+ 		return -1 ;
+ 	}
+ 
+Index: fxi/src/g_pal.c
+===================================================================
+--- fxi/src/g_pal.c	2007-08-28 14:38:48.000000000 +0200
++++ fxi/src/g_pal.c	2007-08-28 14:44:31.000000000 +0200
+@@ -40,6 +40,13 @@
+ #include <string.h>
+ #include <stdlib.h>
+ 
++#ifdef USE_GETTEXT
++#include <libintl.h>
++#define _(String) gettext (String)
++#else
++#define _(String) String
++#endif
++
+ #include "fxi.h"
+ #include "fgc.h"
+ #include "fbm.h"
+@@ -365,7 +372,7 @@
+             file_seek (fp, 0, SEEK_SET) ;
+             if (file_read (fp, &fgcHeader, sizeof(FGC_HEADER)) != sizeof(FGC_HEADER))
+             {
+-                fgc_error = "Fichero FGC corrupto o truncado";
++                fgc_error = _("FGC file corrupt or truncated");
+                 file_close(fp);
+                 return -1;
+             }
+@@ -382,7 +389,7 @@
+ 
+ 
+                 if (file_read(fp, color_palette, 768) != 768) {
+-                    fgc_error = "PALETA - Fichero FGC truncado";
++                    fgc_error = _("PALETTE - FGC file is truncated");
+                     file_close(fp);
+                     return -1;
+                 }
+@@ -397,7 +404,7 @@
+                 palette_changed = 1 ;
+                 r = 1 ;
+             } else {
+-                fgc_error = "Fichero FGC no contiene información de paleta";
++                fgc_error = _("FGC file does not contain information about the colour palette");
+                 file_close(fp);
+                 return -1;
+             }
+@@ -410,7 +417,7 @@
+             file_seek (fp, 0, SEEK_SET) ;
+ 
+             if (file_read(fp,&fbmHeader,sizeof(FBM_FILE_HEADER)!=sizeof(FBM_FILE_HEADER))) {
+-                fbm_error = "Fichero FBM corrupto o truncado";
++                fbm_error = _("FBM file corrupt or truncated");
+                 file_close(fp);
+                 return -1;
+             }
+@@ -418,7 +425,7 @@
+             ARRANGE_DWORD(&fbmHeader.depth);
+ 
+             if (fbmHeader.depth!=8) {
+-                fbm_error = "Fichero FBM no contiene informarcion de paleta";
++                fbm_error = _("FBM file does not contain information about the colour palette");
+                 file_close(fp);
+                 return -1;
+             }
+@@ -427,7 +434,7 @@
+ 
+ 
+             if (file_read(fp, color_palette, 768) != 768) {
+-                fbm_error = "PALETA - Fichero FGC truncado";
++                fbm_error = _("PALETTE - FGC file is truncated");
+                 file_close(fp);
+                 return -1;
+             }
+@@ -713,7 +720,7 @@
+ 
+     if (report_graphics) {
+         ticks2 = SDL_GetTicks() ;
+-        gr_con_printf ("[GRAPH] Palette analysis done in %d ms\n", ticks2-ticks1) ;
++        gr_con_printf (_("[GRAPH] Colour palette analysis done in %d ms\n"), ticks2-ticks1) ;
+     }
+ }
+ 
+Index: fxi/src/g_profiler.c
+===================================================================
+--- fxi/src/g_profiler.c	2007-08-28 14:38:48.000000000 +0200
++++ fxi/src/g_profiler.c	2007-08-28 14:39:57.000000000 +0200
+@@ -42,6 +42,13 @@
+ #include <math.h>
+ #include <limits.h>
+ 
++#ifdef USE_GETTEXT
++#include <libintl.h>
++#define _(String) gettext (String)
++#else
++#define _(String) String
++#endif
++
+ #include <fxi.h>
+ 
+ typedef struct
+@@ -109,7 +116,7 @@
+ 
+ 	if (samples == NULL || history == NULL)
+ 	{
+-		gr_error ("gprof_allocate: sin memoria");
++		gr_error (_("gprof_allocate: out of memory"));
+ 		samples = NULL;
+ 		history = NULL;
+ 		return 0;
+@@ -268,7 +275,7 @@
+ 
+ 	if (samples == NULL || history == NULL)
+ 	{
+-		gr_error ("gprof_init: sin memoria");
++		gr_error (_("gprof_init: out of memory"));
+ 		return;
+ 	}
+ 
+Index: fxi/src/g_scroll.c
+===================================================================
+--- fxi/src/g_scroll.c	2007-08-28 14:38:48.000000000 +0200
++++ fxi/src/g_scroll.c	2007-08-28 14:44:31.000000000 +0200
+@@ -27,6 +27,13 @@
+ #include <stdio.h>
+ #include <stdlib.h>
+ 
++#ifdef USE_GETTEXT
++#include <libintl.h>
++#define _(String) gettext (String)
++#else
++#define _(String) String
++#endif
++
+ #include "fxi.h"
+ 
+ #define MIN(a,b) ((a)<(b)?(a):(b))
+@@ -158,9 +165,9 @@
+ 		scrolls[n].back  = backid  ? bitmap_get (fileid, backid)  : 0 ;
+ 
+ 		if (!graphid || !scrolls[n].graph)
+-			gr_error ("El fondo de scroll %d:%d no existe\n", fileid, graphid) ;
++			gr_error (_("Background of scroll %d:%d does not exist\n"), fileid, graphid) ;
+ 		if ( backid && !scrolls[n].back )
+-			gr_error ("Grafico %d:%d no existe\n", fileid, backid) ;
++			gr_error (_("Graphic %d:%d does not exist\n"), fileid, backid) ;
+ 	}
+ }
+ 
+Index: fxi/src/g_texts.c
+===================================================================
+--- fxi/src/g_texts.c	2007-08-28 14:38:48.000000000 +0200
++++ fxi/src/g_texts.c	2007-08-28 14:44:31.000000000 +0200
+@@ -43,6 +43,13 @@
+ #include <stdlib.h>
+ #include <string.h>
+ 
++#ifdef USE_GETTEXT
++#include <libintl.h>
++#define _(String) gettext (String)
++#else
++#define _(String) String
++#endif
++
+ #include "fxi.h"
+ 
+ #define MAX_TEXTS 512
+@@ -400,7 +407,7 @@
+ 			if (!texts[textid].on) break ;
+ 
+ 		if (textid == MAX_TEXTS)
+-			gr_error ("Demasiados textos en pantalla") ;
++			gr_error (_("Too many texts in screen")) ;
+ 	}
+ 	else text_nextid++ ;
+ 	text_count++ ;
+@@ -485,7 +492,7 @@
+ 	if (!text || !*text) return 0;
+ 
+ 	if (fontid < 0 || fontid > 255 || !fonts[fontid]) {
+-		gr_con_printf ("Tipo de letra incorrecto (%d)", fontid) ;
++		gr_con_printf (_("Invalid font type (%d)"), fontid) ;
+ 		return 0;
+ 	}
+ 
+@@ -516,7 +523,7 @@
+ 
+ 	if (fontid < 0 || fontid > 255 || !fonts[fontid])
+ 	{
+-		gr_con_printf ("Tipo de letra incorrecto (%d)", fontid) ;
++		gr_con_printf (_("Invalid font type (%d)"), fontid) ;
+ 		return 0;
+ 	}
+ 
+@@ -548,7 +555,7 @@
+ 
+ 	if (fontid < 0 || fontid > 255 || !fonts[fontid])
+ 	{
+-		gr_con_printf ("Tipo de letra incorrecto (%d)", fontid) ;
++		gr_con_printf (_("Invalid font type (%d)"), fontid) ;
+ 		return 0;
+ 	}
+ 
+@@ -593,7 +600,7 @@
+ 	int save16, save8;
+ 
+     if (fontid < 0 || fontid > 255 || !fonts[fontid]) {
+-        gr_con_printf ("Tipo de letra incorrecto (%d)", fontid) ;
++        gr_con_printf (_("Invalid font type (%d)"), fontid) ;
+         return 0;
+     }
+ 
+@@ -662,7 +669,7 @@
+ 	if (!text || !*text) return NULL;
+ 
+     if (fontid < 0 || fontid > 255 || !fonts[fontid]) {
+-       gr_con_printf ("Tipo de letra incorrecto (%d)", fontid) ;
++       gr_con_printf (_("Invalid font type (%d)"), fontid) ;
+        return NULL;
+     }
+ 
+Index: fxi/src/i_copy.c
+===================================================================
+--- fxi/src/i_copy.c	2007-08-28 14:38:48.000000000 +0200
++++ fxi/src/i_copy.c	2007-08-28 14:39:58.000000000 +0200
+@@ -43,6 +43,13 @@
+ #include <math.h>
+ #include <time.h>
+ 
++#ifdef USE_GETTEXT
++#include <libintl.h>
++#define _(String) gettext (String)
++#else
++#define _(String) String
++#endif
++
+ #include "fxi.h"
+ 
+ static int copytype (void * dst, void * src, DCB_TYPEDEF * var);
+@@ -183,7 +190,7 @@
+ 				}
+ 				break;
+ 			default:
+-				gr_error ("No es posible copiar esta estructura");
++				gr_error (_("Cannot copy this structure"));
+ 				break;
+ 		}
+ 		break;
+Index: fxi/src/i_debug.c
+===================================================================
+--- fxi/src/i_debug.c	2007-08-28 14:38:48.000000000 +0200
++++ fxi/src/i_debug.c	2007-08-28 14:44:31.000000000 +0200
+@@ -35,6 +35,13 @@
+ 
+ #include <string.h>
+ 
++#ifdef USE_GETTEXT
++#include <libintl.h>
++#define _(String) gettext (String)
++#else
++#define _(String) String
++#endif
++
+ #include "fxi.h"
+ #include "dcb.h"
+ 
+@@ -315,7 +322,7 @@
+         {
+             next = instance_get (LOCDWORD(i, BIGBRO)) ;
+             if (!next)
+-                gr_con_printf ("[FXI] \12**PANIC**\7 BIGBRO %d does not exist\n", LOCDWORD(i, BIGBRO)) ;
++                gr_con_printf (_("[FXI] \12**PANIC**\7 BIGBRO %d does not exist\n"), LOCDWORD(i, BIGBRO)) ;
+             i = next ;
+         }
+         else
+Index: fxi/src/i_func.c
+===================================================================
+--- fxi/src/i_func.c	2007-08-28 14:38:48.000000000 +0200
++++ fxi/src/i_func.c	2007-08-28 14:45:44.000000000 +0200
+@@ -125,6 +125,13 @@
+ 
+ #include <fnx_loadlib.h>
+ 
++#ifdef USE_GETTEXT
++#include <libintl.h>
++#define _(String) gettext (String)
++#else
++#define _(String) String
++#endif
++
+ #include "dcb.h"
+ 
+ fixed cos_table[90001] ;
+@@ -394,7 +401,7 @@
+                     break ;
+ 
+                 default:
+-                    gr_error ("Tipo de señal desconocida") ;
++                    gr_error (_("Unknown signal type")) ;
+             }
+ 
+             if (instance_visible(i))
+@@ -988,7 +995,7 @@
+ fxi_set_mode (INSTANCE * my, int * params)
+ {
+     if (params[0] < 3200200 || params[0] > 16001400)
+-        gr_error ("Modo gráfico no soportado") ;
++        gr_error (_("Unsupported graphic mode")) ;
+ 
+     gr_init(params[0]/10000, params[0]%10000) ;
+     return 1 ;
+@@ -998,7 +1005,7 @@
+ fxi_set_mode_2 (INSTANCE * my, int * params)
+ {
+     if (params[0]>1600 || params[1]>1400)
+-        gr_error ("Modo gráfico no soportado") ;
++        gr_error (_("Unsupported graphic mode")) ;
+ 
+     gr_init(params[0], params[1]) ;
+     return 1 ;
+@@ -1009,7 +1016,7 @@
+ {
+ 
+     if (params[0]>1600 || params[1]>1400)
+-        gr_error ("Modo gráfico no soportado");
++        gr_error (_("Unsupported graphic mode"));
+ 
+     GLODWORD(GRAPH_MODE) = ((GLODWORD(GRAPH_MODE) & 0xFF) | params[2]);
+     gr_init(params[0], params[1]) ;
+@@ -1021,7 +1028,7 @@
+ {
+ 
+     if (params[0]>1600 || params[1]>1400)
+-        gr_error ("Modo gráfico no soportado");
++        gr_error (_("Unsupported graphic mode"));
+ 
+     GLODWORD(GRAPH_MODE) = (params[2] | params[3]);
+     gr_init(params[0], params[1]) ;
+@@ -1185,7 +1192,7 @@
+     if (!map) return -1 ;
+     if (map->depth != 8)
+     {
+-        gr_error ("Intento de usar convert_palette con un gráfico de 16 bits") ;
++        gr_error (_("Trying to use convert_palette with a 16 bit graphic")) ;
+         return 0;
+     }
+ 
+@@ -1658,7 +1665,7 @@
+     int     x, y ;
+ 
+     if (!map) {
+-        gr_con_printf ("Mapa %d no disponible en el fichero %d", params[1], params[0]) ;
++        gr_con_printf (_("Map %d is not available in file %d"), params[1], params[0]) ;
+         return 0;
+     }
+ 
+@@ -1803,8 +1810,8 @@
+     GRAPH * dest = bitmap_get (params[0], params[1]) ;
+     GRAPH * orig = bitmap_get (params[0], params[2]) ;
+ 
+-    if (!dest) gr_error ("map_put: mapa de destino no válido") ;
+-    if (!orig) gr_error ("map_put: mapa de origen no válido") ;
++    if (!dest) gr_error (_("map_put: Invalid destination map")) ;
++    if (!orig) gr_error (_("map_put: Invalid source map")) ;
+ 
+     gr_blit (dest, 0, params[3], params[4], 0, orig) ;
+     return 1 ;
+@@ -1884,7 +1891,7 @@
+     if (map)
+         gr_put_pixel (map, params[2], params[3], params[4]) ;
+     else
+-        gr_error ("Mapa %d no disponible en el fichero %d", params[1], params[0]) ;
++        gr_error (_("Map %d is not available in file %d"), params[1], params[0]) ;
+     return 1 ;
+ }
+ 
+@@ -1897,7 +1904,7 @@
+     Uint32 x, y, w, h, dx, dy ;
+ 
+     if (!dest)
+-        gr_error ("Mapa %d no disponible en el fichero %d", params[1], params[0]) ;
++        gr_error (_("Map %d is not available in file %d"), params[1], params[0]) ;
+ 
+     if (!orig)
+     {
+@@ -1908,7 +1915,7 @@
+                 orig = background_8bits ;
+         }
+         else
+-            gr_error ("Mapa %d no disponible en el fichero %d",
++            gr_error (_("Map %d is not available in file %d"),
+             params[4], params[0]) ;
+     }
+ 
+@@ -2008,7 +2015,7 @@
+ static int fxi_path_find (INSTANCE * my, int * params)
+ {
+     GRAPH * dest = bitmap_get (params[0], params[1]) ;
+-    if (!dest) gr_error ("Mapa %d-%d no existe%d", params[0], params[1]) ;
++    if (!dest) gr_error (_("Map %d-%d does not exist"), params[0], params[1]) ;
+     return path_find (dest, params[2], params[3], params[4], params[5], params[6]) ;
+ }
+ 
+@@ -2232,7 +2239,7 @@
+             t = TEXT_INT;
+             break;
+         default:
+-            gr_error ("No es un tipo de dato válido");
++            gr_error (_("Not a valid data type"));
+             break ;
+     }
+     return gr_text_new_var (params[0], params[1], params[2], params[3], (void *)params[4], t) ;
+@@ -3503,12 +3510,12 @@
+ 
+     if(fv == 1)
+     {
+-        gr_con_printf ("Returning %d", meminf.freeram * meminf.mem_unit);
++        gr_con_printf (_("Returning %d"), meminf.freeram * meminf.mem_unit);
+         return meminf.freeram * meminf.mem_unit;
+     }
+     else
+     {
+-        gr_con_printf ("Returning %d", meminf.freeram);
++        gr_con_printf (_("Returning %d"), meminf.freeram);
+         return meminf.freeram;
+     }
+ 
+@@ -3590,14 +3597,14 @@
+ static int fxi_alloc (INSTANCE * my, int * params)
+ {
+     void * ptr = malloc (params[0]) ;
+-    if (!ptr) gr_error ("ALLOC: no hay memoria libre suficiente") ;
++    if (!ptr) gr_error (_("ALLOC: not enought free memory")) ;
+     return (int)ptr ;
+ }
+ 
+ static int fxi_realloc (INSTANCE * my, int * params)
+ {
+     void * ptr = realloc ((void *)params[0], params[1]) ;
+-    if (!ptr) gr_error ("REALLOC: no hay memoria libre suficiente") ;
++    if (!ptr) gr_error (_("REALLOC: not enought free memory")) ;
+     return (int)ptr ;
+ }
+ 
+@@ -3934,7 +3941,7 @@
+     if (!map) return 0;
+ 
+     if (map->depth != 16) {
+-        gr_con_printf ("Intento de usar filter con un gráfico de 8 bits") ;
++        gr_con_printf (_("Trying to use filter with an 8 bit graphic")) ;
+         return 0;
+     }
+ 
+@@ -4005,7 +4012,7 @@
+     if (!map) return 0;
+ 
+     if (map->depth != 16) {
+-        gr_con_printf ("Intento de usar blur con un gráfico de 8 bits") ;
++        gr_con_printf (_("Trying to use blur with an 8 bit graphic")) ;
+         return 0;
+     }
+ 
+@@ -4138,7 +4145,7 @@
+     if (!map) return -1 ;
+ 
+     if (map->depth != 16) {
+-        gr_con_printf ("Intento de usar grayscale con un gráfico de 8 bits") ;
++        gr_con_printf (_("Trying to use grayscale with an 8 bit graphic")) ;
+         return -1 ;
+     }
+ 
+@@ -4186,7 +4193,7 @@
+ 
+     if (!map) return -1 ;
+     if (map->depth != 16)
+-        gr_error ("Intento de usar rgbscale con un gráfico de 8 bits") ;
++        gr_error (_("Trying to use rgbscale with an 8 bit graphic")) ;
+ 
+     for(i=0;i<map->height;i++)
+         for(j=0;j<map->width;j++){
+@@ -4809,7 +4816,7 @@
+     }
+ 
+     stat (globd.gl_pathv[currentFile], &s);
+-    gr_con_printf ("%s (size %d) es un %s", globd.gl_pathv[currentFile], s.st_size, S_ISDIR(s.st_mode) ? "directorio":"fichero");
++    gr_con_printf (_("%s (size %d) is %s"), globd.gl_pathv[currentFile], s.st_size, S_ISDIR(s.st_mode) ? _("a directory"):_("a file"));
+ 
+     /* Store the file name and path */
+     if (GLODWORD(FILE_NAME))
+@@ -4892,7 +4899,7 @@
+     GRAPH * graph = fbm_load(filename);
+ 
+     if (graph == NULL)
+-        gr_error("Error al abrir \"%s\":\n%s", filename, fbm_error);
++        gr_error(_("'%s': error opening file: %s\n"), filename, fbm_error);
+     else
+     {
+         graph->code = bitmap_next_code();
+@@ -4917,12 +4924,12 @@
+ 
+     if (graph == NULL)
+     {
+-        gr_error("Intento de grabar un gráfico inexistente\n(Libraría %d, gráfico %d)", params[0], params[1]);
++        gr_error(_("Trying to save an unexistant graphic (library %d, graphic %d)"), params[0], params[1]);
+     }
+     else
+     {
+         if (!fbm_save (graph, string_get(params[2])))
+-            gr_error("Error al grabar \"%s\":\n%s", string_get(params[2]), fbm_error);
++            gr_error(_("'%s': error saving file: %s\n"), string_get(params[2]), fbm_error);
+     }
+     string_discard(params[2]);
+ 
+@@ -4941,7 +4948,7 @@
+     const char * filename = string_get(params[0]);
+     int result = fgc_load(filename);
+     if (result < 0)
+-        gr_error("Error al cargar \"%s\":\n%s", string_get(params[0]), fgc_error);
++        gr_error(_("'%s': error loading file: %s\n"), string_get(params[0]), fgc_error);
+     string_discard(params[0]);
+     return result;
+ }
+@@ -5005,7 +5012,7 @@
+     last++ ;
+     sysproc_count++ ;
+     if (sysproc_count == MAX_SYSPROCS)
+-        gr_error ("Demasiadas funciones del sistema") ;
++        gr_error (_("Too many system functions")) ;
+     last[1].func = 0 ;
+     return last->code ;
+ }
+@@ -5087,7 +5094,7 @@
+         if (!library) gr_error (dlerror()) ;
+ 
+         RegisterFunctions = dlsym (library, "RegisterFunctions") ;
+-        if (!RegisterFunctions) gr_error("Error in %s", filename) ;
++        if (!RegisterFunctions) gr_error(_("Error in %s"), filename) ;
+ 
+         (*RegisterFunctions)(fnc_import, sysproc_add) ;
+     }

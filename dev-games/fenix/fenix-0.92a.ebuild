@@ -12,7 +12,7 @@ HOMEPAGE="http://sourceforge.net/projects/fenix"
 SRC_URI="mirror://sourceforge/${PN}/Fenix/${PV}/${PN}092a-src-release.tgz"
 #SRC_URI="mirror://debian/pool/main/f/fenix/fenix_0.92a.dfsg1.orig.tar.gz"
 
-LICENSE="GPL-2"
+LICENSE="GPL-2 FDL-1.2"
 SLOT="0"
 KEYWORDS="amd64"
 IUSE="+nls"
@@ -28,7 +28,8 @@ S="${WORKDIR}/Fenix"
 
 src_prepare() {
 	default_src_prepare
-	local patches="configure.patch i18n_fxc.patch i18n_fxi.patch i18n_fpg.patch
+	local patches="configure.patch i18n_fxc.patch i18n_fxi_0.patch
+	i18n_fxi_1.patch i18n_fxi_2.patch i18n_fxi_3.patch i18n_fxi.patch i18n_fpg.patch
 		i18n_map.patch fxi_binname.patch fxc_nosdlinit.patch common_stdfiles.patch
 		fxc_output.patch fxi_input.patch fxc_return_values.patch fxi_return_values.patch
 		plugins_dir.patch fxdll_version.patch fxi_apptitle.patch puts_gets.patch
@@ -39,7 +40,14 @@ src_prepare() {
 	for patch in ${patches}; do
 		epatch "${FILESDIR}/${patch}"
 	done
-	epatch "${FILESDIR}/fenix_0.92a.dfsg1-5.diff"
+	mkdir -p debian/examples debian/doc debian/i18n
+	cp "${FILESDIR}/skeleton.prg" debian/examples || die
+	cp "${FILESDIR}/fpl.txt" "${FILESDIR}/authors.txt" "${FILESDIR}/fgc.txt" \
+		"${FILESDIR}/fpg.txt" "${FILESDIR}/fbm.txt" "${FILESDIR}/fnt.txt" \
+		"${FILESDIR}/pal.txt" "${FILESDIR}/map.txt" "${FILESDIR}/formatos.txt" \
+		debian/doc || die
+	cp "${FILESDIR}/i18n-Makefile" debian/i18n/Makefile || die
+	cp "${FILESDIR}/fenix-fxc_es.po" "${FILESDIR}/fenix-fxi_es.po" debian/i18n || die
 	sed -i -e 's:ungif:gif:g' configure fpg/Makefile.in map/Makefile.in || die "sed failed"
 	chmod +x configure
 #	die 'We should probably use the "orig" tarball from Debian, which probably has the ungif fix in it.'
