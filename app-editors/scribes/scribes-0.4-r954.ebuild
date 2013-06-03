@@ -39,6 +39,7 @@ DEPEND="${RDEPEND}
 DOCS="AUTHORS ChangeLog CONTRIBUTORS NEWS README TODO TRANSLATORS"
 
 pkg_setup() {
+	python_pkg_setup
 	python_set_active_version 2
 	G2CONF="--disable-scrollkeeper"
 }
