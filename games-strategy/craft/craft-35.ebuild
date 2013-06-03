@@ -19,6 +19,8 @@ IUSE="doc"
 DEPEND=""
 RDEPEND=""
 
+S="${WORKDIR}"
+
 src_unpack() {
 	unpack craftcc35.tar.Z
 	use doc && {
@@ -35,12 +37,10 @@ src_prepare() {
 }
 
 src_compile() {
-	cd "${WORKDIR}"
 	CC="$(tc-getCC)" CXX="$(tc-getCXX)" ./install || die "compilation failed"
 }
 
 src_install() {
-	cd "${WORKDIR}"
 	dobin craft
 	use doc && {
 		dohtml doc/*html
