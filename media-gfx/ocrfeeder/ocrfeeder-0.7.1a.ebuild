@@ -37,6 +37,7 @@ pkg_setup() {
 	einfo "configuration file that is placed in the OCRFeeder's configuration "
 	einfo "folder (~/.ocrfeeder) should perhaps be deleted."
 	echo
+	python_pkg_setup
 }
 
 src_compile() {
