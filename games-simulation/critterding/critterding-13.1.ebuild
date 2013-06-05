@@ -4,7 +4,7 @@
 
 EAPI=5
 
-inherit games cmake-utils
+inherit cmake-utils games
 
 DESCRIPTION="AI evolution simulation"
 HOMEPAGE="http://critterding.sourceforge.net"
@@ -26,11 +26,23 @@ S="${WORKDIR}/${PN}-beta${PV}"
 	#eautoreconf
 #}
 
+src_configure() {
+        local mycmakeargs=(
+				-DCMAKE_INSTALL_PREFIX="${GAMES_PREFIX}" 
+        )
+
+        cmake-utils_src_configure
+}
+
+src_compile() {
+	cmake-utils_src_compile
+}
+
 src_install() {
-	default_src_install
-	die "That didn't actually install anything"
+	cmake-utils_src_install
 	dodir "${GAMES_DATADIR}/${PN}/profiles"
 	insinto "${GAMES_DATADIR}/${PN}/profiles"
 	doins profiles/race
 	dodoc AUTHORS Changelog README
+	prepgamesdirs
 }
