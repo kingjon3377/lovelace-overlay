@@ -51,7 +51,7 @@ src_configure() {
 src_install() {
 	emake -j1 DESTDIR="${D}" install
 
-	fperms -R 755 "${SN}/share/doc/${P}/demos"
+	fperms -R 755 "${SN}/share/snavigator/demos"
 	dodir /etc/env.d
 	echo "PATH=${SN}/bin" > "${D}"/etc/env.d/10snavigator
 
