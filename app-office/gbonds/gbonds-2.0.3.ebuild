@@ -28,7 +28,9 @@ DEPEND=">=x11-libs/gtk+-2.2
 		>=gnome-base/libgnomeprintui-2.2
 		>=gnome-base/gnome-vfs-2.2
 		nls? ( sys-devel/gettext )
-		x11-base/xorg-x11"
+		x11-base/xorg-x11
+		gnome-base/libgnomeui
+		gnome-base/libbonobo"
 RDEPEND="${DEPEND}"
 
 src_prepare() {
