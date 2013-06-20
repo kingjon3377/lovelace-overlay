@@ -87,7 +87,7 @@ class DwiggieComAdapter(BaseSiteAdapter):
 
     def getSiteURLPattern(self):
         # http://www.dwiggie.com/derby/mari17b.htm
-        return re.escape("http://")+"(www.)?"+re.escape(self.getSiteDomain())+r"/derby/(?P<id>(old_\d{4}\/)?[a-z]+\d+)(?P<part>[a-z]*)\.htm$"     
+        return re.escape("http://")+"(www.)?"+re.escape(self.getSiteDomain())+r"/derby/(?P<id>(old_\d{4}\/|old[a-z])?[a-z]+\d+)(?P<part>[a-z]*)\.htm$"     
         
     def tryArchivePage(self, url):
     	
