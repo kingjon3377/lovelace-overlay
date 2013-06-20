@@ -153,7 +153,7 @@ class DwiggieComAdapter(BaseSiteAdapter):
         s.reverse()
         storyId_trimmed = s[0]
                 
-        m = re.match('.*?<body[^>]*>(\s*<ul>)?(?P<content>.*?)</body>', data, re.DOTALL)
+        m = re.match('.*?<body[^>]*>(\s*<ul>)?(?P<content>.*?)(</body>|$)', data, re.DOTALL)
         newdata = m.group('content')
         regex=re.compile(r'<a\ href\=\"'+storyId_trimmed+'[a-z]?.htm\">(Continued\ [Ii]n\ |Continue\ [Oo]n\ [Tt]o\ )?(the\ )?([Nn]ext\ [Ss]ection|[Ss]ection\ [0-9IVXCL]+)</a>')
         newdata = re.sub(regex, '', newdata)
