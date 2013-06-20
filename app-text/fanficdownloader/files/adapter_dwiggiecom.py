@@ -155,7 +155,7 @@ class DwiggieComAdapter(BaseSiteAdapter):
                 
         m = re.match('.*?<body[^>]*>(\s*<ul>)?(?P<content>.*?)</body>', data, re.DOTALL)
         newdata = m.group('content')
-        regex=re.compile(r'<a\ href\=\"'+storyId_trimmed+'[a-z]?.htm\">(Continued\ [Ii]n\ )?(the\ )?[Nn]ext\ [Ss]ection</a>')
+        regex=re.compile(r'<a\ href\=\"'+storyId_trimmed+'[a-z]?.htm\">(Continued\ [Ii]n\ )?(the\ )?([Nn]ext\ [Ss]ection|[Ss]ection\ [0-9IVXCL]+)</a>')
         newdata = re.sub(regex, '', newdata)
 
         
