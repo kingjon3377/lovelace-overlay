@@ -5,7 +5,7 @@
 EAPI=5
 
 DESCRIPTION="Latin--English dictionary."
-HOMEPAGE="http://users.erols.com/whitaker/words.htm"
+HOMEPAGE="http://archives.nd.edu/whitaker/words.htm"
 SRC_URI="http://archives.nd.edu/whitaker/wordsall.zip"
 
 LICENSE="words"
