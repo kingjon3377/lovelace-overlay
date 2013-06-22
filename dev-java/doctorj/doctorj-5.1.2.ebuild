@@ -9,8 +9,10 @@ JAVA_PKG_IUSE="doc source"
 inherit java-pkg-2 java-ant-2
 
 DESCRIPTION="A tool to analyze Java code"
-HOMEPAGE="http://www.incava.org/projects/java/doctorj/"
-SRC_URI="http://www.incava.org/files/${P}.tar.gz"
+#HOMEPAGE="http://www.incava.org/projects/java/doctorj/"
+#SRC_URI="http://www.incava.org/files/${P}.tar.gz"
+HOMEPAGE="http://sourceforge.net/projects/doctorj"
+SRC_URI="mirror://sourceforge/${PN}/${PN}/${PV}/${P}.tar.gz"
 
 LICENSE="LGPL-2.1"
 SLOT="0"
