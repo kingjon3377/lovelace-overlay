@@ -1,4 +1,4 @@
-# Copyright 1999-2012 Gentoo Foundation
+# Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -18,19 +18,13 @@ KEYWORDS="~x86 ~amd64"
 
 IUSE=""
 
-RDEPEND=">=virtual/jre-1.4"
-DEPEND=">=virtual/jdk-1.4
+RDEPEND=">=virtual/jre-1.5"
+DEPEND=">=virtual/jdk-1.5
 	app-arch/unzip
-	dev-java/skinlf
-	dev-java/jgoodies-looks"
+	dev-java/skinlf"
+#	dev-java/jgoodies-looks"
 
 EANT_DOC_TARGET="doc"
-
-src_unpack() {
-	mkdir "${WORKDIR}/${P}"
-	cd "${S}"
-	unpack ${A}
-}
 
 java_prepare() {
 	epatch "${FILESDIR}"/${P}-nodemo.patch
@@ -43,7 +37,7 @@ java_prepare() {
 	cd lib || die
 	rm -rvf *.jar jmf|| die
 	java-pkg_jar-from skinlf
-	java-pkg_jar-from jgoodies-looks-2.0 looks.jar
+#	java-pkg_jar-from jgoodies-looks-2.0 looks.jar
 }
 
 src_install() {
