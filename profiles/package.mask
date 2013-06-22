@@ -32,3 +32,6 @@ media-gfx/luxblend
 # And luxrender depends on luxblend ...
 media-gfx/luxrender
 
+# Build fails in building documentation.
+=dev-lang/nickle-2.77
+
