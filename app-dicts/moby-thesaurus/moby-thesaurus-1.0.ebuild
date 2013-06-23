@@ -5,7 +5,7 @@
 
 EAPI=5
 
-inherit unpacker
+inherit unpacker multilib
 
 MY_P=dict-moby-thesaurus
 DEB="${MY_P}_${PV}-6.2_all.deb"
@@ -25,7 +25,7 @@ IUSE=""
 
 src_install () {
 	dodoc usr/share/doc/dict-moby-thesaurus/*
-	dodir /usr/lib/dict
-	insinto /usr/lib/dict
+	dodir /usr/$(get_libdir)/dict
+	insinto /usr/$(get_libdir)/dict
 	doins usr/share/dictd/*
 }
