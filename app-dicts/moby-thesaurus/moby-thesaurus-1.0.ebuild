@@ -14,8 +14,8 @@ HOMEPAGE="http://www.dcs.shef.ac.uk/research/ilash/Moby/ http://packages.debian.
 SRC_URI="mirror://debian/pool/main/d/${MY_P}/${DEB}"
 DESCRIPTION="Grady Ward's Moby Thesaurus; 35000 root words and 2.5 million synonyms"
 
-DEPEND=">=app-text/dictd-1.5.5"
-RDEPEND="${DEPEND}"
+RDEPEND=">=app-text/dictd-1.5.5"
+DEPEND=""
 
 SLOT="0"
 LICENSE="GPL-2"
