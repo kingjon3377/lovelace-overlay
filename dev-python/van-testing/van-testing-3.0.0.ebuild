@@ -17,7 +17,7 @@ SLOT="0"
 KEYWORDS="amd64"
 IUSE=""
 
-DEPEND="dev-python/wsgi-intercept"
+DEPEND="dev-python/wsgiintercept"
 RDEPEND="${DEPEND}"
 
 S="${WORKDIR}/${MY_P}-${PV}"
