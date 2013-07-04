@@ -22,7 +22,7 @@ IUSE=""
 DEPEND="dev-python/httplib2
 	dev-python/oauth
 	dev-python/setuptools
-	dev-python/wsgi-intercept
+	dev-python/wsgiintercept
 	net-zope/zope-interface"
 RDEPEND="${DEPEND}"
 
