@@ -46,6 +46,7 @@ src_install() {
 	insinto /etc/${PN}
 	doins defaults.ini
 	dodoc example.ini readme.txt
+	dosym ${PN} /usr/bin/ffd
 }
 
 src_test() {
