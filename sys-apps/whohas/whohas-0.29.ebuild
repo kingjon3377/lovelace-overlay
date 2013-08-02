@@ -13,7 +13,8 @@ SLOT="0"
 KEYWORDS="amd64"
 IUSE="linguas_de"
 
-DEPEND="dev-perl/libwww-perl"
+DEPEND="dev-perl/libwww-perl
+	dev-lang/perl[ithreads]"
 RDEPEND="${DEPEND}
 	sys-apps/coreutils"
 
