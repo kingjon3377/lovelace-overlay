@@ -17,9 +17,7 @@ IUSE=""
 SRC_URI="http://launchpad.net/${PN}/trunk/${PV}/+download/${P}.tar.gz"
 
 RDEPEND="dev-ruby/rcairo[ruby_targets_ruby18]
-	dev-ruby/ruby-gtk2[ruby_targets_ruby18]
-	dev-ruby/ruby-libglade2[ruby_targets_ruby18]
-	dev-ruby/ruby-gconf2[ruby_targets_ruby18]"
+	dev-ruby/ruby-gtk2[ruby_targets_ruby18]"
 
 src_prepare() {
 	sed -i -e "s/File.dirname(__FILE__)/'\/usr\/share\/screenruler'/" screenruler.rb
