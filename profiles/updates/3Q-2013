@@ -1,1 +1,2 @@
 move dev-python/wsgi-intercept dev-python/wsgiintercept
+move games-puzzle/nottetris games-arcade/nottetris2
