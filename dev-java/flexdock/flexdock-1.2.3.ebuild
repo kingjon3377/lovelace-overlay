@@ -27,7 +27,7 @@ DEPEND=">=virtual/jdk-1.5
 EANT_DOC_TARGET="doc"
 
 java_prepare() {
-	epatch "${FILESDIR}"/${P}-nodemo.patch
+	epatch "${FILESDIR}"/${PN}-1.1.1-nodemo.patch
 
 	#some cleanups
 	find . -name '*.so' -exec rm -v {} \;|| die
