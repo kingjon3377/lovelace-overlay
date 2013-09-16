@@ -4,7 +4,7 @@
 
 EAPI=5
 
-inherit eutils
+inherit eutils toolchain-funcs
 
 DESCRIPTION="Finds similarities between files"
 HOMEPAGE="http://dickgrune.com/Programs/similarity_tester/"
@@ -24,8 +24,11 @@ src_prepare() {
 	epatch "${FILESDIR}"/fix-configuration.patch
 }
 
+src_compile() {
+	emake DESTDIR="${D}" USER_CC="$(tc-getCC)" USER_CFLAGS="${CFLAGS}" LDFLAGS="${LDFLAGS}" binaries
+}
+
 src_install() {
-	emake DESTDIR="${D}" CC="$(tc-getCC)" install
-	dodoc Answers ChangeLog READ_ME README.1ST TechnReport ToDo VERSION sim.pdf
-	dodoc sim.html
+	emake DESTDIR="${D}" USER_CC="$(tc-getCC)" USER_CFLAGS="${CFLAGS}" LDFLAGS="${LDFLAGS}" install
+	dodoc Answers ChangeLog README TechnReport ToDo VERSION sim.pdf
 }

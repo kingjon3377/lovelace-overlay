@@ -1,194 +1,79 @@
-diff -ruB ./Makefile ./Makefile
---- ./Makefile	2009-06-06 20:32:54.000000000 -0400
-+++ ./Makefile	2009-06-06 20:34:10.000000000 -0400
-@@ -42,10 +42,10 @@
- #
+--- Makefile.old	2013-09-16 01:04:56.000000000 -0400
++++ Makefile	2013-09-16 01:09:03.000000000 -0400
+@@ -34,15 +34,15 @@
+ # For UNIX|Linux
+ 
+ SYSTEM =	UNIX
+-SUBSYSTEM =	SOLARIS
++SUBSYSTEM =	LINUX
  
  # Locations
 -DIR =		/home/dick
--BINDIR =	$(DIR)/bin.`arch`
+-BINDIR =	$(DIR)/bin.`$(DIR)/bin/arch`
 -MAN1DIR =	$(DIR)/man/man1
--DICTDIR =	$(DIR)/lib
 +DIR =		$(DESTDIR)/usr
 +BINDIR =	$(DIR)/bin
 +MAN1DIR =	$(DIR)/share/man/man1
-+DICTDIR =	$(DIR)/lib/similarity-tester
  
- # Which Operating System
- 
-@@ -53,16 +53,17 @@
- EXE =		#
- LN =		ln
- ZIP =		zip
+ # Commands
+-COPY =		cp -p
 +COPY =		install -D
- #	=============== end of ../lib/sysidf.mk
+ EXE =		#
+ LEX =		flex
+ LN =		ln
+@@ -51,24 +51,24 @@
+ ################################################################
+ # For MSDOS + MinGW
+ 
+-SYSTEM =	MSDOS
+-SUBSYSTEM =	MinGW
++#SYSTEM =	MSDOS
++#SUBSYSTEM =	MinGW
+ 
+ # Locations
+-DIR =		C:/BIN
+-BINDIR =	C:/BIN
+-MAN1DIR =	C:/BIN
++#DIR =		C:/BIN
++#BINDIR =	C:/BIN
++#MAN1DIR =	C:/BIN
+ 
+ # Commands (cp required, since xcopy cannot handle forward slashes)
+-COPY =		cp -p
+-EXE =		.exe
+-LEX =		flex
+-LN =		ln
+-ZIP =		zip -o
++#COPY =		cp -p
++#EXE =		.exe
++#LEX =		flex
++#LN =		ln
++#ZIP =		zip -o
+ 
+ ################################################################
+ # General, compiling:
+-CC =		gcc -D$(SYSTEM) -D$(SUBSYSTEM)
++CC =		$(USER_CC) -D$(SYSTEM) -D$(SUBSYSTEM)
+ LINT =		lint -ansi -D$(SYSTEM) -D$(SUBSYSTEM)
+ LINTFLAGS =	-xh
+ 
+@@ -84,14 +84,14 @@
  
  # Compiler Options
--C_OPT =		-O4#			# C optimization level
-+#C_OPT =		-O4#			# C optimization level
- LIBFLAGS =	#			# library flags
- LINTFLAGS =	-h#			# lint flags
+ MEMORY =	-DMEMLEAK -DMEMCLOBBER
+-CFLAGS =	$(MEMORY) -O4
+-LIBFLAGS =	#
++CFLAGS =	$(MEMORY) $(USER_CFLAGS)
++LIBFLAGS =	$(LDFLAGS)
+ LINTFLAGS =	$(MEMORY) -h# -X
  
- # Compilers: GNU + DJGPP v2
--CC =		gcc
--CFLAGS =	-pedantic -D$(SYSTEM) $(C_OPT) $(TESTTOKEN)
-+#CC =		$(CC)
-+CFLAGS +=	-D$(SYSTEM) $(C_OPT) $(TESTTOKEN)
- LINT =		lint -ansi -D$(SYSTEM)
+ # Debugging
+-CFLAGS +=	-DDEBUG
+-DEBUG_C =	debug.c
+-DEBUG_O =	debug.o
++#CFLAGS +=	-DDEBUG
++#DEBUG_C =	debug.c
++#DEBUG_O =	debug.o
  
+ #	T E S T   P A R A M E T E R S
  
-@@ -170,11 +171,11 @@
- SIM_C_OBJ =	$(SIM_OBJ) $(ALG_OBJ) $(CLANG_OBJ)
- 
- sim_c$(EXE):	$(SIM_C_OBJ)
--		$(CC) $(SIM_C_OBJ) -o $@
-+		$(CC) $(CFLAGS) $(SIM_C_OBJ) -o $@
- 
- SIM_C_GRB =	clang.c sim_c
- 
--install.sim_c:	$(BINDIR)/sim_c$(EXE) $(MANDIR)/sim.1
-+install.sim_c:	$(BINDIR)/sim_c$(EXE) $(MAN1DIR)/sim.1
- 
- $(BINDIR)/sim_c$(EXE):	sim_c$(EXE)
- 		$(COPY) sim_c$(EXE) $@
-@@ -192,11 +193,11 @@
- SIM_JAVA_OBJ =	$(SIM_OBJ) $(ALG_OBJ) $(JAVALANG_OBJ)
- 
- sim_java$(EXE):	$(SIM_JAVA_OBJ)
--		$(CC) $(SIM_JAVA_OBJ) -o $@
-+		$(CC) $(CFLAGS) $(SIM_JAVA_OBJ) -o $@
- 
- SIM_JAVA_GRB =	javalang.c sim_java
- 
--install.sim_java:	$(BINDIR)/sim_java$(EXE) $(MANDIR)/sim.1
-+install.sim_java:	$(BINDIR)/sim_java$(EXE) $(MAN1DIR)/sim.1
- 
- $(BINDIR)/sim_java$(EXE):	sim_java$(EXE)
- 		$(COPY) sim_java$(EXE) $@
-@@ -214,11 +215,11 @@
- SIM_PASC_OBJ =	$(SIM_OBJ) $(ALG_OBJ) $(PASCLANG_OBJ)
- 
- sim_pasc$(EXE):	$(SIM_PASC_OBJ)
--		$(CC) $(SIM_PASC_OBJ) -o $@
-+		$(CC) $(CFLAGS) $(SIM_PASC_OBJ) -o $@
- 
- SIM_PASC_GRB =	pascallang.c sim_pasc
- 
--install.sim_pasc:	$(BINDIR)/sim_pasc$(EXE) $(MANDIR)/sim.1
-+install.sim_pasc:	$(BINDIR)/sim_pasc$(EXE) $(MAN1DIR)/sim.1
- 
- $(BINDIR)/sim_pasc$(EXE):	sim_pasc$(EXE)
- 		$(COPY) sim_pasc$(EXE) $@
-@@ -236,11 +237,11 @@
- SIM_M2_OBJ =	$(SIM_OBJ) $(ALG_OBJ) $(M2LANG_OBJ)
- 
- sim_m2$(EXE):	$(SIM_M2_OBJ)
--		$(CC) $(SIM_M2_OBJ) -o $@
-+		$(CC) $(CFLAGS) $(SIM_M2_OBJ) -o $@
- 
- SIM_M2_GRB =	m2lang.c sim_m2
- 
--install.sim_m2:	$(BINDIR)/sim_m2$(EXE) $(MANDIR)/sim.1
-+install.sim_m2:	$(BINDIR)/sim_m2$(EXE) $(MAN1DIR)/sim.1
- 
- $(BINDIR)/sim_m2$(EXE):	sim_m2$(EXE)
- 		$(COPY) sim_m2$(EXE) $@
-@@ -258,11 +259,11 @@
- SIM_LISP_OBJ =	$(SIM_OBJ) $(ALG_OBJ) $(LISPLANG_OBJ)
- 
- sim_lisp$(EXE):	$(SIM_LISP_OBJ)
--		$(CC) $(SIM_LISP_OBJ) -o $@
-+		$(CC) $(CFLAGS) $(SIM_LISP_OBJ) -o $@
- 
- SIM_LISP_GRB =	lisplang.c sim_lisp
- 
--install.sim_lisp:	$(BINDIR)/sim_lisp$(EXE) $(MANDIR)/sim.1
-+install.sim_lisp:	$(BINDIR)/sim_lisp$(EXE) $(MAN1DIR)/sim.1
- 
- $(BINDIR)/sim_lisp$(EXE):	sim_lisp$(EXE)
- 		$(COPY) sim_lisp$(EXE) $@
-@@ -280,11 +281,11 @@
- SIM_MIRA_OBJ =	$(SIM_OBJ) $(ALG_OBJ) $(MIRALANG_OBJ)
- 
- sim_mira$(EXE):	$(SIM_MIRA_OBJ)
--		$(CC) $(SIM_MIRA_OBJ) -o $@
-+		$(CC) $(CFLAGS) $(SIM_MIRA_OBJ) -o $@
- 
- SIM_MIRA_GRB =	miralang.c sim_mira
- 
--install.sim_mira:	$(BINDIR)/sim_mira$(EXE) $(MANDIR)/sim.1
-+install.sim_mira:	$(BINDIR)/sim_mira$(EXE) $(MAN1DIR)/sim.1
- 
- $(BINDIR)/sim_mira$(EXE):	sim_mira$(EXE)
- 		$(COPY) sim_mira$(EXE) $@
-@@ -302,11 +303,11 @@
- SIM_TEXT_OBJ =	$(SIM_OBJ) $(TEXTLANG_OBJ)
- 
- sim_text$(EXE):	$(SIM_TEXT_OBJ)
--		$(CC) $(SIM_TEXT_OBJ) -o $@
-+		$(CC) $(CFLAGS) $(SIM_TEXT_OBJ) -o $@
- 
- SIM_TEXT_GRB =	textlang.c sim_text
- 
--install.sim_text:	$(BINDIR)/sim_text$(EXE) $(MANDIR)/sim.1
-+install.sim_text:	$(BINDIR)/sim_text$(EXE) $(MAN1DIR)/sim.1
- 
- $(BINDIR)/sim_text$(EXE):	sim_text$(EXE)
- 		$(COPY) sim_text$(EXE) $@
-@@ -391,7 +392,7 @@
- 		install.sim_m2 install.sim_lisp install.sim_mira \
- 		install.sim_text
- 
--$(MANDIR)/sim.1:	sim.1
-+$(MAN1DIR)/sim.1:	sim.1
- 		$(COPY) sim.1 $@
- 
- simsrc.shr:	$(ALL_FLS)
-diff -ruB ./sysidf.mk ./sysidf.mk
---- ./sysidf.mk	2009-06-06 20:32:54.000000000 -0400
-+++ ./sysidf.mk	2009-06-06 20:34:27.000000000 -0400
-@@ -1,16 +1,16 @@
- #	I N S T A L L A T I O N   P A R A M E T E R S
- 
--BINDIR =	/home/dick/bin.`arch`
--MANDIR =	/home/dick/man/man1
-+BINDIR =	$(DESTDIR)/usr/bin
-+MANDIR =	$(DESTDIR)/usr/share/man/man1
- FTPDIR =	/usr/local/ftpd/pub/dick/similarity_tester
- FTPFILES =	README.1st READ_ME TechnReport
- 
- #	C O M P I L A T I O N   P A R A M E T E R S
- 
- EXE =		#
--CC =		gcc -pedantic -Wall
-+#CC =		$(CC) 
- LEX =		flex
--COPY =		cp -p
-+COPY =		install
- ZIP =		zip -o
- LINT =		lint -ansi $(SYSTEM)
- LINTFLAGS =	-xh
-diff -ruB ./sysidf.unix ./sysidf.unix
---- ./sysidf.unix	2009-06-06 20:32:54.000000000 -0400
-+++ ./sysidf.unix	2009-06-06 20:34:41.000000000 -0400
-@@ -1,16 +1,16 @@
- #	I N S T A L L A T I O N   P A R A M E T E R S
- 
--BINDIR =	/home/dick/bin.`arch`
--MANDIR =	/home/dick/man/man1
-+BINDIR =	$(DESTDIR)/usr/bin
-+MANDIR =	$(DESTDIR)/usr/share/man/man1
- FTPDIR =	/usr/local/ftpd/pub/dick/similarity_tester
- FTPFILES =	README.1st READ_ME TechnReport
- 
- #	C O M P I L A T I O N   P A R A M E T E R S
- 
- EXE =		#
--CC =		gcc -pedantic -Wall
-+#CC =		$(CC)
- LEX =		flex
--COPY =		cp -p
-+COPY =		install
- ZIP =		zip -o
- LINT =		lint -ansi $(SYSTEM)
- LINTFLAGS =	-xh
