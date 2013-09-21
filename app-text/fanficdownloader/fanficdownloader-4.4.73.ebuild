@@ -50,6 +50,7 @@ src_install() {
 }
 
 src_test() {
+	python_export_best
 	cd "${T}"
-	"${S}/downloader.py" http://archiveofourown.org/works/257191 || die
+	"${PYTHON}" "${S}/downloader.py" http://archiveofourown.org/works/257191 || die
 }
