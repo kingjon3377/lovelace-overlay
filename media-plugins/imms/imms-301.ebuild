@@ -13,12 +13,14 @@ LICENSE="GPL-2"
 RESTRICT="mirror"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="analyzer vorbis remote"
+IUSE="vorbis remote"
 DEPEND=">=dev-db/sqlite-3
 	>=dev-libs/glib-2
 	dev-libs/libpcre
 	|| ( media-libs/id3lib media-libs/taglib )
-	analyzer? ( >=sci-libs/fftw-3.0 sci-libs/torch media-sound/sox )
+	>=sci-libs/fftw-3.0
+	sci-libs/torch
+	media-sound/sox
 	remote? ( >=gnome-base/libglade-2.0 >=x11-libs/gtk+-2 )
 	vorbis? ( media-libs/libvorbis )
 	media-sound/audacious"
@@ -42,7 +44,7 @@ src_prepare() {
 
 src_configure() {
 	CC="$(tc-getCC) ${CFLAGS} -pedantic" CXX="$(tc-getCXX) ${CXXFLAGS} -pedantic" econf \
-		$(use_enable analyzer ) \
+		--enable-analyzer \
 		$(use_enable remote immsremote ) \
 		$(use_with vorbis )
 }
@@ -54,7 +56,7 @@ src_compile() {
 src_install() {
 		dobin build/immsd
 		dobin build/immstool
-		use analyzer && dobin build/analyzer
+		dobin build/analyzer
 		use remote && dobin build/immsremote && insinto /usr/share/${PN} && doins immsremote/immsremote.glade
 		exeinto "/usr/$(get_libdir)/audacious/General"
 		doexe build/libaudaciousimms*.so
