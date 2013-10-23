@@ -6,7 +6,7 @@ EAPI=5
 
 inherit eutils versionator
 
-SR=R$(get_version_component_range 3)
+SR=SR$(get_version_component_range 3)
 RNAME="kepler"
 
 SRC_BASE="http://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/${RNAME}/${SR}/eclipse-java-${RNAME}-${SR}-linux-gtk"
