@@ -27,3 +27,10 @@ DEPEND="${RDEPEND}
 		test? ( dev-haskell/hunit
 		)
 		>=dev-haskell/cabal-1.8"
+
+src_prepare() {
+	if has_version '<=dev-haskell/binary-0.5.1.1'; then
+		sed -i testsuite/Archive.hs \
+			-e 's/Data.Binary.Get.runGet at position 138: Did not find end of central directory signature/Did not find end of central directory signature. Failed reading at byte position 138/' || die
+	fi
+}
