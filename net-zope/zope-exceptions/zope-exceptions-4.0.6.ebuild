@@ -17,7 +17,7 @@ S="${WORKDIR}/${MY_P}"
 
 DESCRIPTION="Zope Exceptions"
 HOMEPAGE="http://pypi.python.org/pypi/zope.exceptions"
-SRC_URI="mirror://pypi/${MY_PN:0:1}/${MY_PN}/${MY_P}.tar.gz"
+SRC_URI="mirror://pypi/${MY_PN:0:1}/${MY_PN}/${MY_P}.zip"
 
 LICENSE="ZPL"
 SLOT="0"
@@ -26,8 +26,9 @@ IUSE="doc"
 
 # net-zope/namespaces-zope[zope]
 RDEPEND="
-	net-zope/zope-interface"
+	>=net-zope/zope-interface-3.6.0"
 DEPEND="${RDEPEND}
+	app-arch/unzip
 	dev-python/setuptools
 	doc? (
 		dev-python/repoze-sphinx-autointerface
