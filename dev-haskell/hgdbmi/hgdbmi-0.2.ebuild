@@ -20,7 +20,7 @@ IUSE=""
 
 RDEPEND="dev-haskell/parsec[profile?]
 		>=dev-lang/ghc-6.8.2
-		=dev-haskell/stm-2.3
-		test? ( =dev-haskell/temporary-1.1* )"
+		=dev-haskell/stm-2.3"
 DEPEND="${RDEPEND}
-		>=dev-haskell/cabal-1.2"
+		>=dev-haskell/cabal-1.2
+		test? ( =dev-haskell/temporary-1.1* )"
