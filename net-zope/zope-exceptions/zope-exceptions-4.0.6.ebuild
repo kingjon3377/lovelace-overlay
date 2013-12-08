@@ -4,12 +4,10 @@
 # Copyright owners: Arfrever Frehtes Taifersar Arahesis
 
 EAPI=5
-PYTHON_MULTIPLE_ABIS="1"
-PYTHON_RESTRICTED_ABIS="2.5"
-PYTHON_TESTS_FAILURES_TOLERANT_ABIS="*-jython"
-DISTUTILS_SRC_TEST="setup.py"
+#PYTHON_TESTS_FAILURES_TOLERANT_ABIS="*-jython"
+PYTHON_COMPAT=( python{2_6,2_7,3_2,3_3} pypy2_0 )
 
-inherit distutils
+inherit distutils-r1
 
 MY_PN=${PN/-/\.}
 MY_P=${MY_PN}-${PV}
@@ -26,20 +24,20 @@ IUSE="doc"
 
 # net-zope/namespaces-zope[zope]
 RDEPEND="
-	>=net-zope/zope-interface-3.6.0"
+	>=net-zope/zope-interface-3.6.0[${PYTHON_USEDEP}]"
 DEPEND="${RDEPEND}
 	app-arch/unzip
-	dev-python/setuptools
+	dev-python/setuptools[${PYTHON_USEDEP}]
 	doc? (
-		dev-python/repoze-sphinx-autointerface
-		dev-python/sphinx
+		dev-python/repoze-sphinx-autointerface[${PYTHON_USEDEP}]
+		dev-python/sphinx[${PYTHON_USEDEP}]
 	)"
 
 DOCS="CHANGES.txt README.txt"
 PYTHON_MODULES="${PN/-//}"
 
 src_compile() {
-	distutils_src_compile
+	distutils-r1_src_compile
 
 	if use doc; then
 		einfo "Generation of documentation"
@@ -50,9 +48,13 @@ src_compile() {
 }
 
 src_install() {
-	distutils_src_install
+	distutils-r1_src_install
 
 	if use doc; then
 		dohtml -r docs/_build/html/
 	fi
+}
+
+python_test() {
+	esetup.py test
 }

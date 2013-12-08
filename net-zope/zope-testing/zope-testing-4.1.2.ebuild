@@ -4,14 +4,12 @@
 # Copyright owners: Arfrever Frehtes Taifersar Arahesis
 
 EAPI=5
-PYTHON_MULTIPLE_ABIS="1"
-PYTHON_RESTRICTED_ABIS="2.5"
-# zope.testing.server module requires webbrowser module.
+# zope.testing.server module requires webbrowser module, so no jython
 # http://bugs.jython.org/issue1762054
-PYTHON_TESTS_RESTRICTED_ABIS="*-jython"
-DISTUTILS_SRC_TEST="setup.py"
+#DISTUTILS_SRC_TEST="setup.py"
+PYTHON_COMPAT=( python{2_6,2_7,3_2,3_3} pypy2_0 )
 
-inherit distutils
+inherit distutils-r1
 
 MY_PN=${PN/-/\.}
 MY_P=${MY_PN}-${PV}
@@ -28,10 +26,14 @@ IUSE=""
 
 # net-zope/namespaces-zope
 RDEPEND="
-	net-zope/zope-exceptions"
+	net-zope/zope-exceptions[${PYTHON_USEDEP}]"
 DEPEND="${RDEPEND}
 	app-arch/unzip
-	dev-python/setuptools"
+	dev-python/setuptools[${PYTHON_USEDEP}]"
 
 DOCS="CHANGES.rst README.rst"
 PYTHON_MODULES="${PN/-//}"
+
+python_test() {
+	esetup.py test
+}
