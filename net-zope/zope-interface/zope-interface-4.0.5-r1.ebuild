@@ -19,13 +19,14 @@ SRC_URI="mirror://pypi/${MY_PN:0:1}/${MY_PN}/${MY_P}.zip"
 LICENSE="ZPL"
 SLOT="0"
 KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~amd64-fbsd ~x86-fbsd ~x86-interix ~amd64-linux ~x86-linux ~ppc-macos ~x64-macos ~x86-macos ~sparc-solaris ~sparc64-solaris ~x64-solaris ~x86-solaris"
-IUSE=""
+IUSE="test"
 
 # net-zope/zope-fixers is required for building with Python 3.
 DEPEND="dev-python/setuptools[${PYTHON_USEDEP}]
 	app-arch/unzip
 	net-zope/zope-event[${PYTHON_USEDEP}]
-	net-zope/zope-fixers[$(python_gen_usedep 'python3*')]"
+	net-zope/zope-fixers[$(python_gen_usedep 'python3*')]
+	test? ( net-zope/zope-testing[${PYTHON_USEDEP}] )"
 RDEPEND=""
 
 S="${WORKDIR}/${MY_P}"
