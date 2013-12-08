@@ -33,7 +33,7 @@ DEPEND="${RDEPEND}
 		dev-python/sphinx[${PYTHON_USEDEP}]
 	)"
 
-DOCS="CHANGES.txt README.txt"
+DOCS="CHANGES.rst README.rst"
 PYTHON_MODULES="${PN/-//}"
 
 src_compile() {
