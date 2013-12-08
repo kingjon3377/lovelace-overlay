@@ -19,7 +19,7 @@ S="${WORKDIR}/${MY_P}"
 
 DESCRIPTION="Zope testing helpers"
 HOMEPAGE="http://pypi.python.org/pypi/zope.testing"
-SRC_URI="mirror://pypi/${MY_PN:0:1}/${MY_PN}/${MY_P}.tar.gz"
+SRC_URI="mirror://pypi/${MY_PN:0:1}/${MY_PN}/${MY_P}.zip"
 
 LICENSE="ZPL"
 SLOT="0"
@@ -30,7 +30,8 @@ IUSE=""
 RDEPEND="
 	net-zope/zope-exceptions"
 DEPEND="${RDEPEND}
+	app-arch/unzip
 	dev-python/setuptools"
 
-DOCS="CHANGES.txt README.txt"
+DOCS="CHANGES.rst README.rst"
 PYTHON_MODULES="${PN/-//}"
