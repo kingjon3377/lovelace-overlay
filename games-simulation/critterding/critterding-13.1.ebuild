@@ -27,11 +27,11 @@ S="${WORKDIR}/${PN}-beta${PV}"
 #}
 
 src_configure() {
-        local mycmakeargs=(
-				-DCMAKE_INSTALL_PREFIX="${GAMES_PREFIX}" 
-        )
+	local mycmakeargs=(
+		-DCMAKE_INSTALL_PREFIX="${GAMES_PREFIX}" 
+	)
 
-        cmake-utils_src_configure
+	cmake-utils_src_configure
 }
 
 src_compile() {
