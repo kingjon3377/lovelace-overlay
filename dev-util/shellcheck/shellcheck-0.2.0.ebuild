@@ -32,7 +32,7 @@ DEPEND="${RDEPEND}
 "
 
 src_prepare() {
-	cabal-mksetup 
+	cabal-mksetup
 	default_src_prepare
 }
 
