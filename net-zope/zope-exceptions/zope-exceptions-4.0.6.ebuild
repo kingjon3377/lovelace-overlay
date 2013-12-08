@@ -20,7 +20,7 @@ SRC_URI="mirror://pypi/${MY_PN:0:1}/${MY_PN}/${MY_P}.zip"
 LICENSE="ZPL"
 SLOT="0"
 KEYWORDS="amd64 x86"
-IUSE="doc"
+IUSE="doc test"
 
 # net-zope/namespaces-zope[zope]
 RDEPEND="
@@ -28,6 +28,7 @@ RDEPEND="
 DEPEND="${RDEPEND}
 	app-arch/unzip
 	dev-python/setuptools[${PYTHON_USEDEP}]
+	test? ( net-zope/zope-testrunner )
 	doc? (
 		dev-python/repoze-sphinx-autointerface[${PYTHON_USEDEP}]
 		dev-python/sphinx[${PYTHON_USEDEP}]
