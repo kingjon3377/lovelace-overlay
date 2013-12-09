@@ -33,6 +33,7 @@ src_prepare() {
 	use subversion || {
 		rm -r scripts/subversion doc/subversion etc/subversion
 	}
+	rm doc/debian/service.8 doc/debian/service.sgml # conflicts with openrc
 }
 
 src_install() {
