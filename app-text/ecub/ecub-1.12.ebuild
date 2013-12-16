@@ -34,7 +34,7 @@ src_install() {
 	dodoc usr/share/ecub/readme.txt
 	rm usr/share/ecub/readme.txt
 	cp -R "usr/share/ecub" "${D}usr/share/" || die
-	dosym ../share/ecub/ecub /usr/bin/ecub
+	make_wrapper ${PN} ../share/${PN}/${PN}
 	insinto /usr/share/pixmaps
 	newins usr/share/ecub/appicons/ecub48x48.png ecub.png
 	insinto /usr/share/applications
