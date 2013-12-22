@@ -1,0 +1,30 @@
+Index: trunk/source/java/org/openoffice/da/comp/w2lcommon/filter/OptionsDialogBase.java
+===================================================================
+--- trunk/source/java/org/openoffice/da/comp/w2lcommon/filter/OptionsDialogBase.java	(revision 150)
++++ trunk/source/java/org/openoffice/da/comp/w2lcommon/filter/OptionsDialogBase.java	(working copy)
+@@ -33,7 +33,7 @@
+ import com.sun.star.beans.XPropertyAccess;
+ import com.sun.star.beans.XPropertySet;
+ import com.sun.star.container.XNameAccess;
+-import com.sun.star.document.XDocumentInfoSupplier;
++import com.sun.star.document.XDocumentPropertiesSupplier;
+ import com.sun.star.frame.XDesktop;
+ import com.sun.star.lang.XComponent;
+ import com.sun.star.lang.XMultiServiceFactory;
+@@ -179,13 +179,9 @@
+             XComponent xComponent = xDesktop.getCurrentComponent();
+ 			
+             // Get the document info property set
+-            XDocumentInfoSupplier xDocInfoSuppl = (XDocumentInfoSupplier)
+-                UnoRuntime.queryInterface(XDocumentInfoSupplier.class, xComponent);
+-            Object docInfo = xDocInfoSuppl.getDocumentInfo();
+-            XPropertySet xDocInfo = (XPropertySet)
+-                UnoRuntime.queryInterface(XPropertySet.class, docInfo);
+-
+-            return getPropertyValueAsString(xDocInfo,"Template");
++            XDocumentPropertiesSupplier xDocPropsSuppl =
++                UnoRuntime.queryInterface(XDocumentPropertiesSupplier.class, xComponent);
++            return xDocPropsSuppl.getDocumentProperties().getTemplateName();
+         }
+         catch (Exception e) {
+             return "";

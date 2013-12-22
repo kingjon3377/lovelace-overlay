@@ -8,7 +8,7 @@ OO_EXTENSIONS=("writer2latex.oxt" "xhtml-config-sample.oxt" "writer2xhtml.oxt")
 
 inherit eutils latex-package java-pkg-2 java-ant-2 multilib office-ext
 
-IS_SOURCE=
+IS_SOURCE=true
 
 MY_PV=${PV//./}
 MY_PV=${MY_PV/_/}
@@ -22,7 +22,8 @@ fi
 
 DESCRIPTION="Writer2Latex (w2l) - converter from OpenDocument .odt format"
 HOMEPAGE="http://writer2latex.sourceforge.net"
-SRC_URI="mirror://sourceforge/${PN}/${MY_P}.zip"
+#SRC_URI="mirror://sourceforge/${PN}/${MY_P}.zip"
+SRC_URI="http://sourceforge.net/code-snapshots/svn/w/wr/writer2latex/code/writer2latex-code-150-tags-1.0.2.zip"
 
 SLOT="0"
 LICENSE="GPL-2"
@@ -33,7 +34,8 @@ DEPEND=">=virtual/jdk-1.5
 	virtual/latex-base"
 RDEPEND=">=virtual/jre-1.5"
 
-S=${WORKDIR}/${PN}10
+#S=${WORKDIR}/${PN}10
+S=${WORKDIR}/${PN}-code-150-tags-${PV}
 if [[ -n ${IS_SOURCE} ]]
 then
 	S_DISTRO=${S}/source/distro
@@ -56,6 +58,9 @@ src_prepare(){
 		-exec ln -snf {} openoffice/program/classes \;
 
 	sed -i -e "s:W2LPATH=.*:W2LPATH=/usr/$(get_libdir)/${PN}:" ${S_DISTRO}/w2l || die "Sed failed"
+	sed -i -e "/URE_CLASSES/s:/usr/share/java/openoffice:/usr/$(get_libdir)/libreoffice/ure/share/java:" \
+		-e "/OFFICE_CLASSES/s:/usr/share/java/openoffice:/usr/$(get_libdir)/libreoffice/program/classes/:" build.xml || die
+	epatch "${FILESDIR}/XDocumentPropertiesSupplier.patch" "${FILESDIR}/XDocumentPropertiesSupplier-writer2xhtml.patch" # upstream issue #1
 }
 
 src_install() {
@@ -79,7 +84,13 @@ src_install() {
 		dodoc "${S}"/samples/config/*
 	fi
 
-	office-ext_src_install
+	if [[ -n ${IS_SOURCE} ]]; then
+		pushd "${S}/target/lib" > /dev/null || die
+		office-ext_src_install
+		popd > /dev/null || die
+	else
+		office-ext_src_install
+	fi
 
 	if use doc; then
 	#	dohtml -r doc
