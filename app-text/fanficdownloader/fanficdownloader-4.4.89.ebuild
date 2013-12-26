@@ -9,7 +9,7 @@ inherit eutils python-r1
 
 DESCRIPTION="Download fanfiction from various sites in ebook form"
 HOMEPAGE="https://code.google.com/p/fanficdownloader/"
-SRC_URI="http://${PN}.googlecode.com/files/${P}.zip"
+SRC_URI="http://fanficdownloader.googlecode.com/hg/fanficdownloader.zip -> ${P}.zip"
 
 LICENSE="Apache-2.0"
 SLOT="0"
