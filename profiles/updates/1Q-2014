@@ -1,1 +1,2 @@
 move app-forensics/ssdeep app-crypt/ssdeep
+move perl-gcpan/Encode-JIS2K dev-perl/Encode-JIS2K

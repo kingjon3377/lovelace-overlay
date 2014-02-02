@@ -35,7 +35,7 @@ DEPEND=">=app-text/opensp-1.5.2
 	dev-perl/XML-LibXML
 	dev-perl/Class-Accessor
 	dev-perl/Test-Exception
-	jis2k? ( perl-gcpan/Encode-JIS2K )
+	jis2k? ( dev-perl/Encode-JIS2K )
 	htmltidy? ( perl-gcpan/HTML-Tidy )"
 RDEPEND="${DEPEND}"
 
