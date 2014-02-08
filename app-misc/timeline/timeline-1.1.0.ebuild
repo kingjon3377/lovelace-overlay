@@ -4,9 +4,9 @@
 
 EAPI=5
 
-RESTRICT_PYTHON_ABIS="3.*"
+PYTHON_COMPAT=( python2_{6,7} )
 
-inherit virtualx python
+inherit virtualx python-single-r1
 
 PROJ="thetimelineproj"
 
@@ -19,24 +19,25 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""
 
-RDEPEND="dev-python/markdown
-	dev-python/wxpython:2.8
-	dev-python/pysvg"
+RDEPEND="dev-python/markdown[${PYTHON_USEDEP}]
+	dev-python/wxpython:2.8[${PYTHON_USEDEP}]
+	dev-python/pysvg[${PYTHON_USEDEP}]"
 DEPEND="${RDEPEND}
-	test? ( dev-python/mock )"
+	test? ( dev-python/mock[${PYTHON_USEDEP}] )"
 
-#src_test() {
-#	VIRTUALX_COMMAND="./execute-specs.py"
-#	virtualmake
-#}
+# A test fails
+src_test() {
+	VIRTUALX_COMMAND="${PYTHON} ./execute-specs.py"
+	virtualmake
+}
 
 src_install() {
 	insinto $(python_get_sitedir)/${PN}
 	dodir $(python_get_sitedir)/${PN}
 	doins -r timelinelib/ icons/
 	doins ${PN}.py
-	python_convert_shebangs 2.7 "${D}"/$(python_get_sitedir)/${PN}/${PN}.py
-	chmod +x "${D}"/$(python_get_sitedir)/${PN}/${PN}.py
+	python_fix_shebang "${D}"/$(python_get_sitedir)/${PN}/${PN}.py
+	fperms +x $(python_get_sitedir)/${PN}/${PN}.py
 	dodir /usr/bin
 	dosym $(python_get_sitedir)/${PN}/${PN}.py /usr/bin/${PN}
 }
