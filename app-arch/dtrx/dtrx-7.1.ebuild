@@ -4,7 +4,9 @@
 
 EAPI=5
 
-inherit distutils
+PYTHON_COMPAT=( python2_{6,7} )
+
+inherit distutils-r1
 
 DESCRIPTION="intelligently extract multiple archive types"
 HOMEPAGE="http://brettcsmith.org/2007/dtrx/"
