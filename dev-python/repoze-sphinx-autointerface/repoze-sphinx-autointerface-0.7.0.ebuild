@@ -4,9 +4,9 @@
 # Copyright owners: Arfrever Frehtes Taifersar Arahesis
 
 EAPI=5
-PYTHON_MULTIPLE_ABIS="1"
+PYTHON_COMPAT=( python{2_6,2_7,3_2,3_3} pypy2_0 )
 
-inherit distutils
+inherit distutils-r1
 
 MY_PN=${PN/-/\.}
 MY_PN=${MY_PN/-/\.}
@@ -19,7 +19,7 @@ SRC_URI="mirror://pypi/${MY_PN:0:1}/${MY_PN}/${MY_P}.tar.gz"
 
 LICENSE="repoze"
 SLOT="0"
-KEYWORDS="amd64 x86"
+KEYWORDS="~amd64 ~x86"
 IUSE=""
 
 # dev-python/namespaces-repoze[repoze,repoze.sphinx]
