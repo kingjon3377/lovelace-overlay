@@ -35,3 +35,6 @@ media-gfx/luxrender
 # Build fails in building documentation.
 =dev-lang/nickle-2.77
 
+# Depends on p.masked dev-java/itext:5 (bug #475552)
+=games-simulation/openrocket-12.03
+
