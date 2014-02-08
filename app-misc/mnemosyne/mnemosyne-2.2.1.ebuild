@@ -5,8 +5,8 @@
 EAPI=5
 
 #DISTUTILS_SINGLE_IMPL=true
-#PYTHON_COMPAT=( python2_7 )
-inherit distutils
+PYTHON_COMPAT=( python2_7 )
+inherit distutils-r1
 
 DESCRIPTION="Sophisticated flash-card tool also used for long-term memory research"
 HOMEPAGE="http://www.mnemosyne-proj.org/"
@@ -18,10 +18,9 @@ KEYWORDS="~x86 amd64"
 IUSE="latex"
 
 MY_DEPEND="latex? ( app-text/dvipng )
-	dev-lang/python:2.7
-	dev-python/PyQt4
-	dev-python/matplotlib
-	dev-python/cherrypy"
+	dev-python/PyQt4[${PYTHON_USEDEP}]
+	dev-python/matplotlib[${PYTHON_USEDEP}]
+	dev-python/cherrypy[${PYTHON_USEDEP}]"
 
 DEPEND="${DEPEND}
 	${MY_DEPEND}"
@@ -29,11 +28,3 @@ RDEPEND="${RDEPEND}
 	${MY_DEPEND}"
 
 S="${WORKDIR}/${P/m/M}"
-
-#src_prepare() {
-#	if ! use latex ; then
-#	sed -i \
-#		-e "s/process_latex(latex_command):/process_latex(latex_command):\n    return latex_command/" \
-#		mnemosyne/core/mnemosyne_core.py || die "sed failed"
-#	fi
-#}
