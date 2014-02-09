@@ -4,7 +4,10 @@
 
 EAPI=5
 
-inherit distutils
+# It's possible it supports Python 3.
+PYTHON_COMPAT=( python2_7 )
+
+inherit distutils-r1
 
 DESCRIPTION="Extract and browse the URLs contained in an email"
 HOMEPAGE="http://packages.debian.org/urlscan"
@@ -15,10 +18,10 @@ SLOT="0"
 KEYWORDS="amd64"
 IUSE=""
 
-DEPEND="dev-python/urwid"
+DEPEND="dev-python/urwid[${PYTHON_USEDEP}]"
 RDEPEND="${DEPEND}"
 
 src_install() {
-	distutils_src_install
+	distutils-r1_src_install
 	doman ${PN}.1
 }
