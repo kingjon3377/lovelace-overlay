@@ -1,10 +1,10 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /cvsroot/gjots2/gjots/gjots2.ebuild,v 1.7.2.15 2007/07/28 12:11:45 bhepple Exp $
+# $Header: /home/bhepple/fun/sf/g/gjots/gjots2.ebuild,v 1.7.2.23 2012-06-02 12:42:57 bhepple Exp $
 
 EAPI=5
 
-inherit python gnome.org
+inherit multilib python gnome.org
 
 DESCRIPTION="A graphical (GNOME 2) jotter tool"
 HOMEPAGE="http://bhepple.freeshell.org/gjots/"
@@ -34,12 +34,13 @@ src_install() {
 	dobin bin/gjots2 bin/gjots2html bin/gjots2html.py bin/gjots2docbook \
 		bin/docbook2gjots bin/gjots2emacs bin/gjots2lpr
 
-	insinto /usr/lib/gjots2
+	insinto "/usr/$(get_libdir)/gjots2"
 	doins lib/*.py
 
 	insinto /usr/share/gjots2
-	doins gjots.glade3
+	doins gjots.glade2
 
+	pushd "${S}/pixmaps" > /dev/null
 	insinto /usr/share/gjots2
 	doins gjots.png gjots2-hide-all.png gjots2-merge-items.png \
 		gjots2-new-child.png gjots2-new-page.png gjots2-show-all.png \
@@ -47,22 +48,21 @@ src_install() {
 
 	insinto /usr/share/pixmaps
 	doins gjots.png
+	popd > /dev/null
 
 	insinto /usr/share/applications
 	doins gjots2.desktop
 
-	insinto /usr/share/man/man1
-	doins share/man/man1/gjots2.1 share/man/man1/gjots2html.1 \
-		share/man/man1/gjots2docbook.1 share/man/man1/docbook2gjots.1
+	doman doc/man/man1/{gjots2,gjots2html,gjots2docbook,docbook2gjots}.1
 
 	dodoc README AUTHORS INSTALL ChangeLog
 	insinto /usr/share/doc/${PF}
-	doins gjots2.gjots
-	use linguas_en && doins gjots2.en_US.gjots
-	use linguas_fr && doins gjots2.fr.gjots
-	use linguas_no && doins gjots2.no.gjots
-	use linguas_nb && doins gjots2.nb.gjots
-	use linguas_ru && doins gjots2.ru.gjots
+	doins doc/gjots2.gjots
+	use linguas_en && doins doc/gjots2.en_US.gjots
+	use linguas_fr && doins doc/gjots2.fr.gjots
+	use linguas_no && doins doc/gjots2.no.gjots
+	use linguas_nb && doins doc/gjots2.nb.gjots
+	use linguas_ru && doins doc/gjots2.ru.gjots
 # not available:
 #	use linguas_it && doins gjots2.it.gjots
 #	use linguas_cs && doins gjots2.cs.gjots
@@ -78,9 +78,9 @@ src_install() {
 }
 
 pkg_postinst() {
-	python_mod_optimize /usr/lib/gjots2
+	python_mod_optimize /usr/$(get_libdir)/gjots2
 }
 
 pkg_postrm() {
-	python_mod_cleanup /usr/lib/gjots2
+	python_mod_cleanup /usr/$(get_libdir)/gjots2
 }
