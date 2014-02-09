@@ -22,12 +22,13 @@ IUSE="test"
 # Doc- and example-tests are failing, but apparently not others.
 #RESTRICT="test"
 
+# zc-buildout hasn't migrated to distutils-r1 yet, but we won't wait for it.
+#net-zope/zc-buildout[${PYTHON_USEDEP}]
 RDEPEND="dev-python/httplib2
 	dev-python/simplejson
 	net-zope/zc-buildout
 	dev-python/wadllib"
 DEPEND="${RDEPEND}
-	dev-python/setuptools
 	test? ( dev-python/lazr-restful
 			dev-python/lazr-authentication
 			dev-python/elementtree )"
