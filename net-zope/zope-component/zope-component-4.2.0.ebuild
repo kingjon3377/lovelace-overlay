@@ -17,7 +17,7 @@ S="${WORKDIR}/${MY_P}"
 
 DESCRIPTION="Zope Component Architecture"
 HOMEPAGE="http://pypi.python.org/pypi/zope.component"
-SRC_URI="mirror://pypi/${MY_PN:0:1}/${MY_PN}/${MY_P}.tar.gz"
+SRC_URI="mirror://pypi/${MY_PN:0:1}/${MY_PN}/${MY_P}.zip"
 
 LICENSE="ZPL"
 SLOT="0"
@@ -35,6 +35,7 @@ RDEPEND="
 	net-zope/zope-proxy
 	net-zope/zope-schema"
 DEPEND="${RDEPEND}
+	app-arch/unzip
 	dev-python/setuptools
 	doc? (
 		dev-python/repoze-sphinx-autointerface
