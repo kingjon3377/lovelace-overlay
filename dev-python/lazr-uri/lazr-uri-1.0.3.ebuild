@@ -6,7 +6,10 @@ EAPI=5
 
 DISTUTILS_SRC_TEST=setup.py
 
-inherit distutils
+# zc-buildout restricts Python 3, so we do too.
+PYTHON_COMPAT=( python2_7 )
+
+inherit distutils-r1
 
 MY_P="lazr.uri"
 DESCRIPTION="Library for parsing, manipulating, and generating URIs"
@@ -18,6 +21,8 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""
 
+#zc-buildout hasn't migrated to distutils-r1 yet, but we're not going to let that stop us.
+#DEPEND="net-zope/zc-buildout[${PYTHON_USEDEP}]"
 DEPEND="net-zope/zc-buildout"
 RDEPEND="${DEPEND}"
 
