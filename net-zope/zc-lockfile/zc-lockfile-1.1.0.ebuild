@@ -10,7 +10,9 @@ PYTHON_RESTRICTED_ABIS="*-jython"
 # Tests broken with Python 3.
 PYTHON_TESTS_RESTRICTED_ABIS="3.*"
 
-inherit distutils
+PYTHON_COMPAT=( python2_{6,7} python3_{2,3} )
+
+inherit distutils-r1
 
 MY_PN=${PN/-/\.}
 MY_P=${MY_PN}-${PV}
@@ -18,25 +20,23 @@ S="${WORKDIR}/${MY_P}"
 
 DESCRIPTION="Basic inter-process locks"
 HOMEPAGE="http://pypi.python.org/pypi/zc.lockfile"
-SRC_URI="mirror://pypi/${MY_PN:0:1}/${MY_PN}/${MY_P}.tar.gz"
+SRC_URI="mirror://pypi/${MY_PN:0:1}/${MY_PN}/${MY_P}.zip"
 
 LICENSE="ZPL"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="test"
 
-#RDEPEND="net-zope/namespaces-zc[zc]"
+#RDEPEND="net-zope/namespaces-zc[zc,${PYTHON_USEDEP}]"
 RDEPEND=""
 DEPEND="${RDEPEND}
-	dev-python/setuptools
-	test? ( net-zope/zope-testing )"
+	app-arch/unzip
+	dev-python/setuptools[${PYTHON_USEDEP}]
+	test? ( net-zope/zope-testing[${PYTHON_USEDEP}] )"
 
-DOCS="doc.txt src/zc/lockfile/CHANGES.txt src/zc/lockfile/README.txt"
+DOCS="doc.txt CHANGES.txt src/zc/lockfile/README.txt"
 PYTHON_MODULES="${PN/-//}"
 
-src_test() {
-	testing() {
-		python_execute PYTHONPATH="build-${PYTHON_ABI}/lib" "$(PYTHON)" -c "import sys, unittest, zc.lockfile.tests; sys.exit(not unittest.TextTestRunner(verbosity=2).run(zc.lockfile.tests.test_suite()).wasSuccessful())"
-	}
-	python_execute_function testing
+python_test() {
+	PYTHONPATH="${BUILD_DIR}/lib" "${PYTHON}" -c "import sys, unittest, zc.lockfile.tests; sys.exit(not unittest.TextTestRunner(verbosity=2).run(zc.lockfile.tests.test_suite()).wasSuccessful())"
 }
