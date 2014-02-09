@@ -4,7 +4,10 @@
 
 EAPI=5
 
-inherit python eutils
+# It's possible it supports Python 3, but I don't know.
+PYTHON_COMPAT=( python2_7 )
+
+inherit python-single-r1 eutils
 
 DESCRIPTION="Novel writing assistance software"
 HOMEPAGE="http://launchpad.net/kabikaboo"
@@ -12,14 +15,14 @@ SRC_URI="http://launchpad.net/${PN}/current/${PV}/+download/${P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="amd64"
+KEYWORDS="~amd64"
 IUSE=""
 
-DEPEND="dev-python/pygtk:2
-	dev-python/gtkspell-python
-	dev-python/libgnome-python:2
-	dev-python/pygtksourceview:2
-	dev-python/pygobject:2"
+DEPEND="dev-python/pygtk:2[${PYTHON_USEDEP}]
+	dev-python/gtkspell-python[${PYTHON_USEDEP}]
+	dev-python/libgnome-python:2[${PYTHON_USEDEP}]
+	dev-python/pygtksourceview:2[${PYTHON_USEDEP}]
+	dev-python/pygobject:2[${PYTHON_USEDEP}]"
 RDEPEND="${DEPEND}"
 
 src_install() {
