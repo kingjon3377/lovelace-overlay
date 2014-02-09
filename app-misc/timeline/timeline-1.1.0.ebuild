@@ -1,4 +1,4 @@
-# Copyright 1999-2012 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -21,7 +21,8 @@ IUSE=""
 
 RDEPEND="dev-python/markdown[${PYTHON_USEDEP}]
 	dev-python/wxpython:2.8[${PYTHON_USEDEP}]
-	dev-python/pysvg[${PYTHON_USEDEP}]"
+	dev-python/pysvg"
+#	dev-python/pysvg[${PYTHON_USEDEP}]"
 DEPEND="${RDEPEND}
 	test? ( dev-python/mock[${PYTHON_USEDEP}] )"
 
