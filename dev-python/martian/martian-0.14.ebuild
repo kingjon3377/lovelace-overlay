@@ -8,7 +8,9 @@ PYTHON_MULTIPLE_ABIS="1"
 PYTHON_RESTRICTED_ABIS="2.5 3.*"
 DISTUTILS_SRC_TEST="nosetests"
 
-inherit distutils
+PYTHON_COMPAT=( python2_{6,7} )
+
+inherit distutils-r1
 
 DESCRIPTION="Martian is a library that allows the embedding of configuration information in Python code."
 HOMEPAGE="http://pypi.python.org/pypi/martian"
@@ -17,20 +19,20 @@ SRC_URI="mirror://pypi/${PN:0:1}/${PN}/${P}.tar.gz"
 LICENSE="ZPL"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE=""
+IUSE="test"
 
-RDEPEND="net-zope/zope-interface"
+RDEPEND="net-zope/zope-interface[${PYTHON_USEDEP}]"
 DEPEND="${RDEPEND}
-	dev-python/setuptools
-	test? ( net-zope/zope-testing )"
+	dev-python/setuptools[${PYTHON_USEDEP}]
+	test? ( net-zope/zope-testing[${PYTHON_USEDEP}] )"
 
 DOCS="CHANGES.txt CREDITS.txt src/martian/README.txt"
 
 src_install() {
-	distutils_src_install
+	distutils-r1_src_install
 
 	delete_tests() {
 		rm -fr "${ED}$(python_get_sitedir)/martian/tests"
 	}
-	python_execute_function -q delete_tests
+	python_foreach_impl delete_tests
 }
