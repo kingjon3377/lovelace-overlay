@@ -4,12 +4,13 @@
 
 EAPI=5
 
-PYTHON_DEPEND="2:2.6"
-SUPPORT_PYTHON_ABIS="1"
-
 DISTUTILS_SRC_TEST=setup.py
 
-inherit distutils
+# Previous versions, at least, claimed not to work with Python 3.
+
+PYTHON_COMPAT=( python2_{6,7} )
+
+inherit distutils-r1
 
 DESCRIPTION="Python library for navigating WADL files"
 HOMEPAGE="http://launchpad.net/wadllib"
@@ -20,9 +21,8 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""
 
-DEPEND="dev-python/lazr-uri
-	dev-python/simplejson
+DEPEND="dev-python/lazr-uri[${PYTHON_USEDEP}]
+	dev-python/simplejson[${PYTHON_USEDEP}]
 	net-zope/zc-buildout"
+#	net-zope/zc-buildout[${PYTHON_USEDEP}]"
 RDEPEND="${DEPEND}"
-
-RESTRICT_PYTHON_ABIS="2.[45] 3.*"
