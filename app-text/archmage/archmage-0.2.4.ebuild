@@ -4,7 +4,9 @@
 
 EAPI=5
 
-inherit distutils
+PYTHON_COMPAT=( python2_7 )
+
+inherit distutils-r1
 
 DESCRIPTION="Extensible reader/decompiler of files in CHM format"
 HOMEPAGE="http://archmage.sourceforge.net"
@@ -22,7 +24,7 @@ DEPEND="dev-libs/chmlib
 RDEPEND="${DEPEND}"
 
 src_install() {
-	distutils_src_install
+	distutils-r1_src_install
 	dodoc INSTALL
 
 	if use apache2; then
