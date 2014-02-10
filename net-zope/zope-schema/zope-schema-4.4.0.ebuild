@@ -9,7 +9,9 @@ PYTHON_RESTRICTED_ABIS="2.5 2.6"
 PYTHON_TESTS_FAILURES_TOLERANT_ABIS="*-jython"
 DISTUTILS_SRC_TEST="setup.py"
 
-inherit distutils
+PYTHON_COMPAT=( python2_7 python3_{2,3} )
+
+inherit distutils-r1
 
 MY_PN=${PN/-/\.}
 MY_P=${MY_PN}-${PV}
@@ -17,28 +19,29 @@ S="${WORKDIR}/${MY_P}"
 
 DESCRIPTION="zope.interface extension for defining data schemas"
 HOMEPAGE="http://pypi.python.org/pypi/zope.schema"
-SRC_URI="mirror://pypi/${MY_PN:0:1}/${MY_PN}/${MY_P}.tar.gz"
+SRC_URI="mirror://pypi/${MY_PN:0:1}/${MY_PN}/${MY_P}.zip"
 
 LICENSE="ZPL"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="doc test"
 
-# net-zope/namespaces-zope
+# net-zope/namespaces-zope[${PYTHON_USEDEP}]
 RDEPEND="
-	net-zope/zope-event
-	>=net-zope/zope-interface-3.6.0
-	net-zope/zope-i18nmessageid"
+	net-zope/zope-event[${PYTHON_USEDEP}]
+	>=net-zope/zope-interface-3.6.0[${PYTHON_USEDEP}]
+	net-zope/zope-i18nmessageid[${PYTHON_USEDEP}]"
 DEPEND="${RDEPEND}
-	dev-python/setuptools
-	doc? ( dev-python/sphinx )
-	test? ( net-zope/zope-testing )"
+	app-arch/unzip
+	dev-python/setuptools[${PYTHON_USEDEP}]
+	doc? ( dev-python/sphinx[${PYTHON_USEDEP}] )
+	test? ( net-zope/zope-testing[${PYTHON_USEDEP}] )"
 
-DOCS="CHANGES.txt README.txt"
+DOCS="CHANGES.rst README.rst"
 PYTHON_MODULES="${PN/.//}"
 
 src_compile() {
-	distutils_src_compile
+	distutils-r1_src_compile
 
 	if use doc; then
 		einfo "Generation of documentation"
@@ -49,7 +52,7 @@ src_compile() {
 }
 
 src_install() {
-	distutils_src_install
+	distutils-r1_src_install
 
 	if use doc; then
 		dohtml -r docs/_build/html/
