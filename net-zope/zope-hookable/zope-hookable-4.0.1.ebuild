@@ -7,7 +7,9 @@ EAPI=5
 PYTHON_MULTIPLE_ABIS="1"
 DISTUTILS_SRC_TEST="nosetests"
 
-inherit distutils
+PYTHON_COMPAT=( python2_{6,7} python3_{2,3} )
+
+inherit distutils-r1
 
 MY_PN=${PN/-/\.}
 MY_P=${MY_PN}-${PV}
@@ -22,37 +24,30 @@ SLOT="0"
 KEYWORDS="amd64 x86"
 IUSE="doc"
 
-#RDEPEND="net-zope/namespaces-zope[zope]"
+#RDEPEND="net-zope/namespaces-zope[zope,${PYTHON_USEDEP}]"
 RDEPEND=""
 DEPEND="${RDEPEND}
-	dev-python/setuptools
-	doc? ( dev-python/sphinx )"
+	dev-python/setuptools[${PYTHON_USEDEP}]
+	doc? ( dev-python/sphinx[${PYTHON_USEDEP}] )"
 
 DISTUTILS_GLOBAL_OPTIONS=("*-jython --without-Cwrapper")
 DOCS="CHANGES.txt README.txt"
 PYTHON_MODULES="${PN/-//}"
 
-src_prepare() {
-	distutils_src_prepare
-
-	# https://bugs.launchpad.net/zope.hookable/+bug/1025470
-	sed -e "75,79d" -i setup.py
-}
-
 src_compile() {
-	distutils_src_compile
+	distutils-r1_src_compile
 
 	if use doc; then
 		einfo "Generation of documentation"
 		pushd docs > /dev/null
-		PYTHONPATH="$(ls -d ../build-$(PYTHON -f --ABI)/lib*)" emake html
+		python_setup
+		PYTHONPATH="$(ls -d ../../${MY_P}-build-${EPYTHON/\./_}/lib*)" emake html
 		popd > /dev/null
 	fi
 }
 
 src_install() {
-	distutils_src_install
-	python_clean_installation_image
+	distutils-r1_src_install
 
 	if use doc; then
 		dohtml -r docs/_build/html/
