@@ -9,7 +9,9 @@ PYTHON_RESTRICTED_ABIS="2.5"
 PYTHON_TESTS_FAILURES_TOLERANT_ABIS="*-jython"
 DISTUTILS_SRC_TEST="setup.py"
 
-inherit distutils
+PYTHON_COMPAT=( python2_{6,7} python3_{2,3} )
+
+inherit distutils-r1
 
 MY_PN=${PN/-/\.}
 MY_P=${MY_PN}-${PV}
@@ -24,41 +26,35 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="doc"
 
-# net-zope/namespaces-zope
+# net-zope/namespaces-zope[${PYTHON_USEDEP}]
 RDEPEND="
-	net-zope/zope-i18nmessageid
-	net-zope/zope-interface
-	net-zope/zope-schema"
+	net-zope/zope-i18nmessageid[${PYTHON_USEDEP}]
+	net-zope/zope-interface[${PYTHON_USEDEP}]
+	net-zope/zope-schema[${PYTHON_USEDEP}]"
 DEPEND="${RDEPEND}
-	dev-python/setuptools
+	dev-python/setuptools[${PYTHON_USEDEP}]
 	doc? (
-		dev-python/repoze-sphinx-autointerface
-		dev-python/sphinx
+		dev-python/repoze-sphinx-autointerface[${PYTHON_USEDEP}]
+		dev-python/sphinx[${PYTHON_USEDEP}]
 	)"
 
 DOCS="CHANGES.txt README.txt"
 PYTHON_MODULES="${PN/-//}"
 
-distutils_src_compile_post_hook() {
-	if [[ "$(python_get_version -l --major)" == "3" ]]; then
-		# https://bugs.launchpad.net/zope.configuration/+bug/1025390
-		2to3-${PYTHON_ABI} -nw --no-diffs build-${PYTHON_ABI}/lib/zope/configuration/{stxdocs.py,tests/conditions.py}
-	fi
-}
-
 src_compile() {
-	distutils_src_compile
+	distutils-r1_src_compile
 
 	if use doc; then
 		einfo "Generation of documentation"
 		pushd docs > /dev/null
-		PYTHONPATH="../build-$(PYTHON -f --ABI)/lib" emake html
+		python_setup
+		PYTHONPATH="$(ls -d ../../${MY_P}-build-${EPYTHON/\./_}/lib*)" emake html
 		popd > /dev/null
 	fi
 }
 
 src_install() {
-	distutils_src_install
+	distutils-r1_src_install
 
 	if use doc; then
 		dohtml -r docs/_build/html/
