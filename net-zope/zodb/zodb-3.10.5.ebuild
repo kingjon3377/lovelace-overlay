@@ -8,7 +8,9 @@ PYTHON_MULTIPLE_ABIS="1"
 PYTHON_RESTRICTED_ABIS="2.5 3.* *-jython *-pypy-*"
 DISTUTILS_SRC_TEST="setup.py"
 
-inherit distutils
+PYTHON_COMPAT=( python2_{6,7} )
+
+inherit distutils-r1
 
 MY_PN="ZODB3"
 MY_P="${MY_PN}-${PV}"
@@ -22,17 +24,17 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
 
-RDEPEND="dev-python/manuel
-	>=net-zope/transaction-1.1.0
-	net-zope/zc-lockfile
-	net-zope/zconfig
-	net-zope/zdaemon
-	net-zope/zope-event
-	net-zope/zope-interface
-	net-zope/zope-testing
+RDEPEND="dev-python/manuel[${PYTHON_USEDEP}]
+	>=net-zope/transaction-1.1.0[${PYTHON_USEDEP}]
+	net-zope/zc-lockfile[${PYTHON_USEDEP}]
+	net-zope/zconfig[${PYTHON_USEDEP}]
+	net-zope/zdaemon[${PYTHON_USEDEP}]
+	net-zope/zope-event[${PYTHON_USEDEP}]
+	net-zope/zope-interface[${PYTHON_USEDEP}]
+	net-zope/zope-testing[${PYTHON_USEDEP}]
 	!media-libs/FusionSound"
 DEPEND="${RDEPEND}
-	dev-python/setuptools"
+	dev-python/setuptools[${PYTHON_USEDEP}]"
 
 S="${WORKDIR}/${MY_P}"
 
@@ -41,12 +43,3 @@ PYTHON_CFLAGS=("2.* + -fno-strict-aliasing")
 DOCS="doc/* HISTORY.txt README.txt"
 PYTHON_MODULES="BTrees persistent ZEO ZODB"
 
-src_prepare() {
-	distutils_src_prepare
-	python_convert_shebangs -r 2 src
-}
-
-src_install() {
-	distutils_src_install
-	python_clean_installation_image
-}
