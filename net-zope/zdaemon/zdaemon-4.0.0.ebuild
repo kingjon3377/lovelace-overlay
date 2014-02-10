@@ -7,7 +7,9 @@ EAPI=5
 PYTHON_MULTIPLE_ABIS="1"
 PYTHON_RESTRICTED_ABIS="2.5 3.*"
 
-inherit distutils
+PYTHON_COMPAT=( python2_{6,7} )
+
+inherit distutils-r1
 
 DESCRIPTION="Daemon process control library and tools for Unix-based systems"
 HOMEPAGE="http://pypi.python.org/pypi/zdaemon"
@@ -18,17 +20,17 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
 
-RDEPEND="net-zope/zconfig"
+RDEPEND="net-zope/zconfig[${PYTHON_USEDEP}]"
 DEPEND="${RDEPEND}
-	dev-python/setuptools"
+	dev-python/setuptools[${PYTHON_USEDEP}]"
 
 DOCS="CHANGES.txt README.txt"
 
 src_install() {
-	distutils_src_install
+	distutils-r1_src_install
 
 	delete_tests() {
 		rm -fr "${ED}$(python_get_sitedir)/zdaemon/tests"
 	}
-	python_execute_function -q delete_tests
+	python_foreach_impl delete_tests
 }
