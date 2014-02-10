@@ -8,7 +8,9 @@ PYTHON_MULTIPLE_ABIS="1"
 PYTHON_RESTRICTED_ABIS="2.5 3.*"
 DISTUTILS_SRC_TEST="nosetests"
 
-inherit distutils
+PYTHON_COMPAT=( python2_{6,7} )
+
+inherit distutils-r1
 
 MY_PN="ZConfig"
 MY_P="${MY_PN}-${PV}"
@@ -22,22 +24,22 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="test"
 
-DEPEND="dev-python/setuptools
-	test? ( net-zope/zope-testing )"
+DEPEND="dev-python/setuptools[${PYTHON_USEDEP}]
+	test? ( net-zope/zope-testing[${PYTHON_USEDEP}] )"
 RDEPEND=""
 
 S="${WORKDIR}/${MY_P}"
 
-DOCS="NEWS.txt README.txt"
+DOCS="CHANGES.txt README.txt"
 PYTHON_MODULES="${MY_PN}"
 
 src_install() {
-	distutils_src_install
+	distutils-r1_src_install
 
 	delete_tests() {
 		rm -fr "${ED}$(python_get_sitedir)/ZConfig/components/basic/tests"
 		rm -fr "${ED}$(python_get_sitedir)/ZConfig/components/logger/tests"
 		rm -fr "${ED}$(python_get_sitedir)/ZConfig/tests"
 	}
-	python_execute_function -q delete_tests
+	python_foreach_impl delete_tests
 }
