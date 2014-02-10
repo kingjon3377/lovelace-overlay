@@ -8,7 +8,9 @@ PYTHON_MULTIPLE_ABIS="1"
 PYTHON_RESTRICTED_ABIS="3.* *-jython"
 DISTUTILS_SRC_TEST="nosetests"
 
-inherit distutils
+PYTHON_COMPAT=( python2_{6,7} )
+
+inherit distutils-r1
 
 MY_PN="RestrictedPython"
 MY_P="${MY_PN}-${PV}"
@@ -23,14 +25,10 @@ KEYWORDS="amd64 x86"
 IUSE=""
 
 DEPEND="app-arch/unzip
-	dev-python/setuptools"
+	dev-python/setuptools[${PYTHON_USEDEP}]"
 RDEPEND=""
 
 S="${WORKDIR}/${MY_P}"
 
 DOCS="CHANGES.txt src/RestrictedPython/README.txt"
 PYTHON_MODULES="${MY_PN}"
-
-pkg_postinst() {
-	python_mod_optimize -x /tests/ ${MY_PN}
-}
