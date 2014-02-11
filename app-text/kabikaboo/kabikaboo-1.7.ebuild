@@ -18,9 +18,11 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""
 
+# 	dev-python/gtkspell-python[${PYTHON_USEDEP}]
+#	dev-python/libgnome-python:2[${PYTHON_USEDEP}]
 DEPEND="dev-python/pygtk:2[${PYTHON_USEDEP}]
-	dev-python/gtkspell-python[${PYTHON_USEDEP}]
-	dev-python/libgnome-python:2[${PYTHON_USEDEP}]
+	dev-python/gtkspell-python
+	dev-python/libgnome-python:2
 	dev-python/pygtksourceview:2[${PYTHON_USEDEP}]
 	dev-python/pygobject:2[${PYTHON_USEDEP}]"
 RDEPEND="${DEPEND}"
