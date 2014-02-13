@@ -7,7 +7,9 @@ EAPI=5
 PYTHON_MULTIPLE_ABIS="1"
 PYTHON_RESTRICTED_ABIS="2.5 3.* *-jython *-pypy-*"
 
-inherit distutils
+PYTHON_COMPAT=( python2_{6,7} )
+
+inherit distutils-r1
 
 MY_PN=${PN/-/\.}
 MY_P=${MY_PN}-${PV}
@@ -22,16 +24,16 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
 
-# net-zope/namespaces-zope[zope]
+# net-zope/namespaces-zope[zope,${PYTHON_USEDEP}]
 RDEPEND="
-	dev-python/pytz
-	net-zope/zope-component
-	net-zope/zope-configuration
-	net-zope/zope-i18nmessageid
-	net-zope/zope-interface
-	net-zope/zope-schema"
+	dev-python/pytz[${PYTHON_USEDEP}]
+	net-zope/zope-component[${PYTHON_USEDEP}]
+	net-zope/zope-configuration[${PYTHON_USEDEP}]
+	net-zope/zope-i18nmessageid[${PYTHON_USEDEP}]
+	net-zope/zope-interface[${PYTHON_USEDEP}]
+	net-zope/zope-schema[${PYTHON_USEDEP}]"
 DEPEND="${RDEPEND}
-	dev-python/setuptools"
+	dev-python/setuptools[${PYTHON_USEDEP}]"
 
 DOCS="CHANGES.txt README.txt"
 PYTHON_MODULES="${PN/-//}"
