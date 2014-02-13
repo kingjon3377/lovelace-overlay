@@ -7,7 +7,9 @@ EAPI=5
 PYTHON_MULTIPLE_ABIS="1"
 PYTHON_RESTRICTED_ABIS="2.5 3.* *-jython *-pypy-*"
 
-inherit distutils
+PYTHON_COMPAT=( python2_{6,7} )
+
+inherit distutils-r1
 
 MY_PN=${PN/-/\.}
 MY_P=${MY_PN}-${PV}
@@ -22,21 +24,21 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
 
-# net-zope/namespaces-zope
+# net-zope/namespaces-zope[${PYTHON_USEDEP}]
 RDEPEND="
-	dev-python/setuptools
-	net-zope/zope-browser
-	net-zope/zope-component
-	net-zope/zope-configuration
-	net-zope/zope-contenttype
-	net-zope/zope-event
-	net-zope/zope-exceptions
-	net-zope/zope-i18n
-	net-zope/zope-interface
-	net-zope/zope-location
-	net-zope/zope-proxy
-	net-zope/zope-schema
-	net-zope/zope-security"
+	dev-python/setuptools[${PYTHON_USEDEP}]
+	net-zope/zope-browser[${PYTHON_USEDEP}]
+	net-zope/zope-component[${PYTHON_USEDEP}]
+	net-zope/zope-configuration[${PYTHON_USEDEP}]
+	net-zope/zope-contenttype[${PYTHON_USEDEP}]
+	net-zope/zope-event[${PYTHON_USEDEP}]
+	net-zope/zope-exceptions[${PYTHON_USEDEP}]
+	net-zope/zope-i18n[${PYTHON_USEDEP}]
+	net-zope/zope-interface[${PYTHON_USEDEP}]
+	net-zope/zope-location[${PYTHON_USEDEP}]
+	net-zope/zope-proxy[${PYTHON_USEDEP}]
+	net-zope/zope-schema[${PYTHON_USEDEP}]
+	net-zope/zope-security[${PYTHON_USEDEP}]"
 DEPEND="${RDEPEND}
 	app-arch/unzip"
 
