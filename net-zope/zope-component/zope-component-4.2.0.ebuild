@@ -49,8 +49,7 @@ DEPEND="${RDEPEND}
 		dev-python/sphinx[${PYTHON_USEDEP}]
 	)
 	test? ( net-zope/zope-testing[${PYTHON_USEDEP}] )"
-#PDEPEND="net-zope/zope-security[${PYTHON_USEDEP}]"
-PDEPEND="net-zope/zope-security"
+PDEPEND="net-zope/zope-security[${PYTHON_USEDEP}]"
 
 DOCS="CHANGES.rst README.rst"
 PYTHON_MODULES="${PN/-//}"
