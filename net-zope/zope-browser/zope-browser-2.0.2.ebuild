@@ -6,7 +6,9 @@
 EAPI=5
 PYTHON_MULTIPLE_ABIS="1"
 
-inherit distutils
+PYTHON_COMPAT=( python2_{6,7} python3_{2,3} )
+
+inherit distutils-r1
 
 MY_PN=${PN/-/\.}
 MY_P=${MY_PN}-${PV}
@@ -18,15 +20,15 @@ SRC_URI="mirror://pypi/${MY_PN:0:1}/${MY_PN}/${MY_P}.zip"
 
 LICENSE="ZPL"
 SLOT="0"
-KEYWORDS="amd64 x86"
+KEYWORDS="~amd64 ~x86"
 IUSE=""
 
-# net-zope/namespaces-zope[zope]
+# net-zope/namespaces-zope[zope,${PYTHON_USEDEP}]
 RDEPEND="
-	net-zope/zope-interface"
+	net-zope/zope-interface[${PYTHON_USEDEP}]"
 DEPEND="${RDEPEND}
 	app-arch/unzip
-	dev-python/setuptools"
+	dev-python/setuptools[${PYTHON_USEDEP}]"
 
-DOCS="CHANGES.txt README.txt"
+DOCS="CHANGES.rst README.rst"
 PYTHON_MODULES="${PN/-//}"
