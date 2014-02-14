@@ -4,7 +4,9 @@
 
 EAPI=5
 
-inherit distutils
+PYTHON_COMPAT=( python2_{6,7} )
+
+inherit distutils-r1
 
 MY_P="lazr.batchnavigator"
 
@@ -17,8 +19,8 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""
 
-DEPEND="net-zope/zope-cachedescriptors
-	net-zope/zope-publisher"
+DEPEND="net-zope/zope-cachedescriptors[${PYTHON_USEDEP}]
+	net-zope/zope-publisher[${PYTHON_USEDEP}]"
 RDEPEND="${DEPEND}"
 
 S="${WORKDIR}/${MY_P}-${PV}"
