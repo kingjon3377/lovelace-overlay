@@ -7,7 +7,9 @@ EAPI=5
 PYTHON_MULTIPLE_ABIS="1"
 PYTHON_RESTRICTED_ABIS="2.5 3.* *-jython *-pypy-*"
 
-inherit distutils
+PYTHON_COMPAT=( python2_{6,7} python3_{2,3} )
+
+inherit distutils-r1
 
 MY_PN=${PN/-/\.}
 MY_P=${MY_PN}-${PV}
@@ -22,22 +24,22 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
 
-# net-zope/namespaces-zope[zope]
+# net-zope/namespaces-zope[zope,${PYTHON_USEDEP}]
 RDEPEND="
-	dev-python/pytz
-	net-zope/zope-annotation
-	net-zope/zope-component
-	net-zope/zope-datetime
-	net-zope/zope-event
-	net-zope/zope-i18nmessageid
-	net-zope/zope-interface
-	net-zope/zope-lifecycleevent
-	net-zope/zope-location
-	net-zope/zope-schema
-	net-zope/zope-security"
+	dev-python/pytz[${PYTHON_USEDEP}]
+	net-zope/zope-annotation[${PYTHON_USEDEP}]
+	net-zope/zope-component[${PYTHON_USEDEP}]
+	net-zope/zope-datetime[${PYTHON_USEDEP}]
+	net-zope/zope-event[${PYTHON_USEDEP}]
+	net-zope/zope-i18nmessageid[${PYTHON_USEDEP}]
+	net-zope/zope-interface[${PYTHON_USEDEP}]
+	net-zope/zope-lifecycleevent[${PYTHON_USEDEP}]
+	net-zope/zope-location[${PYTHON_USEDEP}]
+	net-zope/zope-schema[${PYTHON_USEDEP}]
+	net-zope/zope-security[${PYTHON_USEDEP}]"
 DEPEND="${RDEPEND}
 	app-arch/unzip
-	dev-python/setuptools"
+	dev-python/setuptools[${PYTHON_USEDEP}]"
 
 DOCS="CHANGES.txt README.txt"
 PYTHON_MODULES="${PN/-//}"
