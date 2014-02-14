@@ -15,7 +15,7 @@ S="${WORKDIR}/${MY_P}"
 
 DESCRIPTION="Zope Dublin Core implementation"
 HOMEPAGE="http://pypi.python.org/pypi/zope.dublincore"
-SRC_URI="mirror://pypi/${MY_PN:0:1}/${MY_PN}/${MY_P}.tar.gz"
+SRC_URI="mirror://pypi/${MY_PN:0:1}/${MY_PN}/${MY_P}.zip"
 
 LICENSE="ZPL"
 SLOT="0"
@@ -36,6 +36,7 @@ RDEPEND="
 	net-zope/zope-schema
 	net-zope/zope-security"
 DEPEND="${RDEPEND}
+	app-arch/unzip
 	dev-python/setuptools"
 
 DOCS="CHANGES.txt README.txt"
