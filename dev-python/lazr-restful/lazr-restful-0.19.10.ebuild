@@ -4,7 +4,9 @@
 
 EAPI=5
 
-inherit distutils
+PYTHON_COMPAT=( python2_{6,7} )
+
+inherit distutils-r1
 
 MY_P="lazr.restful"
 
@@ -17,18 +19,18 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""
 
-DEPEND="net-zope/grokcore-component
-	dev-python/lazr-batchnavigator
-	dev-python/lazr-delegates
-	dev-python/lazr-enum
-	dev-python/lazr-lifecycle
-	dev-python/martian
-	dev-python/van-testing
-	net-zope/zope-app-pagetemplate
-	net-zope/zope-configuration
-	net-zope/zope-pagetemplate
-	net-zope/zope-security
-	net-zope/zope-traversing"
+DEPEND="net-zope/grokcore-component[${PYTHON_USEDEP}]
+	dev-python/lazr-batchnavigator[${PYTHON_USEDEP}]
+	dev-python/lazr-delegates[${PYTHON_USEDEP}]
+	dev-python/lazr-enum[${PYTHON_USEDEP}]
+	dev-python/lazr-lifecycle[${PYTHON_USEDEP}]
+	dev-python/martian[${PYTHON_USEDEP}]
+	dev-python/van-testing[${PYTHON_USEDEP}]
+	net-zope/zope-app-pagetemplate[${PYTHON_USEDEP}]
+	net-zope/zope-configuration[${PYTHON_USEDEP}]
+	net-zope/zope-pagetemplate[${PYTHON_USEDEP}]
+	net-zope/zope-security[${PYTHON_USEDEP}]
+	net-zope/zope-traversing[${PYTHON_USEDEP}]"
 RDEPEND="${DEPEND}"
 
 S="${WORKDIR}/${MY_P}-${PV}"
