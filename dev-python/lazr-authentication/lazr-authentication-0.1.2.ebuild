@@ -6,7 +6,9 @@ EAPI=5
 
 DISTUTILS_SRC_TEST=setup.py
 
-inherit distutils
+PYTHON_COMPAT=( python2_{6,7} )
+
+inherit distutils-r1
 
 MY_P="lazr.authentication"
 
@@ -19,11 +21,11 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""
 
-DEPEND="dev-python/httplib2
-	dev-python/oauth
-	dev-python/setuptools
-	dev-python/wsgiintercept
-	net-zope/zope-interface"
-RDEPEND="${DEPEND}"
+RDEPEND="dev-python/httplib2[${PYTHON_USEDEP}]
+	dev-python/oauth[${PYTHON_USEDEP}]
+	dev-python/wsgiintercept[${PYTHON_USEDEP}]
+	net-zope/zope-interface[${PYTHON_USEDEP}]"
+RDEPEND="${RDEPEND}
+	dev-python/setuptools[${PYTHON_USEDEP}]"
 
 S="${WORKDIR}/${MY_P}-${PV}"
