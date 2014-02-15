@@ -6,7 +6,9 @@ EAPI=5
 
 DISTUTILS_SRC_TEST=setup.py
 
-inherit distutils
+PYTHON_COMPAT=( python2_{6,7} )
+
+inherit distutils-r1
 
 DESCRIPTION="Launchpad web services client library"
 HOMEPAGE="https://launchpad.net/launchpadlib"
@@ -17,7 +19,7 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""
 
-DEPEND="dev-python/lazr-restfulclient
-	dev-python/lazr-uri
-	dev-python/oauth"
-RDEPEND="${DEPEND}"
+RDEPEND="dev-python/lazr-restfulclient[${PYTHON_USEDEP}]
+	dev-python/lazr-uri[${PYTHON_USEDEP}]
+	dev-python/oauth[${PYTHON_USEDEP}]"
+DEPEND="${RDEPEND}"
