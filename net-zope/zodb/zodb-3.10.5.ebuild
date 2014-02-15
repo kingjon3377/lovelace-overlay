@@ -42,4 +42,3 @@ PYTHON_CFLAGS=("2.* + -fno-strict-aliasing")
 
 DOCS="doc/* HISTORY.txt README.txt"
 PYTHON_MODULES="BTrees persistent ZEO ZODB"
-
