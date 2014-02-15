@@ -4,23 +4,25 @@
 
 EAPI=5
 
-inherit distutils eutils
+PYTHON_COMPAT=( python2_{6,7} )
+
+inherit distutils-r1 eutils
 
 DESCRIPTION="Ubuntu rapid application development framework"
 HOMEPAGE="https://launchpad.net/quickly"
-SRC_URI="http://launchpad.net/${PN}/${PV}/${PV}/+download/${P}.tar.gz"
+SRC_URI="http://launchpad.net/${PN}/12.10/${PV}/+download/${P}.tar.gz"
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="amd64"
 IUSE=""
 
-DEPEND=">=dev-python/python-distutils-extra-2.18"
+DEPEND=">=dev-python/python-distutils-extra-2.18[${PYTHON_USEDEP}]"
 RDEPEND="${DEPEND}"
 
 #S=${WORKDIR}/${P}
 
 src_install() {
-	distutils_src_install
+	distutils-r1_src_install
 
 	# DistUtilsExtra.auto is *so awesome*, it'll install your desktop files
 	# before you've written them!
