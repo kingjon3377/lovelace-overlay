@@ -6,7 +6,9 @@ EAPI=5
 
 DISTUTILS_SRC_TEST=setup.py
 
-inherit distutils
+PYTHON_COMPAT=( python2_{6,7} )
+
+inherit distutils-r1
 
 MY_P="lazr.restfulclient"
 
@@ -24,13 +26,13 @@ IUSE="test"
 
 # zc-buildout hasn't migrated to distutils-r1 yet, but we won't wait for it.
 #net-zope/zc-buildout[${PYTHON_USEDEP}]
-RDEPEND="dev-python/httplib2
-	dev-python/simplejson
+RDEPEND="dev-python/httplib2[${PYTHON_USEDEP}]
+	dev-python/simplejson[${PYTHON_USEDEP}]
 	net-zope/zc-buildout
-	dev-python/wadllib"
+	dev-python/wadllib[${PYTHON_USEDEP}]"
 DEPEND="${RDEPEND}
-	test? ( dev-python/lazr-restful
-			dev-python/lazr-authentication
-			dev-python/elementtree )"
+	test? ( dev-python/lazr-restful[${PYTHON_USEDEP}]
+			dev-python/lazr-authentication[${PYTHON_USEDEP}]
+			dev-python/elementtree[${PYTHON_USEDEP}] )"
 
 S="${WORKDIR}/${MY_P}-${PV}"
