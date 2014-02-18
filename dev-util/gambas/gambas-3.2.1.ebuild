@@ -318,6 +318,8 @@ src_install() {
 		insinto /usr/share/mime/application
 		doins app/mime/*.xml main/mime/*.xml
 	fi
+
+	use doc && dosym "/usr/share/${MY_PN}/help" "/usr/share/doc/${PF}/html"
 }
 
 my_fdo_update() {
