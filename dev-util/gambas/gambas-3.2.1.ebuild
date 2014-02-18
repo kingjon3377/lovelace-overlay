@@ -319,7 +319,7 @@ src_install() {
 		doins app/mime/*.xml main/mime/*.xml
 	fi
 
-	use doc && dosym "/usr/share/${MY_PN}/help" "/usr/share/doc/${PF}/html"
+#	use doc && dosym "../doc/${PF}/html" "/usr/share/${MY_PN}/help"
 }
 
 my_fdo_update() {
