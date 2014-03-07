@@ -29,7 +29,7 @@ DEPEND=">=dev-python/pygtk-2.13[${PYTHON_USEDEP}]
 	>=dev-python/pygoocanvas-0.12[${PYTHON_USEDEP}]
 	dev-python/reportlab[${PYTHON_USEDEP}]
 	>=app-text/ghostscript-gpl-8.63
-	>=app-text/unpaper-0.3[${PYTHON_USEDEP}]"
+	>=app-text/unpaper-0.3"
 
 RDEPEND="
 	ocrad? ( app-text/ocrad )
