@@ -51,7 +51,6 @@ pkg_preinst() {
 }
 
 pkg_postinst() {
-	distutils-r1_pkg_postinst
 	gnome2_icon_cache_update
 
 	echo
