@@ -9,7 +9,7 @@ GCONF_DEBUG=no
 
 PYTHON_COMPAT=( python{2_5,2_6,2_7} )
 
-inherit autotools eutils gnome2 python-single-r1
+inherit autotools eutils gnome2 python-single-r1 versionator
 
 DESCRIPTION="a text editor that is simple, slim and sleek, yet powerful."
 HOMEPAGE="http://scribes.sourceforge.net"
@@ -48,7 +48,7 @@ pkg_setup() {
 }
 
 src_prepare() {
-	epatch "${FILESDIR}"/${P}-sandbox.patch
+	epatch "${FILESDIR}"/${PN}-$(get_version_component_range 1-2)-sandbox.patch
 	sed -i -e '/^[ 	][ 	]*python -OO compile.py[ 	]*$/d' Makefile.am || die
 	eautoreconf
 
