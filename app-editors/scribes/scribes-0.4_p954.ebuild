@@ -31,8 +31,9 @@ RDEPEND="${PYTHON_DEPS}
 	dev-libs/dbus-glib
 	dev-python/dbus-python[${PYTHON_USEDEP}]
 	dev-python/pygtk[${PYTHON_USEDEP}]
-	dev-python/gtkspell-python[${PYTHON_USEDEP}]
+	dev-python/gtkspell-python
 	dev-python/pygtksourceview[${PYTHON_USEDEP}]"
+	#dev-python/gtkspell-python[${PYTHON_USEDEP}]
 DEPEND="${RDEPEND}
 	app-text/gnome-doc-utils
 	virtual/pkgconfig
