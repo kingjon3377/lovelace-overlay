@@ -27,7 +27,7 @@ IUSE=""
 
 RDEPEND="${PYTHON_DEPS}
 	gnome-base/gconf[${PYTHON_USEDEP}]
-	gnome-extra/yelp-tools
+	app-text/yelp-tools
 	dev-libs/dbus-glib
 	dev-python/dbus-python[${PYTHON_USEDEP}]
 	dev-python/pygtk[${PYTHON_USEDEP}]
