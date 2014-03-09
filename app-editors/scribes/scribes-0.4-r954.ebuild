@@ -24,7 +24,7 @@ KEYWORDS="amd64 ~x86"
 IUSE=""
 
 RDEPEND="gnome-base/gconf
-	gnome-extra/yelp
+	gnome-extra/yelp-tools
 	dev-libs/dbus-glib
 	dev-python/dbus-python
 	dev-python/pygtk
