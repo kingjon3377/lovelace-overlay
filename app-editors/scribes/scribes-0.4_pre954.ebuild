@@ -14,7 +14,7 @@ inherit autotools eutils gnome2 python-single-r1
 DESCRIPTION="a text editor that is simple, slim and sleek, yet powerful."
 HOMEPAGE="http://scribes.sourceforge.net"
 
-MY_P="${P/_p/-dev-build}"
+MY_P="${P/_pre/-dev-build}"
 
 SRC_URI="http://launchpad.net/scribes/0.4/scribes-milestone1/+download/${MY_P}.tar.bz2"
 
