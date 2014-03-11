@@ -6,7 +6,12 @@ EAPI=5
 
 inherit eutils versionator
 
-SR=SR$(get_version_component_range 3)
+SR_PV="$(get_version_component_range 3)"
+if [[ -n ${SR_PV} ]] ; then
+	SR=SR${SR_PV}
+else
+	SR=R
+fi
 RNAME="kepler"
 
 SRC_BASE="http://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/${RNAME}/${SR}/eclipse-java-${RNAME}-${SR}-linux-gtk"
@@ -41,8 +46,7 @@ src_install() {
 
 	cp "${FILESDIR}"/eclipserc-bin "${T}" || die
 	cp "${FILESDIR}"/eclipse-bin "${T}" || die
-	sed -i -e "s/^SLOT=\"[^\"]*\"$/SLOT=\"${SLOT}\"/" "${T}"/eclipse{,rc}-bin \
-		-e "s/bin-4.2/bin-${SLOT}/" || die
+	sed "s@%SLOT%@${SLOT}@" -i "${T}"/eclipse{,rc}-bin || die
 
 	insinto /etc
 	newins "${T}"/eclipserc-bin eclipserc-bin-${SLOT}
