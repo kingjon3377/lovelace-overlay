@@ -46,7 +46,9 @@ src_install() {
 
 	cp "${FILESDIR}"/eclipserc-bin "${T}" || die
 	cp "${FILESDIR}"/eclipse-bin "${T}" || die
-	sed "s@%SLOT%@${SLOT}@" -i "${T}"/eclipse{,rc}-bin || die
+	sed -i -e "s/^SLOT=\"[^\"]*\"$/SLOT=\"${SLOT}\"/" "${T}"/eclipse{,rc}-bin \
+			-e "s/bin-4.2/bin-${SLOT}/" || die
+
 
 	insinto /etc
 	newins "${T}"/eclipserc-bin eclipserc-bin-${SLOT}
