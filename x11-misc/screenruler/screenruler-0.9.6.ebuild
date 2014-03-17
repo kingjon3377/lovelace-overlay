@@ -16,10 +16,11 @@ KEYWORDS="~amd64 ~x86"
 IUSE=""
 SRC_URI="http://launchpad.net/${PN}/trunk/${PV}/+download/${P}.tar.gz"
 
-RDEPEND="dev-ruby/rcairo[ruby_targets_ruby18]
-	dev-ruby/ruby-gtk2[ruby_targets_ruby18]"
+RDEPEND="dev-ruby/rcairo[ruby_targets_ruby19]
+	dev-ruby/ruby-gtk2[ruby_targets_ruby19]"
 
 src_prepare() {
+	epatch "${FILESDIR}/screenruler-bug831501.patch"
 	sed -i -e "s/File.dirname(__FILE__)/'\/usr\/share\/screenruler'/" screenruler.rb
 }
 
