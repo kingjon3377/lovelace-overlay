@@ -28,7 +28,6 @@ src_install() {
 	# TODO: adjust default config for Gentoo
 	doins ${PN}.cfg
 	doman ${PN}.8
-	dodoc ${PN}.txt
 	newdoc changes.txt ChangeLog
 
 	# TODO: should we create a user for the init script to run as?
