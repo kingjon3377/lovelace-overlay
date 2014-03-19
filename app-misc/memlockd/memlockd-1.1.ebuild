@@ -7,7 +7,7 @@ EAPI=5
 inherit toolchain-funcs
 
 DESCRIPTION="Locks important files into memory and out of swap"
-HOMEPAGE="http://www.coker.com.au/memlockd/"
+HOMEPAGE="http://www.coker.com.au/projects/memlockd/"
 SRC_URI="http://www.coker.com.au/${PN}/${PN}_${PV}.tar.gz"
 
 LICENSE="GPL-2"
@@ -23,13 +23,14 @@ src_compile() {
 }
 
 src_install() {
-	dobin memlockd
+	dosbin ${PN}
 	insinto /etc
-	doins memlockd.cfg
-	doman memlockd.8
-	dodoc changes.txt
-}
+	# TODO: adjust default config for Gentoo
+	doins ${PN}.cfg
+	doman ${PN}.8
+	dodoc ${PN}txt
+	newdoc changes.txt ChangeLog
 
-pkg_postinst() {
-	ewarn "FIXME: We need to write an init script for this and create a user for it."
+	# TODO: should we create a user for the init script to run as?
+	doinitd "${FILESDIR}/${PN}"
 }
