@@ -32,6 +32,3 @@ app-text/cuneiform-qt
 # Depends on p.masked dev-java/itext:5 (bug #475552)
 =games-simulation/openrocket-12.03
 
-# Crashes for me every time.
-=dev-util/eclipse-sdk-bin-4.3.2
-
