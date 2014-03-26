@@ -45,6 +45,7 @@ java_prepare() {
 	pushd src/checkstyle/com/puppycrawl/tools/checkstyle/grammars > /dev/null || die
 		java -cp $(java-pkg_getjars antlr) antlr.Tool java.g || die
 	popd > /dev/null
+	epatch "${FILESDIR}/disable-network-tests.patch"
 }
 
 JAVA_PKG_BSFIX_NAME="maven-build.xml"
@@ -66,7 +67,7 @@ src_test() {
 src_install() {
 	java-pkg_newjar target/${P}.jar
 
-	dodoc README
+	dodoc README.textile
 	use doc && java-pkg_dojavadoc target/site/apidocs
 	use source && java-pkg_dosrc src/${PN}/com
 
