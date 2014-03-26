@@ -33,5 +33,5 @@ app-text/cuneiform-qt
 =games-simulation/openrocket-12.03
 
 # Not yet working
-=dev-util/pmd-pmd-5.1.0
+=dev-util/pmd-5.1.0
 
