@@ -32,3 +32,6 @@ app-text/cuneiform-qt
 # Depends on p.masked dev-java/itext:5 (bug #475552)
 =games-simulation/openrocket-12.03
 
+# Not yet working
+=dev-util/pmd-pmd-5.1.0
+
