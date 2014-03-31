@@ -49,7 +49,6 @@ src_install() {
 	sed -i -e "s/^SLOT=\"[^\"]*\"$/SLOT=\"${SLOT}\"/" "${T}"/eclipse{,rc}-bin \
 			-e "s/bin-4.2/bin-${SLOT}/" || die
 
-
 	insinto /etc
 	newins "${T}"/eclipserc-bin eclipserc-bin-${SLOT}
 
