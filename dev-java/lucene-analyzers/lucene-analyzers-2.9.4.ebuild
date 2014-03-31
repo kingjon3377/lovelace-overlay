@@ -2,7 +2,10 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/dev-java/lucene-analyzers/lucene-analyzers-2.3.2.ebuild,v 1.5 2010/02/13 16:41:40 grobian Exp $
 
+EAPI=5
+
 JAVA_PKG_IUSE="source"
+
 inherit java-pkg-2 java-ant-2 java-osgi
 
 MY_PN="${PN/lucene-}"
