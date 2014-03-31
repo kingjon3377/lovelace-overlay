@@ -2,9 +2,7 @@
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
 <herd />
-<maintainer>
-  <email>sven.eden@ggmx.de</email>
-  <description>Only through my private overlay - STRICTLY EXPERIMENTAL!</description>
-</maintainer>
-<use />
+<use>
+  <flag name='android'>Add a dependency on the Android SDK Manager</flag>
+</use>
 </pkgmetadata>
