@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/virtual/ssh/ssh-0.ebuild,v 1.1 2011/04/16 19:27:07 ulm Exp $
 
-EAPI=4
+EAPI=5
 
 inherit java-virtuals-2
 
