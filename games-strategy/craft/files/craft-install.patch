@@ -1,0 +1,2526 @@
+diff -crB ../craft.orig/buttons.h ./buttons.h
+*** ../craft.orig/buttons.h	Wed Mar 19 08:40:07 1997
+--- ./buttons.h	Sun Jun 28 20:08:05 2009
+***************
+*** 58,64 ****
+       
+  
+       button (win  *b_w,
+!              char b_label [],
+               int  b_x,
+               int  b_y,
+               bool b_with_repeat = false,
+--- 58,64 ----
+       
+  
+       button (win  *b_w,
+!              const char b_label [],
+               int  b_x,
+               int  b_y,
+               bool b_with_repeat = false,
+***************
+*** 76,83 ****
+       void press (bool mode);
+       bool eval  (int  &button);
+       bool eval  ();
+!      void write (char label_string []);
+!      void write (char label_string [], bool is_pressed);
+  
+    };
+  
+--- 76,83 ----
+       void press (bool mode);
+       bool eval  (int  &button);
+       bool eval  ();
+!      void write (const char label_string []);
+!      void write (const char label_string [], bool is_pressed);
+  
+    };
+  
+diff -crB ../craft.orig/buttons.hc ./buttons.hc
+*** ../craft.orig/buttons.hc	Fri Feb 21 06:48:23 1997
+--- ./buttons.hc	Sun Jun 28 20:08:05 2009
+***************
+*** 12,18 ****
+  #include "win.h"
+  
+  button::button (win  *b_w,
+!                 char b_label [],
+                  int  b_x,
+                  int  b_y,
+                  bool b_with_repeat,
+--- 12,18 ----
+  #include "win.h"
+  
+  button::button (win  *b_w,
+!                 const char b_label [],
+                  int  b_x,
+                  int  b_y,
+                  bool b_with_repeat,
+***************
+*** 179,190 ****
+  
+    }
+  
+! void button::write (char label_string [])
+    {strcpy (label, label_string);
+     write  (label, is_pressed);
+    }
+  
+! void button::write (char label [], bool is_pressed)
+    {draw_border;
+     if   (is_icon)
+          write_icon
+--- 179,190 ----
+  
+    }
+  
+! void button::write (const char label_string [])
+    {strcpy (label, label_string);
+     write  (label, is_pressed);
+    }
+  
+! void button::write (const char label [], bool is_pressed)
+    {draw_border;
+     if   (is_icon)
+          write_icon
+Only in .: buttons.o
+Only in .: cmap.cc
+Only in .: cmap.err
+diff -crB ../craft.orig/cmap.h ./cmap.h
+*** ../craft.orig/cmap.h	Fri Feb 21 06:48:24 1997
+--- ./cmap.h	Sun Jun 28 18:53:02 2009
+***************
+*** 23,29 ****
+     int         rot;
+  
+     cmap      (win  *w_i,
+!               char name_i [],
+                bool preload = true,
+                bool smart_load = true);
+     ~cmap     ();
+--- 23,29 ----
+     int         rot;
+  
+     cmap      (win  *w_i,
+!               const char name_i [],
+                bool preload = true,
+                bool smart_load = true);
+     ~cmap     ();
+diff -crB ../craft.orig/cmap.hc ./cmap.hc
+*** ../craft.orig/cmap.hc	Fri Feb 21 06:48:24 1997
+--- ./cmap.hc	Sun Jun 28 18:53:02 2009
+***************
+*** 2,8 ****
+  #include "cmap.h"
+  #include "xbm.h"
+   
+! cmap::cmap (win *w_i, char name_i [], bool preload, bool smart_load)
+    {w              = w_i;
+     is_mask        = false;
+     is_loaded      = false;
+--- 2,8 ----
+  #include "cmap.h"
+  #include "xbm.h"
+   
+! cmap::cmap (win *w_i, const char name_i [], bool preload, bool smart_load)
+    {w              = w_i;
+     is_mask        = false;
+     is_loaded      = false;
+Only in .: cmap.o
+Only in .: cmap_edit.cc
+Only in .: cmap_edit.err
+Only in .: cmap_edit.o
+Only in .: cmap_selector.cc
+Only in .: cmap_selector.err
+diff -crB ../craft.orig/cmap_selector.h ./cmap_selector.h
+*** ../craft.orig/cmap_selector.h	Fri Feb 21 06:48:24 1997
+--- ./cmap_selector.h	Sun Jun 28 21:24:38 2009
+***************
+*** 40,46 ****
+     int      case_dy;   
+     int      case_dx;
+     
+!    cmap_selector     (char name [], 
+                        win  *w,
+                        int  num_cases,
+                        char case_string [max_cmap_selector_cases][128],
+--- 40,46 ----
+     int      case_dy;   
+     int      case_dx;
+     
+!    cmap_selector     (const char name [], 
+                        win  *w,
+                        int  num_cases,
+                        char case_string [max_cmap_selector_cases][128],
+***************
+*** 65,72 ****
+  
+    }; 
+  
+! bool cmap_sel      (char name [], char pattern []);
+! void get_file_list (char file_pattern [],
+                      int  &num_files,
+                      char file_list [max_cmap_selector_cases][128]);
+  
+--- 65,72 ----
+  
+    }; 
+  
+! bool cmap_sel      (const char name [], const char pattern []);
+! void get_file_list (const char file_pattern [],
+                      int  &num_files,
+                      char file_list [max_cmap_selector_cases][128]);
+  
+diff -crB ../craft.orig/cmap_selector.hc ./cmap_selector.hc
+*** ../craft.orig/cmap_selector.hc	Fri Feb 21 06:48:25 1997
+--- ./cmap_selector.hc	Sun Jun 28 21:27:15 2009
+***************
+*** 11,17 ****
+  #define cmap_selector_marked_case_color    yellow 
+  #define cmap_selector_unmarked_case_color  black
+  
+! cmap_selector::cmap_selector (char v_name [], 
+                                win  *v_w,
+                                int  v_num_cases,
+                                char v_case_string[max_cmap_selector_cases][128],
+--- 11,17 ----
+  #define cmap_selector_marked_case_color    yellow 
+  #define cmap_selector_unmarked_case_color  black
+  
+! cmap_selector::cmap_selector (const char v_name [], 
+                                win  *v_w,
+                                int  v_num_cases,
+                                char v_case_string[max_cmap_selector_cases][128],
+***************
+*** 290,300 ****
+    }
+  
+  
+! bool cmap_sel (char name [], char pattern [])
+    {int  num_cases;
+     char cases [max_cmap_selector_cases][128];
+     bool quit;
+  
+     get_files;
+     perform_sel;
+     return ! quit;
+--- 290,302 ----
+    }
+  
+  
+! bool cmap_sel (const char name [], const char pattern [])
+    {int  num_cases;
+     char cases [max_cmap_selector_cases][128];
+     bool quit;
++    char * temp_name;
+  
++    strcpy(temp_name, name);
+     get_files;
+     perform_sel;
+     return ! quit;
+***************
+*** 313,319 ****
+           quit = cancel->eval ();
+          };
+        if (! quit)  
+!          strcpy (name, cases [case_no]);
+        delete (cancel);
+        delete (sel);
+        delete (w);
+--- 315,321 ----
+           quit = cancel->eval ();
+          };
+        if (! quit)  
+!          strcpy (temp_name, cases [case_no]);
+        delete (cancel);
+        delete (sel);
+        delete (w);
+***************
+*** 339,345 ****
+    }
+  
+  
+! void get_file_list (char pattern [],
+                      int  &num_files,
+                      char file_list [max_cmap_selector_cases][128])
+  
+--- 341,347 ----
+    }
+  
+  
+! void get_file_list (const char pattern [],
+                      int  &num_files,
+                      char file_list [max_cmap_selector_cases][128])
+  
+Only in .: cmap_selector.o
+Only in .: color_trans.cc
+Only in .: color_trans.err
+Only in .: color_trans.o
+Only in .: compress.cc
+Only in .: compress.err
+diff -crB ../craft.orig/compress.h ./compress.h
+*** ../craft.orig/compress.h	Fri Feb 21 06:48:58 1997
+--- ./compress.h	Sun Jun 28 19:44:59 2009
+***************
+*** 26,32 ****
+       compress  ();
+       ~compress ();
+  
+!      char *frame_name (char postfix []);
+       void encode      (char name    []);
+       void decode      (char name    []);
+   
+--- 26,32 ----
+       compress  ();
+       ~compress ();
+  
+!      char *frame_name (const char postfix []);
+       void encode      (char name    []);
+       void decode      (char name    []);
+   
+diff -crB ../craft.orig/compress.hc ./compress.hc
+*** ../craft.orig/compress.hc	Fri Feb 21 06:48:58 1997
+--- ./compress.hc	Sun Jun 28 19:44:59 2009
+***************
+*** 25,31 ****
+    {
+    }
+  
+! char *compress::frame_name (char postfix [])
+    {static char r [128];
+  
+     sprintf (r, "%s%04d.%s", name, snr, postfix);
+--- 25,31 ----
+    {
+    }
+  
+! char *compress::frame_name (const char postfix [])
+    {static char r [128];
+  
+     sprintf (r, "%s%04d.%s", name, snr, postfix);
+Only in .: compress.o
+Only in .: craft
+Only in .: craft.cc
+Only in .: craft.err
+Only in .: craft.o
+Only in .: cry.cc
+Only in .: cry.err
+diff -crB ../craft.orig/cry.hc ./cry.hc
+*** ../craft.orig/cry.hc	Fri Feb 21 06:50:13 1997
+--- ./cry.hc	Sun Jun 28 19:48:00 2009
+***************
+*** 1,3 ****
+--- 1,4 ----
++ #include <cstdlib>
+  #include "cry.h"
+  
+  void cry (char *func_name)
+Only in .: cry.o
+Only in .: dial.cc
+Only in .: dial.err
+diff -crB ../craft.orig/dial.h ./dial.h
+*** ../craft.orig/dial.h	Fri Feb 21 06:50:13 1997
+--- ./dial.h	Sun Jun 28 18:54:56 2009
+***************
+*** 35,41 ****
+  
+       int  val_dx;
+  
+!      getline *g_value;
+       button  *up;
+       button  *down;
+       button  *up2;
+--- 35,41 ----
+  
+       int  val_dx;
+  
+!      class getline *g_value;
+       button  *up;
+       button  *down;
+       button  *up2;
+***************
+*** 46,52 ****
+       bool    with_edit;
+  
+     dial  (win  *w, 
+!           char title [],
+            int  title_dx,
+            int  x, 
+            int  y,
+--- 46,52 ----
+       bool    with_edit;
+  
+     dial  (win  *w, 
+!           const char title [],
+            int  title_dx,
+            int  x, 
+            int  y,
+***************
+*** 60,66 ****
+            int  incr2       = 0,
+            bool auto_repeat = false);
+     dial  (win  *w, 
+!           char title [],
+            int  title_dx,
+            int  x, 
+            int  y,
+--- 60,66 ----
+            int  incr2       = 0,
+            bool auto_repeat = false);
+     dial  (win  *w, 
+!           const char title [],
+            int  title_dx,
+            int  x, 
+            int  y,
+diff -crB ../craft.orig/dial.hc ./dial.hc
+*** ../craft.orig/dial.hc	Fri Feb 21 06:50:13 1997
+--- ./dial.hc	Sun Jun 28 20:02:36 2009
+***************
+*** 16,22 ****
+  #define val_dy    20
+  
+  dial::dial (win  *p_w,
+!             char p_title [],
+              int  p_title_dx, 
+              int  p_x,
+              int  p_y,
+--- 16,22 ----
+  #define val_dy    20
+  
+  dial::dial (win  *p_w,
+!             const char p_title [],
+              int  p_title_dx, 
+              int  p_x,
+              int  p_y,
+***************
+*** 58,64 ****
+       }.
+  
+  .  show_buttons
+!      {g_value = new getline ("dial", w, s_value,
+                               x + title_dx, y,
+                               val_dx, val_dy); 
+        up   = new button (w, "/dial.up", 
+--- 58,64 ----
+       }.
+  
+  .  show_buttons
+!      {g_value = new class getline ("dial", w, s_value,
+                               x + title_dx, y,
+                               val_dx, val_dy); 
+        up   = new button (w, "/dial.up", 
+***************
+*** 95,101 ****
+  
+  
+  dial::dial (win  *p_w,
+!             char p_title [],
+              int  p_title_dx, 
+              int  p_x,
+              int  p_y,
+--- 95,101 ----
+  
+  
+  dial::dial (win  *p_w,
+!             const char p_title [],
+              int  p_title_dx, 
+              int  p_x,
+              int  p_y,
+Only in .: dial.o
+Only in .: dir.cc
+Only in .: dir.err
+Only in .: dir.o
+Only in .: errorhandling.cc
+Only in .: errorhandling.err
+diff -crB ../craft.orig/errorhandling.h ./errorhandling.h
+*** ../craft.orig/errorhandling.h	Wed Mar 19 08:41:06 1997
+--- ./errorhandling.h	Sun Jun 28 19:02:39 2009
+***************
+*** 13,38 ****
+  #include "stdio.h"
+  
+  void errorstop (int  error_no,
+!                 char c_class [],
+!                 char msg     []);
+  
+  void errorstop (int  error_no,
+!                 char c_class [],
+!                 char msg     [],
+!                 char info    []);
+  
+  void errorstop (int  error_no,
+!                 char c_class [],
+!                 char msg     [],
+!                 char info    [],
+! 		char param1  []);
+  
+  void errorstop (int  error_no,
+!                 char c_class [],
+!                 char msg     [],
+!                 char info    [],
+! 		char param1  [],
+!                 char param2  []);
+  
+  #endif
+  
+--- 13,38 ----
+  #include "stdio.h"
+  
+  void errorstop (int  error_no,
+!                 const char c_class [],
+!                 const char msg     []);
+  
+  void errorstop (int  error_no,
+!                 const char c_class [],
+!                 const char msg     [],
+!                 const char info    []);
+  
+  void errorstop (int  error_no,
+!                 const char c_class [],
+!                 const char msg     [],
+!                 const char info    [],
+! 		const char param1  []);
+  
+  void errorstop (int  error_no,
+!                 const char c_class [],
+!                 const char msg     [],
+!                 const char info    [],
+! 		const char param1  [],
+!                 const char param2  []);
+  
+  #endif
+  
+diff -crB ../craft.orig/errorhandling.hc ./errorhandling.hc
+*** ../craft.orig/errorhandling.hc	Fri Feb 21 06:50:14 1997
+--- ./errorhandling.hc	Sun Jun 28 19:02:39 2009
+***************
+*** 11,45 ****
+  #include "paramreader.h"
+  
+  void errorstop (int  error_no,
+!                 char c_class [],
+!                 char msg     [])
+  
+    {errorstop (error_no, c_class, msg, "-", "-", "-");
+    }
+  
+  void errorstop (int  error_no,
+!                 char c_class [],
+!                 char msg     [],
+!                 char info    [])
+  
+    {errorstop (error_no, c_class, msg, info, "-", "-");
+    }
+  
+  void errorstop (int  error_no,
+!                 char c_class [],
+!                 char msg     [],
+!                 char info    [],
+!                 char param1  [])
+      
+    {errorstop (error_no, c_class, msg, info, param1, "-");
+    }
+  
+  void errorstop (int  error_no,
+!                 char c_class [],
+!                 char msg     [],
+!                 char info    [], 
+!                 char param1  [],
+!                 char param2  [])
+  
+    {printf              ("ERROR (%d) : %s : %s : %s : %s : %s\n",
+                          error_no,
+--- 11,45 ----
+  #include "paramreader.h"
+  
+  void errorstop (int  error_no,
+!                 const char c_class [],
+!                 const char msg     [])
+  
+    {errorstop (error_no, c_class, msg, "-", "-", "-");
+    }
+  
+  void errorstop (int  error_no,
+!                 const char c_class [],
+!                 const char msg     [],
+!                 const char info    [])
+  
+    {errorstop (error_no, c_class, msg, info, "-", "-");
+    }
+  
+  void errorstop (int  error_no,
+!                 const char c_class [],
+!                 const char msg     [],
+!                 const char info    [],
+!                 const char param1  [])
+      
+    {errorstop (error_no, c_class, msg, info, param1, "-");
+    }
+  
+  void errorstop (int  error_no,
+!                 const char c_class [],
+!                 const char msg     [],
+!                 const char info    [], 
+!                 const char param1  [],
+!                 const char param2  [])
+  
+    {printf              ("ERROR (%d) : %s : %s : %s : %s : %s\n",
+                          error_no,
+Only in .: errorhandling.o
+Only in .: field.cc
+Only in .: field.err
+Only in .: field.o
+Only in .: file_selector.cc
+Only in .: file_selector.err
+diff -crB ../craft.orig/file_selector.h ./file_selector.h
+*** ../craft.orig/file_selector.h	Fri Feb 21 06:50:14 1997
+--- ./file_selector.h	Sun Jun 28 19:41:06 2009
+***************
+*** 16,23 ****
+     win      *w;
+  
+     selector *sel;
+!    getline  *get_name;
+!    getline  *get_pattern;
+  
+     int      num_files;
+     char     file_list [max_selector_cases][128];
+--- 16,23 ----
+     win      *w;
+  
+     selector *sel;
+!    class getline  *get_name;
+!    class getline  *get_pattern;
+  
+     int      num_files;
+     char     file_list [max_selector_cases][128];
+***************
+*** 32,48 ****
+  
+     button   *cancel;
+    
+!    file_selector      (char name [], 
+                         int  x,
+                         int  y,
+!                        char file_name    [],
+!                        char file_pattern [],
+                         bool must_exists = true);
+  
+!    file_selector      (char name [],
+                         int  x,
+                         int  y,
+!                        char full_file_name [],
+                         bool must_exist = true);
+  
+     ~file_selector     ();
+--- 32,48 ----
+  
+     button   *cancel;
+    
+!    file_selector      (const char name [], 
+                         int  x,
+                         int  y,
+!                        const char file_name    [],
+!                        const char file_pattern [],
+                         bool must_exists = true);
+  
+!    file_selector      (const char name [],
+                         int  x,
+                         int  y,
+!                        const char full_file_name [],
+                         bool must_exist = true);
+  
+     ~file_selector     ();
+diff -crB ../craft.orig/file_selector.hc ./file_selector.hc
+*** ../craft.orig/file_selector.hc	Fri Feb 21 06:50:14 1997
+--- ./file_selector.hc	Sun Jun 28 20:03:05 2009
+***************
+*** 23,32 ****
+  #define pattern_dx  292
+  #define pattern_dy  20
+    
+! file_selector::file_selector (char p_name [],
+                                int  x,
+                                int  y,
+!                               char full_file_name [],
+                                bool must_exist)
+  
+    {store_params;
+--- 23,32 ----
+  #define pattern_dx  292
+  #define pattern_dy  20
+    
+! file_selector::file_selector (const char p_name [],
+                                int  x,
+                                int  y,
+!                               const char full_file_name [],
+                                bool must_exist)
+  
+    {store_params;
+***************
+*** 60,69 ****
+       }.
+  
+  .  open_getlines
+!      {get_name    = new getline ("get_name", w, file_name,
+                                   name_x, name_y, name_dx, name_dy,
+                                   true);
+!       get_pattern = new getline ("get_pattern", w, file_pattern,
+                                   pattern_x, pattern_y, pattern_dx, pattern_dy,
+                                   true);
+       }.
+--- 60,69 ----
+       }.
+  
+  .  open_getlines
+!      {get_name    = new class getline ("get_name", w, file_name,
+                                   name_x, name_y, name_dx, name_dy,
+                                   true);
+!       get_pattern = new class getline ("get_pattern", w, file_pattern,
+                                   pattern_x, pattern_y, pattern_dx, pattern_dy,
+                                   true);
+       }.
+***************
+*** 77,87 ****
+  
+    }
+  
+! file_selector::file_selector (char p_name [], 
+                                int  x,
+                                int  y,
+!                               char p_file_name    [],
+!                               char p_file_pattern [],
+                                bool must_exist)
+  
+    {store_params;
+--- 77,87 ----
+  
+    }
+  
+! file_selector::file_selector (const char p_name [], 
+                                int  x,
+                                int  y,
+!                               const char p_file_name    [],
+!                               const char p_file_pattern [],
+                                bool must_exist)
+  
+    {store_params;
+***************
+*** 115,124 ****
+       }.
+  
+  .  open_getlines
+!      {get_name    = new getline ("get_name", w, file_name,
+                                   name_x, name_y, name_dx, name_dy,
+                                   true);
+!       get_pattern = new getline ("get_pattern", w, file_pattern,
+                                   pattern_x, pattern_y, pattern_dx, pattern_dy,
+                                   true);
+       }.
+--- 115,124 ----
+       }.
+  
+  .  open_getlines
+!      {get_name    = new class getline ("get_name", w, file_name,
+                                   name_x, name_y, name_dx, name_dy,
+                                   true);
+!       get_pattern = new class getline ("get_pattern", w, file_pattern,
+                                   pattern_x, pattern_y, pattern_dx, pattern_dy,
+                                   true);
+       }.
+Only in .: file_selector.o
+Only in .: getline.cc
+Only in .: getline.err
+diff -crB ../craft.orig/getline.h ./getline.h
+*** ../craft.orig/getline.h	Fri Feb 21 06:50:14 1997
+--- ./getline.h	Sun Jun 28 18:56:35 2009
+***************
+*** 37,43 ****
+     bool    was_deactive;
+     bool    is_single_char;
+     
+!    getline      (char name [],
+                   win  *w,
+                   char string [],
+                   int  x,
+--- 37,43 ----
+     bool    was_deactive;
+     bool    is_single_char;
+     
+!    getline      (const char name [],
+                   win  *w,
+                   char string [],
+                   int  x,
+diff -crB ../craft.orig/getline.hc ./getline.hc
+*** ../craft.orig/getline.hc	Fri Feb 21 06:50:14 1997
+--- ./getline.hc	Sun Jun 28 18:56:28 2009
+***************
+*** 4,10 ****
+  
+  #define hist_button_name         "/hist.open"
+  
+! getline::getline (char v_name   [],
+                    win  *v_w,        
+                    char v_string [], 
+                    int  v_x,         
+--- 4,10 ----
+  
+  #define hist_button_name         "/hist.open"
+  
+! getline::getline (const char v_name   [],
+                    win  *v_w,        
+                    char v_string [], 
+                    int  v_x,         
+Only in .: getline.o
+Files ../craft.orig/hcc/hcc and ./hcc/hcc differ
+diff -crB ../craft.orig/hcc/hcc.cc ./hcc/hcc.cc
+*** ../craft.orig/hcc/hcc.cc	Fri Feb 21 06:50:16 1997
+--- ./hcc/hcc.cc	Sun Jun 28 18:51:50 2009
+***************
+*** 1,8 ****
+! #include "bool.h"
+! #include "stdio.h"
+! #include "std.h"
+! #include "string.h"
+! #include "ctype.h"
+  
+  #define max_refinements 10000
+  #define max_src_lines   10000
+--- 1,8 ----
+! #include "../bool.h"
+! #include <cstdio>
+! #include <cstdlib>
+! #include <cstring>
+! #include <cctype>
+  
+  #define max_refinements 10000
+  #define max_src_lines   10000
+***************
+*** 39,45 ****
+  
+  
+  
+! void f_open (FILE *&f, char name [], char mode [])
+    {f = fopen (name, mode);
+      /* check_error */      {if (mode [0] == 'r' && f == NULL)
+           {printf ("1, FILE, file '%s' not found\n", name);
+--- 39,45 ----
+  
+  
+  
+! void f_open (FILE *&f, const char name [], const char mode [])
+    {f = fopen (name, mode);
+      /* check_error */      {if (mode [0] == 'r' && f == NULL)
+           {printf ("1, FILE, file '%s' not found\n", name);
+***************
+*** 91,97 ****
+  
+  void changeall (char s           [], 
+                  int  max_length_of_s,
+!                 char tmplate     [],
+                  char replacement [])
+  
+    {char *pos;
+--- 91,97 ----
+  
+  void changeall (char s           [], 
+                  int  max_length_of_s,
+!                 const char tmplate     [],
+                  char replacement [])
+  
+    {char *pos;
+***************
+*** 175,181 ****
+       };
+    }
+  
+! void pass_1_error (int line_no, char msg [], int l)
+    {char err_msg [256];
+     char ii      [128];
+  
+--- 175,181 ----
+       };
+    }
+  
+! void pass_1_error (int line_no, const char msg [], int l)
+    {char err_msg [256];
+     char ii      [128];
+  
+***************
+*** 187,193 ****
+     exit      (1);
+    }
+  
+! void pass_1_error (int line_no, char msg [])
+    {fclose (src);
+     printf ("error : %d : %s\n", line_no, msg);
+     exit   (1);
+--- 187,193 ----
+     exit      (1);
+    }
+  
+! void pass_1_error (int line_no, const char msg [])
+    {fclose (src);
+     printf ("error : %d : %s\n", line_no, msg);
+     exit   (1);
+Only in .: history.cc
+Only in .: history.err
+Only in .: history.o
+Only in .: id_handler.cc
+Only in .: id_handler.err
+Only in .: id_handler.o
+Only in .: ilfield.cc
+Only in .: ilfield.err
+Only in .: ilfield.o
+diff -crB ../craft.orig/install ./install
+*** ../craft.orig/install	Thu Jun 12 08:30:18 1997
+--- ./install	Sun Jun 28 18:42:20 2009
+***************
+*** 1,75 ****
+! #!/bin/sh 
+  
+  #---------------------------------------------------------------------
+  #
+  # The following assigns must be changed according to your system
+  #
+  
+! GCC=gcc
+! GPP="g++"
+  
+! XLIB=/usr/X11R6/lib
+  
+  #
+  #--------------------------------------------------------------------
+  
+! CFLAGS="-O2 -fexpensive-optimizations -finline-functions"
+  HCC=hcc/hcc
+  CMP="$HCC -compiler $GCC $CFLAGS -c"
+  
+! LFLAGS="-lX11 -lm -L$XLIB"
+  
+  
+! echo hcc           ; gcc  -o hcc/hcc hcc/hcc.cc
+  
+! echo color_trans   ; $CMP color_trans
+! echo xtimer        ; $CMP xtimer        
+! echo option_menu   ; $CMP option_menu   
+! echo setupedit     ; $CMP setupedit     
+! echo robot         ; $CMP robot         
+! echo land          ; $CMP land          
+! echo ship          ; $CMP ship          
+! echo building      ; $CMP building      
+! echo dir           ; $CMP dir           
+! echo object_handler; $CMP object_handler 
+! echo pic           ; $CMP pic           
+! echo player        ; $CMP player        
+! echo field         ; $CMP field         
+! echo ilfield       ; $CMP ilfield       
+! echo xbm           ; $CMP xbm           
+! echo cmap_edit     ; $CMP cmap_edit     
+! echo cmap          ; $CMP cmap          
+! echo ppm           ; $CMP ppm           
+! echo compress      ; $CMP compress      
+! echo table         ; $CMP table         
+! echo xmath         ; $CMP xmath         
+! echo io            ; $CMP io            
+! echo cry           ; $CMP cry           
+! echo win           ; $CMP win           
+! echo dial          ; $CMP dial          
+! echo multi_dial    ; $CMP multi_dial    
+! echo menu          ; $CMP menu          
+! echo xsystem       ; $CMP xsystem       
+! echo xfile         ; $CMP xfile         
+! echo ppm_handler   ; $CMP ppm_handler   
+! echo errorhandling ; $CMP errorhandling 
+! echo paramreader   ; $CMP paramreader   
+! echo pattern_match ; $CMP pattern_match 
+! echo objects       ; $CMP objects       
+! echo xstring       ; $CMP xstring       
+! echo id_handler    ; $CMP id_handler    
+! echo masks         ; $CMP masks         
+! echo buttons       ; $CMP buttons       
+! echo lru           ; $CMP lru           
+! echo scroller      ; $CMP scroller      
+! echo selector      ; $CMP selector      
+! echo cmap_selector ; $CMP cmap_selector 
+! echo getline       ; $CMP getline       
+! echo file_selector ; $CMP file_selector 
+! echo history       ; $CMP history       
+! echo craft         ; $CMP craft            
+  
+! $GPP xtimer.o option_menu.o setupedit.o robot.o land.o ship.o building.o dir.o object_handler.o pic.o player.o field.o ilfield.o xbm.o cmap_edit.o cmap.o ppm.o compress.o table.o xmath.o io.o cry.o win.o dial.o multi_dial.o menu.o xsystem.o xfile.o ppm_handler.o errorhandling.o paramreader.o pattern_match.o objects.o xstring.o id_handler.o color_trans.o masks.o buttons.o lru.o scroller.o selector.o cmap_selector.o getline.o file_selector.o history.o craft.o $LFLAGS -o craft
+  
+  
+  
+--- 1,75 ----
+! #!/bin/bash 
+  
+  #---------------------------------------------------------------------
+  #
+  # The following assigns must be changed according to your system
+  #
+  
+! GCC=${CC:-gcc}
+! GPP=${CXX:-g++}
+  
+! #XLIB=/usr/X11R6/lib
+  
+  #
+  #--------------------------------------------------------------------
+  
+! #CFLAGS="-O2 -fexpensive-optimizations -finline-functions"
+  HCC=hcc/hcc
+  CMP="$HCC -compiler $GCC $CFLAGS -c"
+  
+! LFLAGS="${LDFLAGS} -lX11 -lm"
+  
+  
+! echo hcc           ; ${GPP}  -o ${HCC} hcc/hcc.cc || exit 1
+  
+! echo color_trans   ; $CMP color_trans || exit 1
+! echo xtimer        ; $CMP xtimer         || exit 1
+! echo option_menu   ; $CMP option_menu    || exit 1
+! echo setupedit     ; $CMP setupedit      || exit 1
+! echo robot         ; $CMP robot          || exit 1
+! echo land          ; $CMP land           || exit 1
+! echo ship          ; $CMP ship           || exit 1
+! echo building      ; $CMP building       || exit 1
+! echo dir           ; $CMP dir            || exit 1
+! echo object_handler; $CMP object_handler  || exit 1
+! echo pic           ; $CMP pic            || exit 1
+! echo player        ; $CMP player         || exit 1
+! echo field         ; $CMP field          || exit 1
+! echo ilfield       ; $CMP ilfield        || exit 1
+! echo xbm           ; $CMP xbm            || exit 1
+! echo cmap_edit     ; $CMP cmap_edit      || exit 1
+! echo cmap          ; $CMP cmap           || exit 1
+! echo ppm           ; $CMP ppm            || exit 1
+! echo compress      ; $CMP compress       || exit 1
+! echo table         ; $CMP table          || exit 1
+! echo xmath         ; $CMP xmath          || exit 1
+! echo io            ; $CMP io             || exit 1
+! echo cry           ; $CMP cry            || exit 1
+! echo win           ; $CMP win            || exit 1
+! echo dial          ; $CMP dial           || exit 1
+! echo multi_dial    ; $CMP multi_dial     || exit 1
+! echo menu          ; $CMP menu           || exit 1
+! echo xsystem       ; $CMP xsystem        || exit 1
+! echo xfile         ; $CMP xfile          || exit 1
+! echo ppm_handler   ; $CMP ppm_handler    || exit 1
+! echo errorhandling ; $CMP errorhandling  || exit 1
+! echo paramreader   ; $CMP paramreader    || exit 1
+! echo pattern_match ; $CMP pattern_match  || exit 1
+! echo objects       ; $CMP objects        || exit 1
+! echo xstring       ; $CMP xstring        || exit 1
+! echo id_handler    ; $CMP id_handler     || exit 1
+! echo masks         ; $CMP masks          || exit 1
+! echo buttons       ; $CMP buttons        || exit 1
+! echo lru           ; $CMP lru            || exit 1
+! echo scroller      ; $CMP scroller       || exit 1
+! echo selector      ; $CMP selector       || exit 1
+! echo cmap_selector ; $CMP cmap_selector  || exit 1
+! echo getline       ; $CMP getline        || exit 1
+! echo file_selector ; $CMP file_selector  || exit 1
+! echo history       ; $CMP history        || exit 1
+! echo craft         ; $CMP craft             || exit 1
+  
+! $GPP xtimer.o option_menu.o setupedit.o robot.o land.o ship.o building.o dir.o object_handler.o pic.o player.o field.o ilfield.o xbm.o cmap_edit.o cmap.o ppm.o compress.o table.o xmath.o io.o cry.o win.o dial.o multi_dial.o menu.o xsystem.o xfile.o ppm_handler.o errorhandling.o paramreader.o pattern_match.o objects.o xstring.o id_handler.o color_trans.o masks.o buttons.o lru.o scroller.o selector.o cmap_selector.o getline.o file_selector.o history.o craft.o $LFLAGS -o craft || exit 1
+  
+  
+  
+Only in .: io.cc
+Only in .: io.err
+Only in .: io.o
+Only in .: land.cc
+Only in .: land.err
+Only in .: land.o
+Only in .: lru.cc
+Only in .: lru.err
+Only in .: lru.o
+Only in .: masks.cc
+Only in .: masks.err
+diff -crB ../craft.orig/masks.h ./masks.h
+*** ../craft.orig/masks.h	Fri Feb 21 06:52:06 1997
+--- ./masks.h	Sun Jun 28 21:11:01 2009
+***************
+*** 25,44 ****
+                   int dx, int dy, 
+                   int color_1, int color_2);
+  
+! bool yes        (win *w, char host [], char question []);
+! bool yes        (char host [], char question []);
+! bool yes        (char question []);
+! void ack        (char host [], char msg []);
+! void ack        (char message []);
+  void tell       (win  *&w,
+!                  char message []);
+! void tell       (char host [],
+                   win  *&w,
+!                  char message []);
+! void tell       (char host [],
+                   win  *parent,
+                   win  *&w,
+!                  char message []);
+  
+  bool get_line   (char s    [],
+                   char name [],
+--- 25,44 ----
+                   int dx, int dy, 
+                   int color_1, int color_2);
+  
+! bool yes        (win *w, const char host [], const char question []);
+! bool yes        (const char host [], const char question []);
+! bool yes        (const char question []);
+! void ack        (const char host [], const char msg []);
+! void ack        (const char message []);
+  void tell       (win  *&w,
+!                  const char message []);
+! void tell       (const char host [],
+                   win  *&w,
+!                  const char message []);
+! void tell       (const char host [],
+                   win  *parent,
+                   win  *&w,
+!                  const char message []);
+  
+  bool get_line   (char s    [],
+                   char name [],
+diff -crB ../craft.orig/masks.hc ./masks.hc
+*** ../craft.orig/masks.hc	Fri Feb 21 06:52:06 1997
+--- ./masks.hc	Sun Jun 28 21:12:29 2009
+***************
+*** 67,77 ****
+     w->line      (x1, y2, x1, y1);
+    }
+  
+! bool yes (char question [])
+    {return yes ("", question);
+    }
+  
+! bool yes (char host [], char question [])
+    {win    *w;
+     button *ok;
+     button *no;
+--- 67,77 ----
+     w->line      (x1, y2, x1, y1);
+    }
+  
+! bool yes (const char question [])
+    {return yes ("", question);
+    }
+  
+! bool yes (const char host [], const char question [])
+    {win    *w;
+     button *ok;
+     button *no;
+***************
+*** 125,131 ****
+  
+    }
+  
+! bool yes (win *parent, char host [], char question [])
+    {win    *w;
+     button *ok;
+     button *no;
+--- 125,131 ----
+  
+    }
+  
+! bool yes (win *parent, const char host [], const char question [])
+    {win    *w;
+     button *ok;
+     button *no;
+***************
+*** 179,189 ****
+  
+    }
+  
+! void ack (char message [])
+    {ack ("", message);
+    }
+  
+! void ack (char host [], char message [])
+    {win    *w;
+     button *ok;
+     int    dx;
+--- 179,189 ----
+  
+    }
+  
+! void ack (const char message [])
+    {ack ("", message);
+    }
+  
+! void ack (const char host [], const char message [])
+    {win    *w;
+     button *ok;
+     int    dx;
+***************
+*** 262,272 ****
+  
+    }
+  
+! void tell (win *&w, char message [])
+    {tell ("", w, message);
+    }
+  
+! void tell (char host [], win *&w, char message [])
+    {open_mask;
+     tell_message;
+  
+--- 262,272 ----
+  
+    }
+  
+! void tell (win *&w, const char message [])
+    {tell ("", w, message);
+    }
+  
+! void tell (const char host [], win *&w, const char message [])
+    {open_mask;
+     tell_message;
+  
+***************
+*** 295,301 ****
+  
+    }
+  
+! void tell (char host [], win *parent, win *&w, char message [])
+    {open_mask;
+     tell_message;
+  
+--- 295,301 ----
+  
+    }
+  
+! void tell (const char host [], win *parent, win *&w, const char message [])
+    {open_mask;
+     tell_message;
+  
+***************
+*** 330,336 ****
+                 bool with_history)
+   
+    {win     *w;
+!    getline *gl;
+     button  *cancel;
+     bool    is_cancel;
+  
+--- 330,336 ----
+                 bool with_history)
+   
+    {win     *w;
+!    class getline *gl;
+     button  *cancel;
+     bool    is_cancel;
+  
+***************
+*** 342,348 ****
+  .  open_win
+       {w      = new win (name, "", 100, 100, dx + 40, 80);
+        background (w);
+!       gl     = new getline (name, w, s, 20, 20, dx, 20, with_history);
+        cancel = new button (w, "cancel", (dx+40) / 2 - 60, 50);
+       }.
+  
+--- 342,348 ----
+  .  open_win
+       {w      = new win (name, "", 100, 100, dx + 40, 80);
+        background (w);
+!       gl     = new class getline (name, w, s, 20, 20, dx, 20, with_history);
+        cancel = new button (w, "cancel", (dx+40) / 2 - 60, 50);
+       }.
+  
+Only in .: masks.o
+Only in .: menu.cc
+Only in .: menu.err
+diff -crB ../craft.orig/menu.h ./menu.h
+*** ../craft.orig/menu.h	Wed Mar 19 08:41:59 1997
+--- ./menu.h	Sun Jun 28 20:10:00 2009
+***************
+*** 93,102 ****
+    
+  
+        menu ();
+!       menu (char name [],
+              int  x,
+              int  y,
+!             char cmds [],
+              int  wmode = m_pop_up,
+              int  menu_group = std_menu_group);
+  
+--- 93,102 ----
+    
+  
+        menu ();
+!       menu (const char name [],
+              int  x,
+              int  y,
+!             const char cmds [],
+              int  wmode = m_pop_up,
+              int  menu_group = std_menu_group);
+  
+***************
+*** 112,118 ****
+       void release      ();
+       void release      (int no);
+       void write        (int m_no, char string [], bool pressed = false);
+!      bool get_cmd      (char cmds [], int &p, char cmd []);
+       
+    };
+  
+--- 112,118 ----
+       void release      ();
+       void release      (int no);
+       void write        (int m_no, char string [], bool pressed = false);
+!      bool get_cmd      (const char cmds [], int &p, char cmd []);
+       
+    };
+  
+diff -crB ../craft.orig/menu.hc ./menu.hc
+*** ../craft.orig/menu.hc	Fri Feb 21 06:52:07 1997
+--- ./menu.hc	Sun Jun 28 20:10:00 2009
+***************
+*** 27,36 ****
+    {
+    }
+  
+! menu::menu (char w_name [],
+              int  w_x,
+              int  w_y,
+!             char w_cmds [],
+              int  w_mode,
+              int  menu_group)
+  
+--- 27,36 ----
+    {
+    }
+  
+! menu::menu (const char w_name [],
+              int  w_x,
+              int  w_y,
+!             const char w_cmds [],
+              int  w_mode,
+              int  menu_group)
+  
+***************
+*** 363,369 ****
+     is_pressed [no] = false;
+    }
+  
+! bool menu::get_cmd (char cmds [], int &p, char cmd [])
+    {if   (eof)
+          return false;
+     else read_cmd;
+--- 363,369 ----
+     is_pressed [no] = false;
+    }
+  
+! bool menu::get_cmd (const char cmds [], int &p, char cmd [])
+    {if   (eof)
+          return false;
+     else read_cmd;
+Only in .: menu.o
+Only in .: multi_dial.cc
+Only in .: multi_dial.err
+Only in .: multi_dial.o
+Only in .: object_handler.cc
+Only in .: object_handler.err
+diff -crB ../craft.orig/object_handler.h ./object_handler.h
+*** ../craft.orig/object_handler.h	Thu Apr 17 09:07:38 1997
+--- ./object_handler.h	Sun Jun 28 19:17:30 2009
+***************
+*** 297,303 ****
+    bool can_built             (int id, int x, int y, int cmd,
+                                bool is_robot = false);
+    bool attack_possible       (int id, int x, int y);
+!   void write                 (int color, char msg []);
+    bool direct_move           (int id, int range, int &dx, int &dy);
+    bool max_diff              (int x, int y, int h);
+    bool min_diff              (int x, int y, int h);
+--- 297,303 ----
+    bool can_built             (int id, int x, int y, int cmd,
+                                bool is_robot = false);
+    bool attack_possible       (int id, int x, int y);
+!   void write                 (int color, const char msg []);
+    bool direct_move           (int id, int range, int &dx, int &dy);
+    bool max_diff              (int x, int y, int h);
+    bool min_diff              (int x, int y, int h);
+diff -crB ../craft.orig/object_handler.hc ./object_handler.hc
+*** ../craft.orig/object_handler.hc	Tue Jun 10 02:03:44 1997
+--- ./object_handler.hc	Sun Jun 28 19:16:21 2009
+***************
+*** 9321,9327 ****
+    }
+  
+  
+! void object_handler::write (int color, char msg [])
+    {players [color_player [color]]->write (msg);
+    }
+  
+--- 9321,9327 ----
+    }
+  
+  
+! void object_handler::write (int color, const char msg [])
+    {players [color_player [color]]->write (msg);
+    }
+  
+***************
+*** 9439,9442 ****
+        num_hd++;
+       }.
+  
+!   }
+\ No newline at end of file
+--- 9439,9442 ----
+        num_hd++;
+       }.
+  
+!   }
+Only in .: object_handler.o
+Only in .: objects.cc
+Only in .: objects.err
+Only in .: objects.o
+Only in .: option_menu.cc
+Only in .: option_menu.err
+diff -crB ../craft.orig/option_menu.hc ./option_menu.hc
+*** ../craft.orig/option_menu.hc	Fri Mar 21 07:20:47 1997
+--- ./option_menu.hc	Sun Jun 28 18:57:14 2009
+***************
+*** 185,191 ****
+    {dial    *d_is_self;
+     dial    *d_is_suny;
+     dial    *d_water_world;
+!    getline *seed;
+     char    seed_s [128];
+  
+     init;
+--- 185,191 ----
+    {dial    *d_is_self;
+     dial    *d_is_suny;
+     dial    *d_water_world;
+!    class getline *seed;
+     char    seed_s [128];
+  
+     init;
+***************
+*** 217,223 ****
+        d_is_suny     = new dial (w, "", 0,200, 140,is_suny);
+        d_water_world = new dial (w, "", 0,200, 180,is_water_world);
+        strcpy (seed_s, "");
+!       seed = new getline ("", w, seed_s, 200, 250, 90, 24);
+       }.
+  
+  .  finish
+--- 217,223 ----
+        d_is_suny     = new dial (w, "", 0,200, 140,is_suny);
+        d_water_world = new dial (w, "", 0,200, 180,is_water_world);
+        strcpy (seed_s, "");
+!       seed = new class getline ("", w, seed_s, 200, 250, 90, 24);
+       }.
+  
+  .  finish
+***************
+*** 270,277 ****
+    }
+  
+  void player_menu (int act_menu, int &tic)
+!   {getline  *g_host;
+!    getline  *g_name;
+  
+     init;
+     session;
+--- 270,277 ----
+    }
+  
+  void player_menu (int act_menu, int &tic)
+!   {class getline  *g_host;
+!    class getline  *g_name;
+  
+     init;
+     session;
+***************
+*** 298,305 ****
+       }.
+  
+  .  show_buttons
+!      {g_host  = new getline  ("",w, host [pno],60,160,180, 20);
+!       g_name  = new getline  ("",w, name [pno],60,230,180, 20);
+       }.
+  
+  .  finish
+--- 298,305 ----
+       }.
+  
+  .  show_buttons
+!      {g_host  = new class getline  ("",w, host [pno],60,160,180, 20);
+!       g_name  = new class getline  ("",w, name [pno],60,230,180, 20);
+       }.
+  
+  .  finish
+Only in .: option_menu.o
+Only in .: paramreader.cc
+Only in .: paramreader.err
+diff -crB ../craft.orig/paramreader.h ./paramreader.h
+*** ../craft.orig/paramreader.h	Wed Mar 19 08:42:26 1997
+--- ./paramreader.h	Sun Jun 28 21:18:22 2009
+***************
+*** 56,68 ****
+       int  num_includes;
+  
+  
+!           paramreader (char *param_file_name);
+  
+     void   dump       ();
+!    char * s_param    (char name []);
+     double d_param    (char name []);
+!    int    i_param    (char name []);
+!    int    param_no   (char name []);
+     void   set        (char name [], char value []);
+     void   read_sym   (char sym  [], bool &is_eof);
+     int    max_i_name ();
+--- 56,68 ----
+       int  num_includes;
+  
+  
+!           paramreader (const char *param_file_name);
+  
+     void   dump       ();
+!    char * s_param    (const char name []);
+     double d_param    (char name []);
+!    int    i_param    (const char name []);
+!    int    param_no   (const char name []);
+     void   set        (char name [], char value []);
+     void   read_sym   (char sym  [], bool &is_eof);
+     int    max_i_name ();
+diff -crB ../craft.orig/paramreader.hc ./paramreader.hc
+*** ../craft.orig/paramreader.hc	Fri Feb 21 06:52:13 1997
+--- ./paramreader.hc	Sun Jun 28 21:18:22 2009
+***************
+*** 88,94 ****
+    
+    }
+     
+! paramreader::paramreader (char param_file_name [])
+    {bool is_eof = false;
+  
+     num_params = 0;
+--- 88,94 ----
+    
+    }
+     
+! paramreader::paramreader (const char param_file_name [])
+    {bool is_eof = false;
+  
+     num_params = 0;
+***************
+*** 129,135 ****
+       printf (">%s< = >%s<\n", name [i], value [i]);
+    }
+  
+! int paramreader::param_no (char p_name [])
+    {for (int no = 0; no < num_params; no++)
+       if (strcmp (name [no], p_name) == 0)
+          return no;
+--- 129,135 ----
+       printf (">%s< = >%s<\n", name [i], value [i]);
+    }
+  
+! int paramreader::param_no (const char p_name [])
+    {for (int no = 0; no < num_params; no++)
+       if (strcmp (name [no], p_name) == 0)
+          return no;
+***************
+*** 138,144 ****
+     return (0);
+    }
+  
+! char * paramreader::s_param (char name [])
+    {return value [param_no (name)];
+    }
+  
+--- 138,144 ----
+     return (0);
+    }
+  
+! char * paramreader::s_param (const char name [])
+    {return value [param_no (name)];
+    }
+  
+***************
+*** 146,152 ****
+    {return atof (value [param_no (name)]);
+    }
+  
+! int paramreader::i_param (char name [])
+    {return atoi (value [param_no (name)]);
+    }
+  
+--- 146,152 ----
+    {return atof (value [param_no (name)]);
+    }
+  
+! int paramreader::i_param (const char name [])
+    {return atoi (value [param_no (name)]);
+    }
+  
+Only in .: paramreader.o
+Only in .: pattern_match.cc
+Only in .: pattern_match.err
+Only in .: pattern_match.o
+Only in .: pic.cc
+Only in .: pic.err
+Only in .: pic.o
+Only in .: player.cc
+Only in .: player.err
+diff -crB ../craft.orig/player.h ./player.h
+*** ../craft.orig/player.h	Fri Feb 21 06:52:14 1997
+--- ./player.h	Sun Jun 28 19:31:30 2009
+***************
+*** 24,30 ****
+  
+     color_trans *ct [max_players];
+  
+!    getline *g_msg;
+   
+     int    wdx;
+     int    wdy;
+--- 24,30 ----
+  
+     color_trans *ct [max_players];
+  
+!    class getline *g_msg;
+   
+     int    wdx;
+     int    wdy;
+***************
+*** 149,155 ****
+     void edit                ();
+  
+     void inform              (char msg []);
+!    void write               (char msg []);
+  
+     void load_pics           ();
+  
+--- 149,155 ----
+     void edit                ();
+  
+     void inform              (char msg []);
+!    void write               (const char msg []);
+  
+     void load_pics           ();
+  
+***************
+*** 184,200 ****
+     int  x_center            (int lx);
+     int  y_center            (int ly);
+  
+!    void show_percent        (int x,int y,int dx,int dy,int p,char title []);
+     void clear_percent       (int x,int y,int dx,int dy);
+     void clear_status        ();
+     void show_status         (int id, bool is_first_time);
+  
+!    void push_cmd            (char name [], 
+                               int  code, 
+                               char c, 
+                               int  price, 
+                               int  wood);
+!    void adjust_cmd          (int cmd, char c, char name []);
+     void adjust_cmds         ();
+  
+     void talk                (char from [], char msg []);
+--- 184,200 ----
+     int  x_center            (int lx);
+     int  y_center            (int ly);
+  
+!    void show_percent        (int x,int y,int dx,int dy,int p,const char title []);
+     void clear_percent       (int x,int y,int dx,int dy);
+     void clear_status        ();
+     void show_status         (int id, bool is_first_time);
+  
+!    void push_cmd            (const char name [], 
+                               int  code, 
+                               char c, 
+                               int  price, 
+                               int  wood);
+!    void adjust_cmd          (int cmd, char c, const char name []);
+     void adjust_cmds         ();
+  
+     void talk                (char from [], char msg []);
+diff -crB ../craft.orig/player.hc ./player.hc
+*** ../craft.orig/player.hc	Thu Mar  6 10:53:58 1997
+--- ./player.hc	Sun Jun 28 19:31:30 2009
+***************
+*** 68,74 ****
+  .  open_w_msg
+       {w_msg = new win     (w_craft, "msg", host, 0,
+                             w_craft_dy - w_msg_dy, w_msg_dx, w_msg_dy);
+!       g_msg = new getline ("msg", w_msg, message, 1, 1,
+                             w_msg_dx-2, w_msg_dy-2, false, false, true);
+       }.
+  
+--- 68,74 ----
+  .  open_w_msg
+       {w_msg = new win     (w_craft, "msg", host, 0,
+                             w_craft_dy - w_msg_dy, w_msg_dx, w_msg_dy);
+!       g_msg = new class getline ("msg", w_msg, message, 1, 1,
+                             w_msg_dx-2, w_msg_dy-2, false, false, true);
+       }.
+  
+***************
+*** 2113,2119 ****
+    {return (ly * pic_dy);
+    }
+  
+! void player::show_percent (int x, int y, int dx, int dy, int p, char title [])
+    {if (! is_robot)
+        perform_show;
+  
+--- 2113,2119 ----
+    {return (ly * pic_dy);
+    }
+  
+! void player::show_percent (int x, int y, int dx, int dy, int p, const char title [])
+    {if (! is_robot)
+        perform_show;
+  
+***************
+*** 2176,2182 ****
+  
+    }
+  
+! void player::push_cmd (char name [], int code, char c, int a_price, int a_wood)
+    {cmds       [num_cmds] = new button (w_status, name, x_cmd, y_cmd);
+     cmd_code   [num_cmds] = code;
+     cmd_char   [num_cmds] = c;
+--- 2176,2182 ----
+  
+    }
+  
+! void player::push_cmd (const char name [], int code, char c, int a_price, int a_wood)
+    {cmds       [num_cmds] = new button (w_status, name, x_cmd, y_cmd);
+     cmd_code   [num_cmds] = code;
+     cmd_char   [num_cmds] = c;
+***************
+*** 2394,2400 ****
+  
+    }
+  
+! void player::adjust_cmd (int cmd, char c, char name [])
+    {bool is_ok = true;
+  
+     check_units;
+--- 2394,2400 ----
+  
+    }
+  
+! void player::adjust_cmd (int cmd, char c, const char name [])
+    {bool is_ok = true;
+  
+     check_units;
+***************
+*** 2869,2880 ****
+  
+    }
+  
+! void player::write (char msg [])
+    {
+    }
+  
+  /*
+! void player::write (char msg [])
+    {if (! is_robot)
+        perform_show;
+  
+--- 2869,2880 ----
+  
+    }
+  
+! void player::write (const char msg [])
+    {
+    }
+  
+  /*
+! void player::write (const char msg [])
+    {if (! is_robot)
+        perform_show;
+  
+Only in .: player.o
+Only in .: ppm.cc
+Only in .: ppm.err
+Only in .: ppm.o
+Only in .: ppm_handler.cc
+Only in .: ppm_handler.err
+diff -crB ../craft.orig/ppm_handler.hc ./ppm_handler.hc
+*** ../craft.orig/ppm_handler.hc	Fri Feb 21 06:52:17 1997
+--- ./ppm_handler.hc	Sun Jun 28 20:27:49 2009
+***************
+*** 4,9 ****
+--- 4,10 ----
+  /*                                                                      */
+  /*======================================================================*/
+  
++ #include <cstring>
+  #include "ppm_handler.h"
+  #include "xfile.h"
+  
+Only in .: ppm_handler.o
+Only in .: robot.cc
+Only in .: robot.err
+Only in .: robot.o
+Only in .: scroller.cc
+Only in .: scroller.err
+diff -crB ../craft.orig/scroller.h ./scroller.h
+*** ../craft.orig/scroller.h	Fri Feb 21 06:52:19 1997
+--- ./scroller.h	Sun Jun 28 18:57:40 2009
+***************
+*** 39,45 ****
+       button *button_incr;
+       button *button_decr;
+  
+!      scroller  (char name [],
+                  win  *w,
+                  int  x,
+                  int  y,
+--- 39,45 ----
+       button *button_incr;
+       button *button_decr;
+  
+!      scroller  (const char name [],
+                  win  *w,
+                  int  x,
+                  int  y,
+diff -crB ../craft.orig/scroller.hc ./scroller.hc
+*** ../craft.orig/scroller.hc	Fri Feb 21 06:52:19 1997
+--- ./scroller.hc	Sun Jun 28 18:57:47 2009
+***************
+*** 4,10 ****
+  #define bar_button_size 14
+  #define bar_size        16
+  
+! scroller::scroller (char v_name [],
+                      win  *v_w,
+                      int  v_x,
+                      int  v_y,
+--- 4,10 ----
+  #define bar_button_size 14
+  #define bar_size        16
+  
+! scroller::scroller (const char v_name [],
+                      win  *v_w,
+                      int  v_x,
+                      int  v_y,
+Only in .: scroller.o
+Only in .: selector.cc
+Only in .: selector.err
+diff -crB ../craft.orig/selector.h ./selector.h
+*** ../craft.orig/selector.h	Fri Feb 21 06:52:20 1997
+--- ./selector.h	Sun Jun 28 21:31:55 2009
+***************
+*** 38,44 ****
+     bool     mark         [max_selector_cases];
+     int      case_dy;   
+     
+!    selector (char name [], 
+               win  *w,
+               int  num_cases,
+               char case_string [max_selector_cases][128],
+--- 38,44 ----
+     bool     mark         [max_selector_cases];
+     int      case_dy;   
+     
+!    selector (const char name [], 
+               win  *w,
+               int  num_cases,
+               char case_string [max_selector_cases][128],
+diff -crB ../craft.orig/selector.hc ./selector.hc
+*** ../craft.orig/selector.hc	Fri Feb 21 06:52:20 1997
+--- ./selector.hc	Sun Jun 28 21:31:55 2009
+***************
+*** 10,16 ****
+  #define selector_marked_case_color    yellow 
+  #define selector_unmarked_case_color  black
+  
+! selector::selector (char v_name [], 
+                      win  *v_w,
+                      int  v_num_cases,
+                      char v_case_string [max_selector_cases][128],
+--- 10,16 ----
+  #define selector_marked_case_color    yellow 
+  #define selector_unmarked_case_color  black
+  
+! selector::selector (const char v_name [], 
+                      win  *v_w,
+                      int  v_num_cases,
+                      char v_case_string [max_selector_cases][128],
+Only in .: selector.o
+Only in .: setupedit.cc
+Only in .: setupedit.err
+Only in .: setupedit.o
+Only in .: ship.cc
+Only in .: ship.err
+Only in .: ship.o
+Only in .: table.cc
+Only in .: table.err
+diff -crB ../craft.orig/table.h ./table.h
+*** ../craft.orig/table.h	Wed Mar 19 08:43:26 1997
+--- ./table.h	Sun Jun 28 19:59:03 2009
+***************
+*** 68,74 ****
+       table  (char dir [], char name [], bool &is_new, int lru_size = 0);
+       ~table ();
+  
+!      void  check_bound (int adr, int row_no, int column_no, char action []);
+       void  save        ();
+       void  load        ();
+  
+--- 68,74 ----
+       table  (char dir [], char name [], bool &is_new, int lru_size = 0);
+       ~table ();
+  
+!      void  check_bound (int adr, int row_no, int column_no, const char action []);
+       void  save        ();
+       void  load        ();
+  
+***************
+*** 76,82 ****
+       void  rename      (char  new_name []);
+       void  copy        (table *destination); 
+  
+!      int   add_column  (char name [], int type);
+       int   column_no   (char name []);
+       int   num_columns (); 
+  
+--- 76,82 ----
+       void  rename      (char  new_name []);
+       void  copy        (table *destination); 
+  
+!      int   add_column  (const char name [], int type);
+       int   column_no   (char name []);
+       int   num_columns (); 
+  
+diff -crB ../craft.orig/table.hc ./table.hc
+*** ../craft.orig/table.hc	Fri Feb 21 06:52:24 1997
+--- ./table.hc	Sun Jun 28 19:59:03 2009
+***************
+*** 66,72 ****
+        delete (lru_queue);
+    }
+     
+! void table::check_bound (int adr, int row_no, int column_no, char action [])
+    {if (row_no < 0 || row_no >= number_of_rows) {
+         fprintf (stderr, "row = %d\n", row_no);
+         errorstop (4, "table", action, "row out of range", name);
+--- 66,72 ----
+        delete (lru_queue);
+    }
+     
+! void table::check_bound (int adr, int row_no, int column_no, const char action [])
+    {if (row_no < 0 || row_no >= number_of_rows) {
+         fprintf (stderr, "row = %d\n", row_no);
+         errorstop (4, "table", action, "row out of range", name);
+***************
+*** 424,430 ****
+  
+    }
+  
+! int table::add_column (char name [], int type)
+    {int col_no;
+  
+     get_col_no;
+--- 424,430 ----
+  
+    }
+  
+! int table::add_column (const char name [], int type)
+    {int col_no;
+  
+     get_col_no;
+Only in .: table.o
+Only in .: win.cc
+Only in .: win.err
+diff -crB ../craft.orig/win.h ./win.h
+*** ../craft.orig/win.h	Wed Mar 19 08:43:52 1997
+--- ./win.h	Sun Jun 28 21:15:21 2009
+***************
+*** 129,135 ****
+  /* ROUTINES text size information (deklarations)                        */
+  /*----------------------------------------------------------------------*/
+  
+! void text_size (char s [], char font [], int &dx, int &dy, int &num_of_lines);
+  
+  /*----------------------------------------------------------------------*/
+  /* Default Handler (deklarations)                                       */
+--- 129,135 ----
+  /* ROUTINES text size information (deklarations)                        */
+  /*----------------------------------------------------------------------*/
+  
+! void text_size (const char s [], const char font [], int &dx, int &dy, int &num_of_lines);
+  
+  /*----------------------------------------------------------------------*/
+  /* Default Handler (deklarations)                                       */
+***************
+*** 140,150 ****
+  extern bool        win_handler_init;
+  extern paramreader *win_defaults;
+  
+! int   win_default_i (int param, char default_name []);
+! int   win_default_i (char default_name []);
+! int   win_default_c (int param, char default_name []);
+! int   win_default_c (char default_name []);
+! char *win_default_s (char default_name []);
+  int   win_color     (char color_name   []);
+  
+  /*----------------------------------------------------------------------*/
+--- 140,150 ----
+  extern bool        win_handler_init;
+  extern paramreader *win_defaults;
+  
+! int   win_default_i (int param, const char default_name []);
+! int   win_default_i (const char default_name []);
+! int   win_default_c (int param, const char default_name []);
+! int   win_default_c (const char default_name []);
+! char *win_default_s (const char default_name []);
+  int   win_color     (char color_name   []);
+  
+  /*----------------------------------------------------------------------*/
+***************
+*** 241,250 ****
+       int           event_mark;
+       int           event_id;
+  
+!           win  (char title []);
+  
+!           win  (char title [],
+!                 char host  [],
+                  int  x,
+                  int  y, 
+                  int  dx,
+--- 241,250 ----
+       int           event_mark;
+       int           event_id;
+  
+!           win  (const char title []);
+  
+!           win  (const char title [],
+!                 const char host  [],
+                  int  x,
+                  int  y, 
+                  int  dx,
+***************
+*** 252,259 ****
+                  bool enable        = true,
+                  bool resize_enable = false);
+            win  (win  *parent,
+!                 char title [],
+!                 char host  [],
+                  int  x,
+                  int  y, 
+                  int  dx,
+--- 252,259 ----
+                  bool enable        = true,
+                  bool resize_enable = false);
+            win  (win  *parent,
+!                 const char title [],
+!                 const char host  [],
+                  int  x,
+                  int  y, 
+                  int  dx,
+***************
+*** 289,297 ****
+       void   mark_mouse       ();
+       void   scratch_mouse    ();
+       void   clear            ();
+!      void   set_font         (char name []);
+!      void   text_size        (char string [], int &dx, int &dy);
+!      void   write            (int x, int y, char   string []);
+       void   write            (int x, int y, double d);
+       void   write            (int x, int y, int    i);
+       void   set_clip         (int x, int y, int dx, int dy);
+--- 289,297 ----
+       void   mark_mouse       ();
+       void   scratch_mouse    ();
+       void   clear            ();
+!      void   set_font         (const char name []);
+!      void   text_size        (const char string [], int &dx, int &dy);
+!      void   write            (int x, int y, const char   string []);
+       void   write            (int x, int y, double d);
+       void   write            (int x, int y, int    i);
+       void   set_clip         (int x, int y, int dx, int dy);
+***************
+*** 332,344 ****
+       int    dy               ();
+       void   tick             (bool just_raised);
+       void   tick             ();
+!      void   alloc_color      (char name [], int no);
+       void   create_color_map ();
+       void   draw             (polyline *p);
+       void   fill             (polyline *p);
+       void   xsync            ();
+  
+!      Window grab             (Display *dsp, Window wnd, char name []);
+  
+       void   get_image        (XImage *&i, int x, int y, int dx, int dy);
+       void   put_image        (XImage *i, int x, int y, int dx, int dy);
+--- 332,344 ----
+       int    dy               ();
+       void   tick             (bool just_raised);
+       void   tick             ();
+!      void   alloc_color      (const char name [], int no);
+       void   create_color_map ();
+       void   draw             (polyline *p);
+       void   fill             (polyline *p);
+       void   xsync            ();
+  
+!      Window grab             (Display *dsp, Window wnd, const char name []);
+  
+       void   get_image        (XImage *&i, int x, int y, int dx, int dy);
+       void   put_image        (XImage *i, int x, int y, int dx, int dy);
+diff -crB ../craft.orig/win.hc ./win.hc
+*** ../craft.orig/win.hc	Wed Mar 19 09:21:21 1997
+--- ./win.hc	Sun Jun 28 21:15:21 2009
+***************
+*** 42,48 ****
+  /* ROUTINES text size information (deklarations)                        */
+  /*----------------------------------------------------------------------*/
+  
+! void text_size (char s [], char font [], int &dx, int &dy, int &num_lines)
+    {XFontStruct *font_info;
+     Display     *display;
+  
+--- 42,48 ----
+  /* ROUTINES text size information (deklarations)                        */
+  /*----------------------------------------------------------------------*/
+  
+! void text_size (const char s [], const char font [], int &dx, int &dy, int &num_lines)
+    {XFontStruct *font_info;
+     Display     *display;
+  
+***************
+*** 125,155 ****
+  
+    }
+  
+! int win_default_i (int param, char default_name [])
+    {init_default_handler ();
+     if   (param != by_default)
+          return param;
+     else return win_default_i (default_name);
+    }
+  
+! int win_default_i (char default_name [])
+    {init_default_handler ();
+     return win_defaults->i_param (default_name);
+    }
+  
+! char *win_default_s (char default_name [])
+    {init_default_handler ();
+     return win_defaults->s_param (default_name);
+    }
+  
+! int win_default_c (int param, char default_name [])
+    {init_default_handler ();
+     if   (param != by_default)
+          return param;
+     else return win_default_c (default_name);
+    }
+  
+! int win_default_c (char default_name [])
+    {char color_name [128];
+  
+     init_default_handler ();
+--- 125,155 ----
+  
+    }
+  
+! int win_default_i (int param, const char default_name [])
+    {init_default_handler ();
+     if   (param != by_default)
+          return param;
+     else return win_default_i (default_name);
+    }
+  
+! int win_default_i (const char default_name [])
+    {init_default_handler ();
+     return win_defaults->i_param (default_name);
+    }
+  
+! char *win_default_s (const char default_name [])
+    {init_default_handler ();
+     return win_defaults->s_param (default_name);
+    }
+  
+! int win_default_c (int param, const char default_name [])
+    {init_default_handler ();
+     if   (param != by_default)
+          return param;
+     else return win_default_c (default_name);
+    }
+  
+! int win_default_c (const char default_name [])
+    {char color_name [128];
+  
+     init_default_handler ();
+***************
+*** 263,270 ****
+  /* CLASS win (funktions)                                                */
+  /*----------------------------------------------------------------------*/
+  
+! win::win (char title [],
+!           char host  [],
+            int  x,
+            int  y, 
+            int  dx,
+--- 263,270 ----
+  /* CLASS win (funktions)                                                */
+  /*----------------------------------------------------------------------*/
+  
+! win::win (const char title [],
+!           const char host  [],
+            int  x,
+            int  y, 
+            int  dx,
+***************
+*** 512,519 ****
+    }
+  
+  win::win (win  *parent,
+!           char title [],
+!           char host  [],
+            int  x,
+            int  y, 
+            int  dx,
+--- 512,519 ----
+    }
+  
+  win::win (win  *parent,
+!           const char title [],
+!           const char host  [],
+            int  x,
+            int  y, 
+            int  dx,
+***************
+*** 749,755 ****
+  
+    }
+  
+! win::win (char title [])
+    {mydisplay = XOpenDisplay    ("");
+     myscreen  = DefaultScreen   (mydisplay);
+     cmap      = DefaultColormap (mydisplay, myscreen);
+--- 749,755 ----
+  
+    }
+  
+! win::win (const char title [])
+    {mydisplay = XOpenDisplay    ("");
+     myscreen  = DefaultScreen   (mydisplay);
+     cmap      = DefaultColormap (mydisplay, myscreen);
+***************
+*** 762,768 ****
+     is_alien = true;
+    }
+        
+! Window win::grab (Display *dsp, Window wnd, char name [])
+    {Window       *children, dummy;
+     unsigned int nchildren;
+     int          i;
+--- 762,768 ----
+     is_alien = true;
+    }
+        
+! Window win::grab (Display *dsp, Window wnd, const char name [])
+    {Window       *children, dummy;
+     unsigned int nchildren;
+     int          i;
+***************
+*** 817,823 ****
+  #undef green
+  #undef blue
+  
+! void win::alloc_color (char name [], int no)
+    {Screen *src = ScreenOfDisplay (mydisplay, myscreen);
+     XColor c;
+     XColor d;
+--- 817,823 ----
+  #undef green
+  #undef blue
+  
+! void win::alloc_color (const char name [], int no)
+    {Screen *src = ScreenOfDisplay (mydisplay, myscreen);
+     XColor c;
+     XColor d;
+***************
+*** 1753,1759 ****
+  
+    }
+  
+! void win::text_size (char string [], int &dx, int &dy)
+    {if (is_enable)
+        perform_get_size;
+  
+--- 1753,1759 ----
+  
+    }
+  
+! void win::text_size (const char string [], int &dx, int &dy)
+    {if (is_enable)
+        perform_get_size;
+  
+***************
+*** 1767,1773 ****
+  
+    }
+  
+! void win::set_font (char name [])
+    {if (is_enable)
+        perform_load;
+  
+--- 1767,1773 ----
+  
+    }
+  
+! void win::set_font (const char name [])
+    {if (is_enable)
+        perform_load;
+  
+***************
+*** 1795,1801 ****
+     write   (x, y, s);
+    }
+  
+! void win::write (int x, int y, char string [])
+    {if (is_enable)
+        perform_write;
+  
+--- 1795,1801 ----
+     write   (x, y, s);
+    }
+  
+! void win::write (int x, int y, const char string [])
+    {if (is_enable)
+        perform_write;
+  
+Only in .: win.o
+Only in .: xbm.cc
+Only in .: xbm.err
+Only in .: xbm.o
+Only in .: xfile.cc
+Only in .: xfile.err
+diff -crB ../craft.orig/xfile.h ./xfile.h
+*** ../craft.orig/xfile.h	Wed Mar 19 08:44:01 1997
+--- ./xfile.h	Sun Jun 28 21:30:16 2009
+***************
+*** 16,30 ****
+  
+  double d_get              (FILE *f, bool &is_eof);
+  time_t f_date             (char f_name []);
+! bool   f_exists           (char f_name []);
+! void   f_open             (FILE *&f, char name [], char mode []);
+  void   f_open_with_extend (FILE *&f, char name [], char mode [], int max_no);
+  char   *f_getline         (FILE *f,  char line [], int  max_length); 
+  
+  char   *f_postfix         (char full_path []);
+! char   *f_name            (char full_path []);
+  char   *f_tail            (char full_path []);
+! char   *f_path            (char full_path []);
+  char   *f_home_dir        (char full_path []);
+  bool   f_is_pattern       (char f_name    []);
+  bool   f_is_dir           (char f_name    []);
+--- 16,30 ----
+  
+  double d_get              (FILE *f, bool &is_eof);
+  time_t f_date             (char f_name []);
+! bool   f_exists           (const char f_name []);
+! void   f_open             (FILE *&f, const char name [], const char mode []);
+  void   f_open_with_extend (FILE *&f, char name [], char mode [], int max_no);
+  char   *f_getline         (FILE *f,  char line [], int  max_length); 
+  
+  char   *f_postfix         (char full_path []);
+! char   *f_name            (const char full_path []);
+  char   *f_tail            (char full_path []);
+! char   *f_path            (const char full_path []);
+  char   *f_home_dir        (char full_path []);
+  bool   f_is_pattern       (char f_name    []);
+  bool   f_is_dir           (char f_name    []);
+***************
+*** 35,42 ****
+                             char f_pat  [],
+                             char mode   []);
+  
+! char   *complete          (char name [],
+!                            char tail []);
+  
+  void   bprintf            (FILE *f, int num_bytes, int i);
+  bool   bscanf             (FILE *f, int num_bytes, int &i);
+--- 35,42 ----
+                             char f_pat  [],
+                             char mode   []);
+  
+! char   *complete          (const char name [],
+!                            const char tail []);
+  
+  void   bprintf            (FILE *f, int num_bytes, int i);
+  bool   bscanf             (FILE *f, int num_bytes, int &i);
+diff -crB ../craft.orig/xfile.hc ./xfile.hc
+*** ../craft.orig/xfile.hc	Thu Mar 20 03:29:16 1997
+--- ./xfile.hc	Sun Jun 28 21:30:30 2009
+***************
+*** 29,35 ****
+  /* General functions                                                    */
+  /*----------------------------------------------------------------------*/
+  
+! bool f_exists (char file_name [])
+    {FILE *f;
+     bool is_error;
+  
+--- 29,35 ----
+  /* General functions                                                    */
+  /*----------------------------------------------------------------------*/
+  
+! bool f_exists (const char file_name [])
+    {FILE *f;
+     bool is_error;
+  
+***************
+*** 60,66 ****
+  
+    }
+  
+! void f_open (FILE *&f, char name [], char mode [])
+    {f = fopen (name, mode);
+     check_error;
+  
+--- 60,66 ----
+  
+    }
+  
+! void f_open (FILE *&f, const char name [], const char mode [])
+    {f = fopen (name, mode);
+     check_error;
+  
+***************
+*** 124,130 ****
+    }
+  */
+  
+! char *f_name (char full_path [])
+    {static char r [1024];
+     int         i;
+  
+--- 124,130 ----
+    }
+  */
+  
+! char *f_name (const char full_path [])
+    {static char r [1024];
+     int         i;
+  
+***************
+*** 136,142 ****
+     return r;
+    }
+  
+! char *f_path (char full_path [])
+    {static char r [1024];
+            int  p = 0;
+  
+--- 136,142 ----
+     return r;
+    }
+  
+! char *f_path (const char full_path [])
+    {static char r [1024];
+            int  p = 0;
+  
+***************
+*** 260,266 ****
+  
+    }
+  
+! char *complete (char name [], char tail [])
+    {static char r [256];
+  
+     strcpy (r, name);
+--- 260,266 ----
+  
+    }
+  
+! char *complete (const char name [], const char tail [])
+    {static char r [256];
+  
+     strcpy (r, name);
+Only in .: xfile.o
+Only in .: xmath.cc
+Only in .: xmath.err
+Only in .: xmath.o
+Only in .: xstring.cc
+Only in .: xstring.err
+diff -crB ../craft.orig/xstring.h ./xstring.h
+*** ../craft.orig/xstring.h	Fri Feb 21 06:52:27 1997
+--- ./xstring.h	Sun Jun 28 20:26:26 2009
+***************
+*** 14,21 ****
+                   int  max_length_of_s,
+                   char tmpalte     [],
+                   char replacement []);
+! char *substring (char s [], int from, int to);
+! char *substring (char s [], int from); 
+  int  submatch   (char s [], char p [], int &pos);
+  void strcat     (char s [], int len, char app []);
+  void delchar    (char s [], int pos);
+--- 14,21 ----
+                   int  max_length_of_s,
+                   char tmpalte     [],
+                   char replacement []);
+! char *substring (const char s [], int from, int to);
+! char *substring (const char s [], int from); 
+  int  submatch   (char s [], char p [], int &pos);
+  void strcat     (char s [], int len, char app []);
+  void delchar    (char s [], int pos);
+diff -crB ../craft.orig/xstring.hc ./xstring.hc
+*** ../craft.orig/xstring.hc	Wed Mar 19 09:21:04 1997
+--- ./xstring.hc	Sun Jun 28 20:26:26 2009
+***************
+*** 130,136 ****
+  
+    }
+  
+! char *substring (char s [], int from)
+    {static bool is_init = false;
+     static char *result;
+  
+--- 130,136 ----
+  
+    }
+  
+! char *substring (const char s [], int from)
+    {static bool is_init = false;
+     static char *result;
+  
+***************
+*** 151,157 ****
+  
+    }
+  
+! char *substring (char s [], int from, int to)
+    {static bool is_init = false;
+     static char *result;
+  
+--- 151,157 ----
+  
+    }
+  
+! char *substring (const char s [], int from, int to)
+    {static bool is_init = false;
+     static char *result;
+  
+Only in .: xstring.o
+Only in .: xsystem.cc
+Only in .: xsystem.err
+Only in .: xsystem.o
+Only in .: xtimer.cc
+Only in .: xtimer.err
+Only in .: xtimer.o

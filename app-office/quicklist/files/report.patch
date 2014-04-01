@@ -1,0 +1,39 @@
+diff -ru src.old/report.c src/report.c
+--- src.old/report.c	2010-11-24 15:16:15.000000000 -0500
++++ src/report.c	2010-11-24 15:22:06.000000000 -0500
+@@ -330,7 +330,7 @@
+ 		gnome_print_setrgbcolor (context, .0, .0, .0);
+ 		gnome_print_moveto      (context, x + (width - tw)/2, y - gnome_font_get_ascender (font));
+ 		gnome_print_setfont     (context, font);
+-		gnome_print_show        (context, text);
++		gnome_print_show        (context, (guchar *) text);
+ 	}
+ 	g_free (text);
+ 	page_num++;
+@@ -346,7 +346,7 @@
+ 	gtk_html_print_set_master (html, print_master);
+ 	
+ 	print_context = gnome_print_job_get_context (print_master);
+-	font = gnome_font_find_closest ("Helvetica", 12);
++	font = gnome_font_find_closest ((const guchar *) "Helvetica", 12);
+ 	page_num = 1;
+ 	pages = gtk_html_print_get_pages_num (html, print_context,
+ 		.0, gnome_font_get_ascender (font) - gnome_font_get_descender (font));
+@@ -369,7 +369,7 @@
+ 	gtk_html_print_set_master (html, print_master);
+ 
+ 	print_context = gnome_print_job_get_context (print_master);
+-	font = gnome_font_find_closest ("Helvetica", 12);
++	font = gnome_font_find_closest ((const guchar *) "Helvetica", 12);
+ 
+ 	page_num = 1;
+ 	pages = gtk_html_print_get_pages_num (html, print_context,
+@@ -381,7 +381,7 @@
+ 		g_object_unref (font);
+ 	
+ 	gnome_print_job_close (print_master);
+-	preview = gnome_print_job_preview_new (print_master, "Print Preview");
++	preview = gnome_print_job_preview_new (print_master, (const guchar *) "Print Preview");
+ 	gtk_widget_show (preview);
+ 
+ 	g_object_unref (print_master);

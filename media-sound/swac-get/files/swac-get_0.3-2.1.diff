@@ -1,0 +1,230 @@
+--- swac-get-0.5.1.orig/src/basic.cc
++++ swac-get-0.5.1/src/basic.cc
+@@ -20,6 +20,7 @@
+ 
+ 
+ 
++#include <cstdio>
+ #include <sstream>
+ #include <iostream>
+ #include "basic.hh"
+--- swac-get-0.5.1.orig/src/posix.cc
++++ swac-get-0.5.1/src/posix.cc
+@@ -21,6 +21,7 @@
+ #include <sys/types.h>
+ #include <sys/stat.h>
+ #include <pwd.h>
++#include <cstdio>
+ #include <unistd.h>
+ #include <dirent.h>
+ #include <string>
+--- swac-get-0.5.1.orig/debian/control
++++ swac-get-0.5.1/debian/control
+@@ -0,0 +1,20 @@
++Source: swac-get
++Section: misc
++Priority: optional
++Maintainer: Nicolas Vion <nico@yojik.eu>
++Build-Depends: debhelper (>= 6), autotools-dev, pkg-config, libxml2-dev, libsqlite3-dev, libbz2-dev
++Standards-Version: 3.8.0
++Homepage: http://shtooka.net/
++
++Package: swac-get
++Architecture: any
++Depends: ${shlibs:Depends}
++Description: audio collections of words (SWAC) manager
++ Swac-get is a simple command line program written in C++ which allows to
++ install audio collections of words (SWAC) in a SQLite3 database.
++ Audio collections can be imported from the hard drive or directly from the
++ Internet using the HTTP protocol.
++ Swac-get is designed to be used with swac-explore, a GTK+ interface which 
++ allows to browse the created SQLite3 database.
++ An important set of free audio collections of words (SWAC) is available at:
++ http://swac-collections.org/
+--- swac-get-0.5.1.orig/debian/compat
++++ swac-get-0.5.1/debian/compat
+@@ -0,0 +1 @@
++6
+--- swac-get-0.5.1.orig/debian/changelog
++++ swac-get-0.5.1/debian/changelog
+@@ -0,0 +1,23 @@
++swac-get (0.3-2.1) unstable; urgency=low
++
++  * Non-maintainer upload.
++  * Fix build with gcc-4.4 using patch from Martin Michlmayr (Closes:
++    #505605)
++
++ -- Christoph Egger <christoph@debian.org>  Fri, 25 Dec 2009 22:37:42 +0100
++
++swac-get (0.3-2) unstable; urgency=low
++
++  * Bug fixed in the source file "src/swac_index.cc".
++    (field `packages-idx` of the table `alphaidx` was not properly
++    filled during the installation of audio collections).
++    Closes: #500686
++
++ -- Nicolas Vion <nico@yojik.eu>  Tue, 30 Sep 2008 14:52:17 +0200
++
++swac-get (0.3-1) unstable; urgency=low
++
++  * Initial release
++
++ -- Nicolas Vion <nico@yojik.eu>  Tue, 03 Jun 2008 02:06:26 +0200
++
+--- swac-get-0.5.1.orig/debian/dirs
++++ swac-get-0.5.1/debian/dirs
+@@ -0,0 +1 @@
++usr/bin
+--- swac-get-0.5.1.orig/debian/rules
++++ swac-get-0.5.1/debian/rules
+@@ -0,0 +1,105 @@
++#!/usr/bin/make -f
++# -*- makefile -*-
++# Sample debian/rules that uses debhelper.
++# This file was originally written by Joey Hess and Craig Small.
++# As a special exception, when this file is copied by dh-make into a
++# dh-make output file, you may use that output file without restriction.
++# This special exception was added by Craig Small in version 0.37 of dh-make.
++
++# Uncomment this to turn on verbose mode.
++#export DH_VERBOSE=1
++
++
++# These are used for cross-compiling and for saving the configure script
++# from having to guess our platform (since we know it already)
++DEB_HOST_GNU_TYPE   ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
++DEB_BUILD_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
++ifneq ($(DEB_HOST_GNU_TYPE),$(DEB_BUILD_GNU_TYPE))
++CROSS= --build $(DEB_BUILD_GNU_TYPE) --host $(DEB_HOST_GNU_TYPE)
++else
++CROSS= --build $(DEB_BUILD_GNU_TYPE)
++endif
++
++
++
++config.status: configure
++	dh_testdir
++	# Add here commands to configure the package.
++ifneq "$(wildcard /usr/share/misc/config.sub)" ""
++	cp -f /usr/share/misc/config.sub config.sub
++endif
++ifneq "$(wildcard /usr/share/misc/config.guess)" ""
++	cp -f /usr/share/misc/config.guess config.guess
++endif
++	./configure $(CROSS) --prefix=/usr --mandir=\$${prefix}/share/man --infodir=\$${prefix}/share/info CFLAGS="$(CFLAGS)" LDFLAGS="-Wl,-z,defs"
++
++
++build: build-stamp
++
++build-stamp:  config.status 
++	dh_testdir
++
++	# Add here commands to compile the package.
++	$(MAKE)
++	#docbook-to-man debian/swac-get.sgml > swac-get.1
++
++	touch $@
++
++clean: 
++	dh_testdir
++	dh_testroot
++	rm -f build-stamp 
++
++	# Add here commands to clean up after the build process.
++	[ ! -f Makefile ] || $(MAKE) distclean
++	rm -f config.sub config.guess
++
++	dh_clean 
++
++install: build
++	dh_testdir
++	dh_testroot
++	dh_clean -k 
++	dh_installdirs
++
++	# Add here commands to install the package into debian/swac-get.
++	$(MAKE) DESTDIR=$(CURDIR)/debian/swac-get install
++
++
++# Build architecture-independent files here.
++binary-indep: build install
++# We have nothing to do by default.
++
++# Build architecture-dependent files here.
++binary-arch: build install
++	dh_testdir
++	dh_testroot
++	dh_installchangelogs ChangeLog
++	dh_installdocs
++#	dh_installexamples
++#	dh_install
++#	dh_installmenu
++#	dh_installdebconf	
++#	dh_installlogrotate
++#	dh_installemacsen
++#	dh_installpam
++#	dh_installmime
++#	dh_python
++#	dh_installinit
++#	dh_installcron
++#	dh_installinfo
++	dh_installman doc/swac-get.1
++	dh_link
++	dh_strip
++	dh_compress
++	dh_fixperms
++#	dh_perl
++#	dh_makeshlibs
++	dh_installdeb
++	dh_shlibdeps
++	dh_gencontrol
++	dh_md5sums
++	dh_builddeb
++
++binary: binary-indep binary-arch
++.PHONY: build clean binary-indep binary-arch binary install 
+--- swac-get-0.5.1.orig/debian/docs
++++ swac-get-0.5.1/debian/docs
+@@ -0,0 +1,4 @@
++THANKS
++AUTHORS
++NEWS
++README
+--- swac-get-0.5.1.orig/debian/copyright
++++ swac-get-0.5.1/debian/copyright
+@@ -0,0 +1,35 @@
++This package was debianized by Nicolas Vion <nico@yojik.eu> on
++Tue, 03 Jun 2008 02:06:26 +0200.
++
++It was downloaded from http://shtooka.net/
++
++Upstream Author: 
++
++    Nicolas Vion <nico@picapo.net>
++
++Copyright: 
++
++    Copyright (C) 2008 Nicolas Vion
++
++License:
++
++    This package is free software; you can redistribute it and/or modify
++    it under the terms of the GNU General Public License as published by
++    the Free Software Foundation; either version 2 of the License, or
++    (at your option) any later version.
++ 
++    This package is distributed in the hope that it will be useful,
++    but WITHOUT ANY WARRANTY; without even the implied warranty of
++    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++    GNU General Public License for more details.
++ 
++    You should have received a copy of the GNU General Public License
++    along with this package; if not, write to the Free Software
++    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
++
++On Debian systems, the complete text of the GNU General
++Public License can be found in `/usr/share/common-licenses/GPL'.
++
++The Debian packaging is (C) 2008, Nicolas Vion <nico@yojik.eu> and
++is licensed under the GPL, see above.
++

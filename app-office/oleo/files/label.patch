@@ -1,0 +1,10 @@
+--- src/io-motif.c.old	2010-11-23 17:49:01.000000000 -0500
++++ src/io-motif.c	2010-11-23 17:49:44.000000000 -0500
+@@ -1496,6 +1496,7 @@
+ 		XmTextFieldSetEditable(tw, True);
+ 		break;
+ 	default:
++		break;
+ #if 0
+ 		fprintf(stderr, "Huh ? TickTypeCB(axis %d type %d) -> sensitive \n", axis, val);
+ #endif

@@ -1,0 +1,969 @@
+--- perforate-1.2.orig/zum.c
++++ perforate-1.2/zum.c
+@@ -2,6 +2,13 @@
+  * zum 1.00 - free more disk space by making holes in files.
+  *
+  * Oleg Kibirev * April 1995 * oleg@gd.cs.CSUFresno.EDU
++ * 2005-11-11: Wouter Verhelst <wouter@debian.org>: clean up the code a bit (so
++ * 	that it no longer produces any warnings, add large file support.
++ *
++ * 2006-03-10: Arnaud Fontaine <arnau@hurdfr.org>: replace fgets by
++ * getline in main function (we use dynamic memory allocation instead
++ * of MAXPATHLEN macro which doesn't exist on Debian GNU/Hurd and
++ * optional in POSIX).
+  *
+  * This code is covered by General Public License, version 2 or any later
+  * version of your choice. You should recieve file "COPYING" which contains
+@@ -9,7 +16,12 @@
+  * have it, a copy is available from ftp.gnu.ai.mit.edu.
+  */
+ 
++#define _FILE_OFFSET_BITS 64
++#define _LARGEFILE_SOURCE
++#define _GNU_SOURCE
++
+ #include <stdio.h>
++#include <string.h>
+ #include <sys/types.h>
+ #include <sys/stat.h>
+ #include <sys/file.h>
+@@ -20,15 +32,67 @@
+ #include <utime.h>
+ #include <alloca.h>
+ #include <unistd.h>
++#include <stdlib.h>
+ 
+ extern int errno;
+ 
++/* GLibc provides getline, which allocate automatically the right
++   amount for the line, read by *stream. If not available, use
++   ours. */
++#ifdef __GLIBC__
++# define my_getline getline
++#else
++# define GETLINE_CHUNK_SIZE 4096
++
++static ssize_t my_getline(char **lineptr, size_t *n, FILE *stream)
++{
++  if(lineptr == NULL || n == NULL)
++    {
++      errno = EINVAL;
++      return -1;
++    }
++
++  if(*n == 0)
++    {
++      *lineptr = malloc(sizeof (char *) * GETLINE_CHUNK_SIZE);
++      *n = GETLINE_CHUNK_SIZE;
++    }
++
++  char *ret = fgets (*lineptr, *n, stream);
++  while(ret != NULL && (*lineptr)[strlen (*lineptr) - 1] != '\n')
++    {
++      *n += GETLINE_CHUNK_SIZE;
++      *lineptr = realloc(*lineptr, sizeof (char *) * *n);
++
++      ret = fgets(*lineptr + strlen (*lineptr), GETLINE_CHUNK_SIZE, stream);
++    }
++
++  return (ret ? strlen (*lineptr) : -1);
++}
++#endif /* !__GLIBC__ */
++
+ static char suffix[] = "__zum__";
+ 
+-static int zero_copy(int fds, int fdd, int size)
++static void* my_mmap(void *ptr, int fd, off_t size, off_t *pos)
++{
++  if(size-(*pos) > (off_t)1<<30) {
++    size=1<<30;
++  } else {
++    size=size-(*pos);
++  }
++  if(ptr)
++    munmap(ptr, 1<<30);
++  ptr=mmap(NULL, size, PROT_READ, MAP_PRIVATE, fd, (*pos));
++  (*pos)+=size;
++  return ptr;
++}
++
++static int zero_copy(int fds, int fdd, off_t size)
+ {
+   char *ms;
+   char *bp, *p, *ep;
++  off_t pos=0;
++  int offset;
+   
+   lseek(fdd, 0L, SEEK_SET);
+   if(ftruncate(fdd, 0) < 0) {
+@@ -36,23 +100,33 @@
+     return -1;
+   }
+   
+-  if((ms = mmap(NULL, size, PROT_READ, MAP_PRIVATE, fds, 0)) == -1) {
++  offset = (size > 1<<30) ? 1<<30 : size;
++  if((ms = my_mmap(NULL, fds, size, &pos)) == MAP_FAILED) {
+     perror("mmap");
+     return -1;
+   }
+ 
+-  p = ms; ep = ms + size;
++  p = ms; ep = ms + offset;
+   
+   while(p < ep) {
+     for(bp = p; p < ep && *p; p++);
+     if(p != bp && write(fdd, bp, p-bp) != p-bp) {
+ 	perror("write");
+-	munmap(ms, size);
++	munmap(ms, offset);
+ 	return -1;
+       }
+     for(bp = p; p < ep && !*p; p++);
+     if(p != bp)
+       lseek(fdd, p-bp, SEEK_CUR);
++    if((p == ep) && (size > 1<<30) && (size != pos)) {
++      offset = ((size - pos) > 1<<30) ? 1<<30 : (size - pos);
++      if((ms = my_mmap(ms, fds, size, &pos)) == MAP_FAILED) {
++	perror("mmap");
++	return -1;
++      } else {
++	p = ms; ep = ms + offset;
++      }
++    }
+   }
+   munmap(ms, size);
+   return ftruncate(fdd, size);
+@@ -102,7 +176,7 @@
+     return;
+   }
+ 
+-  printf(" [%uK] ", (st.st_blocks-std.st_blocks)*st.st_blksize/1024);
++  printf(" [%uK] ", (unsigned int)((st.st_blocks-std.st_blocks)*st.st_blksize/1024));
+   fflush(stdout);
+ 
+   if(st.st_nlink == 1) {
+@@ -141,17 +215,21 @@
+   }
+ }
+ 
+-main(int argc, char **argv)
++int main(int argc, char **argv)
+ {
+   char *p;
+ 
+   if(argc > 1)
+-    while(p = *(++argv))
++    while((p = *(++argv)))
+       zero_unmap(p);
+   else {
+-    char buf[MAXPATHLEN];
+-    while(gets(buf))
++    char *buf = NULL;
++    size_t len = 0;
++    while(my_getline(&buf, &len, stdin) != -1)
+       zero_unmap(buf);
++    
++    if (buf)
++      free(buf);
+   }
+   return 0;
+ }
+--- perforate-1.2.orig/finddup
++++ perforate-1.2/finddup
+@@ -1,6 +1,6 @@
+ #! /usr/bin/perl
+ #
+-# finddup 2.0 - find identical files and do somethink with it.
++# finddup 2.0 - find identical files and do something with them.
+ #
+ 
+ use strict;
+@@ -17,14 +17,15 @@
+ *dir    = *File::Find::dir;
+ *prune  = *File::Find::prune;
+ 
+-use vars qw($RCS_VERSION $VERSION $opt %filelist %md5list);
++use vars qw($RCS_VERSION $VERSION @dir $opt %filelist %md5list);
+ 
+ sub wanted;
++sub insert_md5;
+ 
+-$RCS_VERSION = '$Id: finddup,v 2.2 2005/02/06 12:21:02 klaus Exp $';
+-($VERSION = '$Revision: 2.2 $') =~ s/^\D*([\d.]*)\D*$/$1/;
++$RCS_VERSION = '$Id: finddup,v 2.3 2005/02/06 18:57:42 klaus Exp $';
++($VERSION = '$Revision: 2.3 $') =~ s/^\D*([\d.]*)\D*$/$1/;
+ 
+-GetOptions($opt = {}, qw(help|h man version noaction|n verbose|v quiet|q link|l oldresult|o)) || pod2usage 2;
++GetOptions($opt = {}, qw(help|h man version noaction|n ignore-perms|i verbose|v quiet|q link|l oldresult|o dir=s@)) || pod2usage 2;
+ pod2usage(1) if $opt->{help};
+ pod2usage(-exitstatus => 0, -verbose => 2) if $opt->{man};
+ if ($opt->{version}) { print "Version: $VERSION\n"; exit 0; }
+@@ -33,8 +34,14 @@
+ $opt->{link} = 1 if not exists $opt->{link} and $0 =~ /^(.*\/)?nodup(.pl)?$/;
+ $opt->{oldresult} = 1 if not exists $opt->{oldresult} and $0 =~ /^(.*\/)?nodup(.pl)?$/;
+ 
++my @dir = @{$opt->{dir}} if ($opt->{dir});
++if (scalar(@dir) eq 0) {
++	push @dir, '.';
++}
++
+ if ($opt->{oldresult})
+ {
++   my $md5 = 0; # This is not really necessary in this mode, so make this faster
+    while (<>)
+    {
+       chomp;
+@@ -42,43 +49,45 @@
+       my $size = $1;
+       s/'$//;
+       my @files = split(/' '/);
+-      open IN, "<", $files[0];
+-      my $md5 = Digest::MD5->new->addfile(*IN)->hexdigest;
+-      close IN;
+-      $md5list{$md5} = [[$size, \@files]];
++      # Patch by Philipp Matthias Hahn <pmhahn@debian.org>
++      # http://bugs.debian.org/356515
++      # $md5list{$md5++} = [[$size, \@files]];
++      $md5list{$md5++} = [[$size, 0, 0, 0, \@files]];
+    } # while (<>)
+ } # if ($opt->{oldresult})
+ else
+ {
+    # Traverse desired filesystems
+-   File::Find::find({wanted => \&wanted}, '.');
++   File::Find::find({wanted => \&wanted}, @dir);
++
++   my ($prev, $prev2) = ([-1], [-2]);
+ 
+-   # Now calculate all md5sums. Afterwards %filelist can be freed.
+-   foreach (sort {$a->[1]->[0] cmp $b->[1]->[0]} values(%filelist))
++   # Now calculate md5sums for each file that has another file of the same
++   # size. Afterwards %filelist can be freed.
++   foreach (sort {$a->[0] cmp $b->[0]} values(%filelist))
+    {
+-      open IN, "<", $_->[1]->[0];
+-      my $md5 = Digest::MD5->new->addfile(*IN)->hexdigest;
+-      close IN;
+-      $md5list{$md5} = [] unless exists $md5list{$md5};
+-      push @{$md5list{$md5}}, $_;
+-   }
++      insert_md5($prev) if $_->[0] == $prev->[0] || $prev->[0] == $prev2->[0];
++      $prev2 = $prev;
++      $prev = $_;
++   } # foreach (sort {$a->[1]->[0] cm...
++   insert_md5($prev) if $prev->[0] == $prev2->[0];
+    %filelist = ();
+ } # if ($opt->{oldresult}) { ... }...
+ 
+ # Now we can output doubles sorted by size
+ foreach (sort {$md5list{$b}->[0]->[0] <=> $md5list{$a}->[0]->[0]} keys(%md5list))
+ {
+-   next unless @{$md5list{$_}} > 1; # This file is single
++   next unless @{$md5list{$_}} > 1 or $opt->{oldresult}; # This file is single
+    my $size = $md5list{$_}->[0]->[0];
+    if ($size) # Do not output empty files
+    {
+       if ($opt->{link})
+       {
+-	 my $reffile = shift @{$md5list{$_}->[0]->[1]}; # Remove the first file to not unlink them
++	 my $reffile = shift @{$md5list{$_}->[0]->[4]}; # Remove the first file to not unlink them
+ 	 print "L�nge: $size Files:\t$reffile\n" if $opt->{verbose};
+ 	 foreach (@{$md5list{$_}})
+ 	 {
+-	    foreach (@{$_->[1]})
++	    foreach (@{$_->[4]})
+ 	    {
+ 	       print "\t\t\t$_\n" if $opt->{verbose};
+ 	       unless ($opt->{noaction})
+@@ -95,7 +104,7 @@
+ 	 print "$size" unless $opt->{quiet};
+ 	 foreach (@{$md5list{$_}})
+ 	 {
+-	    foreach (@{$_->[1]})
++	    foreach (@{$_->[4]})
+ 	    {
+ 	       print " '$_'" unless $opt->{quiet};
+ 	    }
+@@ -114,8 +123,25 @@
+ 
+    if ((($dev,$ino,$mode,$nlink,$uid,$gid,$rdev,$size) = lstat($_)) && !($File::Find::prune |= ($dev != $File::Find::topdev)) && -f _)
+    {
+-      $filelist{$ino} = [$size, []] unless exists $filelist{$ino};
+-      push @{$filelist{$ino}->[1]}, $name;
++      $filelist{$ino} = [$size, $mode, $uid, $gid, []] unless exists $filelist{$ino};
++      push @{$filelist{$ino}->[4]}, $name;
++   }
++}
++
++sub insert_md5
++{
++   my $file = shift;
++   if (open(IN, "<", $file->[4]->[0]))
++   {
++      my $md5 = Digest::MD5->new->addfile(*IN)->hexdigest;
++      $md5 .= "\t".$file->[1]."\t".$file->[2]."\t".$file->[3] unless $opt->{'ignore-perms'};
++      close IN;
++      $md5list{$md5} = [] unless exists $md5list{$md5};
++      push @{$md5list{$md5}}, $file;
++   }
++   else
++   {
++      warn "Cannot open File '" . $file->[4]->[0] . "'";
+    }
+ }
+ 
+@@ -123,7 +149,7 @@
+ 
+ =head1 NAME
+ 
+-finddup - Find identical files and do somethink with it
++finddup - Find identical files and do something with them
+ 
+ =head1 SYNOPSIS
+ 
+@@ -135,8 +161,10 @@
+  -n, --noaction         do just nothing, just print out (implies -v)
+  -v, --verbose          just what the name says
+  -q, --quiet            be quiet
+- -l, --link		link the identical files together
+- -o, --oldresult	Use the old output of this script
++ -l, --link	        link the identical files together
++ -o, --oldresult        Use the old output of this script
++ -i, --ignore-perms     Don't check that file owner and permissions match
++ -d, --dir              Define the dir to check (you may specify more than one)
+ 
+ =head1 DESCRIPTION
+ 
+@@ -166,15 +194,15 @@
+ 
+ =item
+ 
+-Handle if the files allready have other hardlinks to it in the same tree
++Handle files that already have other hardlinks in the same tree
+ 
+ =item
+ 
+-Several improbvements
++Several improvements
+ 
+ =back
+ 
+-If started as nodup or nodup.pl the script will act like started with optiones --link and
++If started as nodup or nodup.pl the script will act like started with options --link and
+ --oldresult
+ 
+ =head1 COPYRIGHT
+@@ -204,6 +232,12 @@
+ =head1 HISTORY
+ 
+  $Log: finddup,v $
++ Revision 2.3  2005/02/06 18:57:42  klaus
++ * Make --oldresult faster by not calculating the md5sum again
++ * Fix a but that with --oldresult no links will be done cause the internal
++   datastructure
++ * Do handle errors in open for md5sum calculation
++
+  Revision 2.2  2005/02/06 12:21:02  klaus
+  Little but important bug in link routine.
+ 
+--- perforate-1.2.orig/README.perforate
++++ perforate-1.2/README.perforate
+@@ -12,21 +12,21 @@
+ 
+ 	find / -xdev -type f -print | zum
+ 
+-	It should work find under  Linux. If it  runs  out of disk space  when
+-processing files (it has to  make a copy  of each  before replacing it),  just
+-Ctrl-C and delete  all  files that end  with  __zum__ (eq  find / -xdev  -name
+-'*__zum__' -print | xargs rm).  After you free some space, it's safe to run it
+-from the beginning  one more time.  Nevertheless shell scripts in this package
+-modify your  files  and I am  not  responsible for anything that  might happen
++	It should work find under Linux. If it runs out of disk space when
++processing files (it has to make a copy of each before replacing it), just
++Ctrl-C and delete all files that end with __zum__ (eq find / -xdev -name
++'*__zum__' -print | xargs rm). After you free some space, it's safe to run it
++from the beginning one more time. Nevertheless shell scripts in this package
++modify your files and I am not responsible for anything that might happen
+ (hey, you have source code!)
+ 
+-	By  the  way, don't  try to do  this on   other UNIX varieties without
+-preliminary investigation. For  example,  SunOS can't  boot from  vmlinux with
+-holes (it's  Ok  to zum shared   libraries however, because  I unlink programs
++	By the way, don't try to do this on other UNIX varieties without
++preliminary investigation. For example, SunOS can't boot from vmlinux with
++holes (it's Ok to zum shared libraries however, because I unlink programs
+ before overwriting them).
+ 
+-	While I was    at  it, I wrote    some   more scripts  to  save   disk
+-space. finddup  finds all the duplicate files  in a subtree rooted  in current
++	While I was at it, I wrote some more scripts to save disk
++space. finddup finds all the duplicate files in a subtree rooted in current
+ directory. Run it as:
+ 
+ 	
+@@ -34,7 +34,7 @@
+ 	/some/dir/finddup > /tmp/duplist
+ 
+ 	
+-	It takes quite a while to run. At  the end, /tmp/duplist has groups of
++	It takes quite a while to run. At the end, /tmp/duplist has groups of
+ duplicate files sorted in the order of decreasing size (so you can look at the
+ most interesting ones first). They can be merged with hard links:
+ 
+@@ -42,29 +42,29 @@
+ 	/some/dir/nodup < /tmp/duplist
+ 
+ 
+-	However you shouldn't merge all of  them. Instead edit the duplist and
+-see what they  are.    For example, /root/.zshenv  and   /home/snowcat/.zshenv
+-shouldn't be merged even if  they are identical, because  in future I may want
+-to   edit my  .zshenv  without  changing   root's setup. Likewise,  don't link
++	However you shouldn't merge all of them. Instead edit the duplist and
++see what they are. For example, /root/.zshenv and /home/snowcat/.zshenv
++shouldn't be merged even if they are identical, because in future I may want
++to edit my .zshenv without changing root's setup. Likewise, don't link
+ /etc/nntpserver and /usr/adm/messages even if both consist of a single newline
+ character. 
+ 
+-	Finally,  findstrip will find all unstripped  files  and write them to
+-stdout, line by line.  Remember that you can  strip only real executables, but
+-not shared  libraries, objects and some other  things like .do files in Andrew
+-toolkit. findstrip filters out everything I know  about, but if you don't edit
++	Finally, findstrip will find all unstripped files and write them to
++stdout, line by line. Remember that you can strip only real executables, but
++not shared libraries, objects and some other things like .do files in Andrew
++toolkit. findstrip filters out everything I know about, but if you don't edit
+ the list before stripping it, you are quite likely to get in trouble.
+ 
+ 
+ 	On full Slackware 2.2 distribution (w/o Tex), these 3 scripts together
+ can save about 15M. It may be not much but at least it's free and doesn't have
+-any performance  penalty :)    Anyone  willing to  include  them  as  part  of
++any performance penalty :) Anyone willing to include them as part of
+ installation process?
+ 
+ 	Also, it's useful to make holes in files on rescue floppies.
+ 
+ 				Oleg Kibirev <oleg@gd.cs.CSUFresno.EDU>
+ 
+-PS:  tzx is covered  by GPL unless someone can  give  me a compeling reason to
++PS: tzx is covered by GPL unless someone can give me a compeling reason to
+ relax restrictions.
+ 
+--- perforate-1.2.orig/debian/control
++++ perforate-1.2/debian/control
+@@ -0,0 +1,19 @@
++Source: perforate
++Section: utils
++Priority: optional
++Maintainer: Amaya Rodrigo Sastre <amaya@debian.org>
++Uploaders: Hector Garcia <hector@debian.org>
++Standards-Version: 3.7.2
++Build-Depends: debhelper (>=5)
++
++Package: perforate
++Architecture: any
++Depends: ${shlibs:Depends}
++Description: Utilities to save disk space
++ GNU cp used to detect files that contain 0-filled holes and save disk space
++ by skipping them with lseek when writing a file and thus not allocating
++ disk blocks. Unfortunately it does no longer. So here is program to make
++ holes in existing files.
++ .
++ Also there are some scripts that help cleaning up the hard disk
++ (finding duplicated and/or unstripped files).
+--- perforate-1.2.orig/debian/rules
++++ perforate-1.2/debian/rules
+@@ -0,0 +1,48 @@
++#!/usr/bin/make -f
++
++export DH_COMPAT=5
++
++CFLAGS := -O2 -Wall
++ifneq ($(findstring debug,$(DEB_BUILD_OPTIONS)),)
++CFLAGS += -g
++endif
++ifeq (,$(findstring nostrip,$(DEB_BUILD_OPTIONS)))
++INSTALL_PROGRAM += -s
++endif
++
++clean:
++	dh_testdir
++	dh_testroot
++	dh_clean build.stamp zum
++
++build: build.stamp
++build.stamp:
++	dh_testdir
++	$(MAKE) CFLAGS="$(CFLAGS)"
++	> $@
++
++binary: binary-arch binary-indep
++
++binary-arch: build
++	dh_testdir
++	dh_testroot
++	dh_clean
++	dh_installdirs usr/bin
++	install finddup findstrip zum debian/perforate/usr/bin
++	dh_installdocs README.perforate
++	dh_installman debian/*.1
++	dh_link usr/bin/finddup usr/bin/nodup
++	dh_link usr/share/man/man1/finddup.1.gz usr/share/man/man1/nodup.1.gz
++	dh_installchangelogs
++	dh_strip
++	dh_compress
++	dh_fixperms
++	dh_installdeb
++	dh_shlibdeps
++	dh_gencontrol
++	dh_md5sums
++	dh_builddeb
++
++binary-indep: build
++
++.PHONY: clean build binary binary-arch binary-indep
+--- perforate-1.2.orig/debian/changelog
++++ perforate-1.2/debian/changelog
+@@ -0,0 +1,262 @@
++perforate (1.2-5) unstable; urgency=low
++
++  * Rebuild with unstable libc (Closes: #383590).
++  * Added myself to Uploaders.
++
++ -- Hector Garcia <hector@debian.org>  Fri, 18 Aug 2006 22:40:14 +0200
++
++perforate (1.2-4) unstable; urgency=low
++
++  * Fix the the $mode, $uid, $gid information, patch thanks to Philipp
++    Matthias Hahn <pmhahn@debian.org> (closes: #356515). 
++
++ -- Amaya Rodrigo Sastre <amaya@debian.org>  Thu, 17 Aug 2006 12:43:13 +0200
++
++perforate (1.2-3) unstable; urgency=low
++
++  * Upgraded to DH_COMPAT=5. 
++
++ -- Amaya Rodrigo Sastre <amaya@debian.org>  Sun, 30 Jul 2006 02:04:40 +0200
++
++perforate (1.2-2) unstable; urgency=low
++
++  * Apply patch from Arnaud Fontaine, to deal with FTBFS on hurd-i386 due to
++    MAXPATHLEN issue (Closes: #356058).
++  * Updated manpage for finddup (closes: #355964).
++  * Improved several documentation details (Closes: #375272).
++  * Updated Standards version, no changes needed.
++
++ -- Amaya Rodrigo Sastre <amaya@debian.org>  Fri, 28 Jul 2006 09:54:35 +0200
++
++perforate (1.2-1) unstable; urgency=low
++
++  * New upstream (me) release.
++  * The "With a little help from my friends" Release.
++  * Implement support for large files in zum.c. Patch by Wouter Verhelst.
++    (Closes: #255457). Also reimplemnet previously patch by Miriam to fix gcc4
++    build warnings. You dude and dudette rock!
++
++ -- Amaya Rodrigo Sastre <amaya@debian.org>  Sun, 27 Nov 2005 16:39:50 +0100
++
++perforate (1.1-8) unstable; urgency=low
++
++  * Patch provided by Miriam Ruiz, to get rid of gcc4 warnings building zum.c
++
++ -- Amaya Rodrigo Sastre <amaya@debian.org>  Sat, 26 Nov 2005 20:09:52 +0100
++
++perforate (1.1-7) unstable; urgency=low
++
++  * The "I should test patches before I upload" Release.
++  * Fix nasty syntax error (I introduced myself, 100% unassisted, and quite
++    successfully, I must admit) in finddup, with patch from Hector García.
++    You know I love you too :P
++
++ -- Amaya Rodrigo Sastre <amaya@debian.org>  Sat, 26 Nov 2005 01:07:29 +0100
++
++perforate (1.1-6) unstable; urgency=low
++
++  * The "/me waves at #wave" Release.
++  * Take permissions into account, with the optional -i, --ignore-perms
++    command line switch. Patch provided by Kari Pahula (Closes: #263782).
++    The patch also implements some performance considerations suggested by
++    #314548.
++
++ -- Amaya Rodrigo Sastre <amaya@debian.org>  Thu, 10 Nov 2005 12:56:49 +0100
++
++perforate (1.1-5) unstable; urgency=low
++
++  * Improve zum manual page: Add parameters to the SYNOPSIS and ident the
++    example. Patch provided by A Costa (Closes: #337745). 
++
++ -- Amaya Rodrigo Sastre <amaya@debian.org>  Sun,  6 Nov 2005 10:13:57 +0100
++
++perforate (1.1-4) unstable; urgency=low
++
++  * Added a warning in zum man page and a README.Debian that explains the
++    dangers of zum-ming your /boot directory if using lilo (Closes: #295762). 
++
++ -- Amaya Rodrigo Sastre <amaya@debian.org>  Fri,  4 Nov 2005 13:22:25 +0100
++
++perforate (1.1-3) unstable; urgency=low
++
++  * Bumped standars Version to 3.6.2.0, no changes needed.
++  * Install a "/usr/bin/nodup" symlink so that invoking "finddup" as "nodup"
++    works, and linked also both man pages (Closes: #314264).
++  * Add support to define the dirs finddup should look into, patch by my good
++    friend Hector Garcia (Closes: #337402).
++  * Fix typos in sources (including help and manpage), patch by James R. Van
++    Zandt (Closes: #314544).
++
++ -- Amaya Rodrigo Sastre <amaya@debian.org>  Fri,  4 Nov 2005 12:24:37 +0100
++
++perforate (1.1-2) unstable; urgency=low
++
++  * New version of finddup
++
++ -- Amaya Rodrigo Sastre <amaya@debian.org>  Mon,  7 Feb 2005 03:46:37 +0100
++
++perforate (1.1-1) unstable; urgency=low
++
++  * New release.
++  * Rewrite of finddup in perl so that it handles espaces in filenames.
++    Patch courtesy of Klaus Ethgen <Klaus@Ethgen.de> 
++    (Closes: #222030, #263779, #289911, #293790).
++
++ -- Amaya Rodrigo Sastre <amaya@debian.org>  Sun,  6 Feb 2005 17:26:55 +0100
++
++perforate (1.0-17) unstable; urgency=low
++
++  * Removed Ian Murdock from the Uploaders field. 
++
++ -- Amaya Rodrigo Sastre <amaya@debian.org>  Sun, 19 Dec 2004 01:54:23 +0100
++
++perforate (1.0-16) unstable; urgency=low
++
++  * The compulsive hyperactive housekeeping release.
++  * Updated Standards version and DH_COMPAT to 4.
++  * Added minor patch to properly handle hardlinks (Closes: #212228).
++    Thanks to David Andel <andel@ifi.unizh.ch> and <deblists@osg.saic.com>.
++  * Updated changelog to UTF-8. Finally.
++  * Added Ian Murdock to the Uploaders field.
++  * Fixed zum manpage. Thanks to Heiko Schlittermann <heiko@schlittermann.de>.
++    (Closes: #212916).
++
++ -- Amaya Rodrigo Sastre <amaya@debian.org>  Fri, 27 Aug 2004 21:09:01 +0200
++
++perforate (1.0-15) unstable; urgency=low
++
++  * Finddup is now nice to filenames with spaces in them. Many thanks to Diego
++    Alvarez <diego.alvarez@entelchile.net> for his patch. (Closes: #152825)
++
++ -- Amaya Rodrigo Sastre <amaya@debian.org>  Sat, 27 Jul 2002 06:16:17 +0200
++
++perforate (1.0-14) unstable; urgency=low
++
++  * Corrected README.perforate (Closes: #152813) 
++
++ -- Amaya Rodrigo Sastre <amaya@debian.org>  Sun, 14 Jul 2002 20:00:22 +0200
++
++perforate (1.0-13) unstable; urgency=low
++
++  * Improved DEB_BUILD_OPTIONS. 
++
++ -- Amaya Rodrigo Sastre <amaya@debian.org>  Thu, 21 Mar 2002 02:23:54 +0100
++
++perforate (1.0-12) unstable; urgency=low
++
++  * Fixed changelog inconsistencies.
++  * Fixed override disparity. 
++    Section: misc -> utils
++    Priority: extra -> optional
++  * Regarding previous version, debug in DEB_BUILD_OPTIONS was already there,
++    so I didn't do it :-)
++  
++ -- Amaya Rodrigo Sastre <amaya@debian.org>  Tue, 24 Dec 2001 22:45:00 +0100
++
++perforate (1.0-11) unstable; urgency=low
++
++  * Implemented debug in DEB_BUILD_OPTIONS 
++  * Aplied patch for spaces in filenames (Closes: #122943, #120200)
++  * Thanks( Guillem Jover(patch) && Héctor(debugging) ).
++  
++ -- Amaya Rodrigo Sastre <amaya@debian.org>  Tue, 24 Dec 2001 01:40:00 +0100
++ 
++perforate (1.0-10) unstable; urgency=low
++
++  * Adopted package perforate. New maintainer (Closes: #93895)
++  * Fixed minor bug in debian/rules
++
++ -- Amaya Rodrigo Sastre <amaya@debian.org>  Fri, 25 May 2001 16:24:32 +0100  
++
++perforate (1.0-9) unstable; urgency=low
++
++  * Package is orphaned; maintainer set to Debian QA Group.
++  * Converted to debhelper.
++  * finddup, nodup: Handle file names with backslashes, quotes and
++    wildcards.  Closes: #41700, #89534.
++  * findstrip: Handle file names with colons.
++  * zum.c: Use `getline ()' instead of a fixed-size buffer (MAXPATHLEN
++    is undefined on the Hurd).
++  * Converted PODs to plain man pages, making the diffs more compact.
++  * Conforms to Standards version 3.5.2:
++  * debian/rules: Support the `debug' build option.
++
++ -- Matej Vela <vela@debian.org>  Mon, 16 Apr 2001 17:47:56 +0200
++
++perforate (1.0-8.1) unstable; urgency=low
++
++  * NMU
++  * FHS compatability (change /usr/doc to /usr/share/doc, add
++    symlink, move man pages from /usr/man to /usr/share/man)
++    (Closes: #91624)
++  * Fix copyright to point to the right location of the GPL
++  * add -isp to dpkg-gencontrol
++  * Up standards-version to 3.0.0
++
++ -- Thomas Smith <tgs@debian.org>  Sat, 14 Apr 2001 15:04:44 -0500
++
++perforate (1.0-8) unstable; urgency=low
++
++  * adopted perforate again for the time being
++  * Removed the chown calls in debian rules fixing:
++    (#23613)
++    (#24871)
++    (#17821)
++  * changed findstrip to also check for shared libraries
++    but not for *.tfm files
++
++ -- Michael Meskes <meskes@debian.org>  Mon, 16 Nov 1998 11:42:55 +0100
++
++perforate (1.0-7.1) unstable; urgency=low
++
++  * non-maintainer release
++  * use libc6
++
++ -- Michael Meskes <meskes@debian.org>  Mon,  8 Dec 1997 13:55:07 +0100
++
++perforate (1.0-7) unstable; urgency=medium
++
++  * don't process ugly filenames (containing spaces, newlines and such)
++    fixes (avoids) bug #121320
++
++ -- Heiko Schlittermann <heiko@lotte.sax.de>  Sun, 7 Sep 1997 08:05:41 +0200
++
++perforate (1.0-6) frozen; urgency=medium
++
++  * upload to unstable, since stable is closed
++
++ -- Heiko Schlittermann <heiko@lotte.sax.de>  Tue, 22 Apr 1997 07:01:19 +0200
++
++perforate (1.0-5) stable; urgency=medium
++
++  * Man pages added
++  * Path's for binaries changed (/bin -> /usr/bin)
++
++ -- Heiko Schlittermann <heiko@lotte.sax.de>  Wed, 16 Apr 1997 16:47:17 +0200
++
++perforate (1.0-4) stable unstable; urgency=low
++
++  * new source packaging format
++  * new maintainer
++
++ -- Heiko Schlittermann <heiko@lotte.sax.de>  Wed, 11 Sep 1996 00:20:24 +0200
++
++perforate (1.0-1)
++  
++  * Initial upload
++
++ -- Michael Meskes <meskes@debian.org>  Wed, May 29 13:30:06 MET DST 1996
++
++perforate (1.0-2)
++
++  * Changed debian.rules for new naming scheme
++
++ -- Michael Meskes <meskes@debian.org>  Jun 30 16:07:44 MET DST 1996 
++
++perforate (1.0-3)
++
++  * Fixed architecture dependent CFLAGS (Bug#3723)
++  * Changed priority to extra, which makes more sense 
++
++ -- Michael Meskes <meskes@debian.org>  Tue Jul  9 08:55:42 MET DST 1996 
++
+--- perforate-1.2.orig/debian/zum.1
++++ perforate-1.2/debian/zum.1
+@@ -0,0 +1,23 @@
++.TH ZUM 1 "April 16, 2001" "Debian Project" "Debian Manual"
++.SH NAME
++zum \- free disk space by making holes in files
++.SH SYNOPSIS
++.B zum
++[\fIFILE\fR]...
++.SH DESCRIPTION
++.B zum
++reads a files list on the command line and attempts to perforate these files.
++Perforation means, that series of `0' bytes are replaced by
++.BR lseek (2)s,
++thus giving the file system a chance of not allocating real disk space for
++those bytes.
++.SH EXAMPLE
++.IP
++.B find . -type f -print0 | xargs -0 zum
++.PP
++If you zum under /boot, where your kernel image lives, your system will become
++unbootable unless you run lilo again.
++.SH AUTHOR
++Oleg Kibirev <oleg@gd.cs.CSUFresno.edu>.
++.PP
++Manual page by Heiko Schlittermann <heiko@lotte.sax.de>.
+--- perforate-1.2.orig/debian/finddup.1
++++ perforate-1.2/debian/finddup.1
+@@ -0,0 +1,101 @@
++.\" DO NOT MODIFY THIS FILE!It was generated by help2man 1.36.
++.TH FINDDUP 1 User Contributed Perl Documentation
++.SH NAME
++finddup \- Find identical files and do something with them
++.SH SYNOPSIS
++.SS "Usage:"
++.IP
++finddup [options...]
++.TP
++\fB\-\-man\fR
++the manpage
++.TP
++\fB\-h\fR, \fB\-\-help\fR
++a short help
++.TP
++\fB\-\-version\fR
++the version (CVS) of the program
++.TP
++\fB\-n\fR, \fB\-\-noaction\fR
++do just nothing, just print out (implies \fB\-v\fR)
++.TP
++\fB\-v\fR, \fB\-\-verbose\fR
++just what the name says
++.TP
++\fB\-q\fR, \fB\-\-quiet\fR
++be quiet
++.TP
++\fB\-l\fR, \fB\-\-link\fR
++link the identical files together
++.TP
++\fB\-o\fR, \fB\-\-oldresult\fR
++Use the old output of this script
++.TP
++\fB\-i\fR, \fB\-\-ignore\-perms\fR
++Don't check that file owner and permissions match
++.TP
++\fB\-d\fR, \fB\-\-dir\fR
++Define the dir to check (you may specify more than one)
++.SH DESCRIPTION
++.B finddup 
++search the working directory and all files below on the same partition for duplicate files.
++
++.B finddup 
++can optional hardlink such files to save space.
++
++Files size 0 will not be reported or hardlinked as this might give problemes later.
++
++This is a complete rewrite of the 
++.B finddup 
++in perl to handle several issues:
++
++  \- Allow spaces and other characters in filenames
++
++  \- be faster
++
++  \- include nodup in same script
++
++  \- Handle files that already have other hardlinks in the same tree
++
++  \- Several improvements
++
++If started as nodup or nodup.pl the script will act like started with options
++\-\-link and \-\-oldresult
++
++.SH COPYRIGHT
++Copyright (c) 2005 by Klaus Ethgen. All rights reserved.
++
++.SH LICENSE
++This program is free software; you can redistribute it and/or modify it under
++the terms of the GNU General Public License as published by the Free Software
++Foundation; either version 2 of the License, or (at your option) any later
++version.
++
++This program is distributed in the hope that it will be useful, but WITHOUT ANY
++WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
++PARTICULAR PURPOSE.  See the GNU General Public License for more details.
++
++You should have received a copy of the GNU General Public License along with
++this program; if not, write to the Free Software Foundation, Inc., 675 Mass
++Ave, Cambridge, MA 02139, USA.
++
++.SH AUTHOR
++Klaus Ethgen <Klaus@Ethgen.de<gt>
++
++.SH HISTORY
++$Log: finddup,v $
++Revision 2.3  2005/02/06 18:57:42  klaus
++* Make \-\-oldresult faster by not calculating the md5sum again
++* Fix a but that with \-\-oldresult no links will be done cause the internal
++  datastructure
++* Do handle errors in open for md5sum calculation
++
++Revision 2.2  2005/02/06 12:21:02  klaus
++Little but important bug in link routine.
++
++Revision 2.1  2005/02/05 18:43:11  klaus
++Just cosmetic
++
++Revision 2.0  2005/02/05 18:41:20  klaus
++Completely new version
++
+--- perforate-1.2.orig/debian/copyright
++++ perforate-1.2/debian/copyright
+@@ -0,0 +1,14 @@
++This is the Debian prepackaged version of perforate.
++
++This package was put together by Michael Meskes <meskes@debian.org> from
++sources obtained from gd.cs.CSUFresno.EDU:/pub/sun4bin/src, and subsequently
++maintained by Heiko Schlittermann <heiko@lotte.sax.de>.
++
++You may use, distribute and copy this program according to the terms of the
++GNU General Public License version 2 or later.
++
++On Debian systems, the complete text of the GNU General Public License
++(Version 2.0) can be found in /usr/share/common-licenses/GPL .
++
++Michael Meskes <meskes@debian.org> Wed May 29 13:52:27 MET DST 1996
++Heiko Schlittermann <heiko@lotte.sax.de> Wed Sep 11 00:28:41 MET DST 1996
+--- perforate-1.2.orig/debian/findstrip.1
++++ perforate-1.2/debian/findstrip.1
+@@ -0,0 +1,21 @@
++.TH FINDSTRIP 1 "April 16, 2001" "Debian Project" "Debian Manual"
++.SH NAME
++findstrip \- find programs that are not stripped
++.SH SYNOPSIS
++.B findstrip
++.SH DESCRIPTION
++.B findstrip
++searches (starting point is the current directory, doesn't cross device
++boundaries) unstripped files.  Files are considered unstripped, if output of
++.BR file (1)
++contains the string "no .*strip".
++.PP
++The output is a list of unstripped files, line by line.
++.SH "SEE ALSO"
++.BR zum (1),
++.BR nodup (1),
++.BR finddup (1).
++.SH AUTHOR
++Oleg Kibirev <oleg@gd.cs.CSUFresno.edu>.
++.PP
++Manual page by Heiko Schlittermann <heiko@lotte.sax.de>.
+--- perforate-1.2.orig/debian/README.Debian
++++ perforate-1.2/debian/README.Debian
+@@ -0,0 +1,5 @@
++Warning to lilo users:
++
++If you zum under /boot, where your kernel image lives, your system will become
++unbootable unless you run lilo again.
++

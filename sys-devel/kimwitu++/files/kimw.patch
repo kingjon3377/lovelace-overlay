@@ -1,0 +1,11 @@
+diff -ru kimw.old/k.h kimw/k.h
+--- kimw.old/k.h	2010-11-19 16:27:35.000000000 -0500
++++ kimw/k.h	2010-11-19 16:28:13.000000000 -0500
+@@ -21,6 +21,7 @@
+ 
+ #include <stdio.h>
+ #include <stddef.h>
++#include <cstring>
+ #include <string>
+ #include <vector>
+ 

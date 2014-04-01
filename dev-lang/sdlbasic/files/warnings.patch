@@ -1,0 +1,363 @@
+diff -ru src.old/sdlBasic/src/sdlBasic/gtk/SciTEGTK.cxx src/sdlBasic/src/sdlBasic/gtk/SciTEGTK.cxx
+--- src.old/sdlBasic/src/sdlBasic/gtk/SciTEGTK.cxx	2011-01-10 19:41:02.000000000 -0500
++++ src/sdlBasic/src/sdlBasic/gtk/SciTEGTK.cxx	2011-01-10 19:41:04.000000000 -0500
+@@ -3,15 +3,15 @@
+ // Copyright 1998-2004 by Neil Hodgson <neilh@scintilla.org>
+ // The License.txt file describes the conditions under which this software may be distributed.
+ 
+-#include <stdlib.h>
+-#include <string.h>
+-#include <ctype.h>
+-#include <stdio.h>
++#include <cstdlib>
++#include <cstring>
++#include <cctype>
++#include <cstdio>
+ #include <fcntl.h>
+ #include <stdarg.h>
+ #include <sys/stat.h>
+-#include <assert.h>
+-#include <time.h>
++#include <cassert>
++#include <ctime>
+ 
+ #include <gtk/gtk.h>
+ #include <gdk/gdkkeysyms.h>
+@@ -23,7 +23,8 @@
+ #include <signal.h>
+ #include <sys/wait.h>
+ #include <sys/types.h>
+-#include <errno.h>
++#include <cerrno>
++#include <stdexcept>
+ 
+ #include "SciTE.h"
+ #include "PropSet.h"
+@@ -1056,7 +1057,9 @@
+ }
+ 
+ bool SciTEGTK::OpenDialog(const char *filter) {
+-	chdir(dirName);
++	if (!chdir(dirName)) {
++		throw std::runtime_error("chdir failed");
++	}
+ 	bool canceled = true;
+ 	if (!dlgFileSelector.Created()) {
+ #ifndef USE_FILE_CHOOSER
+@@ -1185,7 +1188,9 @@
+ }
+ 
+ bool SciTEGTK::SaveAsXXX(FileFormat fmt, const char *title) {
+-	chdir(dirName);
++	if (!chdir(dirName)) {
++		throw std::runtime_error("chdir failed");
++	}
+ 	bool canceled = true;
+ 	saveFormat = fmt;
+ 	if (!dlgFileSelector.Created()) {
+@@ -1248,7 +1253,9 @@
+ }
+ 
+ void SciTEGTK::LoadSessionDialog() {
+-	chdir(dirName);
++	if (chdir(dirName)) {
++		throw std::runtime_error("chdir failed");
++	}
+ 	if (!dlgFileSelector.Created()) {
+ #ifndef USE_FILE_CHOOSER
+ 		dlgFileSelector = gtk_file_selection_new(LocaliseString("Load Session").c_str());
+@@ -1284,7 +1291,9 @@
+ }
+ 
+ void SciTEGTK::SaveSessionDialog() {
+-	chdir(dirName);
++	if (!chdir(dirName)) {
++		throw std::runtime_error("chdir failed");
++	}
+ 	if (!dlgFileSelector.Created()) {
+ #ifndef USE_FILE_CHOOSER
+ 		dlgFileSelector = gtk_file_selection_new(LocaliseString("Save Session").c_str());
+@@ -1702,9 +1711,13 @@
+ 		close(0);
+ 		int fh = open(resultsFile, O_WRONLY);
+ 		close(1);
+-		dup(fh);
++		if (!dup(fh)) {
++			throw std::runtime_error("Duplicating the file descriptor failed");
++		}
+ 		close(2);
+-		dup(fh);
++		if (!dup(fh)) {
++			throw std::runtime_error("Duplicating the file descriptor failed");
++		}
+ 		execlp("/bin/sh", "sh", "-c", s, NULL);
+ 		exit(127);
+ 	}
+@@ -1739,7 +1752,9 @@
+ 
+ 	unlink(resultsFile);
+ 	if (jobQueue[icmd].directory != "") {
+-		chdir(jobQueue[icmd].directory.c_str());
++		if (!chdir(jobQueue[icmd].directory.c_str())) {
++			throw std::runtime_error("chdir failed");
++		}
+ 	}
+ 
+ 	if (jobQueue[icmd].jobType == jobShell) {
+diff -ru src.old/sdlBasic/src/sdlBasic/scintilla/src/Document.cxx src/sdlBasic/src/sdlBasic/scintilla/src/Document.cxx
+--- src.old/sdlBasic/src/sdlBasic/scintilla/src/Document.cxx	2011-01-10 19:41:02.000000000 -0500
++++ src/sdlBasic/src/sdlBasic/scintilla/src/Document.cxx	2011-01-10 19:41:04.000000000 -0500
+@@ -1106,8 +1106,8 @@
+ 					}
+ 					if (found) {
+ 						if ((!word && !wordStart) ||
+-						        word && IsWordAt(pos, pos + lengthFind) ||
+-						        wordStart && IsWordStartAt(pos))
++						        (word && IsWordAt(pos, pos + lengthFind)) ||
++						        (wordStart && IsWordStartAt(pos)))
+ 							return pos;
+ 					}
+ 				}
+@@ -1122,8 +1122,8 @@
+ 					}
+ 					if (found) {
+ 						if ((!word && !wordStart) ||
+-						        word && IsWordAt(pos, pos + lengthFind) ||
+-						        wordStart && IsWordStartAt(pos))
++						        (word && IsWordAt(pos, pos + lengthFind)) ||
++						        (wordStart && IsWordStartAt(pos)))
+ 							return pos;
+ 					}
+ 				}
+diff -ru src.old/sdlBasic/src/sdlBasic/scintilla/src/LexOthers.cxx src/sdlBasic/src/sdlBasic/scintilla/src/LexOthers.cxx
+--- src.old/sdlBasic/src/sdlBasic/scintilla/src/LexOthers.cxx	2011-01-10 19:41:02.000000000 -0500
++++ src/sdlBasic/src/sdlBasic/scintilla/src/LexOthers.cxx	2011-01-10 19:41:04.000000000 -0500
+@@ -389,7 +389,7 @@
+ 		lev = SC_FOLDLEVELBASE;
+ 	}
+ 	int flagsNext = styler.LevelAt(lineCurrent);
+-	styler.SetLevel(lineCurrent, lev | flagsNext & ~SC_FOLDLEVELNUMBERMASK);
++	styler.SetLevel(lineCurrent, (lev | flagsNext) & (~SC_FOLDLEVELNUMBERMASK));
+ }
+ 
+ static void ColouriseMakeLine(
+diff -ru src.old/sdlBasic/src/sdlBasic/scintilla/src/RESearch.cxx src/sdlBasic/src/sdlBasic/scintilla/src/RESearch.cxx
+--- src.old/sdlBasic/src/sdlBasic/scintilla/src/RESearch.cxx	2011-01-10 19:41:02.000000000 -0500
++++ src/sdlBasic/src/sdlBasic/scintilla/src/RESearch.cxx	2011-01-10 19:41:04.000000000 -0500
+@@ -296,11 +296,13 @@
+ 	char mask;		/* xor mask -CCL/NCL */
+ 	int c1, c2;
+ 
+-	if (!pat || !length)
+-		if (sta)
++	if (!pat || !length) {
++		if (sta) {
+ 			return 0;
+-		else
++		} else {
+ 			return badpat("No previous regular expression");
++		}
++	}
+ 	sta = NOP;
+ 
+ 	const char *p=pat;               /* pattern pointer   */
+@@ -700,7 +702,7 @@
+ 			eopat[*ap++] = lp;
+ 			break;
+  		case BOW:
+-			if (lp!=bol && iswordc(ci.CharAt(lp-1)) || !iswordc(ci.CharAt(lp)))
++			if (lp!=bol && (iswordc(ci.CharAt(lp-1)) || !iswordc(ci.CharAt(lp))))
+ 				return NOTFOUND;
+ 			break;
+ 		case EOW:
+diff -ru src.old/sdlBasic/src/sdlBasic/src/Exporters.cxx src/sdlBasic/src/sdlBasic/src/Exporters.cxx
+--- src.old/sdlBasic/src/sdlBasic/src/Exporters.cxx	2011-01-10 19:41:02.000000000 -0500
++++ src/sdlBasic/src/sdlBasic/src/Exporters.cxx	2011-01-10 19:41:04.000000000 -0500
+@@ -5,13 +5,14 @@
+ // Copyright 1998-2004 by Neil Hodgson <neilh@scintilla.org>
+ // The License.txt file describes the conditions under which this software may be distributed.
+ 
+-#include <stdlib.h>
+-#include <string.h>
+-#include <ctype.h>
+-#include <stdio.h>
++#include <cstdlib>
++#include <cstring>
++#include <cctype>
++#include <cstdio>
+ #include <fcntl.h>
+ #include <sys/stat.h>
+-#include <time.h>
++#include <ctime>
++#include <stdexcept>
+ 
+ #include "Platform.h"
+ 
+@@ -695,7 +696,9 @@
+ 		void write(const char *objectData) {
+ 			unsigned int length = strlen(objectData);
+ 			// note binary write used, open with "wb"
+-			fwrite(objectData, sizeof(char), length, fp);
++			if (fwrite(objectData, sizeof(char), length, fp) < length) {
++				throw std::runtime_error("writing to file failed");
++			}
+ 		}
+ 		void write(int objectData) {
+ 			char val[20];
+diff -ru src.old/sdlBasic/src/sdlBasic/src/SciTEBase.cxx src/sdlBasic/src/sdlBasic/src/SciTEBase.cxx
+--- src.old/sdlBasic/src/sdlBasic/src/SciTEBase.cxx	2011-01-10 19:41:02.000000000 -0500
++++ src/sdlBasic/src/sdlBasic/src/SciTEBase.cxx	2011-01-10 19:41:04.000000000 -0500
+@@ -5,14 +5,15 @@
+ // Copyright 1998-2004 by Neil Hodgson <neilh@scintilla.org>
+ // The License.txt file describes the conditions under which this software may be distributed.
+ 
+-#include <stdlib.h>
+-#include <string.h>
+-#include <ctype.h>
+-#include <stdio.h>
++#include <cstdlib>
++#include <cstring>
++#include <cctype>
++#include <cstdio>
+ #include <fcntl.h>
+ #include <stdarg.h>
+ #include <sys/stat.h>
+-#include <time.h>
++#include <stdexcept>
++#include <ctime>
+ 
+ #include "Platform.h"
+ 
+@@ -1791,7 +1792,9 @@
+ 	cancelFlag = 0L;
+ 	executing = true;
+ 	CheckMenus();
+-	chdir(dirName);
++	if (!chdir(dirName)) {
++		throw std::runtime_error("chdir failed");
++	}
+ 	dirNameAtExecute = dirName;
+ }
+ 
+diff -ru src.old/sdlBasic/src/sdlBasic/src/SciTEProps.cxx src/sdlBasic/src/sdlBasic/src/SciTEProps.cxx
+--- src.old/sdlBasic/src/sdlBasic/src/SciTEProps.cxx	2011-01-10 19:41:02.000000000 -0500
++++ src/sdlBasic/src/sdlBasic/src/SciTEProps.cxx	2011-01-10 19:41:04.000000000 -0500
+@@ -5,13 +5,14 @@
+ // Copyright 1998-2004 by Neil Hodgson <neilh@scintilla.org>
+ // The License.txt file describes the conditions under which this software may be distributed.
+ 
+-#include <stdlib.h>
+-#include <string.h>
+-#include <ctype.h>
+-#include <stdio.h>
++#include <cstdlib>
++#include <cstring>
++#include <cctype>
++#include <cstdio>
+ #include <fcntl.h>
+-#include <time.h>
++#include <ctime>
+ #include <locale.h>
++#include <stdexcept>
+ 
+ #include "Platform.h"
+ 
+@@ -294,7 +295,10 @@
+ 		strncpy(docDir, dirName, len);
+ 		docDir[len - 1] = '\0';
+ 	} else {
+-		getcwd(docDir, len);
++		char * ptr = getcwd(docDir, len);
++		if (!ptr) {
++			throw std::runtime_error("getcwd failed");
++		}
+ 		docDir[len - 1] = '\0';
+ 		// In Windows, getcwd returns a trailing backslash
+ 		// when the CWD is at the root of a disk, so remove it
+@@ -624,7 +628,13 @@
+ 						fseek(fp, 0, SEEK_END);
+ 						int len = ftell(fp);
+ 						fseek(fp, 0, SEEK_SET);
+-						fread(buffer + tlen, 1, len, fp);
++						if (fread(buffer + tlen, 1, len, fp) < static_cast<size_t>(len)) {
++							if (feof(fp)) {
++								clearerr(fp);
++							} else if (ferror(fp)) {
++								throw std::runtime_error("error reading from file");
++							}
++						}
+ 						tlen += len;
+ 						fclose(fp);
+ 					}
+diff -ru src.old/sdlBasic/src/sdlBasic/src/Utf8_16.cxx src/sdlBasic/src/sdlBasic/src/Utf8_16.cxx
+--- src.old/sdlBasic/src/sdlBasic/src/Utf8_16.cxx	2011-01-10 19:41:02.000000000 -0500
++++ src/sdlBasic/src/sdlBasic/src/Utf8_16.cxx	2011-01-10 19:41:04.000000000 -0500
+@@ -11,7 +11,8 @@
+ 
+ #include "Utf8_16.h"
+ 
+-#include <stdio.h>
++#include <cstdio>
++#include <stdexcept>
+ 
+ const Utf8_16::utf8 Utf8_16::k_Boms[][3] = {
+ 	{0x00, 0x00, 0x00},  // Unknown
+@@ -138,7 +139,9 @@
+ 
+ 	if (m_eEncoding == eUtf8) {
+ 		if (m_bFirstWrite)
+-			::fwrite(k_Boms[m_eEncoding], 3, 1, m_pFile);
++			if (::fwrite(k_Boms[m_eEncoding], 3, 1, m_pFile) != 1) {
++				throw std::runtime_error("writing failed");
++			}
+ 		m_bFirstWrite = false;
+ 		return ::fwrite(p, _size, 1, m_pFile);
+ 	}
+@@ -153,7 +156,9 @@
+ 	if (m_bFirstWrite) {
+ 		if (m_eEncoding == eUtf16BigEndian || m_eEncoding == eUtf16LittleEndian) {
+ 			// Write the BOM
+-			::fwrite(k_Boms[m_eEncoding], 2, 1, m_pFile);
++			if (::fwrite(k_Boms[m_eEncoding], 2, 1, m_pFile) != 1) {
++				throw std::runtime_error("writing failed");
++			}
+ 		}
+ 
+ 		m_bFirstWrite = false;
+@@ -307,7 +312,7 @@
+ 		}
+ 		break;
+ 	case e2Bytes2:
+-		m_nCur = static_cast<ubyte>(0x80 | m_nCur16 & 0x3F);
++		m_nCur = static_cast<ubyte>(0x80 | (m_nCur16 & 0x3F));
+ 		m_eState = eStart;
+ 		break;
+ 	case e3Bytes2:
+@@ -315,7 +320,7 @@
+ 		m_eState = e3Bytes3;
+ 		break;
+ 	case e3Bytes3:
+-		m_nCur = static_cast<ubyte>(0x80 | m_nCur16 & 0x3F);
++		m_nCur = static_cast<ubyte>(0x80 | (m_nCur16 & 0x3F));
+ 		m_eState = eStart;
+ 		break;
+ 	}
+diff -ru src.old/sdlBasic/src/sdlBrt/array.h src/sdlBasic/src/sdlBrt/array.h
+--- src.old/sdlBasic/src/sdlBrt/array.h	2011-01-10 19:41:02.000000000 -0500
++++ src/sdlBasic/src/sdlBrt/array.h	2011-01-10 19:41:04.000000000 -0500
+@@ -6,6 +6,9 @@
+     Licence:    LGPL
+ */
+ 
++#ifndef SDLBRT_ARRAY_H
++#define SDLBRT_ARRAY_H
++
+ struct ArrayCell {
+     char    *key;               /* key */
+     Variant data;               /* data stored in cell */
+@@ -45,3 +48,5 @@
+ void freeArray( Array *array );
+ int getArrayIndexes( void );
+ int getArrayBound( int index, int upper );
++
++#endif

@@ -1,0 +1,100 @@
+From 57047c5727308048e27d45ec1781f23f0f6c262b Mon Sep 17 00:00:00 2001
+From: Jari Aalto <jari.aalto@cante.net>
+Date: Mon, 24 May 2010 22:09:04 +0300
+Subject: [PATCH] Docs/dact.1: Fix hyphens etc.
+Organization: Private
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+
+Signed-off-by: Jari Aalto <jari.aalto@cante.net>
+---
+ Docs/dact.1 |   22 ++++++++++------------
+ 1 files changed, 10 insertions(+), 12 deletions(-)
+
+diff --git a/Docs/dact.1 b/Docs/dact.1
+index 0e53451..4e31e62 100644
+--- a/Docs/dact.1
++++ b/Docs/dact.1
+@@ -1,4 +1,3 @@
+-.PU
+ .TH DACT 1
+ .SH NAME
+ dact \- compress or expand a file or stream
+@@ -37,8 +36,8 @@ Magic number of file, DACT version file was compressed with, Block size used to
+ .TP
+ .B \-f
+ Force bad and unsafe things to happen.  Can be combined to
+-make even worse things happen.  One `-f' allows overwriting of
+-existing files, two `-f' allows you to ignore bad magic and
++make even worse things happen.  One `\-f' allows overwriting of
++existing files, two `\-f' allows you to ignore bad magic and
+ CRC check fails.
+ .TP
+ .B \-c
+@@ -48,9 +47,9 @@ a file to a pipe.
+ .TP
+ .B \-v
+ Increase verbosity, can be combined to increase verbosity a
+-lot.  Currently, only up to 3 makes sense.  One `-v' displays
+-a bar graph.  Two `-v' displays a bar graph and block
+-information.  Three `-v' displays a bar graph and detailed
++lot.  Currently, only up to 3 makes sense.  One `\-v' displays
++a bar graph.  Two `\-v' displays a bar graph and block
++information.  Three `\-v' displays a bar graph and detailed
+ compression statistics per block.
+ .TP
+ .B \-l
+@@ -100,7 +99,7 @@ Upgrade DACT.  This option will fetch the latest binary from
+ the internet and place it in $HOME/.dact/ as dact.bin.  If
+ you have `binary_check on' in your dact.conf file, DACT will
+ check for this file and use it.  If you have Debian and run
+-`dact -N'   as root the Debian upgrade procedure will upgrade
++`dact \-N'   as root the Debian upgrade procedure will upgrade
+ your entire system.
+ .TP
+ .B \-a
+@@ -113,7 +112,7 @@ size parameters is in bytes.
+ .B \-e\ num
+ Exclude an algorithm from being used.  This option is useful
+ if you know your target will not be able to decompress a
+-certain algorithm (you can get their numbers from the `-l'
++certain algorithm (you can get their numbers from the `\-l'
+ option.)
+ .TP
+ .B \-m\ file
+@@ -145,7 +144,7 @@ URLs in DACT can have variables in them that will be expanded when network acces
+     @@USER@@        Prompt for Username
+     @@ATSN@@        Put an `@'
+   example:
+-    dact -p http://www.rkeene.org/devel/dact/precompiled/dact-@@OSNM@@-@@OSVS@@-@@ARCH@@.bin
++    dact \-p http://www.rkeene.org/devel/dact/precompiled/dact-@@OSNM@@-@@OSVS@@-@@ARCH@@.bin
+     dact: http://www.rkeene.org/devel/dact/precompiled/dact-linux-2.4-i586.bin
+ .TP
+ .B \-M\ command
+@@ -162,7 +161,7 @@ if you want to limit yourself to a certain type of compression.
+ .B \-U\ file
+ Encode the specified file into the header of the compressed
+ file.  This file will be searched (line-by-line) for a working
+-URL to download compressed content from.  See also `-u.'
++URL to download compressed content from.  See also `\-u.'
+ .TP
+ .B \-E\ cipher
+ Enable encryption using the specified algorithm, different
+@@ -171,12 +170,11 @@ algorithms use different authentication methods.
+ .SH FILES
+   $HOME/.dact/
+   $HOME/.dact/dact.conf
+-  /usr/etc/dact.conf
++  /etc/dact.conf
+ 
+ .SH "SEE ALSO"
+ gzip(1), bzip2(1), mcrypt(3)
+ 
+ .SH AUTHOR
+-.Sp
+ Roy Keene
+ .I <dact@rkeene.org>
+-- 
+1.7.0
+

@@ -1,0 +1,33 @@
+		     NOTE ON STAR DATA FILES
+
+ Everyone is permitted to copy and distribute verbatim copies
+ of this copyright note, but changing it is not allowed.
+
+The Makefile and .spec file of this data set are licensed under the GNU GPL,
+of which you should have received a copy with the StarPlot documentation.
+The GPL also applies to the text documentation (README, INSTALL) for this data
+set, except where it would conflict with the licensing requirements described
+below.  The GPL does ***NOT*** apply to the star data files enclosed or
+generated.  The data files in the orig-data directory originate from the 
+Astronomical Data Center (http://adc.gsfc.nasa.gov) at NASA Goddard Space 
+Flight Center, and are copyrighted by their respective authors.  Upon asking 
+the ADC about the permissibility of their redistribution, I was told the
+following:
+
+	Yes, you are free to distribute the files with your program.
+	Although, we do ask that you acknowledge, your source (the ADC)
+	and the original authors.
+
+	See: http://adc.gsfc.nasa.gov/adc/acknowledge_adc.html
+	for more information.
+
+My conclusions are that (1) you are free to redistribute the ADC data files.
+However, (2) you must not delete any documentation giving credit for the data
+files, for example in the README; and (3) the data files must NOT be altered in
+any way (without permission of the original authors).  Therefore (4) it is NOT
+permissible to redistribute the *.stars files which the StarPlot conversion
+program creates from the ADC data files.  I have confirmed these conclusions
+with the ADC.
+
+The above text is Copyright (C) 2000  Kevin B. McCarty.
+

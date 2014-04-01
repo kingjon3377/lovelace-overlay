@@ -1,0 +1,171 @@
+--- sockstat-0.3.orig/debian/dirs
++++ sockstat-0.3/debian/dirs
+@@ -0,0 +1 @@
++usr/bin
+--- sockstat-0.3.orig/debian/changelog
++++ sockstat-0.3/debian/changelog
+@@ -0,0 +1,14 @@
++sockstat (0.3-1.1) unstable; urgency=low
++
++  * Non-maintainer upload.
++  * Add quilt for patching
++  * debian/patches/001_fix_CHAR_BIT_missing.patch
++    - Fix FTBFS in karmic (Closes: #518851)
++
++ -- Ying-Chun Liu (PaulLiu) <grandpaul@gmail.com>  Thu, 04 Jun 2009 16:12:06 +0800
++
++sockstat (0.3-1) unstable; urgency=low
++
++  * Initial release for Debian. (Closes: #483899)
++
++ -- William Pitcock <nenolod@dereferenced.org>  Wed, 06 Aug 2008 13:08:22 -0500
+--- sockstat-0.3.orig/debian/manpages
++++ sockstat-0.3/debian/manpages
+@@ -0,0 +1 @@
++sockstat.1
+--- sockstat-0.3.orig/debian/compat
++++ sockstat-0.3/debian/compat
+@@ -0,0 +1 @@
++6
+--- sockstat-0.3.orig/debian/copyright
++++ sockstat-0.3/debian/copyright
+@@ -0,0 +1,29 @@
++This package was debianized by William Pitcock <nenolod@dereferenced.org> on
++Sat, 31 May 2008 19:48:39 -0500.
++
++It was downloaded from <http://nenolod.net/sockstat>.
++
++Upstream Author: William Pitcock <nenolod@dereferenced.org>
++
++Copyright: 
++
++    Copyright (c) 2002 Dag-Erling Coïdan Smørgrav
++    Copyright (c) 2008 William Pitcock
++
++License:
++
++    Redistribution and use in source and binary forms, with or without
++    modification, are permitted provided that the following conditions
++    are met:
++
++    1. Redistributions of source code must retain the above copyright
++       notice, this list of conditions and the following disclaimer
++       in this position and unchanged.
++    2. Redistributions in binary form must reproduce the above copyright
++       notice, this list of conditions and the following disclaimer in the
++       documentation and/or other materials provided with the distribution.
++    3. The name of the author may not be used to endorse or promote products
++       derived from this software without specific prior written permission.
++
++The Debian packaging is (C) 2008, William Pitcock <nenolod@dereferenced.org>
++and is licensed under the same license as sockstat itself, see above.
+--- sockstat-0.3.orig/debian/control
++++ sockstat-0.3/debian/control
+@@ -0,0 +1,19 @@
++Source: sockstat
++Section: admin
++Priority: extra
++Maintainer: William Pitcock <nenolod@dereferenced.org>
++Build-Depends: debhelper (>= 6), quilt
++Standards-Version: 3.8.0
++Homepage: http://nenolod.net/sockstat
++
++Package: sockstat
++Architecture: any
++Depends: ${shlibs:Depends}, ${misc:Depends}
++Description: view detailed information about open connections
++ Sockstat is a tool to let you view information about open connections.
++ It is similar to the tool of the same name that is included in FreeBSD,
++ trying to faithfully reproduce as much functionality as is possible.
++ .
++ This version of sockstat contains several additional features, like
++ the ability to look up sockets in use by GID, UID and process name,
++ as well as the other criteria supported by FreeBSD's sockstat.
+--- sockstat-0.3.orig/debian/README
++++ sockstat-0.3/debian/README
+@@ -0,0 +1,7 @@
++The Debian Package sockstat
++---------------------------
++
++This is a reimplementation of the FreeBSD sockstat(1) command. Many
++additional features have been added.
++
++ -- William Pitcock <nenolod@sacredspiral.co.uk>  Sat, 31 May 2008 19:48:39 -0500
+--- sockstat-0.3.orig/debian/rules
++++ sockstat-0.3/debian/rules
+@@ -0,0 +1,56 @@
++#!/usr/bin/make -f
++# -*- makefile -*-
++
++# Uncomment this to turn on verbose mode.
++#export DH_VERBOSE=1
++
++include /usr/share/quilt/quilt.make
++
++configure: configure-stamp
++configure-stamp: $(QUILT_STAMPFN)
++	dh_testdir
++	touch configure-stamp
++
++
++build: build-stamp
++build-stamp: configure-stamp  
++	dh_testdir
++	$(MAKE)
++	touch $@
++
++clean:  unpatch
++	dh_testdir
++	dh_testroot
++	rm -f build-stamp configure-stamp
++	$(MAKE) clean
++
++	dh_clean 
++
++install: build
++	dh_testdir
++	dh_testroot
++	dh_clean -k 
++	dh_installdirs
++	$(MAKE) DESTDIR=$(CURDIR)/debian/sockstat install
++
++binary-indep: build install
++binary-arch: build install
++	dh_testdir
++	dh_testroot
++	dh_installchangelogs 
++	dh_installdocs
++	dh_installexamples
++	dh_install
++	dh_installman
++	dh_link
++	dh_strip
++	dh_compress
++	dh_fixperms
++	dh_installdeb
++	dh_shlibdeps
++	dh_gencontrol
++	dh_md5sums
++	dh_builddeb
++
++binary: binary-indep binary-arch
++.PHONY: build clean binary-indep binary-arch binary install configure
+--- sockstat-0.3.orig/debian/patches/series
++++ sockstat-0.3/debian/patches/series
+@@ -0,0 +1 @@
++001_fix_CHAR_BIT_missing.patch
+--- sockstat-0.3.orig/debian/patches/001_fix_CHAR_BIT_missing.patch
++++ sockstat-0.3/debian/patches/001_fix_CHAR_BIT_missing.patch
+@@ -0,0 +1,12 @@
++Index: sockstat-0.3/sockstat.c
++===================================================================
++--- sockstat-0.3.orig/sockstat.c	2009-06-04 11:34:59.051534157 +0800
+++++ sockstat-0.3/sockstat.c	2009-06-04 11:35:27.283531833 +0800
++@@ -41,6 +41,7 @@
++ #include <pwd.h>
++ #include <grp.h>
++ #include <assert.h>
+++#include <limits.h>
++ 
++ #define SEARCH_ALL     0x00
++ #define SEARCH_GID     0x01
