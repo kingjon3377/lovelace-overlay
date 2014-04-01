@@ -7,10 +7,10 @@ EAPI=5
 inherit java-virtuals-2
 
 DESCRIPTION="Virtual for Jetty www server"
-HOMEPAGE=""
+HOMEPAGE="http://www.gentoo.org/"
 SRC_URI=""
 
-LICENSE=""
+LICENSE="GPL-2"
 SLOT="${PV}"
 KEYWORDS="amd64 x86"
 IUSE=""
