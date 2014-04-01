@@ -1,4 +1,4 @@
-# Copyright 1999-2010 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -44,7 +44,6 @@ RDEPEND="${DEPEND}
 S="${WORKDIR}/${MY_PN}-${PV}"
 
 src_install() {
-	cd "${S}"
 	rm -f etc/jetty-sslengine.xml
 
 	java-pkg_jarinto "/usr/share/${MY_JETTY}/lib/"
@@ -88,11 +87,10 @@ src_install() {
 
 	if use anttasks ; then
 		 java-pkg_dojar bin/jetty-tasks.xml
-		 cd ${DISTDIR}
+		 cd "${DISTDIR}"
 		 java-pkg_newjar ${MY_PN}-ant-${PV}.jar ${MY_PN}-ant.jar
-		 cd ${S}
+		 cd "${S}"
 	fi
-
 
 	dodir /etc/${MY_JETTY}
 	insinto /etc/${MY_JETTY}
@@ -100,11 +98,11 @@ src_install() {
 
 	dodir /etc/conf.d
 	insinto /etc/conf.d
-	newins ${FILESDIR}/conf.d/${MY_JETTY} ${MY_JETTY}
+	newins "${FILESDIR}/conf.d/${MY_JETTY}" ${MY_JETTY}
 
 	dodir /etc/init.d
 	exeinto /etc/init.d
-	newexe ${FILESDIR}/init.d/${MY_JETTY} ${MY_JETTY}
+	newexe "${FILESDIR}/init.d/${MY_JETTY}" ${MY_JETTY}
 
 	dodir /var/log/${MY_JETTY}
 
@@ -142,6 +140,6 @@ pkg_preinst () {
 	enewuser jetty
 	fowners jetty:jetty /var/log/${MY_JETTY}
 	fperms g+w /var/log/${MY_JETTY}
-	mv ${D}/usr/share/${PN}-${SLOT}/package.env ${D}/usr/share/${MY_JETTY}/package.env
-	rm -rf ${D}/usr/share/${PN}-${SLOT}
+	mv "${D}/usr/share/${PN}-${SLOT}/package.env" "${D}/usr/share/${MY_JETTY}/package.env"
+	rm -rf "${D}/usr/share/${PN}-${SLOT}"
 }
