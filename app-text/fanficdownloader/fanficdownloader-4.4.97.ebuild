@@ -20,6 +20,8 @@ RDEPEND="${PYTHON_DEPS}"
 DEPEND="${RDEPEND}
 	app-arch/unzip"
 
+S="${WORKDIR}/${PN}-4.4.94"
+
 src_prepare() {
 #	rm epubmerge.py ${PN}/BeautifulSoup.py || die
 	rm ${PN}/BeautifulSoup.py || die
