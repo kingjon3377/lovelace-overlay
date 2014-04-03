@@ -1,10 +1,12 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
 EAPI=5
 
-inherit distutils
+PYTHON_COMPAT=( python2_{6,7} )
+
+inherit distutils-r1
 
 DESCRIPTION="desktop Wordpress client"
 HOMEPAGE="https://fedorahosted.org/lekhonee/"
@@ -15,9 +17,9 @@ SLOT="0"
 KEYWORDS="amd64"
 IUSE=""
 
-DEPEND="kde-base/pykde4
+DEPEND="kde-base/pykde4[${PYTHON_USEDEP}]
 	dev-lang/vala
-	dev-libs/glib:2
+	dev-libs/glib:2[${PYTHON_USEDEP}]
 	net-libs/libsoup
 	dev-libs/libxml2
 	x11-libs/gtk+:2
