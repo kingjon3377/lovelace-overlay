@@ -4,7 +4,7 @@
 
 EAPI=5
 
-inherit eutils mono
+inherit eutils mono-env
 
 DESCRIPTION="Saves Last.fm streams to mp3's"
 HOMEPAGE="http://thelastripper.com/"
