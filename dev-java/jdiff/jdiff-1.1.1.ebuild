@@ -31,7 +31,7 @@ LICENSE="LGPL-2.1"
 KEYWORDS="amd64 x86"
 IUSE=""
 
-S="${WORKDIR}/${PN}/"
+#S="${WORKDIR}/${PN}/"
 
 src_prepare() {
 	rm lib/*.jar

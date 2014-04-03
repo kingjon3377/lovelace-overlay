@@ -1,10 +1,11 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
 EAPI=5
 
-inherit distutils eutils
+PYTHON_COMPAT=( python2_{6,7} )
+inherit distutils-r1 eutils
 
 DESCRIPTION="GTK+ 2 rewrite of a well-known GTK+ 1 tool LinNeighborhood"
 HOMEPAGE="https://launchpad.net/pyneighborhood"
@@ -15,6 +16,5 @@ LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="amd64 ~x86"
 
-RDEPEND=">=dev-lang/python-2.5
-	net-fs/samba
-	dev-python/pygtk"
+RDEPEND="net-fs/samba
+	dev-python/pygtk[${PYTHON_USEDEP}]"
