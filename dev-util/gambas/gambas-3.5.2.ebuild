@@ -106,6 +106,8 @@ S="${WORKDIR}/${MY_P}"
 
 src_prepare() {
 	epatch "${FILESDIR}/xdgutils.patch"
+	sed -i -e 's:^\(gb_image_la_CFLAGS = -I\$(top_srcdir)/share \)\(\$(AM_CFLAGS)\)$:\1-lm \2:' \
+		main/lib/image/Makefile.am || die
 	elibtoolize
 	eautoreconf
 }
