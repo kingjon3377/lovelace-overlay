@@ -18,7 +18,7 @@ LICENSE="GPL-2"
 KEYWORDS="~amd64 ~x86"
 IUSE="
 	+bzip2 +cairo crypt +curl dbus +desktop examples gmp gsl +gtk httpd +imageio imageimlib \
-	jit libxml +media mysql +mime +ncurses +net +opengl postgres odbc openssl openal +pcre +pdf \
+	jit +media mysql +mime +ncurses +net +opengl postgres odbc openssl openal +pcre +pdf \
 	+qt4 +sdl +sdlsound smtp sqlite +sqlite3 +svg +v4l +xml +zlib"
 
 REQUIRED_USE="gtk? ( cairo ) media? ( v4l ) mysql? ( zlib ) net? ( curl ) sdl? ( opengl ) xml? ( net ) net? ( mime )"
@@ -45,7 +45,6 @@ COMMON_DEPEND="
 	imageio? ( x11-libs/gdk-pixbuf:2 )
 	imageimlib?	( media-libs/imlib2 )
 	jit?	( >=sys-devel/llvm-3.1 )
-	libxml?	( dev-libs/libxml2 )
 	media?	(
 		media-libs/gstreamer:1.0
 		media-libs/gst-plugins-base
