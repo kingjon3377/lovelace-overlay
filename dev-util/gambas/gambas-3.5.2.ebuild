@@ -17,11 +17,11 @@ LICENSE="GPL-2"
 
 KEYWORDS="~amd64 ~x86"
 IUSE="
-	+bzip2 cairo crypt +curl dbus +desktop +examples gmp gsl +gtk httpd +imageio imageimlib \
-	jit libxml +media mysql mime +ncurses net +opengl postgres odbc openssl openal +pcre +pdf \
-	+qt4 +sdl +sdlsound smtp sqlite +sqlite3 +svg v4l +xml +zlib"
+	+bzip2 +cairo crypt +curl dbus +desktop examples gmp gsl +gtk httpd +imageio imageimlib \
+	jit libxml +media mysql +mime +ncurses +net +opengl postgres odbc openssl openal +pcre +pdf \
+	+qt4 +sdl +sdlsound smtp sqlite +sqlite3 +svg +v4l +xml +zlib"
 
-REQUIRED_USE="gtk? ( cairo ) media? ( v4l ) mysql? ( zlib ) net? ( curl ) sdl? ( opengl )"
+REQUIRED_USE="gtk? ( cairo ) media? ( v4l ) mysql? ( zlib ) net? ( curl ) sdl? ( opengl ) xml? ( net ) net? ( mime )"
 
 # libcrypt.so is part of glibc
 # gtk? ( x11-libs/gtk+:2[cups] )
@@ -152,7 +152,7 @@ src_configure() {
 }
 
 src_install() {
-	DESTDIR="${D}" emake install
+	DESTDIR="${D}" emake -j1 install # Sometimes fails with "file exists" errors.
 
 	dodoc AUTHORS README TODO
 	use net && newdoc gb.net/src/doc/README gb.net-README
