@@ -4,7 +4,7 @@ inherit eutils flag-o-matic autotools multilib toolchain-funcs
 
 DESCRIPTION="alpine is an easy to use text-based based mail and news client"
 HOMEPAGE="http://www.washington.edu/alpine/ http://patches.freeiz.com/alpine/"
-SRC_URI="http://patches.freeiz.com/alpine/patches/${P}/${P}.tar.lzma"
+SRC_URI="http://patches.freeiz.com/alpine/release/src/${P}.tar.lzma"
 
 LICENSE="Apache-2.0"
 KEYWORDS="amd64"
