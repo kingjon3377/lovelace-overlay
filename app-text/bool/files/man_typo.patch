@@ -1,0 +1,20 @@
+--- bool-0.2.1.orig/doc/bool.1
++++ bool-0.2.1/doc/bool.1
+@@ -79,7 +79,7 @@
+ lines (default 1) of context for each pattern.  No output is printed if
+ the boolean expression is false.  Every match is printed if
+ .I NUM
+-is set to 0, even if the expression if false.
++is set to 0, even if the expression is false.
+ .TP
+ .BR \-P ", " \-\^\-with-pattern
+ Print the pattern for each match.
+@@ -134,7 +134,7 @@
+ 
+   # bool "one and two"
+ 
+-All occurences of 'one' and 'two'.  If the boolean expression is false,
++All occurrences of 'one' and 'two'.  If the boolean expression is false,
+ ie if only 'one' or 'two' is present, the return value is 1:
+ 
+   # bool -O0 "one and two"

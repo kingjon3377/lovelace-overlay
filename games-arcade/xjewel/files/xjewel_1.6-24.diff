@@ -1,0 +1,725 @@
+--- xjewel-1.6.orig/game.c
++++ xjewel-1.6/game.c
+@@ -23,6 +23,7 @@
+ #include "panel.h"
+ #include "xw.h"
+ 
++#include <stdio.h>
+ 
+ /* util functions */
+ void Key_Bell()
+@@ -42,7 +43,7 @@
+ 	int offx,offy;
+ 	int srcx,srcy, destx,desty;
+ 	unsigned int width,height;
+-	unsigned int GWIDTH=NUM_COLS*SIZE_PIECE, GHEIGHT=NUM_ROWS*SIZE_PIECE;
++	int GWIDTH=NUM_COLS*SIZE_PIECE, GHEIGHT=NUM_ROWS*SIZE_PIECE;
+ 
+ 	struct timeval curtime;
+ 	gettimeofday(&curtime,NULL);
+--- xjewel-1.6.orig/xw.c
++++ xjewel-1.6/xw.c
+@@ -33,6 +33,8 @@
+ #include "general.h"
+ #include "xw.h"
+ 
++#include <ctype.h>
++
+ /* include bitmaps */
+ 
+ #include "bitmaps/icon.xbm"
+@@ -104,7 +106,7 @@
+ unsigned long ms;
+ 	{
+ 	struct timeval st, et;
+-	long SyncTime;
++	unsigned long SyncTime;
+ 
+ 	/*printf("sync ms:%ld\n",ms);*/
+ 	
+@@ -156,6 +158,10 @@
+ 	fd_set readfds, writefds, exceptfds;
+ 	struct timeval timeout_BSD;
+ 
++	FD_ZERO(&readfds);
++	FD_ZERO(&writefds);
++	FD_ZERO(&exceptfds);
++
+ 	FD_SET(XConnectionNumber(xw_display),&readfds);
+ 	FD_SET(XConnectionNumber(xw_display),&exceptfds);
+ #   else
+--- xjewel-1.6.orig/xjewel.man
++++ xjewel-1.6/xjewel.man
+@@ -1,8 +1,6 @@
+-.TH JEWEL 6 "December 1992" "X Version 11"
++.TH XJEWEL 6x "December 1992" "X Version 11"
+ .SH NAME
+-
+ xjewel \- X windows droping jewels game
+-
+ .SH SYNOPSIS
+ 
+ .B xjewel
+@@ -32,93 +30,56 @@
+ ( or any combination )
+ 
+ Option 1:
+-.TS
+-center tab (%) ;
+-| cw(1.25i) | cw(1.25i) | cw(1.25i) | 
+-  c   c   c
+-  c   c   c .
+-_
+-J %  K %  L 
+-_
+-|  %   |   %  | 
+-move block left % rotate block % move block right
+-.TE
+-.TS
+-center tab (%) ;
+-_   l
+-| cw(1.25i) | l
+-_   l.
+-
+-SPACE  % <- drop block
+-
+-.TE
++         +---+ +---+ +---+
++         | j | | k | | l |
++         +---+ +---+ +---+
++           ^     ^     ^
++           |     |     |__ move block right
++           |     |________ rotate block
++           |______________ move block left
++
++         +---------+
++         |  SPACE  | <---- drop block
++         +---------+
+ 
+ Option 2:
++         +---+ +---+ +---+
++         | 4 | | 5 | | 6 |
++         +---+ +---+ +---+
++           ^     ^     ^
++           |     |     |__ move block right
++           |     |________ rotate block
++           |______________ move block left
++
++         +---------+
++         |    0    | <---- drop block
++         +---------+
+ 
+-.TS
+-center tab (%) ;
+-| cw(1.25i) | cw(1.25i) | cw(1.25i) |
+-  c   c   c
+-  c   c   c .
+-_
+-4 %  5 %  6
+-_
+-|  %   |   %  |
+-move block left % rotate block % move block right
+-.TE
+-.TS
+-center tab (%) ;
+-_   l
+-| cw(1.25i) | l
+-_   l.
+-
+-0  % <- drop block
+-
+-.TE
+-
+-.if n .ne 8
+ Option 3: (cursor keypad)
+                 
+-.TS
+-center tab (%) ;
+-  l        _        l 
+-  cw(1.25i) | cw(1.25i) | l
+-  l        _        l  
+-| cw(1.25i) | cw(1.25i) | cw(1.25i) |
+-  c   c   c
+-  c   c   c .
+-
+- %  \(ua %  - rotate block
+-
+-_
+-\(<- %  \(da  %  \(->
+-_
+-|  %   |   %  |
+-move block left % rotate block % move block right
+-.TE
++               +---+
++               | ^ | <----  rotate block
++               +---+
++         +---+ +---+ +---+
++         | < | | V | | > |
++         +---+ +---+ +---+
++           ^     ^     ^
++           |     |     |__ move block right
++           |     |________ drop block
++           |______________ move block left
+ 
+ .SH ROTATIONS
+ 
+ The folowing rotations are possible:
+ ( there are no others )
+ 
+-.TS
+-center tab (%);
+-_ % cw(1i) % _ % cw(1i) % _
+-| cw(1i) | % cw(1i) % | cw(1i) | % cw(1i) % | cw(1i) |
+-_ % cw(1i) % _ % cw(1i) % _
+-| cw(1i) | % cw(1i) % | cw(1i) | % cw(1i) % | cw(1i) |
+-_ % cw(1i) % _ % cw(1i) % _
+-| cw(1i) | % cw(1i) % | cw(1i) | % cw(1i) % | cw(1i) |
+-_ % cw(1i) % _ % cw(1i) % _ .
+-
+-1 % % 3 % % 2
+-
+-2 % \(rh % 1 % \(rh % 3
+-
+-3 % % 2 % % 1
+-
+-.TE
++              +---+       +---+       +---+
++              | 1 |       | 3 |       | 2 |
++              +---+       +---+       +---+
++              | 2 |  ==>  | 1 | ==>   | 3 |
++              +---+       +---+       +---+
++              | 3 |       | 2 |       | 1 |
++              +---+       +---+       +---+
+ 
+ .SH SCORING
+ 
+--- xjewel-1.6.orig/jewel.c
++++ xjewel-1.6/jewel.c
+@@ -31,6 +31,8 @@
+ #include "panel.h"
+ #include "help.h"
+ 
++#include <stdio.h>
++
+ #include "version.h"
+ char *StartString="Press \140Space\047 to begin, or \140H\047 for Help";
+ 
+@@ -52,6 +54,7 @@
+ void xw_leave_event(xlev)
+ XLeaveWindowEvent *xlev;
+ 	{
++	xlev = 0; /* unused */
+ #ifdef LEAVE_PAUSE
+ 	if (JewelState == GAME)
+ 		{
+@@ -209,6 +212,9 @@
+ 					break;
+ 				}
+ 			break;
++		case ICON:
++		case NULL_STATE:
++			break;
+ 		}
+ 	XFlush(xw_display);
+ 	
+@@ -221,6 +227,7 @@
+ void xw_but_event(xbev)
+ XButtonEvent *xbev;
+ 	{
++	xbev = 0; /* unused */
+ 	/* deal with key event */
+ 	/*printf("buttonpress:%d\n",xbev->button); */
+ 	/*xw_ev.button = xbev->button;
+@@ -268,6 +275,8 @@
+ 			case HIGHSCORE:
+ 				Refresh_High_Scores();
+ 				break;
++			case ICON:
++				break;
+ 			}
+ 		}
+ 	}
+@@ -311,6 +320,8 @@
+ 		case ICON:
+ 			Rot_Icons();
+ 			break;
++		case NULL_STATE:
++			break;
+ 		}
+ 	}
+ 
+--- xjewel-1.6.orig/hscore.c
++++ xjewel-1.6/hscore.c
+@@ -4,6 +4,7 @@
+ **
+ */
+ 
++#define _XOPEN_SOURCE
+ #include <stdio.h>
+ 
+ #ifndef SYSV
+@@ -25,6 +26,7 @@
+ #endif
+ 
+ #include <errno.h>
++#include <unistd.h>
+ 
+ #include "general.h"
+ #include "hscore.h"
+--- xjewel-1.6.orig/intro.c
++++ xjewel-1.6/intro.c
+@@ -42,7 +42,7 @@
+ static GC GreenGC, YelGC, PresGC;
+ static XFontStruct *PresFont;
+ static Pixmap BigLogoPM;
+-static int count=0;
++static unsigned int count=0;
+ static int ShineX=0;
+ static BOOL dir_forward=0;
+ #define LM (biglogo_width/2)
+@@ -261,6 +261,8 @@
+ 				VerString, strlen(VerString));
+ 			}
+ 			break;
++		case FINI:
++			break;
+ 		}
+ 	XFlush(xw_display);
+ 	}
+--- xjewel-1.6.orig/logic.c
++++ xjewel-1.6/logic.c
+@@ -88,7 +88,7 @@
+ 			}
+ 	}
+ 
+-Update_Board(piece, x, y)
++void Update_Board(piece, x, y)
+ int piece, x, y;
+ 	{
+ 	board[x][y] = piece;
+@@ -331,7 +331,7 @@
+ 	return(add_score);
+ 	}
+ 
+-int Remove_Flash()
++void Remove_Flash()
+ 	{
+ 	int index;
+ 
+--- xjewel-1.6.orig/Makefile.simple
++++ xjewel-1.6/Makefile.simple
+@@ -1,9 +1,9 @@
+ # A Simple makefile which will satisfy most users
+ 
+ # Edit the following to the solid line:
+-INSTDIR = /usr/local
+-#HSCORE_FILE = $(INSTDIR)/lib/xjewel.scores
+-HSCORE_FILE = xjewel.scores
++INSTDIR = $(PREFIX)/usr/
++HSCORE_FILE = /var/games/xjewel.scores
++#HSCORE_FILE = xjewel.scores
+ 
+ # DEFINE 'DECWM' if you use DECwindows session manager
+ # DEFINE 'ICON_WINDOW' if you want dynamic icons
+@@ -11,7 +11,7 @@
+ # DEFINE 'GETPWENT' if you dont have the cuserid ftn (hscore.c)
+ # DEFINE 'SLOW_FONTS=n' if your server is overly fast on fonts
+ # DEFINE 'SLOW_DRAW=n' if your server is overly fast on drawing
+-USERDEFS = -DICON_WINDOW
++#USERDEFS = -DICON_WINDOW
+ 
+ # Declare what is necessary to build an X client
+ #	POLL - define to USE_SELECT for bsdish systems
+@@ -19,7 +19,7 @@
+ 
+ # the basic: (OSF, generic BSD)
+ POLL = -DUSE_SELECT
+-LDFLAGS = -lX11
++LDFLAGS = -L/usr/X11R6/lib -lX11
+ 
+ # IF SUN ->
+ #INCLUDES = -I/usr/openwin/include
+@@ -27,8 +27,8 @@
+ 
+ # IF HPUX ->
+ #POLL = -DUSE_SELECT
+-INCLUDES = -I/usr/include/X11R4
+-LDFLAGS = -L/usr/lib/X11R4 -lX11
++#INCLUDES = -I/usr/include/X11R4
++#LDFLAGS = -L/usr/lib/X11R4 -lX11
+ 
+ # IF ISC3.0 ->
+ #POLL =
+@@ -37,7 +37,7 @@
+ 
+ ##############################################################################
+ 
+-CFLAGS  = -O -DHSCORE_FILE=\"$(HSCORE_FILE)\" $(USERDEFS) $(INCLUDES) $(POLL)
++CFLAGS  = -O2 -W -Wall -DHSCORE_FILE=\"$(HSCORE_FILE)\" $(USERDEFS) $(INCLUDES) $(POLL)
+ 
+ SHELL = /bin/sh
+ 
+@@ -52,14 +52,16 @@
+ 	$(CC) -o $@ $(OBJS) $(LDFLAGS) $(MALLOC_LIB) 
+ 
+ # IF YOUR SYSTEM USES .pcf OR .scr FILES, CHANGE THE FOLLOWING
+-FFILE = snf
++FFILE = pcf
+ 
+ bitmaps/seven_seg.$(FFILE): bitmaps/seven_seg.bdf
+ 	bdfto$(FFILE) bitmaps/seven_seg.bdf >bitmaps/seven_seg.$(FFILE)
+ 	(cd bitmaps ; mkfontdir)
+ 
+ install: xjewel bitmaps/seven_seg.$(FFILE)
+-	touch $(HSCORE_FILE)
+-	chmod a+w $(HSCORE_FILE)
+-	cp xjewel $(INSTDIR)/bin
+-
++#	install -d $(PREFIX)/var/games/
++#	touch $(PREFIX)/$(HSCORE_FILE)
++#	chmod a+w $(PREFIX)/$(HSCORE_FILE)
++	install -d $(INSTDIR)/games $(INSTDIR)/share/man/man6/
++	install xjewel $(INSTDIR)/games
++	cp xjewel.man $(INSTDIR)/share/man/man6/xjewel.6x
+--- xjewel-1.6.orig/panel.c
++++ xjewel-1.6/panel.c
+@@ -148,7 +148,7 @@
+ 	Redraw_Rest(Rest);
+ 	}
+ 
+-BOOL Dec_Rest(val)
++BOOL Dec_Rest(int val)
+ 	{
+ 	BOOL new_stage;
+ 
+--- xjewel-1.6.orig/debian/postinst
++++ xjewel-1.6/debian/postinst
+@@ -0,0 +1,18 @@
++#!/bin/sh -e
++
++SCOREFILE=/var/games/xjewel.scores
++
++# Clean up from pre-FHS days.
++if [ -e /var/lib/games/xjewel.scores ]; then
++	mv -f /var/lib/games/xjewel.scores $SCOREFILE
++fi
++
++# Create high score file if it doesn't already exist.
++if [ ! -e "$SCOREFILE" ]; then
++	mkdir -p $(dirname "$SCOREFILE")
++	touch "$SCOREFILE"
++	chown root:games "$SCOREFILE"
++	chmod 664 "$SCOREFILE"
++fi
++
++#DEBHELPER#
+--- xjewel-1.6.orig/debian/rules
++++ xjewel-1.6/debian/rules
+@@ -0,0 +1,41 @@
++#!/usr/bin/make -f
++
++build: build-stamp
++build-stamp:
++	dh_testdir
++	$(MAKE) -f Makefile.simple
++	touch build-stamp
++
++clean:
++	dh_testdir
++	dh_testroot
++	rm -f build-stamp
++	dh_clean *.o xjewel bitmaps/fonts.dir bitmaps/seven_seg.pcf
++
++binary-indep: build
++
++binary-arch: build
++	dh_testdir
++	dh_testroot
++	dh_clean -k
++	$(MAKE) -f Makefile.simple PREFIX=debian/xjewel install
++	dh_installdocs README
++	dh_installexamples
++	dh_installmenu
++	dh_installman
++	dh_installchangelogs CHANGES
++	dh_strip
++	dh_compress
++	dh_fixperms
++	
++	chown root.games debian/xjewel/usr/games/xjewel
++	chmod g+s debian/xjewel/usr/games/xjewel
++
++	dh_installdeb
++	dh_shlibdeps
++	dh_gencontrol
++	dh_md5sums
++	dh_builddeb
++
++binary: binary-indep binary-arch
++.PHONY: build clean binary-indep binary-arch binary
+--- xjewel-1.6.orig/debian/postrm
++++ xjewel-1.6/debian/postrm
+@@ -0,0 +1,11 @@
++#!/bin/sh -e
++
++SCOREFILE=/var/games/xjewel.scores
++
++# Remove high score file on purge.
++if [ "$1" = "purge" ]; then
++	rm -f "$SCOREFILE"
++	rmdir -p --ignore-fail-on-non-empty $(dirname "$SCOREFILE")
++fi
++
++#DEBHELPER#
+--- xjewel-1.6.orig/debian/changelog
++++ xjewel-1.6/debian/changelog
+@@ -0,0 +1,166 @@
++xjewel (1.6-24) unstable; urgency=low
++
++  * Orphaned the package.
++
++ -- Joey Hess <joeyh@debian.org>  Sat, 21 Jun 2008 21:37:25 -0400
++
++xjewel (1.6-23) unstable; urgency=low
++
++  * Fix nostrip build. Closes: #438297
++
++ -- Joey Hess <joeyh@debian.org>  Thu, 16 Aug 2007 13:49:28 -0400
++
++xjewel (1.6-22) unstable; urgency=low
++
++  * Update menu file for new policy and de-hardcode path.
++
++ -- Joey Hess <joeyh@debian.org>  Sun, 08 Jul 2007 16:49:27 -0400
++
++xjewel (1.6-21) unstable; urgency=low
++
++  * Move away from xlibs-dev.
++  * Current policy.
++  * Debhelper v5.
++  * Set section to 6x in man page.
++  * Use new chown syntax.
++
++ -- Joey Hess <joeyh@debian.org>  Wed, 30 Nov 2005 20:41:37 -0500
++
++xjewel (1.6-20) unstable; urgency=low
++
++  * Fix path to score file in prerm.
++  * On purge, delete score file subdir if empty. Closes: #333283
++  * Don't include /var/games in deb to avoid dpkg whining on purge.
++
++ -- Joey Hess <joeyh@debian.org>  Tue, 11 Oct 2005 13:35:54 -0400
++
++xjewel (1.6-19) unstable; urgency=low
++
++  * Define _XOPEN_SOURCE to ensure cuserid is prototyped and avoid
++    a segfault on ia64. Thanks to Matthew Wilcox. Closes: #241369
++  * Turn on -Wall -O2 in CFLAGS.
++  * Fix the numerous warnings.
++
++ -- Joey Hess <joeyh@debian.org>  Wed, 31 Mar 2004 21:29:32 -0500
++
++xjewel (1.6-18) unstable; urgency=low
++
++  * Fixed man page .TH line and removed whitespace to lexgrog can parse it.
++
++ -- Joey Hess <joeyh@debian.org>  Fri, 15 Nov 2002 14:23:24 -0500
++
++xjewel (1.6-17) unstable; urgency=low
++
++  * Debhelper v4.
++
++ -- Joey Hess <joeyh@debian.org>  Thu, 13 Jun 2002 17:19:03 -0400
++
++xjewel (1.6-16) unstable; urgency=low
++
++  * X4 build depends update, Closes: #82619
++  * Rebuilt, dpkg-dev..
++
++ -- Joey Hess <joeyh@debian.org>  Wed, 17 Jan 2001 11:21:46 -0800
++
++xjewel (1.6-15) unstable; urgency=low
++
++  * statoverride transition
++
++ -- Joey Hess <joeyh@debian.org>  Wed, 10 Jan 2001 15:10:07 -0800
++
++xjewel (1.6-14) unstable; urgency=low
++
++  * Use /var/games, not /var/lib/games.
++
++ -- Joey Hess <joeyh@debian.org>  Sun,  5 Nov 2000 15:48:23 -0800
++
++xjewel (1.6-13) unstable; urgency=low
++
++  * Build deps.
++
++ -- Joey Hess <joeyh@debian.org>  Sat,  4 Dec 1999 18:27:55 -0800
++
++xjewel (1.6-12) unstable; urgency=low
++
++  * FHS
++  * Use Makefile.simple, don't depend on presense of Makefile symlink.
++
++ -- Joey Hess <joeyh@debian.org>  Sun, 12 Sep 1999 14:32:32 -0700
++
++xjewel (1.6-11) unstable; urgency=low
++
++  * Rebuilt with new debhelper to change how sgid binary is registered.
++
++ -- Joey Hess <joeyh@debian.org>  Tue, 27 Oct 1998 22:33:45 -0800
++
++xjewel (1.6-10) unstable; urgency=low
++
++  * Fixed == bashism.
++
++ -- Joey Hess <joeyh@debian.org>  Thu, 20 Aug 1998 00:51:46 -0700
++
++xjewel (1.6-9) frozen unstable; urgency=low
++
++  * Include /var/lib/games directory in package so postinst will not fail
++    (#20981).
++
++ -- Joey Hess <joeyh@debian.org>  Fri, 10 Apr 1998 23:29:49 -0700
++
++xjewel (1.6-8) unstable; urgency=low
++
++  * Oops, previous version forgot to call update-menus.
++  * moved man page to man6.
++
++ -- Joey Hess <joeyh@debian.org>  Sun,  8 Mar 1998 21:06:51 -0800
++
++xjewel (1.6-7) unstable; urgency=low
++
++  * No longer consume all cpu in the background, thanks to a patch from
++    Emmanuel Chantreau <echant@pobox.com> (#18714).
++  * Moved the xjewel binary to /usr/games, to comply with policy that all
++    games should go there.
++  * High scores file is no longer a conffile, or even included in the
++    package; I now create it in the postinst if it's missing.
++
++ -- Joey Hess <joeyh@debian.org>  Sat, 28 Feb 1998 12:54:20 -0800
++
++xjewel (1.6-6) unstable; urgency=low
++
++  * Updated standards-version.
++
++ -- Joey Hess <joeyh@debian.org>  Mon,  9 Feb 1998 15:51:07 -0800
++
++xjewel (1.6-5) unstable; urgency=low
++
++  * Use debhelper.
++
++ -- Joey Hess <joeyh@debian.org>  Sat,  7 Feb 1998 20:32:46 -0800
++
++xjewel (1.6-4) unstable; urgency=low
++
++  * libc6.
++  * Turned off ICON_WINDOW so xjewel can be minimized without lots of cpu
++    usage.
++  * Updated menu file to new format.
++  * Routine update of debian/rules:
++    Fixed binary-indep target.
++
++ -- Joey Hess <joeyh@debian.org>  Mon,  8 Sep 1997 15:39:07 -0400
++
++xjewel (1.6-3) unstable; urgency=low
++
++  * Made high score file a conffile.
++  * Fixed clean rule to clean up some files.
++  * Added a menu-file.
++  * Routine update of debian/rules:
++    Use debmake.
++    New email address.
++
++ -- Joey Hess <joeyh@debian.org>  Tue, 17 Dec 1996 13:46:34 -0500
++
++xjewel (1.6-2) unstable; urgency=low
++
++  * Updated to new source format.
++  * Registers itself with install-fvwm2menu.
++
++ -- Joey Hess <joeyh@debian.org>  Sun, 6 Oct 1996 15:59:20 -0400
+--- xjewel-1.6.orig/debian/compat
++++ xjewel-1.6/debian/compat
+@@ -0,0 +1 @@
++5
+--- xjewel-1.6.orig/debian/control
++++ xjewel-1.6/debian/control
+@@ -0,0 +1,17 @@
++Source: xjewel
++Section: games
++Priority: optional
++Build-Depends: debhelper (>= 5), libx11-dev, x-dev, xutils, dpkg-dev (>= 1.9.0)
++Maintainer: Debian QA Group <packages@qa.debian.org>
++Standards-Version: 3.7.2
++Vcs-Git: git://git.kitenet.net/joey/packages/xjewel
++
++Package: xjewel
++Architecture: any
++Depends: ${shlibs:Depends}, ${misc:Depends}
++Conflicts: suidmanager (<< 0.50)
++Description: match colors on falling columns of blocks
++ Jewel Box is a falling-pieces game like Tetris, only jewels are removed 
++ from the board if three or more of the same jewel lie in a straight 
++ line. Interesting cascade-like effects can be achieved when the
++ removal of jewels causes another set of jewels to line up. 
+--- xjewel-1.6.orig/debian/copyright
++++ xjewel-1.6/debian/copyright
+@@ -0,0 +1,51 @@
++This is the Debian Linux prepackaged version of xjewel.
++
++This package was put together by Joey Hess <joeyh@debian.org>, with 
++sources obtained from:
++	http://www.ibiblio.org/pub/Linux/games/arcade/tetris/
++
++I had to hack at the manpage a bit to get it to work at all. It's still not
++really a real manpage, just a lump of text with a very few formatting codes
++stuck in.
++
++The following copyright applies to this software:
++
++       xjewel - Jewel for X11 Copyright 1992 by David Cooper
++
++       This game was originally written by Yoshihiro Satoh of HP.
++       I  have made a modest attempt to replicate Domain/JewelBox
++       under X.
++
++       I have somewhat rudely taken the bitmaps from the original
++       game  and  created this version.  I hold the copyright for
++       the code, as I created it, but I  hold  no  claim  to  the
++       bitmaps which were freely distributed with the Domain ver-
++       sion.
++
++       NOTE: I have attempted to reach the holder of the original
++       copyright  to  ascertain his acceptance for the release of
++       this game, he did not, or was not able to reply.
++
++       REDISTRIBUTION in source or binary  from  is  permited  as
++       long  as adequate notation of the originators is retained,
++       including the developer of  the  original  Domain/Jewlbox,
++       Yoshihiro Satoh.
++
++       USE  AT  YOUR  OWN RISK AND PERIL, I MAKE NO CLAIM OF USE-
++       ABILITY OR WARANTY.
++
++>Authors
++>-------
++>
++>   Programming       Yoshihiro Satoh
++>   Font Design       Yoshiharu Minami
++>   Document Writing  Nancy Paisner
++>
++>Copyright
++>---------
++>
++>  This software is in the Yoshihiro's Arcade Collections.
++>  Domain/JewelBox is a trade mark of Yoshihiro Satoh.
++>
++>  Copyright @ 1990 by Yoshihiro Satoh
++>  All rights are reserved by Yoshihiro Satoh.
+--- xjewel-1.6.orig/debian/menu
++++ xjewel-1.6/debian/menu
+@@ -0,0 +1,2 @@
++?package(xjewel):needs="x11" section="Games/Blocks" title="Jewel Box" \
++	command="xjewel"

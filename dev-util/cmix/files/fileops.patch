@@ -1,0 +1,27 @@
+diff -ru src.old/analyzer/fileops.h src/analyzer/fileops.h
+--- src.old/analyzer/fileops.h	2011-01-09 15:49:03.000000000 -0500
++++ src/analyzer/fileops.h	2011-01-09 15:49:21.000000000 -0500
+@@ -11,6 +11,7 @@
+ #ifndef __FILESOP__
+ #define __FILESOP__
+ 
++#include <iostream>
+ #include <fstream>
+ 
+ bool CheckFile (const char*);
+@@ -24,13 +25,13 @@
+ // explicit command line switches.
+ //
+ 
+-class CmixOutput : public ofstream {
++class CmixOutput : public std::ofstream {
+     static char *BestBaseSoFar ;
+     static int QualitySoFar ;
+     char *myname ;
+     char const *MakeName(char const*) ;
+ public:
+-    CmixOutput(char const*extension) : ofstream(MakeName(extension)) {}
++    CmixOutput(char const*extension) : std::ofstream(MakeName(extension)) {}
+     char const *GetFilename(void) { return myname; } 
+     static char const *ProposeBase (char const *,int,char const *const []);
+     ~CmixOutput() {

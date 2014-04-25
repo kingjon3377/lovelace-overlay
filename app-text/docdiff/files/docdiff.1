@@ -1,0 +1,93 @@
+.TH "DOCDIFF" "1" 
+.SH "NAME" 
+docdiff \(em character/word-oriented diff 
+.SH "SYNOPSIS" 
+.PP 
+\fBdocdiff\fR [\fBoptions\fP]  \fIfile1\fR \fIfile2\fR 
+.SH "DESCRIPTION" 
+.PP 
+This manual page documents briefly the 
+\fBdocdiff\fR       commands. 
+.PP 
+This manual page was written for the \fBDebian\fP distribution 
+because the original program does not have a manual page. 
+Instead, it has documentation in the HTML 
+format; see below. 
+.PP 
+\fBdocdiff\fR is a program that 
+compares two files and shows the difference.  
+It can compare files word by word, char by char, or line by line.  
+It has several output formats such as  
+HTML/XHTML, tty, Manued, or user-defined markup. 
+.PP 
+It supports several encodings and end-of-line characters,  
+including ASCII, UTF-8, EUC-JP, Shift_JIS, CR, LF, and CRLF. 
+.SH "OPTIONS" 
+.IP "\fB\-\-resolution=\fIRESOLUTION\fR\fP" 10 
+specify resolution (granularity) 
+line|word|char (default is word) 
+.IP "\fB\-\-line\fP" 10 
+set resolution to line 
+.IP "\fB\-\-word\fP" 10 
+set resolution to word 
+.IP "\fB\-\-char\fP" 10 
+set resolution to char 
+.IP "\fB\-\-encoding=\fIENCODING\fR\fP" 10 
+specify character encoding 
+ASCII|EUC-JP|Shift_JIS|UTF-8|auto 
+(default is auto) 
+.IP "\fB\-\-ascii\fP" 10 
+same as \-\-encoding=ASCII 
+.IP "\fB\-\-eucjp\fP" 10 
+same as \-\-encoding=EUC-JP 
+.IP "\fB\-\-sjis\fP" 10 
+same as \-\-encoding=Shift_JIS 
+.IP "\fB\-\-utf8\fP" 10 
+same as \-\-encoding=UTF-8 
+.IP "\fB\-\-eol=\fIEOL\fR\fP" 10 
+specify end-of-line character 
+CR|LF|CRLF|auto 
+(default is auto) 
+.IP "\fB\-\-cr\fP" 10 
+same as \-\-eol=CR 
+.IP "\fB\-\-lf\fP" 10 
+same as \-\-eol=LF 
+.IP "\fB\-\-crlf\fP" 10 
+same as \-\-eol=CRLF 
+.IP "\fB\-\-format=FORMAT\fP" 10 
+specify output format 
+tty|manued|html|wdiff|user 
+(default is html;  
+user tags have to be described in config file) 
+.IP "\fB\-\-tty\fP" 10 
+same as \-\-format=tty 
+.IP "\fB\-\-manued\fP" 10 
+same as \-\-format=manued 
+.IP "\fB\-\-html\fP" 10 
+same as \-\-format=html 
+.IP "\fB\-\-wdiff\fP" 10 
+same as \-\-format=wdiff 
+.IP "\fB\-\-digest\fP" 10 
+digest output, do not show all 
+.IP "\fB\-\-cache\fP" 10 
+use file cache 
+.IP "\fB\-\-no-config-file\fP" 10 
+do not read config files 
+.IP "\fB\-\-verbose\fP" 10 
+run verbosely 
+.IP "\fB\-\-help\fP" 10 
+show usage 
+.IP "\fB\-\-version\fP" 10 
+show version 
+.IP "\fB\-\-license\fP" 10 
+show license 
+.IP "\fB\-\-author\fP" 10 
+show author(s) 
+.SH "SEE ALSO" 
+.PP 
+/usr/share/doc/docdiff/readme.html. 
+.SH "AUTHOR" 
+.PP 
+This manual page was written by akira yamada akira@debian.org for 
+the \fBDebian\fP system (but may be used by others). 
+.\" created by instant / docbook-to-man, Tue 11 Dec 2007, 08:36 

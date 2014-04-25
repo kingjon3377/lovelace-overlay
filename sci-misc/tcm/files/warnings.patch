@@ -1,0 +1,33 @@
+diff -ru src.old//gl/text2ps.c src/gl/text2ps.c
+--- src.old//gl/text2ps.c	2012-02-19 20:10:01.000000000 -0500
++++ src/gl/text2ps.c	2012-02-19 20:10:44.000000000 -0500
+@@ -1,4 +1,5 @@
+ #include <stdio.h>
++#include <stdlib.h>
+ #include <time.h>
+ 
+ //#if defined(__CYGWIN__)
+@@ -84,12 +85,6 @@
+ 	struct fonts *font_next;
+ } *fonts;
+ 
+-extern FILE *fopen();
+-extern char *malloc();
+-extern char *asctime();
+-/* extern struct tm *localtime(); */
+-/* extern long time(); */
+-extern double atof();
+ #if !defined(__CYGWIN__)
+ #include <errno.h>
+ #endif
+diff -ru src.old//sd/bv/adsmcoutputparse.h src/sd/bv/adsmcoutputparse.h
+--- src.old//sd/bv/adsmcoutputparse.h	2012-02-19 20:10:01.000000000 -0500
++++ src/sd/bv/adsmcoutputparse.h	2012-02-19 20:10:06.000000000 -0500
+@@ -2,6 +2,7 @@
+ #define _MCOUTPUTPARSE_H
+ 
+ #include<stdio.h>
++#include <string.h>
+ 
+ /* Functions for parsing output of model checker */
+ #ifdef __cplusplus

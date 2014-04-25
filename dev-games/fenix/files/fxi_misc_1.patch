@@ -1,0 +1,1071 @@
+Index: fxi/src/g_font.c
+===================================================================
+--- fxi/src/g_font.c	2007-08-28 14:39:56.000000000 +0200
++++ fxi/src/g_font.c	2007-08-28 14:41:13.000000000 +0200
+@@ -159,8 +159,7 @@
+ 		for (y = 0 ; y < height ; y++, ptr += bitmap->pitch)
+ 			memcpy (ptr, charptr + linesize*y, linesize);
+ 
+-		if (bitmap->modified > 0)
+-			bitmap->modified = 0 ;
++		if (bitmap->modified > 0) bitmap->modified = 0 ;
+ 		bitmap->info_flags = 0 ;
+ 	}
+ 
+@@ -337,6 +336,7 @@
+ 	int types, i, id;
+ 	Uint32 y;
+ 	FONT * f;
++	PALETTE * pal = NULL;
+ 
+ 	struct
+ 	{
+@@ -378,20 +378,20 @@
+ 	/* Read or ignore the palette */
+ 
+ 	if (bpp == 8)
+-	{
+-		if (palette_loaded)
+-			file_seek (fp, 576 + 768, SEEK_CUR) ;
+-		else
+-			if (!gr_read_pal (fp)) return -1 ;
+-	}
++	    if (!(pal = gr_read_pal_with_gamma (fp))) return -1 ;
+ 
+ 	/* Read the character data (detect old format) */
+ 
+ 	if (header[2] == 'x')
+ 	{
+-		if (!file_readSint32(fp, &types)) return -1 ;
+-		if (!file_read(fp, chardata, sizeof(chardata)))
++		if (!file_readSint32(fp, &types)) {
++		    pal_destroy(pal);
+ 			return -1 ;
++		}
++		if (!file_read(fp, chardata, sizeof(chardata))){
++		    pal_destroy(pal);
++		    return -1 ;
++		}
+ 		for (i = 0 ; i < 256 ; i++)
+ 		{
+ 			ARRANGE_DWORD (&chardata[i].width);
+@@ -405,9 +405,14 @@
+ 	}
+ 	else
+ 	{
+-		if (!file_readSint32(fp, &types)) return -1 ;
+-		if (!file_read(fp, oldchardata, sizeof(oldchardata)))
++		if (!file_readSint32(fp, &types)) {
++		    pal_destroy(pal);
+ 			return -1 ;
++		}
++		if (!file_read(fp, oldchardata, sizeof(oldchardata))){
++		    pal_destroy(pal);
++		    return -1 ;
++		}
+ 		for (i = 0 ; i < 256 ; i++)
+ 		{
+ 			ARRANGE_DWORD (&oldchardata[i].width);
+@@ -428,7 +433,11 @@
+ 	/* Create the font */
+ 
+ 	id = gr_font_new() ;
+-	if (id == -1) return -1;
++	if (id == -1) {
++	    pal_destroy(pal);
++	    return -1 ;
++	}
++
+ 	f = fonts[id];
+ 	assert (f != 0) ;
+ 
+@@ -453,31 +462,29 @@
+ 		f->glyph[i].xadvance = chardata[i].xadvance ;
+ 		f->glyph[i].yadvance = chardata[i].yadvance ;
+ 
+-		if (chardata[i].fileoffset == 0 ||
+-		    chardata[i].width      == 0 ||
+-		    chardata[i].height     == 0) continue ;
++		if (chardata[i].fileoffset == 0 || chardata[i].width == 0 || chardata[i].height == 0) continue ;
+ 
+ 		f->glyph[i].xoffset = chardata[i].xoffset ;
+ 		f->glyph[i].yoffset = chardata[i].yoffset ;
+ 
+ 		file_seek (fp, chardata[i].fileoffset, SEEK_SET) ;
+-		f->glyph[i].bitmap = gr = bitmap_new (i, chardata[i].width,
+-			chardata[i].height, f->bpp, 1) ;
++		f->glyph[i].bitmap = gr = bitmap_new (i, chardata[i].width, chardata[i].height, f->bpp, 1) ;
+ 		assert (gr) ;
+ 		bitmap_add_cpoint (gr, 0, 0) ;
++		gr->palette = pal;
++		pal_use(pal);
+ 
+ 		for (y = 0, ptr = gr->data ; y < gr->height ; y++, ptr += gr->pitch)
+ 		{
+-			if (!file_read (fp, ptr, gr->widthb))
+-				break ;
+-			if (gr->depth == 16)
+-				gr_convert16_565ToScreen ((Uint16 *)ptr, gr->width);
++			if (!file_read (fp, ptr, gr->widthb)) break ;
++			if (gr->depth == 16) gr_convert16_565ToScreen ((Uint16 *)ptr, gr->width);
+ 		}
+ 
+ 		f->glyph[i].yoffset = chardata[i].yoffset ;
+ 	}
+-	if (f->glyph[32].xadvance == 0)
+-		f->glyph[32].xadvance = 4 ;
++	if (f->glyph[32].xadvance == 0) f->glyph[32].xadvance = 4 ;
++
++    pal_destroy(pal); // Elimino la instancia inicial
+ 
+ 	return id ;
+ }
+@@ -521,6 +528,7 @@
+ 		int	fileoffset ;
+ 	}
+ 	chardata[256] ;
++	int palette_saved = 0;
+ 
+ 	if (fontid < 0 || fontid > 255 || !fonts[fontid])
+ 	{
+@@ -554,36 +562,42 @@
+ 	header[7] = font->bpp;
+ 	gzwrite (file, &header, 8);
+ 
++	/* Write the character information */
++
++	memset (chardata, 0, sizeof(chardata));
++	offset = 8 + 4 + ((font->bpp == 8) ? 576+768:0) + sizeof(chardata);
++
++	for (n = 0 ; n < 256 ; n++)
++	{
++		chardata[n].xadvance   = font->glyph[n].xadvance;
++		chardata[n].yadvance   = font->glyph[n].yadvance;
++
++		if (font->glyph[n].bitmap)
++		{
+ 	/* Write the palette */
+ 
+-	if (font->bpp == 8)
++           	if (!palette_saved && font->bpp == 8)
+ 	{
+ 		Uint8   colors[256][3];
+ 		Uint8 * block = calloc(576,1) ;
++        		SDL_Color * gpal = palette ;
++        		int k;
+ 
+-		for (n = 1 ; n < 256 ; n++)
+-		{
+-			colors[n][0] = palette[n].r >> 2 ;
+-			colors[n][1] = palette[n].g >> 2 ;
+-			colors[n][2] = palette[n].b >> 2 ;
++                if (font->glyph[n].bitmap->palette) gpal = font->glyph[n].bitmap->palette->rgb; else gpal = palette;
++
++                /* Generate palette info */
++                for (k = 0 ; k < 256 ; k++) {
++                    colors[k][0] = gpal[k].r >> 2 ;
++                    colors[k][1] = gpal[k].g >> 2 ;
++                    colors[k][2] = gpal[k].b >> 2 ;
+ 		}
++
+ 		gzwrite (file, &colors, 768) ;
+ 		gzwrite (file, block, 576) ;
+ 		free(block) ;
++        		palette_saved = 1;
+ 	}
+ 
+-	/* Write the character information */
+-
+-	memset (chardata, 0, sizeof(chardata));
+-	offset = 8 + 4 + (font->bpp == 8 ? 576+768:0) + sizeof(chardata);
+-
+-	for (n = 0 ; n < 256 ; n++)
+-	{
+-		chardata[n].xadvance   = font->glyph[n].xadvance;
+-		chardata[n].yadvance   = font->glyph[n].yadvance;
+-
+-		if (font->glyph[n].bitmap)
+-		{
+ 			chardata[n].width      = font->glyph[n].bitmap->width;
+ 			chardata[n].height     = font->glyph[n].bitmap->height;
+ 			chardata[n].xadvance   = font->glyph[n].xadvance;
+@@ -592,8 +606,7 @@
+ 			chardata[n].yoffset    = font->glyph[n].yoffset;
+ 			chardata[n].fileoffset = offset;
+ 
+-			offset += font->glyph[n].bitmap->widthb
+-				    * chardata[n].height;
++			offset += font->glyph[n].bitmap->widthb * chardata[n].height;
+ 		}
+ 
+ 		ARRANGE_DWORD (&chardata[n].xadvance);
+@@ -653,8 +666,7 @@
+ 				}
+ 			}
+ 
+-			if (gr->depth == 16)
+-				free(block);
++			if (gr->depth == 16) free(block);
+ 		}
+ 	}
+ 
+@@ -701,6 +713,7 @@
+ 	int xadvance = 0;
+ 	int yadvance = 0;
+ 	int minyoffset = 0;
++	int len;
+ 
+ 	/* Arrays used to convert hex ASCII to binary */
+ 
+@@ -737,8 +750,8 @@
+ 
+ 	for (line[2047] = 0 ; ; )
+ 	{
+-		if (!file_gets (fp, line, 2047))
+-			break;
++		if (!(len = file_gets (fp, line, 2047))) break;
++		if (line[len-1] == '\n') line[len-1] = '\0';
+ 
+ 		/* Handle global-level commands */
+ 
+@@ -799,27 +812,22 @@
+ 				font->glyph[encoding].xoffset  = xoffset;
+ 				font->glyph[encoding].yoffset  = -yoffset-height;
+ 
+-				if (minyoffset > -yoffset-height)
+-					minyoffset = -yoffset-height;
++				if (minyoffset > -yoffset-height) minyoffset = -yoffset-height;
+ 
+ 				error = 1;
+ 				font->glyph[encoding].bitmap = bitmap_new (encoding, width, height, 1, 1);
+-				if (font->glyph[encoding].bitmap == 0)
+-					break;
++				if (font->glyph[encoding].bitmap == 0) break;
+ 				bitmap_add_cpoint (font->glyph[encoding].bitmap, 0, 0) ;
+ 
+-				if (font->maxwidth < width)
+-					font->maxwidth = width;
+-				if (font->maxheight < height)
+-					font->maxheight = height;
++				if (font->maxwidth < width) font->maxwidth = width;
++				if (font->maxheight < height) font->maxheight = height;
+ 
+ 				for (y = 0 ; y < height ; y++)
+ 				{
+-					if (!file_gets (fp, line, 2047))
+-						break;
++					if (!(len=file_gets (fp, line, 2047))) break;
++					if (line[len-1] == '\n') line[len-1] = '\0';
+ 					ptr  = line;
+-					optr = (Uint8 *)font->glyph[encoding].bitmap->data +
+-						   font->glyph[encoding].bitmap->pitch * y;
++					optr = (Uint8 *)font->glyph[encoding].bitmap->data + font->glyph[encoding].bitmap->pitch * y;
+ 
+ 					for (x = 0 ; x < width ; x += 8)
+ 					{
+@@ -869,7 +877,6 @@
+ 
+ FONT * gr_font_get (int id)
+ {
+-	if (id >= 0 && id <= 255)
+-		return fonts[id];
++	if (id >= 0 && id <= 255) return fonts[id];
+ 	return NULL;
+ }
+Index: fxi/src/g_fpg.c
+===================================================================
+--- fxi/src/g_fpg.c	2007-08-28 14:39:56.000000000 +0200
++++ fxi/src/g_fpg.c	2007-08-28 14:41:13.000000000 +0200
+@@ -128,8 +128,7 @@
+ 
+ GRLIB * grlib_get (int libid)
+ {
+-	if (libid < 0 || libid >= lib_nextid)
+-		return 0 ;
++	if (libid < 0 || libid >= lib_nextid) return 0 ;
+ 	return libs[libid] ;
+ }
+ 
+@@ -312,17 +311,7 @@
+ 	int libid ;
+ 	file * fp = file_open (libname, "rb") ;
+ 
+-	if (!fp)
+-	{
+-#ifdef WIN32
+-		char buffer[2048];
+-		GetCurrentDirectory(2048, buffer);
+-		gr_error (_("'%s': Library not found in %s\n"), libname, buffer) ;
+-#else
+-		gr_error (_("'%s': Library not found\n"), libname) ;
+-#endif
+-		return -1 ;
+-	}
++	if (!fp) return -1 ;
+ 	libid = gr_read_lib (fp) ;
+ 	file_close (fp) ;
+ 	return libid ;
+@@ -338,6 +327,7 @@
+ 	unsigned c;
+ 	GRLIB * lib ;
+ 	GRAPH * gr ;
++	PALETTE * pal = NULL ;
+ 
+ 	struct
+ 	{
+@@ -366,13 +356,7 @@
+ 	else
+ 		return 0 ;
+ 
+-	if (bpp == 8)
+-	{
+-		if (palette_loaded)
+-			file_seek (fp, 576 + 768, SEEK_CUR) ;
+-		else if (!gr_read_pal (fp))
+-			return 0 ;
+-	}
++	if (bpp == 8 && !(pal = gr_read_pal_with_gamma (fp))) return 0 ;
+ 
+ 	while (!file_eof(fp))
+ 	{
+@@ -387,7 +371,11 @@
+ 		/* Cabecera del gráfico */
+ 
+ 		gr = bitmap_new (chunk.code, chunk.width, chunk.height, bpp, 1);
+-		if (!gr) return 0 ;
++		if (!gr) {
++		    grlib_destroy (libid) ;
++            pal_destroy (pal) ; // Elimino la instancia inicial
++		    return 0 ;
++		}
+ 		memcpy (gr->name, chunk.name, 32) ;
+ 		gr->name[31] = 0 ;
+ 		gr->ncpoints = chunk.flags ;
+@@ -398,7 +386,11 @@
+ 		if (gr->ncpoints)
+ 		{
+ 			gr->cpoints = (CPOINT *) malloc(gr->ncpoints * sizeof(CPOINT)) ;
+-			if (!gr->cpoints) { free(gr) ; return 0 ; }
++			if (!gr->cpoints) {
++                bitmap_destroy (gr) ;
++                pal_destroy (pal) ;
++			    return 0 ;
++			}
+ 			for (c = 0 ; c < gr->ncpoints ; c++)
+ 			{
+ 				file_readSint16 (fp, &px) ;
+@@ -426,20 +418,23 @@
+ 			Uint8 * ptr = (Uint8 *)gr->data + gr->pitch*y;
+ 			if (!file_read (fp, ptr, len))
+ 			{
+-				free (gr) ;
++				bitmap_destroy (gr) ;
++    		    grlib_destroy (libid) ;
+ 				break ;
+ 			}
+ 			if (bpp == 16)
+ 			{
+ 				ARRANGE_WORDS (ptr, len/2);
+-				if (scr_initialized)
+-					gr_convert16_565ToScreen ((Uint16 *)ptr, len/2);
++				if (scr_initialized) gr_convert16_565ToScreen ((Uint16 *)ptr, len/2) ;
+ 			}
+ 		}
+ 
+-
+ 		grlib_add_map (libid, gr) ;
++        pal_map_assign (libid, gr, pal) ;
+ 	}
++
++    pal_destroy (pal) ; // Elimino la instancia inicial
++
+ 	return libid ;
+ }
+ 
+@@ -458,9 +453,6 @@
+ 
+ void grlib_init()
+ {
+-	if (!syslib)
+-	{
+-		syslib = grlib_create() ;
+-	}
++	if (!syslib) syslib = grlib_create() ;
+ }
+ 
+Index: fxi/src/g_main.c
+===================================================================
+--- fxi/src/g_main.c	2007-08-28 14:39:56.000000000 +0200
++++ fxi/src/g_main.c	2007-08-28 14:41:13.000000000 +0200
+@@ -111,7 +111,7 @@
+ 
+ static int sdl_equiv[SDLK_LAST+1] ;
+ key_equiv key_table[127] ;  /* Now we have a search table with equivs */
+-unsigned char * keystate ;        /* Pointer to key states */
++unsigned char * keystate = NULL;        /* Pointer to key states */
+ int keystate_size = 0 ;
+ 
+ static int equivs[] =
+@@ -302,9 +302,6 @@
+ 
+ REGION    regions[32] ;
+ 
+-#define MAX(a, b)  (((a) > (b)) ? (a) : (b))
+-#define MIN(a, b)  (((a) < (b)) ? (a) : (b))
+-
+ /*
+  *  FUNCTION : region_define
+  *
+@@ -599,7 +596,7 @@
+     /* Reset ascii and scancode if last key was released... */
+     /* must check all the linked equivs */
+ 
+-    if (show_console == 0) memcpy (keystate, SDL_GetKeyState(NULL), keystate_size) ;
++    if (show_console == 0 && keystate) memcpy (keystate, SDL_GetKeyState(NULL), keystate_size) ;
+ 
+     GLODWORD(MOUSEWHEELUP)   = 0 ;
+     GLODWORD(MOUSEWHEELDOWN) = 0 ;
+@@ -623,8 +620,13 @@
+         switch (e.type)
+         {
+             case SDL_MOUSEMOTION:
++                if (enable_scale || scale_mode != SCALE_NONE) {
++                    GLODWORD(MOUSEX) = e.motion.x / 2 ;
++                    GLODWORD(MOUSEY) = e.motion.y / 2 ;
++                } else {
+                 GLODWORD(MOUSEX) = e.motion.x ;
+                 GLODWORD(MOUSEY) = e.motion.y ;
++                }
+                 break ;
+ /*
+             case SDL_JOYAXISMOTION:
+@@ -716,8 +718,7 @@
+                     }
+                     if (e.key.keysym.sym == SDLK_p)
+                     {
+-                        if (!show_console)
+-                            show_profile = !show_profile;
++                        if (!show_console) show_profile = !show_profile;
+                         background_dirty = 1;
+                         break ;
+                     }
+@@ -870,8 +871,8 @@
+     /* Now actualized every frame... */
+     GLODWORD(SHIFTSTATUS) = ((m & KMOD_LSHIFT)                    ? 1 : 0) +
+                             ((m & KMOD_RSHIFT)                    ? 2 : 0) +
+-                            ((m & KMOD_RCTRL) || (m & KMOD_LCTRL) ? 4 : 0) +
+-                            ((m & KMOD_LALT)  || (m & KMOD_RALT)  ? 8 : 0)  ;
++                            (((m & KMOD_RCTRL) || (m & KMOD_LCTRL)) ? 4 : 0) +
++                            (((m & KMOD_LALT)  || (m & KMOD_RALT))  ? 8 : 0) ;
+ 
+     last_mouse_x = GLODWORD(MOUSEX) ;
+     last_mouse_y = GLODWORD(MOUSEY) ;
+@@ -1055,7 +1056,8 @@
+     }
+ 
+     // PATCH - XGRAPH DOES NOT ROTATE DESTINATION GRAPHIC
+-    if (LOCDWORD(i,ANGLE) || scalex != 100 || scaley != 100) {
++    if ((map->current_keyframe >= 0 && map->keyframes[map->current_keyframe].angle) ||
++        LOCDWORD(i,ANGLE) || scalex != 100 || scaley != 100) {
+         if (LOCDWORD(i,XGRAPH) && scalex == 100 && scaley == 100) {
+             gr_blit (0, region, x, y, flags, map) ;
+         } else {
+@@ -1117,7 +1119,8 @@
+     fclip = regions[r];
+     if (clip) region_union (&fclip, clip);
+ 
+-    if (LOCDWORD(i,ANGLE) || scalex != 100 || scaley != 100) {
++    if ((map->current_keyframe >= 0 && map->keyframes[map->current_keyframe].angle) ||
++        LOCDWORD(i,ANGLE) || scalex != 100 || scaley != 100) {
+         if (LOCDWORD(i,XGRAPH) && scalex == 100 && scaley == 100) {
+             gr_blit (0, &regions[r], x, y, flags, map) ;
+         } else {
+@@ -1198,7 +1201,8 @@
+     region = regions[r];
+     if (clip) region_union (&region, clip);
+ 
+-    if (GLODWORD(MOUSEANGLE) || GLODWORD(MOUSESIZE) != 100)
++    if ((map->current_keyframe >= 0 && map->keyframes[map->current_keyframe].angle) ||
++        GLODWORD(MOUSEANGLE) || GLODWORD(MOUSESIZE) != 100)
+         gr_rotated_blit (0, &region, GLODWORD(MOUSEX),
+                          GLODWORD(MOUSEY), GLODWORD(MOUSEFLAGS),
+                          GLODWORD(MOUSEANGLE), GLODWORD(MOUSESIZE),
+@@ -1311,9 +1315,10 @@
+         first_dll_object = object->next;
+         if (object->x.bbox.x == -2)
+             (*object->x.info)(object->x.what, &object->x.bbox);
++
+         gr_mark_rect (object->x.bbox.x, object->x.bbox.y,
+-                      object->x.bbox.x2 - object->x.bbox.x + 1,
+-                      object->x.bbox.y2 - object->x.bbox.y + 1);
++                      object->x.bbox.x2 - object->x.bbox.x,
++                      object->x.bbox.y2 - object->x.bbox.y);
+         free (object);
+         dll_object_count--;
+     }
+@@ -1323,11 +1328,10 @@
+         {
+             next = object->next;
+             object->next = next->next;
+-            if (next->x.bbox.x == -2)
+-                (*next->x.info)(next->x.what, &next->x.bbox);
++            if (next->x.bbox.x == -2) (*next->x.info)(next->x.what, &next->x.bbox);
+             gr_mark_rect (next->x.bbox.x, next->x.bbox.y,
+-                          next->x.bbox.x2 - next->x.bbox.x + 1,
+-                          next->x.bbox.y2 - next->x.bbox.y + 1);
++                          next->x.bbox.x2 - next->x.bbox.x,
++                          next->x.bbox.y2 - next->x.bbox.y);
+             free (next);
+             dll_object_count--;
+             break;
+@@ -1338,8 +1342,7 @@
+ 
+ int compare_actions (const OBJECT * a1, const OBJECT * a2)
+ {
+-    return (a1->z == a2->z ? a1->id - a2->id : a2->z - a1->z) ;
+-//    return (a2->z - a1->z) ;
++    return ((a1->z == a2->z) ? a1->id - a2->id : a2->z - a1->z) ;
+ }
+ 
+ void draw_mode7 (void * ptr, REGION * clip)
+@@ -1414,9 +1417,14 @@
+     w = scr_width / 16;
+     h = scr_height / 8;
+ 
+-    for (cx = x/w*w ; cx < x+width ; cx += w)
++    x = MIN(x, x + width);
++    y = MIN(y, y + height);
++    width = ABS(width);
++    height = ABS(height);
++
++    for (cx = x / w * w ; cx <= x + width ; cx += w)
+     {
+-        for (cy = y/h*h ; cy < y+height ; cy += h)
++        for (cy = y / h * h ; cy <= y + height ; cy += h)
+         {
+             if (cx/w < 16 && cx/w >= 0)
+                 zonearray[cx/w] |= (1 << (cy / h));
+@@ -1438,19 +1446,7 @@
+ 
+ void gr_mark_instance (INSTANCE * r)
+ {
+-    int x, y, w, h;
+-
+-    w = scr_width / 16;
+-    h = scr_height / 8;
+-
+-    for (x = LOCDWORD(r, BOX_X0)/w*w ; x <= LOCDWORD(r, BOX_X1) ; x += w)
+-    {
+-        for (y = LOCDWORD(r, BOX_Y0)/h*h ; y <= LOCDWORD(r, BOX_Y1) ; y += h)
+-        {
+-            if (x/w < 16 && x/w >= 0)
+-                zonearray[x/w] |= (1 << (y / h));
+-        }
+-    }
++    gr_mark_rect(LOCDWORD(r, BOX_X0), LOCDWORD(r, BOX_Y0), LOCDWORD(r, BOX_X1)-LOCDWORD(r, BOX_X0), LOCDWORD(r, BOX_Y1)-LOCDWORD(r, BOX_Y0));
+ }
+ 
+ /*
+@@ -1491,44 +1487,21 @@
+ 
+             if (onlychanged)
+             {
+-                if ((LOCDWORD(r,CHANGED) = instance_poschanged(r)) == 0)
+-                    continue;
++                if ((LOCDWORD(r,CHANGED) = instance_poschanged(r)) == 0) continue;
+ 
+                 /* Mark the previous position */
+-
+-                for (x = LOCDWORD(r, BOX_X0)/w*w ; x <= LOCDWORD(r, BOX_X1) ; x += w)
+-                {
+-                    for (y = LOCDWORD(r, BOX_Y0)/h*h ; y <= LOCDWORD(r, BOX_Y1) ; y += h)
+-                    {
+-                        if (x/w < 16 && x/w >= 0)
+-                            zonearray[x/w] |= (1 << (y / h));
+-                    }
+-                }
++                gr_mark_rect(LOCDWORD(r, BOX_X0), LOCDWORD(r, BOX_Y0), LOCDWORD(r, BOX_X1)-LOCDWORD(r, BOX_X0), LOCDWORD(r, BOX_Y1)-LOCDWORD(r, BOX_Y0));
+ 
+                 /* Update and mark the new position */
+                 instance_posupdate(r);
+                 instance_update_bbox (r);
+ 
+-                for (x = LOCDWORD(r, BOX_X0)/w*w ; x <= LOCDWORD(r, BOX_X1) ; x += w)
+-                {
+-                    for (y = LOCDWORD(r, BOX_Y0)/h*h ; y <= LOCDWORD(r, BOX_Y1) ; y += h)
+-                    {
+-                        if (x/w < 16 && x/w >= 0)
+-                            zonearray[x/w] |= (1 << (y / h));
+-                    }
+-                }
++                gr_mark_rect(LOCDWORD(r, BOX_X0), LOCDWORD(r, BOX_Y0), LOCDWORD(r, BOX_X1)-LOCDWORD(r, BOX_X0), LOCDWORD(r, BOX_Y1)-LOCDWORD(r, BOX_Y0));
+             }
+             else
+             {
+                 /* Mark the current position (next frame, the next will be marked */
+-                for (x = LOCDWORD(r, BOX_X0)/w*w ; x <= LOCDWORD(r, BOX_X1) ; x += w)
+-                {
+-                    for (y = LOCDWORD(r, BOX_Y0)/h*h ; y <= LOCDWORD(r, BOX_Y1) ; y += h)
+-                    {
+-                        if (x/w < 16 && x/w >= 0)
+-                            zonearray[x/w] |= (1 << (y / h));
+-                    }
+-                }
++                gr_mark_rect(LOCDWORD(r, BOX_X0), LOCDWORD(r, BOX_Y0), LOCDWORD(r, BOX_X1)-LOCDWORD(r, BOX_X0), LOCDWORD(r, BOX_Y1)-LOCDWORD(r, BOX_Y0));
+ 
+                 /* Update the bounding box */
+                 instance_update_bbox (r);
+@@ -1543,24 +1516,17 @@
+ 
+             if (!onlychanged || object_list[i].changed)
+             {
+-                for (x = region.x/w*w ; x <= region.x2 ; x += w)
+-                    for (y = region.y/h*h ; y <= region.y2 ; y += h)
+-                    {
+-                        if (x/w < 16 && x/w >= 0)
+-                            zonearray[x/w] |= (1 << (y / h));
+-                    }
++                gr_mark_rect (region.x,region.y,region.x2-region.x,region.y2-region.y);
+             }
+ 
+             /* Mark updated object position */
+ 
+             if (object_list[i].changed)
+             {
+-                for (x = object_list[i].bbox.x/w*w ; x <= object_list[i].bbox.x2 ; x += w)
+-                    for (y = object_list[i].bbox.y/h*h ; y <= object_list[i].bbox.y2 ; y += h)
+-                    {
+-                        if (x/w < 16 && x/w >= 0)
+-                            zonearray[x/w] |= (1 << (y / h));
+-                    }
++                gr_mark_rect (object_list[i].bbox.x,
++                              object_list[i].bbox.y,
++                              object_list[i].bbox.x2-object_list[i].bbox.x,
++                              object_list[i].bbox.y2-object_list[i].bbox.y);
+             }
+         }
+     }
+@@ -1630,11 +1596,9 @@
+                 {
+                     /* Si hay algun hueco, entonces corto aca, ahora vuelve a entrar y esto entra en otra recta */
+                     for (x2 = x ; x2 < x+cw ; x2++)
+-                        if (!(zonearray[x2] & (1 << (y+ch))))
+-                            break;
++                        if (!(zonearray[x2] & (1 << (y + ch)))) break;
+ 
+-                    if (x2 < x+cw)
+-                        break;
++                    if (x2 < x+cw) break;
+ 
+                     for (x2 = x ; x2 < x+cw ; x2++)
+                         zonearray[x2] &= ~(1 << (y+ch));
+@@ -1872,19 +1836,18 @@
+         gr_mark_instances (dump_type == 0);
+         n = updaterects_count = gr_mark_rects (updaterects);
+ 
+-        /* Reset the zone-to-update array for the next frame */
+-        memset (zonearray, 0, 128/8);
+-
+-        gr_setcolor (0);
+         for (a = 0 ; a < n ; a++)
+         {
+             if (background_is_black)
+-                gr_box (dest, &updaterects[a], 0, 0, 9999, 9999) ;
++                gr_clear_region (scrbitmap, &updaterects[a]);
+             else if (enable_16bits && background_8bits_used)
+                 gr_blit (scrbitmap, &updaterects[a], 0, 0, B_NOCOLORKEY, background_8bits);
+             else
+                 gr_blit (scrbitmap, &updaterects[a], 0, 0, B_NOCOLORKEY, background);
+         }
++
++        /* Reset the zone-to-update array for the next frame */
++        memset (zonearray, 0, 128/8);
+     }
+ 
+     gprof_end ("Background");
+@@ -1903,18 +1866,18 @@
+                 if (object_list[a].draw == draw_instance)
+                 {
+                     INSTANCE * i = (INSTANCE *)object_list[a].what;
+-                    if (LOCDWORD(i,BOX_X1) < updaterects[n].x ||
+-                        LOCDWORD(i,BOX_X0) > updaterects[n].x2 ||
+-                        LOCDWORD(i,BOX_Y1) < updaterects[n].y ||
+-                        LOCDWORD(i,BOX_Y0) > updaterects[n].y2)
++                    if (MAX(LOCDWORD(i,BOX_X0),LOCDWORD(i,BOX_X1)) < updaterects[n].x ||
++                        MIN(LOCDWORD(i,BOX_X0),LOCDWORD(i,BOX_X1)) > updaterects[n].x2 ||
++                        MAX(LOCDWORD(i,BOX_Y0),LOCDWORD(i,BOX_Y1)) < updaterects[n].y ||
++                        MIN(LOCDWORD(i,BOX_Y0),LOCDWORD(i,BOX_Y1)) > updaterects[n].y2)
+                         continue;
+                 }
+                 else
+                 {
+-                    if (object_list[a].bbox.x2 < updaterects[n].x ||
+-                        object_list[a].bbox.x  > updaterects[n].x2 ||
+-                        object_list[a].bbox.y2 < updaterects[n].y ||
+-                        object_list[a].bbox.y  > updaterects[n].y2)
++                    if (MAX(object_list[a].bbox.x,object_list[a].bbox.x2) < updaterects[n].x ||
++                        MIN(object_list[a].bbox.x,object_list[a].bbox.x2) > updaterects[n].x2 ||
++                        MAX(object_list[a].bbox.y,object_list[a].bbox.y2) < updaterects[n].y ||
++                        MIN(object_list[a].bbox.y,object_list[a].bbox.y2) > updaterects[n].y2)
+                         continue;
+                 }
+                 (*object_list[a].draw) (object_list[a].what, &updaterects[n]) ;
+@@ -1960,11 +1923,19 @@
+ 
+         /* Fading */
+ 
+-        if (fade_on != 0)
++        if (fade_on || fade_set)
+         {
+             gr_fade_step() ;
+             background_dirty = 1;
+         }
++    } else {
++        /* Muestro consola, marco toda la pantalla */
++
++        updaterects_count = 1;
++        updaterects[0].x = 0;
++        updaterects[0].y = 0;
++        updaterects[0].x2 = scr_width-1;
++        updaterects[0].y2 = scr_height-1;
+     }
+ 
+     /* Visualiza la consola */
+@@ -1972,8 +1943,7 @@
+     gr_con_show(show_console) ;
+     gr_con_draw() ;
+ 
+-    if (show_profile)
+-        gprof_draw (scrbitmap);
++    if (show_profile) gprof_draw (scrbitmap);
+ 
+     /* Actualiza la paleta y la pantalla */
+ 
+@@ -1983,7 +1953,7 @@
+ 
+ }
+ 
+-/* FUnción de inicialización de la librería gráfica */
++/* Función de inicialización de la librería gráfica */
+ 
+ static int screen_locked = 0 ;
+ 
+@@ -1992,11 +1962,12 @@
+     if (screen_locked) return 1 ;
+     screen_locked = 1 ;
+ 
+-    if (SDL_LockSurface (screen) < 0)
+-        return -1 ;
++    if (SDL_LockSurface (screen) < 0) return -1 ;
+ 
+     if ( (!enable_scale && scale_mode == SCALE_NONE) && !double_buffer)
+     {
++        if (scrbitmap && !scrbitmap_is_fake) free (scrbitmap->data) ;
++
+         if (!scrbitmap)
+         {
+             scrbitmap = bitmap_new (0, screen->w, screen->h, enable_16bits ? 16:8, 1) ;
+@@ -2023,6 +1994,12 @@
+     }
+     else
+     {
++        if (scrbitmap && scrbitmap_is_fake)
++        {
++            bitmap_destroy_fake (scrbitmap) ;
++            scrbitmap = NULL ;
++        }
++
+         scrbitmap_is_fake = 0 ;
+ 
+         if (!scrbitmap)
+@@ -2042,6 +2019,7 @@
+ {
+     int     a ;
+     GRAPH   * scr;
++    int     m = 1;
+ 
+     if (!screen_locked) return ;
+     screen_locked = 0 ;
+@@ -2050,10 +2028,9 @@
+     if (enable_scale || scale_mode != SCALE_NONE)
+     {
+         int aux_scale_mode;
++        m = 2;
+ 
+-        if (enable_scale || GLODWORD(SCALE_MODE) != SCALE_NONE ) {
+-            scale_mode     = GLODWORD(SCALE_MODE);
+-        }
++        if (enable_scale || GLODWORD(SCALE_MODE) != SCALE_NONE ) scale_mode = GLODWORD(SCALE_MODE);
+         aux_scale_mode = (scale_mode != SCALE_NONE) ? scale_mode : SCALE_SCALE2X;
+ 
+         if (scrbitmap->depth == 8)
+@@ -2062,12 +2039,11 @@
+             Uint16 * extra;
+             int length = scrbitmap->width * scrbitmap->height, n;
+ 
+-            if (scrbitmap_extra == NULL
+-                || scrbitmap_extra->width != scrbitmap->width
+-                || scrbitmap_extra->height != scrbitmap->height)
++            if (scrbitmap_extra         == NULL             ||
++                scrbitmap_extra->width  != scrbitmap->width ||
++                scrbitmap_extra->height != scrbitmap->height)
+             {
+-                if (scrbitmap_extra)
+-                    bitmap_destroy (scrbitmap_extra);
++                if (scrbitmap_extra) bitmap_destroy (scrbitmap_extra);
+                 scrbitmap_extra = bitmap_new (0, scrbitmap->width, scrbitmap->height, 16, 1);
+             }
+ 
+@@ -2088,49 +2064,40 @@
+         /* Esto podria ir en un modulo aparte */
+         switch ( aux_scale_mode ) {
+             case    SCALE_SCALE2X:
+-                    scale2x (scr->data, scr->pitch,
+-                             screen->pixels, screen->pitch,
+-                             scr->width, scr->height);
++                    scale2x (scr->data, scr->pitch, screen->pixels, screen->pitch, scr->width, scr->height);
+                     break;
+ 
+             case    SCALE_HQ2X:
+-                    hq2x (scr->data, scr->pitch,
+-                          screen->pixels, screen->pitch,
+-                          scr->width, scr->height);
++                    hq2x (scr->data, scr->pitch, screen->pixels, screen->pitch, scr->width, scr->height);
+                     break;
+ 
+             case    SCALE_SCANLINE2X:
+-                    scanline2x (scr->data, scr->pitch,
+-                                screen->pixels, screen->pitch,
+-                                scr->width, scr->height);
++                    scanline2x (scr->data, scr->pitch, screen->pixels, screen->pitch, scr->width, scr->height);
+                     break;
+ 
+             case    SCALE_NOFILTER:
+-                    scale_normal2x (scr->data, scr->pitch,
+-                                    screen->pixels, screen->pitch,
+-                                    scr->width, scr->height);
++                    scale_normal2x (scr->data, scr->pitch, screen->pixels, screen->pitch, scr->width, scr->height);
+                     break;
+ 
+             case    SCALE_NONE:
+                     /* No usado */
+                     break;
+         }
++
+         SDL_UnlockSurface (screen) ;
+-        SDL_UpdateRect (screen, 0, 0, 0, 0) ;
++        SDL_Flip(screen) ;
++
++/*        SDL_UpdateRect (screen, 0, 0, 0, 0) ; */
+     }
+     else if (scrbitmap_is_fake)
+     {
+         SDL_UnlockSurface (screen) ;
+ 
+-        scrbitmap->data = 0 ;
++/*        scrbitmap->data = 0 ;
+         if (double_buffer)
+             SDL_Flip(screen) ;
+-        else
+-        {
+-            if (updaterects_count == 0)
+-                /* Nothing to update! */ ;
+-            else
+-            {
++        else */
++        if (updaterects_count) {
+                 SDL_Rect rects[128];
+                 int i;
+ 
+@@ -2138,14 +2105,11 @@
+                 {
+                     rects[i].x = updaterects[i].x;
+                     rects[i].y = updaterects[i].y;
+-                    rects[i].w = updaterects[i].x2 - rects[i].x + 1;
+-                    rects[i].h = updaterects[i].y2 - rects[i].y + 1;
++                rects[i].w = (updaterects[i].x2 - rects[i].x + 1);
++                rects[i].h = (updaterects[i].y2 - rects[i].y + 1);
+                 }
+                 SDL_UpdateRects (screen, updaterects_count, rects) ;
+             }
+-            SDL_UnlockSurface (screen) ;
+-            SDL_UpdateRect (screen, 0, 0, 0, 0) ;
+-        }
+     }
+     else
+     {
+@@ -2198,7 +2162,8 @@
+         }
+ 
+         SDL_UnlockSurface (screen) ;
+-        SDL_UpdateRect (screen, 0, 0, 0, 0) ;
++        SDL_Flip(screen) ;
++/*        SDL_UpdateRect (screen, 0, 0, 0, 0) ; */
+     }
+ }
+ 
+@@ -2235,7 +2200,7 @@
+     if (scr_initialized && scrbitmap)
+     {
+         if (scrbitmap_is_fake)
+-            free (scrbitmap) ;
++            bitmap_destroy_fake (scrbitmap) ;
+         else
+             bitmap_destroy (scrbitmap) ;
+ 
+@@ -2355,6 +2320,8 @@
+     regions[0].x2 = width-1 ;
+     regions[0].y2 = height-1 ;
+ 
++    if (enable_16bits) pal_refresh(NULL) ;
++
+     /* Bitmaps de fondo */
+ 
+     if (!background || scr_width != width || scr_height != height)
+@@ -2384,10 +2351,11 @@
+     scr_width = width ;
+     scr_height = height ;
+ 
++    SDL_WarpMouse(scr_width / 2, scr_height / 2);
++
+     /* Paleta de colores por defecto */
+ 
+-    if (!palette_loaded)
+-    {
++    if (!palette_loaded) {
+         for (n = 0 ; n < 256 ; n++)
+             gr_set_rgb (n, default_palette[n*3]/4, default_palette[n*3+1]/4, default_palette[n*3+2]/4) ;
+     }
+Index: fxi/src/g_maps.c
+===================================================================
+--- fxi/src/g_maps.c	2007-08-28 14:39:56.000000000 +0200
++++ fxi/src/g_maps.c	2007-08-28 14:41:13.000000000 +0200
+@@ -128,6 +128,8 @@
+ 	gr->prev             = NULL;
+ 	gr->current_keyframe = -1;
+ 
++	gr->palette          = NULL ;
++
+ 	if (first)
+ 		first->prev = gr;
+ 	first = gr;
+@@ -185,6 +187,8 @@
+ 	gr->offset = map->offset ;
+ 	gr->info_flags = map->info_flags ;
+ 	gr->modified = map->modified ;
++	gr->palette = map->palette ;
++	pal_use(map->palette);
+ 	memcpy (gr->name, map->name, sizeof(map->name)) ;
+ 	return gr ;
+ }
+@@ -256,10 +260,29 @@
+ 	if (map->keyframes) free(map->keyframes);
+ 	if (map->sequences) free(map->sequences);
+ 
++	pal_destroy(map->palette);
++
+ 	free (map->data) ;
+ 	free (map) ;
+ }
+ 
++void bitmap_destroy_fake (GRAPH * map)
++{
++    if (!map) return;
++
++    if (map->prev) map->prev->next = map->next;
++    if (map->next) map->next->prev = map->prev;
++/*  if (map->next_time) map->next->prev = map->next; */
++    if (first == map) first = map->next;
++
++    if (map->cpoints) free(map->cpoints);
++    if (map->keyframes) free(map->keyframes);
++    if (map->sequences) free(map->sequences);
++
++    pal_destroy(map->palette);
++
++    free (map) ;
++}
+ 
+ static GRAPH * gr_read_map (file * fp)
+ {
+@@ -269,6 +292,7 @@
+ 	int depth, code ;
+ 	GRAPH * gr ;
+ 	int len;
++	PALETTE * pal = NULL;
+ 
+ 	/* Carga los datos de cabecera */
+ 
+@@ -280,25 +304,23 @@
+ 	else if (strcmp (header, M01_MAGIC) == 0)
+ 		depth = 1 ;
+ 	else
+-		return 0 ;
++		return NULL ;
+ 
+ 	file_readUint16 (fp, &w) ;
+ 	file_readUint16 (fp, &h) ;
+ 	file_readSint32 (fp, &code) ;
+ 
+ 	gr = bitmap_new (code, w, h, depth, 1) ;
+-	if (!gr) return 0 ;
++	if (!gr) return NULL ;
+ 	file_read (fp, gr->name, 32) ;
+ 	gr->name[31] = 0 ;
+ 
+ 	/* Datos de paleta */
+ 
+ 	if (gr->depth == 8)
+-	{
+-		if (palette_loaded)
+-			file_seek (fp, 576 + 768, SEEK_CUR) ;
+-		else
+-			if (!gr_read_pal (fp)) return 0 ;
++		if (!(pal = gr_read_pal_with_gamma (fp))) {
++			bitmap_destroy(gr);
++			return NULL ;
+ 	}
+ 
+ 	/* Puntos de control */
+@@ -310,8 +332,9 @@
+ 	{
+ 		gr->cpoints = (CPOINT *) malloc (c * sizeof(CPOINT)) ;
+ 		if (!gr->cpoints) {
+-		    free(gr) ;
+-		    return 0 ;
++			bitmap_destroy(gr);
++			pal_destroy(pal);
++			return NULL ;
+ 		}
+ 
+ 		for (c = 0 ; c < gr->ncpoints ; c++)
+@@ -339,9 +362,9 @@
+ 		Uint8 * line = (Uint8 *)gr->data + gr->pitch*y;
+ 		if (!file_read (fp, line, len))
+ 		{
+-			free (gr->data) ;
+-			free (gr) ;
+-			return 0 ;
++			bitmap_destroy(gr);
++			pal_destroy(pal);
++			return NULL ;
+ 		}
+ 		if (gr->depth == 16)
+ 		{
+@@ -350,6 +373,8 @@
+ 		}
+ 	}
+ 
++	if (gr->depth == 8 && !gr->palette) gr->palette = pal;
++
+ 	gr->modified = 1 ;
+ 	return gr ;
+ }
+@@ -412,6 +437,7 @@
+ 	GRAPH * gr ;
+ 
+ 	gr = bitmap_new (0, w, h, depth, frames) ;
++	if (!gr) return NULL;
+ 	gr->code = bitmap_next_code() ;
+ 	assert (syslib) ;
+ 	grlib_add_map (0, gr) ;

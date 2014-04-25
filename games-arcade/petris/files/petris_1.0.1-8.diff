@@ -1,0 +1,484 @@
+--- petris-1.0.1.orig/Makefile
++++ petris-1.0.1/Makefile
+@@ -1,14 +1,17 @@
++CFLAGS=-Wall
++LIBS=-lncurses
++
+ petris : main.o game.o highscore.o
+-	gcc -o petris main.o game.o highscore.o -lncurses
++	gcc ${LIBS} -o petris main.o game.o highscore.o
+ 
+ main.o : main.c game.h petris.h
+-	gcc -Wall -c main.c
++	gcc ${CFLAGS} -c main.c
+ 
+ game.o : game.c game.h petris.h config.h
+-	gcc -Wall -c game.c
++	gcc ${CFLAGS} -c game.c
+ 
+ highscore.o : highscore.c highscore.h config.h
+-	gcc -Wall -c highscore.c
++	gcc ${CFLAGS} -c highscore.c
+ 
+ clean:
+-	rm main.o game.o highscore.o
++	rm -f main.o game.o highscore.o
+--- petris-1.0.1.orig/config.h
++++ petris-1.0.1/config.h
+@@ -12,7 +12,7 @@
+ #define CONTROL_REFRESH	'r'		/* Refresh screen */
+ 
+ /* Highscore file. */
+-#define HIGHSCORE_FILE	"/var/local/petris/highscores"
++#define HIGHSCORE_FILE	"/var/games/petris.scores"
+ 
+ /* Number of entries in highscore list. */
+ #define SIZE_HS_LIST	10
+--- petris-1.0.1.orig/game.c
++++ petris-1.0.1/game.c
+@@ -222,6 +222,7 @@
+ 	
+ 	points.points = 0;
+ 	points.lines = 0;
++        points.level = 0;
+ 	
+ 	/* Avoid reading beyond end of well_data. */
+ 	if (start > WELL_HEIGHT - BLOCK_DOTS)
+@@ -285,7 +286,7 @@
+ 	int y = 0;
+ 	int x = defx;
+ 	int orient = 0;
+-	int ch;
++	int ch = 0;
+ 	fd_set inputs, test_fds;
+ 	struct timeval timeout;
+ 	int sel_ret;
+@@ -309,7 +310,7 @@
+ 		
+ 		sel_ret = select(FD_SETSIZE, &test_fds, (fd_set *) 0, (fd_set *) 0, &timeout);
+ 
+-		ch = getch();
++		ch = getch(); if ( (sel_ret == 1) && (ch == ERR) ) exit_after_error();
+ 		
+ 		switch (ch) {
+ 		case CONTROL_LEFT:
+--- petris-1.0.1.orig/highscore.c
++++ petris-1.0.1/highscore.c
+@@ -69,12 +69,13 @@
+ 
+ 	/* Move entries one position down starting at index. */
+ 	for (i = SIZE_HS_LIST - 1; i > index; i--) {
+-		strcpy(hs_list[i].name, hs_list[i-1].name);
++	        strncpy(hs_list[i].name, hs_list[i-1].name, sizeof(hs_list[i].name)-1);
+ 		hs_list[i].points = hs_list[i-1].points;
+ 	}
+ 
+ 	/* Insert new entry. */
+-	strcpy(hs_list[index].name, name);
++	memset(hs_list[index].name, '\0', sizeof(hs_list[index].name));
++	strncpy(hs_list[index].name, name, sizeof(hs_list[index].name)-1);
+ 	hs_list[index].points = points;
+ }
+ 
+@@ -147,7 +148,7 @@
+ 	
+ 	nodelay(stdscr, FALSE);
+ 	
+-	ch = getch();
++	ch = getch(); if (ch == ERR) exit_after_error();
+ 	if (ch == 'q' || ch == 'Q')
+ 		return 0;
+ 	else
+--- petris-1.0.1.orig/main.c
++++ petris-1.0.1/main.c
+@@ -183,7 +183,7 @@
+ 	nodelay(stdscr, FALSE);
+ 	
+ 	while(ch != ' ' && ch != KEY_ENTER) {
+-		ch = getch();
++		ch = getch(); if (ch == ERR) exit_after_error();
+ 		switch (ch) {
+ 		case KEY_UP:
+ 			level = (level + 1 > NO_LEVELS - 1)? 0 : level + 1;
+@@ -209,7 +209,7 @@
+ {
+ 	WINDOW *win;
+ 	int ranking;	/* Highscore ranking. */
+-	int ch;
++	int ch = 0;
+ 	int ret = 1;
+ 
+ 	/* Place window in the middle of the screen. */
+@@ -254,7 +254,7 @@
+ 
+ 	nodelay(stdscr, FALSE);
+ 
+-	ch = getch();
++	ch = getch(); if (ch == ERR) exit_after_error();
+ 	if (ch == 'q' || ch == 'Q')
+ 		ret = 0;
+ 	else if (ch == 'h' || ch == 'H')
+@@ -277,9 +277,17 @@
+ 	sleep(3);
+ }
+ 
++/* Exit cleanly after an error occured */
++int exit_after_error()
++{
++	cursor_vis(1);
++	endwin();
++	exit(1);
++}
++
+ int main(int argc, char **argv)
+ {
+-	int play;
++	int play = 1;
+ 	int level = 0;
+ 	POINTS points;
+ 	int use_highscore = 1;
+--- petris-1.0.1.orig/petris.h
++++ petris-1.0.1/petris.h
+@@ -53,4 +53,7 @@
+ 	unsigned char level;
+ } POINTS;
+ 
++/* Exit cleanly after an error occured */
++int exit_after_error();
++
+ #endif /* _PETRIS_H_ */
+--- petris-1.0.1.orig/debian/menu
++++ petris-1.0.1/debian/menu
+@@ -0,0 +1,5 @@
++?package(petris):needs="text" section="Games/Blocks"      \
++	title="Petris is Peter's Tetris"                  \
++	command="/usr/games/petris"                       \
++	hints="Text"                                      \
++        icon="/usr/share/pixmaps/petris-icon.xpm"
+--- petris-1.0.1.orig/debian/changelog
++++ petris-1.0.1/debian/changelog
+@@ -0,0 +1,78 @@
++petris (1.0.1-8) unstable; urgency=low
++
++  * Removed hard-coded strip option from install command in rules file. 
++    (Closes: #437769.)
++  * Changed menu location to Games/Blocks to be in line with current 
++    menu policy (version 3.8.0).
++  * Fixed make clean command in rules file. (Fixes lintian warning.)
++  * Changed standards version to 3.8.0 with no further changes other 
++    than the above.
++
++ -- Andree Leidenfrost <andree@debian.org>  Fri, 03 Oct 2008 19:59:18 +1000
++
++petris (1.0.1-7) unstable; urgency=low
++
++  * Amended copyright file to reflect the fact that there is currently 
++    no upstream download location.
++
++ -- Andree Leidenfrost <andree@debian.org>  Tue,  3 Oct 2006 01:16:22 +1000
++
++petris (1.0.1-6) unstable; urgency=low
++
++  * Changed maintainer email address to andree@debian.org.
++  * Changed standards version from 3.6.2 to 3.7.2 without package
++    changes. (Fixes lintian warning.)
++  * Increased package compatibility level to 5 and build-depend on
++    debhelper >= 5.0 accordingly.
++  * Removed spurious debian/substvars file. (Fixes lintian warning.)
++
++ -- Andree Leidenfrost <andree@debian.org>  Thu, 31 Aug 2006 00:49:58 +1000
++
++petris (1.0.1-5) unstable; urgency=high
++
++  * Integrated fix by Security Team for buffer overflow of environmental
++    variable when processing highscores. [CVE-2005-3540] (Hence urgency=high.)
++  * Changed standards version from 3.6.1 to 3.6.2 without package changes.
++  * Add compat file to avoid warning when building package.
++  * Install directory under debian is now $package, not tmp - adjust rules
++    accordingly.
++  * Initialised 'points.level' in function 'check_lines' (game.c). Avoids
++    compiler warning.
++
++ -- Andree Leidenfrost <aleidenf@bigpond.net.au>  Tue, 10 Jan 2006 23:38:24 +1100
++
++petris (1.0.1-4) unstable; urgency=low
++
++  * Fixed compiler warnings.
++  * Added icon for menu.
++  * Bumped dephelper version to 4.2.20.
++
++ -- Andree Leidenfrost <aleidenf@bigpond.net.au>  Wed,  6 Oct 2004 23:18:36 +1000
++
++petris (1.0.1-3) unstable; urgency=low
++
++  * Check outcome of getch() function call to avoid infinite loop in
++    case hosting terminal dies (Closes: #256265)
++
++ -- Andree Leidenfrost <aleidenf@bigpond.net.au>  Tue, 06 Jul 2004 20:37:47 +1000
++
++petris (1.0.1-2) unstable; urgency=low
++
++  * Added build dependency for libncurses5-dev (Closes: #253614)
++  * Changed CFLAGS in rules to turn on debugging symbols using '-g'
++  * Changed CFLAGS in rules to turn on more extensive warnings using '-W'
++  * Pass CFLAGS to get make to actually honour the build flags
++    (thanks Goswin von Brederlow for pointing this out)
++  * Set architecture to 'any' (fingers crossed)
++  * Updated standards to 3.6.1 (fixes lintian warning)
++  * Call petris directly in menu rather than using 'sh -c'
++    (fixes lintian warning)
++  * Make sure that /var/games exists by adding it to dirs
++  
++ -- Andree Leidenfrost <aleidenf@bigpond.net.au>  Sun, 13 Jun 2004 10:52:13 +1000
++
++petris (1.0.1-1) unstable; urgency=low
++
++  * Initial Release.
++
++ -- Andree Leidenfrost <aleidenf@bigpond.net.au>  Sun, 25 Apr 2004 20:40:25 +1000
+--- petris-1.0.1.orig/debian/control
++++ petris-1.0.1/debian/control
+@@ -0,0 +1,12 @@
++Source: petris
++Section: games
++Priority: optional
++Maintainer: Andree Leidenfrost <andree@debian.org>
++Build-Depends: debhelper (>= 5.0), libncurses5-dev
++Standards-Version: 3.8.0
++
++Package: petris
++Architecture: any
++Depends: ${shlibs:Depends}, ${misc:Depends}
++Description: Peter's Tetris - a Tetris(TM) clone
++ Petris supports colours and even features a highscore list.
+--- petris-1.0.1.orig/debian/copyright
++++ petris-1.0.1/debian/copyright
+@@ -0,0 +1,36 @@
++This package was debianized by Andree Leidenfrost <aleidenf@bigpond.net.au>.
++
++It was originally downloaded from 
++http://home1.stofanet.dk/peter-seidler/ which does not exist anymore.
++There is currently no known download location. However, the pristine 
++last upstream source is in the petris_1.0.1.orig.tar.gz tarball in the 
++Debian archives.
++
++Upstream Author: Peter Seidler <seidler@ifa.au.dk>
++
++Copyright:
++
++  You can do whatever you want with the program, it's Public Domain.
++  (however, it would be nice of you to credit me if you found anything
++  of this useful).
++  The above includes the permission to relicence the program under the
++  MIT/X11 licence reproduced below:
++
++  Permission is hereby granted, free of charge, to any person obtaining a copy
++  of this software and associated documentation files (the "Software"), to
++  deal in the Software without restriction, including without limitation the
++  rights to use, copy, modify, merge, publish, distribute, and/or sell copies
++  of the Software, and to permit persons to whom the Software is furnished to
++  do so, provided that the above copyright notice(s) and this permission
++  notice appear in all copies of the Software and that both the above
++  copyright notice(s) and this permission notice appear in supporting
++  documentation.
++
++  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT OF THIRD PARTY RIGHTS.
++  IN NO EVENT SHALL THE COPYRIGHT HOLDER OR HOLDERS INCLUDED IN THIS NOTICE BE
++  LIABLE FOR ANY CLAIM, OR ANY SPECIAL INDIRECT OR CONSEQUENTIAL DAMAGES, OR
++  ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER
++  IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT
++  OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+--- petris-1.0.1.orig/debian/rules
++++ petris-1.0.1/debian/rules
+@@ -0,0 +1,72 @@
++#!/usr/bin/make -f
++# -*- makefile -*-
++# Sample debian/rules that uses debhelper.
++# GNU copyright 1997 to 1999 by Joey Hess.
++
++# Uncomment this to turn on verbose mode.
++#export DH_VERBOSE=1
++
++CFLAGS = -g -W -Wall
++
++ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
++	CFLAGS += -O0
++else
++	CFLAGS += -O2
++endif
++ifeq (,$(findstring nostrip,$(DEB_BUILD_OPTIONS)))
++	INSTALL_PROGRAM += -s
++endif
++
++configure: configure-stamp
++configure-stamp:
++	dh_testdir
++	touch configure-stamp
++
++
++build: build-stamp
++
++build-stamp: configure-stamp 
++	dh_testdir
++	$(MAKE) CFLAGS="$(CFLAGS)"
++	touch build-stamp
++
++clean:
++	dh_testdir
++	dh_testroot
++	rm -f build-stamp configure-stamp
++	$(MAKE) clean
++	rm -f petris
++
++	dh_clean 
++
++install: build
++	dh_testdir
++	dh_testroot
++	dh_clean -k 
++	dh_installdirs
++	install -g games -o root -m 2755 petris $(CURDIR)/debian/petris/usr/games
++	install -m 644 debian/petris-icon.xpm  $(CURDIR)/debian/petris/usr/share/pixmaps/petris-icon.xpm
++
++# Build architecture-independent files here.
++binary-indep: build install
++# We have nothing to do by default.
++
++# Build architecture-dependent files here.
++binary-arch: build install
++	dh_testdir
++	dh_testroot
++	dh_installchangelogs 
++	dh_installdocs
++	dh_installmenu
++	dh_installman petris.6
++	dh_strip
++	dh_compress
++	dh_fixperms --exclude /usr/games/petris
++	dh_installdeb
++	dh_shlibdeps
++	dh_gencontrol
++	dh_md5sums
++	dh_builddeb
++
++binary: binary-indep binary-arch
++.PHONY: build clean binary-indep binary-arch binary install configure
+--- petris-1.0.1.orig/debian/dirs
++++ petris-1.0.1/debian/dirs
+@@ -0,0 +1,4 @@
++usr/games
++usr/share/man/man6
++var/games
++/usr/share/pixmaps
+--- petris-1.0.1.orig/debian/docs
++++ petris-1.0.1/debian/docs
+@@ -0,0 +1 @@
++README
+--- petris-1.0.1.orig/debian/postinst
++++ petris-1.0.1/debian/postinst
+@@ -0,0 +1,21 @@
++#! /bin/sh
++# postinst script for petris
++#
++# see: dh_installdeb(1)
++
++set -e
++                                                                               
++scorefile="/var/games/petris.scores"
++                                                                               
++if [ "$1" = "configure" ] && [ ! -e $scorefile ]; then
++    touch $scorefile
++    chmod 0664 $scorefile
++    chown root:games $scorefile
++fi
++
++# dh_installdeb will replace this with shell code automatically
++# generated by other debhelper scripts.
++
++#DEBHELPER#
++
++exit 0
+--- petris-1.0.1.orig/debian/petris-icon.xpm
++++ petris-1.0.1/debian/petris-icon.xpm
+@@ -0,0 +1,39 @@
++/* XPM */
++static char * petris_icon_test_xpm[] = {
++"32 32 4 1",
++" 	c None",
++".	c #0000AA",
++"+	c #00AA00",
++"@	c #AA0000",
++"                        ........",
++"                        ........",
++"                        ........",
++"                        ........",
++"                        ........",
++"                        ........",
++"                        ........",
++"                        ........",
++"++++++++        ................",
++"++++++++        ................",
++"++++++++        ................",
++"++++++++        ................",
++"++++++++        ................",
++"++++++++        ................",
++"++++++++        ................",
++"++++++++        ................",
++"++++++++++++++++........@@@@@@@@",
++"++++++++++++++++........@@@@@@@@",
++"++++++++++++++++........@@@@@@@@",
++"++++++++++++++++........@@@@@@@@",
++"++++++++++++++++........@@@@@@@@",
++"++++++++++++++++........@@@@@@@@",
++"++++++++++++++++........@@@@@@@@",
++"++++++++++++++++........@@@@@@@@",
++"++++++++@@@@@@@@@@@@@@@@@@@@@@@@",
++"++++++++@@@@@@@@@@@@@@@@@@@@@@@@",
++"++++++++@@@@@@@@@@@@@@@@@@@@@@@@",
++"++++++++@@@@@@@@@@@@@@@@@@@@@@@@",
++"++++++++@@@@@@@@@@@@@@@@@@@@@@@@",
++"++++++++@@@@@@@@@@@@@@@@@@@@@@@@",
++"++++++++@@@@@@@@@@@@@@@@@@@@@@@@",
++"++++++++@@@@@@@@@@@@@@@@@@@@@@@@"};
+--- petris-1.0.1.orig/debian/postrm
++++ petris-1.0.1/debian/postrm
+@@ -0,0 +1,19 @@
++#! /bin/sh
++# postrm script for petris
++#
++# see: dh_installdeb(1)
++
++set -e
++
++scorefile="/var/games/petris.scores"
++                                                                               
++if [ "$1" = "purge" ] && [ -e $scorefile ]; then
++    rm -f $scorefile
++fi
++
++# dh_installdeb will replace this with shell code automatically
++# generated by other debhelper scripts.
++
++#DEBHELPER#
++
++exit 0
+--- petris-1.0.1.orig/debian/postinst.debhelper
++++ petris-1.0.1/debian/postinst.debhelper
+@@ -0,0 +1,5 @@
++# Automatically added by dh_installmenu
++if [ "$1" = "configure" ] && [ -x "`which update-menus 2>/dev/null`" ]; then
++	update-menus
++fi
++# End automatically added section
+--- petris-1.0.1.orig/debian/postrm.debhelper
++++ petris-1.0.1/debian/postrm.debhelper
+@@ -0,0 +1,3 @@
++# Automatically added by dh_installmenu
++if [ -x "`which update-menus 2>/dev/null`" ]; then update-menus ; fi
++# End automatically added section
+--- petris-1.0.1.orig/debian/compat
++++ petris-1.0.1/debian/compat
+@@ -0,0 +1 @@
++4

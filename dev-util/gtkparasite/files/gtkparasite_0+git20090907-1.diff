@@ -1,0 +1,128 @@
+--- gtkparasite-9999.orig/debian/changelog
++++ gtkparasite-9999/debian/changelog
+@@ -0,0 +1,5 @@
++gtkparasite (0+git20090907-1) unstable; urgency=low
++
++  * Initial release (Closes: #514033).
++
++ -- Devid Antonio Filoni <d.filoni@ubuntu.com>  Mon, 07 Sep 2009 15:33:11 +0200
+--- gtkparasite-9999.orig/debian/compat
++++ gtkparasite-9999/debian/compat
+@@ -0,0 +1 @@
++7
+--- gtkparasite-9999.orig/debian/docs
++++ gtkparasite-9999/debian/docs
+@@ -0,0 +1 @@
++AUTHORS
+--- gtkparasite-9999.orig/debian/rules
++++ gtkparasite-9999/debian/rules
+@@ -0,0 +1,29 @@
++#!/usr/bin/make -f
++
++VERSION="0+git"$(shell date +%Y%m%d)
++
++%:
++	dh $@
++
++override_dh_auto_clean:
++	[ ! -f Makefile ] || $(MAKE) distclean
++	find -name "Makefile.in" -delete
++	dh_clean aclocal.m4 config.* configure depcomp install-sh libtool \
++		ltmain.sh Makefile missing stamp-h1
++
++override_dh_auto_configure:
++	./autogen.sh --prefix=/usr
++
++override_dh_auto_install:
++	$(MAKE) DESTDIR=$(CURDIR)/debian/gtkparasite install
++	rm -f $(CURDIR)/debian/gtkparasite/usr/lib/gtk-2.0/modules/libgtkparasite.*a
++
++get-orig-source:
++	cd $(CURDIR); \
++	git clone git://github.com/chipx86/gtkparasite.git gtkparasite; \
++	cd gtkparasite; \
++	git archive --format=tar --prefix=gtkparasite-${VERSION}/ HEAD > \
++		../../gtkparasite_${VERSION}.orig.tar; \
++	gzip -9fn ../../gtkparasite_${VERSION}.orig.tar; \
++	cd ..; \
++	rm -rf gtkparasite
+--- gtkparasite-9999.orig/debian/control
++++ gtkparasite-9999/debian/control
+@@ -0,0 +1,25 @@
++Source: gtkparasite
++Section: devel
++Priority: optional
++Maintainer: Devid Antonio Filoni <d.filoni@ubuntu.com>
++Build-Depends: debhelper (>= 7.0.50), autoconf, libtool, automake,
++ libgtk2.0-dev (>= 2.12.0), python-dev, python-gtk2-dev
++Standards-Version: 3.8.3
++Homepage: http://chipx86.github.com/gtkparasite/
++
++Package: gtkparasite
++Architecture: any
++Depends: ${shlibs:Depends}, ${misc:Depends}, python-dev
++Description: GTK+ debugging and development tool
++ Parasite is a debugging and development tool that runs inside your GTK+
++ application's process. It can inspect your application, giving you detailed
++ information on your UI, such as the hierarchy, X window IDs, widget
++ properties, and more. You can modify properties on the fly in order to
++ experiment with the look of your UI.
++ .
++ But you can go further than that. You can actually modify your application
++ logic while the program is running! Parasite includes an embedded Python
++ shell that lets you write new code that directly interacts with your
++ application's UI, regardless of the language the application is written in.
++ Create new dialogs, attach temporary signal handlers to buttons, test out
++ new logic, and gather additional debug information.
+--- gtkparasite-9999.orig/debian/copyright
++++ gtkparasite-9999/debian/copyright
+@@ -0,0 +1,41 @@
++This package was debianized by Devid Antonio Filoni <d.filoni@ubuntu.com> on
++Mon, 07 Sep 2009 15:33:11 +0200.
++
++It was downloaded from http://chipx86.github.com/gtkparasite/
++
++Upstream Authors:
++
++    Christian Hammond <chipx86@chipx86.com>
++    David Trowbridge <trowbrds@gmail.com>
++
++Copyright:
++
++    Copyright © 2008-2009, Christian Hammond
++    Copyright © 2008-2009, David Trowbridge
++
++License:
++
++    Permission is hereby granted, free of charge, to any person obtaining a
++    copy of this software and associated documentation files (the "Software"),
++    to deal in the Software without restriction, including without limitation
++    the rights to use, copy, modify, merge, publish, distribute, sublicense,
++    and/or sell copies of the Software, and to permit persons to whom the
++    Software is furnished to do so, subject to the following conditions:
++
++    The above copyright notice and this permission notice shall be included
++    in all copies or substantial portions of the Software.
++
++    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++    THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
++    FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
++    DEALINGS IN THE SOFTWARE.
++
++The Debian packaging is:
++
++    Copyright © 2009 Devid Antonio Filoni <d.filoni@ubuntu.com>
++
++and is licensed under the GPL version 2, 
++see `/usr/share/common-licenses/GPL-2'.
+--- gtkparasite-9999.orig/debian/README.Debian
++++ gtkparasite-9999/debian/README.Debian
+@@ -0,0 +1,5 @@
++Parasite is easy to use. Start by launching an application doing the following:
++
++$ GTK_MODULES=gtkparasite appname
++    
++Parasite window will pop up immediately, followed by the application window.

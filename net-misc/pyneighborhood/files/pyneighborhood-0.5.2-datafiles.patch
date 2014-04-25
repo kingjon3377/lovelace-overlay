@@ -1,0 +1,21 @@
+diff -rNu pyneighborhood-0.5.2.orig/setup.py pyneighborhood-0.5.2/setup.py
+--- pyneighborhood-0.5.2.orig/setup.py	2010-09-25 16:53:42.676000001 +0200
++++ pyneighborhood-0.5.2/setup.py	2010-09-25 17:07:33.220999996 +0200
+@@ -19,6 +19,7 @@
+ import sys
+ import subprocess
+ import stat
++import glob
+ from distutils.core import setup
+ 
+ setup(name='pyneighborhood',
+@@ -30,5 +31,8 @@
+       maintainer_email='info@stefan-betz.net',
+       url='http://pyneighborhood.sourceforge.net',
+       scripts=['pyNeighborhood'],
+-      packages=['pyneighborhood']
++      packages=['pyneighborhood'],
++      data_files=[ ('/usr/share/applications', ['pyNeighborhood.desktop']),
++	           ('/usr/share/pyneighborhood/icons', glob.glob("icons/*.png")),
++		   ('/usr/share/pyneighborhood/ui', glob.glob("ui/*.glade"))]
+      )

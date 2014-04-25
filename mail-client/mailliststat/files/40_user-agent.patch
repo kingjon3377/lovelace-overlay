@@ -1,0 +1,214 @@
+diff -Nur mailliststat-1.3/mls.c mailliststat-1.3.new/mls.c
+--- mailliststat-1.3/mls.c	2005-12-03 23:45:11.000000000 +0100
++++ mailliststat-1.3.new/mls.c	2005-12-03 23:14:44.000000000 +0100
+@@ -202,41 +202,8 @@
+  if (regcomp(&r_date, "(^|.* )([0-9]{1,2}) {1,}(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) {1,}([0-9]{4})", REG_EXTENDED | REG_ICASE) > 0) myWarn("Error compiling regex!","(date)",5);
+  if (regcomp(&r_dow , "(.*[^a-z]|^)(Mon|Tue|Wed|Thu|Fri|Sat|Sun)[^a-z].*", REG_EXTENDED | REG_ICASE) > 0) myWarn("Error compiling regex!","(dow)",5);
+  if (regcomp(&r_mail, "(.*[ <]){0,1}([0-9a-z!#$%^&()_+.,~-]*@[0-9a-z!#$%^&()_+.,~-]*)([ >].*){0,1}", REG_EXTENDED | REG_ICASE) > 0) myWarn("Error compiling regex!","(email)",5);
+- // regex for X-Mailer/User-Agent/X-Newsreader/Message-ID
+- if (regcomp(&r_m_ims, "^ {0,}(Internet Mail Service) \\(([0-9]\\.)", REG_EXTENDED) > 0) myWarn("Error compiling regex!","(x-mailer)",5);
+- if (regcomp(&r_m_bat, "^ {0,}(The Bat!)", REG_EXTENDED) > 0) myWarn("Error compiling regex!","(x-mailer)",5);
+- if (regcomp(&r_m_lot, "^ {0,}(Lotus Notes Release [0-9]\\.[0-9])", REG_EXTENDED) > 0) myWarn("Error compiling regex!","(x-mailer)",5);
+- if (regcomp(&r_m_oue, "^ {0,}(Microsoft Outlook Express [0-9]\\.)", REG_EXTENDED) > 0) myWarn("Error compiling regex!","(x-mailer)",5);
+- if (regcomp(&r_m_ouc, "^ {0,}(Microsoft Outlook CWS)", REG_EXTENDED) > 0) myWarn("Error compiling regex!","(x-mailer)",5);
+- if (regcomp(&r_m_oum, "^ {0,}(Microsoft Outlook IMO)", REG_EXTENDED) > 0) myWarn("Error compiling regex!","(x-mailer)",5);
+- if (regcomp(&r_m_out, "^ {0,}(Microsoft Outlook), ", REG_EXTENDED) > 0) myWarn("Error compiling regex!","(x-mailer)",5);
+- if (regcomp(&r_m_cal, "^ {0,}(Calypso Version [0-9])", REG_EXTENDED) > 0) myWarn("Error compiling regex!","(x-mailer)",5);
+- if (regcomp(&r_m_moz, "^ {0,}(Mozilla( |/)[0-9]\\.)", REG_EXTENDED) > 0) myWarn("Error compiling regex!","(x-mailer)",5);
+- if (regcomp(&r_m_peg, "^ {0,}(Pegasus Mail for Win)", REG_EXTENDED) > 0) myWarn("Error compiling regex!","(x-mailer)",5);
+- if (regcomp(&r_m_opw, "^ {0,}(Open WebMail)", REG_EXTENDED) > 0) myWarn("Error compiling regex!","(x-mailer)",5);
+- if (regcomp(&r_m_eud, "^ {0,}(QUALCOMM Windows Eudora)", REG_EXTENDED) > 0) myWarn("Error compiling regex!","(x-mailer)",5);
+- if (regcomp(&r_m_pos, "^ {0,}(POSTIE)", REG_EXTENDED) > 0) myWarn("Error compiling regex!","(x-mailer)",5);
+- if (regcomp(&r_m_pob, "^ {0,}(POBOX)", REG_EXTENDED) > 0) myWarn("Error compiling regex!","(x-mailer)",5);
+- if (regcomp(&r_m_kma, "^ {0,}(KMail)", REG_EXTENDED) > 0) myWarn("Error compiling regex!","(x-mailer)",5);
+- if (regcomp(&r_m_mut, "^ {0,}(Mutt)", REG_EXTENDED) > 0) myWarn("Error compiling regex!","(x-mailer)",5);
+- if (regcomp(&r_m_imp, "^ {0,}(IMP/PHP IMAP webmail)", REG_EXTENDED) > 0) myWarn("Error compiling regex!","(x-mailer)",5);
+- if (regcomp(&r_m_ope, "^ {0,}(Opera [0-9]\\.)", REG_EXTENDED) > 0) myWarn("Error compiling regex!","(x-mailer)",5);
+- if (regcomp(&r_m_pin, "^ {0,}<(Pine)\\.", REG_EXTENDED) > 0) myWarn("Error compiling regex!","(x-mailer)",5);
+- if (regcomp(&r_m_pi2, "^ {0,}<[^P][^<>]*@[^<>]+>$", REG_EXTENDED | REG_NOSUB) > 0) myWarn("Error compiling regex!","(x-mailer)",5);
+- // r_m_pi2 - match normal Message-ID header (to be removed and not threated as mailer)
+- if (regcomp(&r_m_syl, "^ {0,}(Sylpheed version [0-9]+\\.[0-9]+\\.)", REG_EXTENDED) > 0) myWarn("Error compiling regex!","(x-mailer)",5);
+-
+- // (these contributed by Urke MMI <urke@gmx.net>)
+- if (regcomp(&r_m_pan, "^ {0,}(Pan( |/)[0-9]+\\.[0-9]+\\.)", REG_EXTENDED) > 0) myWarn("Error compiling regex!","(x-mailer)",5);
+- if (regcomp(&r_m_4td, "^ {0,}(40tude_Dialog( |/)[0-9]+\\.[0-9]+\\.)", REG_EXTENDED) > 0) myWarn("Error compiling regex!","(x-mailer)",5);
+- if (regcomp(&r_m_fag, "^ {0,}(Forte Agent [0-9]+\\.[0-9]?)", REG_EXTENDED) > 0) myWarn("Error compiling regex!","(x-mailer)",5);
+- if (regcomp(&r_m_mpg, "^ {0,}(MicroPlanet Gravity v[0-9]+\\.)", REG_EXTENDED) > 0) myWarn("Error compiling regex!","(x-mailer)",5);
+- if (regcomp(&r_m_xws, "^ {0,}(Xnews.?[0-9]+\\.)", REG_EXTENDED) > 0) myWarn("Error compiling regex!","(x-mailer)",5);
+- if (regcomp(&r_m_knd, "^ {0,}(KNode( |/)[0-9]+\\.[0-9]+\\.)", REG_EXTENDED) > 0) myWarn("Error compiling regex!","(x-mailer)",5);
+- // Only Hamster local server w/o client identifier
+- if (regcomp(&r_m_hst, "^ {0,}(Hamster/[0-9]+\\.[0-9]+\\.)", REG_EXTENDED) > 0) myWarn("Error compiling regex!","(x-mailer)",5);
+- if (regcomp(&r_m_nnr, "^ {0,}(Noworyta News Reader/[0-9]+\\.)", REG_EXTENDED) > 0) myWarn("Error compiling regex!","(x-mailer)",5);
+-
++ if (regcomp(&r_mailer, "^ *([A-Za-z!_\\ :-]*(\\.pl){0,1}|G2)(([.\\ /,]+[0-9\\.BVa-z]+)|\\ \\(.*\\)){0,1}", REG_EXTENDED) > 0) myWarn("Error compiling regex!","(x-mailer)",5);
++ if (regcomp(&r_mailer_clean, "(.*) (version|devel-|Version|http:)+", REG_EXTENDED) > 0) myWarn("Error compiling regex!","(x-mailer)",5);
+  compile_mime_regex();
+ }
+ /* ************************************************************** MAIN *** */
+diff -Nur mailliststat-1.3/mls.h mailliststat-1.3.new/mls.h
+--- mailliststat-1.3/mls.h	2005-12-03 23:45:11.000000000 +0100
++++ mailliststat-1.3.new/mls.h	2005-11-06 19:02:22.000000000 +0100
+@@ -104,12 +104,7 @@
+ };
+ 
+ // Reg. expressions
+-regex_t r_from, r_time, r_re, r_date, r_dow, r_mail,
+-        r_m_ims, r_m_bat, r_m_lot, r_m_oue, r_m_ouc, r_m_oum, r_m_out,
+-	r_m_cal, r_m_moz, r_m_peg, r_m_eud, r_m_ope, r_m_opw, r_m_pos,
+-	r_m_pob, r_m_kma, r_m_imp, r_m_mut, r_m_pin, r_m_pi2, r_m_syl,
+-	r_m_pan, r_m_4td, r_m_fag, r_m_mpg, r_m_xws, r_m_knd, r_m_hst,
+-	r_m_nnr;
++regex_t r_from, r_time, r_re, r_date, r_dow, r_mail, r_mailer, r_mailer_clean;
+ 
+ /* ********************************************* FUNCTION DECLARATIONS *** */
+ void banner();
+diff -Nur mailliststat-1.3/mls_stat.c mailliststat-1.3.new/mls_stat.c
+--- mailliststat-1.3/mls_stat.c	2005-12-03 23:51:25.000000000 +0100
++++ mailliststat-1.3.new/mls_stat.c	2005-12-03 23:43:27.000000000 +0100
+@@ -72,130 +72,17 @@
+ /* ***** GetMailer ******************************************************* */
+ void GetMailer(char *mail) { // remove versions from X-Mailer/User-Agent/X-Newsreader line
+   regmatch_t pm[MAX_REGMATCH];  // buffer for matching substrings
++  regmatch_t pm2[MAX_REGMATCH];  // buffer for matching substrings
+   char sub2[MAX_SUBJ];          // temp for storing result, will be copied back to mail at the end
+   RemoveCR(mail);
+   myCopy(sub2, mail, MAX_SUBJ); // copy original there for case no regex will match
+ 
+-  if (!regexec(&r_m_bat, mail, MAX_REGMATCH, pm, 0)) { // The Bat!
++  if (!regexec(&r_mailer, mail, MAX_REGMATCH, pm, 0)) {
+     myCopy(sub2, mail+pm[1].rm_so, pm[1].rm_eo - pm[1].rm_so + 1);
++    if (!regexec(&r_mailer_clean, sub2, MAX_REGMATCH, pm2, 0)) {
++      myCopy(sub2, sub2+pm[1].rm_so, pm2[1].rm_eo - pm2[1].rm_so + 1);
++    }
+   }
+-  if (!regexec(&r_m_ims, mail, MAX_REGMATCH, pm, 0)) { // Internet Mail Service
+-    myCopy(sub2, mail+pm[1].rm_so, pm[1].rm_eo - pm[1].rm_so + 1);
+-    sub2[pm[1].rm_eo - pm[1].rm_so]=' ';
+-    myCopy(sub2 + pm[1].rm_eo - pm[1].rm_so + 1, mail+pm[2].rm_so, pm[2].rm_eo - pm[2].rm_so + 1);
+-    sub2[pm[1].rm_eo - pm[1].rm_so + pm[2].rm_eo - pm[2].rm_so+1]='x';
+-    sub2[pm[1].rm_eo - pm[1].rm_so + pm[2].rm_eo - pm[2].rm_so+2]='\0';
+-  }
+-  if (!regexec(&r_m_moz, mail, MAX_REGMATCH, pm, 0)) { // Mozilla
+-    myCopy(sub2, mail+pm[1].rm_so, pm[1].rm_eo - pm[1].rm_so + 1);
+-    sub2[pm[1].rm_eo - pm[1].rm_so+0]='x';
+-    sub2[pm[1].rm_eo - pm[1].rm_so+1]='\0';
+-  }
+-  if (!regexec(&r_m_ope, mail, MAX_REGMATCH, pm, 0)) { // Opera
+-    myCopy(sub2, mail+pm[1].rm_so, pm[1].rm_eo - pm[1].rm_so + 1);
+-    sub2[pm[1].rm_eo - pm[1].rm_so+0]='x';
+-    sub2[pm[1].rm_eo - pm[1].rm_so+1]='\0';
+-  }
+-  if (!regexec(&r_m_oue, mail, MAX_REGMATCH, pm, 0)) { // Outlook Express
+-    myCopy(sub2, mail+pm[1].rm_so, pm[1].rm_eo - pm[1].rm_so + 1);
+-    sub2[pm[1].rm_eo - pm[1].rm_so+0]='x';
+-    sub2[pm[1].rm_eo - pm[1].rm_so+1]='\0';
+-  }
+-  if (!regexec(&r_m_ouc, mail, MAX_REGMATCH, pm, 0)) { // Outlook CWS
+-    myCopy(sub2, mail+pm[1].rm_so, pm[1].rm_eo - pm[1].rm_so + 1);
+-  }
+-  if (!regexec(&r_m_oum, mail, MAX_REGMATCH, pm, 0)) { // Outlook IMO
+-    myCopy(sub2, mail+pm[1].rm_so, pm[1].rm_eo - pm[1].rm_so + 1);
+-  }
+-  if (!regexec(&r_m_out, mail, MAX_REGMATCH, pm, 0)) { // Outlook
+-    myCopy(sub2, mail+pm[1].rm_so, pm[1].rm_eo - pm[1].rm_so + 1);
+-  }
+-  if (!regexec(&r_m_lot, mail, MAX_REGMATCH, pm, 0)) { // Lotus Notes
+-    myCopy(sub2, mail+pm[1].rm_so, pm[1].rm_eo - pm[1].rm_so + 1);
+-  }
+-  if (!regexec(&r_m_cal, mail, MAX_REGMATCH, pm, 0)) { // Calypso
+-    myCopy(sub2, mail+pm[1].rm_so, pm[1].rm_eo - pm[1].rm_so + 1);
+-  }
+-  if (!regexec(&r_m_peg, mail, MAX_REGMATCH, pm, 0)) { // Pegasus4win
+-    myCopy(sub2, mail+pm[1].rm_so, pm[1].rm_eo - pm[1].rm_so + 1);
+-  }
+-  if (!regexec(&r_m_opw, mail, MAX_REGMATCH, pm, 0)) { // Open Webmail
+-    myCopy(sub2, mail+pm[1].rm_so, pm[1].rm_eo - pm[1].rm_so + 1);
+-  }
+-  if (!regexec(&r_m_eud, mail, MAX_REGMATCH, pm, 0)) { // Eudora
+-    myCopy(sub2, mail+pm[1].rm_so, pm[1].rm_eo - pm[1].rm_so + 1);
+-  }
+-  if (!regexec(&r_m_pos, mail, MAX_REGMATCH, pm, 0)) { // POSTIE
+-    myCopy(sub2, mail+pm[1].rm_so, pm[1].rm_eo - pm[1].rm_so + 1);
+-  }
+-  if (!regexec(&r_m_pob, mail, MAX_REGMATCH, pm, 0)) { // POBOX
+-    myCopy(sub2, mail+pm[1].rm_so, pm[1].rm_eo - pm[1].rm_so + 1);
+-  }
+-  if (!regexec(&r_m_kma, mail, MAX_REGMATCH, pm, 0)) { // KMail
+-    myCopy(sub2, mail+pm[1].rm_so, pm[1].rm_eo - pm[1].rm_so + 1);
+-  }
+-  if (!regexec(&r_m_mut, mail, MAX_REGMATCH, pm, 0)) { // Mutt
+-    myCopy(sub2, mail+pm[1].rm_so, pm[1].rm_eo - pm[1].rm_so + 1);
+-  }
+-  if (!regexec(&r_m_imp, mail, MAX_REGMATCH, pm, 0)) { // IMP webmail
+-    myCopy(sub2, mail+pm[1].rm_so, pm[1].rm_eo - pm[1].rm_so + 1);
+-  }
+-  if (!regexec(&r_m_syl, mail, MAX_REGMATCH, pm, 0)) { // Sylpheed
+-    myCopy(sub2, mail+pm[1].rm_so, pm[1].rm_eo - pm[1].rm_so + 1);
+-    sub2[pm[1].rm_eo - pm[1].rm_so+0]='x';
+-    sub2[pm[1].rm_eo - pm[1].rm_so+1]='\0';
+-  }
+-  if (!regexec(&r_m_pin, mail, MAX_REGMATCH, pm, 0)) { // Pine
+-    myCopy(sub2, mail+pm[1].rm_so, pm[1].rm_eo - pm[1].rm_so + 1);
+-  }
+-  if (!regexec(&r_m_pi2, mail, MAX_REGMATCH, pm, 0)) { // Pine work-around
+-    // remove Message-ID in case no mailer was found there
+-    // Message-ID is used only if other headers are not present
+-    *sub2='\0';
+-  }
+-
+-  // (these contributed by Urke MMI <urke@gmx.net>)
+-  if (!regexec(&r_m_pan, mail, MAX_REGMATCH, pm, 0)) { // Pan
+-    myCopy(sub2, mail+pm[1].rm_so, pm[1].rm_eo - pm[1].rm_so + 1);
+-    sub2[pm[1].rm_eo - pm[1].rm_so+0]='x';
+-    sub2[pm[1].rm_eo - pm[1].rm_so+1]='\0';
+-  }
+-  if (!regexec(&r_m_4td, mail, MAX_REGMATCH, pm, 0)) { // 40tude_Dialog
+-    myCopy(sub2, mail+pm[1].rm_so, pm[1].rm_eo - pm[1].rm_so + 1);
+-    sub2[pm[1].rm_eo - pm[1].rm_so+0]='x';
+-    sub2[pm[1].rm_eo - pm[1].rm_so+1]='\0';
+-  }
+-  if (!regexec(&r_m_fag, mail, MAX_REGMATCH, pm, 0)) { // Forte Agent
+-    myCopy(sub2, mail+pm[1].rm_so, pm[1].rm_eo - pm[1].rm_so + 1);
+-    sub2[pm[1].rm_eo - pm[1].rm_so+0]='x';
+-    sub2[pm[1].rm_eo - pm[1].rm_so+1]='\0';
+-  }
+-  if (!regexec(&r_m_mpg, mail, MAX_REGMATCH, pm, 0)) { // MicroPlanet Gravity
+-    myCopy(sub2, mail+pm[1].rm_so, pm[1].rm_eo - pm[1].rm_so + 1);
+-    sub2[pm[1].rm_eo - pm[1].rm_so+0]='x';
+-    sub2[pm[1].rm_eo - pm[1].rm_so+1]='\0';
+-  }
+-  if (!regexec(&r_m_xws, mail, MAX_REGMATCH, pm, 0)) { // Xnews
+-    myCopy(sub2, mail+pm[1].rm_so, pm[1].rm_eo - pm[1].rm_so + 1);
+-    sub2[pm[1].rm_eo - pm[1].rm_so+0]='x';
+-    sub2[pm[1].rm_eo - pm[1].rm_so+1]='\0';
+-  }
+-  if (!regexec(&r_m_knd, mail, MAX_REGMATCH, pm, 0)) { // KNode
+-    myCopy(sub2, mail+pm[1].rm_so, pm[1].rm_eo - pm[1].rm_so + 1);
+-    sub2[pm[1].rm_eo - pm[1].rm_so+0]='x';
+-    sub2[pm[1].rm_eo - pm[1].rm_so+1]='\0';
+-  }
+-  if (!regexec(&r_m_hst, mail, MAX_REGMATCH, pm, 0)) { // Hamster
+-    myCopy(sub2, mail+pm[1].rm_so, pm[1].rm_eo - pm[1].rm_so + 1);
+-    sub2[pm[1].rm_eo - pm[1].rm_so+0]='x';
+-    sub2[pm[1].rm_eo - pm[1].rm_so+1]='\0';
+-  }
+-  if (!regexec(&r_m_nnr, mail, MAX_REGMATCH, pm, 0)) { // Noworyta News Reader
+-    myCopy(sub2, mail+pm[1].rm_so, pm[1].rm_eo - pm[1].rm_so + 1);
+-    sub2[pm[1].rm_eo - pm[1].rm_so+0]='x';
+-    sub2[pm[1].rm_eo - pm[1].rm_so+1]='\0';
+-  }
+-
+   myCopy(mail, sub2, MAX_SUBJ);
+ }
+ 
+@@ -386,8 +273,8 @@
+        }
+        // will search for mailers in these
+        // Message-ID will be used only if no other of these is present
+-       if (!strncasecmp(riadok,"Message-ID: ",12) && sMail=='\0') { // for Pine mailer
+-          myCopy(sMail,riadok+12,MAX_SUBJ);
++       if (!strncasecmp(riadok,"Message-ID: <Pine",17)) { // for Pine mailer
++          myCopy(sMail,riadok+13,MAX_SUBJ);
+ 	  GetMailer(sMail);
+        }
+        if (!strncasecmp(riadok,"X-Newsreader: ",14)) {

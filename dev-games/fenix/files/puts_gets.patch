@@ -1,0 +1,152 @@
+# Copyright (C) 2007  Miriam Ruiz <little_miry@yahoo.es>
+# Licensed under the GPL, see /usr/share/common-licenses/GPL
+
+Index: common/files.c
+===================================================================
+--- common/files.c	2007-08-28 14:40:08.000000000 +0200
++++ common/files.c	2007-08-28 14:41:08.000000000 +0200
+@@ -120,7 +120,7 @@
+ 
+ /* Guarda una cadena "cuoteada" al disco */
+ 
+-int file_puts (file * fp, const char * buffer)
++int file_qputs (file * fp, const char * buffer)
+ {
+ 	char dest[1024], * optr ;
+ 	const char * ptr ;
+@@ -158,7 +158,7 @@
+ 
+ /* Recupera una cadena de un fichero y la "descuotea" */
+ 
+-int file_gets (file * fp, char * buffer, int len)
++int file_qgets (file * fp, char * buffer, int len)
+ {
+ 	char * ptr, * result = NULL ;
+ 
+@@ -221,6 +221,63 @@
+ 	return strlen(buffer) ;
+ }
+ 
++/* Guarda una cadena al disco */
++
++int file_puts (file * fp, const char * buffer)
++{
++	return file_write (fp, buffer, strlen(buffer)) ;
++}
++
++/* Recupera una cadena de un fichero y la "descuotea" */
++
++int file_gets (file * fp, char * buffer, int len)
++{
++	char * ptr, * result = NULL ;
++
++	if (fp->type == F_XFILE)
++	{
++		XFILE * xf ;
++		int l = 0;
++		char * ptr = result = buffer ;
++
++		xf = &x_file[fp->n] ;
++
++		fseek (xf->fp, fp->pos, SEEK_SET) ;
++		while (l < len)
++		{
++			if (fp->pos >= xf->offset + xf->size)
++			{
++				fp->eof = 1 ;
++				break ;
++			}
++			fread (ptr, 1, 1, xf->fp) ;
++			l++ ;
++			fp->pos++ ;
++			if (*ptr++ == '\n') break ;
++		}
++		*ptr = 0 ;
++		fp->pos = ftell(xf->fp) ;
++
++	    if (l == 0) return 0 ;
++
++	}
++	else if (fp->type == F_GZFILE)
++	{
++		result = gzgets (fp->gz, buffer, len) ;
++	}
++	else
++	{
++		result = fgets(buffer, len, fp->fp);
++	}
++
++	if (result == NULL) {
++	    buffer[0] = 0 ;
++	    return 0 ;
++	}
++
++	return strlen(buffer) ;
++}
++
+ /* Escribe en un fichero binario un dato de tipo entero */
+ 
+ int file_writeSint8 (file * fp, Sint8 * buffer)
+Index: include/files.h
+===================================================================
+--- include/files.h	2007-08-28 14:38:27.000000000 +0200
++++ include/files.h	2007-08-28 14:41:16.000000000 +0200
+@@ -51,6 +51,8 @@
+ extern int    file_writeUint16 (file * fp, Uint16 * buffer) ;
+ extern int    file_writeSint32 (file * fp, Sint32 * buffer) ;
+ extern int    file_writeUint32 (file * fp, Uint32 * buffer) ;
++extern int    file_qgets       (file * fp, char * buffer, int len) ;
++extern int    file_qputs       (file * fp, const char * buffer) ;
+ extern int    file_gets        (file * fp, char * buffer, int len) ;
+ extern int    file_puts        (file * fp, const char * buffer) ;
+ extern int    file_size        (file * fp) ;
+Index: include/fxdll.h
+===================================================================
+--- include/fxdll.h	2007-08-28 14:41:04.000000000 +0200
++++ include/fxdll.h	2007-08-28 14:41:17.000000000 +0200
+@@ -136,6 +136,8 @@
+ FXEXTERN int    (*_file_write      )(file * fp, const void * buffer, int len) ;
+ FXEXTERN int    (*_file_gets       )(file * fp, char * buffer, int len) ;
+ FXEXTERN int    (*_file_puts       )(file * fp, const char * buffer) ;
++FXEXTERN int    (*_file_qgets      )(file * fp, char * buffer, int len) ;
++FXEXTERN int    (*_file_qputs      )(file * fp, const char * buffer) ;
+ FXEXTERN int    (*_file_size       )(file * fp) ;
+ FXEXTERN int    (*_file_pos        )(file * fp) ;
+ FXEXTERN int    (*_file_seek       )(file * fp, int pos, int where) ;
+@@ -150,6 +152,9 @@
+ #define file_read		(*_file_read)
+ #define file_write		(*_file_write)
+ #define file_gets		(*_file_gets)
++#define file_puts		(*_file_puts)
++#define file_qgets		(*_file_qgets)
++#define file_qputs		(*_file_qputs)
+ #define file_size		(*_file_size)
+ #define file_pos		(*_file_pos)
+ #define file_seek		(*_file_seek)
+@@ -407,7 +412,8 @@
+ FXEXTERN int          * _fade_on ;               /* ¿Hay un fade activo?                  */
+ FXEXTERN int          * _fade_step ;             /* Si lo hay, posición (0=off)           */
+ 
+-FXEXTERN int   (*_gr_read_pal           )(file * file) ;
++FXEXTERN PALETTE *  (*_gr_read_pal           )(file * file) ;
++FXEXTERN PALETTE *  (*_gr_read_pal_with_gamma)(file * file) ;
+ FXEXTERN void  (*_gr_refresh_palette    )() ;
+ FXEXTERN void  (*_gr_fade_init          )(int r, int g, int b, int speed, int dir) ;
+ FXEXTERN void  (*_gr_fade_step          )() ;
+@@ -420,6 +426,7 @@
+ FXEXTERN void  (*_gr_get_colors         )(int color, int num, Uint8 * pal) ;
+ 
+ #define gr_read_pal				(*_gr_read_pal)
++#define gr_read_pal_with_gamma  (*_gr_read_pal_with_gamma)
+ #define gr_refresh_palette		(*_gr_refresh_palette)
+ #define gr_fade_init			(*_gr_fade_init)
+ #define gr_fade_step			(*_gr_fade_step)
+@@ -956,6 +963,8 @@
+     _file_write                 = FENIX_import ( "file_write" ); \
+     _file_gets                  = FENIX_import ( "file_gets" ); \
+     _file_puts                  = FENIX_import ( "file_puts" ); \
++    _file_qgets                 = FENIX_import ( "file_qgets" ); \
++    _file_qputs                 = FENIX_import ( "file_qputs" ); \
+     _file_size                  = FENIX_import ( "file_size" ); \
+     _file_pos                   = FENIX_import ( "file_pos" ); \
+     _file_seek                  = FENIX_import ( "file_seek" ); \

@@ -1,0 +1,19 @@
+--- bwbasic.h.old	2010-11-25 12:05:00.000000000 -0500
++++ bwbasic.h	2010-11-25 12:05:33.000000000 -0500
+@@ -111,10 +111,16 @@
+ ***************************************************************/
+ 
+ #ifdef __STDC__
++#ifndef HAVE_RAISE
+ #define HAVE_RAISE TRUE
++#endif
++#ifndef HAVE_STRING
+ #define HAVE_STRING TRUE
++#endif
++#ifndef HAVE_STDLIB
+ #define HAVE_STDLIB TRUE
+ #endif
++#endif
+ 
+ #ifdef __STDC__
+ #define	HAVE_SIGNAL	TRUE

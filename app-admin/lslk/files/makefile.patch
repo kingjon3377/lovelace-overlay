@@ -1,0 +1,11 @@
+--- Makefile.old	2010-11-26 07:37:17.000000000 -0500
++++ Makefile	2010-11-26 07:37:26.000000000 -0500
+@@ -35,7 +35,7 @@
+ 
+ all: ${PROG}
+ 
+-${PROG}:$P ${OBJ}
++${PROG}: ${OBJ}
+ 	${CC} -o $@ ${CFLAGS} ${OBJ} ${CFGL}
+ 
+ clean: FRC

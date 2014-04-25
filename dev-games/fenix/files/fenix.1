@@ -1,0 +1,53 @@
+.\" (c) 2007 Miriam Ruiz <little_miry@yahoo.es>
+.\" 
+.\" This document is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or
+.\" (at your option) any later version.
+.\" 
+.\" This package is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\" GNU General Public License for more details.
+.\" 
+.\" You should have received a copy of the GNU General Public License
+.\" along with this package; if not, write to the Free Software
+.\" Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+.TH "fenix" "1" "0.92a" "" ""
+.SH "NAME"
+fenix \- development environment for making 2D games
+.SH "DESCRIPTION"
+Fenix is an interpreted script programming language, especially designed to developing and running 2D games. It has a full graphic library, sound engine and full featured 2D game engine, making game development extremely easy.
+
+Its major features include:
+  * Fast sprite blitting with rotation, scaling, animation and transparency
+  * Pixel perfect collision check
+  * Native PNG graphic support
+  * Parallax (2 planes) automated scroll routines
+  * Multiple clipping regions with or without scroll support
+  * MOD/XM/S3M/IT support through MIKMod
+  * Keyboard, mouse and joystick controller support
+  * 8 and 16 bits per pixel color depths
+  * Support for many different architectures
+  * Basic Pathfind routines
+  * Blendops in 16 bit color depth
+  * OGG sound support
+  * Interface for custom extensions
+  * Easy to learn
+
+Fenix is distributed under GNU General Public License, so it's source code is available to anyone who wants to get it, extend it or change it in any way fitting his/her own purpose.
+.SH "TOOLS"
+.PP 
+Fenix consists of the following programs:
+
+  * fenix\-fxc \- compiler
+  * fenix\-fxi \- interpreter
+  * fenix\-fpg \- create packages of multiple images
+  * fenix\-map \- convert images to fenix native format (map)
+
+Aditionally, a binary program called just fenix will compile the game and execute the resulting bytecode "on the fly".
+.SH "SEE ALSO"
+.BR fenix\-fxc (1),
+.BR fenix\-fxi (1),
+.BR fenix\-fpg (1),
+.BR fenix\-map (1)

@@ -1,0 +1,219 @@
+Index: fxi/src/strings.c
+===================================================================
+--- fxi/src/strings.c	2007-08-28 14:38:49.000000000 +0200
++++ fxi/src/strings.c	2007-08-28 14:40:00.000000000 +0200
+@@ -45,6 +45,12 @@
+ #include <assert.h>
+ #endif
+ 
++#ifdef USE_GETTEXT
++#include <libintl.h>
++#define _(String) gettext (String)
++#else
++#define _(String) String
++#endif
+ 
+ #include "fxi.h"
+ #include "dcb.h"
+@@ -132,7 +138,7 @@
+     string_dontfree = (char *) realloc (string_dontfree, string_ptr_allocated * sizeof(char)) ;
+ 
+     if (!string_ptr || !string_uct || !string_dontfree)
+-        gr_error ("string_alloc: sin memoria\n") ;
++        gr_error (_("string_alloc: out of memory\n")) ;
+ }
+ 
+ /****************************************************************************/
+@@ -147,7 +153,7 @@
+     int i ;
+     int used=0;
+ 
+-    gr_con_printf ("[STRING] ---- Dumping MaxID=%d strings ----\n", string_count) ;
++    gr_con_printf (_("[STRING] ---- Dumping MaxID=%d strings ----\n"), string_count) ;
+ 
+     for (i = 0 ; i < string_count ; i++){
+         if (string_ptr[i]){
+@@ -162,9 +168,9 @@
+         } else {
+             continue ;
+         }
+-        gr_con_printf ("[STRING] %4d %1d [%4d]: {%s}\n", i, string_uct[i], string_dontfree[i], string_ptr[i]) ;
++        gr_con_printf (_("[STRING] %4d %1d [%4d]: {%s}\n"), i, string_uct[i], string_dontfree[i], string_ptr[i]) ;
+     }
+-    gr_con_printf ("[STRING] ---- Dumping Used=%d End ----\n", used) ;
++    gr_con_printf (_("[STRING] ---- Dumping Used=%d End ----\n"), used) ;
+ }
+ 
+ /****************************************************************************/
+@@ -180,7 +186,7 @@
+ {
+     assert (code < string_count && code >= 0) ;
+     if (report_string){
+-        gr_con_printf ("[STRING] string_get %d\n", code) ;
++        gr_con_printf (_("[STRING] string_get %d\n"), code) ;
+     }
+     return string_ptr[code] ;
+ }
+@@ -207,7 +213,7 @@
+     file_seek (fp, dcb.data.OStrings, SEEK_SET) ;
+     string_offset = (int *) malloc (4 * string_count) ;
+     if (!string_offset) {
+-        gr_error ("string_load: not enough memory\n") ;
++        gr_error (_("string_load: not enough memory\n")) ;
+     }
+     file_read (fp, string_offset, 4 * string_count) ;
+     if (string_used > string_allocated)
+@@ -248,7 +254,7 @@
+ {
+     string_uct[code]++ ;
+     if (report_string) {
+-        gr_con_printf ("[STRING] String %d used (count: %d)\n", code, string_uct[code]) ;
++        gr_con_printf (_("[STRING] String %d used (count: %d)\n"), code, string_uct[code]) ;
+     }
+ }
+ 
+@@ -273,7 +279,7 @@
+     if (string_uct[code] < 1)
+     {
+         if (report_string) {
+-            gr_con_printf ("[STRING] string_discard: String %d released but already discarted\n", code) ;
++            gr_con_printf (_("[STRING] string_discard: String %d released but already discarded\n"), code) ;
+         }
+         return ;
+     }
+@@ -281,13 +287,13 @@
+     string_uct[code]-- ;
+ 
+     if (report_string) {
+-        gr_con_printf ("[STRING] string_discard: String %d released (count: %d)\n", code, string_uct[code]) ;
++        gr_con_printf (_("[STRING] string_discard: String %d released (count: %d)\n"), code, string_uct[code]) ;
+     }
+ 
+     if ( string_uct[code] < 1 )
+     {
+         if (report_string) {
+-            gr_con_printf ("[STRING] string_discard: String %d released and discarted\n", code) ;
++            gr_con_printf (_("[STRING] string_discard: String %d released and discarded\n"), code) ;
+         }
+ 
+         if (!string_dontfree[code]) {
+@@ -298,9 +304,9 @@
+ 
+         if (report_string ) {
+             if ( string_dontfree[code]) {
+-                gr_con_printf ("[STRING] string_discard: (Memory don't freed - %d is special string, count: %d)\n", code, string_uct[code]) ;
++                gr_con_printf (_("[STRING] string_discard: (Memory could not be freed - %d is special string, count: %d)\n"), code, string_uct[code]) ;
+             } else {
+-                gr_con_printf ("[STRING] string_discard: String %d released and discarted (count: %d)\n", code, string_uct[code]) ;
++                gr_con_printf (_("[STRING] string_discard: String %d released and discarded (count: %d)\n"), code, string_uct[code]) ;
+             }
+         }
+     }
+@@ -357,7 +363,7 @@
+     }
+     // Incremento espacio
+     string_alloc (1024) ;
+-    gr_con_printf ("[STRING] ¬12*PANIC¬7 Too many strings, allocating more space") ;
++    gr_con_printf (_("[STRING] ¬12*PANIC¬7 Too many strings, allocating more space")) ;
+ 
+     // Devuelvo el string_count + 1, ya que ahora tengo 1024 mas que antes
+     return string_count++ ;
+@@ -379,7 +385,7 @@
+     id = string_getid() ;
+ 
+     if (report_string) {
+-        gr_con_printf ("[STRING] String %d created: \"%s\"\n", id, str) ;
++        gr_con_printf (_("[STRING] String %d created: \"%s\"\n"), id, str) ;
+     }
+ 
+     string_ptr[id] = str ;
+@@ -416,7 +422,7 @@
+     string_dontfree[id] = 0 ;
+ 
+     if (report_string){
+-        gr_con_printf ("[STRING] (newa) String %d created: \"%s\"\n", id, str) ;
++        gr_con_printf (_("[STRING] (%s) String %d created: \"%s\"\n"), "newa", id, str) ;
+     }
+ 
+     return id ;
+@@ -476,7 +482,7 @@
+     string_dontfree[id] = 0 ;
+ 
+     if (report_string){
+-        gr_con_printf ("[STRING] (add) String %d created: \"%s\"\n", id, str3) ;
++        gr_con_printf (_("[STRING] (%s) String %d created: \"%s\"\n"), "add", id, str3) ;
+     }
+ 
+     return id ;
+@@ -504,7 +510,7 @@
+     string_dontfree[id] = 0 ;
+ 
+     if (report_string){
+-        gr_con_printf ("[STRING] (ptoa) String %d created: \"%s\"\n", id, str) ;
++        gr_con_printf (_("[STRING] (%s) String %d created: \"%s\"\n"), "ptoa", id, str) ;
+     }
+ 
+     return id ;
+@@ -540,7 +546,7 @@
+     string_dontfree[id] = 0 ;
+ 
+     if (report_string){
+-        gr_con_printf ("[STRING] (ftoa) String %d created: \"%s\"\n", id, str) ;
++        gr_con_printf (_("[STRING] (%s) String %d created: \"%s\"\n"), "ftoa", id, str) ;
+     }
+ 
+     return id ;
+@@ -568,7 +574,7 @@
+     string_dontfree[id] = 0 ;
+ 
+     if (report_string){
+-        gr_con_printf ("[STRING] (itoa) String %d created: \"%s\"\n", id, str) ;
++        gr_con_printf (_("[STRING] (%s) String %d created: \"%s\"\n"), "itoa", id, str) ;
+     }
+ 
+     return id ;
+@@ -596,7 +602,7 @@
+     string_dontfree[id] = 0 ;
+ 
+     if (report_string){
+-        gr_con_printf ("[STRING] (uitoa) String %d created: \"%s\"\n", id, str) ;
++        gr_con_printf (_("[STRING] (%s) String %d created: \"%s\"\n"), "uitoa", id, str) ;
+     }
+ 
+     return id ;
+@@ -690,7 +696,7 @@
+     string_dontfree[n]  = 0 ;
+ 
+     if (report_string){
+-        gr_con_printf ("[STRING] (substr) String %d created: \"%s\"\n", n, ptr) ;
++        gr_con_printf (_("[STRING] (%s) String %d created: \"%s\"\n"), "substr", n, ptr) ;
+     }
+ 
+     return n ;
+@@ -774,7 +780,7 @@
+     string_dontfree[id] = 0 ;
+ 
+     if (report_string){
+-        gr_con_printf ("[STRING] (ucase) String %d created: \"%s\"\n", id, bptr) ;
++        gr_con_printf (_("[STRING] (%s) String %d created: \"%s\"\n"), "ucase", id, bptr) ;
+     }
+ 
+     return id ;
+@@ -813,7 +819,7 @@
+     string_dontfree[id] = 0 ;
+ 
+     if (report_string){
+-        gr_con_printf ("[STRING] (lcase) String %d created: \"%s\"\n", id, bptr) ;
++        gr_con_printf (_("[STRING] (%s) String %d created: \"%s\"\n"), "lcase", id, bptr) ;
+     }
+ 
+     return id ;
+@@ -1006,7 +1012,7 @@
+     string_dontfree[id] = 0 ;
+ 
+     if (report_string){
+-        gr_con_printf ("[STRING] (pad) String %d created: \"%s\"\n", id, str) ;
++        gr_con_printf (_("[STRING] (%s) String %d created: \"%s\"\n"), "pad", id, str) ;
+     }
+ 
+     return id ;

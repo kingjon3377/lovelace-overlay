@@ -1,0 +1,259 @@
+# Copyright (C) 2008 by Peter De Wachter <pdewacht@gmail.com>
+# Distributed under the same license as the program. See debian/copyright.
+
+--- a/src/sdlBasic/src/sdlBasic/gtk/SciTEGTK.cxx
++++ b/src/sdlBasic/src/sdlBasic/gtk/SciTEGTK.cxx
+@@ -2217,7 +2217,7 @@
+ }
+ 
+ void SciTEGTK::ButtonSignal(GtkWidget *, gpointer data) {
+-	instance->Command((guint)data);
++	instance->Command((long)data);
+ }
+ 
+ void SciTEGTK::MenuSignal(SciTEGTK *scitew, guint action, GtkWidget *) {
+--- a/src/sdlBasic/src/sdlBasic/src/Exporters.cxx
++++ b/src/sdlBasic/src/sdlBasic/src/Exporters.cxx
+@@ -941,7 +941,7 @@
+ 			// PDF1.4Ref(p38) EOL marker preceding endstream not counted
+ 			char *textObj = new char[pageData.length() + 100];
+ 			// concatenate stream within the text object
+-			sprintf(textObj, "<</Length %d>>\nstream\n%s"
++			sprintf(textObj, "<</Length %zd>>\nstream\n%s"
+ 					 "ET\nendstream\n",
+ 					 pageData.length() - 1 + 3,
+ 					 pageData.c_str());
+--- a/src/sdlBasic/src/sdlBrt/BASengine/file.c
++++ b/src/sdlBasic/src/sdlBrt/BASengine/file.c
+@@ -82,7 +82,7 @@
+         ePrintf( Runtime, "fileOpen: unknown file mode" );
+     }
+ 
+-    if ((int)(fileHandles[handle-1] ) == EOF) {
++    if (!fileHandles[handle-1]) {
+         ePrintf( Runtime, "fileOpen: Error opening file #%d", handle );
+     }
+ }
+--- a/src/sdlBasic/src/sdlBrt/error.c
++++ b/src/sdlBasic/src/sdlBrt/error.c
+@@ -157,7 +157,7 @@
+     }
+ 
+     /* set values */
+-    link->start = (int)p;
++    link->start = (intptr_t)p;
+     link->end = link->start+(n-1);
+     link->next = lastMemLink;
+     lastMemLink = link;
+@@ -176,7 +176,7 @@
+ 
+     prev = NULL;
+     for ( link = lastMemLink; link != NULL; link = link->next ) {
+-        if (link->start == (int)address) {
++        if (link->start == (intptr_t)address) {
+ 
+             if (prev == NULL) {
+                 lastMemLink = link->next;
+@@ -196,7 +196,7 @@
+     MemLink *link = lastMemLink;
+ 
+     for ( ; link != NULL; link = link->next ) {
+-        if ((int)p >= link->start && (int)p <= link->end) {
++        if ((intptr_t)p >= link->start && (intptr_t)p <= link->end) {
+             return link;
+         }
+     }
+@@ -439,7 +439,7 @@
+ 					strncpy(indexvar,&binputvar[ba],a-ba);
+ 					indexvar[a-ba]='\0';
+ 				    }
+-				    printf("indexvar:%s - a:%d - ba:%d - i:%d -len:%d   \n",indexvar,a,ba,i,strlen(binputvar));
++				    printf("indexvar:%s - a:%d - ba:%d - i:%d -len:%zd   \n",indexvar,a,ba,i,strlen(binputvar));
+ 				    strcpy(stackstring[i],indexvar);
+ 				}
+ 				i++;
+--- a/src/sdlBasic/src/sdlBrt/error.h
++++ b/src/sdlBasic/src/sdlBrt/error.h
+@@ -6,13 +6,14 @@
+                 The Practice of Programming
+ */
+ 
++#include <stdint.h>
+ 
+ typedef struct MemLink MemLink;
+ 
+ 
+ struct MemLink {
+-    int     start;     /* start of allocated block */
+-    int     end;       /* end of allocated block */
++    intptr_t start;     /* start of allocated block */
++    intptr_t end;       /* end of allocated block */
+     MemLink *next;      /* in list */
+ };
+ 
+--- a/src/sdlBasic/src/sdlBrt/sdlBrt_tab.y
++++ b/src/sdlBasic/src/sdlBrt/sdlBrt_tab.y
+@@ -438,7 +438,7 @@
+         {   if (currentScope == NULL) {
+                 ePrintf( Syntax, "Shared illegal outside Sub or Function");
+             }
+-            pushStack(blockStack, (int)currentScope );
++            pushStack(blockStack, (intptr_t)currentScope );
+             currentScope = NULL; }
+         sharedList sep
+         {   currentScope = (Symbol *)popStack(blockStack);
+@@ -824,7 +824,7 @@
+         {   if (currentScope == NULL) {
+                 ePrintf( Syntax, "Shared illegal outside Sub or Function");
+             }
+-            pushStack(blockStack, (int)currentScope );
++            pushStack(blockStack, (intptr_t)currentScope );
+             currentScope = NULL; }
+         sharedList sep
+         {   currentScope = (Symbol *)popStack(blockStack);
+@@ -1521,11 +1521,11 @@
+         {   if ($1->scope != NULL) {
+                 ePrintf( Syntax, "Can't share local variable %s", $1->name );
+ 
+-            } else if (inStack(sharedStack,(int)$1)) {
++            } else if (inStack(sharedStack,(intptr_t)$1)) {
+                 ePrintf( Syntax, "Variable %s is already shared", $1->name );
+ 
+             } else {
+-                pushStack( sharedStack, (int)$1 );
++                pushStack( sharedStack, (intptr_t)$1 );
+ 
+             } }
+ 
+@@ -1534,11 +1534,11 @@
+         {   if ($1->scope != NULL) {
+                 ePrintf( Syntax, "Can't share local array %s", $1->name );
+ 
+-            } else if (inStack(sharedStack,(int)$1)) {
++            } else if (inStack(sharedStack,(intptr_t)$1)) {
+                 ePrintf( Syntax, "Array %s is already shared", $1->name );
+ 
+             } else {
+-                pushStack( sharedStack, (int)$1 );
++                pushStack( sharedStack, (intptr_t)$1 );
+ 
+             } }
+ 
+--- a/src/sdlBasic/src/sdlBrt/stack.c
++++ b/src/sdlBasic/src/sdlBrt/stack.c
+@@ -13,7 +13,7 @@
+ 
+     /* allocate stack */
+     stack = (Stack *)eMalloc( sizeof( Stack ) +
+-                (sizeof(int) * (size)) );
++                (sizeof(intptr_t) * (size)) );
+ 
+     stack->tos = -1;
+     stack->size = size;
+@@ -21,7 +21,7 @@
+ }
+ 
+ /* push an item on the stack */
+-void pushStack( Stack *stack, int value )
++void pushStack( Stack *stack, intptr_t value )
+ {
+     if (stack->tos == stack->size) {
+         ePrintf( Runtime, "pushStack: stack overflow");
+@@ -31,13 +31,13 @@
+ }
+ 
+ /* incrStack: increment the value on the stack */
+-void incrStack( Stack *stack, int value )
++void incrStack( Stack *stack, intptr_t value )
+ {
+     stack->data[stack->tos] += value;
+ }
+ 
+ /* decrStack: decrement the value on the stack */
+-void decrStack( Stack *stack, int value )
++void decrStack( Stack *stack, intptr_t value )
+ {
+     stack->data[stack->tos] -= value;
+ }
+@@ -46,7 +46,7 @@
+ /* swapStack: swap top two stack items */
+ void swapStack( Stack *stack  )
+ {
+-    int tmp;
++    intptr_t tmp;
+ 
+     if (stack->tos < 1) {
+         ePrintf( Runtime, "swapStack: stack underflow");
+@@ -71,7 +71,7 @@
+ 
+ 
+ /* return copy of top stack item */
+-int peekStack( Stack *stack  )
++intptr_t peekStack( Stack *stack  )
+ {
+     if (stack->tos < 0) {
+         ePrintf( Runtime, "peekStack: underflow" );
+@@ -81,7 +81,7 @@
+ 
+ 
+ /* pop an item off the stack */
+-int popStack( Stack *stack  )
++intptr_t popStack( Stack *stack  )
+ {
+     if (stack->tos < 0) {
+         ePrintf( Runtime, "popStack: underflow" );
+@@ -98,7 +98,7 @@
+ }
+ 
+ /* inStack: return true if item is in the stack */
+-int inStack( Stack *stack, int val  )
++int inStack( Stack *stack, intptr_t val  )
+ {
+     int     i;
+     for ( i = stack->tos; i > -1; i-- ) {
+--- a/src/sdlBasic/src/sdlBrt/stack.h
++++ b/src/sdlBasic/src/sdlBrt/stack.h
+@@ -6,21 +6,23 @@
+     Licence:    LGPL
+ */
+ 
++#include <stdint.h>
++
+ struct Stack {
+-    int     tos;        /* top of stack */
+-    int     size;       /* size of stack */
+-    int     data[1];    /* stack data */
++    int      tos;        /* top of stack */
++    int      size;       /* size of stack */
++    intptr_t data[1];    /* stack data */
+ };
+ 
+ Stack *newStack( int size );
+-void pushStack( Stack *stack, int value );
+-void incrStack( Stack *stack, int value );
+-void decrStack( Stack *stack, int value );
++void pushStack( Stack *stack, intptr_t value );
++void incrStack( Stack *stack, intptr_t value );
++void decrStack( Stack *stack, intptr_t value );
+ void swapStack( Stack *stack  );
+ void dupStack( Stack *stack  );
+-int peekStack( Stack *stack  );
+-int popStack( Stack *stack  );
++intptr_t peekStack( Stack *stack  );
++intptr_t popStack( Stack *stack  );
+ int isEmptyStack( Stack *stack  );
+-int inStack( Stack *stack, int val  );
++int inStack( Stack *stack, intptr_t val  );
+ void clearStack( Stack *stack  );
+ void freeStack( Stack *stack );
+--- a/src/sdlBasic/src/sdlBrt/symbol.c
++++ b/src/sdlBasic/src/sdlBrt/symbol.c
+@@ -28,7 +28,7 @@
+         }
+ 
+         /* visible if not shared */
+-        if (inStack(sharedStack, (int)s )) {
++        if (inStack(sharedStack, (intptr_t)s )) {
+             return s;
+         }
+     }

@@ -1,0 +1,29 @@
+From 276ddcc5bf0a2e97e50850e5b15da3c7d50bd3d4 Mon Sep 17 00:00:00 2001
+From: Jari Aalto <jari.aalto@cante.net>
+Date: Sat, 6 Mar 2010 20:02:07 +0200
+Subject: [PATCH] Makefile.in: Comment out incorrect bindir, mandir
+
+
+Signed-off-by: Jari Aalto <jari.aalto@cante.net>
+---
+ Makefile.in |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/Makefile.in b/Makefile.in
+index fb5ce78..de8e835 100644
+--- a/Makefile.in
++++ b/Makefile.in
+@@ -54,8 +54,8 @@ bindir = @bindir@
+ mandir = @mandir@
+ 
+ # Installation locations
+-if [ ! $bindir ] ; then bindir = $(exec_prefix)/bin; fi
+-if [ ! $mandir ] ; then mandir = $(prefix)/man; fi
++#if [ ! $bindir ] ; then bindir = $(exec_prefix)/bin; fi
++#if [ ! $mandir ] ; then mandir = $(prefix)/man; fi
+ 
+ #### This is just a test---feel free to delete ###
+ printdirs:
+-- 
+1.7.0
+

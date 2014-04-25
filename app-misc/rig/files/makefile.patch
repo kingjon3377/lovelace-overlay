@@ -1,0 +1,11 @@
+--- Makefile.old	2010-11-25 12:35:39.000000000 -0500
++++ Makefile	2010-11-25 12:36:05.000000000 -0500
+@@ -5,7 +5,7 @@
+ 
+ all: rig rig.6
+ rig: rig.cc
+-	g++ -g rig.cc -o rig -Wall -DDATADIR="\"$(DATADIR)\""
++	$(CC) $(CFLAGS) -g rig.cc -o rig -Wall -DDATADIR="\"$(DATADIR)\""
+ 
+ rig.6: rig.6.in
+ 	sed s@DATADIR@"$(DATADIR)"@g < rig.6.in > rig.6
