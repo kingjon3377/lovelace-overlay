@@ -1,0 +1,287 @@
+Index: include/offsets.h
+===================================================================
+--- include/offsets.h	2007-08-28 14:38:27.000000000 +0200
++++ include/offsets.h	2007-08-28 14:41:17.000000000 +0200
+@@ -160,28 +160,30 @@
+ #define COORDY       	4*24
+ #define COORDZ       	4*25
+ #define GRAPHID 		4*26
+-#define FLAGS   		4*27
+-#define GRAPHSIZE    	4*28
+-#define ANGLE   		4*29
+-#define REGIONID    	4*30
+-#define FILEID  		4*31
+-#define XGRAPH  		4*32
+-#define HEIGHT  		4*33
+-#define RESOLUTION		4*34
+-#define ALPHA           4*35
+-#define GRAPHSIZEX      4*36
+-#define GRAPHSIZEY      4*37
+-#define BLENDOP			4*38
+-#define SAVED_X			4*39
+-#define SAVED_Y			4*40
+-#define SAVED_GRAPH		4*41
+-#define SAVED_ANGLE		4*42
+-#define SAVED_ALPHA		4*43
+-#define SAVED_BLENDOP	4*44
+-#define SAVED_SIZE		4*45
+-#define SAVED_SIZEX		4*46
+-#define SAVED_SIZEY		4*47
+-#define SAVED_FLAGS		4*48
+-#define SAVED_FILE		4*49
+-#define SAVED_XGRAPH	4*50
+-#define SAVED_PRIORITY  4*51
++#define PALETTEID 		4*27
++#define FLAGS   		4*28
++#define GRAPHSIZE    	4*29
++#define ANGLE   		4*30
++#define REGIONID    	4*31
++#define FILEID  		4*32
++#define XGRAPH  		4*33
++#define HEIGHT  		4*34
++#define RESOLUTION		4*35
++#define ALPHA           4*36
++#define GRAPHSIZEX      4*37
++#define GRAPHSIZEY      4*38
++#define BLENDOP			4*39
++#define SAVED_X			4*40
++#define SAVED_Y			4*41
++#define SAVED_GRAPH		4*42
++#define SAVED_PALETTE	4*43
++#define SAVED_ANGLE		4*44
++#define SAVED_ALPHA		4*45
++#define SAVED_BLENDOP	4*46
++#define SAVED_SIZE		4*47
++#define SAVED_SIZEX		4*48
++#define SAVED_SIZEY		4*49
++#define SAVED_FLAGS		4*50
++#define SAVED_FILE		4*51
++#define SAVED_XGRAPH	4*52
++#define SAVED_PRIORITY  4*53
+Index: include/pslang.h
+===================================================================
+--- include/pslang.h	2007-08-28 14:38:27.000000000 +0200
++++ include/pslang.h	2007-08-28 14:41:17.000000000 +0200
+@@ -236,7 +236,7 @@
+ /* Funciones de cadena (2) */
+ 
+ #define MN_POINTER2STR          (0x75| MN_1_PARAMS)
+-#define MN_POINTER2BOL          (0x76| MN_1_PARAMS)
++/* #define MN_POINTER2BOL          (0x76| MN_1_PARAMS) */
+ #define MN_STR2INT              (0x77| MN_1_PARAMS)
+ #define MN_STR2FLOAT            (0x78| MN_1_PARAMS)
+ #define MN_STR2CHR              (0x79| MN_1_PARAMS)
+Index: include/sysprocs.h
+===================================================================
+--- include/sysprocs.h	2007-08-28 14:38:27.000000000 +0200
++++ include/sysprocs.h	2007-08-28 14:41:17.000000000 +0200
+@@ -97,7 +97,6 @@
+     { 0x5A, "JOY_BUTTONS"           , "I"     , TYPE_DWORD  , 1 , SYSMACRO(fxi_joy_buttons_specific) },
+     { 0x5B, "JOY_AXES"              , "I"     , TYPE_DWORD  , 1 , SYSMACRO(fxi_joy_axes_specific) },
+ 
+-
+     /* Inicialización y carga */
+     { 0x60, "SET_MODE"              , "I"     , TYPE_DWORD  , 1 , SYSMACRO(fxi_set_mode) },
+     { 0x61, "SET_FPS"               , "II"    , TYPE_DWORD  , 2 , SYSMACRO(fxi_set_fps) },
+@@ -107,6 +106,8 @@
+     { 0x64, "UNLOAD_FBM"            , "II"    , TYPE_DWORD  , 2 , SYSMACRO(fxi_unload_map) },
+     { 0x65, "UNLOAD_FPG"            , "I"     , TYPE_DWORD  , 1 , SYSMACRO(fxi_unload_fpg) },
+     { 0x65, "UNLOAD_FGC"            , "I"     , TYPE_DWORD  , 1 , SYSMACRO(fxi_unload_fpg) },
++
++    /* Informacion de graficos */
+     { 0x66, "GRAPHIC_SET"           , "IIII"  , TYPE_DWORD  , 4 , SYSMACRO(fxi_graphic_set) },
+     { 0x67, "GRAPHIC_INFO"          , "III"   , TYPE_DWORD  , 3 , SYSMACRO(fxi_graphic_info) },
+ 
+@@ -141,6 +142,7 @@
+     { 0x81, "MAP_SET_NAME"          , "IIS"   , TYPE_DWORD  , 3 , SYSMACRO(fxi_map_set_name) },
+     { 0x82, "MAP_EXISTS"            , "II"    , TYPE_DWORD  , 2 , SYSMACRO(fxi_map_exists) },
+     { 0x83, "MAP_XPUTNP"            , "IIIIIIIIIII",TYPE_DWORD , 10 , SYSMACRO(fxi_map_xputnp) },
++
+     { 0x84, "FPG_EXISTS"            , "I"     , TYPE_DWORD  , 1 , SYSMACRO(fxi_fpg_exists) },
+ 
+     /* FPG */
+@@ -148,9 +150,11 @@
+     { 0x8B, "NEW_FPG"               , ""      , TYPE_DWORD  , 0 , SYSMACRO(fxi_fpg_new) },
+     { 0x8B, "FPG_NEW"               , ""      , TYPE_DWORD  , 0 , SYSMACRO(fxi_fpg_new) },
+ 
+-    /* Textos */
++    /* Fonts */
+     { 0x90, "LOAD_FNT"              , "S"     , TYPE_DWORD  , 1 , SYSMACRO(fxi_load_fnt) },
+     { 0x91, "UNLOAD_FNT"            , "I"     , TYPE_DWORD  , 1 , SYSMACRO(fxi_unload_fnt) },
++
++    /* Textos */
+     { 0x92, "WRITE"                 , "IIIIS" , TYPE_DWORD  , 5 , SYSMACRO(fxi_write) },
+     { 0x93, "WRITE_INT"             , "IIIIP" , TYPE_DWORD  , 5 , SYSMACRO(fxi_write_int) },
+     { 0x94, "MOVE_TEXT"             , "III"   , TYPE_DWORD  , 3 , SYSMACRO(fxi_move_text) },
+@@ -158,6 +162,8 @@
+     { 0x96, "WRITE_IN_MAP"          , "ISI"   , TYPE_DWORD  , 3 , SYSMACRO(fxi_write_in_map) },
+     { 0x97, "TEXT_WIDTH"            , "IS"    , TYPE_DWORD  , 2 , SYSMACRO(fxi_text_width) },
+     { 0x98, "TEXT_HEIGHT"           , "IS"    , TYPE_DWORD  , 2 , SYSMACRO(fxi_text_height) },
++
++    /* Fonts */
+     { 0x99, "SAVE_FNT"              , "IS"    , TYPE_DWORD  , 2 , SYSMACRO(fxi_save_fnt) },
+     { 0x9A, "LOAD_BDF"              , "S"     , TYPE_DWORD  , 1 , SYSMACRO(fxi_load_bdf) },
+ 
+@@ -209,26 +215,32 @@
+     { 0xD9, "ASC"                   , "S"     , TYPE_BYTE   , 1 , SYSMACRO(fxi_asc) },
+     { 0xDA, "CHR"                   , "I"     , TYPE_STRING , 1 , SYSMACRO(fxi_chr) },
+ 
+-    /* Extensiones adicionales */
++    /* Importacion de archivos graficos */
+     { 0xE0, "LOAD_PNG"              , "S"     , TYPE_DWORD  , 1 , SYSMACRO(fxi_load_png) },
+     { 0xE1, "LOAD_PCX"              , "S"     , TYPE_DWORD  , 1 , SYSMACRO(fxi_load_pcx) },
++
++    /* Manipulacion de mapas bitmap */
+     { 0xEB, "MAP_BUFFER"            , "II"    , TYPE_POINTER, 2 , SYSMACRO(fxi_map_buffer) },
++
++    /* Manipulacion de la Paleta */
+     { 0xEC, "SET_COLORS"            , "IIP"   , TYPE_DWORD  , 3 , SYSMACRO(fxi_set_colors) },
++    { 0xEC, "PAL_SET"               , "IIP"   , TYPE_DWORD  , 3 , SYSMACRO(fxi_set_colors) },
+     { 0xED, "GET_COLORS"            , "IIP"   , TYPE_DWORD  , 3 , SYSMACRO(fxi_get_colors) },
++    { 0xED, "PAL_GET"               , "IIP"   , TYPE_DWORD  , 3 , SYSMACRO(fxi_get_colors) },
+ 
+     { 0xEE, "EXISTS"                , "I"     , TYPE_DWORD  , 1 , SYSMACRO(fxi_running) },
+ 
+     /* Manipulacion de Memoria */
+-    { 0xEF, "MEMORY_TOTAL"          , ""      , TYPE_DWORD  , 0 , SYSMACRO(fxi_memory_total) },
+-    { 0xF0, "ALLOC"                 , "I"     , TYPE_POINTER, 1 , SYSMACRO(fxi_alloc) },
+-    { 0xF1, "FREE"                  , "P"     , TYPE_DWORD  , 1 , SYSMACRO(fxi_free) },
+-    { 0xF2, "REALLOC"               , "PI"    , TYPE_POINTER, 2 , SYSMACRO(fxi_realloc) },
+-    { 0xF3, "MEMCMP"                , "PPI"   , TYPE_DWORD  , 3 , SYSMACRO(fxi_memcmp) },
+-    { 0xF4, "MEMSET"                , "PBI"   , TYPE_DWORD  , 3 , SYSMACRO(fxi_memset) },
+-    { 0xF5, "MEMSETW"               , "PWI"   , TYPE_DWORD  , 3 , SYSMACRO(fxi_memsetw) },
+-    { 0xF6, "MEMCOPY"               , "PPI"   , TYPE_DWORD  , 3 , SYSMACRO(fxi_memcopy) },
++    { 0xEF, "ALLOC"                 , "I"     , TYPE_POINTER, 1 , SYSMACRO(fxi_alloc) },
++    { 0xF0, "FREE"                  , "P"     , TYPE_DWORD  , 1 , SYSMACRO(fxi_free) },
++    { 0xF1, "REALLOC"               , "PI"    , TYPE_POINTER, 2 , SYSMACRO(fxi_realloc) },
++    { 0xF2, "MEMCMP"                , "PPI"   , TYPE_DWORD  , 3 , SYSMACRO(fxi_memcmp) },
++    { 0xF3, "MEMSET"                , "PBI"   , TYPE_DWORD  , 3 , SYSMACRO(fxi_memset) },
++    { 0xF4, "MEMSETW"               , "PWI"   , TYPE_DWORD  , 3 , SYSMACRO(fxi_memsetw) },
++    { 0xF5, "MEMCOPY"               , "PPI"   , TYPE_DWORD  , 3 , SYSMACRO(fxi_memcopy) },
+ 
+-    { 0xF7, "MEMORY_FREE"           , ""      , TYPE_DWORD  , 0 , SYSMACRO(fxi_memory_free) },
++    { 0xF6, "MEMORY_FREE"           , ""      , TYPE_DWORD  , 0 , SYSMACRO(fxi_memory_free) },
++    { 0xF7, "MEMORY_TOTAL"          , ""      , TYPE_DWORD  , 0 , SYSMACRO(fxi_memory_total) },
+ 
+     /* Funciones de primitivas */
+     { 0xF8, "DRAWING_MAP"           , "II"    , TYPE_DWORD  , 2 , SYSMACRO(fxi_drawing_map) },
+@@ -294,7 +306,7 @@
+ 
+     { 0x14C, "PLAY_WAV"             , "III"  , TYPE_DWORD   , 3 , SYSMACRO(fxi_play_wav_channel) },
+ 
+-    /* funciones de MAQ */
++    /* Funciones de MAQ */
+     { 0x150, "GRAYSCALE"            , "IIB"   , TYPE_DWORD  , 3 , SYSMACRO(fxi_grayscale) },
+     { 0x151, "RGBSCALE"             , "IIFFF" , TYPE_DWORD  , 5 , SYSMACRO(fxi_rgbscale)},
+     { 0x152, "BLUR"                 , "IIB"   , TYPE_DWORD  , 3 , SYSMACRO(fxi_blur)},
+@@ -313,9 +325,11 @@
+     { 0x168, "GET_RGB"              , "IPPP"  , TYPE_DWORD  , 4 , SYSMACRO(fxi_get_rgb) },
+     { 0x169, "LOAD_FPL"             , "S"     , TYPE_DWORD  , 1 , SYSMACRO(fxi_load_fpl) },
+ 
+-    /* Nuevas funciones en la 0.83 */
++    /* Video */
+     { 0x16A, "GET_SCREEN"           , ""      , TYPE_DWORD  , 0 , SYSMACRO(fxi_get_screen) },
+     { 0x16B, "SET_MODE"             , "III"   , TYPE_DWORD  , 3 , SYSMACRO(fxi_set_mode_3) },
++
++    /* String */
+     { 0x16C, "SUBSTR"               , "SI"    , TYPE_STRING , 2 , SYSMACRO(fxi_substr2) },
+     { 0x16D, "TRIM"                 , "S"     , TYPE_STRING , 1 , SYSMACRO(fxi_trim) },
+     { 0x16E, "FORMAT"               , "I"     , TYPE_STRING , 1 , SYSMACRO(fxi_formatI) },
+@@ -326,18 +340,24 @@
+     { 0x173, "LPAD"                 , "SI"    , TYPE_STRING , 2 , SYSMACRO(fxi_lpad) },
+     { 0x174, "RPAD"                 , "SI"    , TYPE_STRING , 2 , SYSMACRO(fxi_rpad) },
+     { 0x175, "STRCASECMP"           , "SS"    , TYPE_DWORD  , 2 , SYSMACRO(fxi_strcasecmp) },
++
++    /* Exportacion de mapas Graficos */
+     { 0x176, "SAVE_PNG"             , "IIS"   , TYPE_DWORD  , 3 , SYSMACRO(fxi_save_png) },
++
++    /* Regex */
+     { 0x177, "REGEX"                , "SS"    , TYPE_DWORD  , 2 , SYSMACRO(fxi_regex) },
+     { 0x178, "REGEX_REPLACE"        , "SSS"   , TYPE_STRING , 3 , SYSMACRO(fxi_regex_replace) },
+     { 0x179, "SPLIT"                , "SSPI"  , TYPE_DWORD  , 4 , SYSMACRO(fxi_split) },
+     { 0x17A, "JOIN"                 , "SPI"   , TYPE_STRING , 3 , SYSMACRO(fxi_join) },
++
++    /* Primitivas */
+     { 0x17B, "DRAW_CURVE"           , "IIIIIIIII", TYPE_DWORD,9 , SYSMACRO(fxi_bezier) },
+     { 0x17C, "DRAWING_Z"            , "I"     , TYPE_DWORD  , 1 , SYSMACRO(fxi_drawing_at) },
+     { 0x17D, "DELETE_DRAW"          , "I"     , TYPE_DWORD  , 1 , SYSMACRO(fxi_delete_drawing) },
+     { 0x17E, "MOVE_DRAW"            , "III"   , TYPE_DWORD  , 3 , SYSMACRO(fxi_move_drawing) },
+     { 0x17F, "DRAWING_ALPHA"        , "I"     , TYPE_DWORD  , 1 , SYSMACRO(fxi_drawing_alpha) },
+ 
+-    /* Nuevas funciones en la 0.84 */
++    /* Archivos y directorios */
+     { 0x180, "CD"                   , ""      , TYPE_STRING , 0 , SYSMACRO(fxi_cd) } ,
+     { 0x181, "CHDIR"                , "S"     , TYPE_DWORD  , 1 , SYSMACRO(fxi_chdir) },
+     { 0x182, "MKDIR"                , "S"     , TYPE_DWORD  , 1 , SYSMACRO(fxi_mkdir) } ,
+@@ -346,21 +366,31 @@
+     { 0x185, "GLOB"                 , "S"     , TYPE_STRING , 1 , SYSMACRO(fxi_glob) },
+     { 0x186, "CD"                   , "S"     , TYPE_STRING , 1 , SYSMACRO(fxi_chdir) } ,
+     { 0x187, "RM"                   , "S"     , TYPE_DWORD  , 1 , SYSMACRO(fxi_rm) } ,
++
++    /* Video */
+     { 0x18F, "SET_MODE"             , "II"    , TYPE_DWORD  , 2 , SYSMACRO(fxi_set_mode_2) },
+     { 0x190, "GET_TEXT_COLOR"       , ""      , TYPE_DWORD  , 0 , SYSMACRO(fxi_get_text_color) },
++
++    /* Fonts */
+     { 0x199, "NEW_FNT"              , "I"     , TYPE_DWORD  , 1 , SYSMACRO(fxi_fnt_new) },
+     { 0x199, "FNT_NEW"              , "I"     , TYPE_DWORD  , 1 , SYSMACRO(fxi_fnt_new) },
+     { 0x19A, "GET_GLYPH"            , "II"    , TYPE_DWORD  , 2 , SYSMACRO(fxi_get_glyph) },
+     { 0x19B, "SET_GLYPH"            , "IIII"  , TYPE_DWORD  , 4 , SYSMACRO(fxi_set_glyph) },
++
++    /* Video */
+     { 0x19C, "SET_MODE"             , "IIII"  , TYPE_DWORD  , 4 , SYSMACRO(fxi_set_mode_4) },
++
++    /* Primitivas */
+     { 0x19D, "DRAWING_STIPPLE"      , "I"     , TYPE_DWORD  , 1 , SYSMACRO(fxi_drawing_stipple) },
++
++    /* Paleta */
+     { 0x19E, "SAVE_PAL"             , "S"     , TYPE_DWORD  , 1 , SYSMACRO(fxi_save_pal) },
+     { 0x19F, "SAVE_FPL"             , "S"     , TYPE_DWORD  , 1 , SYSMACRO(fxi_save_fpl) },
+ 
+-    /* Nuevas funciones en la 0.85 */
++    /* Uso interno */
+     { 0x1A0, "#COPY#"               , "PV++I" , TYPE_POINTER, 5 , SYSMACRO(fxi_copy_struct) },
+ 
+-    /* Carga de archivos */
++    /* Carga/Grabacion de archivos */
+     { 0x1A1, "LOAD_FBM"             , "S"     , TYPE_DWORD  , 1 , SYSMACRO(fxi_load_fbm) },
+     { 0x1A2, "SAVE_FBM"             , "IIS"   , TYPE_DWORD  , 3 , SYSMACRO(fxi_save_fbm) },
+     { 0x1A3, "LOAD_FGC"             , "S"     , TYPE_DWORD  , 1 , SYSMACRO(fxi_load_fgc) },
+@@ -377,8 +407,8 @@
+     { 0x1AC, "CD_PAUSE"             , "I"     , TYPE_DWORD  , 1 , SYSMACRO(fxi_cd_pause) },
+     { 0x1AD, "CD_RESUME"            , "I"     , TYPE_DWORD  , 1 , SYSMACRO(fxi_cd_resume) },
+     { 0x1AE, "CD_EJECT"             , "I"     , TYPE_DWORD  , 1 , SYSMACRO(fxi_cd_eject) },
+-    { 0x1AF, "CD_NUMTRACKS"         , "I"     , TYPE_DWORD  , 1 , SYSMACRO(fxi_cd_numtracks) },
+-    { 0x1B0, "CD_CURRTRACK"         , "I"     , TYPE_DWORD  , 1 , SYSMACRO(fxi_cd_getcurtrack) },
++/*    { 0x1AF, "CD_NUMTRACKS"         , "I"     , TYPE_DWORD  , 1 , SYSMACRO(fxi_cd_numtracks) },
++    { 0x1B0, "CD_CURRTRACK"         , "I"     , TYPE_DWORD  , 1 , SYSMACRO(fxi_cd_getcurtrack) },*/
+ 
+     /* Funciones de ventana */
+     { 0x1B1, "MINIMIZE"             , ""      , TYPE_DWORD  , 0 , SYSMACRO(fxi_minimize) },
+@@ -394,8 +424,26 @@
+     { 0x1B7, "LOAD_FPG"             , "SP"    , TYPE_DWORD  , 2 , SYSMACRO(fxi_bgload_fpg) },
+     { 0x1B8, "LOAD_FGC"             , "SP"    , TYPE_DWORD  , 2 , SYSMACRO(fxi_bgload_fgc) },
+ 
++    /* Misc */
+     { 0x1C0, "GETENV"               , "S"     , TYPE_STRING , 1 , SYSMACRO(fxi_getenv) },
+ 
++    /* Paleta */
++    { 0x1C1, "NEW_PAL"              , ""      , TYPE_DWORD  , 0 , SYSMACRO(fxi_pal_create) },
++    { 0x1C1, "PAL_NEW"              , ""      , TYPE_DWORD  , 0 , SYSMACRO(fxi_pal_create) },
++    { 0x1C2, "PAL_CLONE"            , "I"     , TYPE_DWORD  , 1 , SYSMACRO(fxi_pal_clone) },
++    { 0x1C3, "UNLOAD_PAL"           , "I"     , TYPE_DWORD  , 1 , SYSMACRO(fxi_pal_unload) },
++    { 0x1C4, "PAL_REFRESH"          , ""      , TYPE_DWORD  , 0 , SYSMACRO(fxi_pal_refresh) },
++    { 0x1C5, "PAL_REFRESH"          , "I"     , TYPE_DWORD  , 1 , SYSMACRO(fxi_pal_refresh_2) },
++
++    { 0x1C6, "PAL_MAP_GETID"        , "II"    , TYPE_DWORD  , 2 , SYSMACRO(fxi_pal_map_getid) },
++    { 0x1C7, "PAL_MAP_ASSIGN"       , "III"   , TYPE_DWORD  , 3 , SYSMACRO(fxi_pal_map_assign) },
++    { 0x1C8, "PAL_MAP_REMOVE"       , "II"    , TYPE_DWORD  , 2 , SYSMACRO(fxi_pal_map_remove) },
++
++    { 0x1C9, "SET_COLORS"           , "IIIP"  , TYPE_DWORD  , 4 , SYSMACRO(fxi_pal_set) },
++    { 0x1C9, "PAL_SET"              , "IIIP"  , TYPE_DWORD  , 4 , SYSMACRO(fxi_pal_set) },
++    { 0x1CA, "GET_COLORS"           , "IIIP"  , TYPE_DWORD  , 4 , SYSMACRO(fxi_pal_get) },
++    { 0x1CA, "PAL_GET"              , "IIIP"  , TYPE_DWORD  , 4 , SYSMACRO(fxi_pal_get) },
++
+     { 0    , 0                      , ""      , 0           , 0 , 0  }
+ } ;
+ 

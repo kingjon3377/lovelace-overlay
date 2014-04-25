@@ -1,0 +1,698 @@
+--- wikipedia2text-0.11.orig/debian/copyright
++++ wikipedia2text-0.11/debian/copyright
+@@ -0,0 +1,12 @@
++This package was debianized by Axel Beckert <abe@deuxchevaux.org> on
++Sat, 27 Aug 2005 17:35:14 +0200.
++
++It was downloaded from
++https://svn.256bit.org/public-svn/wikipedia2text
++
++Copyright (C) 2005-2009 Christian Brabandt <cb@256bit.org>
++
++License: BSD
++
++On Debian systems you can find a cpy of the BSD license at
++/usr/share/common-licenses/BSD.
+--- wikipedia2text-0.11.orig/debian/dirs
++++ wikipedia2text-0.11/debian/dirs
+@@ -0,0 +1,2 @@
++usr/bin
++usr/share/man/man1
+--- wikipedia2text-0.11.orig/debian/README.Debian
++++ wikipedia2text-0.11/debian/README.Debian
+@@ -0,0 +1,9 @@
++wikipedia2text for Debian
++-------------------------
++
++The script originally was named just wiki. I the meanwhile
++wikipedia2text is also the official name.
++
++The Debian package also offers a symlink named wp2t as shortcut.
++
++ -- Axel Beckert <abe@deuxchevaux.org>  Mon, 26 May 2008 18:59:01 +0200
+--- wikipedia2text-0.11.orig/debian/rules
++++ wikipedia2text-0.11/debian/rules
+@@ -0,0 +1,71 @@
++#!/usr/bin/make -f
++# -*- makefile -*-
++# Sample debian/rules that uses debhelper.
++# This file was originally written by Joey Hess and Craig Small.
++# As a special exception, when this file is copied by dh-make into a
++# dh-make output file, you may use that output file without restriction.
++# This special exception was added by Craig Small in version 0.37 of dh-make.
++
++# Uncomment this to turn on verbose mode.
++#export DH_VERBOSE=1
++
++BIN=wikipedia2text
++TMP=debian/$(BIN)
++
++configure: configure-stamp
++configure-stamp:
++	dh_testdir
++	touch configure-stamp
++
++build: build-stamp
++
++build-stamp: configure-stamp 
++	dh_testdir
++	docbook-to-man debian/$(BIN).sgml > $(BIN).1
++	touch build-stamp
++
++clean:
++	dh_testdir
++	dh_testroot
++	rm -f build-stamp configure-stamp
++	rm -rf $(TMP) $(BIN).1 $(BIN).1.gz
++	dh_clean 
++
++install: build
++	dh_testdir
++	dh_testroot
++	dh_prep 
++	dh_installdirs
++
++	install -m 0755 $(BIN) $(TMP)/usr/bin
++	install -m 0644 $(BIN).1 $(TMP)/usr/share/man/man1/
++	dh_link usr/bin/$(BIN) usr/bin/wp2t
++	dh_link usr/share/man/man1/$(BIN).1 usr/share/man/man1/wp2t.1
++
++
++# Build architecture-independent files here.
++binary-indep: build install
++	dh_testdir
++	dh_testroot
++	dh_installchangelogs 
++	dh_installdocs
++	dh_install
++	dh_installman
++	dh_compress
++	dh_fixperms
++	dh_installdeb
++	dh_gencontrol
++	dh_md5sums
++	dh_builddeb
++
++# Build architecture-dependent files here.
++binary-arch: build install
++# We have nothing to do.
++
++binary: binary-indep binary-arch
++.PHONY: build clean binary-indep binary-arch binary install configure
++
++deb: buildpackage
++package: buildpackage
++buildpackage:
++	debuild --linda --lintian -us -uc
+--- wikipedia2text-0.11.orig/debian/changelog
++++ wikipedia2text-0.11/debian/changelog
+@@ -0,0 +1,66 @@
++wikipedia2text (0.11-2) unstable; urgency=low
++
++  * Added ${misc:Depends} to Depends (fixes Lintian warning)
++  * Changed the maintainer e-mail address to my debian.org address.
++  * Bumped Standards-Version to 3.8.4 (no changes)
++
++ -- Axel Beckert <abe@debian.org>  Mon, 01 Feb 2010 00:48:31 +0100
++
++wikipedia2text (0.11-1) unstable; urgency=low
++
++  * New upstream release
++    + fixes unwanted globbing (Closes: #537782)
++  * Bumped Standards-Version to 3.8.2 (no changes)
++  * Added watch file (currently suffers from #538717).
++  * Updated upstream URL in copyright file.
++  * Updated dependency on lynx-ssl to lynx | lynx-cur
++  * Moved docbook-to-man from Build-Depends to Build-Depends-Indep (fixes
++    Lintian informational warning).
++
++ -- Axel Beckert <abe@deuxchevaux.org>  Tue, 28 Jul 2009 01:21:47 +0200
++
++wikipedia2text (0.10-2) unstable; urgency=low
++
++  * Add missing dependency on liburi-perl (Closes: #520874)
++  * Bumped Standards-Version to 3.8.1 (no changes necessary)
++  * Bumped debhelper compatibility to V7:
++    - debian/rules: Changed dh_clean -k to dh_prep
++
++ -- Axel Beckert <abe@deuxchevaux.org>  Mon, 23 Mar 2009 12:39:43 +0100
++
++wikipedia2text (0.10-1) unstable; urgency=low
++
++  * New upstream version (Closes: #413693)
++  * License change to BSD
++  * Upstream renamed script to wikipedia2text: appropriately changed
++    rules and README.Debian
++  * Adapted copyright file to the currently preferred format
++  * Bump standards version to 3.8.0
++  * Added Vcs-* headers and Homepage header to control file
++  * Recommends most (Closes: #397911)
++  * Alternative text browsers now are only suggested, no more recommended.
++  * Fixed some typos in the man page and worked around broken docbook to
++    man converter (Closes: #437934)
++
++ -- Axel Beckert <abe@deuxchevaux.org>  Tue, 10 Jun 2008 00:35:43 +0200
++
++wikipedia2text (0.05-2) unstable; urgency=low
++
++  * Build-Depends: docbook-to-man (Closes: #397553)
++
++ -- Axel Beckert <abe@deuxchevaux.org>  Wed,  8 Nov 2006 10:51:19 +0100
++
++wikipedia2text (0.05-1) unstable; urgency=low
++
++  * New upstream version with patches helpful for debianisation.
++  * Support for links, links2 and w3m
++  * Support for 28 further Wikipedia languages
++  * Closes: #325417 (ITP)
++
++ -- Axel Beckert <abe@deuxchevaux.org>  Fri, 13 Oct 2006 02:20:38 +0200
++
++wikipedia2text (0.04-1) unstable; urgency=low
++
++  * Initial version for testing.
++
++ -- Axel Beckert <abe@deuxchevaux.org>  Sat, 27 Aug 2005 17:35:14 +0200
+--- wikipedia2text-0.11.orig/debian/control
++++ wikipedia2text-0.11/debian/control
+@@ -0,0 +1,22 @@
++Source: wikipedia2text
++Section: text
++Priority: optional
++Maintainer: Axel Beckert <abe@debian.org>
++Build-Depends: debhelper (>= 7.0.0)
++Build-Depends-Indep: docbook-to-man
++Standards-Version: 3.8.4
++Homepage: http://blog.256bit.org/archives/126-Wikipedia-in-der-Shell.html
++Vcs-Browser: http://noone.org/hg/wikipedia2text/debian
++Vcs-Hg: http://noone.org/hg/wikipedia2text/debian
++
++Package: wikipedia2text
++Depends: lynx | www-browser, liburi-perl, ${misc:Depends}
++Recommends: less | most
++Suggests: elinks | links2 | links | lynx | lynx-cur | w3m
++Architecture: all
++Description: displays Wikipedia articles on the command line
++ This script fetches Wikipedia articles (currently supports around 30
++ Wikipedia languages) and displays them as plain text in a pager or
++ just sends the text to standard out. Alternatively it opens the
++ Wikipedia article in a (possibly GUI) web browser or just shows the
++ URL of the appropriate Wikipedia article.
+--- wikipedia2text-0.11.orig/debian/watch
++++ wikipedia2text-0.11/debian/watch
+@@ -0,0 +1,2 @@
++version=3
++https://svn.256bit.org/public-svn/wikipedia2text/tags/ (\d[\d.]+)/
+--- wikipedia2text-0.11.orig/debian/wikipedia2text.sgml
++++ wikipedia2text-0.11/debian/wikipedia2text.sgml
+@@ -0,0 +1,486 @@
++<!doctype refentry PUBLIC "-//OASIS//DTD DocBook V4.1//EN" [
++
++<!-- Process this file with docbook-to-man to generate an nroff manual
++     page: `docbook-to-man manpage.sgml > manpage.1'.  You may view
++     the manual page with: `docbook-to-man manpage.sgml | nroff -man |
++     less'.  A typical entry in a Makefile or Makefile.am is:
++
++manpage.1: manpage.sgml
++	docbook-to-man $< > $@
++
++    
++	The docbook-to-man binary is found in the docbook-to-man package.
++	Please remember that if you create the nroff version in one of the
++	debian/rules file targets (such as build), you will need to include
++	docbook-to-man in your Build-Depends control field.
++
++  -->
++
++  <!-- Fill in your name for FIRSTNAME and SURNAME. -->
++  <!ENTITY dhfirstname "<firstname>Axel</firstname>">
++  <!ENTITY dhsurname   "<surname>Beckert</surname>">
++  <!-- Please adjust the date whenever revising the manpage. -->
++  <!ENTITY dhdate      "<date>August 27, 2005</date>">
++  <!-- SECTION should be 1-8, maybe w/ subsection other parameters are
++       allowed: see man(7), man(1). -->
++  <!ENTITY dhsection   "<manvolnum>1</manvolnum>">
++  <!ENTITY dhemail     "<email>&lt;abe@deuxchevaux.org&gt;</email>">
++  <!ENTITY dhusername  "Axel Beckert">
++  <!ENTITY dhucpackage "<refentrytitle>WIKIPEDIA2TEXT</refentrytitle>">
++  <!ENTITY dhpackage   "wikipedia2text">
++  <!ENTITY dhcommand   "<command>&dhpackage;</command>">
++
++  <!ENTITY debian      "<productname>Debian</productname>">
++  <!ENTITY wikipedia   "<productname>Wikipedia</productname>">
++  <!ENTITY gnu         "<acronym>GNU</acronym>">
++  <!ENTITY gpl         "&gnu; <acronym>GPL</acronym>">
++]>
++
++<refentry>
++  <refentryinfo>
++    <address>
++      &dhemail;
++    </address>
++    <author>
++      &dhfirstname;
++      &dhsurname;
++    </author>
++    <copyright>
++      <year>2005</year>
++      <holder>&dhusername;</holder>
++    </copyright>
++    &dhdate;
++  </refentryinfo>
++  <refmeta>
++    &dhucpackage;
++
++    &dhsection;
++  </refmeta>
++  <refnamediv>
++    <refname>&dhpackage;</refname>
++
++    <refpurpose>displays &wikipedia; entries on the command line</refpurpose>
++  </refnamediv>
++  <refsynopsisdiv>
++    <cmdsynopsis>
++      &dhcommand;
++
++      <arg choice="opt"><option>-BCnNoOpPsSuU</option></arg>
++      <arg choice="opt"><option>-b</option> <replaceable>prog</replaceable></arg>
++      <arg choice="opt"><group choice="req"><arg><option>-c</option></arg> <arg><option>-i</option></arg> <arg><option>-I</option></arg></group> <replaceable>patt</replaceable></arg>
++      <arg choice="opt"><option>-l</option> <replaceable>lang</replaceable></arg>
++      <arg choice="opt"><option>-W</option> <replaceable>base-url</replaceable></arg>
++      <arg choice="req"><replaceable>Query</replaceable></arg>
++    </cmdsynopsis>
++    <cmdsynopsis>
++      &dhcommand;
++
++      <arg choice="req"> <option>-o</option></arg>
++      <arg choice="opt"><option>-b</option> <replaceable>prog</replaceable></arg>
++      <arg choice="opt"><option>-l</option> <replaceable>lang</replaceable></arg>
++      <arg choice="req"><replaceable>Query</replaceable></arg>
++    </cmdsynopsis>
++    <cmdsynopsis>
++      &dhcommand;
++
++      <arg choice="opt"><option>-h</option></arg>
++    </cmdsynopsis>
++    <cmdsynopsis>
++      &dhcommand;
++
++      <arg choice="req"> <option>-v</option></arg>
++    </cmdsynopsis>
++    <cmdsynopsis>
++      &dhcommand;
++
++      <arg choice="req"> <option>-r</option></arg>
++    </cmdsynopsis>
++  </refsynopsisdiv>
++  <refsect1>
++    <title>DESCRIPTION</title>
++
++    <para>This manual page documents briefly the
++      &dhcommand; command<!-- and it's shortcut
++      <command>wiki</command> -->.</para>
++
++    <para>&dhcommand; fetches and renders &wikipedia; articles using a
++      text-mode web-browser (currently recognises
++      <command>elinks</command>, <command>links2</command>,
++      <command>links</command>, <command>lynx</command> and
++      <command>w3m</command>) and display the text of the article on
++      STDOUT respectively in a pager.</para>
++
++  </refsect1>
++  <refsect1>
++    <title>OPTIONS</title>
++
++    <para>The program recognizes the following command line
++      options:</para>
++
++    <variablelist>
++      <varlistentry>
++        <term><option>-b</option> <replaceable>prog</replaceable></term>
++        <listitem>
++          <para>Use program <replaceable>prog</replaceable> as
++            browser.</para>
++        </listitem>
++      </varlistentry>
++
++      <varlistentry>
++        <term><option>-B</option></term>
++        <listitem>
++          <para>Do not use browser configured via configuration file
++            or environment.</para>
++        </listitem>
++      </varlistentry>
++
++      <varlistentry>
++        <term><option>-c</option> <replaceable>patt</replaceable>, <option>-I</option> <replaceable>patt</replaceable></term>
++        <listitem>
++          <para>Colorize case-sensitive pattern
++            <replaceable>patt</replaceable> in output.</para>
++        </listitem>
++      </varlistentry>
++
++      <varlistentry>
++        <term><option>-C</option>, <option>-N</option></term>
++        <listitem>
++          <para>Colorize output.</para>
++        </listitem>
++      </varlistentry>
++
++      <varlistentry>
++        <term><option>-h</option></term>
++        <listitem>
++          <para>Show help and a summary of options.</para>
++        </listitem>
++      </varlistentry>
++
++      <varlistentry>
++        <term><option>-i</option> <replaceable>patt</replaceable></term>
++        <listitem>
++          <para>Colorize case-insensitive pattern
++            <replaceable>patt</replaceable> in output.</para>
++        </listitem>
++      </varlistentry>
++
++      <varlistentry>
++        <term><option>-l</option> <replaceable>lang</replaceable></term>
++        <listitem>
++          <para>use &wikipedia; in
++          language <replaceable>lang</replaceable>. See the
++          &wikipedia; Languages entry elsewhere in this
++          document.</para>
++        </listitem>
++      </varlistentry>
++
++      <varlistentry>
++        <term><option>-n</option></term>
++        <listitem>
++          <para>Do not colorize output.</para>
++        </listitem>
++      </varlistentry>
++
++      <varlistentry>
++        <term><option>-o</option></term>
++        <listitem>
++          <para>Open the &wikipedia; page in the browser.</para>
++        </listitem>
++      </varlistentry>
++
++      <varlistentry>
++        <term><option>-O</option></term>
++        <listitem>
++          <para>Do not open the &wikipedia; page in the browser.</para>
++        </listitem>
++      </varlistentry>
++
++      <varlistentry>
++        <term><option>-p</option></term>
++        <listitem>
++          <para>Use a pager (set by default).</para>
++        </listitem>
++      </varlistentry>
++
++      <varlistentry>
++        <term><option>-P</option></term>
++        <listitem>
++          <para>Don't use a pager.</para>
++        </listitem>
++      </varlistentry>
++
++      <varlistentry>
++        <term><option>-r</option></term>
++        <listitem>
++          <para>Display a random &wikipedia; article.</para>
++        </listitem>
++      </varlistentry>
++
++      <varlistentry>
++        <term><option>-s</option></term>
++        <listitem>
++          <para>Display only the summary of the &wikipedia; article.</para>
++        </listitem>
++      </varlistentry>
++
++      <varlistentry>
++        <term><option>-S</option></term>
++        <listitem>
++          <para>Display the full content of the &wikipedia; article
++            and not only the summary.</para>
++        </listitem>
++      </varlistentry>
++
++      <varlistentry>
++        <term><option>-u</option></term>
++        <listitem>
++          <para>Just print the URL of the &wikipedia; page and exit.</para>
++        </listitem>
++      </varlistentry>
++
++      <varlistentry>
++        <term><option>-U</option></term>
++        <listitem>
++          <para>Display the full content of the &wikipedia; article
++            and not only print the URL of the page.</para>
++        </listitem>
++      </varlistentry>
++
++      <varlistentry>
++        <term><option>-v</option></term>
++        <listitem>
++          <para>Show version number.</para>
++        </listitem>
++      </varlistentry>
++
++      <varlistentry>
++        <term><option>-W</option> <replaceable>base-url</replaceable></term>
++        <listitem>
++          <para>use <replaceable>base-url</replaceable> as base URL
++                for wikipedia (e.g. use a different wiki), querying
++                this URL will happen by appending the search
++                term.</para>
++        </listitem>
++      </varlistentry>
++    </variablelist>
++  </refsect1>
++
++  <refsect1>
++    <title>ENVIRONMENT</title>
++
++    <para>The following environment variables are recognized:</para>
++
++     <variablelist>
++       <varlistentry>
++         <term><varname>ABROWSER</varname></term>
++         <listitem>
++           <para>Browser to use as default instead of to found or
++           configured web browser.</para>
++         </listitem>
++       </varlistentry>
++
++       <varlistentry>
++         <term><varname>IGNCASE</varname></term>
++         <listitem>
++           <para>Default value for case-sensitivity of colorizing
++             the output. Can be set to "true" or "false".</para>
++         </listitem>
++       </varlistentry>
++
++       <varlistentry>
++         <term><varname>LOCAL</varname></term>
++         <listitem>
++
++           <para>
++	     Default value for language in which &wikipedia; should be
++	     used. See the &wikipedia; Languages entry elsewhere in
++	     this document.</para>
++
++         </listitem>
++       </varlistentry>
++
++       <varlistentry>
++         <term><varname>OUTPUTURL</varname></term>
++         <listitem>
++           <para>Determines, if &dhcommand; should display only
++   	  the URL of the &wikipedia; article by default. Can
++   	  be set to "true" or "false".</para>
++         </listitem>
++       </varlistentry>
++
++       <varlistentry>
++         <term><varname>PAGER</varname></term>
++         <listitem>
++           <para>Default value for pager to use. Can also be set
++             to "true", in which case, &dhcommand; tries to
++             figure out the appropriate pager, or "false", which
++             means not to use a pager at all.</para>
++         </listitem>
++       </varlistentry>
++
++       <varlistentry>
++         <term><varname>SHORT</varname></term>
++         <listitem>
++           <para>Determines, if &dhcommand; should display only
++   	  the summary of the &wikipedia; article by default. Can
++   	  be set to "true" or "false".</para>
++         </listitem>
++       </varlistentry>
++
++       <varlistentry>
++         <term><varname>USEBROWSER</varname></term>
++         <listitem>
++           <para>
++   	  Determines, if &dhcommand; should open the &wikipedia; page
++   	  via <command>openurl</command> in the globally set default
++   	  browser, i.e. <command>Firefox</command> or
++	  <command>Konqueror</command>, by default. Can be set to
++   	  "true" or "false".</para>
++         </listitem>
++       </varlistentry>
++     </variablelist>
++
++  </refsect1>
++  <refsect1>
++    <title>FILES</title>
++
++    <variablelist>
++      <varlistentry>
++        <term><filename>$HOME/.wikipedia2textrc</filename></term>
++        <listitem>
++          <para>Will be sourced from <command>&dhpackage</command> on
++	    startup. Should contain variable assignments. The same
++	    variables as for the environment are recognised.</para>
++	</listitem>
++      </varlistentry>
++    </variablelist>
++
++  </refsect1>
++  <refsect1>
++    <title>WIKIPEDIA LANGUAGES</title>
++
++    <para>&dhcommand; currently supports the following
++      &wikipedia; languages:</para>
++
++    <variablelist>
++
++<varlistentry><term>af</term>
++	<listitem><para>Cape Dutch (Afrikaans)</para></listitem></varlistentry>
++<varlistentry><term>als</term>
++	<listitem><para>Alemannic</para></listitem></varlistentry>
++<varlistentry><term>ca</term>
++	<listitem><para>Catalan</para></listitem></varlistentry>
++<varlistentry><term>cs</term>
++	<listitem><para>Czech</para></listitem></varlistentry>
++<varlistentry><term>da</term>
++	<listitem><para>Danish</para></listitem></varlistentry>
++<varlistentry><term>de</term>
++	<listitem><para>German</para></listitem></varlistentry>
++<varlistentry><term>en</term>
++	<listitem><para>English</para></listitem></varlistentry>
++<varlistentry><term>eo</term>
++	<listitem><para>Esperanto</para></listitem></varlistentry>
++<varlistentry><term>es</term>
++	<listitem><para>Spanish</para></listitem></varlistentry>
++<varlistentry><term>fi</term>
++	<listitem><para>Finnish</para></listitem></varlistentry>
++<varlistentry><term>fr</term>
++	<listitem><para>French</para></listitem></varlistentry>
++<varlistentry><term>hu</term>
++	<listitem><para>Hungarian</para></listitem></varlistentry>
++<varlistentry><term>ia</term>
++	<listitem><para>Interlingua</para></listitem></varlistentry>
++<varlistentry><term>is</term>
++	<listitem><para>Islandic</para></listitem></varlistentry>
++<varlistentry><term>it</term>
++	<listitem><para>Italian</para></listitem></varlistentry>
++<varlistentry><term>la</term>
++	<listitem><para>Latin</para></listitem></varlistentry>
++<varlistentry><term>lb</term>
++	<listitem><para>Luxembourgian</para></listitem></varlistentry>
++<varlistentry><term>nds</term>
++	<listitem><para>Low German</para></listitem></varlistentry>
++<varlistentry><term>nl</term>
++	<listitem><para>Dutch</para></listitem></varlistentry>
++<varlistentry><term>nn, no</term>
++	<listitem><para>Norwegian (Nynorsk and Bokm&aring;l)</para></listitem></varlistentry>
++<varlistentry><term>pl</term>
++	<listitem><para>Polish</para></listitem></varlistentry>
++<varlistentry><term>pt</term>
++	<listitem><para>Portuguese</para></listitem></varlistentry>
++<varlistentry><term>rm</term>
++	<listitem><para>Rhaeto-Romanic</para></listitem></varlistentry>
++<varlistentry><term>ro</term>
++	<listitem><para>Romanian</para></listitem></varlistentry>
++<varlistentry><term>simple</term>
++	<listitem><para>Simple English</para></listitem></varlistentry>
++<varlistentry><term>sk</term>
++	<listitem><para>Slovak</para></listitem></varlistentry>
++<varlistentry><term>sl</term>
++	<listitem><para>Slovenian</para></listitem></varlistentry>
++<varlistentry><term>sv</term>
++	<listitem><para>Swedish</para></listitem></varlistentry>
++<varlistentry><term>tr</term>
++	<listitem><para>Turkish</para></listitem></varlistentry>
++
++    </variablelist>
++  </refsect1>
++  <refsect1>
++    <title>SEE ALSO</title>
++    <para>elinks(1), links(1), links2(1), lynx(1), w3m(1)</para>
++  </refsect1>
++  <refsect1>
++    <title>AUTHOR</title>
++
++    <para>&dhcommand; was written by Christian Brabandt
++      &lt;cb@256bit.org&gt;. Patches also from &dhusername;
++      &dhemail;.</para>
++
++    <para>This manual page was written by &dhusername; &dhemail; for
++      the &debian; system (but may be used by others).  Permission is
++      granted to copy, distribute and/or modify this document under
++      the terms of the &gnu; General Public License
++      (<acronym>GPL</acronym>), Version 2 any later version published
++      by the Free Software Foundation.</para>
++
++    <para>On Debian systems, the complete text of the &gnu General
++      Public License can be found in
++      <filename>/usr/share/common-licenses/GPL</filename>.</para>
++  </refsect1>
++  <refsect1>
++    <title>HISTORY</title>
++
++    <para>&dhpackage; was first released by Christian Brabandt on
++      <ulink
++      url="http://blog.256bit.org/archives/126-Wikipedia-in-der-Shell.html">in
++      his blog</ulink> with as script named
++      <command>wiki</command>. Some users may find it useful to create
++      an alias with that name for speeding up the typing of a
++      &dhcommand; command if no other command of that name is
++      present.</para>
++
++  </refsect1>
++  <refsect1>
++    <title>OTHER INFO</title>
++    <para>The current version of &dhcommand; should be available at
++      <ulink url="http://www.256bit.org/~chrisbra/wiki">on Christian
++      Brabandt's website</ulink>.</para>
++  </refsect1>
++</refentry>
++
++<!-- Keep this comment at the end of the file
++Local variables:
++mode: sgml
++sgml-omittag:t
++sgml-shorttag:t
++sgml-minimize-attributes:nil
++sgml-always-quote-attributes:t
++sgml-indent-step:2
++sgml-indent-data:t
++sgml-parent-document:nil
++sgml-default-dtd-file:nil
++sgml-exposed-tags:nil
++sgml-local-catalogs:nil
++sgml-local-ecat-files:nil
++End:
++-->
+--- wikipedia2text-0.11.orig/debian/compat
++++ wikipedia2text-0.11/debian/compat
+@@ -0,0 +1 @@
++7

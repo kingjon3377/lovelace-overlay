@@ -1,0 +1,28 @@
+diff -Nur graphthing-1.3.2/GNUmakefile.in graphthing-1.3.2_patched/GNUmakefile.in
+--- graphthing-1.3.2/GNUmakefile.in	2006-09-20 01:30:58.000000000 +0300
++++ graphthing-1.3.2_patched/GNUmakefile.in	2007-02-20 06:56:05.000000000 +0200
+@@ -33,8 +33,8 @@
+ 	for subdir in $$dlist ; do \
+ 		(cd $$subdir && $(MAKE) install) ; \
+ 	done
+-	@INSTALL@ -d @mandir@/man1/
+-	@INSTALL@ -c -m 644 graphthing.1 @mandir@/man1/
++	@INSTALL@ -d $(DESTDIR)@mandir@/man1/
++	@INSTALL@ -c -m 644 graphthing.1 $(DESTDIR)@mandir@/man1/
+ 	@echo "---------------------------------------------------"
+ 	@echo "  GraphThing is now installed. It can be executed"
+ 	@echo "  by running:"
+diff -Nur graphthing-1.3.2/src/GNUmakefile.in graphthing-1.3.2_patched/src/GNUmakefile.in
+--- graphthing-1.3.2/src/GNUmakefile.in	2006-09-20 01:29:25.000000000 +0300
++++ graphthing-1.3.2_patched/src/GNUmakefile.in	2007-02-20 06:56:17.000000000 +0200
+@@ -37,8 +37,8 @@
+ all:		$(PROGNAME) $(addsuffix @EXEEXT@,@EXTRA_PROGS@)
+ 
+ install:
+-	@INSTALL@ -d @prefix@/bin/
+-	@INSTALL@ -s -m 755 $(PROGNAME) @prefix@/bin/
++	@INSTALL@ -d $(DESTDIR)@prefix@/bin/
++	@INSTALL@ -s -m 755 $(PROGNAME) $(DESTDIR)@prefix@/bin/
+ 
+ clean:
+ 	rm -f $(ALL_OBJS) unit_test.o chrom.o

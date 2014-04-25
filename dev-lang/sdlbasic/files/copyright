@@ -1,0 +1,145 @@
+This package was debianized by Miriam Ruiz <little_miry@yahoo.es> on
+Fri, 04 Apr 2008 10:39:30 +0000.
+
+It was downloaded from http://sourceforge.net/projects/sdlbasic/
+
+Upstream Authors:
+
+    Ilkka Lehtoranta <itix@users.sourceforge.net>
+    Ivanix  <ivanixdev@users.sourceforge.net>
+    Nicolas Mendoza <nicomen@users.sourceforge.net>
+    Paulo Silva <nitrofurano@users.sourceforge.net>
+    Tim Douglas <timdoug@users.sourceforge.net>
+    Roberto Viola <vroby@users.sourceforge.net>
+    Zoiba <zoiba@users.sourceforge.net>
+
+Copyright: 
+
+    Copyright (C) 2001-2007 sdlBasic team
+
+src/sdlBasic/src/sdlBrt/*
+
+    Copyright (C) 2001 David Cuny <dcuny@lanset.com>
+
+lizard.mod:
+
+    Copyright (C) 1993 Gustaf Grefberg <lizardking@triton.ct.se>
+
+Scintilla and sdlBasic Editor:
+
+    Copyright (C) 1998-2003 by Neil Hodgson <neilh@scintilla.org>
+    Copyright (C) 2005 by sdlBasic team <http://sdlBasic.sf.net>
+
+Bitstream Vera Fonts:
+
+    Copyright (C) 2003 by Bitstream, Inc. All Rights Reserved.
+    Bitstream Vera is a trademark of Bitstream, Inc.
+    DejaVu changes are in public domain.
+
+License:
+
+    This package is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+ 
+    This package is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+ 
+    You should have received a copy of the GNU General Public License
+    along with this package; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+
+On Debian systems, the complete text of the GNU General
+Public License can be found in `/usr/share/common-licenses/GPL'.
+
+
+License for Scintilla and sdlBasic Editor:
+
+Copyright (C) 1998-2003 by Neil Hodgson <neilh@scintilla.org>
+Copyright (C) 2005 by sdlBasic team http://sdlBasic.sf.net
+
+All Rights Reserved 
+
+Permission to use, copy, modify, and distribute this software and its 
+documentation for any purpose and without fee is hereby granted, 
+provided that the above copyright notice appear in all copies and that 
+both that copyright notice and this permission notice appear in 
+supporting documentation. 
+
+NEIL HODGSON DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS 
+SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY 
+AND FITNESS, IN NO EVENT SHALL NEIL HODGSON BE LIABLE FOR ANY 
+SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES 
+WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, 
+WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER 
+TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE 
+OR PERFORMANCE OF THIS SOFTWARE. 
+
+
+Fonts are Copyright (C) Bitstream (see below). DejaVu changes are in public domain.
+
+Bitstream Vera Fonts Copyright
+------------------------------
+
+Copyright (C) 2003 by Bitstream, Inc. All Rights Reserved. Bitstream Vera is
+a trademark of Bitstream, Inc.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of the fonts accompanying this license ("Fonts") and associated
+documentation files (the "Font Software"), to reproduce and distribute the
+Font Software, including without limitation the rights to use, copy, merge,
+publish, distribute, and/or sell copies of the Font Software, and to permit
+persons to whom the Font Software is furnished to do so, subject to the
+following conditions:
+
+The above copyright and trademark notices and this permission notice shall
+be included in all copies of one or more of the Font Software typefaces.
+
+The Font Software may be modified, altered, or added to, and in particular
+the designs of glyphs or characters in the Fonts may be modified and
+additional glyphs or characters may be added to the Fonts, only if the fonts
+are renamed to names not containing either the words "Bitstream" or the word
+"Vera".
+
+This License becomes null and void to the extent applicable to Fonts or Font
+Software that has been modified and is distributed under the "Bitstream
+Vera" names.
+
+The Font Software may be sold as part of a larger software package but no
+copy of one or more of the Font Software typefaces may be sold by itself.
+
+THE FONT SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT OF COPYRIGHT, PATENT,
+TRADEMARK, OR OTHER RIGHT. IN NO EVENT SHALL BITSTREAM OR THE GNOME
+FOUNDATION BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, INCLUDING
+ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL DAMAGES,
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF
+THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM OTHER DEALINGS IN THE
+FONT SOFTWARE.
+
+Except as contained in this notice, the names of Gnome, the Gnome
+Foundation, and Bitstream Inc., shall not be used in advertising or
+otherwise to promote the sale, use or other dealings in this Font Software
+without prior written authorization from the Gnome Foundation or Bitstream
+Inc., respectively. For further information, contact: fonts at gnome dot
+org. 
+
+
+lizard.mod:
+
+    Music created by Lizardking/alcatraz (Gustaf Grefberg, Sweden) [1],
+    presented at The Gathering 93 in Lillestrom/Norway (7 to 10 April
+    1994) [2]. Extracted from the game bumprace [3] and licensed under
+    the GPL license.
+    
+    [1] http://mody_collection.tripod.com/
+    [2] http://www.pouet.net/results.php?which=43&when=93&f=none
+    [3] http://user.cs.tu-berlin.de/~karlb/bumprace/
+
+
+The Debian packaging is Copyright (C) 2008, Miriam Ruiz <little_miry@yahoo.es> and
+is licensed under the same license as the program, see above.

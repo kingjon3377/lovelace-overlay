@@ -1,0 +1,62 @@
+# Copyright (C) 2008 by Miriam Ruiz <little_miry@yahoo.es>
+# Distributed under the same license as the program. See debian/copyright.
+
+Index: sdlbasic/src/sdlBasic/share/sdlBasic/sdlBasic.properties
+===================================================================
+--- sdlbasic.orig/src/sdlBasic/share/sdlBasic/sdlBasic.properties	2008-09-13 23:14:17.000000000 +0200
++++ sdlbasic/src/sdlBasic/share/sdlBasic/sdlBasic.properties	2008-09-13 23:14:39.000000000 +0200
+@@ -651,21 +651,21 @@
+ 	BASEDIR=$(SciteDefaultHome)/../..
+ 	# uncomment this if you use kde and have problems with audio
+ 	#ARTSDSP=artsdsp -m
+-	SDLBRT=$(ARTSDSP) $(BASEDIR)/bin/sdlBrt
++	SDLBRT=$(ARTSDSP) /usr/bin/sdlBrt
+ 	BROWSER=firefox
+     command.go.*.sdlbas=$(SDLBRT) "$(FilePath)"
+-	command.help.*.sdlbas=$(BROWSER) "file:$(BASEDIR)/share/doc/sdlBasic/english/QuickHelp.html"
++	command.help.*.sdlbas=$(BROWSER) "file:/usr/share/doc/sdlbasic/english/QuickHelp.html"
+ 
+ 
+ command.name.1.*.sdlbas=Autoindent
+-command.1.*.sdlbas=$(SDLBRT) --nodefaults $(BASEDIR)/share/sdlBasic/plugins/autoindent.sdlbas "$(FilePath)"
++command.1.*.sdlbas=$(SDLBRT) --nodefaults /usr/share/sdlbasic/plugins/autoindent.sdlbas "$(FilePath)"
+ command.is.filter.1.*.sdlbas=1
+ 
+ command.name.2.*.sdlbas=Unindent
+-command.2.*.sdlbas=$(SDLBRT) --nodefaults $(BASEDIR)/share/sdlBasic/plugins/unindent.sdlbas "$(FilePath)"
++command.2.*.sdlbas=$(SDLBRT) --nodefaults /usr/share/sdlbasic/plugins/unindent.sdlbas "$(FilePath)"
+ command.is.filter.2.*.sdlbas=1
+ 
+ command.name.3.*.sdlbas=make executable
+-command.3.*.sdlbas=$(SDLBRT)  --nodefaults $(BASEDIR)/share/sdlBasic/plugins/bind.sdlbas $(SDLBRT) "$(FilePath)"
++command.3.*.sdlbas=$(SDLBRT)  --nodefaults /usr/share/sdlbasic/plugins/bind.sdlbas $(SDLBRT) "$(FilePath)"
+ command.is.filter.3.*.sdlbas=1
+ 
+Index: sdlbasic/src/sdlBasic/src/sdlBasic/src/SciTEIO.cxx
+===================================================================
+--- sdlbasic.orig/src/sdlBasic/src/sdlBasic/src/SciTEIO.cxx	2008-09-13 23:14:17.000000000 +0200
++++ sdlbasic/src/sdlBasic/src/sdlBasic/src/SciTEIO.cxx	2008-09-13 23:14:39.000000000 +0200
+@@ -91,8 +91,8 @@
+ const char propGlobalFileName[] = "../share/sdlBasic/Global.properties";
+ const char propAbbrevFileName[] = "../share/sdlBasic/abbrev.properties";
+ #else
+-const char propGlobalFileName[] = "Global.properties";
+-const char propAbbrevFileName[] = "abbrev.properties";
++const char propGlobalFileName[] = "Global.properties";
++const char propAbbrevFileName[] = "abbrev.properties";
+ #endif
+ 
+ #define PROPERTIES_EXTENSION	".properties"
+Index: sdlbasic-0.0.20070714/src/sdlBasic/share/sdlBasic/Global.properties
+===================================================================
+--- sdlbasic-0.0.20070714.orig/src/sdlBasic/share/sdlBasic/Global.properties	2009-05-06 14:12:57.000000000 +0200
++++ sdlbasic-0.0.20070714/src/sdlBasic/share/sdlBasic/Global.properties	2009-05-06 14:14:48.000000000 +0200
+@@ -209,7 +209,7 @@
+ if PLAT_GTK
+ 	BROWSER=firefox
+ 	#command.print.*=a2ps $(FileNameExt)
+-	command.scite.help=$(BROWSER)  "file:$(SciteDefaultHome)/../doc/sdlBasic/english/index.html"
++	command.scite.help=$(BROWSER)  "file:/usr/share/doc/sdlbasic/english/index.html"
+ # Internationalisation
+ # Japanese input code page 932 and ShiftJIS character set 128
+ #code.page=932

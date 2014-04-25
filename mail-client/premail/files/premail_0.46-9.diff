@@ -1,0 +1,1339 @@
+--- premail-0.46.orig/premail
++++ premail-0.46/premail
+@@ -1,11 +1,13 @@
+-#!/usr/local/bin/perl
++#!/usr/bin/perl
++#!/usr/bin/perl -w   <--- It's just to buggy for this :-(
+ #
+ # premail, an e-mail privacy package
+ #
++use FileHandle;
+ 
+-$version = '0.449';
++$version = '0.46';
+ 
+-# Copyright 1996 Raph Levien <raph@c2.net>
++# Copyright 1996,1997 Raph Levien <raph@c2.net>
+ # All rights reserved.
+ # 
+ # This program is free for commercial and non-commercial use as long as
+@@ -62,6 +64,16 @@
+ # other packages. This implementation was a non-trivial and unpaid
+ # effort.
+ 
++# Both of the following is needed to have secure tempfiles.  -Joey
++use IO::Handle;
++
++# Added to make PGPPASSFD pipe work with perl-5.6 stk-12/27/00
++#use Fcntl;
++
++unless (defined(&O_RDWR)) {
++    require Fcntl;
++    import Fcntl qw/O_RDWR O_CREAT O_EXCL/;
++}
+ 
+ # default configuration options
+ 
+@@ -85,18 +97,25 @@
+ 
+ $config{'rlist-valid'} = 300;
+ 
+-$config{'rlist-url'} = 'http://kiwi.cs.berkeley.edu/rlist';
+-$config{'pubring-url'} = 'http://kiwi.cs.berkeley.edu/pubring.pgp';
+-$config{'type2-list-url'} = 'http://www.jpunix.com/type2.html';
+-$config{'pubring-mix-url'} = 'http://www.jpunix.com/pubring.html';
++$config{'rlist-url'} = '';
++$config{'pubring-url'} = '';
++$config{'type2-list-url'} = '';
++$config{'pubring-mix-url'} = '';
+ 
+ $config{'charset'} = 'iso-8859-1';
+ 
+ $config{'encrypt'} = 'yes';
+ 
++my @RELAYS;
++#@RELAYS = ('anon.lcs.mit.edu');
++
+ # the following config options are for testing only!
+ #$config{'debug'} = 'chvy';
+-
++$config{'debug'} = '';			# Turns off troublesome warnings -- bfulgham 7/1/99
++					# This is a hack, suggested by Ewen McNeill to handle
++					# some valid error messages that would take too much
++					# effort to fix ATM.  These errors should not impact
++					# day-to-day use of the program.
+ # Global state
+ 
+ %cmdline_configs = ();		# config options set from command line
+@@ -112,6 +131,7 @@
+ $editfile = '';			# name of file to edit
+ $dashoi = 0;			# -oi on cmd line
+ $more_input = 1;
++$in_active=0;			# IN handler opened
+ $header_sep = '';
+ $in_body = '';			# the filename of the input message body
+ $prezilla = 0;			# special mode for Netscape Navigator 2.1
+@@ -308,6 +328,12 @@
+ 	    if ($1 =~ /^[mwpqe]$/) { push (@sendmail_args, $_); }
+ 	} elsif (/^\-od(.)$/) {
+ 	    push (@sendmail_args, $_);
++	} elsif (/^\-[BNRV].+$/) {
++	    push (@sendmail_args, $_);
++	} elsif (/^\-[BNRV]$/) {
++	    if ($#_ < 0) { &error ("$_ option needs an argument\n"); }
++	    push (@sendmail_args, $_);
++	    push (@sendmail_args, shift);
+         } elsif (/^\-f$/) {
+ 	    if ($#_ < 0) { &error ("$_ option needs an argument\n"); }
+ 	    shift;		# discard
+@@ -363,7 +389,8 @@
+     &apply_cmdline_configs ();
+     if ($config{'preferences'}) {
+ 	$preferences = &tilde_expand ($config{'preferences'});
+-	open (PREF, $preferences);
++	
++	if (open (PREF, $preferences)) {
+ 	while (<PREF>) {
+ 	    if (/^\s*\$config\{\"([^\"]+)\"\}\s*\=\s*\"([^\"]*)\"/
+ 		|| /^\s*\$config\{\'([^\']+)\'\}\s*\=\s*\'([^\']*)\'/) {
+@@ -371,20 +398,29 @@
+ 	    }
+ 	}
+ 	close (PREF);
++	}
+     }
+     &apply_cmdline_configs ();
+     if ($config{'addresses'}) {
+-	open (ADDR, &tilde_expand ($config{'addresses'}));
+-	while (<ADDR>) {
+-	    if (/^([\w\-\_\+\.\@\!]+)\:\s*(.*)$/) {
+-		$recip = &strip_address ($1);
+-		$alias{$recip} = $2;
+-	    }
++
++	# 7-3-98 BAF -- Check file was opened before using it
++	if (open (ADDR, &tilde_expand ($config{'addresses'})))  {	
++ 	    while (<ADDR>) {
++	        if (/^([\w\-\_\+\.\@\!]+)\:\s*(.*)$/) {
++		      $recip = &strip_address ($1);
++		      $alias{$recip} = $2;
++	        }	
++	    }    
++	    close (ADDR);
++	} else { 
++	    warn "Note:  Assuming you don't want to use an address file.\n";
+ 	}
+-	close (ADDR);
++	    
+     }
+     if ($config{'logfile'}) {
+-	open (LOG, '>>'.&tilde_expand_mkdir ($config{'logfile'}));
++	# 7-3-98 BAF -- Check file was opened before using it
++	open (LOG, '>>'.&tilde_expand_mkdir ($config{'logfile'})) ||
++	  die "Error:  Can't open logfile for writing: $!";
+     }
+     foreach (keys %config) {
+ 	&pdv ("\$config\{\'$_\'\} = \'$config{$_}\'\;\n");
+@@ -413,6 +449,7 @@
+ 	if (!open (IN, $editfile)) {
+ 	    &error ("cannot open edit file $editfile\n");
+ 	}
++	$in_active = 1;
+ 	return 1;
+     } elsif ($dashbs) {
+ 	# do simple SMTP
+@@ -463,7 +500,9 @@
+ 
+     @in_headers = ();
+     for ($lineno = 0;;$lineno++) {
+-	$line = &get_line_body ($body);
++	if (! defined($line = &get_line_body ($body))) {
++		last;
++	}
+ 	if ($handle_from && $lineno == 0 && $line =~ /^From /) {
+ 	    return $line;
+ 	}
+@@ -495,16 +534,16 @@
+     my $line;
+ 
+     if ($edit || $post) {
+-	$line = <IN>;
++	$line = <IN> if ($in_active);
+     } elsif ($dashbs) {
+ 	$line = <STDIN>;
+-	if ($line eq ".\n") { return undef; }
++	if (!defined $line || $line eq ".\n") { return undef; }
+ 	$line =~ s/^\.\./\./;
+     } else {
+ 	$line = <STDIN>;
+ 	if (!defined $line || !$dashoi && $line eq ".\n") { return undef; }
+     }
+-    $line =~ s/\r$//;
++    $line =~ s/\r$// if defined $line;
+     return $line;
+ }
+ 
+@@ -516,6 +555,7 @@
+ #   }
+     if ($edit || $post) {
+ 	close (IN);
++	$in_active = 0;
+     } elsif ($dashbs) {
+ 	print "250 Message accepted for delivery\n";
+ 	$more_input = 1;
+@@ -530,7 +570,8 @@
+ 
+     if ($body eq '-' && $n > 1) {
+ 	$new_body = &tmp_filename ();
+-	open (TMP, '>'.$new_body);
++	open (TMP, '>'.$new_body) ||
++	  die "Error:  Cannot create temporary files: $!";
+ 	&open_body ($body);
+ 	while ($line = &get_line_body ($body)) {
+ 	    print TMP $line;
+@@ -1045,7 +1086,8 @@
+ 	      ."\n   ".'protocol="application/pgp-encrypted"'."\n");
+ 	$body = $new_body;
+ 	$new_body = &tmp_filename ();
+-	open (NEW, '>'.$new_body);
++	open (NEW, '>'.$new_body) ||
++	    die "Couldn't open file: $!";
+ 	print NEW "This message is in PGP/MIME format, according to the"
+ 	    ." Internet Draft\n";
+ 	print NEW "draft-elkins-pem-pgp-04.txt. For more information, see:\n";
+@@ -1157,7 +1199,8 @@
+ 	  'Content-Type: multipart/encrypted; boundary="'.$boundary.'";'
+ 	  ."\n   ".'protocol="application/moss-keys"'."\n");
+     $new_body = &tmp_filename ();
+-    open (NEW, '>'.$new_body);
++    open (NEW, '>'.$new_body) ||
++    	die "Couldn't open file: $!";
+     print NEW "--$boundary\n";
+     print NEW "Content-Type: application/moss-keys\n";
+     print NEW "Content-Transfer-Encoding: quoted-printable\n";
+@@ -1209,7 +1252,8 @@
+     $invoc .= ' > '.$errfile.' 2>&1';
+     open (MOSS, "|$invoc");
+     $new_body = &tmp_filename ();
+-    open (NEW, '>'.$new_body);
++    open (NEW, '>'.$new_body) ||
++    	die "Couldn't open file:  $!";
+     $boundary = &random (80);
+     push (@deliver_headers,
+ 	  'MIME-Version: 1.0'."\n",
+@@ -1268,11 +1312,11 @@
+     my ($body, @the_recips) = @_;
+     my ($key_type, $key);
+     my (@keys);
+-    my ($new_body, $err, $line);
++    my ($err, $line);
+     my (@mime_fields, $prefix, $boundary);
+     my ($sign_type, $sign);
+     my ($invoc, $errfile);
+-    my ($in_body, $sig_body, $new_body);
++    my ($in_body, $sig_body);
+     my ($user);
+ 
+     @keys = ();
+@@ -1315,7 +1359,8 @@
+     if ($status) { &error ("RIPEM error\n$err"); }
+     &pdv ($err);
+     $new_body = &tmp_filename ();
+-    open (NEW, '>'.$new_body);
++    open (NEW, '>'.$new_body) ||
++    	die "Couldn't open file:  $!";
+     $boundary = &random (80);
+     push (@deliver_headers,
+ 	  'MIME-Version: 1.0'."\n",
+@@ -1354,11 +1399,11 @@
+     my ($body, @the_recips) = @_;
+     my ($key_type, $key);
+     my (@keys);
+-    my ($new_body, $err, $line);
++    my ($err, $line);
+     my (@mime_fields, $prefix);
+     my ($sign_type, $sign);
+     my ($invoc, $errfile);
+-    my ($in_body, $new_body);
++    my ($in_body);
+     my ($user);
+ 
+     @keys = ();
+@@ -1431,7 +1476,8 @@
+     my ($new_body);
+ 
+     $new_body = &tmp_filename ();
+-    open (FORCE, '>'.$new_body);
++    open (FORCE, '>'.$new_body) ||
++    	die "Couldn't open file: $!";
+     print FORCE &canonicalize_line_enc ($prefix);
+     &open_body ($body);
+     while (defined ($line = &get_line_body ($body))) {
+@@ -1449,7 +1495,8 @@
+ 
+     if ($body ne '-') { return $body; }
+     $new_body = &tmp_filename ();
+-    open (FORCE, '>'.$new_body);
++    open (FORCE, '>'.$new_body) ||
++    	die "Couldn't open file: $!";
+     &open_body ($body);
+     while (defined ($line = &get_line_body ($body))) {
+ 	print FORCE $line;
+@@ -1487,6 +1534,16 @@
+     } else {
+ 	$num_shuf = 3;
+     }
++    if ($config{"reliability-threshold"}) {
++        $rel_thres = $config{"reliability-threshold"};
++    } else {
++        $rel_thres = 100;
++    }
++    if ($config{"latency-threshold"}) {
++        $lat_thres = $config{"latency-threshold"};
++    } else {
++        $lat_thres = 0;
++    }
+     foreach $hop (@chain) {
+ 	if ($hop =~ /^\d+$/) {
+ 	    for ($i = 0; $i < $hop; $i++) {
+@@ -1498,8 +1555,14 @@
+ 			  || &member ('eric', @options))) {
+ 			next;
+ 		    }
+-		    $score = $reliability{$remailer};
+-		    $score -= $latency{$remailer} * 1e-5;
++		    if ($reliability{$remailer}>=$rel_thres ) {
++		        $score = 100;
++		    } else {
++		        $score = $reliability{$remailer};
++		    }
++		    if ($latency{$remailer}>=$lat_thres) {
++		        $score -= $latency{$remailer} * 1e-5;
++		    }
+ 		    if ($config{'encrypt'} &&
+ 			(&member ('pgp', @options)
+ 			 || &member ('pgp.', @options))) {
+@@ -1511,7 +1574,8 @@
+ 			     || &member ('pgponly', @options)) { next; }
+ 		    if ($config{'no-middle'}
+ 			&& &member ('middle', @options)) { next; }
+-		    if (&member ('reord', @options)) { $score += 0.1; }
++		    if (&member ('reord', @options)
++		    	&& $rel_thres==100) { $score += 0.1; }
+ 		    if (&member ('filter', @options)) { $score -= 10; }
+ 		    if (&member ('mon', @options)) { $score -= 10; }
+ 		    if ($#new_chain < 0 && !$erb
+@@ -1593,7 +1657,8 @@
+ 	&getfile_from_web_html (&tilde_expand_mkdir ($config{'pubring'}),
+ 				$config{'pubring-url'});
+     }
+-    open (REMAILERS, $remailers_file);
++    open (REMAILERS, $remailers_file) ||
++    	die "Configuration error:  Can't open Remailers file: $!";
+     while (<REMAILERS>) {
+ 	if (/^\s*\$remailer\{\"([^\"]+)\"\}\s*\=\s*\"([^\"]*)\"/
+ 	    || /^\s*\$remailer\{\'([^\']+)\'\}\s*\=\s*\'([^\']*)\'/) {
+@@ -1635,7 +1700,8 @@
+     my ($file, $url) = @_;
+ 
+     if (&open_web ($url)) {
+-	open (PUT, '>'.$file);
++	open (PUT, '>'.$file) ||
++	    die "Couldn't open file: $!";
+ 	while (<WWW>) {
+ 	    print PUT;
+ 	}
+@@ -1662,7 +1728,8 @@
+     if (&open_web ($url)) {
+ 	while (<WWW>) {
+ 	    if (!$yup && !$inpre && /^\s*\<pre\>\s*$/i) {
+-		open (PUT, '>'.$file);
++		open (PUT, '>'.$file) ||
++		    die "Couldn't open file: $!";
+ 		$put_open = 1;
+ 		$inpre = 1;
+ 	    } elsif ($inpre && /^\s*\<\/pre\>\s*$/i) {
+@@ -1678,7 +1745,8 @@
+ 		} else {
+ 		    push (@window, $_);
+ 		    if ($#window + 1 == 5) {
+-			open (PUT, '>'.$file);
++			open (PUT, '>'.$file) ||
++			    die "Couldn't open file: $!";
+ 			$put_open = 1;
+ 			print PUT @window;
+ 			$yup = 1;
+@@ -1687,7 +1755,7 @@
+ 	    }
+ 	}
+ 	if ($put_open) { close (PUT); }
+-	close (GET);
++	close (WWW);
+     }
+ }
+ 
+@@ -1715,7 +1783,8 @@
+     if (!-e $type2_list) {
+ 	&error ("Cannot find type2.list; not at $type2_list\n");
+     }
+-    open (LIST, "$type2_list");
++    open (LIST, "$type2_list") ||
++        die "Couldn't open file: $!";
+     $num = 0;
+     while (<LIST>) {
+ 	if (/^(\S+)\s+(\S+)\s/) {
+@@ -1817,7 +1886,7 @@
+ 	}
+     }
+     push (@deliver_headers, "To\: $new_to\n");
+-    if ($addl =~ /\.(encrypt\-key\:\s*[^\.]+)(\.|$)/i) {
++    if (defined $addl && $addl =~ /\.(encrypt\-key\:\s*[^\.]+)(\.|$)/i) {
+ 	$hash = "$1\n".$hash;
+ 	$body = &cat_tail ($body, "\*\*\n");
+     }
+@@ -1867,7 +1936,8 @@
+     my ($outfile, $line);
+ 
+     $outfile = &tmp_filename ();
+-    open (OUT, '>'.$outfile);
++    open (OUT, '>'.$outfile) ||
++      die "Couldn't open file: $!";
+     open_body ($body);
+     while (defined ($line = &get_line_body ($body))) {
+ 	print OUT $line;
+@@ -2209,12 +2279,13 @@
+ 	} else {
+ 	    $tmpfile = &tmp_filename ();
+ 	}
+-	open (DELIVER, '>'.$tmpfile);
++	open (DELIVER, '>'.$tmpfile) ||
++	    die "Couldn't open file: $!";
+     } else {
+ 	# we know it's sendmail
+ 	$invoc = &bin_sendmail ();
+ 	if ($#sendmail_args >= 0) {
+-	    $invoc .= ' '.join (' ', $sendmail_args);
++	    $invoc .= ' '.join (' ', @sendmail_args);
+ 	}
+ 	$invoc .= ' -oi';
+ 	foreach $recip (@the_recips) {
+@@ -2226,11 +2297,13 @@
+ 	    $invoc .= ' << -eof-';
+ 	    if (!$deliver_debug) {
+ 		open (DELIVER, '>>'
+-		      .&tilde_expand_mkdir ($config{'storefile'}));
++		      .&tilde_expand_mkdir ($config{'storefile'})) ||
++		      die "Couldn't open file: $!";
+ 	    }
+ 	    &deliver_line ($invoc."\n");
+ 	} else {
+-	    open (DELIVER, '|'.$invoc);
++	    open (DELIVER, '|'.$invoc) ||
++	    	die "Couldn't open file: $!";
+ 	}
+     }
+     foreach (@deliver_headers) {
+@@ -2252,16 +2325,19 @@
+     &close_body ($body);
+     if ($post) {
+ 	close (DELIVER);
+-	$post = &tilde_expand ($config{'post'});
+-	if ($post eq '') {
+-	    $post = "/usr/lib/mh/post";
++	my $ppost = &tilde_expand ($config{'post'});
++	# bfulgham 7/1/99  -- another EDM fix, checks for undefined
++	# value on return
++	if (!defined($ppost) || $ppost eq '') {
++	    $ppost = "/usr/lib/mh/post";
+ 	}
+-	system ($post, @post_args, $tmpfile);
++	system ($ppost, @post_args, $tmpfile);
+ 	unlink $tmpfile;
+     } elsif ($edit && !$prezilla) {
+ 	close (DELIVER);
+ 	if ($editfile eq '-') {
+-	    open (CAT, $tmpfile);
++	    open (CAT, $tmpfile) ||
++	    	die "Couldn't open file: $!";
+ 	    while (<CAT>) { print; }
+ 	    close (CAT);
+ 	    &delete_tmpfile ($tmpfile);
+@@ -2388,9 +2464,13 @@
+ 	}
+ 	else { $addr .= $token; }
+     }
+-    $addr =~ s/^\s+//s;
+-    $addr =~ s/\s+$//s;
+-    if ($addr ne '') { push (@addrs, $addr); }
++    # bfulgham, 7-1-99:  EDM suggestion -- check for
++    # a defined $addr before manipulating
++    if (defined($addr)) {
++        $addr =~ s/^\s+//s;
++        $addr =~ s/\s+$//s;
++        if ($addr ne '') { push (@addrs, $addr); }
++    }
+     return (@addrs);
+ }
+ 
+@@ -2441,6 +2521,7 @@
+     }
+     $strip =~ s/^\s+//s;
+     $strip =~ s/\s+$//s;
++    return ($strip, '') if ($config{'no-caret'});
+     return ($strip, $caret);
+ }
+ 
+@@ -2639,7 +2720,8 @@
+ 			    "Mime-Version: 1.0\n",
+ 			    "Content-Type: multipart/mixed; boundary=\"_\"\n");
+ 	$new_body = &tmp_filename ();
+-	open (NEW, '>'.$new_body);
++	open (NEW, '>'.$new_body) ||
++	    die "Couldn't open file: $!";
+ 	print NEW "--_\n";
+ 	print NEW "\n";
+ 	print NEW $error_msg;
+@@ -2670,7 +2752,8 @@
+ 	print STDERR $error_msg;
+ 	$dead_letter = &tilde_expand ($config{'dead-letter'});
+ 	print STDERR "Saving message in $dead_letter\n";
+-	open (DEAD, '>>'.$dead_letter);
++	open (DEAD, '>>'.$dead_letter) ||
++	    die "Couldn't open a dead letter file: $!";
+ 	print DEAD (("From $ENV{'USER'}  ".localtime)."\n");
+ 	foreach $line (@in_headers) {
+ 	    print DEAD $line;
+@@ -2801,6 +2884,7 @@
+ # (@new_dict) = &delete_field ($key, @dict)
+     my ($key, @dict) = @_;
+     my (@new_dict);
++    my ($field_key, $field_val);
+ 
+     @new_dict = ();
+     foreach $field (@dict) {
+@@ -2843,6 +2927,10 @@
+ # Expand filenames of the form ~/file. Also expand $< sequence (uid).
+     my ($file_name) = @_;
+ 
++    # bfulgham, 7-1-99:  Another EDM fix.  If file_name is undefined,
++    # return immediately to avoid error messages.
++    return $file_name unless defined($file_name);
++    
+     if ($file_name =~ /^\~[^\/]/) {
+ 	&error ("premail can't handle ~user/ form in $file_name, use ~/ or\n".
+ 	    "full path name instead\n");
+@@ -2917,16 +3005,22 @@
+ # Return the name for a new temp file (and add to @open_tmpfiles).
+ # Reference count is set to one.
+     my ($suffix) = @_;
++    my $base;
+     my $fn;
+ 
+     $tmpfile_count++;
+-    $fn = &tilde_expand ($config{'tmpdir'});
+-    $fn =~ s/([^\/])$/$1\//;
+-    $fn .= 'premail.'.$$.'.'.$tmpfile_count;
++    $base = &tilde_expand ($config{'tmpdir'});
++    $base =~ s/([^\/])$/$1\//;
++    $base .= 'premail.'.$$.'.';
++    $fn = $base . $tmpfile_count;
+     $fn .= $suffix if $suffix;
+-# Dangerous: this next command assumes Unix file deletion semantics. It
+-# was not present in 0.44 and, I believe, can be safely removed.
+-    unlink ($fn);
++    while (!sysopen(TMPFH,$fn,&O_RDWR|&O_CREAT|&O_EXCL,0600) && $tmpfile_count < 32000) {
++	$tmpfile_count++;
++	$fn = $base . $tmpfile_count;
++	$fn .= $suffix if $suffix;
++    }
++    die "Can't open temp file: $!\n" if ($tmpfile_count >= 32000);
++    close (TMPFH);
+     push (@open_tmpfiles, $fn);
+     $tmpfile_refcnt{$fn} = 1;
+     return $fn;
+@@ -2972,8 +3066,8 @@
+ 
+     $data = '';
+     if (open (ERRFILE, $file)) {
+-	print $_;
+ 	while (<ERRFILE>) {
++	    # print $_;		# Removed 9-7-1999 BFulgham to allow filter use
+ 	    $data .= $_;
+ 	}
+ 	close (ERRFILE);
+@@ -2989,13 +3083,13 @@
+     my ($file) = @_;
+     my ($c);
+ 
+-    open (F, $file);
++    open (F, $file) || die "Can't open $file: $!";
+     seek (F, (-s $file) - 1, 0);
+     sysread (F, $c, 1);
+     close (F);
+ #   print "Trailing character is really ".unpack ('c', $c)."\n";
+     if ($c ne "\n") {
+-	open (F, '>>'.$file);
++	open (F, '>>'.$file) || die "Can't open file: $!";
+ 	print F "\n";
+ 	close F;
+     }
+@@ -3015,6 +3109,7 @@
+ # this interface).
+ #
+ # $err is the string returned.
++	print "I'm going into pgp now\n";
+     my ($body, $prefix, $sign, $signuser, $pubring, @keys) = @_;
+     my ($outfile, $errfile);
+     my ($invoc, $status, $line, $pass, $pr, $sr);
+@@ -3040,7 +3135,9 @@
+ 	$pass = '';
+     }
+     if ($pubring) { $invoc .= ' +pubring='.&shell_quote ($pubring); }
+-    $invoc .= ' +comment= -feat';
++    
++    # TEMP FIX -- Language support.  Will be updated for others
++    $invoc .= ' +language=en +comment= -feat';
+     if ($sign) {
+ 	$invoc .= 's -u '.&shell_quote ($signuser);
+ 	&load_secrets ();
+@@ -3083,7 +3180,7 @@
+     my ($outfile, $keys, $line);
+ 
+     $outfile = &tmp_filename ();
+-    open (OUT, '>'.$outfile);
++    open (OUT, '>'.$outfile) || die "Couldn't open file: $!";
+     if ($sign) {
+ 	$sign = " (sign $signuser)";
+     }
+@@ -3126,7 +3223,9 @@
+ 	$signuser = '0x';
+ 	$pass = '';
+     }
+-    $invoc .= ' +comment= -fats +clearsig=on';
++    
++    # TEMP FIX for language -- will be updated
++    $invoc .= ' +language=en +comment= -fats +clearsig=on';
+     $invoc .= ' -u '.&shell_quote ($signuser);
+     unless (defined $pass) {
+ 	if (defined $pgppass{$signuser}) {
+@@ -3162,6 +3261,7 @@
+ # for obtaining the password lies below this interface).
+ #
+ # $err is the string returned.
++	print "I'm using the mime-pgp signing routine.\n";
+     my ($body, $prefix, $signuser, $sign_type) = @_;
+     my ($outfile, $errfile, $mimefile);
+     my ($invoc, $status, $line, $pass, $boundary);
+@@ -3182,7 +3282,9 @@
+ 	$signuser = '0x';
+ 	$pass = '';
+     }
+-    $invoc .= ' +comment= -fabst';
++    
++    # TEMP FIX for language -- will be updated
++    $invoc .= ' +language=en +comment= -fabst';
+     $invoc .= ' -u '.&shell_quote ($signuser);
+     unless (defined $pass) {
+ 	if (defined $pgppass{$signuser}) {
+@@ -3197,7 +3299,7 @@
+     $status = &open_pgp ($invoc, $pass, 'w');
+     if (!$status) { &error ("Error invoking PGP!\n"); }
+     &open_body ($body);
+-    open (NEW, '>'.$mimefile);
++    open (NEW, '>'.$mimefile) || die "Couldn't open file: $!";
+     print NEW "This message is in PGP/MIME format, according to the"
+ 	." Internet Draft\n";
+     print NEW "draft-elkins-pem-pgp-04.txt. For more information, see:\n";
+@@ -3238,7 +3340,7 @@
+     return ($mimefile, $err, $boundary);
+ }
+ 
+-my $PUBRING, $SECRING;
++my ($PUBRING, $SECRING);
+ sub pgp_decrypt {
+ # ($out_body, $err) = &pgp_decrypt ($body, $pass)
+ # Try to decrypt $body using passphrase $pass. $out_body is null on error.
+@@ -3251,7 +3353,9 @@
+     $outfile = &tmp_filename ();
+     $errfile = &tmp_filename ();
+     $invoc = &tilde_expand ($config{'pgp'});
+-    $invoc .= ' +batchmode=on';
++    
++    # TEMP FIX for language -- will be updated
++    $invoc .= ' +language=en +batchmode=on';
+     $invoc .= " +pubring=$PUBRING" if $PUBRING;
+     $invoc .= " +secring=$SECRING" if $SECRING;
+ #    if ($pass =~ /^RING$;/) {
+@@ -3299,16 +3403,18 @@
+ 
+     $errfile = &tmp_filename ();
+     $invoc = &tilde_expand ($config{'pgp'});
+-    $invoc .= ' +batchmode=on ';
++    
++    # TEMP FIX for language -- will be updated
++    $invoc .= ' +language=en +batchmode=on ';
+     $invoc .= ' '.$pgp_file;
+     $invoc .= ' '.$signed_file;
+     $invoc .= ' > '.$errfile.' 2>&1';
+     &pdv ("Invoking PGP as $invoc\n");
+     $status = &open_pgp ($invoc, '', '');
+     $err = &read_and_delete ($errfile);
+-    if (!$status) {
+-	&error ("Error in PGP verification!\n$err");
+-    }
++#    if (!$status) {
++#	&error ("Error in PGP verification!\n$err");
++#    }
+     &pdv ($err);
+     return ($err);
+ }
+@@ -3329,6 +3435,7 @@
+ # special PGP temp subdirectory, on a per-process basis (this assumes
+ # that each process invokes only one PGP at a time, which is safe given
+ # the relentless file-file orientation of this version of premail).
++
+     my ($invoc, $pass, $mode) = @_;
+ 
+     if ($mode eq 'r') { $invoc = $invoc.'|'; }
+@@ -3344,6 +3451,8 @@
+     $ENV{'TMP'} = $pgp_tmpdir;
+     if ($pass) {
+ 	pipe (READER, WRITER);
++    # Added to make PGPPASSFD pipe work with perl-5.6 stk-12/27/00
++	fcntl(READER, F_SETFD, 0) or die "Can't fcntl: $!\n";
+ 	$ENV{'PGPPASSFD'} = fileno(READER);
+     }
+     $status = open (PGP, $invoc);
+@@ -3390,7 +3499,9 @@
+     $chars_needed = 2 + sprintf ("%d", $bits / 8);
+     &pdv ($config{'pgp'}." +makerandom=$chars_needed $outf"
+ 	." >/dev/null 2>&1\n");
+-    $status = system $config{'pgp'}." +makerandom=$chars_needed $outf"
++	
++    # TEMP FIX for language -- will be updated
++    $status = system $config{'pgp'}." +language=en +makerandom=$chars_needed $outf"
+ 	." >/dev/null 2>&1";
+     &pdv ($status."\n");
+     if (!$status) {
+@@ -3416,7 +3527,7 @@
+ 		."generate randomness!\n");
+     }
+     $inf = &tmp_filename ();
+-    open (INF, '>'.$inf);
++    open (INF, '>'.$inf) || die "Couldn't open file: $!";
+     for ($i = 0; $i < 256; $i++) {
+ 	print INF (rand ())."\n";
+     }
+@@ -3425,7 +3536,7 @@
+ 	($inf, '', '', '', '', $config{'signuser'});
+     print "$outf\n";
+     &delete_tmpfile ($inf);
+-    open (OUTF, $outf);
++    open (OUTF, $outf) || die "Couldn't open output file: $!";
+     @window = ();
+     while (<OUTF>) {
+ 	if (/^[A-Za-z0-9\+\/]/) { push (@window, $_); }
+@@ -3449,6 +3560,7 @@
+ # This routine needs to do a lot more.
+ #
+ # Sets the global variables $secrets_loaded and $premail_secrets
++
+     my ($ps_pgp);
+ 
+     if (!defined $secrets_loaded) {
+@@ -3458,7 +3570,8 @@
+ 	    &do_login (!$interactive);
+ 	}
+ 	if (-e $premail_secrets) {
+-	    open (SECRETS, $premail_secrets);
++	    open (SECRETS, $premail_secrets) ||
++	        die "Couldn't open secrets file: $!";
+ 	    while (<SECRETS>) {
+ 		if (/^\s*\$pgppass\{\'([^\']+)\'\}\s*\=\s*\'([^\']*)\'/) {
+ 		    $pgppass{$1} = $2;
+@@ -3498,9 +3611,15 @@
+ 	&error ("Need to log in to access secrets\n");
+     }
+     if (!-e $premail_secrets) {
+-	open (TOUCH, '>'.$premail_secrets);
++	if (!sysopen(TOUCH,$premail_secrets,&O_WRONLY|&O_CREAT|&O_EXCL,0600)) {
++	    &error ("Can't open secrets file for writing\n");
++	}
+ 	&pfi ("Creating secrets file $premail_secrets\n");
+ 	close (TOUCH);
++    } else {
++	if (!-o $premail_secrets) {
++	    &error ("Secrets file owned by wrong user.\n");
++	}
+     }
+     $secret_backup = $premail_secrets.'~';
+     rename ($premail_secrets, $secret_backup);
+@@ -3586,10 +3705,18 @@
+ sub getpass {
+ # $pass = &getpass ($x)
+ # Get the premail passphrase, either from X or from stdin.
++
+     my ($x) = @_;
+     my ($pass);
+ 
+     if ($x) {
++    	# if ($ENV{'DISPLAY'}) {
++	# 	require Gtk;
++	# 	$pass = create_entry();
++	# }
++    
++    	#  This doesn't seem to work right with Debian's latest
++	#  security fixes.  Above is a Gtk interface.
+ 	if ($ENV{'DISPLAY'}) {
+ 	    pipe (READER, WRITER);
+ 	    system 'xterm -geometry 42x4-5-5 -e perl -e \''
+@@ -3615,7 +3742,8 @@
+ 	print "\n";
+ 	system "stty echo";
+     }
+-    chop $pass;
++    #  We might not always have a newline -- use chomp!
++    chomp $pass;
+     return $pass;
+ }
+ 
+@@ -3626,11 +3754,16 @@
+ 
+     $errfile = &tmp_filename ();
+     $invoc = &tilde_expand ($config{'pgp'});
+-    $invoc .= ' +batchmode=on -f';
++    
++    # TEMP FIX for language -- will be updated
++    $invoc .= ' +language=en +batchmode=on -f';
+     $invoc .= ' < '.$ps_pgp;
+     $invoc .= ' > '.$ps;
+     $invoc .= ' 2> '.$errfile;
+     &pdv ("Invoking PGP as $invoc\n");
++    if(-e $ps) {
++      &error ("Premail secrets file already exists\n");
++    }
+     $status = &open_pgp ($invoc, $pass, '');
+     $err = &read_and_delete ($errfile);
+     &pdv ($err);
+@@ -3910,7 +4043,7 @@
+ 		&replace_field ('Content-Type: text/plain; charset='
+ 				.$config{'charset'}."\n",
+ 				@deliver_headers);
+-	} elsif ($charset =~ /^iso-8859-\d$/i && !$non_ascii) {
++	} elsif (($charset =~ /^iso-8859-\d$/i || $charset =~ /^koi8-r$/i) && !$non_ascii) {
+ 	    # Should we detect other charsets which are supersets of us-ascii?
+ 	    if (!$mv_present) {
+ 		push (@deliver_headers, 'MIME-Version: 1.0'."\n");
+@@ -3923,7 +4056,7 @@
+ 	}
+     }
+     # must deal with existing cte, charset, etc.
+-    if ($non_ascii || $ctrl || $other) {
++    if ((($non_ascii || $ctrl) && (!$cte_present || lc $cte_val ne '8bit')) || $other) {
+ 	# Do the QP
+ 	&pdv ("Doing QP encoding!\n");
+ 	if (!$mv_present) {
+@@ -3933,7 +4066,7 @@
+ 	    &replace_field ('Content-Transfer-Encoding: quoted-printable'."\n",
+ 			    @deliver_headers);
+ 	$new_body = &tmp_filename ();
+-	open (NEW, '>'.$new_body);
++	open (NEW, '>'.$new_body) || die "Couldn't open file: $!";
+ 	&open_body ($body);
+ 	while (defined ($line = &get_line_body ($body))) {
+ 	    print NEW &encode_qp ($line, $type);
+@@ -4000,7 +4133,7 @@
+     my ($val, $present, $param_val);
+     my ($type_base, @type_params);
+ 
+-    open (MNBIN, $infile);
++    open (MNBIN, $infile) || die "Couldn't open file: $!";
+     $newfile = '';
+     @sepstack = ();
+     $blocksize = 1024;
+@@ -4073,7 +4206,7 @@
+ 		} elsif ($newfile eq '') {
+ 		    $newfile = &tmp_filename ();
+ #		    print STDERR "newfile = $newfile\n";
+-		    open (MNBOUT, '>'.$newfile);
++		    open (MNBOUT, '>'.$newfile) || die "Couldn't open file: $!";
+ 		}
+ 		print MNBOUT (join ('', @header));
+ 	    } elsif ($eof) {
+@@ -4210,8 +4343,8 @@
+     print "\n";
+     print "  premail -ripemkey\n";
+     print "     Generate S/MIME key\n"; 
+-    print "\n";
+-    print "Please see http://www.c2.net/~raph/premail/ for more info.\n";
++    #print "\n";
++    #print "Please see http://www.c2.net/~raph/premail/ for more info.\n";
+     exit 0;
+ }
+ 
+@@ -4225,7 +4358,7 @@
+ 	close (WWW);
+ 	if ($pubring ne '') {
+ 	    $pubring_fn = &tilde_expand_mkdir ($config{'pubring'});
+-	    open (PUB, '>'.$pubring_fn);
++	    open (PUB, '>'.$pubring_fn) || die "Couldn't open file: $!";
+ 	    print PUB $pubring;
+ 	    close (PUB);
+ 	}
+@@ -4291,7 +4424,7 @@
+ 	print $line;
+ 	$state = 0;
+ 	$msg_body = &tmp_filename ();
+-	open (MSG, '>'.$msg_body);
++	open (MSG, '>'.$msg_body) || die "Couldn't open file: $!";
+ 	while (defined ($line = &get_line ())) {
+ 	    if ($line =~ /^From / && $state == 1) {
+ 		close (MSG);
+@@ -4300,7 +4433,7 @@
+ 		print $line;
+ 		push (@open_tmpfiles, $msg_body);
+ 		$tmpfile_refcnt{$msg_body} = 1;
+-		open (MSG, '>'.$msg_body);
++		open (MSG, '>'.$msg_body) || die "Couldn't open file: $!";
+ 		$state = 0;
+ 	    } elsif ($state == 0 && $line eq "\n") {
+ 		$state = 1;
+@@ -4336,6 +4469,8 @@
+     exit 0;
+ }
+ 
++use vars qw($SAVE_BODY);
++
+ sub decode_msg {
+ # &decode_msg ($msg)
+ # This is possibly the ugliest function in all of premail. Most of it is
+@@ -4350,12 +4485,12 @@
+     my ($msg_body, $new_msg, $save_select);
+ 
+     if ($msg ne '-') {
+-	open (SAVE_BODY, "<&BODY");
+ 	&open_body ($msg);
++	open (SAVE_BODY, "<&BODY") || die "Can't open a save file: $!";
+     }
+     &get_header ($msg);
+     $msg_body = &tmp_filename ();
+-    open (MSG_BODY, '>'.$msg_body);
++    open (MSG_BODY, '>'.$msg_body) || die "Can't open a message file: $!";
+     while (defined ($line = &get_line_body ($msg))) {
+ 	print MSG_BODY $line;
+     }
+@@ -4372,7 +4507,7 @@
+     }
+     @deliver_headers = @new_headers;
+     $new_msg = &tmp_filename ();
+-    open (NEW_MSG, '>'.$new_msg);
++    open (NEW_MSG, '>'.$new_msg) || die "Couldn't open file: $!";
+     $save_select = select NEW_MSG;
+     select NEW_MSG;
+     &decode_body ($msg_body, '', 0);
+@@ -4387,7 +4522,7 @@
+     &close_body ($new_msg);
+     if ($msg ne '-') {
+ 	&close_body ($msg);
+-	open (BODY, "<&SAVE_BODY");
++	open (BODY, "<&SAVE_BODY") || die "Couldn't open file: $!";
+     }
+ }
+ 
+@@ -4456,7 +4591,7 @@
+ 		$encrypted = 1;
+ 	    }
+ 	    $pgp_body = &tmp_filename ();
+-	    open (DEC, '>'.$pgp_body);
++	    open (DEC, '>'.$pgp_body) || die "Couldn't open file: $!";
+ 	    $body_open = 1;
+ 	    foreach $l (@window) {
+ 		print DEC $l;
+@@ -4767,7 +4902,7 @@
+ 			       || $protocol eq 'application/x-pkcs7-signature'
+ 			       || $protocol eq 'application/pkcs7-signature')){
+ 		$body[$part] = &tmp_filename ();
+-		open (NEW, '>'.$body[$part]);
++		open (NEW, '>'.$body[$part]) || die "Couldn't open file: $!";
+ 		$body_open = 1;
+ 		$state = 1;
+ 		$canon = ($protocol eq 'application/pgp-signature'
+@@ -4779,13 +4914,16 @@
+ 		|| $part == 2) {
+ 		$body[$part] = &tmp_filename ();
+ 		if ($cte eq '' || &mossbin('mossdecode', 1) eq '') {
+-		    open (NEW, '>'.$body[$part]);
++		    open (NEW, '>'.$body[$part]) ||
++		        die "Couldn't open file: $!";
+ 		} elsif ($cte eq 'quoted-printable') {
+ 		    open (NEW, '|'.&mossbin ('mossdecode')
+-			  .' -qp > '.$body[$part]);
++			  .' -qp > '.$body[$part]) ||
++			  die "Couldn't open file: $!";
+ 		} elsif ($cte eq 'base64') {
+ 		    open (NEW, '|'.&mossbin ('mossdecode')
+-			  .' -b64 > '.$body[$part]);
++			  .' -b64 > '.$body[$part]) ||
++			  die "Couldn't open file: $!";
+ 		} else {
+ 		    &error ("Unknown Content-Transfer-Encoding: $cte\n");
+ 		}
+@@ -4878,7 +5016,7 @@
+ 
+     $| = 1;
+     $new_body = &tmp_filename ();
+-    open (NEW, '>'.$new_body);
++    open (NEW, '>'.$new_body) || die "Couldn't open file: $!";
+     &open_body ($body);
+     $state = 0;
+     while (defined ($line = &get_line_body ($body))) {
+@@ -5046,7 +5184,9 @@
+     $movemail = &tilde_expand ($config{'movemail'});
+     $status = system "$movemail $in $out";
+     if ($status) { exit $status >> 8; }
+-    open (MOVE_OUT, '>'.$move_work_fn);
++    if (!sysopen(MOVE_OUT,$move_work_fn,&O_WRONLY|&O_CREAT|&O_EXCL,0600)) {
++	&error ("Can't open $move_work_fn for writing\n");
++    }
+     select MOVE_OUT;
+     &decode ($out);
+ }
+@@ -5129,7 +5269,7 @@
+     &load_secrets ();
+     foreach (keys %pgpring) {
+ 	my ($tpr, $tsr) = &makerings ($pgpring{$_});
+-	system ("$PGP +batchmode +verbose=0 -kx 0x $pr $tpr > /dev/null");
++	system ("$PGP +language=en +batchmode +verbose=0 -kx 0x $pr $tpr > /dev/null");
+ 	#filecat ($tpr, $pr);
+ 	filecat ($tsr, $sr);
+ 	&delete_tmpfile ($tpr);
+@@ -5157,12 +5297,14 @@
+ #   &pdv ('&makerings ("'.join ('", "', @_)."\")\n");
+     foreach ([$pr, $pk], [$sr, $sk]) {
+ 	open TMP, ">$$_[0]";
+-	print TMP $$_[1];
++	print TMP $$_[1] if defined $$_[1];
+ 	close TMP;
+     }
+     my $PGP = &tilde_expand ($config{'pgp'});
+     foreach $id (@pubkeys) {
+-	my $invoc = "$PGP +batchmode +force +verbose=0 -kx "
++    
++    	# TEMP FIX for lanuage -- will be updated
++	my $invoc = "$PGP +language=en +batchmode +force +verbose=0 -kx "
+ 	    . "$id $pr $pubring 2>&1";
+ 	&pdv ("$invoc > /dev/null\n");
+ 	system "$invoc > /dev/null";
+@@ -5189,7 +5331,9 @@
+     $outfile = &tmp_filename ();
+     $errfile = &tmp_filename ();
+     $invoc = &tilde_expand ($config{'pgp'});
+-    $invoc .= ' +batchmode +force +verbose=0 ';
++    
++    # TEMP FIX for language -- will be updated
++    $invoc .= ' +language=en +batchmode +force +verbose=0 ';
+     $invoc .= " +pubring=$pr +secring=$sr ";
+     $invoc .= $cmd;
+     $invoc .= ' < ' . $infile if $infile;
+@@ -5248,7 +5392,8 @@
+ EOF
+     <STDIN>;
+ 
+-    if (system ("$PGP -kg +pubring=$pr +secring=$sr +verbose=0")) {
++    # TEMP FIX for language -- will be updated
++    if (system ("$PGP +language=en -kg +pubring=$pr +secring=$sr +verbose=0")) {
+ 	print STDERR "\nKey generation failed.\n";
+ 	&killbaks ($pr, $sr);
+ 	&delete_open_tmpfiles ();
+@@ -5272,7 +5417,9 @@
+     foreach $a ("$kid $pr",
+ 		"$remid $pr " . &tilde_expand ($config{'pubring'}),
+ 		"$kid $sr $defsr") {
+-	my $invoc = "$PGP +batchmode +force +verbose=0 -kx $a 2>&1";
++		
++	# TEMP FIX for language -- will be updated
++	my $invoc = "$PGP +language=en +batchmode +force +verbose=0 -kx $a 2>&1";
+ #	print STDERR "+ $invoc\n";
+ 	my $result = `$invoc`;
+ 	unless ($result =~ /^Key extracted/m) {
+@@ -5300,7 +5447,8 @@
+ EOF
+     <STDIN>;
+ 
+-    my $invoc = "$PGP +secring=$sr -ke $kid $pr";
++    # TEMP FIX for language -- will be updated
++    my $invoc = "$PGP +language=en +secring=$sr -ke $kid $pr";
+ #    print STDERR "+ $invoc\n";
+     if (system ($invoc)) {
+ 	print STDERR "Edit failed.\n";
+@@ -5495,6 +5643,7 @@
+ 	    }
+ 	}
+     }
++    $signsend = 'n' unless $signsend;
+     if ($#args >= 1) {
+ 	$to = $args[1];
+     } elsif ($#args < 0) {
+@@ -5542,7 +5691,7 @@
+ 	if ($to eq 'delete') {
+ 	    $prefix .= 'New-Password:'."\n\n";
+ 	    $replyblock_fn = &tmp_filename ();
+-	    open (TMP, '>'.$replyblock_fn);
++	    open (TMP, '>'.$replyblock_fn) || die "Couldn't open file: $!";
+ 	    close (TMP);
+ 	} else {
+ 	    $prefix .= 'Reply-Block:'."\n";
+@@ -5609,7 +5758,6 @@
+ 		$fullname = &query ('Full name of pseudonym (not just '
+ 				    . 'E-mail address)', $fullname);
+ 		$fullname =~ s/[\'\^\n]//g;  # kludge for secrets file
+-		$signsend = 'n' unless $signsend;
+ 		$signsend = &query ('Sign mail with (R)emailer key, '
+ 				    . '(P)seudonym key or (N)o key?',
+ 				    $signsend);
+@@ -5629,7 +5777,7 @@
+ 	    $prefix .= join ('', @rbs);
+ 	}
+ 	$replyblock_fn = &tmp_filename ();
+-	open (TMP, '>'.$replyblock_fn);
++	open (TMP, '>'.$replyblock_fn) || die "Couldn't open file: $!";
+ 	close (TMP);
+     }
+ #   print $prefix;
+@@ -5731,7 +5879,7 @@
+     my ($replyblock_fn);
+ 
+     $replyblock_fn = &tmp_filename ();
+-    open (REPLY, '>'.$replyblock_fn);
++    open (REPLY, '>'.$replyblock_fn) || die "Couldn't open file: $!";
+     print REPLY "To: $to\n";
+     print REPLY "Chain: $chain \n" if $chain;
+     print REPLY "\n";
+@@ -5771,6 +5919,7 @@
+     if (!open (IN, $body)) {
+ 	&error ("Internal error opening replyblock\n");
+     }
++    $in_active = 1;
+     @in_headers = ("To: $to\n");
+     push (@in_headers, "Chain: $chain\n") if $chain;
+     $header_sep = "\n";
+@@ -5784,6 +5933,7 @@
+     }
+     &send_group ($groups[0]);
+     close (IN);
++    $in_active = 0;
+ }
+ 
+ sub find_nym {
+@@ -5814,7 +5964,7 @@
+     if ($all || $test eq 'ek') {
+ 	$replyblock_fn = &make_reply_block ($target,
+ 					    $remailer.'.Encrypt-Key: test');
+-	open (RB, ">>$replyblock_fn");
++	open (RB, ">>$replyblock_fn") || die "Couldn't open file: $!";
+ 	print RB "Test of ek functionality of $remailer."
+ 	    ." This line must be encrypted.\n";
+ #	print RB "**\n";
+@@ -5897,8 +6047,8 @@
+     my ($file1, $file2) = @_;
+     my ($l2);
+ 
+-    open (F1, $file1);
+-    open (F2, $file2);
++    open (F1, $file1) || die "Couldn't open F1: $!";
++    open (F2, $file2) || die "Couldn't open F2: $!";
+     while (<F1>) {
+ 	$l2 = <F2>;
+ 	if ($_ ne $l2) { close (F1); close (F2); return 1; }
+@@ -5997,7 +6147,7 @@
+ 
+     # The main loop
+     $quit = 0;
+-    $inoef = 0;
++    $ineof = 0;
+     while (!$quit) {
+ 	$rin = $win = $ein = '';
+ 	vec ($rin, fileno(STDIN), 1) = 1 unless $ineof;
+@@ -6315,9 +6465,9 @@
+ # Open a Web connection for the file as file handle WWW.
+     my ($url) = @_;
+     my ($host, $port, $suf);
+-    my ($fqdn, $aliases, $type, $len, $thataddr);
++    my ($fqdn, $aliases, $type, $len);
+     my ($name, $proto);
+-    my ($that, $thataddr);
++    my ($that);
+     my ($savesel, $gotsep);
+ #    my ($thishost, $this, $thisaddr);
+ 
+@@ -6330,7 +6480,7 @@
+ 	$host = $1;
+ 	$port = $2;
+ 	$suf = $3;
+-	if ($port =~ /^\:(\d+)$/) { $port = $1; }
++	if (defined $port && $port =~ /^\:(\d+)$/) { $port = $1; }
+ 	else { $port = 80; }
+ 	($fqdn, $aliases, $type, $len, $thataddr) = gethostbyname ($host);
+ 	return &pdv ("Host not found: $host\n") if ($thataddr eq '');
+@@ -6345,7 +6495,7 @@
+ 		       unpack ('C4', $thataddr), $port));
+ 	eval {
+ 	    $SIG{'ALRM'} = sub { die "Timeout error on $url\n" };
+-	    alarm (5);
++	    alarm (10);
+ #	    bind(WWW, $this) || &die_disarm ("bind: $!\n");
+ #	    &pdv ("bound the socket...\n");
+ 	    connect(WWW, $that) || &die_disarm ("connect: $!\n");
+@@ -6356,7 +6506,7 @@
+ 	        ."User-Agent: premail/$version (perl; unix)\n"
+ 		."\n";
+ 	    $response = <WWW>;
+-	    if ($response !~ /^HTTP\/1\.0 200/) {
++	    if ($response !~ /^HTTP\/1\.\d 200/) {
+ 		&die_disarm ("Remote server error: $response");
+ 	    }
+ 	    $gotsep = 0;
+@@ -6368,6 +6518,21 @@
+ 	};
+ 	if ($@) { return &pdv ($@); }
+ 	return &pdv ("No response from server\n") unless $gotsep;
++    } elsif ($url =~ /^finger:(.*)$/) {
++        my $target = @RELAYS ? $1 . '@' . $RELAYS[time % @RELAYS] : $1;
++	&error("'$target' contains no hostname\n") unless ($target =~ /(.*)@([^@]+)/);
++	my ($user, $host, $port, $ipaddr, $sin) = ($1, $2);
++	return &pdv ("Unknown host: $host\n") unless ($ipaddr = inet_aton($host));
++	&error ("Internal error: unknown service finger\n")
++	        unless $port = getservbyname('finger', 'tcp');;
++	socket (WWW, PF_INET, SOCK_STREAM, getprotobyname ('tcp')) ||
++		return &pdv ("socket: $!\n");
++	$sin = sockaddr_in ($port, $ipaddr);
++	connect (WWW, $sin) || return &pdv("S! while connecting to $host\n");
++	&pdv ("connected to the socket...\n");
++	select ((select(WWW), $|=1)[0]);
++	
++	print WWW "$user\r\n";	
+     } else {
+ 	&error ("Misformed URL: $url\n");
+     }
+@@ -6380,3 +6545,79 @@
+     $SIG{'ALRM'} = "IGNORE";
+     die @_;
+ }
++
++# Commented out so that we don't depend on GTK, Steve Kostecke 02/27/2000
++# sub create_entry {
++#     # For some reason, the xterm hack for the passphrase doesn't work
++#     # on the latest Debian release (2.0Beta).  So, I have modified some
++#     # code from the libgtk-perl package (test.pl program) to pop up a
++#     # Gtk box to ask for the passphrase.
++#     # 	7/4/98 -- Brent Fulgham
++#     
++#     my($box1, $box2, $entry, $button, $separator, $pass_phrase, $label);
++# 
++#     init Gtk;
++#     
++#     if (not defined $entry_window) {
++#     	$entry_window = new Gtk::Window -toplevel;
++# 	$entry_window->signal_connect("destroy",\&destroy_window,\$entry_window);
++# 	$entry_window->signal_connect("delete_event",\&destroy_window,\$entry_window);
++# 	$entry_window->set_title("Passphrase Entry");
++# 	$entry_window->border_width(0);
++# 	$box1 = new Gtk::VBox(0,0);
++# 	$entry_window->add($box1);
++# 	show $box1;
++# 
++# 	$box2 = new Gtk::VBox(0,10);
++# 	$box2->border_width(10);
++# 	$box1->pack_start($box2, 1, 1, 0);
++# 	show $box2;
++# 	
++# 	$entry = new Gtk::Entry;
++# 	$entry->set_usize(0,25);
++# 	$entry->set_visibility(0);
++# 	$entry->select_region(0, length($entry->get_text));
++# 	$box2->pack_start($entry, 1, 1, 0);
++# 	show $entry;
++# 	
++# 	$separator = new Gtk::HSeparator;
++# 	$box1->pack_start($separator, 0, 1, 0);
++# 	show $separator;
++# 	
++# 	$box2 = new Gtk::VBox(0,10);
++# 	$box2->border_width(10);
++# 	$box1->pack_start($box2,0,1,0);
++# 	show $box2;
++# 	
++# 	$button = new Gtk::Button "Finished";
++# 	$button->signal_connect("clicked", sub {
++# 		$pass_phrase = $entry->get_text;
++# 
++# 		destroy_window ($entry_window);
++# 	});
++# 	$box2->pack_start($button, 1, 1, 0);
++# 	$button->can_default(1);
++# 	$button->grab_default;
++# 	show $button;
++# 	
++# 	$label = new Gtk::Label "Note:  No output will appear";
++# 	$box2->pack_start($label, 1, 1, 0);
++# 	show $label;
++# 	
++#     }
++#     if (!visible $entry_window) {
++#     	show $entry_window;
++# 	} 
++#     else { destroy $entry_window };
++#     
++#     main Gtk;
++#     
++#     return $pass_phrase;
++# }
++# 
++# sub destroy_window {
++#     my($widget, $windowref, $w2) =@_;
++#     $$windowref = undef;
++#     $w2 = undef if defined $w2;
++#     Gtk->main_quit;
++# }
+--- premail-0.46.orig/preferences
++++ premail-0.46/preferences
+@@ -4,6 +4,8 @@
+ # Raph Levien <raph@c2.net>
+ # 4 Jul 1996
+ #
++# And as modified to v. 0.46 in Raph's current package
++#
+ # To change a setting, remove the # before the $config, and edit the
+ # value after the = sign. For example, to set pgppath to
+ # ~/remailerkeys, change the line
+@@ -19,8 +21,8 @@
+ # almost always /usr/lib/sendmail, but if not, set it here. If you're
+ # installing premail as /usr/lib/sendmail, then it's a better idea to
+ # set it within the premail file itself, so that it doesn't depend on
+-# reading this ~/.premailrc file. Also, if you're installing premail
+-# as /usr/lib/sendmail, then make sure that none of the ~/.premailrc
++# reading this preferences file. Also, if you're installing premail
++# as /usr/lib/sendmail, then make sure that none of the preference
+ # files have config{'sendmail'} set to premail -- this will cause a
+ # nasty loop. 
+ #
+@@ -165,7 +167,9 @@
+ 
+ # URL's for information about the remailers. If these URL's are set to
+ # blank, then that disables the process of getting the files from the
+-# Web.
++# Web. The URL's shown below are longer valid and are included for
++# historical interest and as an example. Please see
++# http://www.noreply.org/allpingers/ for current stats and keyrings.
+ #
+ # $config{'rlist-url'} = 'http://kiwi.cs.berkeley.edu/rlist';
+ # $config{'pubring-url'} = 'http://kiwi.cs.berkeley.edu/pubring.pgp';
+--- premail-0.46.orig/README
++++ premail-0.46/README
+@@ -1,4 +1,5 @@
+-                      p r e m a i l   v.  0 . 4 5
++
++		      p r e m a i l   v.  0 . 4 5
+ 
+ This is the Halloween Eve release of premail, version 0.45.
+ 

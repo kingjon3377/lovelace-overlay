@@ -1,0 +1,224 @@
+--- xletters-1.1.1.orig/xletters.h
++++ xletters-1.1.1/xletters.h
+@@ -63,7 +63,7 @@
+ #define WORDPATH "/usr/share/dict:/usr/local/share/dict:/usr/dict:~/dict:~/.:~/share/dict:."
+ 
+ /* The high score file */
+-#define SCOREFILE "/var/local/games/lib/xletters/scores"
++#define SCOREFILE "/var/games/xletters/scores"
+ /* ***NOTE*** You are responsible for creating the directory.
+  * xletters will create the file if necessary, but it might not have
+  * the right owner, so you had better create it too. */
+--- xletters-1.1.1.orig/xletters.6
++++ xletters-1.1.1/xletters.6
+@@ -366,10 +366,10 @@
+ .PP
+ (If not overriden at compile time)
+ .TP
+-.B /usr/dict/words
++.B /usr/share/dict/words
+ The dictionary of words.
+ .TP
+-.B /var/local/games/lib/xletters/scores
++.B /var/games/xletters/scores
+ The high score table.
+ .SH "CONFIGURATION SUGGESTION"
+ .PP
+--- xletters-1.1.1.orig/debian/menu
++++ xletters-1.1.1/debian/menu
+@@ -0,0 +1,4 @@
++?package(xletters):needs=X11 section=Games/Arcade\
++  title="xletters" command="/usr/games/xletters"
++?package(xletters):needs=X11 section=Games/Arcade\
++  title="xletters-duel" command="/usr/games/xletters-duel"
+--- xletters-1.1.1.orig/debian/changelog
++++ xletters-1.1.1/debian/changelog
+@@ -0,0 +1,30 @@
++xletters (1.1.1-4.1) unstable; urgency=low
++
++  * Non-maintainer upload to help xlibs-dev transition.
++  * debian/control: Replace xlibs-dev build-dep. (Closes: #346941)
++
++ -- Marc 'HE' Brockschmidt <he@debian.org>  Fri, 20 Jan 2006 14:55:21 +0100
++
++xletters (1.1.1-4) unstable; urgency=low
++
++  * Changed section to games.  (Closes: #145109)
++
++ -- Ben Armstrong <synrg@sanctuary.nslug.ns.ca>  Tue, 30 Apr 2002 12:25:31 -0300
++
++xletters (1.1.1-3) unstable; urgency=low
++
++  * Fix configure so it won't be re-run when unnecessary.
++
++ -- Ben Armstrong <synrg@fountain.nslug.ns.ca>  Mon, 17 Dec 2001 14:48:46 -0400
++
++xletters (1.1.1-2) unstable; urgency=low
++
++  * Install xletters in /usr/games, not /usr/bin.  (Closes: 124265).
++
++ -- Ben Armstrong <synrg@sanctuary.nslug.ns.ca>  Mon, 17 Dec 2001 14:10:31 -0400
++
++xletters (1.1.1-1) unstable; urgency=low
++
++  * Initial Release.  (Closes: #122242)
++
++ -- Ben Armstrong <synrg@sanctuary.nslug.ns.ca>  Mon,  3 Dec 2001 08:21:40 -0400
+--- xletters-1.1.1.orig/debian/postrm
++++ xletters-1.1.1/debian/postrm
+@@ -0,0 +1,27 @@
++#! /bin/sh
++# postrm script for xletters
++#
++# see: dh_installdeb(1)
++
++set -e
++
++case "$1" in
++       purge)
++
++	# Remove high score files on purge.
++        rm -f /var/games/xletters/scores
++        rmdir /var/games/xletters /var/games 2>/dev/null || true
++
++	;;
++
++       remove|upgrade|failed-upgrade|abort-install|abort-upgrade|disappear)
++
++        ;;
++
++    *)
++        echo "postrm called with unknown argument \`$1'" >&2
++        exit 0
++
++esac
++
++#DEBHELPER#
+--- xletters-1.1.1.orig/debian/watch
++++ xletters-1.1.1/debian/watch
+@@ -0,0 +1,5 @@
++# Example watch control file for uscan
++# Rename this file to "watch" and then you can run the "uscan" command
++# to check for upstream updates and more.
++# Site		Directory		Pattern			Version	Script
++http://www.seul.org /edu/packages/xletters xletters-(.*)\.tar\.gz debian uupdate
+--- xletters-1.1.1.orig/debian/dirs
++++ xletters-1.1.1/debian/dirs
+@@ -0,0 +1,3 @@
++usr/games
++var/games/xletters
++usr/share/man/man6
+--- xletters-1.1.1.orig/debian/postinst
++++ xletters-1.1.1/debian/postinst
+@@ -0,0 +1,8 @@
++#!/bin/sh -e
++
++touch /var/games/xletters/scores
++chown -R root.games /var/games/xletters
++chmod 775 /var/games/xletters
++chmod 664 /var/games/xletters/scores
++
++#DEBHELPER#
+--- xletters-1.1.1.orig/debian/links
++++ xletters-1.1.1/debian/links
+@@ -0,0 +1 @@
++usr/share/man/man6/xletters.6.gz usr/share/man/man6/xletters-duel.6.gz
+--- xletters-1.1.1.orig/debian/copyright
++++ xletters-1.1.1/debian/copyright
+@@ -0,0 +1,13 @@
++This package was debianized by Ben Armstrong <synrg@sanctuary.nslug.ns.ca> on
++Mon,  3 Dec 2001 08:21:40 -0400.
++
++It was downloaded from http://www.seul.org/edu/packages/xletters
++
++Copyright (C) 1998 by
++  Peter Horvai (peter.horvai@ens.fr)
++  David A. Madore (david.madore@ens.fr)
++
++License: GPL
++
++On Debian GNU/Linux systems, the complete text of the GNU General
++Public License can be found in /usr/share/common-licenses/GPL
+--- xletters-1.1.1.orig/debian/control
++++ xletters-1.1.1/debian/control
+@@ -0,0 +1,16 @@
++Source: xletters
++Section: games
++Priority: optional
++Maintainer: Ben Armstrong <synrg@sanctuary.nslug.ns.ca>
++Build-Depends: debhelper (>> 3.0.0), libx11-dev, libxt-dev, libxaw7-dev
++Standards-Version: 3.5.2
++
++Package: xletters
++Architecture: any
++Depends: ${shlibs:Depends}, wenglish | wordlist, netcat
++Description: Type falling words before they land
++ A typing practice game for X similar to typespeed and tuxtype.
++ Words chosen from the system's wordlist fall from the top of
++ the screen and must be typed correctly to score.  In a challenge
++ stage, random sequences of characters appear instead of words.
++ Head-to-head networked play is possible with xletters-duel.
+--- xletters-1.1.1.orig/debian/rules
++++ xletters-1.1.1/debian/rules
+@@ -0,0 +1,61 @@
++#!/usr/bin/make -f
++# GNU copyright 2001 by Ben Armstrong.
++
++# Uncomment this to turn on verbose mode.
++#export DH_VERBOSE=1
++
++export DH_COMPAT=3
++
++configure: config.status
++config.status:
++	dh_testdir
++
++	./configure --prefix=/usr --mandir=\$${prefix}/share/man
++
++build: config.status build-stamp
++build-stamp:
++	dh_testdir
++
++	$(MAKE)
++
++	touch build-stamp
++
++clean:
++	dh_testdir
++	dh_testroot
++	rm -f build-stamp
++
++	-$(MAKE) distclean
++
++	dh_clean
++
++install: build
++	dh_testdir
++	dh_testroot
++	dh_clean -k
++	dh_installdirs
++
++	$(MAKE) install-exec install-man prefix=$(CURDIR)/debian/xletters/usr \
++	  bindir=$(CURDIR)/debian/xletters/usr/games
++
++binary-indep: build install
++
++binary-arch: build install
++	dh_testdir
++	dh_testroot
++	dh_installdocs
++	dh_installmenu
++	dh_installman
++	dh_installchangelogs 
++	dh_link
++	dh_strip
++	dh_compress
++	dh_fixperms
++	dh_installdeb
++	dh_shlibdeps
++	dh_gencontrol
++	dh_md5sums
++	dh_builddeb
++
++binary: binary-indep binary-arch
++.PHONY: build clean binary-indep binary-arch binary install configure

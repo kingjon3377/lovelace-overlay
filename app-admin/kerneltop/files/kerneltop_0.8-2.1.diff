@@ -1,0 +1,67 @@
+--- kerneltop-0.8.orig/kerneltop.c
++++ kerneltop-0.8/kerneltop.c
+@@ -84,7 +84,7 @@
+ #define ROW_DATA	4	// first row of function/usage data
+ #define ROW_MESSAGE	1
+ 
+-#define S_LEN		128
++#define S_LEN		1024
+ #define OUTPUT_SIZE	512
+ 
+ #define DEF_NUMLINES	20		/* lines */
+--- kerneltop-0.8.orig/kerneltop.1
++++ kerneltop-0.8/kerneltop.1
+@@ -0,0 +1,43 @@
++.\"                                      Hey, EMACS: -*- nroff -*-
++.TH KERNELTOP 1 "May 27, 2004"
++.SH NAME
++kerneltop \- shows linux kernel function usage in a style like top
++.SH SYNOPSIS
++.B kerneltop
++.RI [ options ]
++.br
++.SH DESCRIPTION
++This manual page documents briefly the
++.B kerneltop
++command.
++This manual page was written for the Debian distribution
++because the original program does not have a manual page.
++.PP
++\fBkerneltop\fP shows linux kernel function usage in a style like top
++(modules are not included), it is derived from readprofile.
++.SH OPTIONS
++.TP
++.B \-m <mapfile> 
++Set the <mapfile> (default = "/boot/System.map").
++.TP
++.B \-p <pro-file> 
++Set the <pro-file> (default = "/proc/profile").
++.TP
++.B \-l <lines>    
++Set number of lines to print (def. = 20; max = 100).
++.TP
++.B \-s <seconds>  
++Set sleep time in seconds (def. = 1).
++.TP
++.B \-t <ticks>    
++Set threshold of number of ticks to print (def. = 1).
++A function must have this many ticks to be printed.
++.TP
++.B \-u 
++Print unsorted (skip the sort).
++.TP
++.B \-V
++Print version and exit.
++.SH AUTHOR
++This manual page was written by Gustavo Franco <stratus@acm.org>,
++for the Debian project (but may be used by others).
+--- kerneltop-0.8.orig/README.Debian
++++ kerneltop-0.8/README.Debian
+@@ -0,0 +1,7 @@
++kerneltop for Debian
++--------------------
++
++You will need to check if you have profiling support enabled on your kernel 
++(the current debian 2.4 is ok) and boot your system with `profile=1`.
++
++ -- Gustavo Franco <stratus@debian.org>, Sun, 30 Jan 2005 22:07:42 -0200

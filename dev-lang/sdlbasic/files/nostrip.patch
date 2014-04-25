@@ -1,0 +1,12 @@
+diff -ru src.old/sdlBasic/src/sdlBrt/makefile src/sdlBasic/src/sdlBrt/makefile
+--- src.old/sdlBasic/src/sdlBrt/makefile	2011-01-10 23:03:26.000000000 -0500
++++ src/sdlBasic/src/sdlBrt/makefile	2011-01-10 23:03:44.000000000 -0500
+@@ -87,7 +87,7 @@
+ exec_prefix=$(prefix)/bin
+ font_prefix=$(prefix)/share/fonts/ttf
+ 
+-stripped=yes
++stripped=no
+ compress=no
+ 
+ CC= gcc

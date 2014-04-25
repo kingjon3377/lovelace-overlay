@@ -1,0 +1,20 @@
+diff -rc compiler.old/KeyGen.hs compiler/KeyGen.hs
+*** compiler.old/KeyGen.hs	2011-02-11 03:22:01.000000000 -0500
+--- compiler/KeyGen.hs	2011-02-11 03:22:14.000000000 -0500
+***************
+*** 11,17 ****
+  getRandom n = do devrnd <- doesFileExist "/dev/urandom"
+                   if devrnd 
+                      then do
+!                        h <- openFile "/dev/urandom" ReadMode
+                         ns <- readInts n h
+                         hClose h
+                         return ns
+--- 11,17 ----
+  getRandom n = do devrnd <- doesFileExist "/dev/urandom"
+                   if devrnd 
+                      then do
+!                        h <- openBinaryFile "/dev/urandom" ReadMode
+                         ns <- readInts n h
+                         hClose h
+                         return ns

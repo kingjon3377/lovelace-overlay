@@ -1,0 +1,81 @@
+# Copyright (C) 2008 by Miriam Ruiz <little_miry@yahoo.es>
+# Distributed under the same license as the program. See debian/copyright.
+
+Index: sdlbasic-0.0.20070714/src/sdlBasic/src/sdlBrt/SDLengine/SDLengine.c
+===================================================================
+--- sdlbasic-0.0.20070714.orig/src/sdlBasic/src/sdlBrt/SDLengine/SDLengine.c	2008-04-04 15:03:54.000000000 +0000
++++ sdlbasic-0.0.20070714/src/sdlBasic/src/sdlBrt/SDLengine/SDLengine.c	2008-04-04 15:08:52.000000000 +0000
+@@ -278,6 +278,10 @@
+ 		enabledsound=0;
+ 	}
+ 
++#if defined(DEJAVUSANS_TTF)
++	fontPath=(char *)malloc(256);
++	strcpy(fontPath,DEJAVUSANS_TTF);
++#else
+ #if defined(WIN32)
+ 	fontPath=(char *)malloc(256);
+ 	strcpy(fontPath,getenv("WINDIR"));
+@@ -289,7 +293,7 @@
+ 	strcat(fontPath,"/dejavu/DejaVuSans.ttf\0");
+ 	if (!fileExist(fontPath))fontPath="./DejaVuSans.ttf";
+ #endif
+-
++#endif
+ 
+ 
+ /*
+Index: sdlbasic-0.0.20070714/src/sdlBasic/src/sdlBrt/SDLengine/makefile
+===================================================================
+--- sdlbasic-0.0.20070714.orig/src/sdlBasic/src/sdlBrt/SDLengine/makefile	2008-04-04 15:10:46.000000000 +0000
++++ sdlbasic-0.0.20070714/src/sdlBasic/src/sdlBrt/SDLengine/makefile	2008-04-04 15:13:25.000000000 +0000
+@@ -71,8 +71,9 @@
+ CPP=g++
+ RANLIB=	ranlib
+ RM=rm -f
++DEJAVUSANS_TTF=/usr/share/fonts/truetype/ttf-dejavu/DejaVuSans.ttf
+ 
+-CFLAG=  -Wall -g -O2 -I/usr/include/SDL -D_REENTRAT -DPLAY_MOD -DUNIX -DLINUX
++CFLAG=  -Wall -g -O2 -I/usr/include/SDL -D_REENTRAT -DPLAY_MOD -DUNIX -DLINUX -DDEJAVUSANS_TTF=\"$(DEJAVUSANS_TTF)\"
+ LIBS=-Wl,-rpath, -lSDL_mixer -lSDL_image -lSDL_ttf -lSDL_net -lvorbisfile -lvorbis -logg -lsmpeg -lasound -lSDL -lpng -ltiff -lz -ljpeg -lpthread -lm -lfreetype -ldl
+ #LIBS=-Wl,-rpath, -lSDL -lSDL_mixer -lSDL_image -lSDL_ttf -lSDL_net -lvorbisfile -lvorbis -logg -lsmpeg -lpthread -lm -lfreetype -lSDL -lpng -ljpeg -ltiff -lz -lartsdsp -lasound -lartsdsp -ldl
+ #LIBS=-lSDL_mixer -lSDL_image -lSDL_ttf -lSDL_net -lsmpeg
+Index: sdlbasic-0.0.20070714/src/sdlBasic/src/sdlBrt/makefile
+===================================================================
+--- sdlbasic-0.0.20070714.orig/src/sdlBasic/src/sdlBrt/makefile	2008-04-04 15:10:46.000000000 +0000
++++ sdlbasic-0.0.20070714/src/sdlBasic/src/sdlBrt/makefile	2008-04-04 15:13:20.000000000 +0000
+@@ -95,8 +95,9 @@
+ INSTALL=/usr/bin/install
+ RM=rm
+ STRIP=strip
++DEJAVUSANS_TTF=/usr/share/fonts/truetype/ttf-dejavu/DejaVuSans.ttf
+ 
+-CFLAG= -Wall -g -O2 -I/usr/include/SDL -D_REENTRAT -DPLAY_MOD -DUNIX -DLINUX
++CFLAG= -Wall -g -O2 -I/usr/include/SDL -D_REENTRAT -DPLAY_MOD -DUNIX -DLINUX -DDEJAVUSANS_TTF=\"$(DEJAVUSANS_TTF)\"
+ 
+ COMPILE=$(CPP) $(CFLAG)
+ 
+Index: sdlbasic-0.0.20070714/src/sdlBasic/src/sdlBrt/sdlBrt.c
+===================================================================
+--- sdlbasic-0.0.20070714.orig/src/sdlBasic/src/sdlBrt/sdlBrt.c	2008-04-04 15:03:54.000000000 +0000
++++ sdlbasic-0.0.20070714/src/sdlBasic/src/sdlBrt/sdlBrt.c	2008-04-04 15:08:51.000000000 +0000
+@@ -256,6 +256,10 @@
+ 
+ 
+ /* gp2x Problem with allocation strings ??? */
++#if defined(DEJAVUSANS_TTF)
++	fontPath=(char *)malloc(256);
++	strcpy(fontPath,DEJAVUSANS_TTF);
++#else
+ #if defined(WIN32)
+ 	fontPath=(char *)malloc(256);
+ 	strcpy(fontPath,getenv("WINDIR"));
+@@ -267,7 +271,7 @@
+ 	strcat(fontPath,"/dejavu/DejaVuSans.ttf\0");
+ 	if (!fileExist(fontPath))fontPath="./DejaVuSans.ttf";
+ #endif
+-
++#endif
+ 
+ /*
+ #if defined(WIN32)

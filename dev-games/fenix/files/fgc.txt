@@ -1,0 +1,106 @@
+EspecificaciÃ³n del formato FGC (Fenix Graphics Collection)
+
+Un fichero FGC contiene un conjunto de grÃ¡ficos FBM, cada uno de ellos
+identificado por un Ã­ndice entre 0 y 999. El mÃ¡ximo de grÃ¡ficos FBM
+soportado dentro de un FGC es por lo tanto de 1000.
+
+Esta secciÃ³n describe el contenido de un fichero FGC. No es necesario conocer
+estos detalles simplemente para programar juegos, pero serÃ¡n de utilidad a
+quien quiera realizar utilidades en lenguajes externos que lean o escriban
+ficheros FGC.
+
+Un fichero FGC no incluye compresiÃ³n. Fenix soporta de forma transparente el
+uso de compresiÃ³n GZIP en los ficheros, sin necesidad de marcarlos
+especialmente con extensiÃ³n .gz. Normalmente un fichero FGC se guarda en disco
+comprimido de esta manera, pero en el resto del fichero asumiremos que el
+fichero FGC no estÃ¡ comprimido.
+
+En la descripciÃ³n siguiente, DWORD identifica un nÃºmero entero de 4 bytes sin
+signo mientras INT indica entero de 4 bytes con signo. Estos valores se guardan
+siguiendo la codificaciÃ³n Intel de bytes en memoria, asÃ­ que hay que darles
+la vuelta al leer o escribir el fichero en otras plataformas.
+
+Cabecera
+
+Un fichero FGC comienza con la siguiente cabecera:
+ ____________________________________________________________________________
+|Nombre_____|TamaÃ±o________|DescripciÃ³n______________________________________|
+|           |              |Cadena de caracteres de identificaciÃ³n del       |
+|           |              |fichero. Debe contener exactamente "FenixLibrary"|
+|           |              |y, a continuaciÃ³n, los cuatro bytes 1Ah, 0Dh, 0Ah|
+|MAGIC      |16 bytes      |y 00h. Esta terminaciÃ³n indica, en un fichero MS-|
+|           |              |DOS, final de fichero. Gracias a ella un comando |
+|           |              |TYPE en MS-DOS no mostrarÃ­a los datos binarios   |
+|           |              |del fichero. En este formato se conserva por     |
+|___________|______________|razones_puramente_nostÃ¡lgicas.___________________|
+|           |              |CÃ³digo de versiÃ³n. Se compone de un nÃºmero       |
+|           |              |mayor de 16 bits y un nÃºmero menor de 16 bits.   |
+|           |              |Actualmente es 0x0100. Si el formato se          |
+|VERSION    |DWORD         |modificase en el futuro pero de manera que los   |
+|           |              |ficheros fuesen compatibles con el formato       |
+|           |              |actual, se incrementarÃ­a el nÃºmero menor. Las    |
+|           |              |rutinas de carga deben rechazar un fichero FGC   |
+|___________|______________|sÃ³lo_si_el_nÃºmero_mayor_no_es_01.________________|
+|           |              |Cadena ASCIIZ con el nombre de la librerÃ­a       |
+|NOMBRE     |64 bytes      |(opcional). El nombre puede ocupar exactamente 64|
+|           |              |caracteres, con lo que sÃ³lo en ese caso no se    |
+|___________|______________|guardarÃ¡_el_0_terminal.__________________________|
+|           |              |Bits por pixel de las imÃ¡genes. Actualmente sÃ³lo |
+|PROFUNDIDAD|DWORD         |son vÃ¡lidos 1, 8 Ã³ 16. Todas las imÃ¡genes        |
+|           |              |dentro del mismo fichero FGC deben, forzadamente,|
+|___________|______________|ser_del_mismo_nÃºmero_de_colores._________________|
+|TOTAL      |DWORD         |NÃºmero de grÃ¡ficos que contiene este fichero     |
+|___________|______________|FGC._____________________________________________|
+|           |              |Offset de la paleta dentro del fichero, si se    |
+|PALETA     |DWORD         |encuentra. SÃ³lo un fichero FGC de 8 bits contiene|
+|___________|______________|una_paleta_de_colores.___________________________|
+|           |              |Offsets en el fichero de cada uno de los grÃ¡ficos|
+|           |              |que aparecen dentro del FGC. Hay tantos valores  |
+|           |              |tipo DWORD como grÃ¡ficos haya en el FGC. Las     |
+|           |              |siguientes condiciones deben cumplirse:          |
+|           |              |    * Todos estos offsets deben ser mayores que  |
+|           |              |      el de la paleta de colores, si Ã©sta estÃ¡   |
+|           |              |      presente.                                  |
+|OFFSETS    |"TOTAL" DWORDS|    * El offset de un grÃ¡fico debe ser siempre   |
+|           |              |      mayor que el offset del grÃ¡fico            |
+|           |              |      inmediatamente anterior en esta tabla      |
+|           |              |Los offsets permiten a las rutinas de lectura    |
+|           |              |"saltarse" secciones adicionales de informaciÃ³n  |
+|           |              |que no pueden interpretar, entre grÃ¡fico y       |
+|           |              |grÃ¡fico. Esto abre las puertas a futuras         |
+|           |              |expansiones del formato sin perder compatibilidad|
+|___________|______________|hacia_atrÃ¡s._____________________________________|
+
+Paleta de colores
+
+A continuaciÃ³n, si el FGC es de 8 bits (tal como indica la cabecera del
+fichero) y sÃ³lo en ese caso, habrÃ¡n 768 bytes con la paleta de colores. Cada
+color ocupa tres bytes en orden RGB (rojo, verde y azul) y con un rango para
+cada componente de color de 0 a 255.
+
+Datos de cada grÃ¡fico
+
+Cada grÃ¡fico dentro del fichero FGC se guarda en formato FBM , a partir del
+offset indicado en la cabecera. Sin embargo, el formato FBM utilizado tiene dos
+variantes respecto al formato FBM estÃ¡ndar descrito aquÃ­:
+
+    * No contiene cabecera. El grÃ¡fico empieza directamente con el descriptor
+      FBM justo en el offset indicado en la cabecera del FGC. La profundidad de
+      color se recoge tambiÃ©n de la cabecera del FGC, ya que no estÃ¡ presente
+      en dicho descriptor.
+
+    * No contiene paleta de colores, incluso aunque sea un grÃ¡fico de 8 bits.
+      Todos los grÃ¡ficos dentro del FGC comparten la misma paleta de colores,
+      guardada en el FGC justo antes que los datos de los grÃ¡ficos.
+
+NOTAS
+
+Esta es una versiÃ³n temporal de este formato de fichero. Los grÃ¡ficos con
+profundidad de color de 24 bits se soportarÃ¡n prÃ³ximamente en los ficheros
+FBM. Esta es una versiÃ³n temporal de este formato de fichero. Es posible que
+en versiones posteriores se soporten paletas indexadas con mayor resolucion de
+color con intencion de reducir el tamaÃ±o necesario para almacenar grÃ¡ficos en
+formatos de alta densidad de color (16, 24 y 32 bpp) .
+
+Obtenido de http://fenixworld.se32.com/fenixwiki/
+Disponible bajo los tÃ©rminos de la GNU Free Documentation License 1.2

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<herd>haskell</herd>
+	<maintainer>
+		<email>haskell@gentoo.org</email>
+	</maintainer>
+	<longdescription>
+		GDB\/MI lets programs drive GDB.  It can be used, for example, by GDB
+		frontends.  This module wraps attaching GDB to a process and parsing the
+		(surprisingly complicated) GDB\/MI output.
+	</longdescription>
+</pkgmetadata>

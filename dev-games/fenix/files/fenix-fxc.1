@@ -1,0 +1,52 @@
+.\" (c) 2007 Miriam Ruiz <little_miry@yahoo.es>
+.\" 
+.\" This document is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or
+.\" (at your option) any later version.
+.\" 
+.\" This package is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\" GNU General Public License for more details.
+.\" 
+.\" You should have received a copy of the GNU General Public License
+.\" along with this package; if not, write to the Free Software
+.\" Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+.TH "fenix-fxc" "1" "0.92a" "" ""
+.SH "NAME"
+fenix\-fxc \- fenix compiler
+.SH "SYNOPSIS"
+.B fenix\-fxc [option] filename.prg
+.SH "DESCRIPTION"
+This program compiles the source code of fenix files into bytecode files.
+
+.PP 
+options:
+.TP 
+\fB\-d\fR
+Debugging mode
+.TP 
+\fB\-i\fR dir
+Adds the directory to the PATH
+.TP 
+\fB\-a\fR
+Automaticaly adds all files to the DCB
+.TP 
+\fB\-f\fR file
+Adds a single file to the DCB
+.TP 
+\fB\-l\fR lang
+Specify locale settings
+.TP 
+\fB\-s\fR stub
+Generate a stubbed executable from the given stub
+\fB\-g\fR
+Stores debugging information at the DCB
+\fB\-c\fR
+File uses the MS\-DOS character set
+.SH "SEE ALSO"
+.BR fenix (1),
+.BR fenix\-fxi (1),
+.BR fenix\-fpg (1),
+.BR fenix\-map (1)

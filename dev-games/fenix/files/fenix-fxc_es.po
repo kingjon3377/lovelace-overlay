@@ -1,0 +1,639 @@
+# translation of fenix0.92-fxc.es.po to EspaÃ±ol
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Miriam Ruiz <little_miry@yahoo.es>, 2007.
+msgid ""
+msgstr ""
+"Project-Id-Version: fenix0.92-fxc.es\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2007-06-17 18:27+0000\n"
+"PO-Revision-Date: 2007-06-17 20:54+0200\n"
+"Last-Translator: Miriam Ruiz <little_miry@yahoo.es>\n"
+"Language-Team: EspaÃ±ol <es@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
+"Plural-Forms:  nplurals=2; plural=(n != 1);\n"
+
+#: fpg/fpg.c:179 fpg/fpg.c:335 fpg/fpg.c:443 map/map.c:555
+#, c-format
+msgid "'%s': file does not exist\n"
+msgstr "'%s': no existe el archivo\n"
+
+#: fpg/fpg.c:184 fpg/fpg.c:187 map/map.c:560 map/map.c:563
+msgid "Error loading PNG file"
+msgstr "Error al cargar el archivo PNG"
+
+#: fpg/fpg.c:219 map/map.c:594
+msgid "Grayscale PNG files are not supported"
+msgstr "No estÃ¡n soportados los archivos PNG en escala de grises"
+
+#: fpg/fpg.c:393 fpg/fpg.c:709 fpg/fpg.c:834 fpg/fpg.c:870 fpg/fpg.c:986
+#: map/map.c:415
+#, c-format
+msgid "'%s': file is truncated\n"
+msgstr "'%s': el archivo estÃ¡ truncado\n"
+
+#: fpg/fpg.c:407
+msgid "Error: out of memory\n"
+msgstr "Error: sin memoria\n"
+
+#: fpg/fpg.c:457
+#, c-format
+msgid "'%s' is not an FPG file\n"
+msgstr "'%s': no es un archivo FPG\n"
+
+#: fpg/fpg.c:482
+#, c-format
+msgid ""
+"# File '%s' contents (%d bits):\n"
+"\n"
+msgstr ""
+"# Contenido del archivo '%s' (%d bits):\n"
+"\n"
+
+#: fpg/fpg.c:590 map/map.c:363 map/map.c:819
+#, c-format
+msgid "'%s': file does not exist"
+msgstr "'%s': no existe el archivo"
+
+#: fpg/fpg.c:599
+#, c-format
+msgid "'%s': not a valid palette file"
+msgstr "'%s': no es un archivo vÃ¡lido de paleta de colores"
+
+#: fpg/fpg.c:613 map/map.c:452
+#, c-format
+msgid "'%s': error writing file"
+msgstr "'%s': error al escribir el archivo"
+
+#: fpg/fpg.c:618
+msgid "A colour palette is needed to create an 8 bit FPG file"
+msgstr "Es necesaria una paleta de colores para crear un archivo FPG de 8 bits"
+
+#: fpg/fpg.c:666
+#, c-format
+msgid "'%s': not an FPG file\n"
+msgstr "'%s': no es un archivo FPG\n"
+
+#: fpg/fpg.c:685
+msgid "There are no identifiers left"
+msgstr "No quedan identificadores disponibles"
+
+#: fpg/fpg.c:692
+msgid "Error: trying to add a 16 bit graphic to an 8 bit FPG file\n"
+msgstr "Error: intento de aÃ±adir un grÃ¡fico de 16 bits a un FPG de 8\n"
+
+#: fpg/fpg.c:698
+#, c-format
+msgid "Warning: FPG file will be created empty\n"
+msgstr "Aviso: el fichero FPG se crearÃ¡ vacÃ­o\n"
+
+#: fpg/fpg.c:720
+msgid "Error: trying to extract the palette from a 16 bit FPG file\n"
+msgstr "Error: intento de extraer la paleta a un archivo FPG de 16 bits\n"
+
+#: fpg/fpg.c:736 fpg/fpg.c:748
+#, c-format
+msgid "'%s': file could not be created\n"
+msgstr "%s: error al crear el archivo\n"
+
+#: fpg/fpg.c:758 fpg/fpg.c:875 fpg/fpg.c:927 fpg/fpg.c:948 fpg/fpg.c:1009
+#, c-format
+msgid "'%s': error writing file\n"
+msgstr "'%s': error de escritura\n"
+
+#: fpg/fpg.c:783
+#, c-format
+msgid "Warning: wrong code %d\n"
+msgstr "Aviso: cÃ³digo %d errÃ³neo\n"
+
+#: fpg/fpg.c:885
+#, c-format
+msgid "'%s': error opening file"
+msgstr "'%s': error al abrir el archivo"
+
+#: fpg/fpg.c:917
+#, c-format
+msgid "  %03d: %-32s REMOVED\n"
+msgstr "  %03d: %-32s ELIMINADO\n"
+
+#: fpg/fpg.c:943
+#, c-format
+msgid "'%s': file is truncated (%d)\n"
+msgstr "%s: archivo truncado %d\n"
+
+#: fpg/fpg.c:1005
+#, c-format
+msgid "  %03d: %-32s CONVERTIDO\n"
+msgstr ""
+
+#: fpg/fpg.c:1052
+#, c-format
+msgid "  %03d: %-32s ADDED\n"
+msgstr "  %03d: %-32s AÃADIDO\n"
+
+#: fpg/fpg.c:1075
+#, c-format
+msgid ""
+"FPG Utility - Copyright (C) 1999 Jose Luis Cebrian Pague\n"
+"This utility comes with ABSOLUTELY NO WARRANTY; fpg -h for details\n"
+"\n"
+msgstr ""
+"FPG Utility - Copyright (C) 1999 JosÃ© Luis CebriÃ¡n PagÃ¼e\n"
+"Este programa viene SIN NINGUNA GARANTÃA; fpg -h para ver los detalles\n"
+"\n"
+
+#: fpg/fpg.c:1078
+#, c-format
+msgid ""
+"Usage: fpg [option] filename.fpg [image ...]\n"
+"\n"
+"    -l      Describe the FPG file (default option): -v more verbose\n"
+"    -n      Create a new FPG file, optionally adding MAP (graphic) files\n"
+"    -o      Create a new 8-bit FPG file, optionally adding MAP (graphic) "
+"files\n"
+"    -d      Remove the selected files from inside the FPG file\n"
+"    -p      Extract the colour palette(.PAL) of the file\n"
+"    -e      Extract graphics (.MAP) from the FPG file and removes them from "
+"it\n"
+"    -x      Extract graphics (.MAP) from the FPG file\n"
+"    -a      Add graphics (.MAP) to the FPG file\n"
+"    -c      Convert the .FPG to 16 bits\n"
+"    -#      Level of compression (0 to 9)\n"
+"\n"
+"Options -x and -e can select the graphics by their code.\n"
+"Ranges in the form a\\-b can be used, as well as comma\\-separated graphics "
+"references.\n"
+"Options -p and -l admit multiple FPG files\n"
+"\n"
+msgstr ""
+"Uso: fpg [opcion] fichero [grÃ¡fico ...]\n"
+"\n"
+"    -l      Describe el FPG (opciÃ³n por defecto): -v mÃ¡s extenso\n"
+"    -n      Crea un nuevo FPG, opcionalmente aÃ±adiendo MAPs\n"
+"    -o      Crea un nuevo FPG de 8 bits, opcionalmente aÃ±adiendo MAPs\n"
+"    -d      Elimina los grÃ¡ficos indicados del FPG\n"
+"    -p      Extrae la paleta (.PAL) del fichero\n"
+"    -e      Extrae grÃ¡ficos (.MAP) del FPG y los borra del mismo\n"
+"    -x      Extrae grÃ¡ficos (.MAP) del FPG\n"
+"    -a      AÃ±ade  grÃ¡ficos (.MAP) al FPG\n"
+"    -c      Convierte el .FPG a 16 bits\n"
+"    -#      Nivel de compresiÃ³n (0 a 9)\n"
+"\n"
+"Las opciones -x y -e admiten indicar los grÃ¡ficos mediante su cÃ³digo.\n"
+"Se pueden utilizar rangos a-b y varios grÃ¡ficos separados por comas.\n"
+"Las opciones -p y -l admiten mÃºltiples ficheros fpg\n\n"
+
+#: fpg/fpg.c:1132 fpg/fpg.c:1155
+#, c-format
+msgid "Specify the name of the colour palette after %s"
+msgstr "Especifique el nombre de la nombre de paleta tras -o"
+
+#: fpg/fpg.c:1172 map/map.c:1093
+#, c-format
+msgid "Error: unknown option -%c\n"
+msgstr "Error: opciÃ³n -%c desconocida\n"
+
+#: fpg/fpg.c:1180
+msgid "Error: too many files\n"
+msgstr "Error: demasiados archivos\n"
+
+#: fpg/fpg.c:1207
+msgid "Error: action not available\n"
+msgstr "Error: acciÃ³n no disponible\n"
+
+#: fxc/src/main.c:140
+#, c-format
+msgid "Fenix 0.92 FXC - Copyright (C) 1999 Jose Luis Cebrian Pague\n"
+msgstr "Fenix 0.92 FXC - Copyright (C) 1999 JosÃ© Luis CebriÃ¡n PagÃ¼e\n"
+
+#: fxc/src/main.c:141
+#, c-format
+msgid ""
+"Fenix comes with ABSOLUTELY NO WARRANTY; see COPYING for details\n"
+"\n"
+msgstr ""
+"FÃ©nix viene SIN NINGUNA GARANTÃA; fpg -h para ver los detalles\n"
+"\n"
+
+#: fxc/src/main.c:313
+#, c-format
+msgid "Can't open stub file %s"
+msgstr ""
+
+#: fxc/src/messages.c:34
+#, c-format
+msgid "'%s': file not found"
+msgstr "'%s': no se encuentra el archivo"
+
+#: fxc/src/messages.c:35
+#, c-format
+msgid "'%s': file too big"
+msgstr "'%s': el archivo es demasiado grande"
+
+#: fxc/src/messages.c:36
+#, c-format
+msgid "'%s': file is empty"
+msgstr "'%s': el archivo estÃ  vacÃ­o"
+
+#: fxc/src/messages.c:37
+#, c-format
+msgid "'%s': file reading error"
+msgstr "'%s': error al leer el archivo"
+
+#: fxc/src/messages.c:38
+msgid "You must specify a directory"
+msgstr "Es necesario especificar un directorio"
+
+#: fxc/src/messages.c:39
+msgid "Too many files specified"
+msgstr "Se han elegido demasiados archivos"
+
+#: fxc/src/messages.c:40
+#, c-format
+msgid ""
+"Usage: %s [options] filename\n"
+"\n"
+msgstr ""
+"Uso: %s [opciones] archivo\n"
+"\n"
+
+#: fxc/src/messages.c:41
+msgid "   -d       Debugging mode\n"
+msgstr "   -d       Modo de debug\n"
+
+#: fxc/src/messages.c:42
+msgid ""
+"   -i dir   Adds the directory to the PATH\n"
+"   -a       Automaticaly adds all files to the DCB\n"
+"   -f file  Adds a single file to the DCB\n"
+"   -l lang  Specify locale settings\n"
+"   -s stub  Generate a stubbed executable from the given stub\n"
+"   -g       Stores debugging information at the DCB\n"
+"   -c       File uses the MS-DOS character set\n"
+"\n"
+"This program is free software. You can distribute and/or modify it\n"
+"under the terms of the GNU General Public License as published by the\n"
+"Free Software Foundation; either the version 2 of the license or\n"
+"(at your will) any later version.\n"
+"\n"
+"Read the file COPYING for details\n"
+"\n"
+msgstr ""
+
+#: fxc/src/messages.c:54
+#, c-format
+msgid "Error in file '%s' at line %d: %s "
+msgstr "Error en el achivo '%s' at line %d: %s "
+
+#: fxc/src/messages.c:55
+msgid "Constant name expected"
+msgstr "Se espera un nombre constante"
+
+#: fxc/src/messages.c:56
+msgid "Invalid identifier"
+msgstr "Identificador no vÃ¡lido"
+
+#: fxc/src/messages.c:57
+#, c-format
+msgid "'%s' expected"
+msgstr "Se espera '%s'"
+
+#: fxc/src/messages.c:58 fxc/src/messages.c:67
+msgid "Procedure name expected"
+msgstr "Se espera un nombre de procedimiento"
+
+#: fxc/src/messages.c:59
+msgid "Parameter name invalid"
+msgstr "Nombre de parÃ¡metro no vÃ¡lido"
+
+#: fxc/src/messages.c:60
+msgid "Parameter type invalid"
+msgstr "Tipo de parÃ¡metro no vÃ¡lido"
+
+#: fxc/src/messages.c:61
+msgid "Too many parameters in a definition"
+msgstr "Demasiados parÃ¡metros en una definiciÃ³n"
+
+#: fxc/src/messages.c:62
+#, c-format
+msgid "Incorrect number of parameters. Function: %s MinParams: %d."
+msgstr "NÃºmero incorrecto de parÃ¡metros. FunciÃ³n; %s MinParams: %d."
+
+#: fxc/src/messages.c:63
+msgid "BEGIN expected"
+msgstr "Se espera BEGIN"
+
+#: fxc/src/messages.c:64
+msgid "END expected"
+msgstr "Se espera END"
+
+#: fxc/src/messages.c:65
+msgid "ELSE without IF"
+msgstr "ELSE sin IF"
+
+#: fxc/src/messages.c:66
+msgid "Program name expected"
+msgstr "Se espera un nombre de programa"
+
+#: fxc/src/messages.c:68
+msgid "Invalid data type"
+msgstr "Tipo de dato no vÃ¡lido"
+
+#: fxc/src/messages.c:69
+msgid "Unexpected token (too many ENDs?)"
+msgstr "Token inesperado (Â¿demasiados ENDs?)"
+
+#: fxc/src/messages.c:70
+msgid "Unexpected token"
+msgstr "Token inesperado"
+
+#: fxc/src/messages.c:71
+msgid "Main procedure was not defined"
+msgstr "No se ha definido un procedimiento principal"
+
+#: fxc/src/messages.c:72
+msgid "Integer type required"
+msgstr "Se requiere un tipo entero"
+
+#: fxc/src/messages.c:73
+msgid "Numeric type required"
+msgstr "Se requiere un tipo numÃ©rico"
+
+#: fxc/src/messages.c:74
+msgid "Data types not compatible with operation"
+msgstr "Tipos de datos no compatibles con la operaciÃ³n"
+
+#: fxc/src/messages.c:75
+msgid "Data type not accepted here"
+msgstr "Tipo de dato no aceptale aquÃ­"
+
+#: fxc/src/messages.c:76
+msgid "Unknown identifier"
+msgstr "Identificador desconocido"
+
+#: fxc/src/messages.c:77
+msgid "Not an array or struct array"
+msgstr "No es un array o un array de estructuras"
+
+#: fxc/src/messages.c:78
+msgid "Index out of range"
+msgstr "Ãndice fuera de rango"
+
+#: fxc/src/messages.c:79 fxc/src/messages.c:94
+msgid "Identifier expected"
+msgstr "Se espera un identificador"
+
+#: fxc/src/messages.c:80
+msgid "Can't get the address of an inmediate value"
+msgstr "No se puede obtener la direcciÃ³n de un valor inmediato"
+
+#: fxc/src/messages.c:81
+msgid "Pointer required"
+msgstr "Se requiere un puntero"
+
+#: fxc/src/messages.c:82
+msgid "Variable required"
+msgstr "Se requiere una variable"
+
+#: fxc/src/messages.c:83
+msgid "Struct required"
+msgstr "Se requiere una estructura"
+
+#: fxc/src/messages.c:84
+msgid "Division by zero"
+msgstr "DivisiÃ³n por cero"
+
+#: fxc/src/messages.c:85
+msgid "Values are of incompatible type"
+msgstr "Los valores son de tipos incompatibles"
+
+#: fxc/src/messages.c:86
+msgid "Constant value expected"
+msgstr "Se espera un valor constante"
+
+#: fxc/src/messages.c:87
+msgid "String expected"
+msgstr "Se espera un string"
+
+#: fxc/src/messages.c:88
+msgid "Out of loop"
+msgstr "Fuera del loop"
+
+#: fxc/src/messages.c:89
+msgid "Invalid STEP"
+msgstr "STEP no vÃ¡lido"
+
+#: fxc/src/messages.c:90
+msgid "Invalid sentence"
+msgstr "Sentencia no vÃ¡lida"
+
+#: fxc/src/messages.c:91
+msgid "Can't create an array of undefined multiple sizes"
+msgstr "No se puede crear un array de tamaÃ±os mÃºltiples no definidos"
+
+#: fxc/src/messages.c:92
+msgid "Too many array levels"
+msgstr "Demasiados niveles de array"
+
+#: fxc/src/messages.c:93
+msgid "Variable already declared"
+msgstr "La variable ya ha sido declarada"
+
+#: fxc/src/messages.c:95
+msgid "This struct can't be initialized"
+msgstr "Esta estructura no puede ser inicializada"
+
+#: fxc/src/messages.c:96
+msgid "Too many initializers"
+msgstr "Demasiados inicializadores"
+
+#: fxc/src/messages.c:97
+msgid "Too many nested includes"
+msgstr "Demasiados includes anidados"
+
+#: fxc/src/messages.c:98
+msgid "Identifier too long"
+msgstr "El identificador es demasiado largo"
+
+#: fxc/src/messages.c:99
+msgid "Invalid Character"
+msgstr "Caracter no vÃ¡lido"
+
+#: fxc/src/messages.c:100
+msgid "Too many user-defined types"
+msgstr "Demasiados tipos definidos por el usuario"
+
+#: fxc/src/messages.c:101
+msgid "Undefined procedure"
+msgstr "Procedimiento no definido"
+
+#: fxc/src/messages.c:102
+msgid "The library is not Fenix compatible"
+msgstr "La biblioteca no es compatible con FÃ©nix"
+
+#: fxc/src/messages.c:103
+msgid "Too many system functions"
+msgstr "Demasiadas funciones de sistema"
+
+#: fxc/src/messages.c:104
+msgid "A pointer can only be initialized to 0"
+msgstr "Un puntero sÃ³lo puede ser inicializado a 0"
+
+#: fxc/src/messages.c:105
+msgid "Not enough initializers"
+msgstr "No hay suficientes inicializadores"
+
+#: fxc/src/messages.c:106
+#, c-format
+msgid "Various conflicting versions of %s found"
+msgstr "Se han encontrado varias versiones de %s que entran en conflicto"
+
+#: fxc/src/messages.c:107
+msgid "Incompatible types at the sides of ? operator"
+msgstr "Tipos incompatibles en los lados de un operador ?"
+
+#: fxc/src/messages.c:108
+msgid "Unknown preprocessor directive"
+msgstr "Directiva de preprocesador desconocida"
+
+#: fxc/src/messages.c:109
+msgid "Invalid conversion of non-pointer to pointer"
+msgstr "ConversiÃ³n no vÃ¡lida de un no puntero a un puntero"
+
+#: fxc/src/messages.c:110
+msgid "Unsupported data type cast"
+msgstr "ConversiÃ³n de tipos de datos no soportada"
+
+#: fxc/src/messages.c:111
+msgid "Process already defined"
+msgstr "Proceso ya definido"
+
+#: fxc/src/messages.c:112
+msgid "FRAME requires an INT return value type"
+msgstr "FRAME necesita un tipo de valor de retorno INT"
+
+#: fxc/src/messages.c:113
+msgid "Variable already defined as process, expected type or variable name"
+msgstr "La variable ya ha sido definida como un proceso, tipo esperado o nombre de variable"
+
+#: fxc/src/messages.c:114
+msgid "Conflict with previous declaration"
+msgstr "Conflicto con una declaraciÃ³n previa"
+
+#: map/map.c:124
+#, c-format
+msgid ""
+"MAP Utility v0.75\n"
+"Copyright (C) 1999 Jose Luis Cebrian Pague\n"
+"Copyright (C) 2002 Fenix Team\n"
+"This utility comes with ABSOLUTELY NO WARRANTY; map -h for details\n"
+"\n"
+msgstr ""
+
+#: map/map.c:128
+#, c-format
+msgid ""
+"Usage: map [option] file \n"
+"\n"
+"    -l      Describes MAP file (default option)\n"
+"    -p      Extract palette file (.PAL) from the graphic\n"
+"    -c      Convert MAP file to 16bpp format\n"
+"    -g      Convert MAP file to PNG file\n"
+"    -m      Convert PNG or GIF file to MAP file\n"
+"    -s      Modify MAP file parameters\n"
+"    -n      Remove MAP file transparency\n"
+"    -z=#    PNG transparent color ('0' color) range\n"
+"    -#      Compresion level (0-9 NOTE: 0 DIV compatible for 8bpps MAP "
+"files)\n"
+"\n"
+"Options for -l/-m/-c: (# means integer value)\n"
+"\n"
+"    +name=...       Change the name for the MAP (up to 32 characters)\n"
+"    +id=#           Change MAP code (0-999))\n"
+"    +center=[#,#]   Change center for the MAP (control point 0)\n"
+"    +animation=...  Animation sequence for ANIMATED MAPS\n"
+"    +speed=#        Frame duration (ms) for each animation frame\n"
+"    +#=[#,#]        Control point definition\n"
+"\n"
+msgstr ""
+
+#: map/map.c:198 map/map.c:431
+#, c-format
+msgid "'%s': error creating file"
+msgstr "'%s': error al crear el archivo"
+
+#: map/map.c:246
+msgid "GIF file does not contain a colour palette"
+msgstr "El archivo GIF no contiene una paleta de colores"
+
+#: map/map.c:248
+msgid "GIF file has more than 256 colours"
+msgstr "El archivo GIF contiene mÃ¡s de 256 colores"
+
+#: map/map.c:304
+#, c-format
+msgid "Unknown function 0x%02X at frame %d\n"
+msgstr "FunciÃ³n desconocida 0x%02X en el frame %d\n"
+
+#: map/map.c:380
+#, c-format
+msgid "'%s': not a MAP file"
+msgstr "'%s': no es un archivo MAP"
+
+#: map/map.c:444 map/map.c:468 map/map.c:496 map/map.c:640 map/map.c:820
+msgid "Out of memory"
+msgstr "Sin memoria"
+
+#: map/map.c:766
+msgid "Error: out of memory"
+msgstr "Error: sin memoria"
+
+#: map/map.c:806
+msgid "Error creating file"
+msgstr "Error al crear el archivo"
+
+#: map/map.c:828
+#, c-format
+msgid "'%s': not a valid colour palette file"
+msgstr "'%s': no es una paleta de colores vÃ¡lida"
+
+#: map/map.c:909
+#, c-format
+msgid "Colour range: #%02X%02X%02X - #%02X%02X%02X\n"
+msgstr "Rango de colores: #%02X%02X%02X - #%02X%02X%02X\n"
+
+#: map/map.c:919
+msgid "Two coordinates are needed"
+msgstr "Se necesitan dos coordenadas"
+
+#: map/map.c:922
+msgid "Invalid coordinates"
+msgstr "Coordinadas no vÃ¡lidas"
+
+#: map/map.c:965
+#, c-format
+msgid "Width is not a multiple of %d\n"
+msgstr "La anchura no es un mÃºltiplo de %d\n"
+
+#: map/map.c:978
+#, c-format
+msgid "Command '%s' without a '=' symbol\n"
+msgstr "Comando '%s' sin un sÃ­mbolo '='\n"
+
+#: map/map.c:1010
+#, c-format
+msgid "'%s': unknown command"
+msgstr "'%s': comando desconocido"
+
+#: map/map.c:1043
+msgid "Too many commands"
+msgstr "Demasiados comandos"
+
+#: map/map.c:1135
+msgid ": Does not contain any colour palette"
+msgstr ": No contiene ninguna paleta de colores"
+

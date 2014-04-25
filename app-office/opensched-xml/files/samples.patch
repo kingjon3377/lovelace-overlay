@@ -1,0 +1,22 @@
+--- examples/sample/Makefile.in.old	2010-11-24 00:24:39.000000000 -0500
++++ examples/sample/Makefile.in	2010-11-24 00:25:18.000000000 -0500
+@@ -339,7 +339,7 @@
+ 	latex sample
+ 	dvips sample -o sample.ps
+ 
+-sample_gantt_1.eps sample.xml: sample.sched
++sample_gantt_1.eps sample_network_1.eps sample.xml: sample.sched
+ 	$(top_builddir)/src/opensched $(srcdir)/sample.sched
+ 
+ png :: sample_gantt_1.png
+--- examples/sample/Makefile.in.old	2010-11-24 00:30:27.000000000 -0500
++++ examples/sample/Makefile.in	2010-11-24 00:30:49.000000000 -0500
+@@ -334,7 +334,7 @@
+ sample.pdf : sample.ps
+ 	ps2pdf sample.ps sample.pdf
+ 
+-sample.ps : sample.tex sample_gantt_1.eps
++sample.ps : sample.tex sample_gantt_1.eps sample_tasks.tex
+ 	latex sample
+ 	latex sample
+ 	dvips sample -o sample.ps

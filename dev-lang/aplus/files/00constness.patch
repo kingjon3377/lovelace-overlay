@@ -1,0 +1,60 @@
+diff -ru src.old/MSTypes/MSFloat.C src/MSTypes/MSFloat.C
+--- src.old/MSTypes/MSFloat.C	2010-12-27 20:30:08.000000000 -0500
++++ src/MSTypes/MSFloat.C	2010-12-27 20:31:46.000000000 -0500
+@@ -11,9 +11,10 @@
+ #else
+ #include <iostream.h>
+ #endif
+-#include <stdio.h>
+-#include <stdlib.h>
+-#include <float.h>
++#include <cstdio>
++#include <cstdlib>
++#include <cfloat>
++#include <cstring>
+ #include <MSTypes/MSFloat.H>
+ #include <MSTypes/MSString.H>
+ #include <MSTypes/MSError.H>
+@@ -112,7 +112,8 @@
+ 
+ MSError::ErrorStatus MSFloat::internalSet(const char *pString_)
+ {
+-  char	*np,buf[512];
++  char	buf[512];
++  const char* np;
+   
+   _real=0.0;
+   _flags=MSFloat::Set; // clear the Valid bit, i.e. isValid==MSFalse
+@@ -121,16 +122,16 @@
+    { _real=0.0; setToValid(); return (MSError::MSSuccess); }
+   else if (strncmp(pString_,"NaN",3)==0) 
+    { _real=0.0; return (MSError::MSSuccess); }
+-  else if ((np=strchr(pString_,'.'))&&(strchr(++np,'.')))
++  else if ((np=strchr(pString_,'.'))&&(strchr(const_cast<const char *>(np + 1),'.')))
+    { return (MSError::BadReal); } // Disallow more than one decimal point
+-  else if ((np=strchr(pString_,'.'))&&(strchr(++np,','))) 
++  else if ((np=strchr(pString_,'.'))&&(strchr(const_cast<const char *>(np + 1),','))) 
+    { return (MSError::BadReal); } // Disallow commas after the decimal point
+   else if (*pString_==',') 
+    { return (MSError::BadReal); } // Disallow leading commas
+   
+   // Make sure we don't save too many characters after the decimal
+-  char *decimal=strchr(pString_,'.');
++  const char *decimal=strchr(pString_,'.');
+-  if ((decimal!=0)&&(strlen(decimal+1)>MSRealMaximumLength))
++  if ((decimal!=0)&&(strlen(const_cast<const char *>(decimal+1))>MSRealMaximumLength))
+    { return (MSError::IntTooBig); }
+   strcpy(buf,pString_);
+   
+diff -ru src.old/MSTypes/MSUtil.C src/MSTypes/MSUtil.C
+--- src.old/MSTypes/MSUtil.C	2010-12-27 21:47:43.000000000 -0500
++++ src/MSTypes/MSUtil.C	2010-12-27 21:48:22.000000000 -0500
+@@ -25,7 +25,7 @@
+ void MSUtil::comma(const char *fromBuffer_,char *toBuffer_,int size_)
+ {
+   int places,len,i,j;
+-  char *cp;
++  const char *cp;
+   
+   if ((cp=strchr(fromBuffer_,'.'))!=NULL)
+    {

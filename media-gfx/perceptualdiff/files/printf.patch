@@ -1,0 +1,10 @@
+--- Metric.cpp.old	2010-11-29 18:28:05.000000000 -0500
++++ Metric.cpp	2010-11-29 18:29:01.000000000 -0500
+@@ -19,6 +19,7 @@
+ #include "RGBAImage.h"
+ #include "LPyramid.h"
+ #include <math.h>
++#include <cstdio>
+ 
+ #ifndef M_PI
+ #define M_PI 3.14159265f
