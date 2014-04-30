@@ -17,7 +17,8 @@ IUSE=""
 SRC_URI="http://launchpad.net/${PN}/trunk/${PV}/+download/${P}.tar.gz"
 
 RDEPEND="dev-ruby/rcairo[ruby_targets_ruby19]
-	dev-ruby/ruby-gtk2[ruby_targets_ruby19]"
+	dev-ruby/ruby-gtk2[ruby_targets_ruby19]
+	dev-ruby/ruby-gettext[ruby_targets_ruby19]"
 
 src_prepare() {
 	epatch "${FILESDIR}/screenruler-bug831501.patch"
