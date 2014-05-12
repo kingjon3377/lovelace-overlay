@@ -4,9 +4,9 @@
 
 EAPI=5
 
-OO_EXTENSIONS=("writer2latex.oxt" "xhtml-config-sample.oxt" "writer2xhtml.oxt")
+OFFICE_EXTENSIONS=("writer2latex.oxt" "xhtml-config-sample.oxt" "writer2xhtml.oxt")
 
-inherit eutils latex-package java-pkg-2 java-ant-2 multilib office-ext
+inherit eutils latex-package java-pkg-2 java-ant-2 multilib office-ext-r1
 
 IS_SOURCE=true
 
@@ -83,13 +83,23 @@ src_install() {
 	else
 		dodoc "${S}"/samples/config/*
 	fi
+	
+	# Work around change in eclass
+	for ext in ${OFFICE_EXTENSIONS[@]}; do
+		mkdir "${WORKDIR}/${ext}" || die
+		if [[ -n ${IS_SOURCE} ]]; then
+			ln "${S}/target/lib/${ext}" "${WORKDIR}/${ext}" || die
+		else
+			ln "${S}/${ext}" "${WORKDIR}/${ext}" || die
+		fi
+	done
 
 	if [[ -n ${IS_SOURCE} ]]; then
 		pushd "${S}/target/lib" > /dev/null || die
-		office-ext_src_install
+		office-ext-r1_src_install
 		popd > /dev/null || die
 	else
-		office-ext_src_install
+		office-ext-r1_src_install
 	fi
 
 	if use doc; then
