@@ -35,3 +35,6 @@ app-text/cuneiform-qt
 # Not yet working
 =dev-util/pmd-5.1.0
 
+# Changes the UI in a way I don't like
+=app-text/fbreader-0.99.5
+
