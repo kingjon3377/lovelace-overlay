@@ -23,7 +23,7 @@ DEPEND="${RDEPEND}
 		>=dev-haskell/cabal-1.6
 		dev-haskell/configfile
 		dev-haskell/glade
-		dev-haskell/gtk
+		dev-haskell/gtk:2
 		dev-haskell/mtl
 		dev-haskell/random
 		dev-haskell/regex-compat
