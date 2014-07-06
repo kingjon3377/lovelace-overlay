@@ -43,4 +43,4 @@ esac
 # Fix for JRE 1.5.
 export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/lib
 
-exec "${ECLIPSE_BIN}" -vm $(java-config --java) "$@" "${ECLIPSE_USER_ARGS}" -Dorg.eclipse.swt.browser.UseWebKitGTK=false org.eclipse.swt.browser.UseWebKitGTK=false -vmargs ${VM_ARGS} 
+exec "${ECLIPSE_BIN}" -vm $(java-config --java) "$@" "${ECLIPSE_USER_ARGS}" -Dorg.eclipse.swt.browser.UseWebKitGTK=false org.eclipse.swt.browser.UseWebKitGTK=false -Dsun.awt.disablegrab=true -vmargs ${VM_ARGS} 
