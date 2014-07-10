@@ -36,5 +36,6 @@ src_install() {
 			DOCDIR="${D}/${TEXMF_DIST_PATH}/doc/latex/${PN}" LATEXDIR="${D}/${TEXMF_DIST_PATH}/tex/latex/${PN}" \
 			LATEXCFGDIR="${D}/${TEXMF_PATH}/tex/latex/${PN}"
 	fi
+	dodoc README
 	texlive-common_handle_config_files
 }
