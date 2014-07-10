@@ -28,11 +28,11 @@ src_compile() {
 
 src_install() {
 	if use doc; then
-		emake install prefix="${D}" SCRIPTSDIR="${D}/${TEXMF_DIST_PATH}/scripts/${PN}" \
+		emake install prefix="${D}/usr" SCRIPTSDIR="${D}/${TEXMF_DIST_PATH}/scripts/${PN}" \
 			DOCDIR="${D}/${TEXMF_DIST_PATH}/doc/latex/${PN}" LATEXDIR="${D}/${TEXMF_DIST_PATH}/tex/latex/${PN}" \
 			LATEXCFGDIR="${D}/${TEXMF_PATH}/tex/latex/${PN}"
 	else
-		emake -j1 -C src install prefix="${D}" SCRIPTSDIR="${D}/${TEXMF_DIST_PATH}/scripts/${PN}" \
+		emake -j1 -C src install prefix="${D}/usr" SCRIPTSDIR="${D}/${TEXMF_DIST_PATH}/scripts/${PN}" \
 			DOCDIR="${D}/${TEXMF_DIST_PATH}/doc/latex/${PN}" LATEXDIR="${D}/${TEXMF_DIST_PATH}/tex/latex/${PN}" \
 			LATEXCFGDIR="${D}/${TEXMF_PATH}/tex/latex/${PN}"
 	fi
