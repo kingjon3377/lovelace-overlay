@@ -38,4 +38,10 @@ src_install() {
 	fi
 	dodoc README
 	texlive-common_handle_config_files
+	pushd "${S}/src" > /dev/null
+	for script in *.py;do
+		dobin_texmf_scripts "texmf-dist/scripts/${PN}/${script}"
+	done
+	popd > /dev/null
+	sed -i -e 's/\.py//' "${D}/usr/include/LaTeX.mk" || die
 }
