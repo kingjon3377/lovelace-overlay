@@ -1,0 +1,21 @@
+diff -ru fanficdownloader.old/adapters/adapter_storiesonlinenet.py fanficdownloader/adapters/adapter_storiesonlinenet.py
+--- fanficdownloader.old/adapters/adapter_storiesonlinenet.py	2014-07-19 09:52:55.677416396 -0400
++++ fanficdownloader/adapters/adapter_storiesonlinenet.py	2014-07-19 09:53:41.115848337 -0400
+@@ -47,7 +47,7 @@
+             self.story.setMetadata('storyId',self.parsedUrl.query.split('=',)[1])
+         
+         # normalized story URL.
+-        self._setURL('http://' + self.getSiteDomain() + '/s/'+self.story.getMetadata('storyId'))
++        self._setURL('https://' + self.getSiteDomain() + '/s/'+self.story.getMetadata('storyId'))
+         
+         # Each adapter needs to have a unique site abbreviation.
+         self.story.setMetadata('siteabbrev','strol')
+@@ -66,7 +66,7 @@
+         return "http://"+self.getSiteDomain()+"/s/1234 http://"+self.getSiteDomain()+"/s/1234:4010"
+ 
+     def getSiteURLPattern(self):
+-        return re.escape("http://"+self.getSiteDomain())+r"/s/\d+((:\d+)?(;\d+)?$|(:i)?$)?"
++        return re.escape("https?://"+self.getSiteDomain())+r"/s/\d+((:\d+)?(;\d+)?$|(:i)?$)?"
+ 
+     ## Login seems to be reasonably standard across eFiction sites.
+     def needToLoginCheck(self, data):
