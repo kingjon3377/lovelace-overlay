@@ -15,7 +15,7 @@ diff -ru fanficdownloader.old/adapters/adapter_storiesonlinenet.py fanficdownloa
  
      def getSiteURLPattern(self):
 -        return re.escape("http://"+self.getSiteDomain())+r"/s/\d+((:\d+)?(;\d+)?$|(:i)?$)?"
-+        return re.escape(r"https?://"+self.getSiteDomain())+r"/s/\d+((:\d+)?(;\d+)?$|(:i)?$)?"
++        return re.escape(r"https?://storiesonline.net/s/\d+((:\d+)?(;\d+)?$|(:i)?$)?"
  
      ## Login seems to be reasonably standard across eFiction sites.
      def needToLoginCheck(self, data):
