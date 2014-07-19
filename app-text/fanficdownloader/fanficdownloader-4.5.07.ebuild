@@ -38,7 +38,6 @@ src_prepare() {
 		{} + || die
 	epatch "${FILESDIR}/dwiggie.patch"
 	epatch "${FILESDIR}/system-config.patch"
-	epatch "${FILESDIR}/${P}-strol-https.patch"
 }
 
 src_install() {
