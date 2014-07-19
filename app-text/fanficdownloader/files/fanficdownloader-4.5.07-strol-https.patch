@@ -1,6 +1,6 @@
 diff -ru fanficdownloader.old/adapters/adapter_storiesonlinenet.py fanficdownloader/adapters/adapter_storiesonlinenet.py
---- fanficdownloader.old/adapters/adapter_storiesonlinenet.py	2014-07-19 09:52:55.677416396 -0400
-+++ fanficdownloader/adapters/adapter_storiesonlinenet.py	2014-07-19 09:53:41.115848337 -0400
+--- fanficdownloader.old/adapters/adapter_storiesonlinenet.py	2014-07-19 10:02:24.231308494 -0400
++++ fanficdownloader/adapters/adapter_storiesonlinenet.py	2014-07-19 10:03:44.279307756 -0400
 @@ -47,7 +47,7 @@
              self.story.setMetadata('storyId',self.parsedUrl.query.split('=',)[1])
          
@@ -19,3 +19,82 @@ diff -ru fanficdownloader.old/adapters/adapter_storiesonlinenet.py fanficdownloa
  
      ## Login seems to be reasonably standard across eFiction sites.
      def needToLoginCheck(self, data):
+@@ -89,10 +89,10 @@
+             params['theusername'] = self.getConfig("username")
+             params['thepassword'] = self.getConfig("password")
+         params['rememberMe'] = '1'
+-        params['page'] = 'http://'+self.getSiteDomain()+'/'
++        params['page'] = 'https://'+self.getSiteDomain()+'/'
+         params['submit'] = 'Login'
+     
+-        loginUrl = 'http://' + self.getSiteDomain() + '/login.php'
++        loginUrl = 'https://' + self.getSiteDomain() + '/login.php'
+         logger.debug("Will now login to URL (%s) as (%s)" % (loginUrl,
+                                                               params['theusername']))
+     
+@@ -149,7 +149,7 @@
+         # Find authorid and URL from... author url.
+         a = soup.find('a', href=re.compile(r"/a/\w+"))
+         self.story.setMetadata('authorId',a['href'].split('/')[2])
+-        self.story.setMetadata('authorUrl','http://'+self.host+a['href'])
++        self.story.setMetadata('authorUrl','https://'+self.host+a['href'])
+         self.story.setMetadata('author',stripHTML(a).replace("'s Page",""))
+ 
+         # Find the chapters:
+@@ -157,9 +157,9 @@
+         if len(chapters) != 0:
+             for chapter in chapters:
+                 # just in case there's tags, like <i> in chapter titles.
+-                self.chapterUrls.append((stripHTML(chapter),'http://'+self.host+chapter['href']))
++                self.chapterUrls.append((stripHTML(chapter),'https://'+self.host+chapter['href']))
+         else:
+-            self.chapterUrls.append((self.story.getMetadata('title'),'http://'+self.host+'/s/'+self.story.getMetadata('storyId')))
++            self.chapterUrls.append((self.story.getMetadata('title'),'https://'+self.host+'/s/'+self.story.getMetadata('storyId')))
+ 
+         self.story.setMetadata('numChapters',len(self.chapterUrls))
+ 
+@@ -193,7 +193,7 @@
+                 # [<a href="...">Title</a>, u' (2)']
+                 series_contents = a.parent.contents
+                 i = 0 if len(series_contents) == 1 else series_contents[1].strip(' ()')
+-                seriesUrl = 'http://'+self.host+a['href']
++                seriesUrl = 'https://'+self.host+a['href']
+                 self.story.setMetadata('seriesUrl',seriesUrl)
+                 series_name = stripHTML(a)
+                 logger.debug("Series name= %s" % series_name)
+@@ -223,7 +223,7 @@
+                         if story_a:
+                             logger.debug("Story is in a series that is in a universe! The universe is '%s'" % universe_name)
+                             self.story.setMetadata("universe", universe_name)
+-                            self.story.setMetadata('universeUrl','http://'+self.host+ '/library/universe.php?id=' + universe_id)
++                            self.story.setMetadata('universeUrl','https://'+self.host+ '/library/universe.php?id=' + universe_id)
+                             break
+         except:
+             pass
+@@ -234,7 +234,7 @@
+                 desc = lc4.contents[2]
+                 # Assumed only one universe, but it does have a URL--use universeHTML
+                 universe_name = stripHTML(a)
+-                universeUrl = 'http://'+self.host+a['href']
++                universeUrl = 'https://'+self.host+a['href']
+                 logger.debug("Retrieving Universe - about to get page")
+                 universe_soup = bs.BeautifulSoup(self._fetchUrl(universeUrl))
+                 logger.debug("Retrieving Universe - have page")
+@@ -252,7 +252,7 @@
+         except:
+             pass
+ 
+-        self.setDescription('http://'+self.host+'/s/'+self.story.getMetadata('storyId'),desc)
++        self.setDescription('https://'+self.host+'/s/'+self.story.getMetadata('storyId'),desc)
+             
+         for b in lc4.findAll('b'):
+             #logger.debug('Getting metadata: "%s"' % b)
+@@ -319,7 +319,7 @@
+ #            logger.debug(div)
+                         
+             for ur in urls:
+-                soup = bs.BeautifulSoup(self._fetchUrl("http://"+self.getSiteDomain()+ur['href']),
++                soup = bs.BeautifulSoup(self._fetchUrl("https://"+self.getSiteDomain()+ur['href']),
+                                      selfClosingTags=('br','hr')) # otherwise soup eats the br/hr tags.
+         
+                 div1 = soup.find('div', {'id' : 'story'})
