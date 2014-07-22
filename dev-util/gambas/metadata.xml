@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+  <herd>proxy-maintainers</herd>
+  <maintainer>
+    <email>maintainer-needed@gentoo.org</email>
+  </maintainer>
+  <use>
+    <flag name="corba">Enable CORBA 2 ORB (<pkg>net-misc/omniORB</pkg>)</flag>
+    <flag name="smtp">Enable smtp support.</flag>
+	<flag name="qt3">Enable qt3 user interface, the only supported one in Gambas 2.x</flag>
+	<flag name="imageio">Enable image IO via <pkg>x11-libs/gdk-pixbuf</pkg></flag>
+	<flag name="desktop">Enable desktop module</flag>
+	<flag name="imageimlib">Enable image IO via <pkg>media-libs/imlib2</pkg></flag>
+	<flag name="media">Enable multimedia support via <pkg>media-libs/gstreamer</pkg></flag>
+	<flag name="net">Enable networking support via <pkg>net-misc/curl</pkg></flag>
+	<flag name="sdlsound">Enable sound support via <pkg>media-libs/sdl-sound</pkg></flag>
+	<flag name="httpd">Enable HTTP server component</flag>
+	<flag name="openssl">Enable SSL support via <pkg>dev-libs/openssl</pkg></flag>
+  </use>
+</pkgmetadata>

@@ -1,0 +1,24 @@
+diff -ru src.old/expr.c src/expr.c
+--- src.old/expr.c	2011-01-08 16:58:31.000000000 -0500
++++ src/expr.c	2011-01-08 18:26:24.000000000 -0500
+@@ -516,7 +516,7 @@
+     {
+       if ((*num)++)
+ 	printf ("%s", sep_keyword);
+-      printf ("%.*s", tree->right - tree->left, (char *)tree->left);
++      printf ("%.*s", (int) (tree->right - tree->left), (char *)tree->left);
+     }
+ }
+ 
+diff -ru src.old/mem.c src/mem.c
+--- src.old/mem.c	2011-01-08 18:31:16.000000000 -0500
++++ src/mem.c	2011-01-08 18:32:14.000000000 -0500
+@@ -110,7 +110,7 @@
+       mem->lim = (char *) block + new_size;
+     }
+   ptr = mem->next;
+-  mem->next = (char *)ALIGN (mem->next + length);
++  mem->next = (char *)ALIGN (mem->next + (long) length);
+   return ptr;
+ }
+ 

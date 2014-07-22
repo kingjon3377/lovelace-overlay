@@ -1,0 +1,117 @@
+#Author: Barry deFreese <bdefreese@debian.org>
+#Description: Declare the tokens before the code.
+Index: sdlbasic-0.0.20070714/src/sdlBasic/src/sdlBrt/sdlBrt_tab.y
+===================================================================
+--- sdlbasic-0.0.20070714.orig/src/sdlBasic/src/sdlBrt/sdlBrt_tab.y	2009-05-06 10:51:48.000000000 -0400
++++ sdlbasic-0.0.20070714/src/sdlBasic/src/sdlBrt/sdlBrt_tab.y	2009-05-06 10:52:16.000000000 -0400
+@@ -1,53 +1,3 @@
+-%{
+-
+-/* comma: return a sequence of items to execute */
+-Node *comma( Node *node1, Node *node2 )
+-{
+-    return opNode( OpComma, node1, node2 );
+-}
+-
+-/* blockName: returns name of block */
+-char *blockName( int klass )
+-{
+-    switch(klass) {
+-    case -1:        return eCopyString( "end-of-file" );
+-    case For:       return eCopyString( "End For/Next" );
+-    case Function:  return eCopyString( "End Function" );
+-    case If:        return eCopyString( "End If" );
+-    case While:     return eCopyString( "End While" );
+-    case Do:	    return eCopyString( "Loop" );
+-    case Select:    return eCopyString( "End Select" );
+-    case Sub:       return eCopyString( "End Sub" );
+-    default:        return eCopyString("block");
+-    }
+-}
+-
+-/* checkBlockEnd: make sure the block ends correctly */
+-void checkBlockEnd(int got)
+-{
+-    int     wanted;
+-    //char    *wantedName, *gotName;
+-
+-    if (isEmptyStack(blockStack)) {
+-        switch (got) {
+-        case For:       ePrintf( Syntax, "End For without For");break;
+-        case Function:  ePrintf( Syntax, "End Function without Function");break;
+-        case If:        ePrintf( Syntax, "End If without If");break;
+-        case While:     ePrintf( Syntax, "End While without While");break;
+-        case Do:        ePrintf( Syntax, "Loop without Do");break;
+-        case Select:    ePrintf( Syntax, "End Select without Select");break;
+-        case Sub:       ePrintf( Syntax, "End Sub without Sub");break;
+-        }
+-    }
+-
+-    wanted = peekStack(blockStack);
+-    if (got != wanted){
+-        ePrintf( Syntax, "expected %s, not %s", blockName(wanted), blockName(got));
+-    }
+-}
+-
+-%}
+-
+ /* %no_lines */
+ %union {
+     int     iValue;         /* integer value */
+@@ -184,6 +134,56 @@
+ %left '*' '/' '\\' '%' Shl Shr
+ %left '^'
+ 
++%{
++
++/* comma: return a sequence of items to execute */
++Node *comma( Node *node1, Node *node2 )
++{
++    return opNode( OpComma, node1, node2 );
++}
++
++/* blockName: returns name of block */
++char *blockName( int klass )
++{
++    switch(klass) {
++    case -1:        return eCopyString( "end-of-file" );
++    case For:       return eCopyString( "End For/Next" );
++    case Function:  return eCopyString( "End Function" );
++    case If:        return eCopyString( "End If" );
++    case While:     return eCopyString( "End While" );
++    case Do:	    return eCopyString( "Loop" );
++    case Select:    return eCopyString( "End Select" );
++    case Sub:       return eCopyString( "End Sub" );
++    default:        return eCopyString("block");
++    }
++}
++
++/* checkBlockEnd: make sure the block ends correctly */
++void checkBlockEnd(int got)
++{
++    int     wanted;
++    //char    *wantedName, *gotName;
++
++    if (isEmptyStack(blockStack)) {
++        switch (got) {
++        case For:       ePrintf( Syntax, "End For without For");break;
++        case Function:  ePrintf( Syntax, "End Function without Function");break;
++        case If:        ePrintf( Syntax, "End If without If");break;
++        case While:     ePrintf( Syntax, "End While without While");break;
++        case Do:        ePrintf( Syntax, "Loop without Do");break;
++        case Select:    ePrintf( Syntax, "End Select without Select");break;
++        case Sub:       ePrintf( Syntax, "End Sub without Sub");break;
++        }
++    }
++
++    wanted = peekStack(blockStack);
++    if (got != wanted){
++        ePrintf( Syntax, "expected %s, not %s", blockName(wanted), blockName(got));
++    }
++}
++
++%}
++
+ %%
+ 
+ program:

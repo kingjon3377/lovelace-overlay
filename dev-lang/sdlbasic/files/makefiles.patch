@@ -1,0 +1,77 @@
+# Copyright (C) 2008 by Miriam Ruiz <little_miry@yahoo.es>
+# Distributed under the same license as the program. See debian/copyright.
+
+Index: sdlbasic-0.0.20070714/src/sdlBasic/src/sdlBasic/gtk/makefile
+===================================================================
+--- sdlbasic-0.0.20070714.orig/src/sdlBasic/src/sdlBasic/gtk/makefile	2008-04-04 14:51:15.000000000 +0000
++++ sdlbasic-0.0.20070714/src/sdlBasic/src/sdlBasic/gtk/makefile	2008-04-04 14:53:30.000000000 +0000
+@@ -96,25 +96,26 @@
+ # This is OK - just means no SciTE in the Gnome Applications menu
+ # Dead:	install -D SciTEGTK.properties $(SYSCONF_PATH)/SciTEGlobal.properties
+ install:
+-	$(INSTALL) -m 755 -d $(bindir) $(SYSCONF_PATH)
+-	$(INSTALL) -m 755 -d $(bindir) $(DOC_PATH)
+-	$(INSTALL) -m 755 -d $(bindir) $(PLUGINS_PATH)
++	$(INSTALL) -m 755 -d "$(DESTDIR)$(bindir)"
++	$(INSTALL) -m 755 -d "$(DESTDIR)$(SYSCONF_PATH)"
++	$(INSTALL) -m 755 -d "$(DESTDIR)$(DOC_PATH)"
++	$(INSTALL) -m 755 -d "$(DESTDIR)$(PLUGINS_PATH)"
+ 
+-	$(INSTALL) -m 755 $(PROG) $(bindir)
++	$(INSTALL) -m 755 $(PROG) "$(DESTDIR)$(bindir)"
+ 
+ 	for files in ../../../share/sdlBasic/*.properties ../../../share/sdlBasic/*.api; \
+ 	do \
+-		$(INSTALL) -m 644 $$files $(SYSCONF_PATH); \
++		$(INSTALL) -m 644 $$files "$(DESTDIR)$(SYSCONF_PATH)"; \
+ 	done
+ 
+ #for files in ..../share/doc/sdlBasic/*.html ../doc/SciTEIco.png ../doc/PrintHi.png; \
+ #do \
+-#$(INSTALL) -m 644 $$files $(DOC_PATH); \
++#$(INSTALL) -m 644 $$files "$(DESTDIR)$(DOC_PATH)"; \
+ #done
+ 
+ 	for files in ../../../share/sdlBasic/plugins/*.sdlbas; \
+ 	do \
+-		$(INSTALL) -m 644 $$files $(PLUGINS_PATH); \
++		$(INSTALL) -m 644 $$files "$(DESTDIR)$(PLUGINS_PATH)"; \
+ 	done
+ 
+ uninstall:
+Index: sdlbasic-0.0.20070714/src/sdlBasic/src/sdlBrt/makefile
+===================================================================
+--- sdlbasic-0.0.20070714.orig/src/sdlBasic/src/sdlBrt/makefile	2008-04-04 14:51:15.000000000 +0000
++++ sdlbasic-0.0.20070714/src/sdlBasic/src/sdlBrt/makefile	2008-04-04 14:58:48.000000000 +0000
+@@ -328,23 +328,23 @@
+ ifeq ($(compress), UPX)
+ 	upx -9 $(TARGET)
+ endif
+-	$(INSTALL) -c -m 755 -d ${exec_prefix}
+-	$(INSTALL) -c $(TARGET) ${exec_prefix}
++	$(INSTALL) -c -m 755 -d "$(DESTDIR)$(exec_prefix)"
++	$(INSTALL) -c $(TARGET) "$(DESTDIR)$(exec_prefix)"
+ 
+ 
+ install-fonts:
+-	$(INSTALL) -c -m 755 -d ${font_prefix}/dejavu
+-	$(INSTALL)  fonts/DejaVuSans.ttf ${font_prefix}/dejavu/DejaVuSans.ttf
+-	$(INSTALL)  fonts/DejaVuSansMono-Roman.ttf ${font_prefix}/dejavu/DejaVuSansMono-Roman.ttf
++	$(INSTALL) -c -m 755 -d "$(DESTDIR)$(font_prefix)"/dejavu
++	$(INSTALL)  fonts/DejaVuSans.ttf "$(DESTDIR)$(font_prefix)"/dejavu/DejaVuSans.ttf
++	$(INSTALL)  fonts/DejaVuSansMono-Roman.ttf "$(DESTDIR)$(font_prefix)"/dejavu/DejaVuSansMono-Roman.ttf
+ 
+ remove:	remove-bin	remove-fonts
+ 
+ remove-bin:
+-	$(RM) ${exec_prefix}/$(TARGET)
++	$(RM) "$(DESTDIR)$(exec_prefix)/$(TARGET)"
+ 
+ remove-fonts:
+-	$(RM) ${font_prefix}/dejavu/DejaVuSans.ttf
+-	$(RM) ${font_prefix}/dejavu/DejaVuSansMono-Roman.ttf
++	$(RM) "$(DESTDIR)$(font_prefix)"/dejavu/DejaVuSans.ttf
++	$(RM) "$(DESTDIR)$(font_prefix)"/dejavu/DejaVuSansMono-Roman.ttf
+ 
+ clean:
+ 	$(RM) *.o

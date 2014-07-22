@@ -1,0 +1,23 @@
+diff -ru src.old//editor/MapImage.java src/editor/MapImage.java
+--- src.old//editor/MapImage.java	2012-02-14 02:00:00.000000000 -0500
++++ src/editor/MapImage.java	2012-02-14 02:03:08.000000000 -0500
+@@ -17,7 +17,7 @@
+ import java.io.*;
+ import java.util.*;
+ 
+-import com.sun.image.codec.jpeg.*;
++import javax.imageio.*;
+ 
+ import net.sourceforge.mapcraft.utils.Options;
+ 
+@@ -134,9 +134,7 @@
+     private void
+     saveAsJPEG(BufferedImage image, String filename) throws IOException {
+         File          file = new File(filename);
+-        OutputStream  out = new BufferedOutputStream(new FileOutputStream(file));
+-        JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(out);
+-        encoder.encode(image);
++	ImageIO.write(image, "jpg", file);
+     }
+ 
+     public void

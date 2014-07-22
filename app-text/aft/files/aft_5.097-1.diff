@@ -1,0 +1,1383 @@
+--- aft-5.097.orig/aft-xhtml.dat
++++ aft-5.097/aft-xhtml.dat
+@@ -9,7 +9,7 @@
+ # element markup. 
+ #
+ Preamble{
+-<?xml version=\'1.0\' encoding=\'iso-8859-1\'?>
++<?xml version='1.0' encoding='iso-8859-1'?>
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+ <html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+--- aft-5.097.orig/Makefile.in
++++ aft-5.097/Makefile.in
+@@ -144,7 +144,7 @@
+ 
+ pkgdata_DATA = $(BUILT_SOURCES) AFT.pm
+ pkgdata_SCRIPTS = compile.pl postrtf.pl launch_ie.pl
+-DOCS = aft2rtf-doc.rtf aft-refman.html
++DOCS = aft2rtf-doc.html aft-refman.html
+ TOCS = aft2rtf-doc.aft-TOC aft-refman.aft-TOC
+ MISCDOCS = aft.gif aft.jpg aft.eps ChangeLog.aft
+ docdir = $(datadir)/doc/@PACKAGE@
+@@ -562,8 +562,8 @@
+ .dat.pm:
+ 	@PERL@ compile.pl $<
+ 
+-aft2rtf-doc.rtf: aft2rtf-doc.aft
+-	@PERL@ aft.pl --type=rtf aft2rtf-doc.aft
++aft2rtf-doc.html: aft2rtf-doc.aft
++	@PERL@ aft.pl --type=html aft2rtf-doc.aft
+ 
+ aft-refman.html: aft-refman.aft
+ 	@PERL@ aft.pl --type=bn-html aft-refman.aft
+--- aft-5.097.orig/compile.pl
++++ aft-5.097/compile.pl
+@@ -1,7 +1,4 @@
+-: # use perl                                  -*- mode: Perl; -*-
+-	eval 'exec perl -S $0 "$@"'
+-		if $running_under_some_shell;
+-
++#!/usr/bin/perl
+ #
+ # compile.pl - AFT element file compiler.
+ #
+--- aft-5.097.orig/postrtf.pl
++++ aft-5.097/postrtf.pl
+@@ -1,3 +1,4 @@
++#!/usr/bin/perl
+ #
+ # postrtf.pl - postprocessing of rtf-files generated from AFT
+ #
+@@ -148,4 +149,5 @@
+ 
+ open(FILE, ">$rtffile") || die "postrtf: $rtffile couldn't be opened: $!\n";
+ print FILE $STR;
+-close (FILE);
+\ No newline at end of file
++close (FILE);
++
+--- aft-5.097.orig/aft.in
++++ aft-5.097/aft.in
+@@ -1,6 +1,4 @@
+-: # use perl                                  -*- mode: Perl; -*-
+-	eval 'exec perl -S $0 "$@"'
+-		if $running_under_some_shell;
++#!/usr/bin/perl
+ 
+ use strict;
+ use lib "@prefix@/share/@PACKAGE@";
+--- aft-5.097.orig/debian/rules
++++ aft-5.097/debian/rules
+@@ -0,0 +1,61 @@
++#!/usr/bin/make -f
++
++# Uncomment this to turn on verbose mode.
++#export DH_VERBOSE=1
++
++config.status: configure
++	dh_testdir
++	./configure --prefix=/usr
++
++build: build-stamp
++
++build-stamp:  config.status
++	dh_testdir
++	$(MAKE)
++	touch build-stamp
++
++clean:
++	dh_testdir
++	dh_testroot
++	rm -f build-stamp 
++	[ ! -f Makefile ] || $(MAKE) distclean
++	dh_clean
++
++install: build
++	dh_testdir
++	dh_testroot
++	dh_clean -k
++	dh_installdirs
++	$(MAKE) install prefix=$(CURDIR)/debian/aft/usr
++
++binary-arch: build install
++
++binary-indep: build install
++# the package installs lots of crap into rthe doc directory that we want to get
++# rid of and do ourselves
++	rm -rf debian/aft/usr/share/doc/aft/*
++	rm -f debian/aft/usr/share/aft/aft.pl
++	rm -f debian/aft/usr/share/aft/launch_ie.pl
++	dh_testdir
++	dh_testroot
++	dh_installdocs -n 	
++	dh_installexamples  
++	# fix the examples permission bits
++	chmod a-x $(CURDIR)/debian/aft/usr/share/doc/aft/examples/*
++	dh_installmenu
++	dh_installcron
++	dh_installman
++	dh_installinfo
++	dh_installchangelogs ChangeLog.aft
++	dh_link
++	dh_strip
++	dh_compress
++	dh_fixperms
++	dh_installdeb
++	dh_shlibdeps
++	dh_gencontrol
++	dh_md5sums
++	dh_builddeb
++
++binary: binary-indep binary-arch
++.PHONY: build clean binary-indep binary-arch binary install 
+--- aft-5.097.orig/debian/examples
++++ aft-5.097/debian/examples
+@@ -0,0 +1,4 @@
++aft-refman.aft 
++aft2rtf-doc.aft 
++trip.aft 
++trip-1.aft
+--- aft-5.097.orig/debian/aft.1
++++ aft-5.097/debian/aft.1
+@@ -0,0 +1,57 @@
++.TH aft 1 "22. April 2003" "Almost Free Text"
++.SH NAME
++aft \- "free form" document preparation system
++
++.SH SYNOPSIS
++.B aft
++[\fI\-\-verbose\fR] [\fI\-\-autonumber\fR] [\fI\-\-output=file | \-\-output=\-\fR]
++[\fI\-\-type=output\-type\fR] \fIinfile ..\fR
++
++.SH DESCRIPTION
++AFT is a nearly free format documentation system which can be typed in using any
++editor or wordprocessor that supports tabs or hard spaces (column-based spaces
++whose number doesn't shrink or grow based on formatting). By using AFT, you are
++no longer constrained to one wordprocessing file standard (such as Microsoft
++Word), nor do you have to enter a plethora of weird syntactical incantations of
++an embedded mark up language (such as LaTeX or HTML).
++
++Unlike other mark up languages, AFT is designed to parse and recognize patterns
++rather than formal commands. That is why there is no single escape or command
++sequence that tells AFT what to do. In this regard, AFT will process almost
++anything you throw at it.
++
++An AFT document is easily converted into such popular formats as HTML, RTF and
++LaTeX. Because there are few commands, learning to write a document in AFT
++requires little effort. This doesn't mean that AFT is not powerful. In fact,
++this very document was conceived and written using AFT. 
++
++.SH USAGE
++Running AFT is as simple as typing:
++
++aft NAME_OF_YOUR_FILE.aft
++
++
++.SH OPTIONS
++.TP
++.B \-\-verbose
++Generate a lot of commentary. By default, AFT will just silently process files
++(unless errors occur). Using this option causes AFT to keep you informed about
++what it is doing.
++.TP
++.B \-\-autonumber
++This switch tells AFT to automatically number your sections.--output=file |
++.TP
++.B \-\-output=\-
++This tells AFT where to send its processed output. You can supply a filename
++(file) or \- which tells AFT to write to your standard output (your display or
++stdout).
++.TP
++.B \-\-type=output_type
++This tells AFT what type of output to do. For example HTML output is used for
++html and DocBook output is used for docbook. As a side effect, this will also
++specify the file name extension for the output file if the \-\-output option 
++isn't specified.
++.TP
++.B infile ..
++One or more AFT documents to be processed.
++
+--- aft-5.097.orig/debian/control
++++ aft-5.097/debian/control
+@@ -0,0 +1,22 @@
++Source: aft
++Section: text
++Priority: optional
++Maintainer: Robert Lemmen <robertle@semistable.com>
++Build-Depends: debhelper (>= 5.0.0)
++Standards-Version: 3.8.3
++
++Package: aft
++Architecture: all
++Depends: perl (>= 5.6), ${misc:Depends}
++Description: "free form" document preparation system
++ AFT is a document preparation system. It is mostly free form meaning that there
++ is little intrusive markup. AFT source documents look a lot like plain old
++ ASCII text. 
++ .
++ AFT has a few rules for structuring your document and these rules have more to
++ do with formatting your text rather than embedding commands. 
++ .
++ Right now, AFT produces pretty good (weblint-able) HTML, XHTML, LaTeX, lout and
++ RTF. It can, in fact, be coerced into producing all types of output (e.g.
++ roll-your-own XML). All that needs to be done is to edit a rule file. You can
++ even customize your own HTML rule files for specialized output. 
+--- aft-5.097.orig/debian/docs
++++ aft-5.097/debian/docs
+@@ -0,0 +1,6 @@
++aft-refman.html 
++aft2rtf-doc.html 
++aft.gif 
++debian/vim
++debian/jed
++
+--- aft-5.097.orig/debian/changelog
++++ aft-5.097/debian/changelog
+@@ -0,0 +1,73 @@
++aft (2:5.097-1) unstable; urgency=low
++
++  * New upstream release
++  * Bumped standards version
++  * Fixed debhelper dependency
++  * Fixed file permissions of examples
++
++ -- Robert Lemmen <robertle@semistable.com>  Thu, 17 Sep 2009 19:40:51 +0100
++
++aft (2:5.096-2) unstable; urgency=low
++
++  * Fix various small lintian complaints
++  * Bumped standards version
++
++ -- Robert Lemmen <robertle@semistable.com>  Mon,  5 May 2008 15:57:28 +0100
++
++aft (2:5.096-1) unstable; urgency=low
++
++  * New upstream release
++
++ -- Robert Lemmen <robertle@semistable.com>  Tue, 18 Oct 2005 10:42:45 +0200
++
++aft (2:5.095-1) unstable; urgency=low
++
++  * New upstream release
++
++ -- Robert Lemmen <robertle@semistable.com>  Tue, 14 Dec 2004 21:15:05 +0100
++
++aft (2:5.094-1) unstable; urgency=low
++
++  * New upstream release
++  * updated vim syntax files
++  * added jed syntax files
++
++ -- Robert Lemmen <robertle@semistable.com>  Fri, 16 Apr 2004 15:46:34 +0200
++
++aft (5.0931-1) unstable; urgency=low
++
++  * New upstream release
++
++ -- Robert Lemmen <robertle@semistable.com>  Mon, 16 Feb 2004 18:48:25 +0100
++
++aft (5.092-1) unstable; urgency=low
++
++  * New upstream release
++
++ -- Robert Lemmen <robertle@semistable.com>  Thu,  6 Nov 2003 22:23:39 +0100
++
++aft (5.09-1) unstable; urgency=low
++
++  * New upstream release
++
++ -- Robert Lemmen <robertle@semistable.com>  Sat,  2 Aug 2003 16:48:12 +0200
++
++aft (5.08c-1) unstable; urgency=low
++
++  * New upstream release
++  * fixed problem with xhtml output (closes: #197774)
++
++ -- Robert Lemmen <robertle@semistable.com>  Wed, 18 Jun 2003 17:43:42 +0200
++
++aft (5.08b-2) unstable; urgency=low
++
++  * Fixed wrong architecture in control file (any -> all)
++  
++ -- Robert Lemmen <robertle@semistable.com>  Tue, 22 May 2003 13:18:21 +0200
++ 
++aft (5.08b-1) unstable; urgency=low
++
++  * Initial Release. (closes: #128673)
++  
++ -- Robert Lemmen <robertle@semistable.com>  Tue, 22 Apr 2003 15:48:53 +0200
++
+--- aft-5.097.orig/debian/compat
++++ aft-5.097/debian/compat
+@@ -0,0 +1 @@
++5
+--- aft-5.097.orig/debian/README.Debian
++++ aft-5.097/debian/README.Debian
+@@ -0,0 +1,12 @@
++AFT for Debian
++--------------
++
++/usr/share/doc/aft/vim contains a vim syntax highlighting script and notes on 
++how to use it by David Bourgeois. I will try to get this into the vim package 
++at some point in the future, but for now you will have to install them 
++yourself.
++
++The same goes for the file in the jed directory, which is an AFT mode for the
++popular jed editor, by Guido Gonzato.
++
++ -- Robert Lemmen <robertle@semistable.com>, Fri, 16 Apr 2004 15:54:52 +0200
+--- aft-5.097.orig/debian/manpages
++++ aft-5.097/debian/manpages
+@@ -0,0 +1 @@
++debian/aft.1
+--- aft-5.097.orig/debian/watch
++++ aft-5.097/debian/watch
+@@ -0,0 +1,7 @@
++# Example watch control file for uscan
++# Rename this file to "watch" and then you can run the "uscan" command
++# to check for upstream updates and more.
++version=2
++# Site		Directory		Pattern			Version	Script
++http://www.maplefish.com/todd/aft.html     aft-(.*)\.tar\.gz
++
+--- aft-5.097.orig/debian/copyright
++++ aft-5.097/debian/copyright
+@@ -0,0 +1,13 @@
++This package was debianized by Robert Lemmen <robertle@semistable.com> on
++Tue, 22 Apr 2003 15:48:53 +0200.
++
++It was downloaded from http://www.maplefish.com/todd/aft.html
++
++Upstream Author: Todd Coram <todd@maplefish.com>
++
++Copyright: 1999-2004 Todd Coram
++
++  AFT is licensed under the "Artistic" license. 
++ 
++ On Debian systems this license can be found in the file 
++ /usr/share/common-licenses/Artistic.
+--- aft-5.097.orig/debian/jed/aft.sl
++++ aft-5.097/debian/jed/aft.sl
+@@ -0,0 +1,628 @@
++% File:          aft.sl      -*- mode: SLang -*-
++%
++% Author:        Guido Gonzato, <guido.gonzato@univr.it>
++% Version:       1.0.8
++% Date:          9 January 2004
++%
++% Description:   This mode is designed to facilitate the task of editing
++%                AFT files. AFT (Almost Free Text) is a document
++%                preparation system, please visit
++%                http://www.maplefish.com/todd/aft.html
++%                for details.
++%
++% Installation:  copy aft.sl JED_ROOT/lib, then add these lines to .jedrc:
++%
++%                  autoload ("aft_mode", "aft");
++%                  add_mode_for_extension ("aft", "aft");
++%                  enable_dfa_syntax_for_mode ("aft");
++
++% -----
++
++
++autoload ("tex_insert_quote", "texcom");
++custom_variable ("view_html_cmd", "mozilla");
++
++variable aft_buf, aft_file, aft_file_dir;
++
++static variable
++  TRUE = 1,
++  FALSE = 0,
++  is_bullet_list = FALSE,
++  is_enumerated_list = FALSE,
++  is_named_list = FALSE,
++  is_table = FALSE;
++
++% -----
++
++static define aft_paragraph_separator ()
++{
++  bol_skip_white ();
++  eolp () or
++    ffind ("|") or ffind ("''") or ffind ("_") or % character styles
++    ffind ("*") or % lists
++    ffind ("^>>") or % verbatim
++    ffind ("["); % links
++}
++
++
++% -----
++
++static define aft_insert_pair_around_region (left, right)
++{
++  exchange_point_and_mark ();
++  insert (left);
++  exchange_point_and_mark ();
++  insert (right);
++  pop_spot ();
++  pop_mark_0 ();
++}
++
++% -----
++
++define aft_insert_tags (tag1, tag2, do_push_spot, do_pop_spot)
++{
++  variable
++    chr = what_char (),
++    tmp = get_word_chars ();
++  if ('\\' == chr)
++    chr = 'x'; % avoid the \ problem
++  % if the current position is within a word, then select it
++  if ( (0 == markp ()) and % no region defined
++       (0 == string_match (" \t\n", char (chr), 1)) ) {
++    % ok, the cursor isn't on a space
++    () = right (1);
++    define_word ("_0-9A-Za-z\\");
++    bskip_word ();
++    push_mark ();
++    skip_word ();
++    define_word (tmp);
++  }
++  % if a region is defined, insert the tags around it
++  if (markp () ) {
++    aft_insert_pair_around_region (tag1, tag2);
++    return;
++  }
++  % the remaining cases
++  insert (tag1);
++  if (do_push_spot)
++    push_spot ();
++  insert (tag2);
++  if (do_pop_spot)
++    pop_spot ();
++}
++
++% -----
++
++define aft_named_item ()
++{
++  is_named_list = TRUE;
++  insert ("\n\t[");
++  push_spot ();
++  insert ("] ");
++  pop_spot ();
++}
++
++define aft_bullet_item ()
++{
++  is_bullet_list = TRUE;
++  insert ("\n\t* ");
++}
++
++define aft_enumerated_item ()
++{
++  is_enumerated_list = TRUE;
++  insert ("\n\t#. ");
++}
++
++define aft_table_row ()
++{
++  is_table = TRUE;
++  insert ("\n\t! ");
++}
++
++% -----
++
++define aft_return ()
++{
++  % normal situation
++  if ( (FALSE == is_enumerated_list) and
++       (FALSE == is_named_list) and
++       (FALSE == is_bullet_list) and
++       (FALSE == is_table) ) {
++    insert ("\n");
++    return;
++  }
++  if (1 == what_column) { % switch off list modes
++    is_enumerated_list = FALSE;
++    is_named_list = FALSE;
++    is_bullet_list = FALSE;
++    is_table = FALSE;
++    insert ("\n");
++    return;
++  }
++  if (is_bullet_list)
++    aft_bullet_item ();
++  if (is_enumerated_list)
++    aft_enumerated_item ();
++  if (is_named_list)
++    aft_named_item ();
++  if (is_table)
++    aft_table_row ();
++}
++
++% -----
++
++define aft_table_template ()
++{
++  push_spot ();
++  insert ("\n#---SET-CONTROL tableparser=new\n");
++  insert ("\t! Sample Table!\n");
++  insert ("\t!-------------!\n");
++  insert ("\t! 1 ! 2 ! 3   !\n");
++  insert ("\t!-------------!\n");
++  pop_spot ();
++}
++
++% ----- Converting
++
++define aft_convert (format, autonumber)
++{
++  variable
++    fmt,
++    tmp = "aft ",
++    out_file = extract_element (aft_file, 0, '.') + "." + format;
++  !if (strcmp (format, "tex"))
++    fmt = "LaTeX";
++  else
++    fmt = format;
++  flush ("Converting to " + fmt + "...");
++  save_buffer ();
++  if (autonumber)
++    tmp = tmp + "--autonumber --type=";
++  else
++    tmp = tmp + "--type=";
++  if (0 == run_shell_cmd (tmp + format + " " +
++                          dircat (aft_file_dir, aft_file)))
++    flush ("File " +
++           dircat (aft_file_dir, out_file) + 
++           " written successfully.");
++  else
++    error ("Errors occurred running aft!");
++}
++
++% ----- Document structure
++
++static variable
++  AFT_Tree_Buffer = "*structure*",
++  line_mark;
++
++% -----
++
++static define getline ()
++{
++  variable line, numline;
++  push_mark ();
++  eol ();
++  line = bufsubstr ();
++  pop_mark_0 ();
++  numline = what_line ();
++  return (line, numline);
++}
++
++% -----
++
++define goto_source_line ()
++{
++  variable line, tmp = get_word_chars ();
++  % extract the line number
++  bol ();
++  define_word ("0-9");
++  skip_word ();
++  push_mark ();
++  bskip_word ();
++  line = integer (bufsubstr ());
++  sw2buf (aft_file);
++  goto_line (line);
++  % bob ();
++  % () = down (line - 1);
++  define_word (tmp);
++}
++
++% -----
++
++% this one creates the buffer that contains the
++% document tree (structure)
++define aft_build_doc_tree ()
++{
++  variable i, found, line, numline,
++    num_sections = 0, level = -1,
++    sections = String_Type [4];
++  
++  sw2buf (AFT_Tree_Buffer);
++  set_readonly (0);
++  erase_buffer ();
++  insert ("Document structure ('q' to quit, <Ret> or double click to select):\n\n");
++  push_spot ();
++  
++  sections [0] = "^\\*[^\\*]";
++  sections [1] = "^\\*\\*[^\\*]";
++  sections [2] = "^\\*\\*\\*[^\\*]";
++  sections [3] = "^\\*\\*\\*\\*";
++  
++  % now, let's search for sectioning commands.
++  % The algorithm is horrible, but it works and is probably more
++  % efficient than the "right" one.
++  
++  for (i = 0; i < 4; i++) {
++    sw2buf (aft_buf);
++    bob ();
++    do {
++    
++      found = FALSE;
++      sw2buf (aft_buf);
++      if (0 != re_fsearch (sections [i])) {
++        if (-1 == level)
++          level = i; % first level of indentation
++        if (0 == bfind ("%")) { % not in a comment
++          (line, numline) = getline ();
++          num_sections++;
++          sw2buf (AFT_Tree_Buffer);
++          vinsert ("%6d%s", numline, "   ");
++          insert_spaces ((i - level + 1) * 2);
++          insert (line + "\n");
++        }
++        found = TRUE;
++        () = down (1);
++      }
++    } while (TRUE == found);
++  }
++  
++  % ok, the tree is done; let's sort it
++  sw2buf (AFT_Tree_Buffer);
++  bob ();
++  () = down (2);
++  push_mark ();
++  () = down (num_sections - 1);
++  skip_word ();
++  sort ();
++  pop_mark_0 ();
++  set_readonly (1);
++  setbuf_info (getbuf_info () & 0xFE); % not modified
++  sw2buf (aft_buf);
++  pop_spot ();
++}
++
++% -----
++
++static define update_tree_hook ()
++{
++  line_mark = create_line_mark (color_number ("menu_selection"));
++}
++
++% -----
++
++define aft_browse_tree ()
++{
++  variable tmode = "tree";
++  !if (keymap_p (tmode))
++    make_keymap (tmode);
++  create_syntax_table (tmode);
++  define_syntax ("0-9", '0', tmode); % numbers
++  define_syntax ("*", ',', tmode);   % start of section '*'
++  % keys
++  definekey ("delbuf (whatbuf()); pop_spot", "q", tmode);
++  definekey ("goto_source_line", "\r", tmode);
++  push_spot ();
++  aft_build_doc_tree ();
++  sw2buf (AFT_Tree_Buffer);
++  set_buffer_hook ("update_hook", &update_tree_hook);
++  set_readonly (1);
++  use_keymap (tmode);
++  set_mode (tmode, 0);
++  use_syntax_table (tmode);
++  set_buffer_hook ("mouse_2click", "goto_source_line");
++}
++
++% ----- view LaTeX source
++
++define aft_view_latex ()
++{
++  variable latex_file =
++    path_sans_extname (dircat (aft_file_dir, aft_file)) + ".tex";
++  if (0 == file_status (latex_file)) {
++    beep ();
++    flush ("LaTeX file not found!");
++    usleep (1000);
++    aft_convert ("tex", TRUE);
++  }
++  find_file (latex_file);
++}
++
++
++% ----- view HTML
++
++define aft_view_html ()
++{
++  variable html_file =
++    path_sans_extname (dircat (aft_file_dir, aft_file)) + ".html";
++  if (0 == file_status (html_file)) {
++    beep ();
++    flush ("HTML file not found!");
++    usleep (1000);
++    aft_convert ("html", TRUE);
++  }
++  flush ("Viewing " + html_file + "...");
++  system (view_html_cmd + " " + html_file + "&");
++}
++
++% ----- Menus
++
++static define init_menu (menu)
++{
++  % Sections
++  menu_append_popup (menu, "&Sections");
++  $1 = sprintf ("%s.&Sections", menu);
++  menu_append_item ($1, "*&Title:", "insert (\"*Title: \");");
++  menu_append_item ($1, "*&Author:", "insert (\"*Author: \");");
++  menu_append_item ($1, "*&TOC:", "insert (\"*TOC\\n\");");
++  menu_append_item ($1, "*&Image:", "insert (\"*Image: \");");
++  menu_append_item ($1, "*Image-&left:", "insert (\"*Image-left: \");");
++  menu_append_item ($1, "*Image-&center:", "insert (\"*Image-center: \");");
++  menu_append_item ($1, "*Image-&left:", "insert (\"*Image-left: \");");
++  menu_append_item ($1, "&Section", "insert (\"* \");");
++  menu_append_item ($1, "S&ubsection", "insert (\"** \");");
++  menu_append_item ($1, "Su&bsubsection", "insert (\"*** \");");
++  menu_append_item ($1, "&Paragraph", "insert (\"**** \");");
++  menu_append_item ($1, "&Comment", "insert (\"#--- \");");
++  % Lists
++  menu_append_popup (menu, "&Lists");
++  $1 = sprintf ("%s.&Lists", menu);
++  menu_append_item ($1, "&Enumerated", "aft_enumerated_item");
++  menu_append_item ($1, "&Bullet", "aft_bullet_item");
++  menu_append_item ($1, "&Named", "aft_named_item");
++  % Styles
++  menu_append_popup (menu, "St&yles");
++  $1 = sprintf ("%s.St&yles", menu);
++  menu_append_item ($1, "&Bold", "aft_insert_tags (\"_\", \"_\", 1, 1)");
++  menu_append_item ($1, "&Italics", "aft_insert_tags (\"''\", \"''\", 1, 1)");
++  menu_append_item ($1, "&Small", "aft_insert_tags (\"~\", \"~\", 1, 1)");
++  menu_append_item ($1, "&Typewriter",
++                    "aft_insert_tags (\"|\", \"|\", 1, 1)");
++  menu_append_item ($1, "&Quoted", "insert (\"\t# \");");
++  menu_append_item ($1, "&Centered", "insert (\"\t\t\");");
++  menu_append_item ($1, "&Tabbed Verbatim", "insert (\"\t \");");
++  menu_append_item ($1, "&Literal",
++                    "aft_insert_tags (\"^<<\\n\", \"^>>\", 1, 1);" +
++                    " () = up (1)");
++  menu_append_item ($1, "&Filtered Literal",
++                    "aft_insert_tags (\"^<<Filter\\n\\n\", \"^>>\", 1, 1);" +
++                    " () = up (1)");
++  menu_append_item ($1, "&Page Break", "insert (\"\")");
++  menu_append_item ($1, "Li&ne", "insert (\"----\\n\")");
++  % Links
++  menu_append_popup (menu, "Lin&ks");
++  $1 = sprintf ("%s.Lin&ks", menu);
++  menu_append_item ($1, "&Visible Target",
++                    "aft_insert_tags (\"=[\", \"]=\", 1, 1)");
++  menu_append_item ($1, "&Invisible Target",
++                    "aft_insert_tags (\"=[(\", \")]=\", 1, 1)");
++  menu_append_item ($1, "&Reference",
++                    "aft_insert_tags (\"[\", \"target]\", 1, 1)");
++  % Table
++  menu_append_popup (menu, "&Table");
++  $1 = sprintf ("%s.&Table", menu);
++  menu_append_item ($1, "&Table Template", "aft_table_template");
++  menu_append_item ($1, "Table &Row", "aft_table_row");
++  % Pragmas
++  menu_append_popup (menu, "&Pragmas");
++  $1 = sprintf ("%s.&Pragmas", menu);
++  menu_append_item ($1, "#---PASS-HTML", "insert (\"#---PASS-HTML \");");
++  menu_append_item ($1, "#---PASS-LaTeX", "insert (\"#---PASS-LaTeX \");");
++  menu_append_item ($1, "#---PASS-RTF", "insert (\"#---PASS-RTF \");");
++  menu_append_item ($1, "#---SET x=y", "insert (\"#---SET x=y\");");
++  menu_append_item ($1, "#---SET-HTML x=y",
++                    "insert (\"#---SET-HTML x=y\");");
++  menu_append_item ($1, "#---SET-LaTeX x=y",
++                    "insert (\"#---SET-LaTeX x=y\");");
++  menu_append_item ($1, "#---SET-RTF x=y",
++                    "insert (\"#---SET-RTF x=y\");");
++  menu_append_item ($1, "#---SET-CONTROL verbatimsquarebrackets=yes",
++                    "insert (\"#---SET-CONTROL " + 
++                    "verbatimsquarebrackets=yes\");");
++  menu_append_item ($1, "#---TABSTOP=", "insert (\"#---TABSTOP= \");");
++  menu_append_separator (menu);
++  menu_append_item (menu, "&Document Structure", "aft_browse_tree");
++  menu_append_item (menu, "Convert to &HTML",
++                    "aft_convert (\"html\", 1)");
++  menu_append_item (menu, "Convert to HTML (&unnumbered)",
++                    "aft_convert (\"html\", 0)");
++  menu_append_item (menu, "Convert to &LaTeX",
++                    "aft_convert (\"tex\", 0)");
++  menu_append_item (menu, "Convert to &RTF",
++                    "aft_convert (\"rtf\", 1)");
++  menu_append_item (menu, "Convert to L&out",
++                    "aft_convert (\"lout\", 1)");
++  menu_append_item (menu, "View HTML", "aft_view_html");
++   menu_append_item (menu, "View LaTeX", "aft_view_latex");
++}
++
++% ----- Final stuff
++
++$1 = "aft";
++create_syntax_table ($1);
++
++define_syntax ("-*0-9A-Za-z:/[]", 'w', $1); % words
++define_syntax ("#0-9", '0', $1);            % numbers
++define_syntax ("#---", "", '%', $1);        % comments
++define_syntax ("%_|~=[!", ',', $1);         % delimiters
++set_syntax_flags ("aft", 0x04);
++
++!if (keymap_p ($1))
++  make_keymap ($1);
++USE_TABS = 1;
++WRAP_INDENTS = 1;
++Tab_Always_Inserts_Tab = 1;
++
++definekey ("call (\"self_insert_cmd\")", "^I", $1);
++definekey ("aft_return", "^M", $1);
++definekey ("tex_insert_quote", "'", $1);
++definekey ("tex_insert_quote", "\"", $1);
++% fonts
++definekey_reserved ("aft_insert_tags (\"_\", \"_\", 1, 1)", "_", $1);
++definekey_reserved ("aft_insert_tags (\"''\", \"''\", 1, 1)", "'", $1);
++definekey_reserved ("aft_insert_tags (\"~\", \"~\", 1, 1)", "~", $1);
++definekey_reserved ("aft_insert_tags (\"|\", \"|\", 1, 1)", "|", $1);
++definekey_reserved ("aft_insert_tags (\"%\", \"%\", 1, 1)", "%", $1);
++definekey_reserved ("aft_insert_tags (\"^<<\\n\", \"^>>\", 1, 1);" +
++                    " () = up (1)", "^", $1);
++definekey_reserved ("insert (\"----\\n\")", "-", $1);
++% lists
++definekey_reserved ("aft_enumerated_item", "LE", $1);
++definekey_reserved ("aft_enumerated_item", "^L^E", $1);
++definekey_reserved ("aft_bullet_item", "LB", $1);
++definekey_reserved ("aft_bullet_item", "^L^B", $1);
++definekey_reserved ("aft_named_item", "LN", $1);
++definekey_reserved ("aft_named_item", "^L^N", $1);
++% table row
++definekey_reserved ("aft_table_row", "!", $1);
++% document structure
++definekey_reserved ("aft_browse_tree", "D", $1);
++definekey_reserved ("aft_browse_tree", "^D", $1);
++% conversion
++definekey_reserved ("aft_convert (\"tex\", 0)", "CL", $1);
++definekey_reserved ("aft_convert (\"tex\", 0)", "^C^L", $1);
++definekey_reserved ("aft_convert (\"html\", 1)", "CH", $1);
++definekey_reserved ("aft_convert (\"html\", 1)", "^C^H", $1);
++definekey_reserved ("aft_convert (\"html\", 0)", "CU", $1);
++definekey_reserved ("aft_convert (\"html\", 0)", "^C^U", $1);
++definekey_reserved ("aft_convert (\"rtf\", 1)", "CR", $1);
++definekey_reserved ("aft_convert (\"rtf\", 1)", "^C^R", $1);
++definekey_reserved ("aft_convert (\"lout\", 1)", "CO", $1);
++definekey_reserved ("aft_convert (\"lout\", 1)", "^C^O", $1);
++definekey_reserved ("aft_view_html", "VH", $1);
++definekey_reserved ("aft_view_html", "^V^H", $1);
++definekey_reserved ("aft_view_latex", "VL", $1);
++definekey_reserved ("aft_view_latex", "^V^L", $1);
++
++
++% type 1 keywords
++() = define_keywords_n ($1, "ftp", 3, 1);
++() = define_keywords_n ($1, "http", 4, 1);
++() = define_keywords_n ($1, "mailto", 6, 1);
++
++() = define_keywords_n ($1, "*", 1, 0);
++() = define_keywords_n ($1, "**", 2, 0);
++() = define_keywords_n ($1, "***^<<^>>", 3, 0);
++() = define_keywords_n ($1, "*****TOC----", 4, 0);
++() = define_keywords_n ($1, "*Image:*Title:", 7, 0);
++() = define_keywords_n ($1, "*Author:", 8, 0);
++() = define_keywords_n ($1, "*Image-left:", 12, 0);
++() = define_keywords_n ($1, "*Image-right:", 13, 0);
++() = define_keywords_n ($1, "*Image-center:", 14, 0);
++
++#ifdef HAS_DFA_SYNTAX
++%%% DFA_CACHE_BEGIN %%%
++static define setup_dfa_callback (name)
++{
++  dfa_enable_highlight_cache ("aft.dfa", name);
++  
++  % the TAB character
++  % dfa_define_highlight_rule ("^[\t]+", "Qstring", name);
++  
++  % preprocessor directives
++  dfa_define_highlight_rule ("^#---SET.*$", "PQpreprocess", name);
++  dfa_define_highlight_rule ("^#---PASS.*$", "PQpreprocess", name);
++  dfa_define_highlight_rule ("^#---.*$", "comment", name);
++
++  % keywords, type 0
++  dfa_define_highlight_rule ("^\\^<<", "keyword", name);
++  dfa_define_highlight_rule ("^\\^>>", "keyword", name);
++  dfa_define_highlight_rule ("^\\*Title:.*", "keyword", name);
++  dfa_define_highlight_rule ("^\\*Author:.*", "keyword", name);
++  dfa_define_highlight_rule ("^\\*Image:.*", "keyword", name);
++  dfa_define_highlight_rule ("^\\*Image-left:.*", "keyword", name);
++  dfa_define_highlight_rule ("^\\*Image-center:.*", "keyword", name);
++  dfa_define_highlight_rule ("^\\*Image-right:.*", "keyword", name);
++  dfa_define_highlight_rule ("^\\*TOC$", "keyword", name);
++  dfa_define_highlight_rule ("^\\*\ *.*$", "keyword", name);
++  dfa_define_highlight_rule ("^\\*\\* *.*$$", "keyword", name);
++  dfa_define_highlight_rule ("^\\*\\*\\* *.*$", "keyword", name);
++  dfa_define_highlight_rule ("^\\*\\*\\*\\* *.*$", "keyword", name);
++  
++  % keywords, type 1
++  % URLs
++  dfa_define_highlight_rule ("[\t ]*http[s]?://.* ",
++                             "Qkeyword1", name);
++  dfa_define_highlight_rule ("[\t ]*http[s]?://.*$",
++                             "Qkeyword1", name);
++  dfa_define_highlight_rule ("[\t ]*ftp://.*[\n ]*",
++                             "Qkeyword1", name);
++  dfa_define_highlight_rule ("[\t ]*ftp://.*$",
++                             "Qkeyword1", name);
++  dfa_define_highlight_rule ("[\t ]*mailto:.*[\n ]*",
++                             "Qkeyword1", name);
++  dfa_define_highlight_rule ("[\t ]*mailto:.*$",
++                             "Qkeyword1", name);
++  dfa_define_highlight_rule ("\\[.*\\]", "Qkeyword1", name);
++
++  % centred stuff - not working
++  % dfa_define_highlight_rule ("^\t\t+[^\\*]", "Qstring", name);
++  
++  % lists
++  dfa_define_highlight_rule ("^[\t]+\\*", "string", name);
++  dfa_define_highlight_rule ("^[\t]+[0-9#]+\.", "string", name);
++  dfa_define_highlight_rule ("^[\t]+[0-9#]+\)", "string", name);
++  dfa_define_highlight_rule ("^[\t]+\\[.*\\]", "string", name);
++  
++  % lines
++  dfa_define_highlight_rule ("^----(-)*", "keyword", name);
++  
++  % tables
++  dfa_define_highlight_rule ("^[\t]+!.*$", "Qstring", name);
++  
++  % delimiters
++  dfa_define_highlight_rule ("[\t ]*%", "Qdelimiter", name);
++  dfa_define_highlight_rule ("[\t ]*_ *", "Qdelimiter", name);
++  dfa_define_highlight_rule ("[\t ]*_$", "Qdelimiter", name);
++  dfa_define_highlight_rule ("[\t ]*\\| *", "Qdelimiter", name);
++  dfa_define_highlight_rule ("[\t ]*\\|$", "Qdelimiter", name);
++  dfa_define_highlight_rule ("[\t ]*~ *", "Qdelimiter", name);
++  dfa_define_highlight_rule ("[\t ]*~$", "Qdelimiter", name);
++  dfa_define_highlight_rule ("[\t ]*=\\[ *", "Qdelimiter", name);
++  dfa_define_highlight_rule ("[\t ]*\\]= *", "Qdelimiter", name);
++  dfa_define_highlight_rule ("[\t ]*\\'\\' *", "Qdelimiter", name);
++  dfa_define_highlight_rule ("[\t ]*\\'\\'$", "Qdelimiter", name);
++  
++  dfa_define_highlight_rule (".", "normal", name);
++  
++  dfa_build_highlight_table (name);
++}
++dfa_set_init_callback (&setup_dfa_callback, "aft");
++%%% DFA_CACHE_END %%%
++#endif
++
++%!%+
++%\function{aft_mode}
++%\synopsis{aft_mode}
++%\usage{Void aft_mode ();}
++%\description
++% This mode is designed to facilitate the task of editing aft files
++% (http://www.maplefish.com/todd/aft.html)
++% It calls the function \var{aft_mode_hook} if it is defined. In addition,
++% if the abbreviation table \var{"aft"} is defined, that table is used.
++%!%-
++define aft_mode ()
++{
++  variable mode = "aft";
++  (aft_file, aft_file_dir,,) = getbuf_info ();
++  aft_buf = whatbuf ();
++  set_mode (mode, 1);
++  set_buffer_hook ("par_sep", &aft_paragraph_separator);
++  use_syntax_table (mode);
++  use_keymap (mode);
++  set_comment_info ("#--- ", "", 1);
++  mode_set_mode_info (mode, "init_mode_menu", &init_menu);
++  run_mode_hooks ("aft_mode_hook");
++}
++
++% ----- End of file aft.sl
+--- aft-5.097.orig/debian/vim/aftrc
++++ aft-5.097/debian/vim/aftrc
+@@ -0,0 +1,17 @@
++"As far as I know from reading the vim list, etc., there is no way
++"of getting rid of the extra spaces. Either backspace or hit
++"Ctrl-] once you have unambiguously determined the abbreviation.
++"For targets and references you must have no surrounding spaces.
++
++iab ,i *Image:
++iab ,l *Image-left:
++iab ,r *Image-right:
++iab ,c *Image-center:
++iab ,C C---
++iab ,# #---
++iab ,t #---TABSTOP=
++iab {+ {++}<ESC>F+i
++iab {- {--}<ESC>F-i
++iab }+ }++{<ESC>F+i
++iab }- }--{<ESC>F-i
++iab ,^ ^<<<CR><CR>^>><ESC>^ki
+--- aft-5.097.orig/debian/vim/README
++++ aft-5.097/debian/vim/README
+@@ -0,0 +1,21 @@
++"Author: David Bourgeois: dbourgeo@thezone.net
++"Located: http://home.thezone.net/~dbourgeo/
++
++"Here is an example like what I have in my vimrc (really .vimrc) to use aft
++"abbreviations (you can add functions as well). Actually, I have a couple of
++"different file types, and I also separate out the BufEnter and BufNewFile to
++"use different rc files (separate lines), as for some filetypes I do different
++"things for a new file (run scripts to initialize it). You can use pretty
++"complete regular expressions here.
++
++" D.B. Sat Feb 16 15:52:01 NST 2002
++" Autocommands for various filetypes. Right now, its aft.
++autocmd BufEnter,BufNewFile *.aft ~/.vim/aftrc
++autocmd BufLeave *.aft ~/.vim/noaftrc
++
++"Files included:
++"aft.vim:         aft syntax file
++"aftrc:           aft abbreviations
++"noaftrc:         undo those abbreviations
++"syntax-demo.aft: demo
++"syntax-demo.jpg: screenshot of vim in action
+--- aft-5.097.orig/debian/vim/syntax-demo.aft
++++ aft-5.097/debian/vim/syntax-demo.aft
+@@ -0,0 +1,122 @@
++#---TABSTOP=3
++*Title: We should not see the Hello World Title
++here is a para
++   *a bullet
++   a continuation. Will? we be able to wrap to another continuation? Wrap wrap
++   wrap, yep
++
++   should be literal mode, i am going to check on the wrapping wrapping
++   wrapping, yep it all lines up
++      no centering but not positioned quite where I expect
++
++      are we centred? yes
++      still centred? yes
++		hard tab centred? yes
++
++here is a para before the title and toc
++
++*Title: Hello world. 
++*TOC I get eaten. TOC not broken.
++
++*Image:  aft.gif
++*Image-center: aft.gif 
++
++*A section.
++**Double section.
++**Second double section.
++   **Not a section but a list.
++
++another para
++ 
++there was a blank there, but this won't be a separate para
++ 
++ 
++and another here all one para
++
++   we think we_are_in_verbatim_mode_ so don't balance the stuff. 
++could be fooled up color
++^<< 
++we think we_are_in_verbatim_mode_ so don't balance the stuff. All diff. para.
++^>>
++more possibly fooled up color
++
++new para (in this case empty line, blank, empty line) -- won't give extra 
++space between paras
++
++}+Very _Important_ Information+{
++
++   1 not a numbered list -- you need a blank space below
++
++   2. a numbered list
++   3). another _numbered_ list with a .
++   4) another list with no .
++   a continuation
++   
++   [four?]
++   . five?
++   yes named list continuation
++  more continue should fail
++5. oughto be plain and one para.
++
++   # A test of a quote
++   with a continuation.
++
++   ! Here should be the start of a table !
++   !-------------------------------------!
++   ! 1 ! 2 ! 3 ! 4 ! 5 ! 6! 7 ! 8 ! 9 ! 
++   no continue
++
++^<<Filter Is this eaten? Yes
++Here is _some_ literal text.
++ ^>> and _this __ won't_ end it.
++^>>
++
++Back to normal text.
++
++ #--- not a comment
++#--- here is a comment
++
++-------- eaten
++
++try tabbing all these lines back and forth to see tab, double tab hilights
++or lack of for most of below (else we get bleeding for face stuff)
++
++''Here is a para that
++should be all italic.''
++
++This is bold
++screwed up._
++
++_
++
++A plain para.
++
++_This is bold working, but according
++to doc. should be screwed. This is_bold?
++
++word_with_bold
++
++   as its literal mode _no bold_
++
++|Tele type line.| more plaine
++plaine |Teletype line.| more plaine
++|~small in the _same_ para.~| end of para
++
++A long para. about some I don't know, it could be some very very very
++{+Very _Important_ Information+}, which must have the ref on one line.
++
++try https and other stuff too
++http://home.thezone.net/~dbourgeo/. (period?)
++http://www.vim.org.
++mailto:dbourgeo@thezone.net (fails)
++#---PASS-HTML <a href=mailto:dbourgeo@thezone.net>dbourgeo@thezone.net</a>
++ftp://hello.net
++
++Try a non-visible mailto: {-Mail me@mailto:dbourgeo@thezone.net-}.
++Visible mailto: {+mailto:dbourgeo@thezone.net+} (no lead/trail spaces, etc.)
++Try a file: {+file:myfile+}
++
++This ref {+Is screwed up-}
++So is this one }- I am on
++two lines. -{
++A word or two. All one para.
+--- aft-5.097.orig/debian/vim/noaftrc
++++ aft-5.097/debian/vim/noaftrc
+@@ -0,0 +1,17 @@
++"As far as I know from reading the vim list, etc., there is no way
++"of getting rid of the extra spaces. Either backspace or hit
++"Ctrl-] once you have unambiguously determined the abbreviation.
++"For targets and references you must have no surrounding spaces.
++
++iunab ,i
++iunab ,l
++iunab ,r
++iunab ,c
++iunab ,C
++iunab ,#
++iunab ,t
++iunab {+
++iunab {-
++iunab }+
++iunab }-
++iunab ,^
+--- aft-5.097.orig/debian/vim/aft.vim
++++ aft-5.097/debian/vim/aft.vim
+@@ -0,0 +1,201 @@
++" Vim syntax file
++" Language:    AFT
++" Maintainers: David Bourgeois <dbourgeo@thezone.net>
++" Last Change: 2002 March 6
++
++" The main caveat is that hilighting indicates certain character sequences.
++" They may or may not be meaningful, depending on context. In addition,
++" some character sequences can color out others (usually contained), even
++" when they might be meaningful. I.E. if *bold* were colored red, but
++" contained in another syntax element, it won't be red. Since lots of things
++" can contain lots of other things, this is a limitation unless we are willing
++" to write a lot of "contains" statements and debug them.
++
++" There are various methods for loading the syntax file. You could just
++" ":source" it, or use the vim comment method. Better, see ":he syntax"
++" on how to automate the file for all "*aft" files, say.
++
++" The method I use requires root access (on unix), usually, to something
++" like /usr/share/vim/vim56. Put THIS file in $VIMRUNTIME/syntax/.
++" Edit $VIMRUNTIME/syntax/synload.vim and add a line: "SynAu aft".
++" Finally, edit $VIMRUNTIME/filetype.vim and add a line:
++"   :autocmd BufRead,BufNewFile *.aft set ft=aft
++" You can change "*.aft" to whatever scheme you like. Eg. *.aft,minutes*.txt
++" I don't know what to do with vim 6.
++
++" General blathering comments.
++" ----------------------------
++" I'm a newbie to vim, so this is far from perfect, but provides useful
++" 'reminders' that work for me. Use the syntax coloring as guidance only. After
++" you get used to it, I hope you find it useful. Any help in improving this
++" would be much appreciated. I tried several different detailed routes that
++" really taxed the syntax system (and my understanding of it), and short of
++" writing an aft parser in the syntax system (REALLY unsuited for this), or the
++" obverse of settling on highlighting a few 'keywords' and other simple items,
++" this will do for my purposes.
++
++" Also, short of writing tedious functions that somehow construct a syntax
++" file, I see no elegant way of accounting for various tab sizes. The 
++" only possibility I could see, on somewhat cursory inspection, would be to
++" use a set command to inform this file of the desired tab size and copy all
++" the relevant code into 'if' blocks for each desired tab size (3,4,8, etc.),
++" with the regular expressions suitably changed about.
++" You would then set a variable via the set command, such as aft_tabstops.
++
++" N.B. This file needs #---TABSTOP=3.
++" Also, you can see a demo of the syntax in syntax-demo.aft.
++
++" Remove any old syntax stuff hanging around.
++syn clear
++
++" Aft is case sensitive, when you are matching comment constructs.
++syn case match
++syn sync ccomment maxlines=50
++
++"Sections and stuff.
++"-------------------
++syn match aftSection /^\*\{1,4}/ 
++syn match aftSection /^\*Title:/
++syn match aftSection /^\*Author:/
++"Note, other text right after TOC gets eaten, so OK.
++syn match aftSection /^\*TOC/
++syn match aftSection /^\*Image:/
++syn match aftSection /^\*Image-left:/
++syn match aftSection /^\*Image-right:/
++syn match aftSection /^\*Image-center:/
++syn match aftSection /^\*Include:/
++syn match aftSection /^\*Insert:/
++
++"Tab modes.
++"Continuation mode, verbatim mode.
++"---------------------------------
++"You can be in tab mode without the hilight showing, owing to the one character
++"hilight. This is just here as a slightly helpful reminder, and I find a full
++"line annoying. (It also can cause later regions to bleed.)
++"We won't even get into whether a single or double tabbed bullet, etc., is
++"supposed to be a bullet or something else, depending on the situation. It's
++"just flagged as a potential bullet. Likewise, something colored as centred
++"may not be (eg. it may be a continuation), we are really marking that
++"there are one or two tabs or more in front, that's all.
++"Also, we won't mark a hard tab followed by tabstob number of spaces.
++
++"If you don't want this, comment out the two syn aftTab lines below.
++
++"N.B. Change {3} to {8} for regular tabs (spaces). \t, of course, stands
++"for a tab.
++
++"Match general tab, continuation mode. Causes funny face stuff.
++"(Only if the face character starts directly after a tab.)
++"Hence, the weird regexp. Note minor error with the single ' for italic
++"in hilighting faces. (Two chars will mark the tabbed column.)
++"The characters: },{, and % won't be colored in any tab position.
++syn match aftTab /^\( \{3}\|\t\)\('[^']\|[^_'|~}{%]\)/
++syn match aftTab /^\( \{3}\|\t\)\(\(mailto\)\|\(ftp\)\|\(http[s]*\)\|\(file\)\)/
++
++"-- Centred line mode. --
++"Should be before all other tab modes. Again, eg. lines that start
++"with a face etc. won't be colored centered, even though they are, else
++"you get bleeding for these regions. Again, I highlight an extra
++"char for targets and references, similar to italics in general 
++"tab mode. Also, a plain number won't be hilighted, even though centered.
++"Likewise, plain } (not }+, etc.). Generally, both ends of the target or ref.
++"will light up in all positions.
++
++"All somewhat crufty. (If you left out the tab and centre matches, would
++"be pretty consistent coloring.)
++
++"Comment out these two lines if you don't want centre hilighting.
++"Note, it finds double tabbing, right....
++syn match aftCenter /^\( \{6}\|\t\t\)\('[^']\|[^_'|~}{%]\)/
++syn match aftCenter /^\( \{6}\|\t\t\)\(\(mailto\)\|\(ftp\)\|\(http[s]*\)\|\(file\)\)/
++
++"-- Tab list modes. --
++" The next three allow multiple levels of indent.
++syn match aftList   /^\( \{3}\|\t\)\+[0-9]\+[.)]/
++syn match aftBullet /^\( \{3}\|\t\)\+\*\{1}/
++"Need both halves of the named list bracket.
++syn region aftNamed oneline matchgroup=aftParen start=/^\( \{3}\|\t\)\+\[/
++    \ end=/]/ 
++"-- Other Tab modes --
++"Back to one level of indent.
++syn match aftQuote /^\( \{3}\|\t\)\#\{1}/
++syn match aftTable /^\( \{3}\|\t\)\!\{1}/
++
++
++"Literal mode. Not worried about font etc. hilighting (allowed only if
++"the Filter mode is on, we hilight in either case).
++"---------------------------------------------------------------------
++syn region aftLiteral start=/^^<<\(Filter\)*/ end=/^^>>/
++
++"Comment-like things. Includes PASS and TABSTOP.
++"-----------------------------------------------
++syn match aftComment /^[#C]---.*$/
++syn match aftComment /^----.*$/
++
++"Face changes.
++"-------------
++"Again, a face may not apply if its in a verbatim mode, etc.
++"Won't bother matching entire paragraphs. More work. Will match
++"the characters by themselves, though. (This needs to be first.)
++"Generally, the outer face wins. (Also applies to links and targets.)
++syn match  aftParen /[_|~]\|''/
++syn match  aftSet /%\S\+%/
++syn region aftBold    matchgroup=aftParen start=/_/  skip=/__/  end=/_/ oneline
++syn region aftItalics matchgroup=aftParen start=/''/ skip=/''''/ end=/''/ 
++    \ oneline 
++syn region aftTele  matchgroup=aftParen start=/|/ skip=/||/ end=/|/ oneline
++syn region aftSmall matchgroup=aftParen start=/\~/
++    \ skip=/\~\~/ end=/\~/ oneline
++"Watch out for http /~. Hilight starts at the end. There could be other
++"gotchas like this. I am a Pooh of small brain.
++syn region aftSmall start=/\/\~/hs=s+2 end=/.\{-}/ oneline
++
++
++"Targets and References.
++"-----------------------
++syn region aftTarget matchgroup=aftParen oneline start=/}+/ end=/+{/ 
++syn region aftTarget matchgroup=aftParen oneline start=/}-/ end=/-{/
++syn region aftRefer  matchgroup=aftParen oneline start=/{+/ end=/+}/
++syn region aftRefer  matchgroup=aftParen oneline start=/{-/ end=/-}/
++
++"Plain Old URL Targets.
++"----------------------
++syn keyword aftPOURL http https ftp mailto file
++
++"Tab size stub.
++if exists("aft_tabstops")
++   " Need to be able to deal with different tabstop sizes.
++   " You could branch depending on the value of aft_tabstops.
++   " A reminder stub for now. You would have to reproduce the
++   " entire tab section for each tab size AFAIK.
++endif
++
++if !exists("did_aft_syntax_inits")
++  " The default methods for highlighting.  Can be overridden later
++  " Or you can enter in the colors directly: see ":he syntax".
++  let did_aft_syntax_inits = 1
++  hi link aftSection Statement
++  hi link aftCenter Identifier 
++  hi link aftTab Identifier
++  hi link aftList Statement 
++  hi link aftBullet Statement
++  hi link aftNamed Statement
++  hi link aftParen Constant
++  hi link aftQuote Statement
++  hi link aftTable Statement
++  hi link aftLiteral Special
++  hi link aftComment Comment
++  hi link aftBold Type
++  hi link aftItalics Type
++  hi link aftTele Type
++  hi link aftSmall Type
++  hi link aftTarget Special
++  hi link aftRefer Special
++  hi link aftPOURL Identifier
++  hi link aftSet Constant 
++  hi link aftIgnore Ignore
++endif
++
++let b:current_syntax = "aft"
++
++" vim: ts=28

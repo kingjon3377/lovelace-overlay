@@ -1,0 +1,12 @@
+diff -ru src.old/main/Makefile.in src/main/Makefile.in
+--- src.old/main/Makefile.in	2011-01-13 22:41:02.000000000 -0500
++++ src/main/Makefile.in	2011-01-13 22:49:37.000000000 -0500
+@@ -228,7 +228,7 @@
+ 	done
+ aplus$(EXEEXT): $(aplus_OBJECTS) $(aplus_DEPENDENCIES) 
+ 	@rm -f aplus$(EXEEXT)
+-	$(CXXLINK) $(aplus_LDFLAGS) $(aplus_OBJECTS) $(aplus_LDADD) $(LIBS)
++	$(CXXLINK) $(aplus_LDFLAGS) $(aplus_OBJECTS) $(aplus_LDADD) $(LIBS) $(X_LIBS)
+ 
+ mostlyclean-compile:
+ 	-rm -f *.$(OBJEXT) core *.core

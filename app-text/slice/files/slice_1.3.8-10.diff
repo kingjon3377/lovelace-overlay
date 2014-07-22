@@ -1,0 +1,515 @@
+--- slice-1.3.8.orig/debian/README.source
++++ slice-1.3.8/debian/README.source
+@@ -0,0 +1,5 @@
++This package uses the quilt patch management system.
++
++See /usr/share/doc/quilt/README.source for how to use it.
++
++ -- Axel Beckert <abe@debian.org>, Tue,  6 Apr 2010 17:01:37 +0200
+--- slice-1.3.8.orig/debian/compat
++++ slice-1.3.8/debian/compat
+@@ -0,0 +1 @@
++7
+--- slice-1.3.8.orig/debian/watch
++++ slice-1.3.8/debian/watch
+@@ -0,0 +1,3 @@
++version=3
++#ftp.engelschall.com	/sw/slice	slice-(.*)\.tar\.gz	debian	uupdate
++ftp://ftp.ossp.org/pkg/tool/slice/slice-(.*)\.tar\.gz	debian	uupdate
+--- slice-1.3.8.orig/debian/changelog
++++ slice-1.3.8/debian/changelog
+@@ -0,0 +1,233 @@
++slice (1.3.8-10) unstable; urgency=low
++
++  * Move to collaborative maintenance
++  * Bump Standards-Version to 3.8.4
++    - Add Vcs-* fields
++    - Add Homepage field
++    - Added support for DEB_BUILD_OPTIONS=noopt
++  * Move over to quilt patch management
++    - Added build dependency on quilt
++    - Added configure target and target dependencies to debian/rules
++    - Added README.source pointing to /usr/share/doc/quilt/README.source
++    - Added debian/source/format containing "1.0" to prevent unwanted
++      automatic conversion to 3.0 source format.
++  * Bump debhelper compatibility to 7
++  * Fixed the following Lintian warnings:
++    - debhelper-but-no-misc-depends
++    - copyright-without-copyright-notice
++    - spelling-error-in-manpage (debian/patches/fix-spelling-errors.diff)
++
++ -- Axel Beckert <abe@debian.org>  Thu, 03 Jun 2010 00:34:22 +0200
++
++slice (1.3.8-9) unstable; urgency=low
++
++  * Remove me as Maintainer.
++
++ -- Luk Claes <luk@debian.org>  Wed, 23 Jan 2008 22:28:08 +0000
++
++slice (1.3.8-8) unstable; urgency=medium
++
++  * Fix build process so that everything gets installed (Closes: #390631).
++
++ -- Luk Claes <luk@debian.org>  Mon,  2 Oct 2006 20:21:54 +0200
++
++slice (1.3.8-7) unstable; urgency=low
++
++  * New maintainers.
++  * Bumped Standards-Version to 3.7.2.
++  * Updated debian/watch to version=3 and new upstream location.
++  * Add debian/compat for debhelper 4.
++  * Completed debian/copyright.
++
++ -- Luk Claes <luk@debian.org>  Sat, 30 Sep 2006 11:20:39 +0200
++
++slice (1.3.8-6) unstable; urgency=low
++
++  * Output files are opened via IO::File as are input files.
++    Closes: Bug#179485  Thanks to Eduard Bloch
++  * debian/control:  Old homepage is no more maintained, remove it
++    from the description.
++  * Bump Standards-Version: 3.6.1 and convert this changelog file
++    to UTF-8.
++
++ -- Denis Barbier <barbier@debian.org>  Fri, 12 Sep 2003 22:33:07 +0200
++
++slice (1.3.8-5) unstable; urgency=low
++
++  * Bit::Vector is now a Debian package, so add a Depends and
++    Build-Depends-Indep against libbit-vector-perl.
++  * Replace Architecture: 'any' by 'all', since slice does no more
++    ship compiled modules.
++  * There is also no need to depend on perl 5.8  (Closes: #161132)
++
++ -- Denis Barbier <barbier@debian.org>  Tue, 17 Sep 2002 20:53:28 +0200
++
++slice (1.3.8-4) unstable; urgency=low
++
++  * Rebuild with perl 5.8
++
++ -- Denis Barbier <barbier@debian.org>  Sun, 25 Aug 2002 23:40:22 +0200
++
++slice (1.3.8-3) unstable; urgency=low
++
++  * File operations are checked, and slice aborts if an error is detected.
++
++ -- Denis Barbier <barbier@debian.org>  Sun, 21 Apr 2002 00:01:58 +0200
++
++slice (1.3.8-2) unstable; urgency=low
++
++  * Fix -y flag, slice must abort when 's' or 'z' policy is > 2
++
++ -- Denis Barbier <barbier@debian.org>  Fri, 19 Apr 2002 01:24:08 +0200
++
++slice (1.3.8-1) unstable; urgency=low
++
++  * New upstream release.
++  * By default, undefined slice sets are now silently ignored.  This can
++    be changed through the new -y flag.
++
++ -- Denis Barbier <barbier@debian.org>  Sun, 10 Feb 2002 23:29:25 +0100
++
++slice (1.3.7-1) unstable; urgency=low
++
++  * New maintainer (closes: Bug#119090).
++  * Fix detection of Perl modules.
++  * Do not include .packlist files in Perl modules.
++  * Upgraded to standards version 3.5.6
++  * Remove Emacs crap from debian/changelog.
++
++ -- Denis Barbier <barbier@debian.org>  Mon, 17 Dec 2001 22:46:47 +0100
++
++slice (1.3.7-0.1) unstable; urgency=low
++
++  * New upstream version. Fixes the annoying hanging bug.
++  * Non-maintainer upload.
++  * Updated to Policy 3.2.1
++  * Added debhelper to Build-Depends, closes: #69776.
++
++ -- Josip Rodin <jrodin@jagor.srce.hr>  Tue, 29 Aug 2000 03:19:50 +0200
++
++slice (1.3.6-0.1) unstable; urgency=low
++
++  * New upstream version.
++  * Non-maintainer upload.
++  * Updated to Policy 3.1.1.
++  * A couple of small cleanups here and there.
++
++ -- Josip Rodin <jrodin@jagor.srce.hr>  Sun, 20 Aug 2000 16:52:04 +0200
++
++slice (1.3.4-3) unstable; urgency=low
++
++  * New maintainer.
++
++ -- Brian Bassett <brianb@debian.org>  Wed,  1 Dec 1999 13:18:08 -0800
++
++slice (1.3.4-2) unstable; urgency=low
++
++  * Re-uploaded with upstream pristine source.  :-)
++
++ -- Anthony Fok <foka@debian.org>  Sat,  9 Oct 1999 14:56:57 -0600
++
++slice (1.3.4-1) unstable; urgency=low
++
++  * New upstream release.
++  * [debian/rules]: dh_perl usr/lib/slice/perl/lib, otherwise it can't find
++      the perl-5.005-specific libraries.
++
++ -- Anthony Fok <foka@debian.org>  Sat,  2 Oct 1999 08:26:30 -0600
++
++slice (1.3.3-2) unstable; urgency=low
++
++  * [debian/rules]: Removed hacks from previous version (closes: Bug#42627).
++
++ -- Anthony Fok <foka@debian.org>  Wed, 25 Aug 1999 07:03:04 -0600
++
++slice (1.3.3-1) unstable; urgency=low
++
++  * New upstream release.
++  * Denis Barbier <barbier@imacs.polytechnique.fr> now maintains
++    slice, so his name is now added in debian/control and copyright.
++
++ -- Anthony Fok <foka@debian.org>  Wed,  7 Jul 1999 02:06:45 -0600
++
++slice (1.3.2-4) unstable; urgency=medium
++
++  * Recompiled for perl-5.005.
++  * Partially upgraded to standards version 3.0.0:
++     - Updated copyright to point to /usr/share/common-licenses
++     - FHS-compliance, with the notable exception of the
++       /usr/doc/slice -> /usr/share/doc/slice switch.
++  * [debian/rules]: Uses dh_perl to generate perl dependency instead of
++      hard-coding it in debian/control.  (Thanks Raphaël!  :-)
++  * [debian/control]: I removed ${shlibs:Depends} by mistake.  Oops!
++      Put it back in, and added ${perl:Depends} too.
++
++ -- Anthony Fok <foka@debian.org>  Tue,  6 Jul 1999 02:29:31 -0600
++
++slice (1.3.2-3) unstable; urgency=low
++
++  * Applied typo fixes sent by Richard Braakman <dark@xs4all.nl>
++    to the package description, closes: Bug#18949.
++
++ -- Anthony Fok <foka@debian.org>  Thu,  5 Mar 1998 16:52:49 -0700
++
++slice (1.3.2-2) unstable; urgency=low
++
++  * Makefile.in: Added LDLOADLIBS="-lc" to fix the Lintian
++    shlib-without-dependency-information warning with Perl so modules.
++  * debian/rules: Removed dh_du.
++
++ -- Anthony Fok <foka@debian.org>  Mon,  2 Mar 1998 21:04:34 -0700
++
++slice (1.3.2-1) unstable; urgency=low
++
++  * New upstream release.
++  * Upgraded to standards version 2.4.0.0 (no changes).
++  * Updated copyright file.
++
++ -- Anthony Fok <foka@debian.org>  Thu, 19 Feb 1998 03:43:55 -0700
++
++slice (1.3.1-1) unstable; urgency=low
++
++  * New upstream release.
++
++ -- Anthony Fok <foka@debian.org>  Tue, 10 Feb 1998 14:51:33 -0700
++
++slice (1.3.0-1) unstable; urgency=low
++
++  * New upstream release.
++  * No longer installs /usr/doc/slice/INSTALL.
++
++ -- Anthony Fok <foka@debian.org>  Wed,  7 Jan 1998 17:17:49 -0700
++
++slice (1.2.9-1) unstable; urgency=low
++
++  * New upstream release.
++  * Happy New Year 1998!  :)
++
++ -- Anthony Fok <foka@debian.org>  Wed, 31 Dec 1997 17:48:00 -0700
++
++slice (1.2.8-3) unstable; urgency=low
++
++  * Patched Makefile.in to ensure that slice.1 is placed in
++    /usr/man/man1 rather than /usr/man.
++
++ -- Anthony Fok <foka@debian.org>  Sat, 27 Dec 1997 22:13:35 -0700
++
++slice (1.2.8-2) unstable; urgency=low
++
++  * Patched ./aclocal.m4 (hence ./configure.in and ./configure) so
++    that Perl module versions are correctly compared.  (The idea
++    was adopted from wml's ./config/aclocal.m4.)  <grin>  The result
++    is to get a private version of IO::File 1.07 installed.  The
++    IO::File 1.06021 from perl 5.004.04-3 is slightly outdated
++    and /usr/bin/slice refused to run.
++
++ -- Anthony Fok <foka@debian.org>  Sat, 27 Dec 1997 19:23:09 -0700
++
++slice (1.2.8-1) unstable; urgency=low
++
++  * Initial Release.
++
++ -- Anthony Fok <foka@debian.org>  Tue, 23 Dec 1997 03:20:05 -0700
++
+--- slice-1.3.8.orig/debian/copyright
++++ slice-1.3.8/debian/copyright
+@@ -0,0 +1,32 @@
++This package was debianized by Denis Barbier <barbier@debian.org> on
++Mon, Feb 11 01:22:26 +0100.
++
++Currently maintained by Luk Claes <luk@debian.org> and 
++                        Felipe Augusto van de Wiel <felipe@cathedrallabs.org>
++
++Now available at:
++    ftp://ftp.ossp.org/pkg/tool/slice/
++
++Authors:
++    Copyright (C) 1997-2002 Ralf S. Engelschall <rse@engelschall.com>
++    Copyright (C) 1999-2002 Denis Barbier <barbier@imacs.polytechnique.fr>
++
++  This program is free software; you can redistribute it and/or modify
++  it under the terms of the GNU General Public License as published by
++  the Free Software Foundation; either version 2 of the License, or
++  (at your option) any later version.
++
++  This program is distributed in the hope that it will be useful,
++  but WITHOUT ANY WARRANTY; without even the implied warranty of
++  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++  GNU General Public License for more details.
++
++  You should have received a copy of the GNU General Public License
++  in the file COPYING along with this program; if not, write to
++
++    Free Software Foundation, Inc.
++    51 Franklin St, Fifth Floor
++    Boston, MA  02110-1301, USA
++
++On Debian GNU/Linux systems, the complete text of the GNU General Public
++License may be found in `/usr/share/common-licenses/GPL'.
+--- slice-1.3.8.orig/debian/control
++++ slice-1.3.8/debian/control
+@@ -0,0 +1,22 @@
++Source: slice
++Section: text
++Priority: optional
++Maintainer: Debian WML Packaging Team <pkg-wml-maintainers@lists.alioth.debian.org>
++Uploaders: Axel Beckert <abe@debian.org>,
++	   Felipe Augusto van de Wiel (faw) <faw@debian.org>
++Standards-Version: 3.8.4
++Build-Depends: debhelper (>= 7), quilt
++Build-Depends-Indep: perl (>= 5.6.0) | perl5, libbit-vector-perl
++Vcs-Browser: http://git.debian.org/?p=pkg-wml/slice.git
++Vcs-Git: git://git.debian.org/pkg-wml/slice.git
++Homepage: ftp://ftp.ossp.org/pkg/tool/slice/
++
++Package: slice
++Architecture: all
++Depends: perl (>= 5.6.0) | perl5, libbit-vector-perl, ${misc:Depends}
++Description: Extract out pre-defined slices of an ASCII file
++ The slice program reads an input file and divide its prepared ASCII contents
++ into possibly overlapping slices. These slices are determined by enclosing
++ blocks which are defined by begin and end delimiters which have to be
++ already in the file. The final output gets calculated by a slice term
++ consisting of slice names, set theory operators and optional round brackets.
+--- slice-1.3.8.orig/debian/rules
++++ slice-1.3.8/debian/rules
+@@ -0,0 +1,68 @@
++#!/usr/bin/make -f
++
++package = slice
++
++# Uncomment this to turn on verbose mode.
++#export DH_VERBOSE=1
++
++CFLAGS := -Wall
++ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
++CFLAGS += -O0
++else
++CFLAGS += -O2
++endif
++
++ifneq "$(findstring debug,$(DEB_BUILD_OPTIONS))" ""
++CFLAGS += -g
++endif
++
++include /usr/share/quilt/quilt.make
++
++configure: config-stamp
++config-stamp: $(QUILT_STAMPFN)
++	dh_testdir
++#	./configure --prefix=/usr --with-closedworld
++	CFLAGS="$(CFLAGS)" ./configure --prefix=/usr --mandir='$${prefix}/share/man'
++
++build: build-stamp
++build-stamp: configure
++	dh_testdir
++	$(MAKE)
++	touch build-stamp
++
++clean: unpatch
++	dh_testdir
++	dh_testroot
++	[ ! -f Makefile ] || $(MAKE) distclean
++	dh_clean
++
++binary-arch:
++# Nothing to do
++
++binary-indep: build
++	dh_testdir
++	dh_testroot
++	dh_prep
++	# Add here commands to install the files into debian/tmp
++	$(MAKE) install prefix=$(CURDIR)/debian/slice/usr
++	rm -rf $(CURDIR)/debian/slice/usr/lib
++	dh_installdocs README
++#	dh_installexamples
++#	dh_installmenu
++#	dh_installmanpages
++#	dh_undocumented
++	dh_installchangelogs ChangeLog
++#	dh_strip
++	dh_compress
++	dh_fixperms
++#	dh_suidregister
++	dh_installdeb
++#	dh_shlibdeps
++#	dh_perl usr/lib/slice/perl/lib
++	dh_gencontrol
++#	dh_makeshlibs
++	dh_md5sums
++	dh_builddeb
++
++binary: binary-indep binary-arch
++.PHONY: build clean binary-indep binary-arch binary
+--- slice-1.3.8.orig/debian/patches/series
++++ slice-1.3.8/debian/patches/series
+@@ -0,0 +1,2 @@
++slice_1.3.8-9.diff
++fix-spelling-errors.diff
+--- slice-1.3.8.orig/debian/patches/fix-spelling-errors.diff
++++ slice-1.3.8/debian/patches/fix-spelling-errors.diff
+@@ -0,0 +1,15 @@
++Fix spelling error in man page (Thanks lintian!)
++
++Index: slice/slice.pod
++===================================================================
++--- slice.orig/slice.pod	2010-06-03 00:29:48.000000000 +0200
+++++ slice/slice.pod	2010-06-03 00:29:54.000000000 +0200
++@@ -219,7 +219,7 @@
++ 
++ The optional I<outputpolicy> string allows changing output policy for
++ only this output file without changing its global meaning.  See above
++-for informations on output policy.
+++for information on output policy.
++ 
++ Be careful here: When you use parenthesis or asterisks inside I<sliceterm> you
++ have to make sure it is really passed to F<slice> this way, i.e. usually you
+--- slice-1.3.8.orig/debian/patches/slice_1.3.8-9.diff
++++ slice-1.3.8/debian/patches/slice_1.3.8-9.diff
+@@ -0,0 +1,100 @@
++Original debian patch as of 1.3.8-9.
++
++--- slice-1.3.8.orig/Makefile.in
+++++ slice-1.3.8/Makefile.in
++@@ -28,7 +28,7 @@
++ bindir          = $(prefix)/bin
++ libsubdir       = @libsubdir@
++ libdir          = $(prefix)/lib$(libsubdir)
++-mandir          = $(prefix)/man
+++mandir          = @mandir@
++ 
++ PATH_PERL       = @PATH_PERL@
++ INSTALLPRIVLIB  = @INSTALLPRIVLIB@
++--- slice-1.3.8.orig/slice_setup.pl
+++++ slice-1.3.8/slice_setup.pl
++@@ -75,17 +75,21 @@
++     #   read input file
++     if (($#ARGV == 0 and $ARGV[0] eq '-') or $#ARGV == -1) {
++         $fp = new IO::Handle;
++-        $fp->fdopen(fileno(STDIN), "r");
+++        $fp->fdopen(fileno(STDIN), "r")
+++            || error("Unable to load STDIN: $!\n");
++         local ($/) = undef;
++         $INPUT = <$fp>;
++-        $fp->close;
+++        $fp->close()
+++            || error("Unable to close STDIN: $!\n");
++     }
++     elsif ($#ARGV == 0) {
++         $fp = new IO::File;
++-        $fp->open($ARGV[0]);
+++        $fp->open($ARGV[0])
+++            || error("Unable to load $ARGV[0]: $!\n");
++         local ($/) = undef;
++         $INPUT = <$fp>;
++-        $fp->close;
+++        $fp->close()
+++            || error("Unable to close $ARGV[0]: $!\n");
++     }
++     else {
++         usage();
++--- slice-1.3.8.orig/slice_util.pl
+++++ slice-1.3.8/slice_util.pl
++@@ -29,6 +29,15 @@
++     exit(1);
++ }
++ 
+++sub fileerror {
+++    my $file  = shift;
+++    my ($str) = @_;
+++
+++    printerror($str);
+++    unlink $file;
+++    exit(1);
+++}
+++
++ sub printwarning {
++     my ($str) = @_;
++ 
++--- slice-1.3.8.orig/slice_pass3.pl
+++++ slice-1.3.8/slice_pass3.pl
++@@ -92,21 +92,32 @@
++         #   skip file if requested by options
++         if ($status->{z} > 0 and $out eq '') {
++                 printwarning("Empty output: skip generation of $outfile\n");
++-                next if $status->{z} > 1;
+++                main::error("Execution stopped\n") if $status->{z} > 2;
+++                next if $status->{z} == 2;
++         }
++         if ($status->{s} > 0 and ($out eq '' or $out !~ m/\S/)) {
++                 printwarning("Whitespace only: skip generation of $outfile\n");
++-                next if $status->{s} > 1;
+++                main::error("Execution stopped\n") if $status->{s} > 2;
+++                next if $status->{s} == 2;
++         }
++ 
++         #   open output file
++         if ($outfile eq '-') {
++-            print $out;
+++            $fp = new IO::Handle;
+++            $fp->fdopen(fileno(STDOUT), "w")
+++                or main::error("Unable to write into STDOUT: $!\n");
+++            print $fp $out;
+++            $fp->close()
+++                or main::error("Unable to close STDOUT: $!\n");
++         }
++         else {
++-            open(OUT, ">$outfile");
++-            print OUT $out;
++-            close(OUT);
+++            $fp = new IO::File;
+++            $fp->open("> $outfile")
+++                or main::error("Unable to write into $outfile: $!\n");
+++            print $fp $out
+++                or main::fileerror($outfile, "Unable to write into $outfile: $!\n");
+++            $fp->close()
+++                or main::fileerror($outfile, "Unable to close $outfile: $!\n");
++         }
++ 
++         #   additionally run chmod on the output file
+--- slice-1.3.8.orig/debian/source/format
++++ slice-1.3.8/debian/source/format
+@@ -0,0 +1 @@
++1.0

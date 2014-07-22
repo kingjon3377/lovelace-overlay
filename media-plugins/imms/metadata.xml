@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+<herd>proxy-maintainers</herd>
+<maintainer>
+  <email>@gentoo.org</email>
+</maintainer>
+<use>
+<!--  <flag name='analyzer'>Build the analyzer</flag> -->
+<!--  <flag name='audacious'>Build the Audacious plugin</flag> -->
+  <flag name='remote'>Build the remote GUI</flag>
+</use>
+</pkgmetadata>

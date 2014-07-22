@@ -1,0 +1,1651 @@
+--- oleo-1.99.16.orig/po/oleo.pot
++++ oleo-1.99.16/po/oleo.pot
+@@ -1,32 +1,35 @@
+ # SOME DESCRIPTIVE TITLE.
+-# Copyright (C) YEAR Free Software Foundation, Inc.
++# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
++# This file is distributed under the same license as the PACKAGE package.
+ # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+ #
+ #, fuzzy
+ msgid ""
+ msgstr ""
+ "Project-Id-Version: PACKAGE VERSION\n"
+-"POT-Creation-Date: 2001-03-10 15:32+0100\n"
++"Report-Msgid-Bugs-To: \n"
++"POT-Creation-Date: 2005-09-04 15:52+0200\n"
+ "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+ "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+ "Language-Team: LANGUAGE <LL@li.org>\n"
+ "MIME-Version: 1.0\n"
+ "Content-Type: text/plain; charset=CHARSET\n"
+-"Content-Transfer-Encoding: ENCODING\n"
++"Content-Transfer-Encoding: 8bit\n"
+ 
+-#: src/io-term.c:815
++#: src/io-term.c:817
+ #, c-format
+ msgid ""
+ "This is %s %s\n"
+ "\n"
+ msgstr ""
+ 
+-#: src/io-term.c:817
++#: src/io-term.c:819
+ #, c-format
+ msgid "Usage: %s [OPTION]... [FILE]...\n"
+ msgstr ""
+ 
+-#: src/io-term.c:820
++#: src/io-term.c:822
++#, c-format
+ msgid ""
+ "\n"
+ "  -h, --help               display this help and exit\n"
+@@ -43,56 +46,74 @@
+ "Report bugs to <bug-oleo@gnu.org>.\n"
+ msgstr ""
+ 
+-#: src/io-term.c:1025
++#: src/io-term.c:1027
+ #, c-format
+ msgid "%s %s\n"
+ msgstr ""
+ 
+-#: src/io-term.c:1026
+-msgid "Copyright © 1992-2000 Free Software Foundation, Inc.\n"
++#: src/io-term.c:1028
++#, c-format
++msgid "Copyright (C) 1992-2000 Free Software Foundation, Inc.\n"
+ msgstr ""
+ 
+-#: src/io-term.c:1027
++#: src/io-term.c:1029
+ #, c-format
+ msgid "%s comes with ABSOLUTELY NO WARRANTY.\n"
+ msgstr ""
+ 
+-#: src/io-term.c:1028
++#: src/io-term.c:1030
+ #, c-format
+ msgid "You may redistribute copies of %s\n"
+ msgstr ""
+ 
+-#: src/io-term.c:1029
++#: src/io-term.c:1031
++#, c-format
+ msgid "under the terms of the GNU General Public License.\n"
+ msgstr ""
+ 
+-#: src/io-term.c:1030
++#: src/io-term.c:1032
++#, c-format
+ msgid "For more information about these matters, "
+ msgstr ""
+ 
+-#: src/io-term.c:1031
++#: src/io-term.c:1033
++#, c-format
+ msgid "see the files named COPYING.\n"
+ msgstr ""
+ 
+-#: src/io-term.c:1174
++#: src/io-term.c:1176
++#, c-format
+ msgid "Error in the builtin init scripts (a bug!).\n"
+ msgstr ""
+ 
+-#: src/io-term.c:1194 src/io-term.c:1196
++#: src/io-term.c:1196 src/io-term.c:1198
+ #, c-format
+ msgid "   error occured in init file %s near line %d."
+ msgstr ""
+ 
+-#: src/io-term.c:1215 src/io-term.c:1216
++#: src/io-term.c:1217 src/io-term.c:1218
+ #, c-format
+ msgid ", error occured reading '%s'\n"
+ msgstr ""
+ 
+-#: src/io-term.c:1223 src/io-term.c:1224
++#: src/io-term.c:1225 src/io-term.c:1226
+ #, c-format
+ msgid "Can't open %s: %s\n"
+ msgstr ""
+ 
++#.
++#. * This is used in two places.
++#.
++#: src/io-motif.c:150
++msgid ""
++"\n"
++"GNU Oleo is free software, you are welcome to\n"
++"distribute copies of it. See the file COPYING for the\n"
++"conditions.\n"
++"\n"
++"GNU Oleo comes with ABSOLUTELY NO WARRANTY."
++msgstr ""
++
+ #: src/io-motif.c:722
+ msgid "Fit Print Area"
+ msgstr ""
+@@ -330,5 +351,6 @@
+ msgstr ""
+ 
+ #: src/io-motif.c:4791 src/io-motif.c:5906
++#, c-format
+ msgid "XmProcessTraversal failed\n"
+ msgstr ""
+--- oleo-1.99.16.orig/po/cat-id-tbl.c
++++ oleo-1.99.16/po/cat-id-tbl.c
+@@ -27,7 +27,7 @@
+ \n\
+ Report bugs to <bug-oleo@gnu.org>.\n", 4},
+   {"%s %s\n", 5},
+-  {"Copyright © 1992-2000 Free Software Foundation, Inc.\n", 6},
++  {"Copyright (C) 1992-2000 Free Software Foundation, Inc.\n", 6},
+   {"%s comes with ABSOLUTELY NO WARRANTY.\n", 7},
+   {"You may redistribute copies of %s\n", 8},
+   {"under the terms of the GNU General Public License.\n", 9},
+@@ -37,64 +37,71 @@
+   {"   error occured in init file %s near line %d.", 13},
+   {", error occured reading '%s'\n", 14},
+   {"Can't open %s: %s\n", 15},
+-  {"Fit Print Area", 16},
+-  {"Conversion error: cannot convert '%s' to a %s\n", 17},
+-  {"Cannot find XmNuserData\n", 18},
+-  {"range", 19},
+-  {"Plotter Type", 20},
+-  {"*.oleo", 21},
+-  {"X Axis Tick Label Type", 22},
+-  {"Y Axis Tick Label Type", 23},
+-  {"Internal error: can't find what to print to\n", 24},
+-  {"*.out", 25},
+   {"\
+-Value of defaultPrintTo resource is invalid, should be one of %s, %s, or %s\n", 26},
+-  {"Select Printer", 27},
+-  {"Paper Format", 28},
+-  {"Printer Language", 29},
+-  {"File Format", 30},
+-  {"[Oleo: %s]", 31},
+-  {"Read file '%s'\n", 32},
+-  {"Choose a file to load", 33},
++\n\
++GNU Oleo is free software, you are welcome to\n\
++distribute copies of it. See the file COPYING for the\n\
++conditions.\n\
++\n\
++GNU Oleo comes with ABSOLUTELY NO WARRANTY.", 16},
++  {"Fit Print Area", 17},
++  {"Conversion error: cannot convert '%s' to a %s\n", 18},
++  {"Cannot find XmNuserData\n", 19},
++  {"range", 20},
++  {"Plotter Type", 21},
++  {"*.oleo", 22},
++  {"X Axis Tick Label Type", 23},
++  {"Y Axis Tick Label Type", 24},
++  {"Internal error: can't find what to print to\n", 25},
++  {"*.out", 26},
++  {"\
++Value of defaultPrintTo resource is invalid, should be one of %s, %s, or %s\n", 27},
++  {"Select Printer", 28},
++  {"Paper Format", 29},
++  {"Printer Language", 30},
++  {"File Format", 31},
++  {"[Oleo: %s]", 32},
++  {"Read file '%s'\n", 33},
++  {"Choose a file to load", 34},
+   {"\
+ There are unsaved changes.\n\
+-Do you want to quit anyway ?", 34},
+-  {"OleoOpenForWrite: can't move %s to %s", 35},
+-  {"OleoOpenForWrite: couldn't open file '%s' for write", 36},
+-  {"ReallySaveCB(%s): couldn't open file for writing", 37},
+-  {"ReallySaveCB: file close failed", 38},
+-  {"Saved file '%s'\n", 39},
+-  {"ReallySaveCB: couldn't figure out file to save into", 40},
+-  {"Choose a file to save in", 41},
++Do you want to quit anyway ?", 35},
++  {"OleoOpenForWrite: can't move %s to %s", 36},
++  {"OleoOpenForWrite: couldn't open file '%s' for write", 37},
++  {"ReallySaveCB(%s): couldn't open file for writing", 38},
++  {"ReallySaveCB: file close failed", 39},
++  {"Saved file '%s'\n", 40},
++  {"ReallySaveCB: couldn't figure out file to save into", 41},
++  {"Choose a file to save in", 42},
+   {"\
+ <html><body>Can't find the requested help file\n\
+-</body></html>", 42},
+-  {"Help requested on '%s'", 43},
+-  {"Help requested on using Oleo", 44},
+-  {"OK", 45},
+-  {"Cancel", 46},
+-  {"Copy a region", 47},
+-  {"Copy Values", 48},
+-  {"Move", 49},
+-  {"Formats :", 50},
+-  {"Default", 51},
+-  {"Hidden", 52},
+-  {"Graph", 53},
+-  {"General", 54},
+-  {"Dollar", 55},
+-  {"Comma", 56},
+-  {"Percent", 57},
+-  {"Integer", 58},
+-  {"Decimal", 59},
+-  {"Fixed", 60},
+-  {"Exponent", 61},
+-  {"Date", 62},
+-  {"User-1", 63},
+-  {"User-2", 64},
+-  {"User-3", 65},
+-  {"User-4", 66},
+-  {"Date Format", 67},
+-  {"XmProcessTraversal failed\n", 68},
++</body></html>", 43},
++  {"Help requested on '%s'", 44},
++  {"Help requested on using Oleo", 45},
++  {"OK", 46},
++  {"Cancel", 47},
++  {"Copy a region", 48},
++  {"Copy Values", 49},
++  {"Move", 50},
++  {"Formats :", 51},
++  {"Default", 52},
++  {"Hidden", 53},
++  {"Graph", 54},
++  {"General", 55},
++  {"Dollar", 56},
++  {"Comma", 57},
++  {"Percent", 58},
++  {"Integer", 59},
++  {"Decimal", 60},
++  {"Fixed", 61},
++  {"Exponent", 62},
++  {"Date", 63},
++  {"User-1", 64},
++  {"User-2", 65},
++  {"User-3", 66},
++  {"User-4", 67},
++  {"Date Format", 68},
++  {"XmProcessTraversal failed\n", 69},
+ };
+ 
+-int _msg_tbl_length = 68;
++int _msg_tbl_length = 69;
+--- oleo-1.99.16.orig/doc/expressions.texi
++++ oleo-1.99.16/doc/expressions.texi
+@@ -1,4 +1,4 @@
+-@node   Expressions, , .oleorc file, Basics
++@node   Expressions, , ~/.oleorc file, Basics
+ @section Expressions
+ @cindex Expressions
+ 
+--- oleo-1.99.16.orig/doc/basics.texi
++++ oleo-1.99.16/doc/basics.texi
+@@ -46,7 +46,7 @@
+ * Getting Help::                Getting help
+ * Saving and reading::          Saving and reading Spreadsheets
+ * Command Line Options::        Command Line Options
+-* .oleorc file::                The initialization file
++* ~/.oleorc file::              The initialization file
+ * Expressions::                 Types of expressions
+ @end menu
+ 
+@@ -109,7 +109,7 @@
+ M-x set-option @key{RET} input -1
+ @end example
+ 
+-This can be made the default.  (@pxref{.oleorc file})
++This can be made the default.  (@pxref{~/.oleorc file})
+ 
+ @node Status Line , Work Area, Minibuffer, The Screen
+ @unnumberedsubsec The status line
+@@ -638,7 +638,7 @@
+ 
+ 
+ 
+-@node Command Line Options, .oleorc file, Saving and reading, Basics
++@node Command Line Options, ~/.oleorc file, Saving and reading, Basics
+ @section Command Line Options
+ @comment  node-name,  next,  previous,  up
+ @cindex Command Line Options
+@@ -683,8 +683,8 @@
+ @end table
+ 
+ 
+-@node .oleorc file, Expressions, Command Line Options, Basics
+-@section The @file{.oleorc} file
++@node ~/.oleorc file, Expressions, Command Line Options, Basics
++@section The @file{~/.oleorc} file
+ @cindex .oleorc
+ @comment  node-name,  next,  previous,  up
+ 
+--- oleo-1.99.16.orig/doc/oleo.info-1
++++ oleo-1.99.16/doc/oleo.info-1
+@@ -1,4 +1,4 @@
+-This is oleo.info, produced by makeinfo version 4.0 from oleo.texi.
++This is oleo.info, produced by makeinfo version 4.3 from oleo.texi.
+ 
+    This file documents Oleo, the GNU spreadsheet.
+ 
+@@ -98,7 +98,7 @@
+ * Getting Help::                Getting help
+ * Saving and reading::          Saving and reading Spreadsheets
+ * Command Line Options::        Command Line Options
+-* .oleorc file::                The initialization file
++* ~/.oleorc file::              The initialization file
+ * Expressions::                 Types of expressions
+ 
+    ---------- Footnotes ----------
+@@ -275,7 +275,7 @@
+ 
+      M-x set-option <RET> input -1
+ 
+-   This can be made the default.  (*note .oleorc file::)
++   This can be made the default.  (*note ~/.oleorc file::)
+ 
+ 
+ File: oleo.info,  Node: Status Line,  Next: Work Area,  Prev: Minibuffer,  Up: The Screen
+@@ -714,7 +714,7 @@
+    (2) what is the default
+ 
+ 
+-File: oleo.info,  Node: Command Line Options,  Next: .oleorc file,  Prev: Saving and reading,  Up: Basics
++File: oleo.info,  Node: Command Line Options,  Next: ~/.oleorc file,  Prev: Saving and reading,  Up: Basics
+ 
+ Command Line Options
+ ====================
+@@ -767,7 +767,7 @@
+    (1) But what does this really do?
+ 
+ 
+-File: oleo.info,  Node: .oleorc file,  Next: Expressions,  Prev: Command Line Options,  Up: Basics
++File: oleo.info,  Node: ~/.oleorc file,  Next: Expressions,  Prev: Command Line Options,  Up: Basics
+ 
+ The `.oleorc' file
+ ==================
+@@ -786,7 +786,7 @@
+    (1) what else can go here? can I set the default font here?
+ 
+ 
+-File: oleo.info,  Node: Expressions,  Prev: .oleorc file,  Up: Basics
++File: oleo.info,  Node: Expressions,  Prev: ~/.oleorc file,  Up: Basics
+ 
+ Expressions
+ ===========
+--- oleo-1.99.16.orig/doc/oleo.info-2
++++ oleo-1.99.16/doc/oleo.info-2
+@@ -1,4 +1,4 @@
+-This is oleo.info, produced by makeinfo version 4.0 from oleo.texi.
++This is oleo.info, produced by makeinfo version 4.3 from oleo.texi.
+ 
+    This file documents Oleo, the GNU spreadsheet.
+ 
+--- oleo-1.99.16.orig/doc/oleo.info-3
++++ oleo-1.99.16/doc/oleo.info-3
+@@ -1,4 +1,4 @@
+-This is oleo.info, produced by makeinfo version 4.0 from oleo.texi.
++This is oleo.info, produced by makeinfo version 4.3 from oleo.texi.
+ 
+    This file documents Oleo, the GNU spreadsheet.
+ 
+--- oleo-1.99.16.orig/doc/oleo.info-4
++++ oleo-1.99.16/doc/oleo.info-4
+@@ -1,4 +1,4 @@
+-This is oleo.info, produced by makeinfo version 4.0 from oleo.texi.
++This is oleo.info, produced by makeinfo version 4.3 from oleo.texi.
+ 
+    This file documents Oleo, the GNU spreadsheet.
+ 
+@@ -28,7 +28,7 @@
+ 
+ * Menu:
+ 
+-* .oleorc:                               .oleorc file.
++* .oleorc:                               ~/.oleorc file.
+ * a0 mode:                               a0 mode.
+ * Absolute references:                   Cell referencing.
+ * Addressing cells:                      Cell referencing.
+--- oleo-1.99.16.orig/doc/oleo.info
++++ oleo-1.99.16/doc/oleo.info
+@@ -1,4 +1,4 @@
+-This is oleo.info, produced by makeinfo version 4.0 from oleo.texi.
++This is oleo.info, produced by makeinfo version 4.3 from oleo.texi.
+ 
+    This file documents Oleo, the GNU spreadsheet.
+ 
+@@ -23,9 +23,9 @@
+ 
+ Indirect:
+ oleo.info-1: 888
+-oleo.info-2: 50331
+-oleo.info-3: 99293
+-oleo.info-4: 148190
++oleo.info-2: 50339
++oleo.info-3: 99301
++oleo.info-4: 148198
+ 
+ Tag Table:
+ (Indirect)
+@@ -39,142 +39,142 @@
+ Node: Comparison8414
+ Node: The Screen8882
+ Node: Minibuffer9268
+-Node: Status Line9727
+-Ref: Status Line-Footnote-110778
+-Node: Work Area10958
+-Node: Cursor and Mark11553
+-Node: Recalculation12630
+-Node: Movement13557
+-Node: Single Cell Movement14000
+-Node: Scanning14680
+-Ref: Scanning-Footnote-115646
+-Node: Large Scale Movement15773
+-Ref: Large Scale Movement-Footnote-116907
+-Ref: Large Scale Movement-Footnote-217007
+-Node: Movement examples17023
+-Node: Screen Moving18543
+-Node: Mouse19287
+-Ref: Mouse-Footnote-119901
+-Node: Regions and Variables19976
+-Node: Getting Help20973
+-Node: Saving and reading22872
+-Ref: Saving and reading-Footnote-124051
+-Ref: Saving and reading-Footnote-224090
+-Node: Command Line Options24118
+-Ref: Command Line Options-Footnote-125114
+-Node: .oleorc file25152
+-Ref: .oleorc file-Footnote-125686
+-Node: Expressions25750
+-Node: Infix expressions26103
+-Node: Examples27761
+-Node: Error values28720
+-Node: How to enter data30483
+-Node: Oleo values30823
+-Node: Entering31759
+-Node: Input Editing32314
+-Ref: Input Editing-Footnote-134612
+-Node: Cell Motion34657
+-Node: Making changes35834
+-Node: Copying36171
+-Node: Moving38610
+-Ref: Moving-Footnote-139966
+-Node: Deleting40025
+-Node: Insertion40858
+-Node: Style41439
+-Node: Alignment42228
+-Node: Formats for numbers42923
+-Ref: Formats for numbers-Footnote-147773
+-Ref: Formats for numbers-Footnote-247796
+-Ref: Formats for numbers-Footnote-347843
+-Node: Cell Height47916
+-Ref: Cell Height-Footnote-148657
+-Node: Width of Cells48692
+-Ref: Width of Cells-Footnote-149391
+-Node: Hidden Rows and Columns49406
+-Node: Protection50331
+-Node: Fonts (in X11)51310
+-Node: Multiple Windows52912
+-Node: Windows53519
+-Node: Split Window54233
+-Node: Other Window54973
+-Node: Change Window56041
+-Node: Options56765
+-Node: Appearance57228
+-Ref: Appearance-Footnote-158600
+-Node: Window Options58650
+-Node: Other Options60324
+-Ref: Other Options-Footnote-162446
+-Ref: Other Options-Footnote-262461
+-Ref: Other Options-Footnote-362493
+-Node: Printing and Plotting62530
+-Node: Writing Files62804
+-Ref: Writing Files-Footnote-167475
+-Node: Graphing67552
+-Node: Clearing Plots69144
+-Node: Data sets69574
+-Ref: Data sets-Footnote-171558
+-Node: The axes71590
+-Ref: The axes-Footnote-172365
+-Ref: The axes-Footnote-272379
+-Node: Viewing Choices72396
+-Node: Output Type73225
+-Node: Style Options74270
+-Ref: Style Options-Footnote-174991
+-Node: Name Options75044
+-Ref: Name Options-Footnote-175640
+-Node: Macros75674
+-Node: Keyboard Macros75849
+-Ref: Keyboard Macros-Footnote-177584
+-Node: Basic Kbd Macro77616
+-Ref: Basic Kbd Macro-Footnote-179083
+-Ref: Basic Kbd Macro-Footnote-279111
+-Node: Save Kbd Macro79136
+-Ref: Save Kbd Macro-Footnote-179632
+-Node: Programs79658
+-Node: One Line Programs79996
+-Node: Long One Liners80940
+-Node: Writing programs81299
+-Ref: Writing programs-Footnote-183026
+-Node: Commands in Programs83082
+-Node: Keymaps83404
+-Node: Functions87048
+-Node: Boolean functions87869
+-Node: Math functions88900
+-Node: General math functions89270
+-Ref: General math functions-Footnote-191230
+-Node: Trigonometric functions91275
+-Node: Statistical functions92329
+-Node: String functions95420
+-Ref: String functions-Footnote-197475
+-Ref: String functions-Footnote-297551
+-Node: Structural functions97679
+-Node: Search functions99293
+-Ref: Search functions-Footnote-1101667
+-Node: Business functions101834
+-Node: Date functions106123
+-Node: Gsl functions112039
+-Node: Extending Oleo113571
+-Node: New at functions113783
+-Node: Reporting Bugs118229
+-Node: Motif119592
+-Node: Motif Introduction119983
+-Node: LessTif120361
+-Node: Advantages120995
+-Node: What you need121358
+-Node: Alternatives122116
+-Node: Using the mouse122422
+-Node: Using the keyboard shortcuts123448
+-Node: Using Help124264
+-Node: Fallback124391
+-Node: Motif Buttons in a Spreadsheet Cell124900
+-Node: Database Access125498
+-Node: Database Access Introduction125669
+-Node: MySQL126294
+-Node: Xbase126565
+-Node: Key Index126647
+-Node: Command Index131982
+-Node: Function Index138818
+-Node: Options Index145616
+-Node: Concept Index148190
++Node: Status Line9729
++Ref: Status Line-Footnote-110780
++Node: Work Area10960
++Node: Cursor and Mark11555
++Node: Recalculation12632
++Node: Movement13559
++Node: Single Cell Movement14002
++Node: Scanning14682
++Ref: Scanning-Footnote-115648
++Node: Large Scale Movement15775
++Ref: Large Scale Movement-Footnote-116909
++Ref: Large Scale Movement-Footnote-217009
++Node: Movement examples17025
++Node: Screen Moving18545
++Node: Mouse19289
++Ref: Mouse-Footnote-119903
++Node: Regions and Variables19978
++Node: Getting Help20975
++Node: Saving and reading22874
++Ref: Saving and reading-Footnote-124053
++Ref: Saving and reading-Footnote-224092
++Node: Command Line Options24120
++Ref: Command Line Options-Footnote-125118
++Node: ~/.oleorc file25156
++Ref: ~/.oleorc file-Footnote-125692
++Node: Expressions25756
++Node: Infix expressions26111
++Node: Examples27769
++Node: Error values28728
++Node: How to enter data30491
++Node: Oleo values30831
++Node: Entering31767
++Node: Input Editing32322
++Ref: Input Editing-Footnote-134620
++Node: Cell Motion34665
++Node: Making changes35842
++Node: Copying36179
++Node: Moving38618
++Ref: Moving-Footnote-139974
++Node: Deleting40033
++Node: Insertion40866
++Node: Style41447
++Node: Alignment42236
++Node: Formats for numbers42931
++Ref: Formats for numbers-Footnote-147781
++Ref: Formats for numbers-Footnote-247804
++Ref: Formats for numbers-Footnote-347851
++Node: Cell Height47924
++Ref: Cell Height-Footnote-148665
++Node: Width of Cells48700
++Ref: Width of Cells-Footnote-149399
++Node: Hidden Rows and Columns49414
++Node: Protection50339
++Node: Fonts (in X11)51318
++Node: Multiple Windows52920
++Node: Windows53527
++Node: Split Window54241
++Node: Other Window54981
++Node: Change Window56049
++Node: Options56773
++Node: Appearance57236
++Ref: Appearance-Footnote-158608
++Node: Window Options58658
++Node: Other Options60332
++Ref: Other Options-Footnote-162454
++Ref: Other Options-Footnote-262469
++Ref: Other Options-Footnote-362501
++Node: Printing and Plotting62538
++Node: Writing Files62812
++Ref: Writing Files-Footnote-167483
++Node: Graphing67560
++Node: Clearing Plots69152
++Node: Data sets69582
++Ref: Data sets-Footnote-171566
++Node: The axes71598
++Ref: The axes-Footnote-172373
++Ref: The axes-Footnote-272387
++Node: Viewing Choices72404
++Node: Output Type73233
++Node: Style Options74278
++Ref: Style Options-Footnote-174999
++Node: Name Options75052
++Ref: Name Options-Footnote-175648
++Node: Macros75682
++Node: Keyboard Macros75857
++Ref: Keyboard Macros-Footnote-177592
++Node: Basic Kbd Macro77624
++Ref: Basic Kbd Macro-Footnote-179091
++Ref: Basic Kbd Macro-Footnote-279119
++Node: Save Kbd Macro79144
++Ref: Save Kbd Macro-Footnote-179640
++Node: Programs79666
++Node: One Line Programs80004
++Node: Long One Liners80948
++Node: Writing programs81307
++Ref: Writing programs-Footnote-183034
++Node: Commands in Programs83090
++Node: Keymaps83412
++Node: Functions87056
++Node: Boolean functions87877
++Node: Math functions88908
++Node: General math functions89278
++Ref: General math functions-Footnote-191238
++Node: Trigonometric functions91283
++Node: Statistical functions92337
++Node: String functions95428
++Ref: String functions-Footnote-197483
++Ref: String functions-Footnote-297559
++Node: Structural functions97687
++Node: Search functions99301
++Ref: Search functions-Footnote-1101675
++Node: Business functions101842
++Node: Date functions106131
++Node: Gsl functions112047
++Node: Extending Oleo113579
++Node: New at functions113791
++Node: Reporting Bugs118237
++Node: Motif119600
++Node: Motif Introduction119991
++Node: LessTif120369
++Node: Advantages121003
++Node: What you need121366
++Node: Alternatives122124
++Node: Using the mouse122430
++Node: Using the keyboard shortcuts123456
++Node: Using Help124272
++Node: Fallback124399
++Node: Motif Buttons in a Spreadsheet Cell124908
++Node: Database Access125506
++Node: Database Access Introduction125677
++Node: MySQL126302
++Node: Xbase126573
++Node: Key Index126655
++Node: Command Index131990
++Node: Function Index138826
++Node: Options Index145624
++Node: Concept Index148198
+ 
+ End Tag Table
+--- oleo-1.99.16.orig/src/io-utils.c
++++ oleo-1.99.16/src/io-utils.c
+@@ -71,7 +71,7 @@
+ 
+ double __plinf;
+ double __neinf;
+-double __nan;
++double oleo__nan;
+ 
+ char nname[] = "#NOT_A_NUMBER";
+ char iname[] = "#INFINITY";
+@@ -125,7 +125,7 @@
+   __neinf = divide (-1., 0.);
+   (void) signal (SIGFPE, ignore_sig);
+ #endif
+-  __nan = __plinf + __neinf;
++  oleo__nan = __plinf + __neinf;
+ }
+ 
+ 
+--- oleo-1.99.16.orig/src/ref.c
++++ oleo-1.99.16/src/ref.c
+@@ -263,7 +263,7 @@
+ read_new_value (CELLREF row, CELLREF col, char *form, char *val)
+ {
+   unsigned char *new_bytes;
+-  extern double __plinf, __neinf, __nan;
++  extern double __plinf, __neinf, oleo__nan;
+ 
+   cur_row = row;
+   cur_col = col;
+@@ -348,7 +348,7 @@
+ 	  else if (!stricmp (nname, val))
+ 	    {
+ 	      SET_TYP (my_cell, TYP_FLT);
+-	      my_cell->cell_flt = __nan;
++	      my_cell->cell_flt = oleo__nan;
+ 	    }
+ 	  else
+ 	    {
+--- oleo-1.99.16.orig/src/io-x11.c
++++ oleo-1.99.16/src/io-x11.c
+@@ -34,7 +34,7 @@
+ #include <stdio.h>
+ #include <ctype.h>
+ #include <sys/param.h>
+-#define NeedFunctionPrototypes 0
++/* #define NeedFunctionPrototypes 0 */
+ #include <X11/X.h>
+ #include <X11/Xlib.h>
+ #include <X11/Xutil.h>
+--- oleo-1.99.16.orig/src/plotter.c
++++ oleo-1.99.16/src/plotter.c
+@@ -2639,8 +2639,6 @@
+ 	case SP_PLOT_PIE:
+ 		sp_pie_plot_point(mg, point);
+ 		break;
+-	default:
+-		/* ?? */
+ 	}
+ }
+ 
+@@ -2770,8 +2768,6 @@
+ 	case SP_PLOT_PIE:
+ 		sp_pie_begin_graph(mg, scale, trans_x, trans_y);
+ 		break;
+-	default:
+-		/* ??? */
+ 	}
+ 
+ 	sp_first_dataset(mg);
+@@ -2790,8 +2786,6 @@
+ 	case SP_PLOT_PIE:
+ 		sp_pie_end_graph(mg);
+ 		break;
+-	default:
+-		/* ??? */
+ 	}
+ }
+ 
+--- oleo-1.99.16.orig/src/io-term.c
++++ oleo-1.99.16/src/io-term.c
+@@ -234,7 +234,7 @@
+ 
+ 		if (Preferences[i].copynext) {
+ 			ptr += strlen(Preferences[i].name) + 1;
+-			((char *)Preferences[i].var) = strdup(ptr);
++			Preferences[i].var = strdup(ptr);
+ 		} else if (Preferences[i].var)
+ 			*((int *)Preferences[i].var) = Preferences[i].value;
+ 
+@@ -770,6 +770,8 @@
+     }
+ }
+ 
++extern struct cmd_func cmd_funcs[];
++
+ static void
+ init_maps (void)
+ {
+@@ -1023,7 +1025,7 @@
+ 	  case 'v':
+ 	  case 'V':
+ 	    printf(_("%s %s\n"), GNU_PACKAGE, VERSION);
+-            printf(_("Copyright © 1992-2000 Free Software Foundation, Inc.\n"));
++            printf(_("Copyright (C) 1992-2000 Free Software Foundation, Inc.\n"));
+             printf(_("%s comes with ABSOLUTELY NO WARRANTY.\n"), GNU_PACKAGE);
+             printf(_("You may redistribute copies of %s\n"), PACKAGE);
+             printf(_("under the terms of the GNU General Public License.\n"));
+--- oleo-1.99.16.orig/src/io-term.h
++++ oleo-1.99.16/src/io-term.h
+@@ -44,8 +44,6 @@
+ extern int default_lock;
+ 
+ 
+-extern struct cmd_func cmd_funcs[];
+-
+ /* When printing ascii output, this controls page width. */
+ extern int modified;
+ 
+--- oleo-1.99.16.orig/src/global.h
++++ oleo-1.99.16/src/global.h
+@@ -208,7 +208,7 @@
+ extern char nname[];
+ 
+ extern VOIDSTAR parse_hash;
+-extern double __plinf, __neinf, __nan;
++extern double __plinf, __neinf, oleo__nan;
+ 
+ /* These have two uses.  During parsing, these contain the 
+  * base address of all relative references.  During evaluation,
+@@ -231,7 +231,7 @@
+ 
+ extern unsigned short current_cycle;
+ extern int ioerror;
+-extern int errno;
++#include <errno.h>
+ extern const char oleo_version_string[];
+ 
+ extern double astof (char **);
+--- oleo-1.99.16.orig/src/eval.c
++++ oleo-1.99.16/src/eval.c
+@@ -565,7 +565,7 @@
+ 	case CONST_NINF:
+ 	case CONST_NAN:
+ 	  p->type = TYP_FLT;
+-	  p->Float = (byte == CONST_INF) ? __plinf : ((byte == CONST_NINF) ? __neinf : __nan);
++	  p->Float = (byte == CONST_INF) ? __plinf : ((byte == CONST_NINF) ? __neinf : oleo__nan);
+ 	  break;
+ 
+ 	case VAR:
+--- oleo-1.99.16.orig/src/posixtm.y
++++ oleo-1.99.16/src/posixtm.y
+@@ -85,6 +85,7 @@
+ 		   YYABORT;
+ 		 }
+ 	       }
++		;
+ 
+ year : digitpair {
+                    t.tm_year = $1;
+--- oleo-1.99.16.orig/src/sysdef.h
++++ oleo-1.99.16/src/sysdef.h
+@@ -119,8 +119,6 @@
+ 
+ #endif /* !defined(__STDC__) */
+ 
+-extern char *getenv ();
+-
+ #ifndef RETSIGTYPE
+ #define RETSIGTYPE void
+ #endif /* RETSIGTYPE */
+--- oleo-1.99.16.orig/src/basic.h
++++ oleo-1.99.16/src/basic.h
+@@ -36,9 +36,6 @@
+ 
+ extern const int colmagic[9];
+ extern  const int rowmagic[9];
+-extern char * motion_name[9];
+-extern enum motion_magic complementary_motion[9];
+-extern enum motion_magic opposite_motion[9];
+ 
+ extern int run_load_hooks;
+ 
+--- oleo-1.99.16.orig/src/xrdb.c
++++ oleo-1.99.16/src/xrdb.c
+@@ -57,7 +57,7 @@
+ /* This should be included before the X include files; otherwise, we get
+    warnings about redefining NULL under BSD 4.3.  */
+ #include <sys/param.h>
+-#define NeedFunctionPrototypes 0
++/* #define NeedFunctionPrototypes 0 */
+ #include <X11/X.h>
+ #include <X11/Xlib.h>
+ #include <X11/Xutil.h>
+--- oleo-1.99.16.orig/Xresources/Makefile.am
++++ oleo-1.99.16/Xresources/Makefile.am
+@@ -17,9 +17,9 @@
+ endir =		$(xdefaultsdir)
+ 
+ install-data-hook:
+-		$(mkinstalldirs) $(nldir) $(frdir) $(endir)
+-		$(INSTALL_DATA) $(srcdir)/Oleo.nl $(nldir)/Oleo
+-		$(INSTALL_DATA) $(srcdir)/Oleo.fr $(frdir)/Oleo
+-		$(INSTALL_DATA) $(srcdir)/Oleo.en $(endir)/Oleo
++		$(mkinstalldirs) $(DESTDIR)$(nldir) $(DESTDIR)$(frdir) $(DESTDIR)$(endir)
++		$(INSTALL_DATA) $(srcdir)/Oleo.nl $(DESTDIR)$(nldir)/Oleo
++		$(INSTALL_DATA) $(srcdir)/Oleo.fr $(DESTDIR)$(frdir)/Oleo
++		$(INSTALL_DATA) $(srcdir)/Oleo.en $(DESTDIR)$(endir)/Oleo
+ 
+ MAINTAINERCLEANFILES = Makefile.in
+--- oleo-1.99.16.orig/Xresources/Makefile.in
++++ oleo-1.99.16/Xresources/Makefile.in
+@@ -235,10 +235,10 @@
+ 
+ 
+ install-data-hook:
+-		$(mkinstalldirs) $(nldir) $(frdir) $(endir)
+-		$(INSTALL_DATA) $(srcdir)/Oleo.nl $(nldir)/Oleo
+-		$(INSTALL_DATA) $(srcdir)/Oleo.fr $(frdir)/Oleo
+-		$(INSTALL_DATA) $(srcdir)/Oleo.en $(endir)/Oleo
++		$(mkinstalldirs) $(DESTDIR)$(nldir) $(DESTDIR)$(frdir) $(DESTDIR)$(endir)
++		$(INSTALL_DATA) $(srcdir)/Oleo.nl $(DESTDIR)$(nldir)/Oleo
++		$(INSTALL_DATA) $(srcdir)/Oleo.fr $(DESTDIR)$(frdir)/Oleo
++		$(INSTALL_DATA) $(srcdir)/Oleo.en $(DESTDIR)$(endir)/Oleo
+ 
+ # Tell versions [3.59,3.63) of GNU make to not export all variables.
+ # Otherwise a system limit (for SysV at least) may be exceeded.
+--- oleo-1.99.16.orig/debian/TODO
++++ oleo-1.99.16/debian/TODO
+@@ -0,0 +1,10 @@
++xbae and xl? should be included in m4 directory.
++
++oleo man page should go upstream.
++
++'make "CFLAGS=-O2"' does not work.  This is a bug in some Makefile.am.
++
++look at sysinfo function, which is defined differently on different platforms
++
++perhaps many parts of utils.c should be moved to lib, HAVE_* where
++function is defined in file if not in library
+--- oleo-1.99.16.orig/debian/menu
++++ oleo-1.99.16/debian/menu
+@@ -0,0 +1,4 @@
++?package(oleo):needs="text" section="Apps/Math"  title="Oleo" \
++	command="/usr/bin/oleo"
++?package(oleo):needs="x11" section="Apps/Math"  title="Oleo" \
++	command="/usr/bin/oleo"
+--- oleo-1.99.16.orig/debian/control
++++ oleo-1.99.16/debian/control
+@@ -0,0 +1,17 @@
++Source: oleo
++Section: math
++Priority: optional
++Maintainer: Ubuntu MOTU Developers <ubuntu-motu@lists.ubuntu.com>
++XSBC-Original-Maintainer: Debian QA Group <packages@qa.debian.org>
++Standards-Version: 3.5.9
++Build-Depends: libgsl0-dev, libmysqlclient15-dev, libncurses5-dev (>= 5.2.20010310-1), libplot-dev, libxdb-dev, libx11-dev, libxpm-dev, libxt-dev, x-dev, bison|byacc, gettext
++
++Package: oleo
++Architecture: any
++Depends: ${shlibs:Depends}
++Description: GNU spreadsheet program
++ Oleo is a spreadsheet program (better for you than the more expensive
++ spreadsheet).  It is an X client and also runs on character-based
++ terminals.  It can generate embedded Postscript renditions of
++ spreadsheets.  Keybindings should be familiar to Emacs users and are
++ configurable by users.
+--- oleo-1.99.16.orig/debian/oleo.desktop
++++ oleo-1.99.16/debian/oleo.desktop
+@@ -0,0 +1,9 @@
++[Desktop Entry]
++Version=1.0
++Name=Oleo Spreadsheet Program
++Comment=Spreadsheet program
++Exec=oleo
++Icon=oleo
++Type=Application
++Terminal=false
++Categories=Math;Science;
+--- oleo-1.99.16.orig/debian/prerm
++++ oleo-1.99.16/debian/prerm
+@@ -0,0 +1,12 @@
++#! /bin/sh -e
++
++install-info --quiet --remove /usr/share/info/automake.info
++
++if [ \( "$1" = "upgrade" -o "$1" = "remove" \) -a -L /usr/doc/oleo ]; then
++  install-info --quiet --remove oleo
++fi
++if [ "$1" = remove -o "$1" = upgrade ]; then
++    if command -v install-docs >/dev/null 2>&1; then
++	install-docs -r oleo
++    fi
++fi
+--- oleo-1.99.16.orig/debian/rules
++++ oleo-1.99.16/debian/rules
+@@ -0,0 +1,108 @@
++#!/usr/bin/make -f
++# Sample debian.rules file - for GNU Hello (1.3).
++# Copyright 1994,1995 by Ian Jackson.
++# I hereby give you perpetual unlimited permission to copy,
++# modify and relicense this file, provided that you do not remove
++# my name from the file itself.  (I assert my moral right of
++# paternity under the Copyright, Designs and Patents Act 1988.)
++# This file may have to be extensively modified
++# Copyright 1996 by Kevin Dalley
++#
++#
++# WARNING: configure will not work for this package unless xslib,
++# the static X libraries, is installed, though they are not
++# actually need for compiling.  This will be fixed in a later release
++
++CC = gcc
++CFLAGS = -O2
++LDFLAGS = -s
++ifneq (,$(findstring debug,$(DEB_BUILD_OPTIONS)))
++CFLAGS += -g
++endif
++ifeq (,$(findstring nostrip,$(DEB_BUILD_OPTIONS)))
++INSTALL_PROGRAM += -s
++endif
++
++package = oleo
++
++build:
++	$(checkdir)
++	./configure --prefix=/usr \
++		--mandir=/usr/share/man \
++		--infodir=/usr/share/info
++	$(MAKE) CC="$(CC)" LDFLAGS="$(LDFLAGS)" afmdir=/usr/share/oleo/afm
++	touch build
++
++clean:
++	$(checkdir)
++	-rm -f build
++	-$(MAKE) -i distclean || $(MAKE) -f Makefile.in distclean
++	-rm -rf *~ debian/tmp debian/*~ debian/files*
++
++binary-indep:	checkroot build
++	$(checkdir)
++# There are no architecture-independent files to be uploaded
++# generated by this package.  If there were any they would be
++# made here.
++
++binary-arch:	checkroot build
++	$(checkdir)
++	-rm -rf debian/tmp
++	install -d debian/tmp debian/tmp/DEBIAN
++	install -d debian/tmp/usr/share/doc/$(package)
++	install -d debian/tmp/usr/bin
++	install -d debian/tmp/usr/lib/menu
++	install debian/postinst debian/tmp/DEBIAN/.
++	install debian/prerm debian/tmp/DEBIAN/.
++	install debian/postrm debian/tmp/DEBIAN/.
++	install -d debian/tmp/usr/share/doc-base
++	install -m 0644 debian/doc-base debian/tmp/usr/share/doc-base/oleo
++	$(MAKE) CC="$(CC)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
++		DESTDIR=`pwd`/debian/tmp docdir="/usr/share/doc/$(package)" \
++		afmdir=/usr/share/oleo/afm install-strip
++	gzip -9v debian/tmp/usr/share/info/*
++	install -d debian/tmp/usr/share/man/man1
++	install -m 644 debian/oleo.1 debian/tmp/usr/share/man/man1
++	gzip -9v debian/tmp/usr/share/man/man1/oleo.1
++	install -d debian/tmp/usr/share/doc/$(package)/examples
++	(cd examples; tar -cf - . ) | \
++		(cd debian/tmp/usr/share/doc/$(package)/examples; tar --no-same-owner -xf -)
++	chmod -R 644 debian/tmp/usr/share/doc/$(package)/examples/*
++	install -m 644 debian/copyright debian/tmp/usr/share/doc/$(package)/.
++	install -m 644 debian/changelog debian/tmp/usr/share/doc/$(package)/changelog.Debian
++	install -m 644 ChangeLog debian/tmp/usr/share/doc/$(package)/changelog
++	gzip -9v debian/tmp/usr/share/doc/$(package)/changelog
++	gzip -9v debian/tmp/usr/share/doc/$(package)/changelog.Debian
++	install -d -g root -m 755 -o root \
++		debian/tmp/usr/share/doc/$(package)/examples
++	install -m 0644 debian/menu debian/tmp/usr/lib/menu/$(package)
++	install -d debian/tmp/usr/share/applications
++	install -m 644 debian/oleo.desktop debian/tmp/usr/share/applications/oleo.desktop
++	install -d debian/tmp/usr/share/pixmaps
++	install -m 644 src/oleo_icon.xpm debian/tmp/usr/share/pixmaps/oleo.xpm
++	
++	for file in README README-alpha THANKS TODO; do \
++		install -m 0644 $${file} debian/tmp/usr/share/doc/$(package); \
++		gzip -9 debian/tmp/usr/share/doc/$(package)/$${file}; \
++	done
++	dpkg-shlibdeps debian/tmp/usr/bin/oleo
++	dpkg-gencontrol -isp
++	dpkg --build debian/tmp ..
++
++define checkdir
++	test -f src/oleofile.c -a -f debian/rules
++endef
++
++# Below here is fairly generic really
++
++binary:		binary-indep binary-arch
++
++source diff:
++	@echo >&2 'source and diff are obsolete - use dpkg-source -b'; false
++
++checkroot:
++	$(checkdir)
++	test root = "`whoami`"
++
++.PHONY: binary binary-arch binary-indep clean checkroot
++
+--- oleo-1.99.16.orig/debian/changelog
++++ oleo-1.99.16/debian/changelog
+@@ -0,0 +1,264 @@
++oleo (1.99.16-10ubuntu1) hardy; urgency=low
++
++  * Merge from Debian unstable. (LP: #186035) Remaining Ubuntu changes:
++    - Re-enable building against X
++    - Added .desktop and install icon in /usr/share/pixmaps.
++    - Changed build depends libmysqlclient-dev to libmysqlclient15-dev.
++    - Modify Maintainer value to match Debian-Maintainer-Field Spec
++    - Call update-desktop-database during install and removal.
++    - Add gettext to Build-Depends.
++  * Adjusted oleo.desktop to be freedesktop compliant 
++
++ -- Stefan Ebner <hellboy195@gmail.com>  Sun, 03 Feb 2008 22:40:35 +0100
++
++oleo (1.99.16-10) unstable; urgency=low
++
++  * QA upload.
++  * chmod +x /usr/share/doc/oleo/examples (Closes: #393979)
++
++ -- Aurelien Jarno <aurel32@debian.org>  Sun, 30 Dec 2007 16:09:12 +0100
++
++oleo (1.99.16-9ubuntu1) gutsy; urgency=low
++
++  * Merge from Debian unstable.
++  * Remaining Ubuntu changes:
++    - Re-enable building against X
++    - Added .desktop and install icon in /usr/share/pixmaps.
++    - Changed build depends libmysqlclient-dev to libmysqlclient15-dev.
++    - Correct install call for /usr/share/doc/oleo/examples.
++  * Munge Maintainer field as per spec.
++  * Add gettext to Build-Depends. 
++
++ -- Steve Kowalik <stevenk@ubuntu.com>  Thu, 14 Jun 2007 10:33:18 +1000
++
++oleo (1.99.16-9) unstable; urgency=low
++
++  * Orphan package:
++    Set Maintainer to Debian QA Group <packages@qa.debian.org>.
++
++ -- Mario Lang <mlang@debian.org>  Sat, 09 Jun 2007 17:45:51 +0200
++
++oleo (1.99.16-8.1ubuntu4) edgy; urgency=low
++
++  * Damn! Add #!/bin/sh to the postrm. (Ubuntu: #59786)
++
++ -- Steve Kowalik <stevenk@ubuntu.com>  Wed, 13 Sep 2006 09:37:25 +1000
++
++oleo (1.99.16-8.1ubuntu3) edgy; urgency=low
++
++  * Correct wrong permissions for /usr/share/doc/oleo/examples harder,
++    chmod -R will also change the permissions of a directory.
++
++ -- Steve Kowalik <stevenk@ubuntu.com>  Sun, 10 Sep 2006 17:38:11 +1000
++
++oleo (1.99.16-8.1ubuntu2) edgy; urgency=low
++
++  [ Vassilis Pandis ]
++  * Added .desktop and install icon in /usr/share/pixmaps (Malone #49759)
++
++  [ Sarah Hobbs ]
++  * Changed build depends libmysqlclient-dev to libmysqlclient15-dev.  Closes
++    Malone #59637
++  * Thankyou to Michael Bienia for pointing this out.
++
++  [ Steve Kowalik ]
++  * Correct install call for /usr/share/doc/oleo/examples.
++
++ -- Sarah Hobbs <hobbsee@ubuntu.com>  Sun, 10 Sep 2006 01:10:00 +1000
++
++oleo (1.99.16-8.1ubuntu1) edgy; urgency=low 
++
++  * Re-sync with Debian
++  * Re-enable building with x
++
++ -- Barry deFreese <bddebian@comcast.net>  Wed, 26 Jul 2006 23:07:20 -0400
++
++oleo (1.99.16-8.1) unstable; urgency=low
++
++  * Non-maintainer upload
++  * Splitted xlibs-dev build-dep (Closes: #346884)
++  * New build now links against libxdb1 (Closes: #343396)
++
++ -- Marc 'HE' Brockschmidt <he@debian.org>  Sat, 21 Jan 2006 10:23:01 +0100
++
++oleo (1.99.16-8ubuntu1) breezy; urgency=low
++
++  * Update to latest Debian version to include all of their gcc4 fixes.
++  * Re-enable the X11 build, which works much better after we remove the
++    explicit requests to the X headers to not give us function prototypes
++    in src/io-x11.c and src/xrdb.c (#define NeedFunctionPrototypes 0).
++
++ -- Adam Conrad <adconrad@ubuntu.com>  Mon, 19 Sep 2005 11:49:21 +1000
++
++oleo (1.99.16-8) unstable; urgency=low
++
++  * Fix several GCC-4 related build failures (thanks to Andreas Jochens)
++    (Closes: #262671, #287854, #300294).
++  * Rebuild with ABI-transited libplot (Closes: #322233).
++  * For some reason, io-x11.c fails compilation, probably xorg related,
++    disable X11 support completely for now, oleo is ncurses/terminal
++    based only until I can figure out more.
++
++ -- Mario Lang <mlang@debian.org>  Sun,  4 Sep 2005 13:55:29 +0200
++
++oleo (1.99.16-7) unstable; urgency=low
++
++  * New maintainer (Closes: #192664, #181600, #173638, #110075, #129155)
++  * Change node name from .oleorc to ~/.oleorc (Closes: #116422)
++  * Add full path to info doc-base index (Closes: #149544)
++  * Remove /usr/doc handling from post/prerm
++  * Standards-Version to 3.5.9
++
++ -- Mario Lang <mlang@debian.org>  Tue, 13 May 2003 16:59:14 +0200
++
++oleo (1.99.16-6.2) unstable; urgency=low
++
++  * NMU
++  * Fix broken bison syntax (Closes: #173638)
++  * Rebuild against new libxdb (Closes: #181600)
++  * Change Build-Depends from libmysqlclient10-dev to libmysqlclient-dev
++  * Rename __nan to oleo__nan for now, because it conflicts with a glibc
++    symbol. Use of a __ prefix outside of glibc and the kernel is
++    *wrong*. If this ever gets a real maintainer, they should smack
++    upstream about the head and then fix the rest (Closes: #129155)
++
++ -- Andrew Suffield <asuffield@debian.org>  Fri, 11 Apr 2003 20:59:22 +0100
++
++oleo (1.99.16-6.1) unstable; urgency=low
++
++  * NMU
++  * Remove extraneous (and incorrect) getenv decl from sysdef.h,
++    as indicated in the bts.  Closes: #110075.
++
++ -- LaMont Jones <lamont@debian.org>  Sat, 12 Jan 2002 22:35:24 -0700
++
++oleo (1.99.16-6) unstable; urgency=low
++
++  * Add build-depends on bison|byacc (closes: #106214).
++
++ -- Kevin Dalley <kevind@rahul.net>  Sun, 22 Jul 2001 11:54:26 -0700
++
++oleo (1.99.16-5) unstable; urgency=low
++
++  * Removed build-dependency upon libstdc++2.10-dev, which is undesirable
++    (closes: #104913).
++
++ -- Kevin Dalley <kevind@rahul.net>  Fri, 20 Jul 2001 22:42:53 -0700
++
++oleo (1.99.16-4) unstable; urgency=low
++
++  * removed unnecessary Build-Depends, libc6-dev.
++
++ -- Kevin Dalley <kevind@rahul.net>  Fri,  1 Jun 2001 20:29:45 -0700
++
++oleo (1.99.16-3) unstable; urgency=low
++
++  * fixed problem in Xresources directory which did not honor DESTDIR
++    (closes: #99098).
++
++ -- Kevin Dalley <kevind@rahul.net>  Tue, 29 May 2001 03:08:12 -0700
++
++oleo (1.99.16-2) unstable; urgency=low
++
++  * recompiled with libmysqlclient10 (closes: #97609)
++
++ -- Kevin Dalley <kevind@rahul.net>  Fri, 18 May 2001 01:04:11 -0700
++
++oleo (1.99.16-1) unstable; urgency=low
++
++  * upgraded to new upstream release, which fixes many bugs (closes:
++    #81266, #5259, #23915).
++  * fixed problem with diff, missing newline (closes: #94714).
++
++ -- Kevin Dalley <kevind@rahul.net>  Mon, 23 Apr 2001 22:14:51 -0700
++
++oleo (1.6-16) unstable; urgency=low
++
++  * added menu
++  * added oleo man page (closes: #47103, #26049)
++  * update to Standards-Version 2.5.0.0
++  * use doc-base
++
++ -- Kevin Dalley <kevind@rahul.net>  Sun, 31 Oct 1999 03:35:51 -0800
++
++oleo (1.6-15) frozen unstable; urgency=low
++
++  * removed undef of NULL (fixes bug #30069)
++
++ -- Kevin Dalley <kevind@rahul.net>  Fri, 18 Dec 1998 23:22:32 -0800
++
++oleo (1.6-14) unstable; urgency=low
++
++  * removed attempted installation of oleo.menu (bug #27806)
++
++ -- Kevin Dalley <kevind@rahul.net>  Mon, 12 Oct 1998 20:28:52 -0700
++
++oleo (1.6-13) unstable; urgency=low
++
++  * recompiled against libncurses4.
++
++ -- Kevin Dalley <kevind@rahul.net>  Fri,  9 Oct 1998 03:38:55 -0700
++
++oleo (1.6-12) stable unstable; urgency=low
++
++  * recompiled oleo, which fixes critical bug #25664, where oleo hangs
++    when given "--nw" option.
++  * corrected permissions of various files
++  * created link from oleo man page to undocumented man page
++
++ -- Kevin Dalley <kevind@rahul.net>  Sat, 22 Aug 1998 14:10:39 -0700
++
++oleo (1.6-11) unstable; urgency=low
++
++  * corrected diffs for distribution
++  * stuck everything in one directory again
++
++ -- Kevin Dalley <kevind@rahul.net>  Wed,  3 Dec 1997 23:16:46 -0800
++
++oleo (1.6-10) unstable; urgency=low
++
++  * linked with new libraries
++
++ -- Kevin Dalley <kevin@aimnet.com>  Sun, 21 Sep 1997 14:17:24 -0700
++
++oleo (1.6-9) unstable; urgency=low
++
++  * linked with libc6, ncurses3.4, xlib6 (>= 3.3-0)
++
++ -- Kevin Dalley <kevin@aimnet.com>  Mon,  7 Jul 1997 01:32:10 -0700
++
++oleo (1.6-8) unstable; urgency=low
++
++  * delete preinst, since it is not needed.
++  * use automake and newer autoconf, which allows easier compilation on
++    many platforms.
++  * oleo.texi: added texi oleo pages
++  * completely changed structure of source directories
++
++ -- Kevin Dalley <kevin@aimnet.com>  Fri, 7 Mar 1997 09:00:22 -0800
++
++oleo (1.6-7) unstable; urgency=low
++
++  * Updated to Standards-Version 2.1.1.0.
++  * fixed bug #3631: oleo description: no ext
++
++ -- Kevin Dalley <kevin@aimnet.com>  Mon, 14 Oct 1996 20:09:17 -0700
++
++Sun May  5 11:18:06 1996  Kevin Dalley  <kevin@aplysia.iway.aimnet.com (Kevin Dalley)>
++* debian.rules : upgraded to debian revision 6
++* debian.control : changed Pre-Depends back to Depends
++Sat Apr 13 13:56:14 1996  Kevin Dalley  <kevin@aplysia.iway.aimnet.com (Kevin Dalley)>
++	* debian.control, debian.rules:
++	added architecture and updated debian.rules
++Sat Mar 16 13:25:10 1996  Kevin Dalley  <kevin@aplysia.iway.aimnet.com (Kevin Dalley)>
++	* debian.README: updated for new release
++	* debian.preinst: debian preinstallation file added
++	* install-sh: added for compatibility with new autoconf
++	* debian.rules: updated version header, removed Makefile.linux
++	* debian.control: updated version header, changed maintainer
++	* byte-compile.c, parse.y, parse.tab.c: changed instr to instruct
++	to avoid conflict with curses.h file in Linux
++	* Makefile.linux: deleted, configure derived Makefile is now used.
++Local variables:
++mode: debian-changelog
++End:
+--- oleo-1.99.16.orig/debian/postinst
++++ oleo-1.99.16/debian/postinst
+@@ -0,0 +1,18 @@
++#! /bin/sh
++
++set -e
++
++case "$1" in
++    configure)
++        #
++        # start with install info
++	install-info --quiet --section "General commands" "General commands" \
++	    /usr/share/info/oleo.info.gz
++        if command -v install-docs >/dev/null 2>&1; then
++	    install-docs -i /usr/share/doc-base/oleo
++	fi
++        if which update-desktop-database >/dev/null 2>&1 ; then
++            update-desktop-database -q
++        fi
++    ;;
++esac
+--- oleo-1.99.16.orig/debian/substvars
++++ oleo-1.99.16/debian/substvars
+@@ -0,0 +1 @@
++shlibs:Depends=libc6 (>= 2.5-5), libgcc1 (>= 1:4.2-20070516), libncurses5 (>= 5.4-5), libplot2c2, libstdc++6 (>= 4.2-20070516), libxdb1
+--- oleo-1.99.16.orig/debian/oleo.1
++++ oleo-1.99.16/debian/oleo.1
+@@ -0,0 +1,37 @@
++.TH OLEO 1
++.SH NAME
++oleo \- the GNU spreadsheet program
++.SH SYNOPSIS
++.B oleo
++[options] [file]
++.SH DESCRIPTION
++Full documentation for 
++.B oleo
++is available in GNU
++.B info
++format.  View it with one of the stand-alone info viewers
++.IP
++.B "info oleo"
++.IP
++.B "pinfo oleo"
++.IP
++.B "tkinfo oleo"
++.P
++Or view it inside
++.B emacs
++or
++.B xemacs
++in the usual way
++.IP
++.B "C-h i g (oleo) RET"
++.SH EXAMPLES
++.I /usr/share/doc/oleo/examples/irs-1992.oleo.gz
++is a 1992 United States tax return.  It can be viewed in
++.B oleo
++by first copying and decompressing it.
++.IP
++.B cp\ /usr/share/doc/oleo/examples/irs-1992.oleo.gz\ .
++.br
++.B gunzip irs-1992.oleo.gz
++.br
++.B oleo irs-1992.oleo
+--- oleo-1.99.16.orig/debian/postrm
++++ oleo-1.99.16/debian/postrm
+@@ -0,0 +1,7 @@
++#!/bin/sh
++
++set -e
++
++if [ "$1" = "remove" ] && which update-desktop-database >/dev/null 2>&1 ; then
++	update-desktop-database -q
++fi
+--- oleo-1.99.16.orig/debian/copyright
++++ oleo-1.99.16/debian/copyright
+@@ -0,0 +1,32 @@
++This is the Debian GNU/Linux prepackaged version of the GNU Oleo
++spreadsheet program.  It was written by Tom Lord.
++
++This package was put together by Ian Murdock <imurdock@debian.org>,
++from sources obtained from:
++ prep.ai.mit.edu:/pub/gnu/oleo-1.6.tar.gz
++
++Changes:
++ * updated for elf and new curses by Kevin Dalley <kevin@aimnet.com>
++ * added Debian GNU/Linux package maintenance system files
++ * added pre-configured Makefile, etc.
++ * added necessary `#ifdef's and `#ifndef's for compilation
++   under Linux
++
++GNU Oleo is Copyright (C) 1990, 1992, 1993 Free Software Foundation, Inc.
++
++   This program is free software; you can redistribute it and/or modify
++   it under the terms of the GNU General Public License as published by
++   the Free Software Foundation; version 2 dated June, 1991.
++
++   This program is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++   GNU General Public License for more details.
++
++   You should have received a copy of the GNU General Public License
++   along with this program; if not, write to the Free Software
++   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
++   02111-1307, USA.
++
++On Debian GNU/Linux systems, the complete text of the GNU General
++Public License can be found in `/usr/share/common-licenses/GPL'.
+--- oleo-1.99.16.orig/debian/doc-base
++++ oleo-1.99.16/debian/doc-base
+@@ -0,0 +1,9 @@
++Document: oleo
++Title: Oleo Manual
++Author: Tom Lord
++Abstract: This manual describes how to use oleo
++Section: Apps/Math
++
++Format: info
++Index: /usr/share/info/oleo.info.gz
++Files: /usr/share/info/oleo.info*
+--- oleo-1.99.16.orig/debian/Changelog
++++ oleo-1.99.16/debian/Changelog
+@@ -0,0 +1,143 @@
++Fri Jan 24 00:01:18 1997  Kevin Dalley  <kevin@aimnet.com>
++
++	*  lib/dummy.c: guarantees that at least one file is in library.
++	
++	* lib/alloca.c lib/_doprnt.c, lib/alloca.c, lib/mktime.c,
++ 	lib/random.c, strftime.c, vfprintf.c, vsprintf.c, xmalloc.c: moved
++ 	from .. directory
++
++	* lib/Makefile.am: 
++
++	* rules: add info pages
++
++	* postrm,postinst: Debian installtion file added to distribution
++
++	* TODO: list of items to modify for Debian release
++
++	* Changelog: 
++
++	* xrdb.c: 
++
++	* window.c: 
++
++	* utils.c: 
++
++	* sysdef.h: 
++
++	* sylk.c: 
++
++	* stub.c: 
++
++	* string.c: 
++
++	* sc.c: 
++
++	* regions.c: 
++
++	* ref.c: 
++
++	* print.c: 
++
++	* parse.y: 
++
++	* parse.c: 
++
++	* panic.c: 
++
++	* oleofile.h: 
++
++	* oleofile.c: 
++
++	* obstack.c: 
++
++	* lists.c: 
++
++	* list.c: 
++
++	* line.c: 
++
++	* key.c: 
++
++	* ir.h: 
++
++	* ir.c: 
++
++	* io-x11.h: 
++
++	* io-x11.c: 
++
++	* io-utils.c: 
++
++	* io-term.c: 
++
++	* io-edit.c: 
++
++	* io-curses.c: 
++
++	* io-abstract.h: 
++
++	* input.c, init.c, info.c, help.c, hash.h, hash.c, graph.c,
++ 	funcs.c, forminfo.c, format.c, font.c, eval.c, display.c, defun.h,
++ 	decompile.c, date.c, cmd.c, cells.c, byte-compile.c, busi.c,
++ 	basic.c, args.c: modified during conversion to new autoconf and
++ 	automake
++
++	* oleo.info-3: 
++
++	* oleo.info-2: 
++
++	* oleo.info-1: 
++
++	* oleo.info: 
++
++	* windows.texi: 
++
++	* style.texi: 
++
++	* programs.texi: 
++
++	* print-plot.texi: 
++
++	* options.texi: 
++
++	* oleo.texi: 
++
++	* making-changes.texi: 
++
++	* macros.texi: 
++
++	* keymaps.texi: 
++
++	* interface.texi: 
++
++	* functions.texi, expressions.texi, entering-data.texi,
++ 	cell-refs.texi, bugs.texi, basics.texi: added new texi files
++	
++	* configure.in, configure: updated configuration files
++
++	* stamp-h.in, config.h.in, aclocal.m4, acinclude.m4, acconfig.h:
++ 	added during automake conversion
++
++	* Makefile.am: added automake file
++
++	* Makefile.in: deleted file due to switch to automake
++
++	* AUTHORS: added GNU AUTHORS file
++	
++Sat Jan 18 01:07:20 1997  Kevin Dalley  <kevin@aimnet.com>
++
++	* Makefile.am: new file used by automake to generate Makefile.in.
++
++	* xmalloc.c, vsprintf.c, vfprintf.c, strftime.c, random.c,
++ 	mktime.c, alloca.c, _doprnt.c: moved files to lib directory, since
++ 	they are only installed if needed.
++
++Sun Jan 12 10:48:33 1997  Kevin Dalley  <kevin@aimnet.com>
++
++	* oleo.texi: added texi files from source, added
++ 	START-INFO-DIR-ENTRY entry.
++
++	* getdate.y, getdate.c: added new version of getdate.y included in
++ 	distribution from fileutils-3.15.
++
++
