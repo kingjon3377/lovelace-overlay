@@ -3,7 +3,7 @@
 # $Header: /var/cvsroot/gentoo-x86/dev-python/PyQt/PyQt-3.18.1.ebuild,v 1.8 2009/10/18 14:41:15 armin76 Exp $
 
 EAPI=5
-inherit python
+inherit python eutils
 
 MY_P="PyQt-x11-gpl-${PV/*_pre/snapshot-}"
 S="${WORKDIR}/${MY_P}"
@@ -25,6 +25,7 @@ DEPEND="${RDEPEND}
 	sys-devel/libtool"
 
 src_prepare() {
+	epatch "${FILESDIR}/python-qt3-with-sip-4.15.diff"
 	sed -i -e "s:  check_license():# check_license():" "${S}"/configure.py
 	sed -i -e 's/ANY \*/void */g' sip/qt/*.sip sip/qtnetwork/*.sip || die
 }
