@@ -18,7 +18,7 @@ KEYWORDS="~amd64 ~x86 ~amd64-linux ~arm-linux ~x86-linux"
 IUSE="test"
 
 RDEPEND="dev-perl/WWW-Mechanize
-	perl-core/Module-CoreList
+	virtual/perl-Module-CoreList
 	dev-perl/HTML-TokeParser-Simple"
 DEPEND="${RDEPEND}
 	dev-perl/UNIVERSAL-require
