@@ -18,5 +18,5 @@ IUSE=""
 
 DEPEND="dev-perl/Test-Exception
 	dev-perl/Class-Accessor
-	dev-lang/perl"
+	dev-lang/perl:="
 RDEPEND="${DEPEND}"
