@@ -9,7 +9,7 @@ inherit perl-module
 
 S=${WORKDIR}/Makefile-DOM-0.004
 
-DESCRIPTION="No description available"
+DESCRIPTION="Simple DOM parser for Makefiles"
 HOMEPAGE="http://search.cpan.org/search?query=Makefile-DOM&mode=dist"
 SRC_URI="mirror://cpan/authors/id/A/AG/AGENT/Makefile-DOM-0.004.tar.gz"
 
