@@ -1,4 +1,4 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -18,7 +18,8 @@ IUSE="+perl +python +tcl"
 DEPEND="perl? ( dev-lang/perl )
 	python? ( dev-lang/python )
 	tcl? ( dev-lang/tcl )"
-RDEPEND="${DEPEND}"
+RDEPEND="${DEPEND}
+	perl? ( dev-lang/perl:= )"
 
 src_prepare() {
 	epatch "${FILESDIR}"/megahal_9.1.1a-9.diff
