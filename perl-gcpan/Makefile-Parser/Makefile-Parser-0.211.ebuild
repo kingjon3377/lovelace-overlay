@@ -25,5 +25,5 @@ DEPEND="dev-perl/Class-Accessor
 	>=dev-perl/IPC-Run3-0.043
 	dev-perl/List-MoreUtils
 	dev-perl/File-Slurp
-	dev-lang/perl"
+	dev-lang/perl:="
 RDEPEND="${DEPEND}"
