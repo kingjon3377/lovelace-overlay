@@ -22,5 +22,5 @@ KEYWORDS="amd64 x86"
 DEPEND="dev-perl/Params-Util
 	>=dev-perl/Clone-0.31
 	dev-perl/List-MoreUtils
-	dev-lang/perl"
+	dev-lang/perl:="
 RDEPEND="${DEPEND}"
