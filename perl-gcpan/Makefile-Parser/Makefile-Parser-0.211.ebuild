@@ -9,9 +9,9 @@ inherit perl-module
 
 S=${WORKDIR}/Makefile-Parser-0.211
 
-DESCRIPTION="No description available"
+DESCRIPTION="A simple parser for Makefiles"
 HOMEPAGE="http://search.cpan.org/search?query=Makefile-Parser&mode=dist"
-SRC_URI="mirror://cpan/authors/id/A/AG/AGENT/Makefile-Parser-0.211.tar.gz"
+SRC_URI="mirror://cpan/authors/id/A/AG/AGENT/${P}.tar.gz"
 
 IUSE=""
 
