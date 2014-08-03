@@ -17,5 +17,5 @@ KEYWORDS="amd64"
 IUSE=""
 
 DEPEND="dev-perl/Clone
-	dev-lang/perl"
+	dev-lang/perl:="
 RDEPEND="${DEPEND}"
