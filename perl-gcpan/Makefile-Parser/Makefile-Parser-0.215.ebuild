@@ -7,8 +7,6 @@ EAPI=5
 
 inherit perl-module
 
-S=${WORKDIR}/Makefile-Parser-0.211
-
 DESCRIPTION="A simple parser for Makefiles"
 HOMEPAGE="http://search.cpan.org/search?query=Makefile-Parser&mode=dist"
 SRC_URI="mirror://cpan/authors/id/A/AG/AGENT/${P}.tar.gz"
