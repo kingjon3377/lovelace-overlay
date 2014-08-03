@@ -24,11 +24,15 @@ DEPEND=">=x11-libs/gtk+-2.0.3
 		java? ( virtual/jre )"
 RDEPEND="${DEPEND}"
 
-src_prepare() {
+src_unpack() {
+	default_src_unpack
 	MY_P="${MY_P1E}"
 	#S="${WORKDIR}/${MY_P}" it does not run :(
 	cd "${WORKDIR}" &&
 		mv ${MY_P} ${P} || die "renaming directory failed"
+}
+
+src_prepare() {
 	epatch "${FILESDIR}/realtimebattle_1.0.8-10.diff"
 }
 
