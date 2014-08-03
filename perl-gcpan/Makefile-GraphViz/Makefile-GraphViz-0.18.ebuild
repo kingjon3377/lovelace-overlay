@@ -7,11 +7,11 @@ EAPI=5
 
 inherit perl-module
 
-S=${WORKDIR}/Makefile-GraphViz-0.18
+#S=${WORKDIR}/Makefile-GraphViz-0.18
 
-DESCRIPTION="No description available"
+DESCRIPTION="Draw building flowcharts from Makefiles using GraphViz"
 HOMEPAGE="http://search.cpan.org/search?query=Makefile-GraphViz&mode=dist"
-SRC_URI="mirror://cpan/authors/id/A/AG/AGENT/Makefile-GraphViz-0.18.tar.gz"
+SRC_URI="mirror://cpan/authors/id/A/AG/AGENT/${P}.tar.gz"
 
 IUSE=""
 
