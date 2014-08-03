@@ -18,5 +18,5 @@ IUSE=""
 
 DEPEND="dev-perl/libwww-perl
 	dev-perl/HTML-Parser
-	dev-lang/perl"
+	dev-lang/perl:="
 RDEPEND="${DEPEND}"
