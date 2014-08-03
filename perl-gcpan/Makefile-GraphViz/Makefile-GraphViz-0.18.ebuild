@@ -21,5 +21,5 @@ KEYWORDS="amd64 x86"
 
 DEPEND=">=dev-perl/GraphViz-2.04
 	>=perl-gcpan/Makefile-Parser-0.211
-	dev-lang/perl"
+	dev-lang/perl:="
 RDEPEND="${DEPEND}"
