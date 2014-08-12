@@ -31,7 +31,7 @@ perl_meta_runtime() {
 	# File::Spec
 	echo virtual/perl-File-Spec
 	# constant
-	echo virtual/perl-constant
+	echo dev-lang/perl
 	# strict
 	echo dev-lang/perl
 	# warnings
