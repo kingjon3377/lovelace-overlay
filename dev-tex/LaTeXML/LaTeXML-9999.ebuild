@@ -22,7 +22,8 @@ RDEPEND="|| ( media-gfx/imagemagick[perl] media-gfx/graphicsmagick[perl] )
 	dev-perl/XML-LibXML
 	dev-perl/XML-LibXSLT
 	dev-perl/Parse-RecDescent
-	dev-perl/UUID-Tiny"
+	dev-perl/UUID-Tiny
+	dev-perl/IO-String"
 DEPEND="${RDEPEND}"
 
 pkg_setup() {
