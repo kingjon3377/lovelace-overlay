@@ -15,7 +15,7 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""
 
-RDEPEND="media-gfx/imagemagick[perl]
+RDEPEND="|| ( media-gfx/imagemagick[perl] media-gfx/graphicsmagick[perl] )
 	dev-perl/XML-LibXML
 	dev-perl/XML-LibXSLT
 	dev-perl/Parse-RecDescent
