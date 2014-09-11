@@ -1,4 +1,4 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -19,11 +19,8 @@ RDEPEND="${DEPEND}"
 S="${WORKDIR}/${PN}tool"
 
 src_prepare() {
-	sed -i -e "s:^CFLAGS =.*:CFLAGS = ${CFLAGS} ${LDFLAGS}:" Makefile || die "sed failed"
-}
-
-src_compile() {
-	emake DEB_BUILD_OPTIONS=nostrip
+	sed -i -e "s:^CFLAGS =.*:CFLAGS = ${CFLAGS} ${LDFLAGS}:" \
+		-e 's/-p -s -o/-p    -o/' Makefile || die "sed failed"
 }
 
 src_install() {
