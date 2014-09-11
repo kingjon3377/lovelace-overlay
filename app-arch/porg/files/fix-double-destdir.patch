@@ -1,0 +1,19 @@
+diff -ru doc.old/Makefile.am doc/Makefile.am
+--- doc.old/Makefile.am	2014-09-11 13:43:24.111670327 -0400
++++ doc/Makefile.am	2014-09-11 13:43:44.391670427 -0400
+@@ -39,13 +39,13 @@
+ 	grop.desktop
+ 
+ grop_appsdir = \
+-	$(DESTDIR)$(datadir)/applications
++	$(datadir)/applications
+ 	
+ grop_icons_DATA = \
+ 	grop.png
+ 
+ grop_iconsdir = \
+-	$(DESTDIR)$(datadir)/pixmaps
++	$(datadir)/pixmaps
+ 
+ logme_files += \
+ 	$(DESTDIR)$(grop_appsdir)/grop.desktop \
