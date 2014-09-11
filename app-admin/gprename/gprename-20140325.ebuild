@@ -23,7 +23,7 @@ DEPEND=""
 
 #S="${WORKDIR}/${PN}"
 
-LANGS="ca de es et fr id it nl pl pl_BR ru sv zh_CN"
+LANGS="ca de es et fr id it nl pl pt_BR pl_BR ru sv zh_CN"
 
 for lang in ${LANGS}; do
 	IUSE="${IUSE} linguas_${lang}"
@@ -34,18 +34,21 @@ src_prepare() {
 		-e 's/install: uninstall build/install:/' \
 			Makefile || die "sed failed"
 	sed -i -e '/^Version/d' bin/${PN}.desktop
+	sed -i -e 's:/usr/share/icons/:$(DESTDIR)/share/icons/:' Makefile || die
+	sed -i -e '/^	desktop-file-install/d' -e '/^	update-desktop-database/d' Makefile || die
 	remove_lang() {
 		lang="$1"
 		sed -i \
-			-e "/^	msgfmt -o build\/locale\/${lang}.mo 	locale\/${lang}.po$/d" \
+			-e "/^	msgfmt -o build\/locale\/${lang}.mo	*locale\/${lang}.po$/d" \
 			-e "/^	install -d \"\$(DESTDIR)\/share\/locale\/${lang}\/LC_MESSAGES\"$/d" \
-			-e "/^	install -m 644 build\/locale\/${lang}.mo		\"\$(DESTDIR)\/share\/locale\/${lang}\/LC_MESSAGES\/gprename.mo\"$/d" \
+			-e "/^	install -m 644 build\/locale\/${lang}.mo[ 	]*\"\$(DESTDIR)\/share\/locale\/${lang}\/LC_MESSAGES\/gprename.mo\"$/d" \
 				Makefile || die "removing language ${lang} failed"
 	}
 	# lt.po doesn't actually exist
 	remove_lang lt
 	for lang in ${LANGS}; do
 		if ! use linguas_${lang}; then
+			einfo "Removing language ${lang}"
 			remove_lang ${lang}
 		else
 			einfo "Keeping language ${lang}"
@@ -58,6 +61,8 @@ src_compile() {
 }
 
 src_install() {
+	dodir /usr/share/icons
 	emake DESTDIR="${D}/usr" install
+	domenu "bin/${PN}.desktop"
 	newdoc README.TXT readme.txt
 }
