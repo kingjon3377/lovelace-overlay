@@ -1,4 +1,4 @@
-# Copyright 1999-2012 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -6,7 +6,7 @@ EAPI=5
 
 DESCRIPTION="A super-simple Gtk+ based personal to-do list manager"
 SRC_URI="http://glista.googlecode.com/files/${P}.tar.gz"
-HOMEPAGE="http://prematureoptimization.org/glista"
+HOMEPAGE="http://arr.gr/glista"
 KEYWORDS="amd64 ~x86"
 LICENSE="GPL-3"
 SLOT="0"
