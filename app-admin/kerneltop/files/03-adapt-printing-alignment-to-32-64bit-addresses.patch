@@ -1,0 +1,50 @@
+Description: Adapt printing alignment to 32-64 bit addresses 
+  Detect if start/end addresses are 32 bit or 64 bit, and align printing
+  accordingly. On my 64 bit PC, this results in a more readable display.
+Author: Vincent Stehlé <vincent.stehle@laposte.net>
+--- a/kerneltop.c
++++ b/kerneltop.c
+@@ -804,6 +804,7 @@
+ 	unsigned long adr;
+ 	int valid;
+ 	char ch;
++  int aw; // Address width, in number of hex characters
+ 
+ #ifdef NLS
+ 	setlocale (LC_ALL, "");
+@@ -863,6 +864,11 @@
+ 	freqs = (int *) xmalloc (sizeof(int) * (text_lines + 1));
+ 	memset (freqs, 0, sizeof(int) * (text_lines + 1));
+ 
++	// Detect addresses width.
++	aw = 8;
++  if ((adr0 > 0xffffffffu) || (adrz > 0xffffffffu))
++		aw = 16;
++
+ 	heading ();
+ 
+     while (1) {		// get profile data, put it into symbol buckets, print
+@@ -877,9 +883,9 @@
+ 	dttm = localtime (&timer);
+ 	vid_curpos (ROW_HEADINGS, 1);
+ 	vid_attr (ATTR_REVERSE_ON);
+-	printf (_("address  function ...... %d-%02d-%02d/%02d:%02d:%02d ...... ticks"),
+-		dttm->tm_year + 1900, dttm->tm_mon + 1, dttm->tm_mday,
+-		dttm->tm_hour, dttm->tm_min, dttm->tm_sec);
++	printf (_("%-*s function ...... %d-%02d-%02d/%02d:%02d:%02d ...... ticks"),
++		aw, "address", dttm->tm_year + 1900, dttm->tm_mon + 1,
++		dttm->tm_mday, dttm->tm_hour, dttm->tm_min, dttm->tm_sec);
+ 
+ #ifdef OPT_REVERSE
+ 	if (optReverse) {	// reverse the byte order in the profile
+@@ -932,8 +938,8 @@
+ 		textsym = (struct text_symbol *) ((char *)textsymroot + text_entry_size * freqtable[ix].textindex);
+ 		vid_curpos (ROW_DATA + ix, 1);
+ 		vid_clear_curtoend();
+-		printf ("%08lx %-41s %6i\n",
+-			textsym->textadr, textsym->textname, ticks);
++		printf ("%0*lx %-*s %6i\n",
++			aw, textsym->textadr, 33 + aw, textsym->textname, ticks);
+ 	}
+ 
+ 	total_ticks = 0;
