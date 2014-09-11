@@ -1,4 +1,4 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -6,7 +6,7 @@ EAPI=5
 
 DESCRIPTION="script with 65 useful mini applications"
 HOMEPAGE="http://funcoeszz.net/"
-SRC_URI="http://${PN}.googlecode.com/files/${P}.sh"
+SRC_URI="http://${PN}.net/download/${P}.sh"
 
 LICENSE="GPL-2"
 SLOT="0"
