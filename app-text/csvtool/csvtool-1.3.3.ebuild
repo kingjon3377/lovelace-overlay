@@ -1,4 +1,4 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -18,20 +18,20 @@ IUSE=""
 DEPEND="dev-lang/ocaml"
 RDEPEND="${DEPEND}"
 
-#S="${WORKDIR}/csv-${PV}"
-S="${WORKDIR}/csv-1.2.1"
+S="${WORKDIR}/csv-${PV}"
+#S="${WORKDIR}/csv-1.2.1"
 
 src_compile() {
 	default_src_compile
-	emake -C examples
+#	emake -C examples
 }
 
 src_test() {
-	emake -C tests
+	emake test
 }
 
 src_install() {
 	findlib_src_install
-	dobin examples/csvtool
-	dodoc README
+	newbin _build/examples/${PN}.native ${PN}
+	dodoc README.txt README.md
 }
