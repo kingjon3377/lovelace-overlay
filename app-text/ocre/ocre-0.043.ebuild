@@ -1,4 +1,4 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -12,7 +12,7 @@ SRC_URI="ftp://lem.eui.upm.es/pub/${PN}/${PN}_v${PV/./_}.tgz"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="amd64"
+KEYWORDS="~amd64"
 IUSE=""
 
 DEPEND="x11-libs/gtk+:2
@@ -20,8 +20,12 @@ DEPEND="x11-libs/gtk+:2
 RDEPEND="${DEPEND}
 	media-gfx/imagemagick"
 
+src_prepare() {
+	sed -i -e 's/ cc -MM / $(CC) -MM /' ocre/Makefile || die
+}
+
 src_configure() {
-	emake -C ocre depend
+	emake -C ocre CC=$(tc-getCC) CFLAGS1="${CFLAGS}" depend
 }
 
 src_compile() {
