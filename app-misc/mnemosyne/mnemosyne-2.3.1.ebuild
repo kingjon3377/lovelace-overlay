@@ -4,7 +4,7 @@
 
 EAPI=5
 
-#DISTUTILS_SINGLE_IMPL=true
+DISTUTILS_SINGLE_IMPL=true
 PYTHON_COMPAT=( python2_7 )
 inherit distutils-r1
 
@@ -28,3 +28,8 @@ RDEPEND="${RDEPEND}
 	${MY_DEPEND}"
 
 S="${WORKDIR}/${P/m/M}"
+
+pkg_setup() {
+	# Required by DISTUTILS_SINGLE_IMPL
+	python-single-r1_pkg_setup
+}
