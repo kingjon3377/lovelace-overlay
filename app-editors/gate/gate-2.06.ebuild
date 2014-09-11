@@ -7,7 +7,7 @@ EAPI=5
 inherit eutils toolchain-funcs
 
 DESCRIPTION="Text gatherer for Fronttalk"
-HOMEPAGE="http://www.unixpapa.com/backtalk/fronttalk/"
+HOMEPAGE="http://www.unixpapa.com/gate.html"
 SRC_URI="http://www.unixpapa.com/software/${P}.tar.gz"
 
 LICENSE="GPL-2"
