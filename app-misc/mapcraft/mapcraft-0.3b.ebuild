@@ -1,4 +1,4 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -12,7 +12,7 @@ SLOT="0"
 LICENSE="GPL-2"
 KEYWORDS="x86 amd64"
 DESCRIPTION="Java based map editor for roleplaying games"
-SRC_URI="mirror://sourceforge/mapcraft/${P}.tgz"
+SRC_URI="mirror://sourceforge/${PN}/${P}.tgz"
 HOMEPAGE="http://mapcraft.sourceforge.net"
 COMMON_DEPEND="dev-java/xerces:2
 	dev-java/xalan
@@ -22,6 +22,8 @@ RDEPEND=">=virtual/jre-1.4
 DEPEND=">=virtual/jdk-1.4
 	${COMMON_DEPEND}"
 IUSE="doc source"
+
+S="${WORKDIR}/${PN}-0.3"
 
 src_prepare() {
 	java-ant_rewrite-classpath
@@ -43,4 +45,6 @@ src_install() {
 		--java_args -Xmx1024m
 	insinto $SAMPLESDIR
 	doins maps/*.map
+
+	dodoc NOTES PLAN README
 }
