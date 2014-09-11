@@ -1,4 +1,4 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -7,8 +7,8 @@ EAPI=5
 inherit perl-app
 
 DESCRIPTION="Send event reminders by email"
-HOMEPAGE="http://www.email-reminder.org.nz"
-SRC_URI="http://${PN}.googlecode.com/files/${P}.tar.gz"
+HOMEPAGE="https://launchpad.net/email-reminder"
+SRC_URI="https://launchpad.net/${PN}/trunk/${PV}/+download/${P}.tar.gz"
 
 LICENSE="GPL-3"
 SLOT="0"
