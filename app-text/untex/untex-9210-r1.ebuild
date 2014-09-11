@@ -1,4 +1,4 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -10,7 +10,7 @@ MY_P="${PN}_${PV}"
 DEB_PL="10"
 
 DESCRIPTION="Converts (la)tex files to text"
-HOMEPAGE="http://packages.debian.org/stable/tex/untex"
+HOMEPAGE="http://www.ctan.org/pkg/untex"
 SRC_URI="mirror://debian/pool/main/u/untex/${MY_P}.orig.tar.gz
 	mirror://debian/pool/main/u/untex/${MY_P}-${DEB_PL}.diff.gz"
 RESTRICT="mirror"
