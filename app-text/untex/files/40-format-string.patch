@@ -1,0 +1,27 @@
+From: Jari Aalto <jari.aalto@cante.net>
+Subject: Fix printf() call without format specifier
+
+---
+ untex.c |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+--- a/untex.c
++++ b/untex.c
+@@ -399,7 +399,7 @@
+ 	    if (envc >= MAXCMDLEN - 1) envc--;
+ 	}
+ 	env[envc-1] = 0;
+-	if (!noenv) printf(env);
++	if (!noenv) printf("%s",env);
+ 	envtst[0] = 0;
+ 	
+ 	
+@@ -473,7 +473,7 @@
+ 		    envtst[i] = 0;
+ 		}
+ 	    }
+-	    if (!noenv) printf(envtst);
++	    if (!noenv) printf("%s",envtst);
+ 	}
+     }
+     ungetc(c, inf);
