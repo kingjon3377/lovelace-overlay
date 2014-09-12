@@ -1,0 +1,34 @@
+--- brandy-1.20.orig/makefile
++++ brandy-1.20/makefile
+@@ -6,7 +6,7 @@
+ CFLAGS += -g -DDEBUG -I/usr/include/SDL -DUSE_SDL
+ CFLAGS2 = -O2 -I/usr/include/SDL -DUSE_SDL
+ 
+-LDFLAGS =
++LDFLAGS +=
+ 
+ LIBS = -lm -lSDL
+ 
+--- brandy-1.20.orig/src/editor.h
++++ brandy-1.20/src/editor.h
+@@ -39,8 +39,7 @@
+ extern void write_basic(char *);
+ extern void read_library(char *, boolean);
+ extern void write_text(char *);
+-extern boolean validate_program(void);
+-extern boolean recover_program(void);
++extern void recover_program(void);
+ extern void renumber_program(byte *, int32, int32);
+ 
+ #endif
+--- brandy-1.20.orig/src/errors.c
++++ brandy-1.20/src/errors.c
+@@ -287,7 +287,7 @@
+     printf(badcmdtable[errnumber].msgtext, va_arg(parms, char *));
+     break;
+   case NOPARM:
+-    printf(badcmdtable[errnumber].msgtext);
++    printf("%s", badcmdtable[errnumber].msgtext);
+     break;
+   default:
+     break;
