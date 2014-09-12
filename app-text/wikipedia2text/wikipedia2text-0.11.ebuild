@@ -1,4 +1,4 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -7,7 +7,7 @@ EAPI=5
 inherit eutils
 
 DESCRIPTION="displays Wikipedia articles on the command line"
-HOMEPAGE="http://blog.256bit.org/archives/126-Wikipedia-in-der-Shell.html"
+HOMEPAGE="https://github.com/chrisbra/wikipedia2text"
 SRC_URI="mirror://debian/pool/main/w/${PN}/${P/-/_}.orig.tar.gz"
 
 LICENSE="BSD"
