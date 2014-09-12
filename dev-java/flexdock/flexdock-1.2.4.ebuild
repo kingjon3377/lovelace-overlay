@@ -1,4 +1,4 @@
-# Copyright 1999-2012 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -8,9 +8,8 @@ JAVA_PKG_IUSE="doc source"
 inherit java-pkg-2 java-ant-2
 
 DESCRIPTION="A Java docking framework for use in cross-platform Swing applications"
-#HOMEPAGE="http://flexdock.dev.java.net/"
-HOMEPAGE="http://flexdock.dev.java.net/"
-SRC_URI="http://java.net/projects/flexdock/downloads/download/${P}-src.zip"
+HOMEPAGE="http://forge.scilab.org/index.php/p/flexdock/"
+SRC_URI="http://forge.scilab.org/index.php/p/flexdock/downloads/get/${P}.tar.gz"
 
 LICENSE="MIT"
 SLOT="0"
@@ -18,19 +17,13 @@ KEYWORDS="~x86 ~amd64"
 
 IUSE=""
 
-RDEPEND=">=virtual/jre-1.4"
-DEPEND=">=virtual/jdk-1.4
+RDEPEND=">=virtual/jre-1.5"
+DEPEND=">=virtual/jdk-1.5
 	app-arch/unzip
 	dev-java/skinlf
 	dev-java/jgoodies-looks"
 
 EANT_DOC_TARGET="doc"
-
-src_unpack() {
-	mkdir "${WORKDIR}/${P}"
-	cd "${S}"
-	unpack ${A}
-}
 
 java_prepare() {
 	epatch "${FILESDIR}"/${P}-nodemo.patch
