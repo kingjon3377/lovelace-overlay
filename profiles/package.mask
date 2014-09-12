@@ -38,3 +38,6 @@ app-text/cuneiform-qt
 # Changes the UI in a way I don't like
 =app-text/fbreader-0.99.5
 
+# Will not build, as it now requires QT 5.
+>=dev-lang/basic256-1.0.0.0
+
