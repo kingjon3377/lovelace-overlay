@@ -1,0 +1,27 @@
+From e7eb0312f0423f6efcfe56a5a3131f0e787e3cd0 Mon Sep 17 00:00:00 2001
+From: Jari Aalto <jari.aalto@cante.net>
+Date: Wed, 3 Mar 2010 20:24:30 +0200
+Subject: [PATCH] untex.man: (BUGS): Document problems
+
+Signed-off-by: Jari Aalto <jari.aalto@cante.net>
+---
+ untex.man |    3 +++
+ 1 files changed, 3 insertions(+), 0 deletions(-)
+
+diff --git a/untex.man b/untex.man
+index 412a999..08e10e1 100644
+--- a/untex.man
++++ b/untex.man
+@@ -64,6 +64,9 @@ latex, tex, detex
+ The \-g and \-u options only work for german accented characters. Not
+ fixed due to lack of time, any help is appreciated. The \\includeonly
+ command is ignored.
++
++Using \-u option in a UTF-8 terminal doesn't work. Using it alone in
++a Latin1 terminal doesn't work either, you must also add \-uiso.
+ .PP
+ .SH AUTHORS
+ Untex was written by Michael Staats
+-- 
+1.7.0
+

@@ -1,0 +1,30 @@
+From 26bd4adfd62885162bd6ab882e3e02dc84d4e496 Mon Sep 17 00:00:00 2001
+From: Jari Aalto <jari.aalto@cante.net>
+Date: Wed, 3 Mar 2010 19:49:01 +0200
+Subject: [PATCH] [PATCH] untex.c: Fix fopen(). Patch by  -- Enrique Zanardi <ezanardi@molec1.dfis.ull.es>
+
+Signed-off-by: Jari Aalto <jari.aalto@cante.net>
+---
+ untex.c |    6 ++++--
+ 1 files changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/untex.c b/untex.c
+index b6556d1..9677ff0 100644
+--- a/untex.c
++++ b/untex.c
+@@ -109,8 +109,10 @@ int main(int argc, char *argv[])
+     
+     if (inf == NULL) for (;i<argc;i++) {
+ 	if ((inf = fopen(argv[i],"r"))==NULL) perror(argv[i]);
+-	else untex(inf);
+-	fclose(inf);
++	else {
++	    untex(inf);
++	    fclose(inf);
++	}
+     } else untex(inf);
+     
+     exit(0);
+-- 
+1.7.0
+
