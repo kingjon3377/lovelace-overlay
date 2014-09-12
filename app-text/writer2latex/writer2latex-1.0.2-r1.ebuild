@@ -1,4 +1,4 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -83,7 +83,7 @@ src_install() {
 	else
 		dodoc "${S}"/samples/config/*
 	fi
-	
+
 	# Work around change in eclass
 	for ext in ${OFFICE_EXTENSIONS[@]}; do
 		mkdir "${WORKDIR}/${ext}" || die
