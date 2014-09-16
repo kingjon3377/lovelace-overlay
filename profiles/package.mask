@@ -38,3 +38,8 @@ app-text/cuneiform-qt
 # Will not build, as it now requires QT 5.
 >=dev-lang/basic256-1.0.0.0
 
+# Doesn't yet build, more effort is needed to see what patches are still needed
+# or will apply, and probably we'll need to download the 'brt' source tarball
+# too.
+=dev-lang/sdlbasic-2012.12.15
+
