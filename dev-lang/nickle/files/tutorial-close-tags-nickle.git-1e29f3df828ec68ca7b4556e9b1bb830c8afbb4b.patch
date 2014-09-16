@@ -1,0 +1,41 @@
+From 1e29f3df828ec68ca7b4556e9b1bb830c8afbb4b Mon Sep 17 00:00:00 2001
+From: Keith Packard <keithp@keithp.com>
+Date: Fri, 9 Nov 2012 21:35:40 -0800
+Subject: [PATCH] tutorial: Close a couple of SGML tags
+
+nsgmls found a couple of unclosed tags which may make some versions
+of docbook tools unhappy.
+
+Signed-off-by: Keith Packard <keithp@keithp.com>
+---
+ doc/tutorial/advanced/concurrency.sgml |    1 +
+ doc/tutorial/intro/variables.sgml      |    1 +
+ 2 files changed, 2 insertions(+)
+
+diff --git a/doc/tutorial/advanced/concurrency.sgml b/doc/tutorial/advanced/concurrency.sgml
+index e60da32..8d4bcbc 100644
+--- a/doc/tutorial/advanced/concurrency.sgml
++++ b/doc/tutorial/advanced/concurrency.sgml
+@@ -222,6 +222,7 @@ void signal ( semaphore s )
+ <literal>wait</literal> merely decrements the count of <literal>s</literal>, which starts with the initial value specified by <literal>new</literal>.
+ If the count, after the decrement, is positive, the thread continues to run; if it is negative, it blocks until the count becomes positive again.
+ This will occur when one of the running threads calls <literal>signal</literal>, which increments the count of <literal>s</literal> and wakes up another thread if any are waiting.
++</para>
+ </sect3>
+ 
+ <sect3><title>Negative initial counts</title>
+diff --git a/doc/tutorial/intro/variables.sgml b/doc/tutorial/intro/variables.sgml
+index 5274baf..add93f2 100644
+--- a/doc/tutorial/intro/variables.sgml
++++ b/doc/tutorial/intro/variables.sgml
+@@ -298,6 +298,7 @@ separate key from value.  Eliding the key specifies the
+ "default" value -- used to instantiate newly created elements in the hash.
+ </para>
+ 
++</sect3>
+ <sect3><title>Pointers</title>
+ <para>
+ Pointers hold a reference to a separate object; multiple pointers may point at the same object and changes to the referenced object are reflected both in the underlying object as well as in any other references to the same object.
+-- 
+1.7.10.4
+

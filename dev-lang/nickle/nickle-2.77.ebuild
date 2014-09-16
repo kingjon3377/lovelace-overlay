@@ -1,8 +1,10 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
 EAPI=5
+
+inherit eutils
 
 DESCRIPTION="desk calculator language"
 HOMEPAGE="http://nickle.org"
@@ -15,6 +17,10 @@ IUSE=""
 
 DEPEND=""
 RDEPEND="${DEPEND}"
+
+src_prepare() {
+	epatch "${FILESDIR}/tutorial-close-tags-nickle.git-1e29f3df828ec68ca7b4556e9b1bb830c8afbb4b.patch"
+}
 
 src_install() {
 	emake DESTDIR="${D}" install
