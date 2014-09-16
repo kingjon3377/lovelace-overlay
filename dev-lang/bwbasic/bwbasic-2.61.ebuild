@@ -1,4 +1,4 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -12,7 +12,7 @@ SRC_URI="mirror://sourceforge/${PN}/${PN}/version%20${PV}/${P}.zip"
 
 LICENSE="GPL-3"
 SLOT="0"
-KEYWORDS="amd64"
+KEYWORDS="~amd64"
 IUSE=""
 
 DEPEND=""
@@ -21,7 +21,7 @@ RDEPEND=""
 S="${WORKDIR}"
 
 src_prepare() {
-	edos2unix * */*
+	edos2unix $(find . -type f)
 	epatch "${FILESDIR}/bwbasic_2.20pl2-9.diff" "${FILESDIR}/renum.patch" "${FILESDIR}/redefines.patch"
 	chmod +x configure
 }
