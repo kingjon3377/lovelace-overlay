@@ -48,3 +48,8 @@ app-text/cuneiform-qt
 # autotools), is fixed.
 dev-util/sourcenav-ng
 
+# Packaging known to be vastly incomplete.
+media-gfx/luxrender
+# Depends on it
+media-gfx/luxblend
+
