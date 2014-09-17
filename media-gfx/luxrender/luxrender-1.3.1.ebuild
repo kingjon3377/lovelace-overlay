@@ -1,4 +1,4 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -18,12 +18,15 @@ KEYWORDS="~amd64"
 IUSE="sse2 doc debug blender"
 
 RDEPEND=">=dev-libs/boost-1.37
+	media-libs/freeimage
 	media-libs/openexr
 	media-libs/tiff
 	media-libs/libpng
 	virtual/jpeg
 	media-libs/ilmbase
 	virtual/opengl
+	virtual/opencl
+	sci-libs/fftw
 	x11-libs/wxGTK:2.8[X,opengl,sdl]"
 DEPEND="${RDEPEND}
 	sys-devel/bison
