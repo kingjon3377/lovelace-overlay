@@ -1,4 +1,4 @@
-# Copyright 1999-2008 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -7,7 +7,7 @@ EAPI=5
 inherit eutils versionator
 
 DESCRIPTION="Synchronization for GNOME"
-HOMEPAGE="http://www.conduit-project.org"
+HOMEPAGE="https://wiki.gnome.org/Conduit"
 SRC_URI="http://ftp.gnome.org/pub/GNOME/sources/conduit/$(get_version_component_range 1-2)/${P}.tar.bz2"
 
 LICENSE="GPL-2"
