@@ -49,7 +49,7 @@ java_prepare() {
 }
 
 src_compile() {
-	mvn clean package || die
+	MAVEN_OPTS="-Dmaven.repo.local=${T}/.m2" mvn -o clean package || die
 }
 
 EANT_BUILD_XML="bin/build.xml"
