@@ -14,7 +14,7 @@ HOMEPAGE="http://www.codesink.org/mimetic_mime_library.html"
 
 SLOT="0"
 LICENSE="GPL-2"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS="amd64 ~x86"
 
 DEPEND=""
 RDEPEND="${DEPEND}"
