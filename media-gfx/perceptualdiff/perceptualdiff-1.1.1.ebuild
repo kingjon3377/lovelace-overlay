@@ -1,10 +1,10 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
 EAPI=5
 
-inherit cmake-utils eutils
+inherit cmake-utils
 
 DESCRIPTION="perceptual image comparison tool"
 HOMEPAGE="http://pdiff.sourceforge.net"
@@ -20,11 +20,6 @@ RDEPEND="${DEPEND}"
 
 S="${WORKDIR}"
 
-src_prepare() {
-	epatch "${FILESDIR}"/*.patch
-}
+DOCS=( README.txt )
 
-src_install() {
-	cmake-utils_src_install
-	dodoc README.txt
-}
+PATCHES=( "${FILESDIR}/printf.patch" )
