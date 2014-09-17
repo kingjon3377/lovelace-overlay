@@ -1,0 +1,81 @@
+--- Makefile.old	2013-09-16 01:04:56.000000000 -0400
++++ Makefile	2013-09-16 01:09:03.000000000 -0400
+@@ -34,15 +34,15 @@
+ # For UNIX|Linux
+ 
+ SYSTEM =	UNIX
+-SUBSYSTEM =	SOLARIS
++SUBSYSTEM =	LINUX
+ 
+ # Locations
+-DIR =		/home/dick
+-BINDIR =	$(DIR)/bin.`$(DIR)/bin/arch`
+-MAN1DIR =	$(DIR)/man/man1
++DIR =		$(DESTDIR)/usr
++BINDIR =	$(DIR)/bin
++MAN1DIR =	$(DIR)/share/man/man1
+ 
+ # Commands
+-COPY =		cp -p
++COPY =		install -D
+ EXE =		#
+ LEX =		flex
+ LN =		ln
+@@ -51,24 +51,24 @@
+ ################################################################
+ # For MSDOS + MinGW
+ 
+-SYSTEM =	MSDOS
+-SUBSYSTEM =	MinGW
++#SYSTEM =	MSDOS
++#SUBSYSTEM =	MinGW
+ 
+ # Locations
+-DIR =		C:/BIN
+-BINDIR =	C:/BIN
+-MAN1DIR =	C:/BIN
++#DIR =		C:/BIN
++#BINDIR =	C:/BIN
++#MAN1DIR =	C:/BIN
+ 
+ # Commands (cp required, since xcopy cannot handle forward slashes)
+-COPY =		cp -p
+-EXE =		.exe
+-LEX =		flex
+-LN =		ln
+-ZIP =		zip -o
++#COPY =		cp -p
++#EXE =		.exe
++#LEX =		flex
++#LN =		ln
++#ZIP =		zip -o
+ 
+ ################################################################
+ # General, compiling:
+-CC =		gcc -D$(SYSTEM) -D$(SUBSYSTEM)
++CC =		$(USER_CC) -D$(SYSTEM) -D$(SUBSYSTEM)
+ LINT =		lint -ansi -D$(SYSTEM) -D$(SUBSYSTEM)
+ LINTFLAGS =	-xh
+ 
+@@ -84,14 +84,14 @@
+ 
+ # Compiler Options
+ MEMORY =	-DMEMLEAK -DMEMCLOBBER
+-CFLAGS =	$(MEMORY) -O4
+-LIBFLAGS =	#
++CFLAGS =	$(MEMORY) $(USER_CFLAGS)
++LIBFLAGS =	$(LDFLAGS)
+ LINTFLAGS =	$(MEMORY) -h# -X
+ 
+ # Debugging
+-CFLAGS +=	-DDEBUG
+-DEBUG_C =	debug.c
+-DEBUG_O =	debug.o
+-DEBUG_H =	debug.h
++#CFLAGS +=	-DDEBUG
++#DEBUG_C =	debug.c
++#DEBUG_O =	debug.o
++#DEBUG_H =	debug.h
+ 
+ #	T E S T   P A R A M E T E R S
+ 
