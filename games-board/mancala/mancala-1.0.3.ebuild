@@ -31,6 +31,6 @@ src_compile() {
 
 src_install() {
 	dogamesbin mancala xmancala mancala-text
-	dodoc README RULES mancala-1.0.1.lsm
+	dodoc README RULES mancala-1.0.1.lsm NEWS ChangeLog
 	doman "${FILESDIR}/mancala.6"
 }
