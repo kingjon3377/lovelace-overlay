@@ -13,7 +13,7 @@ SRC_URI="http://dickgrune.com/Programs/similarity_tester/sim_${PV/./_}.zip"
 LICENSE="BSD"
 SLOT="0"
 
-KEYWORDS="x86 amd64"
+KEYWORDS="~x86 ~amd64"
 IUSE=""
 DEPEND="sys-devel/flex"
 RDEPEND=""
