@@ -1,4 +1,4 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -9,8 +9,8 @@ inherit eutils multilib
 S="${WORKDIR}/${PN}"
 
 DESCRIPTION="Command Line Interpreter Generator"
-SRC_URI="http://wsd.iitb.fhg.de/~geg/clighome/${P}.tar.gz"
-HOMEPAGE="http://wsd.iitb.fhg.de/~geg/clighome/"
+SRC_URI="http://wi-fizzle.com/clig/${P}.tar.gz"
+HOMEPAGE="http://wi-fizzle.com/clig/"
 
 SLOT="0"
 LICENSE="GPL-2"
