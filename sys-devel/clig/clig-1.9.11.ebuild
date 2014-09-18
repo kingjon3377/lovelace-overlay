@@ -6,8 +6,6 @@ EAPI=5
 
 inherit eutils multilib
 
-S="${WORKDIR}/${PN}"
-
 DESCRIPTION="Command Line Interpreter Generator"
 SRC_URI="http://wi-fizzle.com/clig/${P}.tar.gz"
 HOMEPAGE="http://wi-fizzle.com/clig/"
