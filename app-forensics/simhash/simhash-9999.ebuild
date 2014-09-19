@@ -1,11 +1,11 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
 EAPI=5
 EGIT_REPO_URI="git://svcs.cs.pdx.edu/git/simhash.git"
 
-inherit git-2 toolchain-funcs
+inherit git-r3 toolchain-funcs
 
 DESCRIPTION="generate similarity hashes to find nearly duplicate files"
 HOMEPAGE="http://wiki.cs.pdx.edu/forge/simhash.html"
