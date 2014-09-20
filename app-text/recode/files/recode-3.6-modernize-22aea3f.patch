@@ -1,0 +1,102 @@
+From 22aea3f9373590567736c197125babe93caab412 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Fran=C3=A7ois=20Pinard?= <pinard@iro.umontreal.ca>
+Date: Sat, 30 Nov 2013 09:38:28 -0500
+Subject: [PATCH] configure.ac, lib/Makefile.am, src/Makefile: Modernized a
+ bit.
+
+---
+ configure.ac    | 21 ++++++++++-----------
+ lib/Makefile.am |  2 +-
+ src/Makefile.am |  4 ++--
+ 3 files changed, 13 insertions(+), 14 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index 0e6e063..8e5177f 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -2,19 +2,17 @@
+ # Copyright (C) 1994-1999, 2000, 2001 Free Software Foundation, Inc.
+ # Process this file with autoconf to produce a configure script.
+ 
+-AC_INIT(src/recode.c)
+-AC_PREREQ(2.12)
++AC_PREREQ(2.69)
++AC_INIT(recode, 3.7-beta2)
++AC_CONFIG_SRCDIR(src/recode.c)
++AM_INIT_AUTOMAKE
++AC_CONFIG_MACRO_DIR(m4)
++LT_INIT
+ AM_CONFIG_HEADER(config.h)
+-AM_INIT_AUTOMAKE(recode, 3.7-beta2)
+-AC_CONFIG_MACRO_DIR([m4])
+ 
+ AC_PROG_CC
+-AC_AIX
+-AC_MINIX
+-AM_PROG_LIBTOOL
+-
++AC_FUNC_ALLOCA
+ AC_ISC_POSIX
+-AM_C_PROTOTYPES
+ AC_C_CONST
+ AC_C_INLINE
+ AC_PROG_LEX
+@@ -26,6 +24,7 @@ jm_STRUCT_UTIMBUF
+ 
+ AM_ICONV
+ LIBS="$LIBICONV $LIBS"
++
+ AC_CHECK_FUNCS(dup2 mbrtowc rename setlocale strerror strndup wcrtomb)
+ AC_REPLACE_FUNCS(strtol strtoul)
+ AC_FUNC_ALLOCA
+@@ -34,14 +33,14 @@ AC_FUNC_VPRINTF
+ jm_FUNC_MALLOC
+ jm_FUNC_REALLOC
+ 
+-dnl AC_CANONICAL_HOST
++AC_CANONICAL_HOST
+ jm_LANGINFO_CODESET
+ jm_GLIBC21
+ 
+ AM_WITH_DMALLOC
+ 
++AM_GNU_GETTEXT_VERSION(0.18)
+ AM_GNU_GETTEXT(external)
+-AM_GNU_GETTEXT_VERSION([0.16])
+ 
+ AH_BOTTOM([
+ #include "cleaner.h"
+diff --git a/lib/Makefile.am b/lib/Makefile.am
+index 16d9f55..f5a5e64 100644
+--- a/lib/Makefile.am
++++ b/lib/Makefile.am
+@@ -25,6 +25,6 @@ libreco_a_SOURCES = error.c getopt.c getopt1.c xstrdup.c
+ 
+ EXTRA_DIST = alloca.c malloc.c realloc.c strtol.c strtoul.c
+ 
+-INCLUDES = -I.. -I$(srcdir)
++AM_CPPFLAGS = -I.. -I$(srcdir)
+ 
+ libreco_a_LIBADD = @ALLOCA@ @LIBOBJS@
+diff --git a/src/Makefile.am b/src/Makefile.am
+index e299577..0d8600a 100644
+--- a/src/Makefile.am
++++ b/src/Makefile.am
+@@ -17,7 +17,7 @@
+ # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ # 02111-1307, USA.
+ 
+-AUTOMAKE_OPTIONS = gnits ansi2knr
++AUTOMAKE_OPTIONS = gnits
+ bin_PROGRAMS = recode
+ lib_LTLIBRARIES = librecode.la
+ man_MANS = recode.1
+@@ -65,7 +65,7 @@ MNEMONICS_DS = $(KELD)/iso10646.def $(KELD)/other.def $(KELD)/control.def
+ RFC1345_TXT = $(KELD)/rfc1345.txt
+ NOMS_CARACS = $(ALAIN)/NomsSeulsfinal.lst
+ 
+-INCLUDES = -I.. -I$(srcdir) -I$(top_srcdir)/lib
++AM_CPPFLAGS = -I.. -I$(srcdir) -I$(top_srcdir)/lib
+ DEFS = -DLIBDIR=\"$(libdir)\" @DEFS@
+ 
+ ETAGS_ARGS = $(L_STEPS)
