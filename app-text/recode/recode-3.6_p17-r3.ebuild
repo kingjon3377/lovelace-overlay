@@ -30,12 +30,15 @@ src_prepare() {
 	epatch \
 		"${FILESDIR}/${MY_P}-gettextfix.diff" \
 		"${FILESDIR}"/${MY_P}-as-if.patch \
-		"${WORKDIR}"/${PN}_${MY_PV}-${DEB_PATCH}.diff \
-		"${FILESDIR}"/${MY_P}-modernize-22aea3f.patch
+		"${WORKDIR}"/${PN}_${MY_PV}-${DEB_PATCH}.diff
 	sed -i '1i#include <stdlib.h>' src/argmatch.c || die
 
 	# Remove old libtool macros
 	rm "${S}"/acinclude.m4
+
+	# As per bug #419455, fix build with recent automake; upstream patch doesn't apply cleanly.
+	sed -i -e '/^AM_C_PROTOTYPES/d'  configure.in || die
+	sed -i -e 's/ansi2knr//' src/Makefile.am || die
 
 	eautoreconf
 	elibtoolize
