@@ -26,7 +26,7 @@ DEPEND=">=dev-python/pygtk-2.13[${PYTHON_USEDEP}]
 		dev-python/pillow[scanner,${PYTHON_USEDEP}]
 		dev-python/imaging[scanner,${PYTHON_USEDEP}]
 	)
-	>=dev-python/pygoocanvas-0.12[${PYTHON_USEDEP}]
+	x11-libs/goocanvas[python,${PYTHON_USEDEP},introspection]
 	dev-python/reportlab[${PYTHON_USEDEP}]
 	dev-python/pyenchant[${PYTHON_USEDEP}]
 	>=app-text/ghostscript-gpl-8.63
