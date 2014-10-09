@@ -1,2 +1,2 @@
-#!/bin/bash
-$(java-config-2 -J) -cp $(java-config-2 -d -p jardiff) org.osjava.jardiff.Main "$@"
+#!/bin/sh
+"$(java-config-2 -J)" -cp "$(java-config-2 -d -p jardiff)" org.osjava.jardiff.Main "$@"
