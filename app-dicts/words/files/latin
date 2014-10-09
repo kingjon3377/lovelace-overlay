@@ -1,5 +1,5 @@
-#!/bin/bash
+#!/bin/sh
 
 WORDSPATH=/usr/share/words
 
-( cd $WORDSPATH ; /usr/libexec/words/words "$@" )
+( cd "$WORDSPATH" ; /usr/libexec/words/words "$@" )
