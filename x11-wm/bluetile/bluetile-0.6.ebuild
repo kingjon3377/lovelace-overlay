@@ -1,4 +1,4 @@
-# Copyright 1999-2012 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -20,16 +20,16 @@ IUSE=""
 
 RDEPEND="x11-libs/gtk+:2"
 DEPEND="${RDEPEND}
-		>=dev-haskell/cabal-1.6
-		dev-haskell/configfile
-		dev-haskell/glade
-		dev-haskell/gtk:2
-		dev-haskell/mtl
-		dev-haskell/random
-		dev-haskell/regex-compat
-		dev-haskell/utf8-string
-		>=dev-haskell/x11-1.4
-		dev-haskell/x11-xft
-		>=x11-wm/xmonad-0.10
-		>=x11-wm/xmonad-contrib-0.10
-		>=dev-lang/ghc-6.10.4"
+		>=dev-haskell/cabal-1.6:=
+		dev-haskell/configfile:=
+		dev-haskell/glade:=
+		dev-haskell/gtk:2=
+		dev-haskell/mtl:=
+		dev-haskell/random:=
+		dev-haskell/regex-compat:=
+		dev-haskell/utf8-string:=
+		>=dev-haskell/x11-1.4:=
+		dev-haskell/x11-xft:=
+		>=x11-wm/xmonad-0.10:=
+		>=x11-wm/xmonad-contrib-0.10:=
+		>=dev-lang/ghc-6.10.4:="
