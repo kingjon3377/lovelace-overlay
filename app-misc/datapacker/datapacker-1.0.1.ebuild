@@ -1,4 +1,4 @@
-# Copyright 1999-2012 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -20,8 +20,8 @@ IUSE=""
 
 RDEPEND=""
 DEPEND="${RDEPEND}
-		>=dev-haskell/cabal-0
-		dev-haskell/hslogger
-		>=dev-haskell/missingh-1.0.1
-		dev-haskell/mtl
-		>=dev-lang/ghc-6.10.1"
+		>=dev-haskell/cabal-0:=
+		dev-haskell/hslogger:=
+		>=dev-haskell/missingh-1.0.1:=
+		dev-haskell/mtl:=
+		>=dev-lang/ghc-6.10.1:="

@@ -1,4 +1,4 @@
-# Copyright 1999-2012 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -18,7 +18,7 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
 
-RDEPEND="dev-haskell/parsec[profile?]
-		>=dev-lang/ghc-6.8.2"
+RDEPEND="dev-haskell/parsec:=[profile?]
+		>=dev-lang/ghc-6.8.2:="
 DEPEND="${RDEPEND}
 		>=dev-haskell/cabal-1.2"
