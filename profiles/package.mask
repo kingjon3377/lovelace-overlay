@@ -59,3 +59,6 @@ dev-ruby/polytexnic
 # Message in ebuild says compiling one file uses up all available memory
 =app-text/collatinus-10.0
 
+# Creating man page fails
+=sci-misc/vowpal_wabbit-7.7
+
