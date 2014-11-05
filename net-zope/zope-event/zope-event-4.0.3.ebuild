@@ -28,7 +28,7 @@ DEPEND="${RDEPEND}
 	dev-python/setuptools[${PYTHON_USEDEP}]
 	doc? ( dev-python/sphinx )"
 
-DOCS="CHANGES.txt README.txt"
+DOCS="CHANGES.rst README.rst"
 PYTHON_MODULES="${PN/-//}"
 
 src_compile() {
