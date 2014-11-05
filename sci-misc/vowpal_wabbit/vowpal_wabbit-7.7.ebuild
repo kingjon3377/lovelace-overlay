@@ -29,7 +29,9 @@ src_prepare() {
 
 src_compile() {
 	emake CXX=$(tc-getCXX) "CFLAGS=${CXXFLAGS}"
-		BOOST_LIBRARY="/usr/$(get_libdir)" all vw.1
+		BOOST_LIBRARY="/usr/$(get_libdir)" all
+	emake vw.1
+	test -f vw.1 || die
 	emake -C cluster CXX=$(tc-getCXX) CFLAGS="${CXXFLAGS}" BOOST_LIBRARY="/usr/$(get_libdir)"
 }
 
@@ -40,7 +42,7 @@ src_test() {
 src_install() {
 	dodir /usr/bin
 	emake DESTDIR="${D}" install
-	dodoc README
+	dodoc README.md
 	doman vw.1
 	use examples && \
 		insinto /usr/share/${PN}/examples && \
