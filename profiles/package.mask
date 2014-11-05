@@ -56,3 +56,6 @@ media-gfx/luxblend
 # At least one (possibly just test) dependency isn't in the main tree
 dev-ruby/polytexnic
 
+# Message in ebuild says compiling one file uses up all available memory
+=app-text/collatinus-10.0
+
