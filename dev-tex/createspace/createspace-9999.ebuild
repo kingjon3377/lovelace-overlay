@@ -28,5 +28,5 @@ DOCS=( "README" "${PN}.pdf" )
 
 src_compile() {
 	default_src_compile
-	dvipdf "${PN}.dvi" "${PN}.pdf"
+	texi2pdf -q -c --language=latex ${PN}.dtx || die
 }
