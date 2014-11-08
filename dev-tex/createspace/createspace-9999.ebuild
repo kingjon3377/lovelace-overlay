@@ -30,3 +30,19 @@ src_compile() {
 	default_src_compile
 	texi2pdf -q -c --language=latex ${PN}.dtx || die
 }
+
+src_install() {
+	default_src_install
+	if test -f "${D}/usr/share/doc/${PF}/documentation.textile.txt" -o \
+			-f "${D}/usr/share/doc/${PF}/documentation.textile.txt.gz" -o \
+			-f "${D}/usr/share/doc/${PF}/documentation.textile.txt.bz2" -o \
+			-f "${D}/usr/share/doc/${PF}/documentation.textile.txt.xz"; then
+		einfo "Docs from wiki were already installed"
+	else
+		dodoc "${FILESDIR}/documentation.textile.txt"
+		test -f "${D}/usr/share/doc/${PF}/documentation.textile.txt" -o \
+			-f "${D}/usr/share/doc/${PF}/documentation.textile.txt.gz" -o \
+			-f "${D}/usr/share/doc/${PF}/documentation.textile.txt.bz2" -o \
+			-f "${D}/usr/share/doc/${PF}/documentation.textile.txt.xz" || die
+	fi
+}
