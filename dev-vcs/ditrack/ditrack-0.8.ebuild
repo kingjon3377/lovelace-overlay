@@ -4,7 +4,10 @@
 
 EAPI=5
 
-inherit distutils
+# I doubt it's compatible with Python 3
+PYTHON_COMPAT=( python2_{6,7} )
+
+inherit distutils-r1
 
 DESCRIPTION="distributed issue tracker"
 HOMEPAGE="http://www.ditrack.org"
@@ -15,13 +18,13 @@ SLOT="0"
 KEYWORDS="amd64"
 IUSE=""
 
-DEPEND="dev-vcs/subversion"
+DEPEND="dev-vcs/subversion[${PYTHON_USEDEP}]"
 RDEPEND="${DEPEND}"
 
 S="${WORKDIR}/DITrack-${PV}"
 
 src_install() {
-	distutils_src_install
+	distutils-r1_src_install
 	dodoc FAQ
 	dohtml -r doc
 }
