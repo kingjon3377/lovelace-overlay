@@ -32,7 +32,7 @@ src_compile() {
 }
 
 src_install() {
-	default_src_install
+	 latex-package_src_install
 	if test -f "${D}/usr/share/doc/${PF}/documentation.textile.txt" -o \
 			-f "${D}/usr/share/doc/${PF}/documentation.textile.txt.gz" -o \
 			-f "${D}/usr/share/doc/${PF}/documentation.textile.txt.bz2" -o \
