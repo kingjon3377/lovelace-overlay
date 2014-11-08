@@ -24,7 +24,7 @@ src_unpack() {
 	git-r3_src_unpack
 }
 
-DOCS=( "README" "${PN}.pdf" )
+DOCS=( "README" "${PN}.pdf" "${FILESDIR}/documentation.textile" )
 
 src_compile() {
 	default_src_compile
