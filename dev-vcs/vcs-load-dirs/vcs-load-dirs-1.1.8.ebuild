@@ -4,7 +4,10 @@
 
 EAPI=5
 
-inherit distutils
+# I doubt it's compatible with Python 3
+PYTHON_COMPAT=( python2_{6,7} )
+
+inherit distutils-r1
 
 DESCRIPTION="Load upstream archives into a new VCS"
 HOMEPAGE="https://github.com/jgoerzen/vcs-load-dirs/wiki"
@@ -18,17 +21,17 @@ IUSE="+mercurial +git +darcs"
 
 DEPEND=""
 RDEPEND="${DEPEND}
-	mercurial? ( dev-vcs/mercurial )
-	git? ( dev-vcs/git )
+	mercurial? ( dev-vcs/mercurial[${PYTHON_USEDEP}] )
+	git? ( dev-vcs/git[${PYTHON_USEDEP}] )
 	darcs? ( dev-vcs/darcs )"
 
 src_compile() {
-	distutils_src_compile
+	distutils-r1_src_compile
 	emake -C docs text manpages
 }
 
 src_install() {
-	distutils_src_install
+	distutils-r1_src_install
 	rm "${D}/usr/bin/baz_load_dirs"
 	use mercurial || rm "${D}/usr/bin/hg_load_dirs"
 	rm "${D}/usr/bin/tla_load_dirs"
