@@ -4,7 +4,10 @@
 
 EAPI=5
 
-inherit distutils
+# I doubt it's compatible with Python 3
+PYTHON_COMPAT=( python2_{6,7} )
+
+inherit distutils-r1
 
 DESCRIPTION="teaches sign languages"
 HOMEPAGE="http://launchpad.net/gally"
@@ -15,8 +18,8 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""
 
-DEPEND="kde-base/pykde4
-	dev-python/PyQt4[phonon]"
+DEPEND="kde-base/pykde4[${PYTHON_USEDEP}]
+	dev-python/PyQt4[phonon,${PYTHON_USEDEP}]"
 RDEPEND="${DEPEND}"
 
 S="${WORKDIR}/${P/-/_}.orig"
