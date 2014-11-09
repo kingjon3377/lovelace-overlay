@@ -4,7 +4,10 @@
 
 EAPI=5
 
-inherit distutils
+# plwm doesn't (yet, in Gentoo) support Python 3
+PYTHON_COMPAT=( python2_{6,7} )
+
+inherit distutils-r1
 
 DESCRIPTION="A tiling window manager like ion3"
 HOMEPAGE="http://tritium.sourceforge.net"
@@ -15,5 +18,6 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""
 
+# plwm doesn't use python-r1 yet.
 DEPEND="x11-wm/plwm"
 RDEPEND="${DEPEND}"
