@@ -24,7 +24,7 @@ IUSE="doc test"
 
 # net-zope/namespaces-zope[zope]
 RDEPEND="
-	>=net-zope/zope-interface-3.6.0[${PYTHON_USEDEP}]"
+	>=dev-python/zope-interface-3.6.0[${PYTHON_USEDEP}]"
 DEPEND="${RDEPEND}
 	app-arch/unzip
 	dev-python/setuptools[${PYTHON_USEDEP}]

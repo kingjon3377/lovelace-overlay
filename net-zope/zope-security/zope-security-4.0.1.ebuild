@@ -32,7 +32,7 @@ RDEPEND="
 	net-zope/zope-configuration[${PYTHON_USEDEP}]
 	net-zope/zope-exceptions[${PYTHON_USEDEP}]
 	net-zope/zope-i18nmessageid[${PYTHON_USEDEP}]
-	net-zope/zope-interface[${PYTHON_USEDEP}]
+	dev-python/zope-interface[${PYTHON_USEDEP}]
 	net-zope/zope-location[${PYTHON_USEDEP}]
 	net-zope/zope-proxy[${PYTHON_USEDEP}]
 	net-zope/zope-schema[${PYTHON_USEDEP}]"

@@ -30,7 +30,7 @@ RDEPEND="
 	>=net-zope/zope-browserpage-3.12.0[${PYTHON_USEDEP}]
 	net-zope/zope-dublincore[${PYTHON_USEDEP}]
 	net-zope/zope-i18nmessageid[${PYTHON_USEDEP}]
-	net-zope/zope-interface[${PYTHON_USEDEP}]
+	dev-python/zope-interface[${PYTHON_USEDEP}]
 	net-zope/zope-pagetemplate[${PYTHON_USEDEP}]
 	net-zope/zope-security[${PYTHON_USEDEP}]
 	net-zope/zope-size[${PYTHON_USEDEP}]

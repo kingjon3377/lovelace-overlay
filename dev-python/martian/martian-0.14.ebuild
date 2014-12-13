@@ -21,7 +21,7 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="test"
 
-RDEPEND="net-zope/zope-interface[${PYTHON_USEDEP}]"
+RDEPEND="dev-python/zope-interface[${PYTHON_USEDEP}]"
 DEPEND="${RDEPEND}
 	dev-python/setuptools[${PYTHON_USEDEP}]
 	test? ( net-zope/zope-testing[${PYTHON_USEDEP}] )"

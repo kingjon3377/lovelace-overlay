@@ -29,7 +29,7 @@ RDEPEND="
 	net-zope/zope-browsermenu[${PYTHON_USEDEP}]
 	net-zope/zope-component[${PYTHON_USEDEP}]
 	net-zope/zope-configuration[${PYTHON_USEDEP}]
-	net-zope/zope-interface[${PYTHON_USEDEP}]
+	dev-python/zope-interface[${PYTHON_USEDEP}]
 	net-zope/zope-pagetemplate[${PYTHON_USEDEP}]
 	net-zope/zope-publisher[${PYTHON_USEDEP}]
 	net-zope/zope-schema[${PYTHON_USEDEP}]

@@ -29,7 +29,7 @@ IUSE="doc"
 RDEPEND="
 	>=net-zope/zope-component-3.8[${PYTHON_USEDEP}]
 	net-zope/zope-copy[${PYTHON_USEDEP}]
-	net-zope/zope-interface[${PYTHON_USEDEP}]
+	dev-python/zope-interface[${PYTHON_USEDEP}]
 	net-zope/zope-proxy[${PYTHON_USEDEP}]
 	>=net-zope/zope-schema-3.6[${PYTHON_USEDEP}]"
 DEPEND="${RDEPEND}

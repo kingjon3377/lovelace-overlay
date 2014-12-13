@@ -28,7 +28,7 @@ IUSE=""
 RDEPEND=">=dev-python/martian-0.14[${PYTHON_USEDEP}]
 	net-zope/zope-component[${PYTHON_USEDEP}]
 	net-zope/zope-configuration[${PYTHON_USEDEP}]
-	net-zope/zope-interface[${PYTHON_USEDEP}]
+	dev-python/zope-interface[${PYTHON_USEDEP}]
 	net-zope/zope-schema[${PYTHON_USEDEP}]
 	net-zope/zope-testing[${PYTHON_USEDEP}]"
 DEPEND="${RDEPEND}

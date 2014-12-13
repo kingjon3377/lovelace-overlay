@@ -29,7 +29,7 @@ RDEPEND="
 	net-zope/zope-component[${PYTHON_USEDEP}]
 	net-zope/zope-i18n[${PYTHON_USEDEP}]
 	net-zope/zope-i18nmessageid[${PYTHON_USEDEP}]
-	net-zope/zope-interface[${PYTHON_USEDEP}]
+	dev-python/zope-interface[${PYTHON_USEDEP}]
 	net-zope/zope-security[${PYTHON_USEDEP}]
 	net-zope/zope-tal[${PYTHON_USEDEP}]
 	net-zope/zope-tales[${PYTHON_USEDEP}]
