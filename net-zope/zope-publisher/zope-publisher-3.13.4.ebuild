@@ -34,7 +34,7 @@ RDEPEND="
 	net-zope/zope-event[${PYTHON_USEDEP}]
 	net-zope/zope-exceptions[${PYTHON_USEDEP}]
 	net-zope/zope-i18n[${PYTHON_USEDEP}]
-	net-zope/zope-interface[${PYTHON_USEDEP}]
+	dev-python/zope-interface[${PYTHON_USEDEP}]
 	net-zope/zope-location[${PYTHON_USEDEP}]
 	net-zope/zope-proxy[${PYTHON_USEDEP}]
 	net-zope/zope-schema[${PYTHON_USEDEP}]

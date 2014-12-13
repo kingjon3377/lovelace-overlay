@@ -19,7 +19,7 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""
 
-DEPEND="net-zope/zope-interface[${PYTHON_USEDEP}]"
+DEPEND="dev-python/zope-interface[${PYTHON_USEDEP}]"
 RDEPEND="${DEPEND}"
 
 S="${WORKDIR}/${MY_P}-${PV}"

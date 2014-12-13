@@ -30,7 +30,7 @@ RDEPEND="
 	net-zope/zope-component[${PYTHON_USEDEP}]
 	net-zope/zope-configuration[${PYTHON_USEDEP}]
 	net-zope/zope-i18nmessageid[${PYTHON_USEDEP}]
-	net-zope/zope-interface[${PYTHON_USEDEP}]
+	dev-python/zope-interface[${PYTHON_USEDEP}]
 	net-zope/zope-pagetemplate[${PYTHON_USEDEP}]
 	net-zope/zope-publisher[${PYTHON_USEDEP}]
 	net-zope/zope-schema[${PYTHON_USEDEP}]

@@ -29,7 +29,7 @@ RDEPEND="
 	net-zope/zope-component[${PYTHON_USEDEP}]
 	net-zope/zope-i18n[${PYTHON_USEDEP}]
 	net-zope/zope-i18nmessageid[${PYTHON_USEDEP}]
-	net-zope/zope-interface[${PYTHON_USEDEP}]
+	dev-python/zope-interface[${PYTHON_USEDEP}]
 	net-zope/zope-location[${PYTHON_USEDEP}]
 	net-zope/zope-proxy[${PYTHON_USEDEP}]
 	net-zope/zope-publisher[${PYTHON_USEDEP}]

@@ -24,7 +24,7 @@ IUSE=""
 RDEPEND="dev-python/httplib2[${PYTHON_USEDEP}]
 	dev-python/oauth[${PYTHON_USEDEP}]
 	dev-python/wsgiintercept[${PYTHON_USEDEP}]
-	net-zope/zope-interface[${PYTHON_USEDEP}]"
+	dev-python/zope-interface[${PYTHON_USEDEP}]"
 RDEPEND="${RDEPEND}
 	dev-python/setuptools[${PYTHON_USEDEP}]"
 

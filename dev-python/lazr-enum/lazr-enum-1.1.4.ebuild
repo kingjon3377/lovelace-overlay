@@ -19,7 +19,7 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""
 
-DEPEND="net-zope/zope-interface[${PYTHON_USEDEP}]
+DEPEND="dev-python/zope-interface[${PYTHON_USEDEP}]
 	net-zope/zope-schema[${PYTHON_USEDEP}]"
 RDEPEND="${DEPEND}"
 

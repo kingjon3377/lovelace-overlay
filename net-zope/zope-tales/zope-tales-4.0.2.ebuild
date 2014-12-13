@@ -26,7 +26,7 @@ IUSE=""
 
 # net-zope/namespaces-zope[zope,${PYTHON_USEDEP}]
 RDEPEND="
-	net-zope/zope-interface[${PYTHON_USEDEP}]
+	dev-python/zope-interface[${PYTHON_USEDEP}]
 	net-zope/zope-tal[${PYTHON_USEDEP}]"
 DEPEND="${RDEPEND}
 	app-arch/unzip

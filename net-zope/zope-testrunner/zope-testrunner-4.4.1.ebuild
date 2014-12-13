@@ -25,7 +25,7 @@ IUSE=""
 DEPEND="dev-python/setuptools[${PYTHON_USEDEP}]
 	dev-python/six[${PYTHON_USEDEP}]
 	net-zope/zope-exceptions[${PYTHON_USEDEP}]
-	net-zope/zope-interface[${PYTHON_USEDEP}]
+	dev-python/zope-interface[${PYTHON_USEDEP}]
 	!<net-zope/zope-testing-3.10.0"
 RDEPEND="${DEPEND}"
 

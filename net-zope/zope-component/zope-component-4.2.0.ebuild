@@ -38,7 +38,7 @@ RDEPEND="
 	net-zope/zope-event[${PYTHON_USEDEP}]
 	net-zope/zope-hookable[${PYTHON_USEDEP}]
 	net-zope/zope-i18nmessageid[${PYTHON_USEDEP}]
-	>=net-zope/zope-interface-3.8.0[${PYTHON_USEDEP}]
+	>=dev-python/zope-interface-3.8.0[${PYTHON_USEDEP}]
 	net-zope/zope-proxy[${PYTHON_USEDEP}]
 	net-zope/zope-schema[${PYTHON_USEDEP}]"
 DEPEND="${RDEPEND}
