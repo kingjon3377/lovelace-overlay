@@ -23,7 +23,6 @@ IUSE="test"
 DEPEND="dev-python/setuptools[${PYTHON_USEDEP}]
 	app-arch/unzip
 	net-zope/zope-event[${PYTHON_USEDEP}]
-	net-zope/zope-fixers[$(python_gen_usedep 'python3*')]
 	test? ( net-zope/zope-testing[${PYTHON_USEDEP}] )"
 RDEPEND=""
 
