@@ -3,7 +3,8 @@
 # $Header: /var/cvsroot/gentoo-x86/dev-python/PyQt/PyQt-3.18.1.ebuild,v 1.8 2009/10/18 14:41:15 armin76 Exp $
 
 EAPI=5
-inherit python eutils
+PYTHON_COMPAT=( python2_{6,7} )
+inherit python-r1 eutils
 
 MY_P="PyQt-x11-gpl-${PV/*_pre/snapshot-}"
 S="${WORKDIR}/${MY_P}"
@@ -19,8 +20,8 @@ KEYWORDS="amd64 x86"
 IUSE="debug doc examples"
 
 RDEPEND="dev-qt/qt-meta:3
-	>=dev-python/sip-4.8.1
-	>=dev-python/qscintilla-python-2.3"
+	>=dev-python/sip-4.8.1[${PYTHON_USEDEP}]
+	>=dev-python/qscintilla-python-2.3[${PYTHON_USEDEP}]"
 DEPEND="${RDEPEND}
 	sys-devel/libtool"
 
@@ -30,7 +31,7 @@ src_prepare() {
 	sed -i -e 's/ANY \*/void */g' sip/qt/*.sip sip/qtnetwork/*.sip || die
 }
 
-src_configure() {
+my_configure() {
 	addpredict ${QTDIR}/etc/settings
 
 	local myconf="-d $(python_get_sitedir) \
@@ -42,16 +43,19 @@ src_configure() {
 			-u"
 	use debug && myconf="${myconf} -u"
 
-	"$(PYTHON)" configure.py ${myconf} || die 'configure failed'
+	"${PYTHON}" configure.py ${myconf} || die 'configure failed'
+}
+
+src_configure() {
+	python_foreach_impl my_configure
 }
 
 src_compile() {
-	emake
+	python_foreach_impl emake
 }
 
 src_install() {
-	python_need_rebuild
-	make DESTDIR="${D}" install || die "install failed"
+	python_foreach_impl make DESTDIR="${D}" install || die "install failed"
 	dodoc ChangeLog NEWS README THANKS
 	use doc && dohtml doc/PyQt.html
 	if use examples ; then
