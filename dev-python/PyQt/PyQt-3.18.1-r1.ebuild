@@ -20,7 +20,7 @@ IUSE="debug doc examples"
 
 RDEPEND="dev-qt/qt-meta:3
 	>=dev-python/sip-4.8.1
-	>=x11-libs/qscintilla-2.3[python]"
+	>=dev-python/qscintilla-python-2.3"
 DEPEND="${RDEPEND}
 	sys-devel/libtool"
 
