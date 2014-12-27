@@ -27,7 +27,7 @@ RDEPEND="${PYTHON_DEPS}
 DEPEND="${RDEPEND}"
 
 src_compile() {
-	:
+	python_fix_shebang .
 }
 
 src_install() {
