@@ -37,6 +37,7 @@ src_install() {
 	doins images/*
 	dodir /usr/bin
 	dosym ../../$(python_get_sitedir)/${PN}/lib/${PN}.py /usr/bin/${PN}
+	fperms +x $(python_get_sitedir)/${PN}/lib/${PN}.py
 	if use linguas_pt_BR; then
 		insinto /usr/share/locale/pt_BR/LC_MESSAGES/
 		doins locale/pt_BR/LC_MESSAGES/${PN}.mo
