@@ -14,7 +14,7 @@ SRC_URI=""
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="~amd64"
 IUSE="gnome-keyring +libnotify +dbus linguas_pt_BR"
 
 RDEPEND="${PYTHON_DEPS}
