@@ -26,6 +26,12 @@ RDEPEND="${PYTHON_DEPS}
 	libnotify? ( dev-python/notify-python[${PYTHON_USEDEP}] )"
 DEPEND="${RDEPEND}"
 
+src_prepare() {
+	sed -i \
+		-e "s@self.get_icon(\"gtracker.png\")@self.get_icon(\"$(python_get_sitedir)/${PN}/images/${PN}.png\")@" \
+		${PN}.py || die
+}
+
 src_compile() {
 	python_fix_shebang .
 }
