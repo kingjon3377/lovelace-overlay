@@ -1,4 +1,4 @@
-# Copyright 1999-2012 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -37,7 +37,7 @@ src_prepare() {
 		-e 's/from ..BeautifulSoup import/from BeautifulSoup import/' \
 		{} + || die
 	epatch "${FILESDIR}/dwiggie.patch"
-	epatch "${FILESDIR}/system-config.patch"
+	epatch "${FILESDIR}/${PN}-2.1-system-config.patch"
 }
 
 src_install() {
