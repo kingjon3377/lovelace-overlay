@@ -23,7 +23,7 @@ DEPEND="sys-apps/coreutils
 	sys-apps/util-linux
 	sqlite? ( dev-db/sqlite )
 	mysql? ( dev-db/mysql )
-	postgresql? ( dev-db/postgresql-base )
+	postgresql? ( dev-db/postgresql )
 	xml? ( dev-libs/libxml2 dev-libs/libxslt )
 	doc? ( app-text/texlive-core )
 	kde? ( kde-base/smokekde )
