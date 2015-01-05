@@ -17,7 +17,8 @@ SLOT="0"
 KEYWORDS="amd64"
 IUSE=""
 
-RDEPEND="${PYTHON_DEPS}"
+RDEPEND="${PYTHON_DEPS}
+	dev-python/beautifulsoup[${PYTHON_USEDEP}]"
 DEPEND="${RDEPEND}
 	app-arch/unzip"
 
