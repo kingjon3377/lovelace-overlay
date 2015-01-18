@@ -1,0 +1,17 @@
+diff -ru intl.old//Makefile.in intl/Makefile.in
+--- intl.old//Makefile.in	2011-10-09 22:57:31.000000000 -0400
++++ intl/Makefile.in	2011-10-09 22:58:36.000000000 -0400
+@@ -204,12 +204,7 @@
+ # The dependency for intlh.inst is different in gettext and all other
+ # packages.  Because we cannot you GNU make features we have to solve
+ # the problem while rewriting Makefile.in.
+-@GT_YES@intlh.inst: intlh.inst.in ../config.status
+-@GT_YES@	cd .. \
+-@GT_YES@	&& CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= \
+-@GT_YES@	  $(SHELL) ./config.status
+-@GT_NO@.PHONY: intlh.inst
+-@GT_NO@intlh.inst:
++intlh.inst:
+ 
+ # Tell versions [3.59,3.63) of GNU make not to export all variables.
+ # Otherwise a system limit (for SysV at least) may be exceeded.

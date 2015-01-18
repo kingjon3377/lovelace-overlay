@@ -1,0 +1,13 @@
+--- gift-0.1.15e.orig/Makefile.am	2002-11-05 17:30:40.000000000 +0100
++++ gift-0.1.15e/Makefile.am	2004-04-19 23:50:55.152365064 +0200
+@@ -34,9 +34,9 @@
+ # doc should be the choice of the user...
+ # libGIFTAcDistanceMatrix needs some unpublished class
+ # where I (WM) have to look on to do accessor/query engine
+ # separation
+-EXTRA_SUBDIRS=	Doc
++EXTRA_SUBDIRS=	
+ 
+ 
+ 
+ EXTRA_DIST=PluginMaker \

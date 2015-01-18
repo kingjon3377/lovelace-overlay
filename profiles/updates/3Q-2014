@@ -1,0 +1,3 @@
+move app-arch/paco app-arch/porg
+move media-gfx/turtleart media-gfx/turtleblocks
+move x11-wm/scrotwm x11-wm/spectrwm

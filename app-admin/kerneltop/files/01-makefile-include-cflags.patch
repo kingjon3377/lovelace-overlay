@@ -1,0 +1,17 @@
+Description: Adds hardening options to makefile
+  This patch add CFLAGS enviromental variable support to makefile. It enables Debian hardening. 
+Author: Dariusz Dwornikowski <dariusz.dwornikowski@cs.put.poznan.pl>
+--- a/makefile
++++ b/makefile
+@@ -7,9 +7,9 @@
+ CC=gcc
+ 
+ ifeq "$(DEBUG)" "y"
+-CCFLAGS=-g
++CCFLAGS=-g $(CPPFLAGS) $(CFLAGS) $(LDFLAGS)
+ else
+-CCFLAGS=-s
++CCFLAGS=-s $(CPPFLAGS) $(CFLAGS) $(LDFLAGS)
+ endif
+ 
+ kerneltop: kerneltop.c

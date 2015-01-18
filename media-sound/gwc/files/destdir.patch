@@ -1,0 +1,24 @@
+--- Makefile.in.old	2010-11-22 21:16:58.000000000 -0500
++++ Makefile.in	2010-11-22 21:18:23.000000000 -0500
+@@ -1,16 +1,16 @@
+ prefix = @prefix@
+ exec_prefix = @exec_prefix@
+ 
+-BINDIR = @bindir@
+-DATADIR = @datadir@
+-DATAROOTDIR = @datarootdir@
+-LIBDIR = @libdir@
++BINDIR = $(DESTDIR)/@bindir@
++DATADIR = $(DESTDIR)/@datadir@
++DATAROOTDIR = $(DESTDIR)/@datarootdir@
++LIBDIR = $(DESTDIR)/@libdir@
+ SYSCONFDIR = @sysconfdir@
+ APPNAME = gnome_wave_cleaner
+ GNOME = @GNOME_BASE@
+ 
+ pixmapdir = $(DATADIR)/pixmaps
+-HELPDIR = ${prefix}/$(GNOME)/share/gnome/help/$(APPNAME)
++HELPDIR = $(DESTDIR)/${prefix}/$(GNOME)/share/gnome/help/$(APPNAME)
+ HELPDIRC = $(HELPDIR)/C
+ DOCDIR = $(DATADIR)/doc/gwc
+ 

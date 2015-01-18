@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+<longdescription>gNiall attempts to learn whatever language you try to teach it.
+It is basically a dissociator: it collects statistics on sentences you type and
+tries to construct meaningful replies. gNiall is inspired by Niall, an Amiga
+program by Matthew Peck.</longdescription>
+</pkgmetadata>

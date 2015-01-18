@@ -1,0 +1,9 @@
+# /etc/conf.d/gift
+
+USER="gift"
+BASEDIR="/home/gift"
+HOST="localhost"
+PORT="12789"
+
+LOGFILE="/var/log/gift"
+

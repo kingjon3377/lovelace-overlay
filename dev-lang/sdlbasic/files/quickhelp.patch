@@ -1,0 +1,13 @@
+Index: sdlbasic-0.0.20070714/src/sdlBasic/share/sdlBasic/sdlBasic.properties
+===================================================================
+--- sdlbasic-0.0.20070714.orig/src/sdlBasic/share/sdlBasic/sdlBasic.properties	2009-05-06 22:57:03.000000000 +0200
++++ sdlbasic-0.0.20070714/src/sdlBasic/share/sdlBasic/sdlBasic.properties	2009-05-06 22:57:23.000000000 +0200
+@@ -654,7 +654,7 @@
+ 	SDLBRT=$(ARTSDSP) /usr/bin/sdlBrt
+ 	BROWSER=x-www-browser
+     command.go.*.sdlbas=$(SDLBRT) "$(FilePath)"
+-	command.help.*.sdlbas=$(BROWSER) "file:/usr/share/doc/sdlbasic/english/QuickHelp.html"
++	command.help.*=$(BROWSER) "file:/usr/share/doc/sdlbasic/english/QuickHelp.html"
+ 
+ 
+ command.name.1.*.sdlbas=Autoindent

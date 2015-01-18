@@ -1,0 +1,25 @@
+From 5bde3e988e629e2fa0d9284fed1017564ca2ffcb Mon Sep 17 00:00:00 2001
+From: Michael Hartl <michael@michaelhartl.com>
+Date: Thu, 19 Dec 2013 17:41:32 -0800
+Subject: [PATCH 10/19] Remove stdlib arg, which breaks on Linux
+
+---
+ src/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/Makefile b/src/Makefile
+index fecfe92..db6253d 100644
+--- a/src/Makefile
++++ b/src/Makefile
+@@ -19,7 +19,7 @@ CONFDIR=../confdir
+ 
+ CC=g++
+ CCC=g++
+-CXX=g++ -stdlib=libstdc++
++CXX=g++
+ 
+ CPPFLAGS=-O2 -Wall
+ #CPPFLAGS= -g -Wall
+-- 
+1.8.5.5
+

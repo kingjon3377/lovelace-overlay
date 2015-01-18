@@ -1,0 +1,48 @@
+diff -ru src.old/analyzer/output.h src/analyzer/output.h
+--- src.old/analyzer/output.h	2011-01-09 15:50:04.000000000 -0500
++++ src/analyzer/output.h	2011-01-09 15:51:48.000000000 -0500
+@@ -31,7 +31,7 @@
+     const Plist<OType>& children() const;
+     const char* name() const;
+     unsigned number() const;
+-    void do_export(ostream&) const;
++    void do_export(std::ostream&) const;
+ };
+ 
+ class Anchor {
+@@ -42,7 +42,7 @@
+     Anchor(OType*);
+     OType* isIn() const;
+     unsigned anchor() const;
+-    void do_export(ostream&) const;
++    void do_export(std::ostream&) const;
+ };
+ 
+ class TextAttribute {
+@@ -53,7 +53,7 @@
+     TextAttribute(const char*);
+     const char* name() const;
+     unsigned number() const;
+-    void do_export(ostream&) const;
++    void do_export(std::ostream&) const;
+ };
+ 
+ /*
+@@ -107,7 +107,7 @@
+     Plist<Anchor>* anno_anchors() const;
+     Anchor* label() const;
+     Output* label_subtree() const;
+-    void do_export(ostream&) const;
++    void do_export(std::ostream&) const;
+     const Mark mark;
+ public:
+   struct US_b { // Block
+@@ -151,7 +151,7 @@
+     // An output container must be given a type tree when created.
+     OutputContainer(const OType*,const Plist<TextAttribute>*,const char*);
+     void add(Output*,const OType*);
+-    void do_export(ostream&) const;
++    void do_export(std::ostream&) const;
+ };
+ 
+ #endif

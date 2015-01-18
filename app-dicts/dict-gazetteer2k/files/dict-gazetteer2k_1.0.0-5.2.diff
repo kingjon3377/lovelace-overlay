@@ -1,0 +1,697 @@
+--- dict-gazetteer2k-1.0.0.orig/countieswriter.py
++++ dict-gazetteer2k-1.0.0/countieswriter.py
+@@ -0,0 +1,71 @@
++print "Loading states."
++from states import statedict
++print "Processing."
++from dictdlib import DictWriter
++import re
++
++def withstate(city, state):
++    return [city, city + ", " + state]
++
++rfile = open("county2k.txt", "rt")
++writer = DictWriter('gazetteer2k-counties',
++                    'http://www.census.gov/geo/www/gazetteer/places2k.html',
++                    'U.S. Gazetteer Counties (2000)',
++                    """The original data is available from:
++
++http://www.census.gov/ftp/pub/tiger/tmz/gazetteer/county2k.txt
++http://www.census.gov/ftp/pub/tiger/tms/gazetteer/zips.txt
++
++  The original U.S. Gazetteer Place and Zipcode Files
++  are provided by the U.S. Census Bureau and are in
++  the Public Domain."""
++                    )
++
++for line in rfile.xreadlines():
++    line = line.strip()
++    stateabbr = line[0:2]
++    statefips = line[2:4]
++    name = line[7:71].strip()
++    population = int(line[71:80])
++    housingunits = int(line[80:89])
++    landarea_m = float(line[89:103])
++    waterarea_m = float(line[103:117])
++    landarea_mi = float(line[117:129])
++    waterarea_mi = float(line[129:141])
++    lat = float(line[141:151])
++    long = float(line[151:162])
++
++    indexwords = []
++    
++    match = re.search('^(.+) (County|Municipio|city|Parish|Census Area|Borough|Municipality)$', name)
++    if match:
++        countyname = match.group(1)
++        type = match.group(2)
++        indexwords.extend(withstate(countyname, stateabbr))
++    else:
++        countyname = name
++        type = 'County'
++
++    indexwords.extend(withstate(name, stateabbr))
++
++    defstr = "%s -- U.S. %s in %s\n" % \
++             (countyname, type, statedict[stateabbr])
++    defstr += "   Population (2000):    %d\n" % population
++    defstr += "   Housing Units (2000): %d\n" % housingunits
++    defstr += "   Land area (2000):     %f sq. miles (%f sq. km)\n" % \
++              (landarea_mi, landarea_m / 1000000)
++    defstr += "   Water area (2000):    %f sq. miles (%f sq. km)\n" % \
++              (waterarea_mi, waterarea_m / 1000000)
++    defstr += "   Total area (2000):    %f sq. miles (%f sq. km)\n" % \
++              (landarea_mi + waterarea_mi,
++               landarea_m / 1000000 + waterarea_m / 1000000)
++    defstr += "   Located within:       %s (%s), FIPS %s\n" % \
++              (statedict[stateabbr], stateabbr, statefips)
++    defstr += "   Location:             %f %s, %f %s\n" % ( \
++        abs(lat), lat > 0 and 'N' or 'S',
++        abs(long), long > 0 and 'E' or 'W')
++    defstr += "   Headwords:\n"
++    for hw in indexwords:
++        defstr += "    %s\n" % hw
++    writer.writeentry(defstr, indexwords)
++writer.finish()
+--- dict-gazetteer2k-1.0.0.orig/debian/changelog
++++ dict-gazetteer2k-1.0.0/debian/changelog
+@@ -0,0 +1,46 @@
++dict-gazetteer2k (1.0.0-5.2) unstable; urgency=low
++
++  * Non-maintainer upload.
++  * /etc/init.d/dictd sanity checks; closes: #441915.
++
++ -- Robert S. Edmonds <edmonds@debian.org>  Tue, 11 Sep 2007 16:51:04 -0400
++
++dict-gazetteer2k (1.0.0-5.1) unstable; urgency=low
++
++  * Non-maintainer upload.
++  * Use invoke-rc.d; closes: #367740.
++
++ -- Robert S. Edmonds <edmonds@debian.org>  Sun, 02 Sep 2007 02:20:42 -0400
++
++dict-gazetteer2k (1.0.0-5) unstable; urgency=medium
++
++  * Updated for more recent Python packages.  Closes: #398716.
++
++ -- John Goerzen <jgoerzen@complete.org>  Fri, 17 Nov 2006 06:40:47 -0600
++
++dict-gazetteer2k (1.0.0-4) unstable; urgency=low
++
++  * Updated with correct location of postal codes file.  Closes: #332561.
++
++ -- John Goerzen <jgoerzen@complete.org>  Tue, 11 Oct 2005 05:06:17 -0500
++
++dict-gazetteer2k (1.0.0-3) unstable; urgency=low
++
++  * Updated build process for Python 2.3.  Closes: #212069.
++
++ -- John Goerzen <jgoerzen@complete.org>  Tue,  7 Oct 2003 13:33:41 -0500
++
++dict-gazetteer2k (1.0.0-2) unstable; urgency=low
++
++  * Updated indentation in descriptions in control file.
++    Closes: #156326, #156325, #156324.
++  * Changed build dep from dictd to dictzip.
++
++ -- John Goerzen <jgoerzen@complete.org>  Wed,  5 Feb 2003 15:55:21 -0600
++
++dict-gazetteer2k (1.0.0-1) unstable; urgency=low
++
++  * Initial Release.
++
++ -- John Goerzen <jgoerzen@complete.org>  Mon, 29 Apr 2002 13:42:47 -0500
++
+--- dict-gazetteer2k-1.0.0.orig/debian/control
++++ dict-gazetteer2k-1.0.0/debian/control
+@@ -0,0 +1,64 @@
++Source: dict-gazetteer2k
++Section: text
++Priority: optional
++Maintainer: John Goerzen <jgoerzen@complete.org>
++Build-Depends-Indep: debhelper (>> 3.0.0), python, miscfiles, python-dictdlib, python-dictclient, dictzip
++Standards-Version: 3.5.2
++
++Package: dict-gazetteer2k
++Architecture: all
++Depends: dict-gazetteer2k-places, dict-gazetteer2k-counties, dict-gazetteer2k-zips
++Description: Placeholder package to install entire Gazetteer 2000
++ This package can be used to ensure that you always have the entire
++ set of files comprising the 2000 Gazetteer installed.  You might
++ want to use this package if you want the entire gazetteer available.
++ If you want only part of it on your server, you should not install
++ this package.
++
++Package: dict-gazetteer2k-places
++Architecture: all
++Suggests: dict, dictd
++Description: Places Database for the 2000 US Gazetteer
++ This is a database of (primarily) United States cities using
++ information gathered in the 2000 census.  Each entry contains:
++  * Full name for the city
++  * Type of entry (city, borough, village, etc)
++  * Total population and housing units
++  * Total land and water area, given in both square miles and
++    square kilometers
++  * Government FIPS code
++  * State the city is within
++  * Latitude and longitude of the city
++  * ZIP codes for the location from 1990.
++
++Package: dict-gazetteer2k-counties
++Architecture: all
++Suggests: dict, dictd
++Description: Counties Database for the 2000 US Gazetteer
++ This is a database of (primarily) United States counties using
++ information gathered in the 2000 census.  Each entry contains:
++  * Full name for the county
++  * Type of entry (county, municipio, parish, borough, etc)
++  * Total population and housing units
++  * Total land and water area, in both mi^2 and km^2
++  * State the county is within
++  * Latitude and longitude of the county
++
++Package: dict-gazetteer2k-zips
++Architecture: all
++Suggests: dict, dictd
++Description: ZIP and ZCTA database for the 2000 US Gazetteer
++ This is a database of United States ZIP code information.  It
++ contains a single database built from two separate sources:
++ the 1990 Census ZIP code information and the 2000 Census
++ ZCTA (ZIP Code Tabulation Area) information.  These
++ two pieces of information together provide a nice picture
++ of an area.
++ The 1990 ZIP Code Information provides:
++  * The name of location for each ZIP code (normally a city)
++  * The other ZIP codes corresponding to the same location.
++ The 2000 ZCTA information provides:
++  * Total population and housing unit count in a given ZIP code
++  * Total land and water area for the ZIP code
++  * The state in which the ZIP code is located
++  * The latitude and longitude of the ZIP code
+--- dict-gazetteer2k-1.0.0.orig/debian/copyright
++++ dict-gazetteer2k-1.0.0/debian/copyright
+@@ -0,0 +1,15 @@
++This package was debianized by John Goerzen <jgoerzen@complete.org> on
++Mon, 29 Apr 2002 13:42:47 -0500.
++
++It was downloaded from http://www.census.gov/geo/www/gazetteer/places2k.html
++and http://www.census.gov/ftp/pub/tiger/tms/gazetteer/allfiles.zip
++
++zips.txt was from ftp://ftp.census.gov:/pub/tiger/tms/gazetteer/zips.zip.
++
++Copyright:
++
++The US Census Bureau files are public domain, provided AS-IS.
++
++The formatting software is written by John Goerzen and is licensed under the
++GNU General Public License, version 2.  Debian GNU/Linux users may find it
++at /usr/share/common-licenses/GPL-2
+--- dict-gazetteer2k-1.0.0.orig/debian/dirs.tmpl
++++ dict-gazetteer2k-1.0.0/debian/dirs.tmpl
+@@ -0,0 +1 @@
++usr/share/dictd
+--- dict-gazetteer2k-1.0.0.orig/debian/postinst.tmpl
++++ dict-gazetteer2k-1.0.0/debian/postinst.tmpl
+@@ -0,0 +1,56 @@
++#! /bin/sh
++# postinst script for dict-moby-thesaurus
++#
++# see: dh_installdeb(1)
++
++set -e
++
++# summary of how this script can be called:
++#        * <postinst> `configure' <most-recently-configured-version>
++#        * <old-postinst> `abort-upgrade' <new version>
++#        * <conflictor's-postinst> `abort-remove' `in-favour' <package>
++#          <new-version>
++#        * <deconfigured's-postinst> `abort-deconfigure' `in-favour'
++#          <failed-install-package> <version> `removing'
++#          <conflicting-package> <version>
++# for details, see http://www.debian.org/doc/debian-policy/ or
++# the debian-policy package
++#
++# quoting from the policy:
++#     Any necessary prompting should almost always be confined to the
++#     post-installation script, and should be protected with a conditional
++#     so that unnecessary prompting doesn't happen if a package's
++#     installation fails and the `postinst' is called with `abort-upgrade',
++#     `abort-remove' or `abort-deconfigure'.
++
++case "$1" in
++    configure)
++     if [ -x /usr/sbin/dictdconfig ]; then dictdconfig -w ;fi
++     if [ -x /etc/init.d/dictd ]; then
++          if which invoke-rc.d >/dev/null 2>&1; then
++               invoke-rc.d dictd restart
++          else
++               /etc/init.d/dictd restart
++          fi
++     fi
++
++    ;;
++
++    abort-upgrade|abort-remove|abort-deconfigure)
++
++    ;;
++
++    *)
++        echo "postinst called with unknown argument \`$1'" >&2
++        exit 1
++    ;;
++esac
++
++# dh_installdeb will replace this with shell code automatically
++# generated by other debhelper scripts.
++
++#DEBHELPER#
++
++exit 0
++
++
+--- dict-gazetteer2k-1.0.0.orig/debian/postrm.tmpl
++++ dict-gazetteer2k-1.0.0/debian/postrm.tmpl
+@@ -0,0 +1,45 @@
++#! /bin/sh
++# postrm script for dict-moby-thesaurus
++#
++# see: dh_installdeb(1)
++
++set -e
++
++# summary of how this script can be called:
++#        * <postrm> `remove'
++#        * <postrm> `purge'
++#        * <old-postrm> `upgrade' <new-version>
++#        * <new-postrm> `failed-upgrade' <old-version>
++#        * <new-postrm> `abort-install'
++#        * <new-postrm> `abort-install' <old-version>
++#        * <new-postrm> `abort-upgrade' <old-version>
++#        * <disappearer's-postrm> `disappear' <r>overwrit>r> <new-version>
++# for details, see http://www.debian.org/doc/debian-policy/ or
++# the debian-policy package
++
++
++case "$1" in
++       purge|remove|upgrade|failed-upgrade|abort-install|abort-upgrade|disappear)
++     if [ -x /usr/sbin/dictdconfig ]; then dictdconfig -w ;fi
++     if [ -x /etc/init.d/dictd ]; then
++          if which invoke-rc.d >/dev/null 2>&1; then
++               invoke-rc.d dictd restart
++          else
++               /etc/init.d/dictd restart
++          fi
++     fi
++
++        ;;
++
++    *)
++        echo "postrm called with unknown argument \`$1'" >&2
++        exit 1
++
++esac
++
++# dh_installdeb will replace this with shell code automatically
++# generated by other debhelper scripts.
++
++#DEBHELPER#
++
++exit 0
+--- dict-gazetteer2k-1.0.0.orig/debian/rules
++++ dict-gazetteer2k-1.0.0/debian/rules
+@@ -0,0 +1,114 @@
++#!/usr/bin/make -f
++# Sample debian/rules that uses debhelper.
++# GNU copyright 1997 to 1999 by Joey Hess.
++
++# Uncomment this to turn on verbose mode.
++#export DH_VERBOSE=1
++
++# This is the debhelper compatibility version to use.
++export DH_COMPAT=3
++
++PYTHON=python
++BASENAMES=places counties zips
++
++ifneq (,$(findstring debug,$(DEB_BUILD_OPTIONS)))
++	CFLAGS += -g
++endif
++ifeq (,$(findstring nostrip,$(DEB_BUILD_OPTIONS)))
++	INSTALL_PROGRAM += -s
++endif
++
++configure: configure-stamp
++configure-stamp:
++	dh_testdir
++	# Add here commands to configure the package.
++
++	touch configure-stamp
++
++
++build: build-stamp
++
++build-stamp: configure-stamp 
++	dh_testdir
++
++	# Add here commands to compile the package.
++	#$(MAKE)
++	#/usr/bin/docbook-to-man debian/dict-gazetteer2k.sgml > dict-gazetteer2k.1
++
++	$(PYTHON) zipswriter.py
++	$(PYTHON) placeswriter.py
++	$(PYTHON) countieswriter.py
++	dictzip *.dict
++
++	touch build-stamp
++
++clean:
++	dh_testdir
++	dh_testroot
++	rm -f build-stamp configure-stamp
++
++	# Add here commands to clean up after the build process.
++	#-$(MAKE) clean
++	-rm -f *.dict *.dz *.index *.pyc
++	-rm debian/*.dirs debian/*.postinst debian/*.postrm
++	dh_clean
++
++install: build
++	dh_testdir
++	dh_testroot
++	dh_clean -k
++
++	for FILE in $(BASENAMES); do \
++		cp debian/dirs.tmpl debian/dict-gazetteer2k-$$FILE.dirs; \
++		cp debian/postinst.tmpl debian/dict-gazetteer2k-$$FILE.postinst; \
++		cp debian/postrm.tmpl debian/dict-gazetteer2k-$$FILE.postrm; \
++		done
++
++	dh_installdirs -A
++
++	# Add here commands to install the package into debian/dict-gazetteer2k.
++	#$(MAKE) install DESTDIR=$(CURDIR)/debian/dict-gazetteer2k
++
++	for FILE in places counties zips; do \
++		cp gazetteer2k-$$FILE.dict.dz debian/dict-gazetteer2k-$$FILE/usr/share/dictd/ ; \
++		cp gazetteer2k-$$FILE.index debian/dict-gazetteer2k-$$FILE/usr/share/dictd/ ; \
++		done
++
++
++
++# Build architecture-independent files here.
++binary-arch: build install
++# We have nothing to do by default.
++
++# Build architecture-dependent files here.
++binary-indep: build install
++	dh_testdir
++	dh_testroot
++#	dh_installdebconf	
++	dh_installdocs -A
++	dh_installexamples
++	dh_installmenu
++#	dh_installlogrotate
++#	dh_installemacsen
++#	dh_installpam
++#	dh_installmime
++#	dh_installinit
++	dh_installcron
++	dh_installman
++	dh_installinfo
++#	dh_undocumented
++	dh_installchangelogs -A
++	dh_link
++	dh_strip
++	dh_compress
++	dh_fixperms
++#	dh_makeshlibs
++	dh_installdeb -A
++#	dh_perl
++	dh_shlibdeps
++	dh_gencontrol -A
++	dh_md5sums -A
++	dh_builddeb -A
++
++binary: binary-indep binary-arch
++.PHONY: build clean binary-indep binary-arch binary install configure
+--- dict-gazetteer2k-1.0.0.orig/placeswriter.py
++++ dict-gazetteer2k-1.0.0/placeswriter.py
+@@ -0,0 +1,111 @@
++print "Loading states."
++from states import statedict
++print "Loading zips."
++from zips import zipcodesdict
++print "Processing."
++from dictdlib import DictWriter
++
++import re
++rfile = open("places2k.txt", "rt")
++writer = DictWriter('gazetteer2k-places',
++                    'http://www.census.gov/geo/www/gazetteer/places2k.html',
++                    'U.S. Gazetteer Places (2000)',
++                    """The original data is available from:
++
++http://www.census.gov/ftp/pub/tiger/tmz/gazetteer/places2k.txt
++http://www.census.gov/ftp/pub/tiger/tms/gazetteer/zips.txt
++
++  The original U.S. Gazetteer Place and Zipcode Files
++  are provided by the U.S. Census Bureau and are in
++  the Public Domain."""
++                    )
++
++for line in rfile.xreadlines():
++    line = line.strip()
++    stateabbr = line[0:2]
++    statefips = line[2:4]
++    placefips = line[4:9]
++    name = line[9:73].strip()
++    population = int(line[73:82])
++    housingunits = int(line[82:91])
++    landarea_m = float(line[91:105])
++    waterarea_m = float(line[105:119])
++    landarea_mi = float(line[119:131])
++    waterarea_mi = float(line[131:143])
++    lat = float(line[143:153])
++    long = float(line[153:164])
++
++    indexwords = []
++
++    # Convert name to type.  Some icky special cases.
++
++    # Convert "Indianapolis city (balance)" to "Indianapolis city"
++    
++    name = re.sub('\s*\(.+\)\s*', ' ', name)
++    name = name.strip()
++
++    for splitspecial in ['-', ',']:
++        if len(name.split(splitspecial)) == 2:
++            # Index "Nashville-Davidson (balance)" under "Nashville"
++            # and "Nashville, TN" as well as the full thing.
++            # Same for "Lynchburg, Moore County"
++            left, right = name.split(splitspecial)
++            indexwords.append(left)
++            indexwords.append(left + ", " + stateabbr)
++
++    match = re.search('^(.+) (city|town|village|CDP|urbana|comunidad|borough|municipality)$', name)
++    if not match:
++        cityname = name
++        type = 'unknown location type'
++    else:
++        cityname = match.group(1)
++        type = match.group(2)
++
++    if type == 'CDP':
++        type = 'Census Designated Place'
++
++    indexwords.append(cityname)
++    indexwords.append(cityname + ", " + stateabbr)
++
++    defstr = "%s, %s -- U.S. %s in %s\n" % \
++             (cityname, stateabbr, type, statedict[stateabbr])
++    defstr += "   Population (2000):    %d\n" % population
++    defstr += "   Housing Units (2000): %d\n" % housingunits
++    defstr += "   Land area (2000):     %f sq. miles (%f sq. km)\n" % \
++              (landarea_mi, landarea_m / 1000000)
++    defstr += "   Water area (2000):    %f sq. miles (%f sq. km)\n" % \
++              (waterarea_mi, waterarea_m / 1000000)
++    defstr += "   Total area (2000):    %f sq. miles (%f sq. km)\n" % \
++              (landarea_mi + waterarea_mi,
++               landarea_m / 1000000 + waterarea_m / 1000000)
++    defstr += "   FIPS code:            %s\n" % placefips
++    defstr += "   Located within:       %s (%s), FIPS %s\n" % \
++              (statedict[stateabbr], stateabbr, statefips)
++    defstr += "   Location:             %f %s, %f %s\n" % ( \
++        abs(lat), lat > 0 and 'N' or 'S',
++        abs(long), long > 0 and 'E' or 'W')
++
++    zipcodes = []
++    zcsearchlist = indexwords
++    zcsearchlist.reverse()
++    for zctry in zcsearchlist:
++        zctry = zctry.upper()
++        if zipcodesdict.has_key(zctry):
++            zipcodes = zipcodesdict[zctry]
++            break
++
++    defstr += "   ZIP Codes (1990):    "
++    zipcount = 0
++    for zipcode in zipcodes:
++        if zipcount and zipcount % 6 == 0:
++            defstr += "\n                        "
++        zipcount += 1
++        defstr += " " + zipcode
++    defstr += "\n   Note: some ZIP codes may be omitted esp. for suburbs.\n"
++    defstr += "   Headwords:\n"
++    for hw in indexwords:
++        defstr += "    %s\n" % hw
++    writer.writeentry(defstr, indexwords)
++writer.finish()
++
++        
+--- dict-gazetteer2k-1.0.0.orig/states.py
++++ dict-gazetteer2k-1.0.0/states.py
+@@ -0,0 +1,15 @@
++from gzip import GzipFile
++
++statedict = {}
++
++fh = GzipFile("/usr/share/doc/miscfiles/na.postalcodes.gz", "rb")
++
++for line in fh.readlines():
++    if line[0] == '#':
++        continue
++    line = line.strip()
++    splitline = line.split(":")
++    if len(splitline) != 2:
++        continue
++    if not statedict.has_key(splitline[0]):
++        statedict[splitline[0]] = splitline[1]
+--- dict-gazetteer2k-1.0.0.orig/zcta.py
++++ dict-gazetteer2k-1.0.0/zcta.py
+@@ -0,0 +1,23 @@
++import dictdlib, dictclient, re
++
++rfile = open("zcta5.txt", "rt")
++zctanumdict = {}
++
++for line in rfile.xreadlines():
++    line = line.strip()
++    new = {}
++    new['stateabbr'] = line[0:2]
++    new['name'] = line[2:66].strip()
++    match = re.search('^(\d\d\d\d\d )', new['name'])
++    if not match:
++        continue
++    new['zipcode'] = int(match.group(1))
++    new['population'] = int(line[66:75])
++    new['housingunits'] = int(line[75:84])
++    new['landarea_m'] = float(line[84:98])
++    new['waterarea_m'] = float(line[98:112])
++    new['landarea_mi'] = float(line[112:124])
++    new['waterarea_mi'] = float(line[124:136])
++    new['lat'] = float(line[136:146])
++    new['long'] = float(line[146:157])
++    zctanumdict[new['zipcode']] = new
+--- dict-gazetteer2k-1.0.0.orig/zips.py
++++ dict-gazetteer2k-1.0.0/zips.py
+@@ -0,0 +1,19 @@
++import dictdlib, dictclient
++from states import statedict
++
++rfile = open("zips.txt", "rt")
++
++zipcodesdict = {}
++zipcodesnumdict = {}
++
++for line in rfile.xreadlines():
++    line = line.strip()
++    fips, zipcode, state, city, junk = line.split(",", 4)
++    zipcode = dictclient.dequote(zipcode)
++    state = dictclient.dequote(state)
++    city = dictclient.dequote(city)
++    indexval = "%s, %s" % (city, state)
++    if not zipcodesdict.has_key(indexval):
++        zipcodesdict[indexval] = []
++    zipcodesdict[indexval].append(zipcode)
++    zipcodesnumdict[int(zipcode)] = "%s, %s" % (city, state)
+--- dict-gazetteer2k-1.0.0.orig/zipswriter.py
++++ dict-gazetteer2k-1.0.0/zipswriter.py
+@@ -0,0 +1,78 @@
++print "Loading states."
++from states import statedict
++print "Loading zips."
++from zips import zipcodesnumdict, zipcodesdict
++print "Loading ZCTA."
++from zcta import zctanumdict
++print "Processing."
++from dictdlib import DictWriter
++import re
++
++def withstate(city, state):
++    return [city, city + ", " + state]
++
++def uniq(list):
++    if len(list) < 2:
++        return list
++    retval = [ list[0] ]
++    for item in list[1:]:
++        if retval[-1] != item:
++            retval.append(item)
++    return retval
++
++writer = DictWriter('gazetteer2k-zips',
++                    'http://www.census.gov/geo/www/gazetteer/places2k.html',
++                    'U.S. Gazetteer Zip Code Tabulation Areas (2000)',
++                    """The original data is available from:
++
++http://www.census.gov/ftp/pub/tiger/tmz/gazetteer/zcta5.txt
++http://www.census.gov/ftp/pub/tiger/tms/gazetteer/zips.txt
++
++  The original U.S. Gazetteer Place and Zipcode Files
++  are provided by the U.S. Census Bureau and are in
++  the Public Domain."""
++                    )
++
++biglist = zipcodesnumdict.keys() + zctanumdict.keys()
++biglist.sort()
++biglist = uniq(biglist)
++
++for zipcode in biglist:
++    indexwords = ["%05d" % zipcode]
++    defstr = "%05d -- U.S. ZIP code\n" % zipcode
++
++
++    if zipcodesnumdict.has_key(zipcode):
++        name = zipcodesnumdict[zipcode]
++        city, stateabbr = name.split(",")
++        stateabbr = stateabbr.strip()
++        state = statedict[stateabbr]
++        defstr += "   Municipality (1990):  %s\n" % (city + ", " + state)
++        defstr += "   All ZIPs for this municipality (1990):"
++        zipcount = 0
++        for allzipcode in zipcodesdict[name]:
++            if zipcount % 6 == 0:
++                defstr += "\n                        "
++            zipcount += 1
++            defstr += " " + allzipcode
++        defstr += "\n"
++
++    if zctanumdict.has_key(zipcode):
++        e = zctanumdict[zipcode]
++        defstr += "   Population (2000):    %d\n" % e['population']
++        defstr += "   Housing Units (2000): %d\n" % e['housingunits']
++        defstr += "   Land area (2000):     %f sq. miles (%f sq. km)\n" % \
++                  (e['landarea_mi'], e['landarea_m'] / 1000000)
++        defstr += "   Water area (2000):    %f sq. miles (%f sq. km)\n" % \
++                  (e['waterarea_mi'], e['waterarea_m'] / 1000000)
++        defstr += "   Total area (2000):    %f sq. miles (%f sq. km)\n" % \
++                  (e['landarea_mi'] + e['waterarea_mi'],
++                   e['landarea_m'] / 1000000 + e['waterarea_m'] / 1000000)
++        defstr += "   Located within:       %s (%s)\n" % \
++                  (statedict[e['stateabbr']], e['stateabbr'])
++        defstr += "   Location:             %f %s, %f %s\n" % ( \
++            abs(e['lat']), e['lat'] > 0 and 'N' or 'S',
++            abs(e['long']), e['long'] > 0 and 'E' or 'W')
++        
++    writer.writeentry(defstr, indexwords)
++writer.finish()

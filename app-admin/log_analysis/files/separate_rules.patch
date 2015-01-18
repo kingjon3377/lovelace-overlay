@@ -1,0 +1,16 @@
+--- Makefile.in.old	2012-08-10 22:34:05.000000000 -0400
++++ Makefile.in	2012-08-10 22:35:19.000000000 -0400
+@@ -616,8 +616,11 @@
+ 		rcsdiff -kkv $$i; done 2>&1; exit 0
+ 
+ test prep-test view-test noerr-test \
+-		latest-test prep-latest-test view-latest-test noerr-latest-test\
+-		test% prep-test% view-test% noerr-test%: all
++		latest-test prep-latest-test view-latest-test \
++		noerr-latest-test: all
++	if [ -d tests ]; then cd tests && make $@; fi
++
++test% prep-test% view-test% noerr-test%: all
+ 	if [ -d tests ]; then cd tests && make $@; fi
+ 
+ undist: clean

@@ -1,0 +1,12 @@
+diff -ru src.old/main.cc src/main.cc
+--- src.old/main.cc	2010-11-24 00:46:06.000000000 -0500
++++ src/main.cc	2010-11-24 00:46:24.000000000 -0500
+@@ -24,6 +24,8 @@
+ #include <list>
+ #include <unistd.h>
+ 
++#include <cstdlib>
++
+ using namespace std;
+ 
+ #include "messenger.h"

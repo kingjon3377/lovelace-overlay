@@ -1,0 +1,84 @@
+diff -ru malaga-7.5/Makefile.in malaga-7.5-fixed/Makefile.in
+--- malaga-7.5/Makefile.in	2006-07-01 14:36:02.000000000 +0300
++++ malaga-7.5-fixed/Makefile.in	2006-08-25 10:30:11.000000000 +0300
+@@ -92,36 +92,36 @@
+ info: malaga.info
+ 
+ install: all info
+-	$(INSTALL_DIR) $(bindir)
+-	$(INSTALL_PROGRAM) -s malaga $(bindir)/malaga
+-	$(INSTALL_PROGRAM) -s mallex $(bindir)/mallex
+-	$(INSTALL_PROGRAM) -s malmake $(bindir)/malmake
+-	$(INSTALL_PROGRAM) -s malrul $(bindir)/malrul
++	$(INSTALL_DIR) ${DESTDIR}$(bindir)
++	$(INSTALL_PROGRAM) -s malaga ${DESTDIR}$(bindir)/malaga
++	$(INSTALL_PROGRAM) -s mallex ${DESTDIR}$(bindir)/mallex
++	$(INSTALL_PROGRAM) -s malmake ${DESTDIR}$(bindir)/malmake
++	$(INSTALL_PROGRAM) -s malrul ${DESTDIR}$(bindir)/malrul
+ 	if test -n "$(MALSHOW)" ;\
+-          then $(INSTALL_PROGRAM) -s malshow $(bindir)/malshow; fi
+-	$(INSTALL_PROGRAM) -s malsym $(bindir)/malsym
+-	$(INSTALL_DIR) $(includedir)
+-	$(INSTALL_DATA) $(srcdir)/malaga.h $(includedir)/malaga.h
+-	$(INSTALL_DIR) $(libdir)
+-	$(LIBTOOL) $(INSTALL_DATA) -s libmalaga.la $(libdir)/libmalaga.la
+-	$(INSTALL_DIR) $(datadir)/malaga
+-	$(INSTALL_DATA) $(srcdir)/malaga.el $(datadir)/malaga/malaga.el
+-	$(INSTALL_DIR) $(infodir)
+-	for f in malaga.info*; do $(INSTALL_DATA) $$f $(infodir)/$$f; done
+-	$(INSTALL_INFO) --info-dir=$(infodir) malaga.info 
++	   then $(INSTALL_PROGRAM) -s malshow ${DESTDIR}$(bindir)/malshow; fi
++	$(INSTALL_PROGRAM) -s malsym ${DESTDIR}$(bindir)/malsym
++	$(INSTALL_DIR) ${DESTDIR}$(includedir)
++	$(INSTALL_DATA) $(srcdir)/malaga.h ${DESTDIR}$(includedir)/malaga.h
++	$(INSTALL_DIR) ${DESTDIR}$(libdir)
++	$(LIBTOOL) --mode=install $(INSTALL_DATA) -s libmalaga.la ${DESTDIR}$(libdir)/libmalaga.la
++	$(INSTALL_DIR) ${DESTDIR}$(datadir)/malaga
++	$(INSTALL_DATA) $(srcdir)/malaga.el ${DESTDIR}$(datadir)/malaga/malaga.el
++	$(INSTALL_DIR) ${DESTDIR}$(infodir)
++	for f in malaga.info*; do $(INSTALL_DATA) $$f ${DESTDIR}$(infodir)/$$f; done
++	$(INSTALL_INFO) --info-dir=${DESTDIR}$(infodir) malaga.info
+ 
+ uninstall:
+-	rm -f $(bindir)/malaga 
+-	rm -f $(bindir)/mallex 
+-	rm -f $(bindir)/malmake
+-	rm -f $(bindir)/malrul
+-	rm -f $(bindir)/malshow
+-	rm -f $(bindir)/malsym
+-	rm -f $(includedir)/malaga.h
+-	rm -Rf $(datadir)/malaga
+-	$(LIBTOOL) rm -f $(libdir)/libmalaga.la
+-	$(INSTALL_INFO) --remove --info-dir=$(infodir) malaga.info 
+-	rm -f $(infodir)/malaga.info*
++	rm -f ${DESTDIR}$(bindir)/malaga
++	rm -f ${DESTDIR}$(bindir)/mallex
++	rm -f ${DESTDIR}$(bindir)/malmake
++	rm -f ${DESTDIR}$(bindir)/malrul
++	rm -f ${DESTDIR}$(bindir)/malshow
++	rm -f ${DESTDIR}$(bindir)/malsym
++	rm -f ${DESTDIR}$(includedir)/malaga.h
++	rm -Rf ${DESTDIR}$(datadir)/malaga
++	$(LIBTOOL) --mode=uninstall rm -f ${DESTDIR}$(libdir)/libmalaga.la
++	$(INSTALL_INFO) --remove --info-dir=${DESTDIR}$(infodir) malaga.info
++	rm -f ${DESTDIR}$(infodir)/malaga.info*
+ 
+ # Private goals for the maintainer. -------------------------------------------
+ 
+@@ -204,12 +204,12 @@
+ LIBMALAGA_OBJS = $(COMMON_OBJS) libmalaga.o
+ 
+ $(LIBMALAGA_OBJS):
+-	$(LIBTOOL) $(COMPILE) $(GLIB_CFLAGS) $(READLINE_CFLAGS) $(srcdir)/$*.c
++	$(LIBTOOL) --mode=compile $(COMPILE) $(GLIB_CFLAGS) $(READLINE_CFLAGS) $(srcdir)/$*.c
+ 
+ libmalaga.la: $(LIBMALAGA_OBJS)
+-	$(LIBTOOL) $(LINK) $(LIBMALAGA_OBJS:.o=.lo) \
+-	$(GLIB_LIBS) $(READLINE_LIBS) -lm -o libmalaga.la \
+-	-version-info $(LIBMALAGA_VERSION) -rpath $(libdir)
++	$(LIBTOOL) --mode=link $(LINK) $(LIBMALAGA_OBJS:.o=.lo) $(GLIB_LIBS) \
++		$(READLINE_LIBS) -lm \
++	-o libmalaga.la -version-info $(LIBMALAGA_VERSION) -rpath $(libdir)
+ 
+ # malaga ----------------------------------------------------------------------
+ 

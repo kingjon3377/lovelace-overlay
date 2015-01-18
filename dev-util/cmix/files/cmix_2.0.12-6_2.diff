@@ -1,0 +1,172 @@
+--- cmix-2.0.12.orig/src/analyzer/options.h
++++ cmix-2.0.12/src/analyzer/options.h
+@@ -26,6 +26,7 @@
+ void handleBasenameOption(const char *arg);
+ 
+ void parse_options(int, char *const*);
++void ParseDebugOpt(const char*);
+ 
+ void banner(ostream&);
+ void handleNonOption(const char *arg);
+--- cmix-2.0.12.orig/src/analyzer/fixiter.h
++++ cmix-2.0.12/src/analyzer/fixiter.h
+@@ -67,6 +67,8 @@
+ 
+ class FixpointSolver ;
+ 
++bool Fixpoint_lesseq(yg_datum,yg_datum) ;
++
+ class FixpointPureVertex : public Numbered {
+   friend class FixpointSolver ;
+   friend bool Fixpoint_lesseq(yg_datum,yg_datum) ;
+--- cmix-2.0.12.orig/src/analyzer/gram.cc
++++ cmix-2.0.12/src/analyzer/gram.cc
+@@ -12,7 +12,7 @@
+ #include "liststack.h"
+ #include "parser.h"
+ #include "symboltable.h"
+-#include <strstream.h>
++#include <strstream>
+ 
+ #define debug debugstream_gram
+ 
+--- cmix-2.0.12.orig/src/analyzer/Nset.h
++++ cmix-2.0.12/src/analyzer/Nset.h
+@@ -26,9 +26,9 @@
+ public:
+   inline Nsetiter()		: I() {}
+   inline operator bool() const { return I.valid() ; }
+-  inline unsigned operator*() const
++  inline unsigned long operator*() const
+         {
+-            return (unsigned)I.get().n;
++            return (unsigned long)I.get().n;
+         }
+   inline Nsetiter operator++()	{ ++I; return I; }
+   inline Nsetiter operator--()	{ --I; return I; }
+--- cmix-2.0.12.orig/src/analyzer/check.cc
++++ cmix-2.0.12/src/analyzer/check.cc
+@@ -9,6 +9,7 @@
+ 
+ #include <cmixconf.h>
+ #ifdef HAVE_REGEX_H
++#include <sys/types.h>
+ #include <stddef.h> // for redhat machines which otherwise choke on regex.h
+ #include <regex.h>  // for OSF alphas with buggy GCC installations
+ #endif
+--- cmix-2.0.12.orig/src/analyzer/ygtree.h
++++ cmix-2.0.12/src/analyzer/ygtree.h
+@@ -81,6 +81,10 @@
+     void put(yg_datum) const;
+ } ;
+ 
++#ifdef YG_STATISTICS
++void ygtree_statistics() ;
++#endif
++
+ class yg_tree {
+     friend class yg_iterator ;
+     unsigned long version ;
+--- cmix-2.0.12.orig/src/analyzer/diagnostic.h
++++ cmix-2.0.12/src/analyzer/diagnostic.h
+@@ -46,6 +46,11 @@
+ // file_names.
+ //
+ 
++class Position;
++
++// Position outputs itself with a trailing space.
++ostream& operator<<(ostream&,Position);
++
+ class Position {
+     friend class LexerTracker ;
+     static const char* intern(const char*);
+@@ -61,9 +66,6 @@
+     friend ostream& operator<<(ostream&,Position);
+ };
+ 
+-// Position outputs itself with a trailing space.
+-ostream& operator<<(ostream&,Position);
+-
+ //--------------------------------------------------------------
+ // class PositionInUnion
+ //
+--- cmix-2.0.12.orig/src/analyzer/gegen.h
++++ cmix-2.0.12/src/analyzer/gegen.h
+@@ -23,6 +23,9 @@
+ //  F O R   C A S C A D E S
+ //                                                             gg-cascades.cc
+ 
++class ForCascade ;
++GegenStream &operator<<(GegenStream &,ForCascade const&) ;
++
+ class ForCascade {
+   unsigned depth ;
+   unsigned indent ;
+@@ -115,6 +118,13 @@
+ #define AbstractDecl(t) EmitType(t,"",constvol())
+ #define Unqualified(t,mt) EmitType(t,mt,constvol())
+ 
++class GegenStream ;
++void enter(GegenStream*) ;
++void userhole(GegenStream*) ;
++void exit(GegenStream*) ;
++void alwayscode(GegenStream*) ;
++void poptype(GegenStream*) ;
++
+ class GegenStream {
+   ostream &ost ;
+   BTresult const &bt ;
+--- cmix-2.0.12.orig/src/analyzer/auxilary.cc
++++ cmix-2.0.12/src/analyzer/auxilary.cc
+@@ -135,10 +135,10 @@
+ char* stringDup(const char* str)
+ {
+     if (str == NULL) return NULL;
+-    int len = strlen(str);
++    int len = std::strlen(str);
+     char* newStr = new char[len+1];
+     assert(newStr!=NULL);
+-    strcpy(newStr,str);
++    std::strcpy(newStr,str);
+     return newStr;
+ }
+ 
+--- cmix-2.0.12.orig/testsuite/cmix/testrun.sum
++++ cmix-2.0.12/testsuite/cmix/testrun.sum
+@@ -0,0 +1,9 @@
++Test Run By brother on Sat Apr 12 17:11:39 2003
++Native configuration is i686-pc-linux-gnu
++
++		===  tests ===
++
++Schedule of variations:
++    unix
++
++Running target unix
+--- cmix-2.0.12.orig/testsuite/cmix/testrun.log
++++ cmix-2.0.12/testsuite/cmix/testrun.log
+@@ -0,0 +1,23 @@
++Test Run By brother on Sat Apr 12 17:11:39 2003
++Native configuration is i686-pc-linux-gnu
++
++		===  tests ===
++
++Schedule of variations:
++    unix
++
++Running target unix
++Using /usr/share/dejagnu/baseboards/unix.exp as board description file for target.
++Using /usr/share/dejagnu/config/unix.exp as generic interface file for target.
++Using ./../config/unix.exp as tool-and-target-specific interface file.
++ERROR: tcl error sourcing tool-and-target-specific interface file ./../config/unix.exp.
++couldn't read file "./general.exp": no such file or directory
++couldn't read file "./general.exp": no such file or directory
++    while executing
++"source $srcdir/general.exp"
++    (file "./../config/unix.exp" line 3)
++    invoked from within
++"source ./../config/unix.exp"
++    ("uplevel" body line 1)
++    invoked from within
++"uplevel #0 source ./../config/unix.exp"

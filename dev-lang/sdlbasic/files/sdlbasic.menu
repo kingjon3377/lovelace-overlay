@@ -1,0 +1,5 @@
+?package(sdlbasic):needs="x11" \
+	section="Applications/Programming" \
+	title="sdlBasic" \
+	command="/usr/bin/sdlBasic" \
+	icon="/usr/share/pixmaps/sdlbasic.xpm"

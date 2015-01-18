@@ -1,0 +1,23 @@
+# Copyright 1999-2011 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+# $Header: $
+
+EAPI=5
+
+DESCRIPTION="a program that can validate your HTML, as well as modify it to be more clean and standard"
+HOMEPAGE="http://www.tidyp.com/"
+SRC_URI="mirror://github/petdance/${PN}/${P}.tar.gz"
+
+LICENSE="MIT"
+SLOT="0"
+KEYWORDS="amd64"
+IUSE=""
+
+DEPEND=""
+RDEPEND="${DEPEND}"
+# Some of the tests/ folder aren't in this tarball
+RESTRICT="test"
+
+src_install() {
+	emake DESTDIR="${D}" install
+}

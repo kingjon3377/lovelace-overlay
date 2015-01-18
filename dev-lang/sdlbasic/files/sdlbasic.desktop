@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=sdlBasic
+GenericName=sdlBasic
+Comment=Multiplatform basic interpreter for the development of videogames
+Icon=sdlbasic
+Categories=Development;
+Exec=sdlBasic
+Terminal=false

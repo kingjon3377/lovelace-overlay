@@ -1,0 +1,460 @@
+--- gwc-0.21-11.orig/gwc-0.21-11.tgz.cdbs-config_list
++++ gwc-0.21-11/gwc-0.21-11.tgz.cdbs-config_list
+@@ -0,0 +1,2 @@
++gwc-0.21-11/meschach/config.cache
++gwc-0.21-11/meschach/config.log
+--- gwc-0.21-11.orig/debian/control
++++ gwc-0.21-11/debian/control
+@@ -0,0 +1,17 @@
++Source: gwc
++Section: sound
++Priority: optional
++Maintainer: Guenter Geiger (Debian/GNU) <geiger@debian.org>
++Build-Depends: debhelper (>= 4.0.0), cdbs, libfftw3-dev, libsndfile1-dev, libgnome2-dev, libgnomeui-dev
++Standards-Version: 3.8.0
++Homepage: http://gwc.sf.net
++
++Package: gwc
++Architecture: any
++Depends: yelp | www-browser, ${shlibs:Depends}, ${misc:Depends}
++Description: Audio file denoiser
++ The GNOME Wave Cleaner (gwc) is an application that helps you in 
++ getting rid of noise and clicks in audio files. This is most 
++ commonly used when translating your old vinyl or old tapes to
++ a digital format, but it can be applied to every soundfile that
++ has a more or less constant noise level.
+--- gwc-0.21-11.orig/debian/changelog
++++ gwc-0.21-11/debian/changelog
+@@ -0,0 +1,103 @@
++gwc (0.21.05-1.2) unstable; urgency=low
++
++  * Non-maintainer upload.
++  * Remove unnecessary build-dep on libgnome-dev. (Closes: #509463).
++    + 04_no_gnome_config.patch - Replace gnome-config call with pkg-config.
++
++ -- Barry deFreese <bdefreese@debian.org>  Thu, 01 Jan 2009 18:31:28 -0500
++
++gwc (0.21.05-1.1) unstable; urgency=low
++
++  * Non-maintainer upload.
++  * Add .xpm desktop icon. (Closes: #299355).
++    + Update .desktop and menu file accordingly.
++    + Thanks to Tim Hall for the file.
++  * Fix executable name in .desktop file.
++    + Remove deprecated Encoding tag.
++  * Move fftw3-dev build-dep to libfftw3-dev.
++  * Move Homepage from package description to source stanza.
++  * debian/copyright: Update license info. (Closes: #435302).
++    + Add copyright holder.
++  * 03_dont_strip.patch: Remove -s on install. (Closes: #437143).
++  * Update help file path in gwc.1. (Closes: #370716).
++  * Fix doc base section.
++  * Update Gnome to GNOME in package description.
++  * Bump Standards Version to 3.8.0.
++    + Menu policy transition.
++
++ -- Barry deFreese <bdefreese@debian.org>  Thu, 11 Dec 2008 11:01:05 -0500
++
++gwc (0.21.05-1) unstable; urgency=low
++
++  * New upstream version (closes: #392066)
++  * Fixed watch file
++  * Added homepage to description
++  * Standards version set to 3.7.2
++
++ -- Guenter Geiger (Debian/GNU) <geiger@debian.org>  Tue, 23 May 2006 15:09:43 +0200
++
++gwc (0.21.03-1) unstable; urgency=low
++
++  * New upstream version
++
++ -- Guenter Geiger (Debian/GNU) <geiger@debian.org>  Thu, 20 Oct 2005 09:29:57 +0200
++
++gwc (0.20.10-3) unstable; urgency=low
++
++  * Added patch for gcc 4.0 (closes: #319533)
++  * Remove prerm.es and conffiles.ex
++  * added logo to menu file (closes: #299355)
++
++ -- Guenter Geiger (Debian/GNU) <geiger@debian.org>  Sat, 23 Jul 2005 14:33:40 +0200
++
++gwc (0.20.10-2) unstable; urgency=low
++
++  * Removed the -arch flag for compilation (closes: 298924)
++
++ -- Guenter Geiger (Debian/GNU) <geiger@debian.org>  Mon, 14 Mar 2005 13:27:47 +0100
++
++gwc (0.20.10-1) unstable; urgency=low
++
++  * New upstream version
++
++ -- Guenter Geiger (Debian/GNU) <geiger@debian.org>  Tue,  8 Mar 2005 11:21:42 +0100
++
++gwc (0.20.07-1) unstable; urgency=low
++
++  * New upstream version (closes: 269780)
++
++ -- Guenter Geiger (Debian/GNU) <geiger@debian.org>  Wed, 15 Sep 2004 10:46:11 +0200
++
++gwc (0.20.02-5) unstable; urgency=low
++
++  * If yelp is not found, start sensible-browser for browsing help file
++    (closes: #265956)
++
++ -- Guenter Geiger (Debian/GNU) <geiger@debian.org>  Wed, 25 Aug 2004 12:01:40 +0200
++
++gwc (0.20.02-4) unstable; urgency=low
++
++  * Changed name of executable to gnome-wavecleaner, because of conflict 
++    with geneweb (closes: 252621)
++
++ -- Guenter Geiger (Debian/GNU) <geiger@debian.org>  Fri,  4 Jun 2004 18:15:14 +0200
++
++gwc (0.20.02-3) unstable; urgency=low
++
++  * fixed ./ path problem in meschach (closes: 252193)
++
++ -- Guenter Geiger (Debian/GNU) <geiger@debian.org>  Wed,  2 Jun 2004 11:03:48 +0200
++
++gwc (0.20.02-2) unstable; urgency=low
++
++  * Removed -mcpu= and -arch flags
++  * Added dependency on yelp, the gnome help browser (closes: 251665).
++
++ -- Guenter Geiger (Debian/GNU) <geiger@debian.org>  Tue,  1 Jun 2004 18:01:40 +0200
++
++gwc (0.20.02-1) unstable; urgency=low
++
++  * Initial Release (closes: 201336).
++
++ -- Guenter Geiger (Debian/GNU) <geiger@debian.org>  Mon, 29 Mar 2004 19:08:15 +0200
++
+--- gwc-0.21-11.orig/debian/gwc.desktop
++++ gwc-0.21-11/debian/gwc.desktop
+@@ -0,0 +1,11 @@
++[Desktop Entry]
++Version=1.0
++Type=Application
++Terminal=false
++Name=Gnome Wave Cleaner
++Comment=Sound File Noise Reduction
++TryExec=gnome_wave_cleaner
++Exec=gnome_wave_cleaner %F
++Icon=gwc.xpm
++Categories=GNOME;Application;AudioVideo;
++
+--- gwc-0.21-11.orig/debian/menu
++++ gwc-0.21-11/debian/menu
+@@ -0,0 +1,4 @@
++?package(gwc):needs="X11" section="Applications/Sound"\
++  title="gwc" \
++  command="/usr/bin/gnome_wave_cleaner"\
++  icon="/usr/share/pixmaps/gwc.xpm"
+--- gwc-0.21-11.orig/debian/watch
++++ gwc-0.21-11/debian/watch
+@@ -0,0 +1,2 @@
++version=3
++http://sf.net/gwc/gwc-([0-9].*)-(.*)\.tgz
+--- gwc-0.21-11.orig/debian/compat
++++ gwc-0.21-11/debian/compat
+@@ -0,0 +1 @@
++4
+--- gwc-0.21-11.orig/debian/gnome_wave_cleaner.1
++++ gwc-0.21-11/debian/gnome_wave_cleaner.1
+@@ -0,0 +1,64 @@
++.\"                                      Hey, EMACS: -*- nroff -*-
++.\" First parameter, NAME, should be all caps
++.\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
++.\" other parameters are allowed: see man(7), man(1)
++.TH GWC 1 "March 29, 2004"
++.\" Please adjust this date whenever revising the manpage.
++.\"
++.\" Some roff macros, for reference:
++.\" .nh        disable hyphenation
++.\" .hy        enable hyphenation
++.\" .ad l      left justify
++.\" .ad b      justify to both left and right margins
++.\" .nf        disable filling
++.\" .fi        enable filling
++.\" .br        insert line break
++.\" .sp <n>    insert n+1 empty lines
++.\" for manpage-specific macros, see man(7)
++.SH NAME
++gwc \- GNOME Wave Cleaner, Audio file denoiser
++.SH SYNOPSIS
++.B gwc
++.RI " filename"
++
++.B gnome_wave_cleaner
++.RI " filename"
++.SH DESCRIPTION
++This manual page documents briefly the 
++.B gnome_wave_cleaner
++, the GNOME wave cleaner application.
++
++This manual page was written for the Debian distribution
++because the original program does not have a manual page.
++Instead, it has documentation in the HTML format; see below.
++.PP
++.\" TeX users may be more comfortable with the \fB<whatever>\fP and
++.\" \fI<whatever>\fP escape sequences to invode bold face and italics, 
++.\" respectively.
++\fBgwc\fP is an audio file denoiser. It can be used to remove unwanted clicks 
++and background noise from your recordings. It has a GNOME (gtk) user interface
++and all operations are performed through that. 
++
++.SH OPTIONS
++.B gwc
++follows the usual GNU command line syntax, with long
++options starting with two dashes (`-').
++
++Options for gwc are the common GNOME options. For further information
++on these see the output of the \-\-help option.
++.TP
++.B \-\-help
++Show summary of options.
++.TP
++.B \-\-version
++Show version of program.
++.TP
++.B \-\-usage
++Show usage summary.
++.SH SEE ALSO
++
++The help menu entry in gwc, and the files in /usr/share/gnome/help/gnome_wave_cleaner contain further documentation.
++
++.SH AUTHOR
++This manual page was written by Guenter Geiger (Debian/GNU) <geiger@debian.org>,
++for the Debian project (but may be used by others).
+--- gwc-0.21-11.orig/debian/dirs
++++ gwc-0.21-11/debian/dirs
+@@ -0,0 +1,3 @@
++usr/bin
++usr/share/applications
++usr/share/pixmaps
+--- gwc-0.21-11.orig/debian/copyright
++++ gwc-0.21-11/debian/copyright
+@@ -0,0 +1,20 @@
++This package was debianized by Guenter Geiger (Debian/GNU) <geiger@debian.org> on
++Mon, 29 Mar 2004 19:08:15 +0200.
++
++Downloaded from: gwc.sf.net
++
++Upstream Author: jeff@redhawk.org
++
++Copyright:
++	Copyright (C) 2001-2003 Jeffrey J. Welty
++	Copyright (C) 1985, 1987 by Stephen L. Moshier
++	Copyright (C) 1993 David E. Stewart & Zbigniew Leyk, all rights reserved.
++	Copyright (C) 1997 David Mosberger
++	Copyright (C) 1995-1997 Peter Mattis, Spencer Kimball and Josh MacDonald
++	Copyright (C) 1997 Tim Janik
++	Copyright 1984, 1987, 2000 by Stephen L. Moshier
++
++License:
++
++The program is under the General Public License version 2 or later. See 
++/usr/share/common-licenses/GPL for more information.
+--- gwc-0.21-11.orig/debian/rules
++++ gwc-0.21-11/debian/rules
+@@ -0,0 +1,17 @@
++#!/usr/bin/make -f
++# -*- mode: makefile; coding: utf-8 -*-
++
++DEB_TAR_SRCDIR := gwc-0.21-11
++DEB_INSTALL_MANPAGES_gwc := debian/gnome_wave_cleaner.1
++
++include /usr/share/cdbs/1/rules/simple-patchsys.mk
++include /usr/share/cdbs/1/rules/tarball.mk
++include /usr/share/cdbs/1/rules/debhelper.mk
++include /usr/share/cdbs/1/class/autotools.mk
++
++common-install-prehook-arch common-install-prehook-indep:: common-install-prehook-impl
++	rm -f $(CURDIR)/debian/gwc/usr/share/doc/gwc/INSTALL
++	rm -f $(CURDIR)/debian/gwc/usr/share/doc/gwc/COPYING
++	install -m 644 debian/gwc.desktop $(CURDIR)/debian/gwc/usr/share/applications
++	install -m 644 debian/gwc.xpm $(CURDIR)/debian/gwc/usr/share/pixmaps
++
+--- gwc-0.21-11.orig/debian/doc-base
++++ gwc-0.21-11/debian/doc-base
+@@ -0,0 +1,9 @@
++Document: gwc-0.20
++Title: GNU Wave Cleaner Manual
++Author: rob
++Abstract: User Manual for GNU Wave Cleaner.
++Section: Sound
++
++Format: HTML
++Index: /usr/share/gnome/help/gnome_wave_cleaner/C/gwc.html
++Files: /usr/share/gnome/help/gnome_wave_cleaner/C/*.html
+--- gwc-0.21-11.orig/debian/gwc.xpm
++++ gwc-0.21-11/debian/gwc.xpm
+@@ -0,0 +1,91 @@
++/* XPM */
++static char *gwc[]={
++"32 32 56 1",
++". c None",
++"0 c #777035",
++"1 c #ffffff",
++"# c #ffffff",
++"f c #777733",
++"g c #888833",
++"z c #998811",
++"h c #a68d29",
++"U c #b3962f",
++"V c #b69b35",
++"M c #b79f38",
++"u c #b89931",
++"p c #b89d36",
++"F c #b8a039",
++"y c #b99a32",
++"A c #b9a039",
++"v c #b9a13a",
++"E c #ba9b32",
++"L c #ba9c32",
++"i c #baa23a",
++"b c #bb9c33",
++"e c #bb9d33",
++"o c #bc9d34",
++"x c #bc9e34",
++"C c #bc9e35",
++"I c #bd9f35",
++"T c #bda035",
++"t c #c4aa3d",
++"W c #c6aa40",
++"J c #c6aa41",
++"D c #c6ab41",
++"Z c #c6ac3e",
++"a c #c6ad40",
++"q c #c7ab42",
++"n c #c7af41",
++"d c #c8ac43",
++"c c #c9ad43",
++"S c #c9b243",
++"N c #cbb449",
++"s c #cfba48",
++"X c #d0b84a",
++"Y c #d0bb49",
++"m c #d4c24f",
++"r c #d5c24f",
++"K c #d5c350",
++"R c #d6c451",
++"O c #dbc858",
++"j c #ddca59",
++"l c #e0d15b",
++"B c #e0d25b",
++"H c #e1d25c",
++"Q c #e1d35c",
++"G c #eadb66",
++"w c #ebdb66",
++"k c #ebdc66",
++"P c #efe26a",
++"...............................#",
++"................................",
++"................................",
++"................................",
++"................................",
++"................................",
++"................................",
++".................ab...c.........",
++"..................b...d.........",
++"..................e.............",
++"..fgfh.hi.jk...lmno..pq..rstu...",
++".....h..v..w...l..x...q..r..y...",
++"..fgzh..A..w...B..C...D..r..E...",
++"..f..h..F..G...H..I...J..K..L...",
++"..fgzhh.MNOGP..QRSTU.VWX.KYZb...",
++"................................",
++"................................",
++"............0...................",
++"................................",
++"................................",
++"................................",
++"................................",
++"................................",
++"................................",
++"................................",
++"................................",
++"................................",
++"................................",
++"................................",
++"................................",
++"................................",
++"...............................1"};
+--- gwc-0.21-11.orig/debian/patches/03_dont_strip.patch
++++ gwc-0.21-11/debian/patches/03_dont_strip.patch
+@@ -0,0 +1,12 @@
++diff -Nur -x '*.orig' -x '*~' gwc-0.21-11/build-tree/gwc-0.21-11/Makefile.in gwc-0.21-11.new/build-tree/gwc-0.21-11/Makefile.in
++--- gwc-0.21-11/Makefile.in	2008-12-11 12:45:12.000000000 -0500
+++++ gwc-0.21-11/Makefile.in	2008-12-11 12:45:37.000000000 -0500
++@@ -59,7 +59,7 @@
++ 	install -d $(DOCDIR)
++ 	install -d $(pixmapdir)
++ 	install -d $(HELPDIRC)
++-	install -p -s $(BINFILES) $(BINDIR)/$(APPNAME)
+++	install -p $(BINFILES) $(BINDIR)/$(APPNAME)
++ 	install -p -m 0644 $(DOCFILES) $(DOCDIR)
++ 	for hf in $(HELPFILES) ; do install -p -m 0644 $(HELPFILESSRCD)/$$hf $(HELPDIRC) ; done
++ 	install -p -m 0644 $(pixmap_DATA) $(pixmapdir)
+--- gwc-0.21-11.orig/debian/patches/01_remove_archflags.patch
++++ gwc-0.21-11/debian/patches/01_remove_archflags.patch
+@@ -0,0 +1,12 @@
++diff -ruN gwc-0.21-11-old/Makefile.in gwc-0.21-11/Makefile.in
++--- gwc-0.21-11-old/Makefile.in	2005-11-12 16:21:19.000000000 +0100
+++++ gwc-0.21-11/Makefile.in	2006-05-23 12:06:26.000000000 +0200
++@@ -22,7 +22,7 @@
++ CONFIGDIR = /$(APPNAME)/config/
++ 
++ DEFS = -DDATADIR=\"$(DATADIR)\" -DLIBDIR=\"$(LIBDIR)\" -DAPPNAME=\"$(APPNAME)\" @ALSAHDR@ @FFTWHDR@ @FFTWPREC@
++-CFLAGS = -Wall @CFLAGS@ -mcpu=@UNAME_MACHINE@ -march=@UNAME_MACHINE@ @GNOMEUI_CFLAGS@ @SNDFILE_CFLAGS@
+++CFLAGS = -Wall @CFLAGS@ @GNOMEUI_CFLAGS@ @SNDFILE_CFLAGS@
++ 
++ LIBS= meschach.a @GNOMEUI_LIBS@ @SNDFILE_LIBS@ @ALSALIB@ @FFTWLIB@ -lm
++ 
+--- gwc-0.21-11.orig/debian/patches/04_no_gnome_config.patch
++++ gwc-0.21-11/debian/patches/04_no_gnome_config.patch
+@@ -0,0 +1,12 @@
++diff -Nur -x '*.orig' -x '*~' gwc-0.21-11/build-tree/gwc-0.21-11/configure gwc-0.21-11.new/build-tree/gwc-0.21-11/configure
++--- gwc-0.21-11/configure	2006-02-04 15:22:43.000000000 -0500
+++++ gwc-0.21-11/configure	2009-01-01 19:10:17.000000000 -0500
++@@ -2250,7 +2250,7 @@
++ 
++ 
++ UNAME_MACHINE=`uname -m`
++-GNOME_BASE=`gnome-config --prefix`
+++GNOME_BASE=`pkg-config --variable=prefix gtk+-2.0`
++ 
++ 
++ 
+--- gwc-0.21-11.orig/debian/patches/02_destdir.patch
++++ gwc-0.21-11/debian/patches/02_destdir.patch
+@@ -0,0 +1,29 @@
++diff -ruN gwc-0.21-11-old/Makefile.in gwc-0.21-11/Makefile.in
++--- gwc-0.21-11-old/Makefile.in	2006-05-23 12:30:00.000000000 +0200
+++++ gwc-0.21-11/Makefile.in	2006-05-23 12:32:13.000000000 +0200
++@@ -1,12 +1,12 @@
++ prefix = @prefix@
++ exec_prefix = @exec_prefix@
++ 
++-BINDIR = @bindir@
++-DATADIR = @datadir@
++-LIBDIR = @libdir@
+++BINDIR = $(DESTDIR)/@bindir@
+++DATADIR = $(DESTDIR)/@datadir@
+++LIBDIR = $(DESTDIR)/@libdir@
++ SYSCONFDIR = @sysconfdir@
++ APPNAME = gnome_wave_cleaner
++-GNOME = @GNOME_BASE@
+++GNOME = $(DESTDIR)/@GNOME_BASE@
++ 
++ pixmapdir = $(DATADIR)/pixmaps
++ HELPDIR = $(GNOME)/share/gnome/help/$(APPNAME)
++@@ -59,7 +59,7 @@
++ 	install -d $(DOCDIR)
++ 	install -d $(pixmapdir)
++ 	install -d $(HELPDIRC)
++-	install -p -s $(BINFILES) $(BINDIR)
+++	install -p -s $(BINFILES) $(BINDIR)/$(APPNAME)
++ 	install -p -m 0644 $(DOCFILES) $(DOCDIR)
++ 	for hf in $(HELPFILES) ; do install -p -m 0644 $(HELPFILESSRCD)/$$hf $(HELPDIRC) ; done
++ 	install -p -m 0644 $(pixmap_DATA) $(pixmapdir)

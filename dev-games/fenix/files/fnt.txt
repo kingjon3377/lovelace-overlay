@@ -1,0 +1,88 @@
+EspecificaciÃ³n del formato FNT
+
+Esta secciÃ³n describe el contenido de un fichero FNT. No es necesario conocer
+estos detalles simplemente para programar juegos, pero serÃ¡n de utilidad a
+quien quiera realizar utilidades en lenguajes externos que lean o escriban
+ficheros FNT.
+
+Un fichero FNT no incluye compresiÃ³n. Fenix soporta de forma transparente el
+uso de compresiÃ³n GZIP en los ficheros, sin necesidad de marcarlos
+especialmente con extensiÃ³n .gz. Normalmente un fichero FNT se guarda en disco
+comprimido de esta manera, pero en el resto del fichero asumiremos que el
+fichero FNT no estÃ¡ comprimido.
+
+Cabecera
+
+Un fichero FNT comienza con la siguiente cabecera:
+ ____________________________________________________________________________
+|Nombre____________|TamaÃ±o_|DescripciÃ³n______________________________________|
+|                  |       |Cadena de caracteres de identificaciÃ³n del       |
+|MAGIC             |3 bytes|fichero. Debe contener exactamente "fnt", en     |
+|__________________|_______|minusculas.______________________________________|
+|                  |       |A continuaciÃ³n, los cuatro bytes 1Ah, 0Dh, 0Ah y |
+|                  |       |00h. Esta terminaciÃ³n indica, en un fichero MS-  |
+|TERMINACION MS-DOS|4 bytes|DOS, final de fichero. Gracias a ella un comando |
+|                  |       |TYPE en MS-DOS no mostrarÃ­a los datos binarios   |
+|__________________|_______|del_fichero._____________________________________|
+|                  |       |CÃ³digo de versiÃ³n. Debido a que no se han        |
+|VERSION           |1 byte |introducido cambios en el formato, este valor es |
+|__________________|_______|siempre_00h._____________________________________|
+
+Paleta de colores
+
+A continuaciÃ³n aparecen 768 bytes con la paleta de colores. Cada color ocupa
+tres bytes en orden RGB (rojo, verde y azul) y con un rango para cada
+componente de color de 0 a 63. Seguido aparecerÃ¡n 576 bytes con informaciÃ³n
+de las gamas, que podran ser ignorados en Fenix. Para mas informaciÃ³n sobre
+este punto y sobre el formato PAL en general, consulta la especificaciÃ³n del
+formato PAL.
+
+Flags
+
+A continuaciÃ³n, inmediatamente despuÃ©s de la paleta, se guardan 4 que, aun
+siendo totalmente ignorados tanto por DIV como por Fenix, podrian usarse para
+flags.
+ ____________________________________________________________________________
+|Nombre|TamaÃ±o_|DescripciÃ³n__________________________________________________|
+|FLAGS |4 bytes|Actualmente este dato es ignorado tanto por DIV como por     |
+|______|_______|_____________________________________________________________|
+
+Descriptores de los caracteres
+
+Ahora siguen los descriptores de cada carÃ¡cter (ASCII 256 letras), con
+informacion util para interpretar los datos. Por lo tanto nos encontraremos un
+array de estructuras con 256 elementos, cada uno de los cuales se corresponde
+con el siguiente formato:
+ _____________________________________________________________________________
+|Nombre_____________________|TamaÃ±o_|DescripciÃ³n_____________________________|
+|ANCHO                      |4 bytes|Ancho en pÃ­xels del grÃ¡fico del         |
+|___________________________|_______|carÃ¡cter._______________________________|
+|ALTO_______________________|4_bytes|Alto_en_pÃ­xels_del_pÃ­xels_del_grÃ¡fico.  |
+|                           |       |Este dato indica cuantos pixeles se     |
+|DESPLAZAMIENTO VERTICAL    |4 bytes|desplazarÃ¡ verticalmente el grÃ¡fico del |
+|                           |       |caracter sobre la linea base de la      |
+|___________________________|_______|cadena_de_texto.________________________|
+|                           |       |Este dato indica la posiciÃ³n de los     |
+|                           |       |datos del grÃ¡fico del carÃ¡cter actual   |
+|                           |       |en el archivo. De esta forma podremos   |
+|DESPLAZAMIENTO DE LOS DATOS|4 bytes|almacenar los grÃ¡ficos sin un orden     |
+|                           |       |dado, ya que podremos desplazarnos en el|
+|                           |       |archivo al punto exacto donde se        |
+|___________________________|_______|encuentra_cada_uno._____________________|
+
+Datos de los grÃ¡ficos
+
+Por Ãºltimo, aparecen los datos de los grÃ¡ficos propiamente dichos, de arriba
+a abajo: TamaÃ±o en bytes de los datos = ancho * alto
+
+El valor 0 (Ã­ndice 0 de la paleta) estÃ¡ reservado para los pÃ­xels
+transparentes.
+
+El orden de cada caracter en este punto puede variar. Lo usual es guardar los
+datos en orden ascendente, del caracter 0 al 255, aunque esto es solo una
+sugerencia. Para saber el punto exacto en el archivo donde se encuentran los
+datos del grÃ¡fico de cada caracter deberemos fijarnos en el dato
+"DESPLAZAMIENTO DE LOS DATOS", incluido en el descriptor de cada carÃ¡cter.
+
+Obtenido de http://fenixworld.se32.com/fenixwiki/
+Disponible bajo los tÃ©rminos de la GNU Free Documentation License 1.2

@@ -1,0 +1,11 @@
+diff -ru src.old/help.c src/help.c
+--- src.old/help.c	2010-11-24 15:06:27.000000000 -0500
++++ src/help.c	2010-11-24 15:12:11.000000000 -0500
+@@ -125,6 +125,6 @@
+ 	g_spawn_command_line_async (cmd, &err);
+ 	g_free (cmd);
+ 	if (err)
+-		g_warning (err->message);
++		g_warning ("%s", err->message);
+ 	g_clear_error (&err);
+ }

@@ -1,0 +1,28 @@
+# Mask PYTHON_TARGETS USE flags that deps don't have.
+net-zope/zope-location python_targets_python2_6 python_targets_python3_2 python_targets_python3_3
+net-zope/zope-copy python_targets_python2_6 python_targets_python3_2 python_targets_python3_3
+dev-python/wadllib python_targets_python2_6
+net-zope/transaction python_targets_python2_6
+net-zope/zope-component python_targets_python2_6 python_targets_python3_2 python_targets_python3_3
+net-zope/zope-configuration python_targets_python2_6 python_targets_python3_2 python_targets_python3_3
+net-zope/zodb python_targets_python2_6
+dev-python/launchpadlib python_targets_python2_6
+dev-python/lazr-enum python_targets_python2_6
+dev-python/lazr-lifecycle python_targets_python2_6
+dev-python/lazr-restful python_targets_python2_6
+dev-python/lazr-restfulclient python_targets_python2_6
+dev-python/van-testing python_targets_python3_2
+net-zope/grokcore-component python_targets_python2_6
+net-zope/zope-annotation python_targets_python2_6
+net-zope/zope-browsermenu python_targets_python2_6
+net-zope/zope-browserpage python_targets_python2_6
+net-zope/zope-dublincore python_targets_python2_6 python_targets_python3_2 python_targets_python3_3
+net-zope/zope-app-pagetemplate python_targets_python2_6
+net-zope/zope-i18n python_targets_python2_6
+net-zope/zope-lifecycleevent python_targets_python2_6 python_targets_python3_2 python_targets_python3_3
+net-zope/zope-pagetemplate python_targets_python2_6
+net-zope/zope-publisher python_targets_python2_6
+net-zope/zope-security python_targets_python2_6
+net-zope/zope-traversing python_targets_python2_6
+dev-python/lazr-batchnavigator python_targets_python2_6
+

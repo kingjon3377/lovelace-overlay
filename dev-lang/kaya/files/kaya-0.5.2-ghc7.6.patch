@@ -1,0 +1,203 @@
+Index: b/compiler/Driver.hs
+===================================================================
+--- a/compiler/Driver.hs
++++ b/compiler/Driver.hs
+@@ -28,6 +28,7 @@
+ import ProgramDump
+ import REPL
+ 
++import Control.Exception
+ import System.Cmd
+ import System.Exit
+ import System.Directory
+@@ -67,8 +68,8 @@
+        catch (do startup <- getStartup prtype libdirs
+                  let pt = addToPT (parse newroot libdirs (prog++startup) fn) pinput 
+                  compile newroot libdirs opts pt extra mainfile)
+-             (\e -> do putStrLn (show e)
+-                       return CompError)
++             (\(e :: IOException) -> do putStrLn (show e)
++                                        return CompError)
+ 
+ outputfile Module mod = showuser mod ++ ".o"
+ -- TMP HACK: This should probably be a %extension "cgi" directive in the .ks
+Index: b/compiler/Module.hs
+===================================================================
+--- a/compiler/Module.hs
++++ b/compiler/Module.hs
+@@ -14,8 +14,9 @@
+               getAllLibDirs, linkFiles, getObjs) where
+ 
+ import Language
++import Control.Exception
+ import Debug.Trace
+-import System.Directory
++import System.Directory (doesFileExist)
+ import Data.List
+ import Lib
+ import Options
+@@ -244,7 +245,7 @@
+          (do --putStrLn $ "Trying " ++ x ++ path
+ 	     f <- readFile (x++path)
+ 	     return (Just f))
+-         (\e -> findFile xs path)
++         (\(e :: IOException) -> findFile xs path)
+ 
+ -- Get all the library directories, looking at the options and the
+ -- KAYA_LIBRARY_PATH environment variable.
+Index: b/compiler/Portability64.hs
+===================================================================
+--- a/compiler/Portability64.hs
++++ b/compiler/Portability64.hs
+@@ -1,6 +1,7 @@
+ module Portability64 where
+ 
+ import Lib
++import Control.Exception
+ import System.IO
+ import System.Environment
+ import qualified Data.Map as Map
+@@ -10,7 +11,7 @@
+ environment :: String -> IO (Maybe String)
+ environment x = catch (do e <- getEnv x
+ 		          return (Just e))
+-		      (\_ -> return Nothing)
++		      (\(_ :: IOException) -> return Nothing)
+ 
+ tempfile :: IO (FilePath, Handle)
+ tempfile = do env <- environment "TMPDIR"
+Index: b/compiler/CodegenCPP.hs
+===================================================================
+--- a/compiler/CodegenCPP.hs
++++ b/compiler/CodegenCPP.hs
+@@ -11,6 +11,7 @@
+ import Options
+ import TAC
+ import Language
++import Control.Exception
+ import System.IO
+ import Debug.Trace
+ import Lib
+@@ -149,7 +150,7 @@
+          (do --putStrLn $ "Trying " ++ x ++ path
+ 	     f <- readFile (x++path)
+ 	     return f)
+-         (\e -> findFile xs path)
++         (\(e :: IOException) -> findFile xs path)
+ 
+ writecpp :: [CompileResult] -> [Output]
+ writecpp [] = []
+Index: b/compiler/REPL.hs.in
+===================================================================
+--- a/compiler/REPL.hs.in
++++ b/compiler/REPL.hs.in
+@@ -29,6 +29,7 @@
+ import Lib
+ import Data.List
+ 
++import Control.Exception
+ import Foreign.C
+ import Foreign.Ptr
+ import System.IO
+@@ -154,7 +155,7 @@
+                      xfn <- substTerm mod ctxt phi xrv
+                      let xinft = subst phi ity
+                      catch (runProg xfn xinft)
+-                           (\e -> putStrLn(show e))
++                           (\(e :: IOException) -> putStrLn(show e))
+                   Failure err file line -> do reportError err
+     processREPL (Failure err file line)
+         = do reportError err
+Index: b/configure.ac
+===================================================================
+--- a/configure.ac
++++ b/configure.ac
+@@ -169,6 +169,23 @@
+ 
+ AC_CHECK_LIB(gc, GC_malloc, [],         # for garbage collection
+ 	AC_MSG_ERROR([Can't find libgc]))
++AC_RUN_IFELSE([AC_LANG_PROGRAM([#include <gc.h>
++#include <stdlib.h>],[
++  if (GC_VERSION_MAJOR > 7 || (GC_VERSION_MAJOR == 7 && GC_VERSION_MINOR > 1))
++    exit (0);
++  else
++    exit (1);
++  ])], [AC_MSG_NOTICE([libgc has new API])
++       FSDTYPE="GCNEW";
++       ],[
++       AC_MSG_NOTICE([libgc has old API])
++       FSDTYPE="GCOLD";
++       ],[])
++AC_SUBST(FSDTYPE)
++
++
++
++
+ #AC_CHECK_LIB(cgi, cgi_init, [],         # for cgi gadgetry
+ #	AC_MSG_ERROR([Can't find libcgi]))
+ #AC_CHECK_HEADER([libcgi/cgi.h],[CGIINC="-I/usr/include/libcgi"],
+Index: b/rts/sizes.h.in
+===================================================================
+--- a/rts/sizes.h.in
++++ b/rts/sizes.h.in
+@@ -58,4 +58,7 @@
+ #define UNIMARSHAL L"U[[%d]"
+ #endif
+ 
++
++#define @FSDTYPE@ 1
++
+ #endif
+Index: b/rts/stdfuns.cc
+===================================================================
+--- a/rts/stdfuns.cc
++++ b/rts/stdfuns.cc
+@@ -1762,3 +1762,16 @@
+ {
+     return RTCHECKS;
+ }
++
++kint gc_set_fsd(kint newval) {
++#ifdef GCOLD
++  // GC 7.1 or older
++  return (kint) GC_set_free_space_divisor(newval);
++#endif
++#ifdef GCNEW
++  // GC 7.2 or newer
++  kint old = (kint) GC_get_free_space_divisor();
++  GC_set_free_space_divisor(newval);
++  return old;
++#endif
++}
+Index: b/rts/stdfuns.h
+===================================================================
+--- a/rts/stdfuns.h
++++ b/rts/stdfuns.h
+@@ -237,4 +238,6 @@
+ 
+ kint rtchecks();
+ 
++kint gc_set_fsd(kint newval);
++
+ #endif
+Index: b/stdlib/Prelude.k
+===================================================================
+--- a/stdlib/Prelude.k
++++ b/stdlib/Prelude.k
+@@ -156,7 +156,7 @@
+     "<argument name='fsd'>The garbage collection parameter</argument>
+ <summary>Debugging function</summary>
+ <prose>Adjust garbage collector - higher values use less memory but run slower (the default value is 4, and a value of 1 disables garbage collection entirely). The default is almost always acceptable.</prose>"
+-    public Int gcSetFSD(Int fsd) = GC_set_free_space_divisor;
++    public Int gcSetFSD(Int fsd) = gc_set_fsd;
+     "<summary>Switch off garbage collector.</summary>
+      <prose>You may want this, for example, before executing some time-critical
+      code which should not be interrupted by a garbage collection.
+@@ -375,6 +375,7 @@
+ }
+ 
+ 
++
+ "<argument name='text'>The string to print</argument>
+ <summary>Send a string and a newline to standard output.</summary>
+ <prose>Print a string and a newline on standard output.</prose>

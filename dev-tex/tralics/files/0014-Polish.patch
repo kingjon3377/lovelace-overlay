@@ -1,0 +1,27 @@
+From 90c2217a83b21f59ee59a668d321781574dded5b Mon Sep 17 00:00:00 2001
+From: Michael Hartl <michael@michaelhartl.com>
+Date: Fri, 21 Mar 2014 18:00:53 -0700
+Subject: [PATCH 14/19] Polish
+
+---
+ README.md | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/README.md b/README.md
+index 966be15..1fa399e 100644
+--- a/README.md
++++ b/README.md
+@@ -11,7 +11,9 @@ The Softcover ebook production system is distributed via the Ruby gems `softcove
+     $ make
+     $ cp tralics /usr/local/bin
+ 
+-In the last step, in place of `/usr/local/bin`, you can choose any directory on your path.
++In the last step, in place of `/usr/local/bin`, you can choose any directory on your path. Depending on your system's permissions, you might also have to run `sudo`:
++
++    $ sudo cp tralics /usr/local/bin
+ 
+ ## Contributing a binary
+ 
+-- 
+1.8.5.5
+
