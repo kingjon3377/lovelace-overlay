@@ -1,25 +1,28 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
-# From sunrise. TODO: add my changes to bug #294727
+# From sunrise. TODO: add my changes to bug #294727. With changes from betagarden overlay.
 
 EAPI=5
 
 inherit toolchain-funcs
 
-DESCRIPTION="Make pointer-driven interfaces easier and faster for users to operate"
+DESCRIPTION="Move the mouse pointer with few key strokes"
 HOMEPAGE="http://www.semicomplete.com/projects/keynav/"
-SRC_URI="http://semicomplete.googlecode.com/files/${P}.tar.gz"
+SRC_URI="https://semicomplete.googlecode.com/files/${P}.tar.gz"
 
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="amd64 ~x86"
 IUSE=""
 
-RDEPEND="x11-libs/libX11
+RDEPEND="
+	x11-libs/cairo[X]
 	x11-libs/libXinerama
+	dev-libs/glib:2
 	x11-libs/libXext
 	x11-libs/libXtst
+	x11-libs/libX11
 	x11-misc/xdotool"
 DEPEND="x11-proto/xproto
 	${RDEPEND}"
@@ -38,6 +41,7 @@ src_compile() {
 src_install() {
 	dodoc README CHANGELIST
 	dobin keynav
+
 	insinto /etc
 	doins keynavrc
 }
