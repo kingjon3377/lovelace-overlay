@@ -1,0 +1,26 @@
+Index: sdlbasic-0.0.20070714/src/sdlBasic/share/sdlBasic/Global.properties
+===================================================================
+--- sdlbasic-0.0.20070714.orig/src/sdlBasic/share/sdlBasic/Global.properties	2009-05-06 22:55:39.000000000 +0200
++++ sdlbasic-0.0.20070714/src/sdlBasic/share/sdlBasic/Global.properties	2009-05-06 22:56:02.000000000 +0200
+@@ -207,7 +207,7 @@
+ 	command.scite.help=explorer "$(SciteDefaultHome)\..\share\doc\sdlBasic\english\index.html"
+ 	command.scite.help.subsystem=2
+ if PLAT_GTK
+-	BROWSER=firefox
++	BROWSER=x-www-browser
+ 	#command.print.*=a2ps $(FileNameExt)
+ 	command.scite.help=$(BROWSER)  "file:/usr/share/doc/sdlbasic/english/index.html"
+ # Internationalisation
+Index: sdlbasic-0.0.20070714/src/sdlBasic/share/sdlBasic/sdlBasic.properties
+===================================================================
+--- sdlbasic-0.0.20070714.orig/src/sdlBasic/share/sdlBasic/sdlBasic.properties	2009-05-06 22:55:15.000000000 +0200
++++ sdlbasic-0.0.20070714/src/sdlBasic/share/sdlBasic/sdlBasic.properties	2009-05-06 22:55:31.000000000 +0200
+@@ -652,7 +652,7 @@
+ 	# uncomment this if you use kde and have problems with audio
+ 	#ARTSDSP=artsdsp -m
+ 	SDLBRT=$(ARTSDSP) /usr/bin/sdlBrt
+-	BROWSER=firefox
++	BROWSER=x-www-browser
+     command.go.*.sdlbas=$(SDLBRT) "$(FilePath)"
+ 	command.help.*.sdlbas=$(BROWSER) "file:/usr/share/doc/sdlbasic/english/QuickHelp.html"
+ 

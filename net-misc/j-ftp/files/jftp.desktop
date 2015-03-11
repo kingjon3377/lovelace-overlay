@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Name=JFTP
+GenericName=JFTP
+Comment=Java GUI client for FTP, SMB, SFTP and NFS
+Exec=j-ftp %u
+Icon=jftp.xpm
+TryExec=j-ftp
+Terminal=0
+Type=Application
+Categories=Java;Network;FileTransfer;

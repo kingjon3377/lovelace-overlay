@@ -1,0 +1,25 @@
+# Copyright (C) 2008 by Miriam Ruiz <little_miry@yahoo.es>
+# Distributed under the same license as the program. See debian/copyright.
+
+Index: sdlbasic/src/sdlBasic/share/sdlBasic/clickme.sdlbas
+===================================================================
+--- sdlbasic.orig/src/sdlBasic/share/sdlBasic/clickme.sdlbas	2008-09-03 15:30:03.000000000 +0200
++++ sdlbasic/src/sdlBasic/share/sdlBasic/clickme.sdlbas	2008-09-03 15:30:45.000000000 +0200
+@@ -23,13 +23,13 @@
+ setalphachannel(0)
+ 'directscreen
+ autoback(-15)
+-loadmusic("lizard.mod")
++loadmusic("/usr/share/sdlbasic/demo/lizard.mod")
+ playmusic(-1)
+ setcolorkey(-1)
+-loadimage("sdlBasic.png",100)
+-'loadimage("sdlnow.gif",100)
++loadimage("/usr/share/sdlbasic/demo/sdlBasic.png",100)
++'loadimage("/usr/share/sdlbasic/demo/sdlnow.gif",100)
+ hotspot (100,1,1)
+-loadimage("sdlnow.gif",101)
++loadimage("/usr/share/sdlbasic/demo/sdlnow.gif",101)
+ hotspot(101,1,1)
+ 
+ 

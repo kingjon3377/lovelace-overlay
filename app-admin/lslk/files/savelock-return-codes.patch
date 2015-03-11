@@ -1,0 +1,13 @@
+Author: Alan Curry <pacman@TheWorld.com>
+Debian-bug: #434681
+Applied-by: Ralf Treinen <treinen@debian.org>
+
+
+--- lslk-1.29.orig/dialects/linux/proc/dlock.c	2010-06-27 19:10:15.000000000 +0200
++++ lslk-1.29/dialects/linux/proc/dlock.c	2010-06-27 19:11:06.000000000 +0200
+@@ -339,4 +339,5 @@
+  * Set the lock source to local; Linux doesn't support remote locking.
+  */
+ 	Lp->src = 0;
++	return 1;
+ }

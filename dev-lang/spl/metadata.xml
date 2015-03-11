@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<herd>lang-misc</herd>
+	<use>
+		<flag name='postgresql'>Install PostgreSQL bindings</flag>
+		<flag name='fann'>Install FANN neural network bindings (?)</flag>
+	</use>
+</pkgmetadata>
+

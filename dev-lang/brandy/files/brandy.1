@@ -1,0 +1,168 @@
+.TH BRANDY 1 "10 Jun 2012" "brandy 1.20pre5" "BBC BASIC V interpreter"
+.\" This man page was compiled by Darren Salt.
+
+.SH NAME
+brandy \- a portable BBC BASIC V interpreter
+
+.SH SYNOPSIS
+.B brandy
+.RB [ \-help ]
+.RB [ \-size\ SIZE ]
+.RB [ \-lib\ FILENAME ]
+.RB [ \-load\ FILENAME ]
+.RB [ \-path\ DIRECTORY[,DIRECTORY]... ]
+.RB [ \-quit\ FILENAME ]
+.RB [ \-chain\ FILENAME ]
+.RB [ \-ignore ]
+.RB [ FILENAME ]
+
+.SH DESCRIPTION
+
+.B Brandy
+is an interpreter for
+.BR "BBC BASIC V" ,
+the dialect of BASIC that Acorn Computers supplied with their ranges of
+desktop computers that use the ARM processor such as the Archimedes and
+Risc PC, and is still in use on these and compatibles.
+
+.B BASIC V
+is a much extended version of BBC BASIC. This was the BASIC used on the
+6502-based BBC Micro that Acorn made during the 1980s.
+
+.SH OPTIONS
+
+.TP
+.B \-help
+Print a summary of these options.
+
+.TP
+.B \-size SIZE
+Set the size of the Basic workspace to
+.B SIZE
+bytes when starting the interpreter. The minimum size allowed is 10000 bytes
+and anything below this value will be set to it. The maximum size is limited
+only by the environment in which the program is being run. The size may have
+a suffix of
+.I k
+to denote that the size is in kilobytes or
+.I m
+if it is in megabytes. For example,
+.B \-size 100k
+will set the workspace size to 100 kilobytes (102400 bytes) and
+.B \-size 8m
+will set it to eight megabytes (8388608 bytes).
+
+.TP
+.B \-lib FILENAME
+Load Basic library
+.B FILENAME
+when the interpreter starts. This option can be
+repeated as many times as required to load a number of libraries. This is
+equivalent to typing
+.B INSTALL \(lqFILENAME\(rq
+at the interpreter's command line. The libraries are loaded in the order
+given on the command line. Note that the search order is the reverse of this.
+
+.TP
+.B \-load FILENAME
+Load Basic program
+.B FILENAME
+when the interpreter starts.
+
+.TP
+.B \-path DIRECTORY[,DIRECTORY]...
+This specifies a list of directories that the interpreter will search when
+looking for libraries and programs. The directory names are separated by
+commas. The pseudo-variable
+.B FILEPATH$
+is set to this value.
+
+.TP
+.B \-quit FILENAME
+Load and run the Basic program
+.BR FILENAME .
+Leave the interpreter when the program has finished running.
+
+.TP
+.B \-chain FILENAME
+Load and run the Basic program
+.BR FILENAME .
+Remain in the interpreter when the program has finished running.
+
+.TP
+.B \-graphics
+Start the interpreter with the screen in graphics mode in versions of the
+program which support graphics and the screen can be in either text or
+graphics modes.
+
+.TP
+.B \-ignore
+Ignore certain `unsupported feature' errors. By default the interpreter
+reports an error whenever it comes across a BASIC V feature that it does not
+support. This option allows some unsupported features that do not affect the
+basic running of the program to be ignored.
+
+.TP
+.B FILENAME
+This is exactly equivalent to
+.BR \-chain .
+
+.P
+The case of the names of the options is ignored. It depends on the operating
+system under which the interpreter is running as to whether the names of
+files are case sensitive or insensitive.
+
+
+.SH FILES
+
+.TP 2.2i
+.I brandy
+executable
+
+.TP 2.2i
+.I /usr/share/doc/brandy/examples
+example BASIC programs
+
+
+.SH "SEE ALSO"
+
+.TP 2.2i
+.I /usr/share/doc/brandy
+full documentation
+
+.LP
+Brandy's home page
+.IP
+http://jaguar.orpheusweb.co.uk/branpage.html
+
+.LP
+There is some very useful documentation for the BBC Micro available on the
+Internet. One very good site is
+.I The BBC Lives!
+at:
+.IP
+http://www.nvg.ntnu.no/bbc/
+
+or see http://sourceforge.net/projects/brandy/
+
+
+.SH AUTHOR
+
+David Daniels, with contributions from Darren Salt and Colin Tuckley
+
+
+.SH "REPORTING BUGS"
+
+Report bugs to the bug tracker at http://sourceforge.net/projects/brandy
+
+.SH COPYRIGHT
+
+Copyright (c) 2000, 2001 David Daniels.
+Copyright (c) 2009, 2012 Colin Tuckley.
+This is free software; see the source for copying conditions. There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+
+.\" .SH MAINTAINER
+.\" Darren\ Salt,
+.\" http://old-www.moreofthesa.me.uk/

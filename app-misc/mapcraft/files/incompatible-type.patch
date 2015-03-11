@@ -1,0 +1,21 @@
+diff -ru src.old//editor/ThingDialog.java src/editor/ThingDialog.java
+--- src.old//editor/ThingDialog.java	2012-02-14 02:08:48.000000000 -0500
++++ src/editor/ThingDialog.java	2012-02-14 02:09:19.000000000 -0500
+@@ -156,7 +156,7 @@
+      * Get the selected terrain type for this thing.
+      */
+     public short
+-    getType() {
++    getSelectedType() {
+         Terrain     t = (Terrain)type.getSelectedItem();
+         return t.getId();
+     }
+@@ -200,7 +200,7 @@
+ 
+     public Thing
+     getThing() {
+-        thing.setType(getType());
++        thing.setType(getSelectedType());
+         thing.setName(getName());
+         thing.setDescription(getDescription());
+         thing.setFontSize(getFontSize());

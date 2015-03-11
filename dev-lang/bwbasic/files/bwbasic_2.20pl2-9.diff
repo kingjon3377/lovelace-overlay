@@ -1,0 +1,557 @@
+--- bwbasic.h
++++ bwbasic.h
+@@ -367,7 +367,7 @@
+ 
+ /* define number of commands */
+ 
+-#define CMDS_CORE       22              /* number of core commands defined */
++#define CMDS_CORE       23              /* number of core commands defined */
+ #if UNIX_CMDS
+ #define CMDS_DIR	5
+ #else
+--- bwbasic.c
++++ bwbasic.c
+@@ -1030,6 +1031,7 @@
+ bwb_mainloop()
+ #endif
+    {
++   errfdevice = stderr;
+    if ( CURTASK exsc > -1 )
+       {
+       bwb_execline();			/* execute one line of program */
+--- bwb_mes.h
++++ bwb_mes.h
+@@ -356,6 +356,7 @@
+ #define CMD_REM		"REM"
+ #define CMD_LET		"LET"
+ #define CMD_PRINT	"PRINT"
++#define CMD_QUESTION	"?"
+ #define CMD_INPUT	"INPUT"
+ #define CMD_GO          "GO"
+ #define CMD_GOTO        "GOTO"
+--- bwb_cmd.c
++++ bwb_cmd.c
+@@ -552,7 +552,7 @@
+    struct bwb_line *oline, *x;
+    char varname[ MAXVARNAMESIZE + 1 ];
+    char tbuf[ MAXSTRINGSIZE + 1 ];
+-   static int p;
++   static int startpos;
+    struct exp_ese *rvar;
+    int v;
+    int loop;
+@@ -579,6 +579,10 @@
+          break;
+       }
+ 
++   /* save starting position if this doesn't turn out to be ON ERROR */
++
++   startpos = l->position;
++
+    /* get the variable name or numerical constant */
+ 
+    adv_element( l->buffer, &( l->position ), varname );
+@@ -598,10 +602,10 @@
+       }
+ #endif	/* COMMON_CMDS */
+ 
+-   /* evaluate the variable name or constant */
++   /* evaluate expression from the start */
+ 
+-   p = 0;
+-   rvar = bwb_exp( varname, FALSE, &p );
++   l->position = startpos;
++   rvar = bwb_exp( l->buffer, FALSE, &l->position );
+    v = (int) exp_getnval( rvar );
+ 
+ #if INTENSIVE_DEBUG
+--- bwb_fnc.c
++++ bwb_fnc.c
+@@ -1437,8 +1437,11 @@
+    /* Added check for getenv return value to prevent segmentation faults */
+    /* JBV 3/15/96                                                        */
+    /*--------------------------------------------------------------------*/
+-   if (getenv( tbuf ) != NULL) strcpy( tmp, getenv( tbuf ));
+-   else strcpy( tmp, "" );
++   /* if (getenv( tbuf ) != NULL) strcpy( tmp, getenv( tbuf )); */
++   /* else strcpy( tmp, "" ); */
++
++   /* Patch from Steve Kemp 2007-08-29 */
++   if (getenv( tbuf ) != NULL) strncpy( tmp, getenv( tbuf ), sizeof(tmp)-1);
+ 
+    str_ctob( var_findsval( &nvar, nvar.array_pos ), tmp );
+ 
+--- debian/renum.1
++++ debian/renum.1
+@@ -0,0 +1 @@
++.so man1/bwbasic.1
+--- debian/control
++++ debian/control
+@@ -0,0 +1,16 @@
++Source: bwbasic
++Section: interpreters
++Priority: optional
++Maintainer: Vince Mulhollon <vlm@debian.org>
++Standards-Version: 3.7.2
++Build-Depends: debhelper (>= 4)
++
++Package: bwbasic
++Architecture: any
++Depends: ${shlibs:Depends}
++Description: Bywater BASIC Interpreter
++ The Bywater BASIC Interpreter (bwBASIC) implements a large superset
++ of the ANSI Standard for Minimal BASIC (X3.60-1978) and a significant
++ subset of the ANSI Standard for Full BASIC (X3.113-1987) in C.  It
++ also offers shell programming facilities as an extension of BASIC.
++ bwBASIC seeks to be as portable as possible.
+--- debian/rules
++++ debian/rules
+@@ -0,0 +1,52 @@
++#!/usr/bin/make -f
++
++export CFLAGS := -Wall -g -O$(if $(findstring noopt,$(DEB_BUILD_OPTIONS)),0,2)
++
++build: build-stamp
++build-stamp: debian/bwbasic.1
++	dh_testdir
++	./configure --prefix=/usr
++	$(MAKE) CFLAGS="$(CFLAGS)"
++	> $@
++
++debian/bwbasic.1: bwbasic.doc
++	set -e; \
++	exec > $@; \
++	echo '.TH BWBASIC 1 "October 11, 1993"'; \
++	echo '.SH NAME'; \
++	echo 'bwbasic \- Bywater BASIC interpreter/shell'; \
++	echo '.RE'; \
++	echo '.nf'; \
++	expand $<
++
++clean:
++	dh_testdir
++	dh_testroot
++	dh_clean build-stamp debian/bwbasic.1
++	[ ! -f Makefile ] || $(MAKE) distclean
++
++binary: binary-arch binary-indep
++
++binary-arch: build
++	dh_testdir
++	dh_testroot
++	dh_clean
++	dh_installdirs usr/bin
++	$(MAKE) prefix=$(CURDIR)/debian/bwbasic/usr install
++	dh_installchangelogs
++	dh_installdocs README*
++	dh_installexamples bwbtest/*
++	dh_installman debian/*.1
++	dh_installmenu
++	dh_strip
++	dh_compress
++	dh_fixperms
++	dh_installdeb
++	dh_shlibdeps
++	dh_gencontrol
++	dh_md5sums
++	dh_builddeb
++
++binary-indep:
++
++.PHONY: build clean binary binary-arch binary-indep
+--- debian/copyright
++++ debian/copyright
+@@ -0,0 +1,31 @@
++Upstream sources of bwbasic were originally obtained from
++<ftp://ftp.rahul.net/pub/rhn/>.
++
++The current homepage of bwbasic is
++https://sourceforge.net/projects/bwbasic/
++
++The original author is Ted A. Campbell <tcamp@delphi.com>, with
++patches from Jon B. Volkoff <eidetics@cerf.net>, L. C. Benschop
++<benschop@eb.ele.tue.nl>, and M. J. Smith <msmith@gsoft.com.au>.
++
++bwbasic was originally packaged for Debian by Robert S. Edmonds
++<edmonds@freewwweb.com>, and subsequently maintained by Matej Vela
++<vela@debian.org>.
++
++  All U.S. and international rights are claimed by the author,
++  Ted A. Campbell.
++
++  This software is released under the terms of the GNU General
++  Public License (GPL), which is distributed with this software
++  in the file "COPYING".  The GPL specifies the terms under
++  which users may copy and use the software in this distribution.
++
++  A separate license is available for commercial distribution,
++  for information on which you should contact the author.
++
++The Debian packaging is copyright (C) 1998 Robert S. Edmonds, (C) 2005
++Matej Vela, and also released under the terms of the GNU General Public
++License; version 2, or any later version.
++
++On Debian systems, the complete text of the GNU General Public License
++can be found in /usr/share/common-licenses/GPL.
+--- debian/compat
++++ debian/compat
+@@ -0,0 +1 @@
++4
+--- debian/menu
++++ debian/menu
+@@ -0,0 +1,6 @@
++?package(bwbasic):\
++ needs="text"\
++ section="Applications/Programming"\
++ longtitle="Bywater BASIC Interpreter"\
++ title="bwBASIC"\
++ command="bwbasic"
+--- debian/changelog
++++ debian/changelog
+@@ -0,0 +1,92 @@
++bwbasic (2.20pl2-9) unstable; urgency=low
++
++  * New home page for bwbasic.
++    (Closes: #348701)
++  * Fix a buffer overflow.
++    (Closes: #431376)
++  * Menu moves from Apps to Applications
++  * Standards version upgrade from 3.6.2.0 to 3.7.2
++
++ -- Vince Mulhollon <vlm@debian.org>  Wed, 29 Aug 2007 20:26:29 -0500
++
++bwbasic (2.20pl2-8) unstable; urgency=low
++
++  * Upgrade standards from 3.6.1.0 to 3.6.2.0 
++  * recompiling fixes the usr/lib/menu problem
++
++ -- Vince Mulhollon <vlm@debian.org>  Fri, 16 Sep 2005 20:54:22 -0500
++
++bwbasic (2.20pl2-7) unstable; urgency=low
++
++  * Adopting package.
++    (Closes: #300650)
++  * Fixed 12 spelling mistakes in the manpage.
++    (Closes: #307031)
++    
++ -- Vince Mulhollon <vlm@debian.org>  Tue, 31 May 2005 14:27:34 -0500
++
++bwbasic (2.20pl2-6) unstable; urgency=high
++
++  * Orphaning.
++  * bwb_var.c (var_islocal): Fix segmentation fault during
++    initialization (seems to manifest itself only with 2.6 kernels).
++  * bwb_cmd.c (bwb_on): Correctly handle multi-dimensional array
++    elements in ON ... GOTO.  Closes: #260977.
++  * bwb_dio.c (bwb_open): Apply FreeBSD's patch-ab by
++    <msmith@gsoft.com.au>, fixing a buffer overrun.
++  * bwb_elx.c (exp_function): Return OP_ERROR rather than NULL.
++  * bwb_var.c (bwb_swap): s/=/==/
++  * bwb_var.c (dim_unit): Fix format argument types.
++  * renum.c (main): Replace gets() with fgets().
++  * renum.c (instr): Fix pointer type.
++  * Switch to debhelper 4.
++  * debian/menu: Add menu file.
++  * debian/rules: Honor DEB_BUILD_OPTIONS=noopt.
++  * Conforms to Standards version 3.6.1.
++
++ -- Matej Vela <vela@debian.org>  Sun, 20 Mar 2005 22:58:55 +0100
++
++bwbasic (2.20pl2-5) unstable; urgency=low
++
++  * Accept `?' as an alias for PRINT.  Closes: #96718.
++  * Install bwbasic.doc as a (rather raw) man page.
++  * Moved to debhelper 3.
++  * Conforms to Standards version 3.5.4.
++
++ -- Matej Vela <vela@debian.org>  Sun,  3 Jun 2001 03:45:05 +0200
++
++bwbasic (2.20pl2-4) unstable; urgency=low
++
++  * New maintainer.  Closes: Bug#80594.
++  * Applied glibc 2.1 patch.  Closes: Bug#29713, Bug#30063, Bug#38189.
++  * Included the renum utility since the RENUM statement depends on it.
++  * Reworked the packaging; conforms to Standards version 3.2.1.
++    Closes: Bug#70262.
++
++ -- Matej Vela <vela@debian.org>  Mon,  1 Jan 2001 10:24:30 +0100
++
++bwbasic (2.20pl2-3.1) frozen unstable; urgency=low
++
++  * non maintainer, sparc only upload
++  * fix initializer not constant bug with glibc2.1
++
++ -- Christian Meder <meder@isr.uni-stuttgart.de>  Tue, 24 Nov 1998 13:03:07 +0100
++
++bwbasic (2.20pl2-3) unstable frozen; urgency=low
++
++  * Debian changelog file is now included in the package.
++
++ -- Robert S. Edmonds <edmonds@freewwweb.com>  Sat, 11 Apr 1998 18:09:29 -0400
++
++bwbasic (2.20pl2-2) unstable frozen; urgency=low
++
++  * Fixes lintian error description-starts-with-leading-spaces.
++  * Now using debhelper.
++
++ -- Robert S. Edmonds <edmonds@freewwweb.com>  Mon, 30 Mar 1998 19:02:03 -0500
++
++bwbasic (2.20pl2-1) unstable; urgency=low
++
++  * Initial Release.
++
++ -- Robert S. Edmonds <edmonds@freewwweb.com>  Thu, 19 Feb 1998 20:22:12 -0500
+--- Makefile.in
++++ Makefile.in
+@@ -76,9 +76,10 @@
+ 
+ install: all
+ 	$(INSTALL_PROGRAM) bwbasic $(bindir)/bwbasic
++	$(INSTALL_PROGRAM) renum $(bindir)/renum
+ 
+ uninstall:
+-	rm -f $(bindir)/bwbasic
++	rm -f $(bindir)/bwbasic $(bindir)/renum
+ 
+ Makefile: Makefile.in config.status
+ 	$(SHELL) config.status
+@@ -91,7 +92,7 @@
+ 	etags $(CFILES)
+ 
+ clean:
+-	rm -f *.o bwbasic core
++	rm -f *.o bwbasic renum core
+ 
+ mostlyclean: clean
+ 
+--- bwb_dio.c
++++ bwb_dio.c
+@@ -90,7 +90,6 @@
+    {
+    FILE *fp;
+    struct exp_ese *e;
+-   int previous_buffer;
+    char atbuf[ MAXSTRINGSIZE + 1 ];
+    char first[ MAXSTRINGSIZE + 1 ];
+    char devname[ MAXSTRINGSIZE + 1 ];
+@@ -98,7 +97,6 @@
+    /* initialize */
+ 
+    mode = req_devnumber = rlen = -1;
+-   previous_buffer = FALSE;
+ 
+    /* get the first expression element up to comma or whitespace */
+ 
+@@ -435,7 +433,15 @@
+       sprintf( bwb_ebuf, "in bwb_open(): using previously closed file (and buffer)" );
+       bwb_debug( bwb_ebuf );
+ #endif
+-      previous_buffer = TRUE;
++      /*
++       * Previous code assumed that buffer was always valid, and
++       * always the right size.  (MJS)
++       */
++      if (dev_table[ req_devnumber ].buffer != NULL) 
++         {
++         free (dev_table[ req_devnumber ].buffer);
++         dev_table[ req_devnumber ].buffer = NULL;
++         }
+       }
+ 
+    if ( ( dev_table[ req_devnumber ].mode != DEVMODE_CLOSED ) &&
+@@ -512,7 +518,7 @@
+ 
+    /* allocate a character buffer for random access */
+ 
+-   if (( mode == DEVMODE_RANDOM ) && ( previous_buffer != TRUE ))
++   if ( mode == DEVMODE_RANDOM )
+       {
+       /* Revised to CALLOC pass-thru call by JBV */
+       if ( ( dev_table[ req_devnumber ].buffer = CALLOC( rlen + 1, 1, "bwb_open" )) == NULL )
+--- renum.c
++++ renum.c
+@@ -33,7 +33,9 @@
+    else
+    {
+       printf("Program in file? ");
+-      gets(pstr);
++      fgets(pstr, sizeof(pstr), stdin);
++      p = strlen(pstr);
++      if (pstr[p - 1] == '\n') pstr[--p] = '\0';
+    }
+    if (strlen(pstr) == 0) strcpy(pstr, "0.doc");
+ 
+@@ -117,8 +119,9 @@
+       skip = 0;
+       bp = 0;
+       printf("RENUMBER-");
+-      gets(pstr);
++      fgets(pstr, sizeof(pstr), stdin);
+       p = strlen(pstr);
++      if (pstr[p - 1] == '\n') pstr[--p] = '\0';
+ 
+       if (g == 0)
+       {
+@@ -261,7 +264,9 @@
+       printf("%d -> %d\n", sidx[r][0], sidx[r][1]); */
+ 
+    printf("VERIFY? ");
+-   gets(pstr);
++   fgets(pstr, sizeof(pstr), stdin);
++   p = strlen(pstr);
++   if (pstr[p - 1] == '\n') pstr[--p] = '\0';
+    v1 = 0;
+    if (strcmp(midstr2(pstr, 1, 1), "N") == 0) v1 = 1;
+ 
+@@ -473,13 +478,12 @@
+ int instr(astr, bstr)
+    char *astr, *bstr;
+ {
+-   int p;
++   char *p;
+ 
+    p = strstr(astr, bstr);
+-   if (p == NULL) p = (int)(astr) - 1;
+-   p = p - (int)(astr) + 1;
++   if (p == NULL) p = astr - 1;
+ 
+-   return p;
++   return p - astr + 1;
+ }
+ 
+ 
+--- bwbasic.doc
++++ bwbasic.doc
+@@ -307,7 +307,7 @@
+ 
+ 5. EXPANDED REFERENCE FOR COMMANDS AND FUNCTIONS
+ 
+-   The "Dependencies" listed in the folowing reference materials
++   The "Dependencies" listed in the following reference materials
+    refers to flags that must be set to TRUE in bwbasic.h for the
+    associated command or function to be implemented.  These flags
+    are as follows:
+@@ -321,7 +321,7 @@
+    COMMON_CMDS		Commands beyond ANSI Minimal BASIC which are common
+    			to Full ANSI BASIC and Microsoft BASICs
+ 
+-   COMMON_FUNCS		Functions beyond the ANSI Mimimal BASIC core, but
++   COMMON_FUNCS		Functions beyond the ANSI Minimal BASIC core, but
+    			common to both ANSI Full BASIC and Microsoft-style
+    			BASIC varieties
+ 
+@@ -493,7 +493,7 @@
+                  number (precision is irrelevant in bwBASIC since
+                  bwBASIC numbers have only one precision).
+ 
+-   Implenentation-Specific Notes:
++   Implementation-Specific Notes:
+ 
+    CVD(), CVI(), CVS(), MKI$(), MKD$(), MKS$(): These functions
+    are implemented, but are dependent on a) the sizes for integer,
+@@ -667,7 +667,7 @@
+    Description:  EDIT is a pseudo-command which calls the text editor
+                  specified in the variable BWB.EDITOR$ to edit the
+                  program in memory.  After the call to the text editor,
+-                 the (edited) prgram is reloaded into memory.  The user
++                 the (edited) program is reloaded into memory.  The user
+                  normally must specific a valid path and filename in
+                  BWB.EDITOR$ before this command will be useful.
+ 
+@@ -840,7 +840,7 @@
+ 
+    Description:  FUNCTION introduces a function definition, normally
+                  ending with END FUNCTION.  In bwBASIC, FUNCTION and
+-                 DEF are qorking equivalents, so either can be used
++                 DEF are working equivalents, so either can be used
+                  with single-line function definitions or with multi-
+                  line definitions terminated by END FUNCTION.
+ 
+@@ -861,7 +861,7 @@
+ 
+    Command:      GET [#] device-number [, record-number]
+ 
+-   Description:  GET reads the next reacord from a random-access file
++   Description:  GET reads the next record from a random-access file
+                  or device into the buffer associated with that file.
+                  If record-number is specified, the GET command reads the
+                  specified record.
+@@ -1406,7 +1406,7 @@
+    Description:  SELECT CASE introduces a multi-line conditional selection
+                  statement.  The expression given as the argument to SELECT
+                  CASE will be evaluated by CASE statements following.  The
+-                 SELECT CASE statement conclludes with an END SELECT
++                 SELECT CASE statement concludes with an END SELECT
+                  statement.
+ 
+                  As currently implemented, CASE statements may be followed
+@@ -1618,7 +1618,7 @@
+ 
+    Description:  WIDTH sets screen or device output to 'number'
+                  columns.  device-number specifies the device
+-                 or file for oputput.
++                 or file for output.
+ 
+    Dependencies: COMMON_CMDS
+ 
+@@ -1654,7 +1654,7 @@
+ 
+    The preset variable BWB.PROMPT$ can be used to set the prompt
+    string for bwBASIC.  Again, it is suggested that a user-
+-   selected promptcan be set up in a "profile.bas" to be
++   selected prompt can be set up in a "profile.bas" to be
+    initialized each time bwBASIC starts.  Note that special
+    characters can be added to the prompt string, e.g.,
+ 
+@@ -1665,7 +1665,7 @@
+    The preset variable BWB.IMPLEMENTATION$ will return "TTY" for
+    the bwx_tty implementation and will return "IQC" for the
+    IBM PC or Compatibles with QuickC (bwx_iqc) implementation.
+-   This may be useful in determing which commands and functions
++   This may be useful in determining which commands and functions
+    (specifically CLS, LOCATE, and INKEY$) may be available. 
+ 
+ 
+@@ -1754,7 +1754,7 @@
+ 
+    XMEM		PC-type computers need to be able to use extended
+    		memory.  If we could use extended memory for program
+-   		lines, variables, and function defitions, we could
++   		lines, variables, and function definitions, we could
+    		write much longer programs.  This would entail,
+    		however, a fairly serious rewriting of the program
+    		to utilize memory handles for these storage features
+--- bwb_tbl.c
++++ bwb_tbl.c
+@@ -147,6 +147,7 @@
+       { CMD_ON,           bwb_on },
+       { CMD_OPTION,       bwb_option },
+       { CMD_PRINT,        bwb_print },
++      { CMD_QUESTION,     bwb_print },
+       { CMD_RANDOMIZE,    bwb_randomize },
+       { CMD_READ,         bwb_read },
+       { CMD_REM,          bwb_rem },
+--- bwb_var.c
++++ bwb_var.c
+@@ -1806,7 +1806,7 @@
+       {
+ #if PROG_ERRORS
+       sprintf( bwb_ebuf, "in dim_unit(): unit value <%ld> exceeds array units <%ld>",
+-         r, v->array_units );
++         (long) r, (long) v->array_units );
+       bwb_error( bwb_ebuf );
+ #else
+       bwb_error( err_valoorange );
+@@ -2507,6 +2507,12 @@
+    {
+    struct bwb_variable *v;
+ 
++   if ( exsc < 0 )
++      {
++      /* no execution stack yet (e.g. during bwb_init()) */
++      return NULL;
++      }
++
+ #if INTENSIVE_DEBUG
+    sprintf( bwb_ebuf, "in var_islocal(): check for local variable <%s> EXEC level <%d>",
+       buffer, CURTASK exsc );

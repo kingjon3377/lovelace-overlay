@@ -1,0 +1,61 @@
+.\" (c) 2007 Miriam Ruiz <little_miry@yahoo.es>
+.\" 
+.\" This document is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or
+.\" (at your option) any later version.
+.\" 
+.\" This package is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\" GNU General Public License for more details.
+.\" 
+.\" You should have received a copy of the GNU General Public License
+.\" along with this package; if not, write to the Free Software
+.\" Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+.TH "fenix-fpg" "1" "0.92a" "" ""
+.SH "NAME"
+fenix\-fpg \- create packages of multiple images for fenix
+.SH "SYNOPSIS"
+.B fenix\-fpg [option] filename.fpg [image ...]
+.SH "DESCRIPTION"
+This program is used to package the images used in the game into a single file.
+.PP 
+options:
+.TP 
+\fB\-l\fR
+Describe the FPG file (default option): \-v more verbose
+.TP 
+\fB\-n\fR
+Create a new FPG file, ptionally adding MAP (graphic) files
+.TP 
+\fB\-o\fR
+Create a new 8\-bit FPG file, optionally adding MAP (graphic) files
+.TP 
+\fB\-d\fR
+Remove the selected files from inside the FPG file
+.TP 
+\fB\-p\fR
+Extract the colour palette(.PAL) of the file
+.TP 
+\fB\-e\fR
+Extract graphics (.MAP) from the FPG file and removes them from it
+.TP 
+\fB\-x\fR
+Extract graphics (.MAP) from the FPG file
+.TP 
+\fB\-a\fR
+Add graphics (.MAP) to the FPG file
+.TP 
+\fB\-c\fR
+Convert the .FPG to 16 bits
+.TP 
+\fB\-#\fR
+Level of compression (0 to 9)
+.PP 
+Options \-x and \-e can select the graphics by their code. Ranges in the form a\-b can be used, as well as comma\-separated graphics. Options \-p and \-l admit multiple FPG files.
+.SH "SEE ALSO"
+.BR fenix (1),
+.BR fenix\-fxc (1),
+.BR fenix\-fxi (1),
+.BR fenix\-map (1)

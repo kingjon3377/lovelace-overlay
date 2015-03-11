@@ -1,0 +1,46 @@
+h1. CreateSpace package
+
+To use CreateSpace package, include it in preamble to your LaTeX document:<pre><code>\usepackage[options]{createspace}</code></pre>Package takes series of options, each of them having default value so they can be omitted. Options are specified in <pre>name=value</pre>manner. Some options have standard values, then value can be omitted, and form <pre>name</pre> can be used as synonym of <pre>name=standard value</pre>Options should be comma separated.
+
+Sample use could be:<pre><code>\usepackage[size=pocket,trim,bleed]{createspace}</code></pre>to prepare book of size 5.06 x 7.81 inches (trimmed pocket) with bleed support (submitted pdf would be wider, so images can reach page margins).
+
+By default package builds PDF/X-1a, which is just enough to cover CreateSpace recommendations - to use PDF version 1.3, PDF/X standard. There is also requirement to use RGB images with Adobe RGB profile embedded, but only PDF/X-3:2002 meets all 3 recommendations. It was decided that PDF/X-1a will produce more predicatable and good result. For profiles, we use ISO profile that is nearest to the description from CreateSpace - in case of white paper it is "PSO Uncoated ISO12647", in case of cream paper it is "ISO Uncoated Yellowish". Both profiles are licensed under zlib/libpng license and are bundled with createspace package.
+
+To disable ICC profile management use noicc option to package. If you want to disable all pdf meta-data creation (like author, title, trim boxe, etc) use nopdf option. Using nopdf isn't recommended, unless you want to take care of all needed setup by hand or by means of some other package.
+
+Proper PDF document needs some meta-data to be defined. There are new commands to control meta-data of PDF files:
+* \pdftitle{...}
+* \pdfauthor{...}
+* \pdfsubject{...}
+* \pdfkeywords{...}
+
+title and author fields are required, but by default equals to title and author specified using \title and \author commands. subject and (comma separated) keywords are optional and by default empty.
+
+Package tries to support all options and recommendations from "CreateSpace Books information":https://www.createspace.com/Products/Book/.
+
+Following package options are permitted:
+
+* size - takes values: pocket,halfletter,novel (default),journal,magazine,square,landscape. Describes size of page, using names provided at createspace.com page, including (all sizes in inches):
+** pocket, 5.25 x 8
+** halfletter, 5.5 x 8.5
+** novel, 6 x 9
+** journal, 7 x 10
+** magazine, 8 x 10
+** square, 8.25 x 8.25
+** landscape, 8.25 x 6
+* trim - takes values: 0 (default), 1 (standard), 2. Changes size to speciality trimmed size, sorted by width trim. Following sizes gets changed by trim option:
+** 1, pocket 5.06 x 7.81, journal 6.69 x 9.61, magazine 7.5 x 9.25
+** 2, pocket 5 x 8, journal 6.14 x 9.21, magazine 7.44 x 9.69
+* customsize - gives ability to enter custom size, it takes pair of dimensions: customsize={6in,6in} and have higher priority than size option - for colour books the maximum is 8.5 x 11, for black and white books the maximum is 8.5 x 11.69. Minimum size is 4 x 6. WARNING: The sizes can round in PDF meta data, make sure you don't specify values with more accuracy than 0.01 PostScript Points (1/7200 of inch). It should be safe to specify dimensions in inches or PostScript Points called in TeX bp for big points (1in=72bp=72.27pt) with accuracy to 1/100. In case when the rounding is bigger than 1/100 PostScript Point, package issues a warning.
+* bleed - takes values: true (standard), false (default). Creates book with bleed, by extending page size 0.125 on top, bottom and outer margin. 
+* inner, outer, top, bottom - takes sizes, 0.5in by default. Allows to set-up margins, by default headers/footers aren't counted in calculations, so they are on margins when specified that way.
+* gutter - takes sizes, 0.3in by default. Allows to add space for gutter, is checked against page count.
+* geometryextra - takes list of options, {twoside,heightrounded,truedimen} by default. Allows to specify extra options to pass to geometry package to obtain custom effects.
+* preview - takes values: false (default), a4 (standard), letter. When set to non false value, book is formatted on specified page size (a4 or letter) with crop marks. Do not submit that version, it's only if you need to print and cut preview version of book yourself.
+* paper - takes values: white (default), cream. Changes paper type.
+* colour or color - takes values: true (standard), false (default). Prepares colour version of book, tries to load colour package.
+* colourpackage or colorpackage - takes values: none, color, xcolor (default). Two options that are aliases, specify which colour providing package have to be loaded when colour or color option is specified. Option none does nothing.
+* nopdf - disables PDF setup (like author, trims, etc)
+* noicc - disabled ICC profile (make PDF a lot smaller, not recommended when book includes images other than composed from lines, like photos).
+
+All rules specified by "CreateSpace":https://www.createspace.com/Products/Book/ are verified by package. Package also gives information about printing cost and spine width. Option conflicts generate errors, all warnings should be eliminated before submitting your book for print. Recommended gutter was set-up at 0.15*ln(pages/4) inches, where ln means natural logarithm. It was researched to work well and conforms to few given by CreateSpace values, but user of class if free to ignore package recommendation.

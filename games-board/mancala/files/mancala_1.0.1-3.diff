@@ -1,0 +1,343 @@
+--- mancala-1.0.1.orig/debian/install
++++ mancala-1.0.1/debian/install
+@@ -0,0 +1 @@
++mancala xmancala debian/mancala-text usr/games
+--- mancala-1.0.1.orig/debian/links
++++ mancala-1.0.1/debian/links
+@@ -0,0 +1,2 @@
++usr/share/man/man6/mancala.6 usr/share/man/man6/xmancala.6
++usr/share/man/man6/mancala.6 usr/share/man/man6/mancala-text.6
+--- mancala-1.0.1.orig/debian/mancala.6
++++ mancala-1.0.1/debian/mancala.6
+@@ -0,0 +1,74 @@
++.\"                                      Hey, EMACS: -*- nroff -*-
++.TH MANCALA 6 "13 March 2001"
++.\" Please adjust this date whenever revising the manpage.
++.\"
++.SH NAME
++mancala \- simple board game for human player and computer
++.SH SYNOPSIS
++.B mancala
++.I level\-top level\-bottom number\-of\-stones
++.br
++.B xmancala [\-stones N]
++.br
++.B mancala\-text
++.SH DESCRIPTION
++This manual page documents briefly the
++.B mancala
++and
++.B xmancala
++commands.
++This manual page was written for the Debian GNU/Linux distribution
++because the original program does not have a manual page.
++.PP
++.B mancala
++runs the game in the console, while
++.B xmancala
++is a fancy X\-interface.
++.B mancala\-text
++is a shell script to run mancala in a console from the Debian menu system.
++.PP
++When run as
++.B xmancala 
++the program has no options, and should be self\-explanatory.  Built in buttons
++and sliders control the difficulty level (default 4), and bring up the rules
++of the game.  
++.PP
++The console version,
++.BR mancala ,
++has no access to the rules, and the difficulty level can only be set on the
++command line (see below).  When it is your turn to play, you enter the letter
++of the cell that you want to move the stones from,
++.IR A " to " F
++(case insensitive).  The rules are contained in the file
++.IR /usr/share/doc/mancala/RULES .
++.SH OPTIONS
++When run as
++.BR mancala ,
++the program normally takes two arguments,
++.IR level\-top " and " level\-bottom ,
++one of which should be
++.I 0
++to represent the human player (you), and the other should be in the range
++.IR 1 " to " 9 ,
++to represent the skill level of the computer player.  The first argument
++represents the top player, who starts.
++.PP
++Alternatively, you can give a single argument or two non\-zero arguments, to
++watch the computer playing itself, or two zero arguments, to play against
++another human player on the same console.
++.PP
++For the console version, you can add a third argument to specify the number
++of stones per hole. For xmancala you can specify the number of stones per
++hole using the \-stones N argument.
++.PP
++On Debian systems, the shell script 
++.B mancala\-text
++is provided to facilitate running mancala in a console, from the Debian menu
++system.  This script will run mancala with a difficulty level of 4, and will
++pause when the game is finished, to enable the player to view the final
++screen.
++.SH SEE ALSO
++<http//en.wikipedia.org/wiki/Mancala>
++.SH AUTHOR
++This manual page was written by Andrew Gray <ajpg@debian.org>
++for the Debian GNU/Linux system (but may be used by others).
+--- mancala-1.0.1.orig/debian/copyright
++++ mancala-1.0.1/debian/copyright
+@@ -0,0 +1,23 @@
++This package was debianized by Andrew Gray <ajpg@debian.org> on
++Sat,  7 Aug 1999 12:43:52 +0100.
++
++It was downloaded from http://shh.thathost.com/pub-unix/#Mancala
++
++Upstream Authors:
++
++   Sverre H.  Huseby <shh@thathost.com>
++   Glenn Terje Lines <glennli@simula.no>
++
++Copyright:
++
++Licensed under the Artistic License (according to the '.lsm' file).  On Debian
++systems, a copy of the Artistic License should be found at
++/usr/share/common-licenses/Artistic.
++
++The following notice appears in the README file:
++
++	Feel free to do what you want with this software, but please drop any
++	of us a mail if you use it (or if you don't use it, for some reason).
++	If you make any changes to the code before passing it further, you
++	must include a file identifying what changes you made. Please leave
++	our names where you find'em. Fame and fortune, you know...
+--- mancala-1.0.1.orig/debian/rules
++++ mancala-1.0.1/debian/rules
+@@ -0,0 +1,49 @@
++#!/usr/bin/make -f
++
++#export DH_VERBOSE=1
++
++ifneq (,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
++	NUMJOBS = $(patsubst parallel=%,%,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
++	MAKEFLAGS += -j$(NUMJOBS)
++endif
++
++build: build-stamp
++build-stamp:
++	dh_testdir
++	$(MAKE) OPTIM="-g -O$(if $(findstring noopt,$(DEB_BUILD_OPTIONS)),0,2)" LDOPT=
++	touch build-stamp
++
++clean:
++	dh_testdir
++	dh_testroot
++	rm -f build-stamp
++	$(MAKE) distclean
++	dh_clean
++
++install: build
++	dh_testdir
++	dh_testroot
++	dh_clean -k
++	dh_installdirs
++	dh_install
++
++binary-indep: build install
++binary-arch: build install
++	dh_testdir
++	dh_testroot
++	dh_installchangelogs
++	dh_installdocs
++	dh_installmenu
++	dh_installman
++	dh_link
++	dh_strip
++	dh_compress
++	dh_fixperms
++	dh_installdeb
++	dh_shlibdeps
++	dh_gencontrol
++	dh_md5sums
++	dh_builddeb
++
++binary: binary-indep binary-arch
++.PHONY: build clean binary-indep binary-arch binary install
+--- mancala-1.0.1.orig/debian/watch
++++ mancala-1.0.1/debian/watch
+@@ -0,0 +1,2 @@
++version=2
++http://shh.thathost.com/pub-unix/ .*/mancala-(.*)\.tar\.gz debian uupdate
+--- mancala-1.0.1.orig/debian/manpages
++++ mancala-1.0.1/debian/manpages
+@@ -0,0 +1 @@
++debian/mancala.6
+--- mancala-1.0.1.orig/debian/compat
++++ mancala-1.0.1/debian/compat
+@@ -0,0 +1 @@
++5
+--- mancala-1.0.1.orig/debian/control
++++ mancala-1.0.1/debian/control
+@@ -0,0 +1,20 @@
++Source: mancala
++Section: games
++Priority: extra
++Maintainer: Debian Games Team <pkg-games-devel@lists.alioth.debian.org>
++Uploaders: Paul Wise <pabs@debian.org>
++Standards-Version: 3.8.2
++Build-Depends: debhelper (>= 5.0.0), libforms-dev
++Homepage: http://shh.thathost.com/pub-unix/#Mancala
++Vcs-Svn: svn://svn.debian.org/svn/pkg-games/packages/trunk/mancala/
++Vcs-Browser: http://svn.debian.org/wsvn/pkg-games/packages/trunk/mancala/?op=log
++
++Package: mancala
++Architecture: any
++Depends: ${shlibs:Depends}, ${misc:Depends}
++Description: Implementation of the simple board game called Mancala
++ This is an implementation of the simple, but fun board game known as
++ Mancala.  Contains both a user-unfriendly character-based interface, and a
++ nice, user-friendly X11-interface.  Be warned: If you just bother to read the
++ rules, you may get hooked on this! For more information about the Mancala
++ family of games, please read http://en.wikipedia.org/wiki/Mancala
+--- mancala-1.0.1.orig/debian/mancala-text
++++ mancala-1.0.1/debian/mancala-text
+@@ -0,0 +1,12 @@
++#!/bin/sh
++
++# mancala-text - short script to run mancala in xterm for debian
++
++# Andrew Gray <ajpg@debian.org>, Sat, 15 Jul 2000 00:16:28 +0100
++
++echo "Rules are in file /usr/share/doc/mancala/RULES under debian."
++echo ""
++/usr/games/mancala 0 4
++echo ""
++printf "Finished - press ENTER  "
++read RUBBISH
+--- mancala-1.0.1.orig/debian/docs
++++ mancala-1.0.1/debian/docs
+@@ -0,0 +1,2 @@
++README
++RULES
+--- mancala-1.0.1.orig/debian/changelog
++++ mancala-1.0.1/debian/changelog
+@@ -0,0 +1,113 @@
++mancala (1.0.1-3) unstable; urgency=low
++
++  [ Eddy Petrișor ]
++  * add missing Vcs-Svn headers
++
++  [ Jon Dowland ]
++  * add Homepage: field to source stanza
++
++  [ Paul Wise ]
++  * Remove homepage from package description
++  * Fix bashism in the mancala-text script (Closes: #530136)
++  * Support parallel=N in DEB_BUILD_OPTIONS
++  * Change priority to extra, most people will not install mancala
++  * Bump Standards-Version due to the above changes
++
++ -- Paul Wise <pabs@debian.org>  Tue, 21 Jul 2009 23:22:20 +0200
++
++mancala (1.0.1-2) unstable; urgency=low
++
++  * Lets join the Debian Games team !
++  * Honour nostrip: prevent stripping by overriding LDOPT (Closes: #437587)
++  * Improve the manual page by fixing hyphens and linking to Wikipedia
++
++ -- Paul Wise <pabs@debian.org>  Sun, 19 Aug 2007 13:56:48 +1000
++
++mancala (1.0.1-1) unstable; urgency=low
++
++  * New upstream release
++    - Allows users to specify the number of stones (Closes: #185547)
++  * Change my email address now that I'm a Debian Developer
++  * Bump debhelper compatibility level
++  * Clean up the packaging a bit
++
++ -- Paul Wise <pabs@debian.org>  Wed, 13 Jun 2007 20:04:01 +0100
++
++mancala (1.0.0-9) unstable; urgency=low
++
++  * Fix FTBFS due to xorg 7. Patch by Andreas Jochens closes: #374651
++  * Rename mancala.sh to mancala-text
++  * We now comply with the new Standards-Version, so update it.
++
++ -- Paul Wise <pabs3@bonedaddy.net>  Wed, 21 Jun 2006 11:23:00 +0800
++
++mancala (1.0.0-8) unstable; urgency=low
++
++  * New maintainer (Closes: #268125)
++  * debian/control: Add the homepage and a wikipedia page in the description.
++  * debian/menu: Add a menu entry for the text version of mancala.
++  * debian/control: Depend on debhelper >= 4.0.0
++  * debian/rules: Move dh_* arguments into debian/* files
++  * debian/watch: Automatically run uupdate for new versions
++
++ -- Paul Wise <pabs3@bonedaddy.net>  Tue, 10 Jan 2006 13:37:20 +0800
++
++mancala (1.0.0-7) unstable; urgency=low
++
++  * QA upload.
++  * Package is orphaned (see #268125); set maintainer to Debian QA Group.
++  * Since libxpm is used only indirectly (through libforms), drop
++    `-lXpm -lX11' and the xlibs-dev build dependency.
++  * Remove mancala-1.0.0.lsm from the binary package.
++  * Switch to debhelper 4.
++  * Makefile, debian/rules: Honor DEB_BUILD_OPTIONS={noopt,nostrip}.
++  * debian/changelog: Remove obsolete Emacs local variables.
++  * debian/menu: Add quotes to placate Lintian.
++  * debian/watch: Add.
++  * Conforms to Standards version 3.6.2.
++
++ -- Matej Vela <vela@debian.org>  Thu, 20 Oct 2005 23:54:17 +0200
++
++mancala (1.0.0-6) unstable; urgency=low
++
++  * Compile against free (LGPLed) XForms, so move out of contrib into main
++
++ -- Andrew Gray <ajpg@debian.org>  Sun, 26 Jan 2003 21:46:22 +0000
++
++mancala (1.0.0-5) unstable; urgency=low
++
++  * Corrected typo in debian/control.  Closes: #125108
++  * Took console-based mancala out of menu entry, leaving in X version only
++  * Bumped standards-version to 3.5.6
++
++ -- Andrew Gray <ajpg@debian.org>  Thu, 20 Dec 2001 22:42:49 +0000
++
++mancala (1.0.0-4) unstable; urgency=low
++
++  * Corrected typo in Build-Depends.  Closes: #93024
++  * Added dh_strip to debian/rules
++
++ -- Andrew Gray <ajpg@debian.org>  Sat,  7 Apr 2001 13:59:03 +0100
++
++mancala (1.0.0-3) unstable; urgency=low
++
++  * Added Build-Depends
++  * Added note on mancala.sh script to the manual page
++
++ -- Andrew Gray <ajpg@debian.org>  Tue, 13 Mar 2001 13:46:23 +0000
++
++mancala (1.0.0-2) unstable; urgency=low
++
++  * Docs in /usr/share/doc, binaries in /usr/games (policy standards 3.1.1)
++  * Added mancala.sh script to run mancala in xterm
++  * Now built with libforms0.89
++  * Wrote brief manual page.  Closes: #48605
++
++ -- Andrew Gray <ajpg@debian.org>  Fri, 14 Jul 2000 23:54:43 +0100
++
++mancala (1.0.0-1) unstable; urgency=low
++
++  * Initial Release.
++  * submitted bug for lack of man page
++
++ -- Andrew Gray <ajpg@debian.org>  Sat,  7 Aug 1999 12:43:52 +0100
+--- mancala-1.0.1.orig/debian/menu
++++ mancala-1.0.1/debian/menu
+@@ -0,0 +1,4 @@
++?package(mancala):needs="X11" section="Games/Board"\
++  title="Mancala" command="/usr/games/xmancala"
++?package(mancala):needs="text" section="Games/Board"\
++  title="Mancala" command="/usr/games/mancala-text"

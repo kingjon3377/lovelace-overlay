@@ -1,0 +1,11 @@
+--- Makefile.old	2010-11-22 20:18:59.000000000 -0500
++++ Makefile	2010-11-22 20:19:21.000000000 -0500
+@@ -13,7 +13,7 @@
+ #	`pkg-config --cflags jack` \
+ #	`pkg-config --cflags gtk+-2.0`
+ CFLAGS += \
+-	-Wall -O3 \
++	$(USER_CFLAGS) \
+ 	`pkg-config --cflags fftw3` \
+ 	`pkg-config --cflags sndfile` \
+ 	`pkg-config --cflags ao` \

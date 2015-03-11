@@ -1,0 +1,74 @@
+diff -u -r gift-0.1.15e/libGIFTAcPerl/cc/CAcPerl.cc gift-0.1.15e-test/libGIFTAcPerl/cc/CAcPerl.cc
+--- gift-0.1.15e/libGIFTAcPerl/cc/CAcPerl.cc	2005-03-24 10:18:16.000000000 +0100
++++ gift-0.1.15e-test/libGIFTAcPerl/cc/CAcPerl.cc	2005-11-22 10:09:22.000000000 +0100
+@@ -57,26 +57,26 @@
+ /**
+  *
+  */
+-string CAcPerl::IDToURL(long int) const{
++string CAcPerl::IDToURL(TID) const{
+   assert(0);
+   return "this function should never be called";
+ };
+ /**
+  *
+  */
+-struct pair<bool,CAccessorElement> CAcPerl::IDToAccessorElement(long int) const{
++struct pair<bool,CAccessorElement> CAcPerl::IDToAccessorElement(TID) const{
+   return(make_pair(bool(0),CAccessorElement(0,"null","null","null")));
+ };
+ /**
+  *
+  */
+-struct pair<bool,long int> CAcPerl::URLToID(const string &) const{
++struct pair<bool, TID> CAcPerl::URLToID(const string &) const{
+   return(make_pair(bool(0),0));
+ };
+ /**
+  *
+  */
+-void CAcPerl::getAllIDs(list<long int > &) const{
++void CAcPerl::getAllIDs(list<TID > &) const{
+     assert(0);
+ };
+ /**
+@@ -88,7 +88,7 @@
+ /**
+  *
+  */
+-void CAcPerl::getRandomIDs(list<long int > &, unsigned int) const{
++void CAcPerl::getRandomIDs(list<TID > &, unsigned int) const{
+   assert(0);
+ };
+ /**
+diff -u -r gift-0.1.15e/libGIFTAcPerl/include/CAcPerl.h gift-0.1.15e-test/libGIFTAcPerl/include/CAcPerl.h
+--- gift-0.1.15e/libGIFTAcPerl/include/CAcPerl.h	2005-03-24 10:18:16.000000000 +0100
++++ gift-0.1.15e-test/libGIFTAcPerl/include/CAcPerl.h	2005-11-22 10:09:28.000000000 +0100
+@@ -114,15 +114,15 @@
+   /**
+    *
+    */
+-  string IDToURL(long int) const;
++  string IDToURL(TID) const;
+   /**
+    *
+    */
+-  struct pair<bool,CAccessorElement> IDToAccessorElement(long int) const;
++  struct pair<bool,CAccessorElement> IDToAccessorElement(TID) const;
+   /**
+    *
+    */
+-  struct pair<bool,long int> URLToID(const string &) const;
++  struct pair<bool, TID> URLToID(const string &) const;
+   /**
+    *
+    */
+@@ -134,7 +134,7 @@
+   /**
+    *
+    */
+-  void getRandomIDs(list<long int > &, unsigned int) const;
++  void getRandomIDs(list<TID > &, unsigned int) const;
+   /**
+    *
+    */

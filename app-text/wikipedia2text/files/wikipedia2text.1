@@ -1,0 +1,212 @@
+.TH "WIKIPEDIA2TEXT" "1" 
+.SH "NAME" 
+wikipedia2text \(em displays \fBWikipedia\fP entries on the command line 
+.SH "SYNOPSIS" 
+.PP 
+\fBwikipedia2text\fR [\fB-BCnNoOpPsSuU\fP]  [\fB-b\fP \fIprog\fR]  [ {\fB-c\fP  | \fB-i\fP  | \fB-I\fP }  \fIpatt\fR]  [\fB-l\fP \fIlang\fR]  [\fB-W\fP \fIbase-url\fR]  \fIQuery\fR 
+.PP 
+\fBwikipedia2text\fR  \fB-o\fP [\fB-b\fP \fIprog\fR]  [\fB-l\fP \fIlang\fR]  \fIQuery\fR 
+.PP 
+\fBwikipedia2text\fR [\fB-h\fP]  
+.PP 
+\fBwikipedia2text\fR  \fB-v\fP 
+.PP 
+\fBwikipedia2text\fR  \fB-r\fP 
+.SH "DESCRIPTION" 
+.PP 
+This manual page documents briefly the 
+\fBwikipedia2text\fR command. 
+.PP 
+\fBwikipedia2text\fR fetches and renders \fBWikipedia\fP articles using a 
+text-mode web-browser (currently recognises 
+\fBelinks\fR, \fBlinks2\fR, 
+\fBlinks\fR, \fBlynx\fR and 
+\fBw3m\fR) and display the text of the article on 
+STDOUT respectively in a pager. 
+.SH "OPTIONS" 
+.PP 
+The program recognizes the following command line 
+options: 
+.IP "\fB-b\fP \fIprog\fR" 10 
+Use program \fIprog\fR as 
+browser. 
+.IP "\fB-B\fP" 10 
+Do not use browser configured via configuration file 
+or environment. 
+.IP "\fB-c\fP \fIpatt\fR, \fB-I\fP \fIpatt\fR" 10 
+Colorize case-sensitive pattern 
+\fIpatt\fR in output. 
+.IP "\fB-C\fP, \fB-N\fP" 10 
+Colorize output. 
+.IP "\fB-h\fP" 10 
+Show help and a summary of options. 
+.IP "\fB-i\fP \fIpatt\fR" 10 
+Colorize case-insensitive pattern 
+\fIpatt\fR in output. 
+.IP "\fB-l\fP \fIlang\fR" 10 
+use \fBWikipedia\fP in 
+language \fIlang\fR. See the 
+\fBWikipedia\fP Languages entry elsewhere in this 
+document. 
+.IP "\fB-n\fP" 10 
+Do not colorize output. 
+.IP "\fB-o\fP" 10 
+Open the \fBWikipedia\fP page in the browser. 
+.IP "\fB-O\fP" 10 
+Do not open the \fBWikipedia\fP page in the browser. 
+.IP "\fB-p\fP" 10 
+Use a pager (set by default). 
+.IP "\fB-P\fP" 10 
+Don't use a pager. 
+.IP "\fB-r\fP" 10 
+Display a random \fBWikipedia\fP article. 
+.IP "\fB-s\fP" 10 
+Display only the summary of the \fBWikipedia\fP article. 
+.IP "\fB-S\fP" 10 
+Display the full content of the \fBWikipedia\fP article 
+and not only the summary. 
+.IP "\fB-u\fP" 10 
+Just print the URL of the \fBWikipedia\fP page and exit. 
+.IP "\fB-U\fP" 10 
+Display the full content of the \fBWikipedia\fP article 
+and not only print the URL of the page. 
+.IP "\fB-v\fP" 10 
+Show version number. 
+.IP "\fB-W\fP \fIbase-url\fR" 10 
+use \fIbase-url\fR as base URL 
+for wikipedia (e.g. use a different wiki), querying 
+this URL will happen by appending the search 
+term. 
+.SH "ENVIRONMENT" 
+.PP 
+The following environment variables are recognized: 
+.IP "\fBABROWSER\fP" 10 
+Browser to use as default instead of to found or 
+configured web browser. 
+.IP "\fBIGNCASE\fP" 10 
+Default value for case-sensitivity of colorizing 
+the output. Can be set to "true" or "false". 
+.IP "\fBLOCAL\fP" 10 
+Default value for language in which \fBWikipedia\fP should be 
+used. See the \fBWikipedia\fP Languages entry elsewhere in 
+this document. 
+.IP "\fBOUTPUTURL\fP" 10 
+Determines, if \fBwikipedia2text\fR should display only 
+the URL of the \fBWikipedia\fP article by default. Can 
+be set to "true" or "false". 
+.IP "\fBPAGER\fP" 10 
+Default value for pager to use. Can also be set 
+to "true", in which case, \fBwikipedia2text\fR tries to 
+figure out the appropriate pager, or "false", which 
+means not to use a pager at all. 
+.IP "\fBSHORT\fP" 10 
+Determines, if \fBwikipedia2text\fR should display only 
+the summary of the \fBWikipedia\fP article by default. Can 
+be set to "true" or "false". 
+.IP "\fBUSEBROWSER\fP" 10 
+Determines, if \fBwikipedia2text\fR should open the \fBWikipedia\fP page 
+via \fBopenurl\fR in the globally set default 
+browser, i.e. \fBFirefox\fR or 
+\fBKonqueror\fR, by default. Can be set to 
+"true" or "false". 
+.SH "FILES" 
+.IP "\fB$HOME/.wikipedia2textrc\fP" 10 
+Will be sourced from \fBwikipedia2text\fR on 
+startup. Should contain variable assignments. The same 
+variables as for the environment are recognised. 
+.SH "WIKIPEDIA LANGUAGES" 
+.PP 
+\fBwikipedia2text\fR currently supports the following 
+\fBWikipedia\fP languages: 
+.IP "af" 10 
+Cape Dutch (Afrikaans) 
+.IP "als" 10 
+Alemannic 
+.IP "ca" 10 
+Catalan 
+.IP "cs" 10 
+Czech 
+.IP "da" 10 
+Danish 
+.IP "de" 10 
+German 
+.IP "en" 10 
+English 
+.IP "eo" 10 
+Esperanto 
+.IP "es" 10 
+Spanish 
+.IP "fi" 10 
+Finnish 
+.IP "fr" 10 
+French 
+.IP "hu" 10 
+Hungarian 
+.IP "ia" 10 
+Interlingua 
+.IP "is" 10 
+Islandic 
+.IP "it" 10 
+Italian 
+.IP "la" 10 
+Latin 
+.IP "lb" 10 
+Luxembourgian 
+.IP "nds" 10 
+Low German 
+.IP "nl" 10 
+Dutch 
+.IP "nn, no" 10 
+Norwegian (Nynorsk and Bokm\(oal) 
+.IP "pl" 10 
+Polish 
+.IP "pt" 10 
+Portuguese 
+.IP "rm" 10 
+Rhaeto-Romanic 
+.IP "ro" 10 
+Romanian 
+.IP "simple" 10 
+Simple English 
+.IP "sk" 10 
+Slovak 
+.IP "sl" 10 
+Slovenian 
+.IP "sv" 10 
+Swedish 
+.IP "tr" 10 
+Turkish 
+.SH "SEE ALSO" 
+.PP 
+elinks(1), links(1), links2(1), lynx(1), w3m(1) 
+.SH "AUTHOR" 
+.PP 
+\fBwikipedia2text\fR was written by Christian Brabandt 
+<cb@256bit.org>. Patches also from Axel Beckert 
+<abe@deuxchevaux.org>. 
+.PP 
+This manual page was written by Axel Beckert <abe@deuxchevaux.org> for 
+the \fBDebian\fP system (but may be used by others).  Permission is 
+granted to copy, distribute and/or modify this document under 
+the terms of the GNU General Public License 
+(GPL), Version 2 any later version published 
+by the Free Software Foundation. 
+.PP 
+On Debian systems, the complete text of the GNU General 
+Public License can be found in 
+\fB/usr/share/common-licenses/GPL\fP. 
+.SH "HISTORY" 
+.PP 
+wikipedia2text was first released by Christian Brabandt on 
+\fIin 
+his blog (link to URL http://blog.256bit.org/archives/126-Wikipedia-in-der-Shell.html) \fR with as script named 
+\fBwiki\fR. Some users may find it useful to create 
+an alias with that name for speeding up the typing of a 
+\fBwikipedia2text\fR command if no other command of that name is 
+present. 
+.SH "OTHER INFO" 
+.PP 
+The current version of \fBwikipedia2text\fR should be available at 
+\fIon Christian 
+Brabandt's website (link to URL http://www.256bit.org/~chrisbra/wiki) \fR. 
+.\" created by instant / docbook-to-man, Thu 13 May 2010, 04:29 

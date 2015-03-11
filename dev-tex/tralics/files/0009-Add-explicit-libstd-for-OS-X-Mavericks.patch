@@ -1,0 +1,38 @@
+From 1d8041a0be80c51293ce937a015983d18d3b855e Mon Sep 17 00:00:00 2001
+From: Michael Hartl <michael@michaelhartl.com>
+Date: Tue, 10 Dec 2013 13:30:15 -0800
+Subject: [PATCH 09/19] Add explicit libstd++ for OS X Mavericks
+
+---
+ src/Makefile | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/src/Makefile b/src/Makefile
+index 604d06d..fecfe92 100644
+--- a/src/Makefile
++++ b/src/Makefile
+@@ -9,7 +9,7 @@ INCLUDES=tralics.h txinline.h  txparser.h  txvars.h txstring.h \
+    txstack.h txfonts.h  txlogger.h  txtoken.h  txbuffer.h txparam.h \
+    tximage.h txscaled.h txid.h txeqtb.h txfp.h txio.h txstats.h  \
+    txcond.h txatt.h txhash.h txxml.h txtokenlist.h txconst.h \
+-   txchars.h txcmd.h 
++   txchars.h txcmd.h
+ 
+ RAOPT=
+ TRALICSDIR=/usr/lib/tralics
+@@ -19,10 +19,10 @@ CONFDIR=../confdir
+ 
+ CC=g++
+ CCC=g++
+-CXX=g++
++CXX=g++ -stdlib=libstdc++
+ 
+ CPPFLAGS=-O2 -Wall
+-#CPPFLAGS= -g -Wall 
++#CPPFLAGS= -g -Wall
+ 
+ 
+ tralics: $(OBJECTS)
+-- 
+1.8.5.5
+

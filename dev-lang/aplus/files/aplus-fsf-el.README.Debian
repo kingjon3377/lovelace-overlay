@@ -1,0 +1,97 @@
+Version 4.18.8-3: A change in XFree 4.2 might cause some difficulties when
+using XEmacs for A+ development.  On a pc104 keyboard, the older X setup had
+the keys labeled Alt as the Alt keysyms, and the keys labeled Windows as the
+Meta keysyms, and XEmacs would use the Meta keys as its meta prefix keys.  The
+newer X setup still has the keys labeled Alt as the Alt keysyms, but the keys
+labeled Windows are now the Super keysyms.  XEmacs uses the Alt keysyms as its
+meta prefix keys.  For this version of aplus-fsf-el, I made the A+ modifier
+key (defined in keyb.el) the Super key so that A+ will work with the standard
+setup, without interfering with the use of the Meta key by XEmacs for other
+purposes.  This means that if you might notice that XEmacs has switched which
+key it recognizes as its meta prefix (not an A+ change, an XFree86 change) and
+A+ has switched which key it recognizes as its modifier key (an A+ change to
+leave the default behavior of XEmacs untouched).
+
+On a pc101 keyboard (those with just two Alt keys, no Windows or other special
+keys), you might have to change the definitions of the Alt keys so that one is
+the Alt key and the other is the Super key.  One way to do this is via the
+setxkbmap(1) or xmodmap(1) utilities.
+
+Another issue is that your window manager might grab some keystrokes before
+they get to XEmacs.  I found that IceWM will grab the Super-<N> keys, where
+<N> is any key in the top (number) row of the keyboard.  Since these keys are
+used by A+, it becomes impossible to enter those characters.  Again, use the
+setxkbmap(1) or xmodmap(1) utilities to solve this.
+
+
+A+ modifications:
+
+You can also define a variable in XEmacs to make something other than the
+Super key.  Do the following in you XEmacs initialization file (~/.emacs):
+
+(defvar a-modifier-list '(hyper))
+
+The default configuration sets it to '(super), but you can set it to alt,
+meta, super or hyper, to correspond to your X setup.  It appears that if you
+have nothing but Alt keys, though, XEmacs will grab them, and even if you set
+the a-modifier-list to be '(alt), it will not work.  It's better to figure out
+via xmodmap how to set one key to be the Super keysym.
+
+
+An example:
+
+I used the xev(1) program to determine that the keycode of my left Alt key was
+decimal 64, or hex 0x40, and of the right Alt key decimal 113, or hex 0x71.
+So, to make the left Alt key the Alt keysym and the right Alt key the Super
+keysym, I created a file ~/.Xmodmap with these lines:
+
+clear mod1
+keycode 0x40 = Alt_L
+keycode 0x71 = Super_R
+add mod1 = Super_R
+add mod3 = Alt_L
+
+then XEmacs treated the left Alt as its meta prefix key, yet I was able to use
+the right Alt to input A+ characters.
+
+
+Another example:
+
+This command will swap the Alt and Windows keys from their regular
+definitions, so that the Windows keys become the Meta keys, and the Alt keys
+are Alt keys:
+
+setxkbmap -option altwin:meta_win
+
+If you explicity define a key as a Meta keysym, XEmacs will pick that up as it
+meta prefix key.  This is a case where you would also define the
+a-modifier-list (see above) to be '(alt).
+
+
+XEmacs workarounds:
+
+Alternatively, you can use the following two-keystroke sequence:
+
+       C-c <x>
+
+where <x> is a character on the APL Union keyboard.
+See the keyboard table: /usr/share/doc/aplus-fsf-doc/html/keyboard.html
+
+Examples:
+
+       C-c s   is the "ceiling" operator
+       C-c C   (uppercase C) is the "lamp" (comment) character
+       C-c [   is "assignment" ( <- )
+
+These keys are active whenever `a-minor-mode' is active, which by
+default is when you are inside the A+ interactive buffer, or are in
+buffer containing a *.a file.
+
+If all else fails and you have to take over whatever XEmacs wants to use as
+its meta prefix key in order to be able to enter A+ characters (unlikely) then
+note that the Meta prefix in XEmacs can be obtained not only by an explicit
+Meta key, but also by using the Esc key, or the C-[ combination.  I.e., Esc-x
+is the same as M-x, as is C-[ x.  It's a little more cumbersome, but it works
+in a pinch.
+
+ -- Neil Roeth <neil@debian.org>, Sun, 30 Mar 2008 18:19:09 -0400

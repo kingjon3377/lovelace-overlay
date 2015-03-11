@@ -1,0 +1,739 @@
+--- mmorph-2.3.4.2.orig/Makefile
++++ mmorph-2.3.4.2/Makefile
+@@ -69,7 +69,7 @@
+ # On Alpha: to allow enough room for optimizing
+ # CFLAGS=-O1000
+ # CFLAGS=-pg -g -DDEBUG
+-CFLAGS=-O -g
++CFLAGS=-O
+ 
+ INCLUDES= config.h user.h symbols.h unify.h bitmap.h chain.h mymalloc.h \
+ 	 combine.h database.h spell.h output.h tfs.h crc32file.h \
+--- mmorph-2.3.4.2.orig/bitmap.h
++++ mmorph-2.3.4.2/bitmap.h
+@@ -10,6 +10,10 @@
+ #include "config.h"
+ #include <values.h>
+ 
++/* It seems this macro is needed - ajk */
++#include <limits.h>
++#define BITS(t) (sizeof(t)*CHAR_BIT)
++
+ #define WORD_TYPE	unsigned long
+ #define WORD_SIZE	BITS(WORD_TYPE)
+ #define MODULO_MASK	(WORD_SIZE-1)
+--- mmorph-2.3.4.2.orig/configure
++++ mmorph-2.3.4.2/configure
+@@ -470,7 +470,7 @@
+     if test -f $ac_dir/$ac_word; then
+       ac_cv_prog_YACC="yacc"
+       break
+-    fi
++   fi
+   done
+   IFS="$ac_save_ifs"
+   test -z "$ac_cv_prog_YACC" && ac_cv_prog_YACC="BISON"
+--- mmorph-2.3.4.2.orig/database.c
++++ mmorph-2.3.4.2/database.c
+@@ -27,7 +27,7 @@
+ #endif
+ #endif
+ 
+-#include <db.h>
++#include <db_185.h>
+ #include <fcntl.h>
+ #include <netinet/in.h>
+ #include "mymalloc.h"
+--- mmorph-2.3.4.2.orig/main.c
++++ mmorph-2.3.4.2/main.c
+@@ -157,7 +157,7 @@
+ 	      "");
+ }
+ 
+-void
++int
+ main(argc, argv)
+ int         argc;
+ char       *argv[];
+--- mmorph-2.3.4.2.orig/mmorph.1
++++ mmorph-2.3.4.2/mmorph.1
+@@ -1,9 +1,9 @@
+-.\" @(#)mmorph.5  October 1995 ISSCO;
++.\" @(#)mmorph.1  October 1995 ISSCO;
+ .\" mmorph, MULTEXT morphology tool
+ .\" Version 2.3, October 1995
+ .\" Copyright (c) 1994,1995 ISSCO/SUISSETRA, Geneva, Switzerland
+ .\" Dominique Petitpierre, <petitp@divsun.unige.ch>
+-.TH MMORPH 5  "Version 2.3, October 1995"
++.TH MMORPH 1  "Version 2.3, October 1995"
+ 
+ .SH NAME
+ mmorph \- MULTEXT morphology tool
+@@ -159,7 +159,7 @@
+ 
+ .SH DESCRIPTION
+ .LP
+-In the simplest mode of operation, with just the \fB-m\fP \fImorphfile\fP
++In the simplest mode of operation, with just the \fB\-m\fP \fImorphfile\fP
+ option,
+ .B mmorph
+ operates in lookup mode:  it will open an existing database called
+@@ -167,7 +167,7 @@
+ corresponding to words) in the input.
+ .LP
+ To create the database from the lexical entries specified in "morphfile",
+-use \fB-c -m\fP \fImorphfile\fP.  The file \fImorphfile\fB.db\fR should not
++use \fB\-c \-m\fP \fImorphfile\fP.  The file \fImorphfile\fB.db\fR should not
+ exist.  When the database is complete it will lookup the segments in the
+ input. If used ineractively (input and output is a terminal), a prompt
+ is printed when the program expects the user to type a segment string.
+@@ -175,18 +175,18 @@
+ .LP
+ To test the rule applications on the lexical entries specified in
+ \fImorphfile\fP, without creating a database and without looking up
+-segments, use \fB-n -m\fP \fImorphfile\fP.  This automatically sets the
++segments, use \fB\-n \-m\fP \fImorphfile\fP.  This automatically sets the
+ trace level to 1 if it was not specified.
+ .LP
+ In order to do the same operations as above, but on the alternate set of
+-lexical entries in \fIaddfile\fP, use the extra option \fB-a \fIaddfile\fR.  
++lexical entries in \fIaddfile\fP, use the extra option \fB\-a \fIaddfile\fR.  
+ The
+ lexical entries in morphfile will be ignored.  This is useful when making
+ additions to a standard morphological description.  Be aware that 
+ entries added to the database \fImorphfile.db\fP do not replace
+ existing ones.
+ .SS "How to test a morphological description"
+-Use the \fB-n\fP option.  In the Grammar section, specify goal rules that will
++Use the \fB\-n\fP option.  In the Grammar section, specify goal rules that will
+ match the desired results.  In the Lexicon section specify the lexical
+ items you want to test.  When running all rules will be applied
+ (recursively) to the lexical items, if the rule is a goal, then the result
+@@ -198,7 +198,7 @@
+ where they should occur in the main input file.
+ .LP
+ If you are using an existing description and want to test only new lexical
+-entries, use the options \fB-n -a\fP \fIaddfile\fP, and put the lexical
++entries, use the options \fB\-n \-a\fP \fIaddfile\fP, and put the lexical
+ entries in \fIaddfile\fP.
+ .SH OPTIONS
+ .TP
+@@ -223,7 +223,7 @@
+ Create a new database for lookup.  The name of the created file is the name
+ of \fImorphfile\fP (\fB\-m\fP option) with suffix \fB.db\fP.  It should not
+ exist; if it exists the user should remove it manually before running
+-\fBmmorph -c\fP (this is a minimal protection against accidental
++\fBmmorph \-c\fP (this is a minimal protection against accidental
+ overwriting a database that might have taken a long time to create).
+ .TP
+ \fB\-d\fP \fIdebug_map\fP
+@@ -237,11 +237,11 @@
+ 	2	2	0x2	debug yacc parsing
+ 	3	4	0x4	debug rule combination
+ 	4	8	0x8	debug spelling application
+-	5	16	0x10	print statistics with -p or -q options
+-	all bits	-1	0xffff	all debug options whatever they are
++	5	16	0x10	print statistics with \-p or \-q options
++	all bits	\-1	0xffff	all debug options whatever they are
+ .fi
+ To combine options add the decimal or hexadecimal values together.
+-Example: -t 0x5 specifies bits (options) 1 and 4.
++Example: \-t 0x5 specifies bits (options) 1 and 4.
+ .TP
+ \fB\-E\fP
+ In record/field mode, extends the morphology annotations if they already
+@@ -342,7 +342,7 @@
+ syntax errors quickly after each modification before running it "for real".
+ .TP
+ \fB\-z\fP
+-implies -y. Parse and output the lexical descriptions in normalized form.
++implies \-y. Parse and output the lexical descriptions in normalized form.
+ .TP
+ \fIinfile\fP
+ file containing the segments to lookup, one per line. Defaults to the standard
+@@ -383,7 +383,7 @@
+ .ft B
+ .nf
+ 
+-mmorph -n -m morphfile
++mmorph \-n \-m morphfile
+ .fi
+ .RE
+ .ft R
+@@ -393,7 +393,7 @@
+ .ft B
+ .nf
+ 
+-mmorph -c -m morphfile
++mmorph \-c \-m morphfile
+ .fi
+ .RE
+ .ft R
+@@ -405,7 +405,7 @@
+ .ft B
+ .nf
+ 
+-mmorph -m morphfile
++mmorph \-m morphfile
+ .fi
+ .RE
+ .ft R
+@@ -416,7 +416,7 @@
+ .ft B
+ .nf
+ 
+-mmorph -m morphfile -a addfile
++mmorph \-m morphfile \-a addfile
+ .fi
+ .RE
+ .ft R
+--- mmorph-2.3.4.2.orig/mmorph.5
++++ mmorph-2.3.4.2/mmorph.5
+@@ -1,4 +1,4 @@
+-.\" @(#)mmorph.1  October 1995 ISSCO;
++.\" @(#)mmorph.5  October 1995 ISSCO;
+ .\" mmorph, MULTEXT morphology tool
+ .\" Version 2.3, October 1995
+ .\" Copyright (c) 1994,1995 ISSCO/SUISSETRA, Geneva, Switzerland
+--- mmorph-2.3.4.2.orig/mymalloc.c
++++ mmorph-2.3.4.2/mymalloc.c
+@@ -10,6 +10,7 @@
+     convenient wrappers around memory allocation functions
+ */
+ 
++#include <string.h>
+ #ifndef  MALLOC_FUNC_CHECK
+ #include <malloc.h>
+ #include <errno.h>
+--- mmorph-2.3.4.2.orig/mymalloc.h
++++ mmorph-2.3.4.2/mymalloc.h
+@@ -87,6 +87,8 @@
+ 
+ #endif	/* MALLOC_FUNC_CHECK */
+ 
++#include <stddef.h>
++
+ #define MY_MALLOC(var,type) \
+     my_malloc((T_PTR *) &(var), (size_t) sizeof (type))
+ 
+--- mmorph-2.3.4.2.orig/output.c
++++ mmorph-2.3.4.2/output.c
+@@ -8,7 +8,7 @@
+     handle all printing
+ */
+ 
+-#include <varargs.h>
++#include <stdarg.h>
+ #include <ctype.h>
+ #include "user.h"
+ #include "output.h"
+@@ -23,15 +23,12 @@
+ 
+ /*VARARGS*/
+ void
+-fatal_error(va_alist)
+-va_dcl
++fatal_error(char *format, ...)
+ 
+ {
+     va_list     ap;
+-    char       *format;
+ 
+-    va_start(ap);
+-    format = va_arg(ap, char *);
++    va_start(ap, format);
+     (void) fflush(outfile);
+     if (parsing) {
+ 	if (fprintf(logfile,
+@@ -56,15 +53,12 @@
+ 
+ /*VARARGS*/
+ void
+-print_warning(va_alist)
+-va_dcl
++print_warning(char *format, ...)
+ 
+ {
+     va_list     ap;
+-    char       *format;
+ 
+-    va_start(ap);
+-    format = va_arg(ap, char *);
++    va_start(ap, format);
+     (void) fflush(outfile);
+     if (fprintf(logfile, "Warning: ") == EOF)
+ 	EXIT(3);
+@@ -77,15 +71,12 @@
+ 
+ /*VARARGS*/
+ void
+-print_out(va_alist)
+-va_dcl
++print_out(char *format, ...)
+ 
+ {
+     va_list     ap;
+-    char       *format;
+ 
+-    va_start(ap);
+-    format = va_arg(ap, char *);
++    va_start(ap, format);
+     if (vfprintf(outfile, format, ap) == EOF)
+ 	EXIT(3);
+     va_end(ap);
+@@ -99,15 +90,12 @@
+ 
+ /*VARARGS*/
+ void
+-print_log(va_alist)
+-va_dcl
++print_log(char *format, ...)
+ 
+ {
+     va_list     ap;
+-    char       *format;
+ 
+-    va_start(ap);
+-    format = va_arg(ap, char *);
++    va_start(ap, format);
+     if (vfprintf(logfile, format, ap) == EOF)
+ 	EXIT(3);
+     va_end(ap);
+@@ -115,17 +103,12 @@
+ 
+ /*VARARGS*/
+ void
+-print(va_alist)
+-va_dcl
++print(FILE *file, char *format, ...)
+ 
+ {
+     va_list     ap;
+-    char       *format;
+-    FILE       *file;
+ 
+-    va_start(ap);
+-    file = va_arg(ap, FILE *);
+-    format = va_arg(ap, char *);
++    va_start(ap, format);
+     if (vfprintf(file, format, ap) == EOF)
+ 	EXIT(3);
+     va_end(ap);
+--- mmorph-2.3.4.2.orig/output.h
++++ mmorph-2.3.4.2/output.h
+@@ -17,12 +17,12 @@
+ extern FILE *rejectfile;
+ extern char *prompt;
+ 
+-extern void fatal_error( /* va_alist */ );
+-extern void print_warning( /* va_alist */ );
++extern void fatal_error(char *format, ...);
++extern void print_warning(char *format, ...);
+ extern void flush_out();
+-extern void print_out( /* va_alist */ );
+-extern void print_log( /* va_alist */ );
+-extern void print( /* va_alist */ );
++extern void print_out(char *format, ...);
++extern void print_log(char *format, ...);
++extern void print(FILE *file, char *format, ...);
+ extern void print_string();
+ extern void print_string_l();
+ extern void print_letter();
+--- mmorph-2.3.4.2.orig/tokenize.l
++++ mmorph-2.3.4.2/tokenize.l
+@@ -19,7 +19,7 @@
+ 
+ #define NUL '\0'
+ 
+-int	yylineno = 1;
++//int	yylineno = 1;
+ int	linepos = 0;
+ static char	buf_str[MAXSTRLNG];
+ static char   *pbuf_str;
+--- mmorph-2.3.4.2.orig/tokenstr.sed
++++ mmorph-2.3.4.2/tokenstr.sed
+@@ -1,6 +1,7 @@
+ #!/bin/sed -f
+ 1i\
+-#define FIRSTTOKEN  257\
++#define FIRSTTOKEN  258\
++#define LASTTOKEN 290\
+ static char *token[] = {
+ s/[	 ][	 ]*/ /g
+ /^# *define /b token
+@@ -14,4 +15,4 @@
+ \    ""\
+ \    };
+ $g
+-$s/.*/#define LASTTOKEN &/p
++#$s/.*/#define LASTTOKEN &/p
+--- mmorph-2.3.4.2.orig/user.h
++++ mmorph-2.3.4.2/user.h
+@@ -10,13 +10,17 @@
+ #if defined(STDC_HEADERS) && ! MALLOC_FUNC_CHECK
+ #include <stdlib.h>	/* ANSI & POSIX types */
+ #endif
++#include <unistd.h>
++#include <string.h>
+ #include <stdio.h>
+ #include <errno.h>
+ 
+ 
+ /* because they may not be declared in errno.h: */
+ extern int  sys_nerr;
++#if 0  /* this breaks in Debian */
+ extern char *sys_errlist[];
++#endif
+ 
+ #ifndef FALSE
+ #define FALSE   (0)
+--- mmorph-2.3.4.2.orig/user.y
++++ mmorph-2.3.4.2/user.y
+@@ -250,6 +250,7 @@
+ 	    current_type->project_card= current_type->card;
+ 	    crc32file_add(&crc, (unsigned char) '|');
+ 	}
++	;
+ 
+ TypeNew	: DNAME 
+ 	{
+@@ -452,6 +453,7 @@
+ 		fatal_error("value set complement for \"%s\" is empty",
+ 			    current_attribute->name);
+ 	}
++	;
+ 
+ ValSet	: NOTEQUAL ValDisj
+ 	{
+@@ -519,6 +521,7 @@
+ 	    $$=$2;
+ 	    variable_allowed = TRUE; /* useful only for prefix */
+ 	}
++	;
+ 
+ AttDefPLUS	: AttDefPLUS AttDef
+ 	{
+@@ -892,6 +895,7 @@
+ 	    /* save string */
+ 	    current_string = $1;
+ 	}
++	;
+ 
+ LexDefSTAR	: LexDefSTAR LexDef
+ 	{
+--- mmorph-2.3.4.2.orig/debian/changelog
++++ mmorph-2.3.4.2/debian/changelog
+@@ -0,0 +1,171 @@
++mmorph (2.3.4.2-12) unstable; urgency=medium
++
++  * debian/control (Build-Depends): Omit libdb3-dev option since libdb-dev
++    is now a real package instead of a virtual package.  Closes: (#500615)
++    Thanks to Luk Claes <luk@debian.org> for the bug report.
++
++ -- Thomas Bushnell, BSG <tb@debian.org>  Sun, 05 Oct 2008 15:05:22 -0700
++
++mmorph (2.3.4.2-11) unstable; urgency=low
++
++  * mmorph.1: Properly escape all the "-" characters that should be
++    minus signs.
++  
++  * debian/control: (Build-Depends): Require at least version 5 of debhelper
++    to match debian/compat.
++
++ -- Thomas Bushnell, BSG <tb@debian.org>  Sun, 24 Feb 2008 19:04:42 -0500
++
++mmorph (2.3.4.2-10) unstable; urgency=low
++
++  * debian/control (Standards-Version): Update to 3.7.3.  No changes needed.
++
++ -- Thomas Bushnell, BSG <tb@debian.org>  Mon, 14 Jan 2008 16:18:41 -0500
++
++mmorph (2.3.4.2-9) unstable; urgency=low
++
++  * debian/control (Standards-Version): Update to 3.7.2.
++    
++  * debian/compat: New file (level 5).
++  * debian/control (Depends): Add ${misc:Depends}.
++  * debian/rules (DH_COMPAT): Remove declaration.
++  
++ -- Thomas Bushnell, BSG <tb@debian.org>  Tue,  3 Oct 2006 00:12:41 -0700
++
++mmorph (2.3.4.2-8) unstable; urgency=low
++
++  * debian/rules (configure): Add YACC="bison -y" to satisfy weird build
++    failures.
++
++ -- Thomas Bushnell, BSG <tb@debian.org>  Wed,  9 Nov 2005 21:54:47 -0800
++
++mmorph (2.3.4.2-7) unstable; urgency=low
++
++  * debian/control (Build-Depends): Give real alternative of libdb4.3-dev
++    for virtual package libdb-dev.  (Closes: #333784)
++
++ -- Thomas Bushnell, BSG <tb@debian.org>  Thu, 13 Oct 2005 10:58:12 -0700
++
++mmorph (2.3.4.2-6) unstable; urgency=low
++
++  * debian/copyright: Update FSF address.
++    
++  * debian/mmorph.1: Set .TH section to 1.  Fix initial comment to match.
++  * debian/mmorph.5: Fix filename in initial comment.
++    
++  * debian/control (Standards-Version): Bump to 3.6.2.
++  
++ -- Thomas Bushnell, BSG <tb@debian.org>  Sat,  1 Oct 2005 00:04:56 -0700
++
++mmorph (2.3.4.2-5) unstable; urgency=low
++
++  * debian/control (Description): Remove last (derisive)
++    sentence. (Closes: #326629).
++
++ -- Thomas Bushnell, BSG <tb@debian.org>  Sun,  4 Sep 2005 15:24:39 -0700
++
++mmorph (2.3.4.2-4) unstable; urgency=low
++
++  * Build-Depends on libdb-dev instead of specifying libdb4.1-dev to allow
++    more flexibility.  Closes: #263229.
++
++ -- Thomas Bushnell, BSG <tb@debian.org>  Tue,  3 Aug 2004 17:39:01 -0700
++
++mmorph (2.3.4.2-3) unstable; urgency=low
++
++  * Accept NMU under maintainer name.  Closes: #192860, #195465.
++
++ -- Thomas Bushnell, BSG <tb@becket.net>  Sat,  5 Jun 2004 13:03:27 -0700
++
++mmorph (2.3.4.2-2.2) unstable; urgency=low
++
++  * Non-maintainer upload from DebCamp BSP.
++  * Make it build with GCC 3.3.
++   (Closes: Bug#195465)
++
++ -- Peter Karlsson <peterk@debian.org>  Mon, 14 Jul 2003 14:00:00 +0100
++
++mmorph (2.3.4.2-2.1) unstable; urgency=low
++
++  * Fixed compilations problem :
++    - with new bison (1.875a-1)
++    - with new flex (2.5.31-6)
++    - with new libdb (4.1.25-4)
++    Closes: #162860
++
++ -- Julien LEMOINE <speedblue@debian.org>  Tue, 13 May 2003 20:23:53 +0200
++
++mmorph (2.3.4.2-2) unstable; urgency=low
++
++  * Set maintainer to Thomas Bushnell, BSG <tb@debian.org>.  Closes: #68289.
++  * Fix spelling of "morphology".  Closes: #125142.
++  * Update Dominique Petitpierre's email address.
++
++ -- Thomas Bushnell, BSG <tb@debian.org>  Thu,  3 Jan 2002 00:38:08 -0800
++  
++mmorph (2.3.4.2-1) unstable; urgency=high
++
++  * Debian QA upload.
++  * New upstream version.
++  * Added bison to Build-Depends.  Closes: #119020.
++  * Converted to debhelper.
++  * debian/copyright: Upstream switched to GPL.
++  * Compiled with glibc's db1/db.h rather than libdb3's db_185.h.
++  * Conforms to Standards version 3.5.6:
++    * Support the `debug' build option.
++
++ -- Matej Vela <vela@debian.org>  Mon, 12 Nov 2001 06:18:09 +0100
++
++mmorph (2.3.4-7) unstable; urgency=low
++
++  * Maintainer address corrected to
++    Debian QA Group <packages@qa.debian.org>.
++  * s/make clean/make distclean/ in the "clean" target of
++    debian/rules.
++  * Added "-isp" to dpkg-gencontrol in debian/rules.
++  * Better stripping of the binaries.
++  * Added build dependencies.
++  * Standards-Version: 3.1.1
++
++ -- Adrian Bunk <bunk@fs.tum.de>  Fri,  9 Nov 2001 18:35:43 +0100
++
++mmorph (2.3.4-6) unstable; urgency=low
++
++  * fix build failure on ia64 (closes: #105158) 
++
++ -- David Kimdon <dwhedon@debian.org>  Sun, 23 Sep 2001 01:00:52 -0600
++
++mmorph (2.3.4-5) unstable; urgency=low
++
++  * debian/control [Maintainer]: Package orphaned.
++
++ -- Antti-Juhani Kaijanaho <ajk@debian.org>  Tue, 30 May 2000 15:19:03 +0300
++
++mmorph (2.3.4-4) unstable; urgency=low
++
++  * debian/{prerm,postinst,rules}: Implement the /usr/doc transition method.
++
++ -- Antti-Juhani Kaijanaho <ajk@debian.org>  Fri,  5 Nov 1999 00:04:54 +0200
++
++mmorph (2.3.4-3) unstable; urgency=low
++
++  * configure.in, database.c: Choose between db_185.h and db.h based on
++    the glibc version. Closes: #41793.
++  * mymalloc.h: #include <stddef.h> so that we find size_t.
++
++ -- Antti-Juhani Kaijanaho <ajk@debian.org>  Fri, 23 Jul 1999 17:06:00 +0300
++
++mmorph (2.3.4-2) unstable; urgency=low
++
++  * Upgraded Standards-Version to 3.0.0.0 with necessary
++    changes to debian/rules
++
++ -- Antti-Juhani Kaijanaho <ajk@debian.org>  Thu,  1 Jul 1999 16:16:30 +0300
++
++mmorph (2.3.4-1) unstable; urgency=low
++  
++  * Initial packaging.
++
++ -- Antti-Juhani Kaijanaho <ajk@debian.org>  Fri,  2 Apr 1999 16:28:46 +0300
++
++
+--- mmorph-2.3.4.2.orig/debian/rules
++++ mmorph-2.3.4.2/debian/rules
+@@ -0,0 +1,78 @@
++#!/usr/bin/make -f
++# Sample debian/rules that uses debhelper.
++# This file is public domain software, originally written by Joey Hess. 
++
++# Uncomment this to turn on verbose mode.
++#export DH_VERBOSE=1
++
++CFLAGS=-O2 -Wall
++ifneq ($(findstring debug,$(DEB_BUILD_OPTIONS)),)
++CFLAGS+=-g
++endif
++
++build: build-stamp
++build-stamp:
++	dh_testdir
++
++	# Add here commands to compile the package.
++	YACC="bison -y" ./configure
++	$(MAKE) CFLAGS="$(CFLAGS)" LDLIBS=-ldb
++
++	touch build-stamp
++
++clean:
++	dh_testdir
++	dh_testroot
++	rm -f build-stamp
++
++	# Add here commands to clean up after the build process.
++	[ ! -f Makefile ] || $(MAKE) distclean
++
++	dh_clean
++
++install: build
++	dh_testdir
++	dh_testroot
++	dh_clean -k
++	dh_installdirs usr/bin usr/share/man
++
++	# Add here commands to install the package into debian/<packagename>
++	$(MAKE) MTHOME=debian/mmorph/usr MANDIR=debian/mmorph/usr/share/man \
++		install
++
++# Build architecture-independent files here.
++binary-indep: build install
++# We have nothing to do by default.
++
++# Build architecture-dependent files here.
++binary-arch: build install
++	dh_testdir
++	dh_testroot
++#	dh_installdebconf	
++	dh_installdocs 00README 00RELEASE_NOTES mmorph_v2.tex
++	dh_installexamples data/*
++	dh_installmenu
++#	dh_installlogrotate
++#	dh_installemacsen
++#	dh_installpam
++#	dh_installmime
++#	dh_installinit
++	dh_installcron
++	dh_installman
++	dh_installinfo
++#	dh_undocumented
++	dh_installchangelogs 00CHANGES
++	dh_link
++	dh_strip
++	dh_compress
++	dh_fixperms
++#	dh_makeshlibs
++	dh_installdeb
++#	dh_perl
++	dh_shlibdeps
++	dh_gencontrol
++	dh_md5sums
++	dh_builddeb
++
++binary: binary-indep binary-arch
++.PHONY: build clean binary-indep binary-arch binary install
+--- mmorph-2.3.4.2.orig/debian/control
++++ mmorph-2.3.4.2/debian/control
+@@ -0,0 +1,15 @@
++Source: mmorph
++Section: misc
++Priority: extra
++Maintainer: Thomas Bushnell, BSG <tb@debian.org>
++Standards-Version: 3.7.3
++Build-Depends: debhelper (>= 5), bison, flex, libdb-dev
++
++Package: mmorph
++Architecture: any
++Depends: ${shlibs:Depends}, ${misc:Depends}
++Description: A two-level morphology tool for natural language processing
++ The MULTEXT morphology tool, mmorph, is a free implementation of the
++ two-level formalism for natural language morphology.
++
++
+--- mmorph-2.3.4.2.orig/debian/copyright
++++ mmorph-2.3.4.2/debian/copyright
+@@ -0,0 +1,36 @@
++This package was Debianized by Antti-Juhani Kaijanaho
++<ajk@debian.org>.  The original sources were downloaded from
++<URL:ftp://issco-ftp.unige.ch/pub/multext/mmorph-2.3.4_2.tar.gz>.
++Simple modifications to the upstream sources were necessary to make
++the program compile.  These changes have been propagated to upstream
++for consideration.
++
++The author of the program is Dominique Petitpierre, whose email
++address is <petitp@mail.adm.unige.ch>.
++
++Antti-Juhani Kaijanaho's work in this package may - as far as
++copyright issues are concerned - be used, distributed and modified by
++anyone for any purpose at will.
++
++Mmorph comes with the following copyright notice and license:
++
++    mmorph, MULTEXT morphology tool
++    Copyright (c) 1994,1995 ISSCO/SUISSETRA, Geneva, Switzerland
++
++This program is free software; you can redistribute it and/or
++modify it under the terms of the GNU General Public License
++as published by the Free Software Foundation; either version 2
++of the License, or (at your option) any later version.
++
++This program is distributed in the hope that it will be useful,
++but WITHOUT ANY WARRANTY; without even the implied warranty of
++MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++GNU General Public License for more details.
++
++You should have received a copy of the GNU General Public License
++along with this program; if not, write to the Free Software
++Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301,
++USA.
++
++On Debian systems, the complete text of the GNU General Public License
++can be found in /usr/share/common-licenses/GPL.
+--- mmorph-2.3.4.2.orig/debian/compat
++++ mmorph-2.3.4.2/debian/compat
+@@ -0,0 +1 @@
++5
