@@ -3,9 +3,9 @@
 # $Header: /var/cvsroot/gentoo-x86/x11-misc/gdevilspie/gdevilspie-0.5.ebuild,v 1.2 2014/08/10 20:02:27 slyfox Exp $
 
 EAPI=5
-PYTHON_DEPEND="2:2.6"
+PYTHON_COMPAT=( python2_{6,7} )
 
-inherit eutils distutils
+inherit distutils-r1
 
 DESCRIPTION="A user friendly interface to the devilspie window matching daemon, to create rules easily"
 HOMEPAGE="http://code.google.com/p/gdevilspie/"
@@ -16,20 +16,14 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
 
-DEPEND="=dev-python/pygtk-2*
-	dev-python/libwnck-python"
+DEPEND="dev-python/pygtk:2[${PYTHON_USEDEP}]
+	dev-python/libwnck-python[${PYTHON_USEDEP}]"
 RDEPEND="${DEPEND}
 	x11-misc/devilspie"
 
-PYTHON_MODNAME="gDevilspie"
-
-pkg_setup() {
-	python_set_active_version 2
-	python_pkg_setup
-}
+PATCHES=( "${FILESDIR}"/xdg_basedirectory.patch )
 
 src_prepare() {
 	sed -i -e "s:doc/gdevilspie:doc/${PF}:" setup.py || die
-	epatch "${FILESDIR}"/xdg_basedirectory.patch || die
-	distutils_src_prepare
+	distutils-r1_src_prepare
 }
