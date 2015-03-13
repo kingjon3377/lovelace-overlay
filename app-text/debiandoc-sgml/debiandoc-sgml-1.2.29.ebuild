@@ -9,7 +9,8 @@ inherit perl-module
 
 DESCRIPTION="Debian SGML documentation tools"
 HOMEPAGE="http://packages.debian.org/source/sid/debiandoc-sgml"
-SRC_URI="mirror://debian/pool/main/d/debiandoc-sgml/${PN}_${PV}.tar.gz"
+#SRC_URI="mirror://debian/pool/main/d/debiandoc-sgml/${PN}_${PV}.tar.gz"
+SRC_URI="mirror://debian/pool/main/d/debiandoc-sgml/${PN}_${PV}.orig.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
@@ -17,7 +18,7 @@ KEYWORDS="amd64"
 IUSE="+latex"
 
 DEPEND="dev-perl/HTML-Parser
-	virtual/perl-i18n-langtags
+	virtual/perl-I18N-LangTags
 	dev-perl/Roman
 	dev-perl/SGMLSpm
 	dev-perl/Text-Format
