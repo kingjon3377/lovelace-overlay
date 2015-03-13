@@ -1,4 +1,4 @@
-# Copyright 1999-2012 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -17,7 +17,9 @@ SLOT="0"
 KEYWORDS="amd64"
 IUSE=""
 
-RDEPEND="${PYTHON_DEPS}"
+RDEPEND="${PYTHON_DEPS}
+	dev-python/beautifulsoup[${PYTHON_USEDEP}]
+	dev-python/html5lib[${PYTHON_USEDEP}]"
 DEPEND="${RDEPEND}
 	app-arch/unzip"
 
@@ -37,7 +39,7 @@ src_prepare() {
 		-e 's/from ..BeautifulSoup import/from BeautifulSoup import/' \
 		{} + || die
 	epatch "${FILESDIR}/dwiggie.patch"
-	epatch "${FILESDIR}/system-config.patch"
+	epatch "${FILESDIR}/${PN}-2.1-system-config.patch"
 }
 
 src_install() {
