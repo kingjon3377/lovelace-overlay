@@ -7,7 +7,6 @@ EAPI=5
 PYTHON_MULTIPLE_ABIS="1"
 PYTHON_RESTRICTED_ABIS="2.5 2.6"
 PYTHON_TESTS_FAILURES_TOLERANT_ABIS="*-jython"
-DISTUTILS_SRC_TEST="setup.py"
 
 PYTHON_COMPAT=( python2_7 python3_{2,3} )
 
@@ -49,6 +48,10 @@ src_compile() {
 		emake html
 		popd > /dev/null
 	fi
+}
+
+python_test() {
+	esetup.py test
 }
 
 src_install() {

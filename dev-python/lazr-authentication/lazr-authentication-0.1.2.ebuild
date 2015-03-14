@@ -4,8 +4,6 @@
 
 EAPI=5
 
-DISTUTILS_SRC_TEST=setup.py
-
 PYTHON_COMPAT=( python2_{6,7} )
 
 inherit distutils-r1
@@ -29,3 +27,7 @@ RDEPEND="${RDEPEND}
 	dev-python/setuptools[${PYTHON_USEDEP}]"
 
 S="${WORKDIR}/${MY_P}-${PV}"
+
+python_test() {
+	esetup.py test
+}

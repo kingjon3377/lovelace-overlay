@@ -4,8 +4,6 @@
 
 EAPI=5
 
-DISTUTILS_SRC_TEST=setup.py
-
 inherit distutils bzr
 
 DESCRIPTION="Notification email plugin for Bazaar"
@@ -22,4 +20,8 @@ DEPEND="dev-vcs/bzr"
 RDEPEND="${DEPEND}"
 
 # setup.py doesn't run tests for some reason
-RESTRICT="test"
+#RESTRICT="test"
+
+python_test() {
+	esetup.py test
+}

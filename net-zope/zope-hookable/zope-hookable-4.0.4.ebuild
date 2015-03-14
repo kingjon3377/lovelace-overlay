@@ -22,13 +22,14 @@ SRC_URI="mirror://pypi/${MY_PN:0:1}/${MY_PN}/${MY_P}.tar.gz"
 LICENSE="ZPL"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="doc"
+IUSE="doc test"
 
 #RDEPEND="net-zope/namespaces-zope[zope,${PYTHON_USEDEP}]"
 RDEPEND=""
 DEPEND="${RDEPEND}
 	dev-python/setuptools[${PYTHON_USEDEP}]
-	doc? ( dev-python/sphinx[${PYTHON_USEDEP}] )"
+	doc? ( dev-python/sphinx[${PYTHON_USEDEP}] )
+	test? ( dev-python/nose[${PYTHON_USEDEP}] )"
 
 DISTUTILS_GLOBAL_OPTIONS=("*-jython --without-Cwrapper")
 DOCS="CHANGES.txt README.txt"
@@ -44,6 +45,10 @@ src_compile() {
 		PYTHONPATH="$(ls -d ../../${MY_P}-build-${EPYTHON/\./_}/lib*)" emake html
 		popd > /dev/null
 	fi
+}
+
+python_test() {
+	nosetests || die "Tests fail with ${EPYTHON}"
 }
 
 src_install() {

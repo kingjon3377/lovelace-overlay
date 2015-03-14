@@ -4,8 +4,6 @@
 
 EAPI=5
 
-DISTUTILS_SRC_TEST=setup.py
-
 # Previous versions, at least, claimed not to work with Python 3.
 
 PYTHON_COMPAT=( python2_{6,7} )
@@ -23,6 +21,9 @@ IUSE=""
 
 DEPEND="dev-python/lazr-uri[${PYTHON_USEDEP}]
 	dev-python/simplejson[${PYTHON_USEDEP}]
-	net-zope/zc-buildout"
-#	net-zope/zc-buildout[${PYTHON_USEDEP}]"
+	dev-python/zc-buildout[${PYTHON_USEDEP}]"
 RDEPEND="${DEPEND}"
+
+python_test() {
+	esetup.py test
+}

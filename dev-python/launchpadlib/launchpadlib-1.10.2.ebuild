@@ -4,8 +4,6 @@
 
 EAPI=5
 
-DISTUTILS_SRC_TEST=setup.py
-
 PYTHON_COMPAT=( python2_{6,7} )
 
 inherit distutils-r1
@@ -23,3 +21,7 @@ RDEPEND="dev-python/lazr-restfulclient[${PYTHON_USEDEP}]
 	dev-python/lazr-uri[${PYTHON_USEDEP}]
 	dev-python/oauth[${PYTHON_USEDEP}]"
 DEPEND="${RDEPEND}"
+
+python_test() {
+	esetup.py test
+}

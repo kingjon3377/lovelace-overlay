@@ -6,7 +6,6 @@
 EAPI=5
 PYTHON_MULTIPLE_ABIS="1"
 PYTHON_RESTRICTED_ABIS="3.*"
-DISTUTILS_SRC_TEST="nosetests"
 
 PYTHON_COMPAT=( python2_{6,7} python3_{2,3} )
 
@@ -23,13 +22,14 @@ SRC_URI="mirror://pypi/${MY_PN:0:1}/${MY_PN}/${MY_P}.zip"
 LICENSE="ZPL"
 SLOT="0"
 KEYWORDS="amd64 x86"
-IUSE=""
+IUSE="test"
 
 #RDEPEND="net-zope/namespaces-zope[zope,${PYTHON_USEDEP}]"
 RDEPEND=""
 DEPEND="${RDEPEND}
 	app-arch/unzip
-	dev-python/setuptools[${PYTHON_USEDEP}]"
+	dev-python/setuptools[${PYTHON_USEDEP}]
+	test? ( dev-python/nose[${PYTHON_USEDEP}] )"
 
 DOCS="CHANGES.txt"
 PYTHON_MODULES="${PN/-//}"
@@ -40,3 +40,7 @@ PYTHON_MODULES="${PN/-//}"
 #	# Disable failing tests.
 #	rm -f src/zope/datetime/tests/test_lp_139360.py
 #}
+
+python_test() {
+	nosetests || die "Tests fail with ${EPYTHON}"
+}
