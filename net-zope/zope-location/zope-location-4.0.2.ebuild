@@ -6,7 +6,6 @@
 EAPI=5
 PYTHON_MULTIPLE_ABIS="1"
 PYTHON_RESTRICTED_ABIS="2.5"
-DISTUTILS_SRC_TEST="setup.py"
 
 PYTHON_COMPAT=( python2_{6,7} python3_{2,3} )
 
@@ -53,6 +52,10 @@ src_compile() {
 		PYTHONPATH="$(ls -d ../../${MY_P}-build-${EPYTHON/\./_}/lib*)" emake html
 		popd > /dev/null
 	fi
+}
+
+python_test() {
+	esetup.py test
 }
 
 src_install() {

@@ -7,7 +7,6 @@ EAPI=5
 PYTHON_MULTIPLE_ABIS="1"
 PYTHON_RESTRICTED_ABIS="2.5"
 PYTHON_TESTS_FAILURES_TOLERANT_ABIS="*-jython"
-DISTUTILS_SRC_TEST="nosetests"
 
 PYTHON_COMPAT=( python2_{6,7} python3_{2,3} )
 
@@ -20,12 +19,13 @@ SRC_URI="mirror://pypi/${PN:0:1}/${PN}/${P}.zip"
 LICENSE="ZPL"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="doc"
+IUSE="doc test"
 
 RDEPEND="dev-python/zope-interface[${PYTHON_USEDEP}]"
 DEPEND="${RDEPEND}
 	app-arch/unzip
 	dev-python/setuptools[${PYTHON_USEDEP}]
+	test? ( dev-python/nose[${PYTHON_USEDEP}] )
 	doc? ( dev-python/sphinx[${PYTHON_USEDEP}] )"
 
 DOCS="CHANGES.rst README.rst"
@@ -39,6 +39,10 @@ src_compile() {
 		PYTHONPATH=".." emake html
 		popd > /dev/null
 	fi
+}
+
+python_test() {
+	nosetests || die "Tests fail with ${EPYTHON}"
 }
 
 src_install() {

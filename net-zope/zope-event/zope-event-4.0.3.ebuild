@@ -5,7 +5,6 @@
 
 EAPI=5
 PYTHON_COMPAT=( python{2_6,2_7,3_1,3_2,3_3} pypy2_0 )
-DISTUTILS_SRC_TEST="nosetests"
 
 inherit distutils-r1
 
@@ -20,13 +19,14 @@ SRC_URI="mirror://pypi/${MY_PN:0:1}/${MY_PN}/${MY_P}.tar.gz"
 LICENSE="ZPL"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="doc"
+IUSE="doc test"
 
 #RDEPEND="net-zope/namespaces-zope[zope]"
 RDEPEND=""
 DEPEND="${RDEPEND}
 	dev-python/setuptools[${PYTHON_USEDEP}]
-	doc? ( dev-python/sphinx )"
+	doc? ( dev-python/sphinx )
+	test? ( dev-python/nose[${PYTHON_USEDEP}] )"
 
 DOCS="CHANGES.rst README.rst"
 PYTHON_MODULES="${PN/-//}"
@@ -40,6 +40,10 @@ src_compile() {
 		emake html
 		popd > /dev/null
 	fi
+}
+
+python_test() {
+	nosetests || die "Tests fail with ${EPYTHON}"
 }
 
 src_install() {

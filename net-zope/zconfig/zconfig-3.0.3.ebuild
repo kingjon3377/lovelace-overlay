@@ -6,7 +6,6 @@
 EAPI=5
 PYTHON_MULTIPLE_ABIS="1"
 PYTHON_RESTRICTED_ABIS="2.5 3.*"
-DISTUTILS_SRC_TEST="nosetests"
 
 PYTHON_COMPAT=( python2_{6,7} )
 
@@ -25,13 +24,18 @@ KEYWORDS="~amd64 ~x86"
 IUSE="test"
 
 DEPEND="dev-python/setuptools[${PYTHON_USEDEP}]
-	test? ( net-zope/zope-testing[${PYTHON_USEDEP}] )"
+	test? ( net-zope/zope-testing[${PYTHON_USEDEP}]
+			dev-python/nose[${PYTHON_USEDEP}] )"
 RDEPEND=""
 
 S="${WORKDIR}/${MY_P}"
 
 DOCS="CHANGES.txt README.txt"
 PYTHON_MODULES="${MY_PN}"
+
+python_test() {
+	nosetests || die "Tests fail with ${EPYTHON}"
+}
 
 src_install() {
 	distutils-r1_src_install

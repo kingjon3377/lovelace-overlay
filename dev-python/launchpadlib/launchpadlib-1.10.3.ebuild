@@ -4,8 +4,6 @@
 
 EAPI=5
 
-#DISTUTILS_SRC_TEST=setup.py
-
 PYTHON_COMPAT=( python2_{6,7} )
 
 inherit distutils-r1

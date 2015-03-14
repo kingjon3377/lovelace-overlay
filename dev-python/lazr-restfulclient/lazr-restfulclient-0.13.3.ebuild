@@ -25,10 +25,9 @@ IUSE="test"
 #RESTRICT="test"
 
 # zc-buildout hasn't migrated to distutils-r1 yet, but we won't wait for it.
-#net-zope/zc-buildout[${PYTHON_USEDEP}]
 RDEPEND="dev-python/httplib2[${PYTHON_USEDEP}]
 	dev-python/simplejson[${PYTHON_USEDEP}]
-	net-zope/zc-buildout
+	dev-python/zc-buildout[${PYTHON_USEDEP}]
 	dev-python/wadllib[${PYTHON_USEDEP}]"
 DEPEND="${RDEPEND}
 	test? ( dev-python/lazr-restful[${PYTHON_USEDEP}]
@@ -36,3 +35,7 @@ DEPEND="${RDEPEND}
 			dev-python/elementtree[${PYTHON_USEDEP}] )"
 
 S="${WORKDIR}/${MY_P}-${PV}"
+
+python_test() {
+	esetup.py test
+}

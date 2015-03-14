@@ -4,10 +4,7 @@
 
 EAPI=5
 
-DISTUTILS_SRC_TEST=setup.py
-
-# zc-buildout restricts Python 3, so we do too.
-PYTHON_COMPAT=( python2_7 )
+PYTHON_COMPAT=( python2_7 python3_{3,4} )
 
 inherit distutils-r1
 
@@ -21,9 +18,11 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""
 
-#zc-buildout hasn't migrated to distutils-r1 yet, but we're not going to let that stop us.
-#DEPEND="net-zope/zc-buildout[${PYTHON_USEDEP}]"
-DEPEND="net-zope/zc-buildout"
+DEPEND="dev-python/zc-buildout[${PYTHON_USEDEP}]"
 RDEPEND="${DEPEND}"
 
 S="${WORKDIR}/${MY_P}-${PV}"
+
+python_test() {
+	esetup.py test
+}

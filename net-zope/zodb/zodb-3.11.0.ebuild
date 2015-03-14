@@ -6,7 +6,6 @@
 EAPI=5
 PYTHON_MULTIPLE_ABIS="1"
 PYTHON_RESTRICTED_ABIS="2.5 3.* *-jython *-pypy-*"
-DISTUTILS_SRC_TEST="setup.py"
 
 PYTHON_COMPAT=( python2_{6,7} )
 
@@ -42,3 +41,7 @@ PYTHON_CFLAGS=("2.* + -fno-strict-aliasing")
 
 DOCS="doc/* HISTORY.txt README.txt"
 PYTHON_MODULES="BTrees persistent ZEO ZODB"
+
+python_test() {
+	esetup.py test
+}

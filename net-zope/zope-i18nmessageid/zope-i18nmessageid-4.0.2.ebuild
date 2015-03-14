@@ -5,7 +5,6 @@
 
 EAPI=5
 PYTHON_MULTIPLE_ABIS="1"
-DISTUTILS_SRC_TEST="nosetests"
 
 PYTHON_COMPAT=( python2_{6,7} python3_{2,3} )
 
@@ -22,13 +21,14 @@ SRC_URI="mirror://pypi/${MY_PN:0:1}/${MY_PN}/${MY_P}.tar.gz"
 LICENSE="ZPL"
 SLOT="0"
 KEYWORDS="amd64 x86"
-IUSE="doc"
+IUSE="doc test"
 
 # net-zope/namespaces-zope[zope]
 RDEPEND=""
 DEPEND="${RDEPEND}
 	dev-python/setuptools[${PYTHON_USEDEP}]
-	doc? ( dev-python/sphinx[${PYTHON_USEDEP}] )"
+	doc? ( dev-python/sphinx[${PYTHON_USEDEP}] )
+	test? ( dev-python/nose[${PYTHON_USEDEP}] )"
 
 PYTHON_CFLAGS=("2.* + -fno-strict-aliasing")
 
@@ -45,6 +45,10 @@ src_compile() {
 		PYTHONPATH="$(ls -d ../../${MY_P}-build-${EPYTHON/\./_}/lib*)" emake html
 		popd > /dev/null
 	fi
+}
+
+python_test() {
+	nosetests || die "Tests fail with ${EPYTHON}"
 }
 
 src_install() {
