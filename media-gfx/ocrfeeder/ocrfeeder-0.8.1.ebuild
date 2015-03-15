@@ -1,4 +1,4 @@
-# Copyright 1999-2005 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -14,7 +14,7 @@ inherit gnome2-utils python-single-r1
 MY_P="${P}"
 DESCRIPTION="Optical Character Recognition and Document Analysis and Recognition for GNOME."
 HOMEPAGE="http://live.gnome.org/OCRFeeder"
-SRC_URI="http://ftp.gnome.org/pub/GNOME/sources/${PN}/0.7/${P}.tar.xz"
+SRC_URI="http://ftp.gnome.org/pub/GNOME/sources/${PN}/0.8/${P}.tar.xz"
 
 LICENSE="GPL-3"
 SLOT="0"
@@ -26,8 +26,9 @@ DEPEND=">=dev-python/pygtk-2.13[${PYTHON_USEDEP}]
 		dev-python/pillow[scanner,${PYTHON_USEDEP}]
 		dev-python/imaging[scanner,${PYTHON_USEDEP}]
 	)
-	>=dev-python/pygoocanvas-0.12[${PYTHON_USEDEP}]
+	x11-libs/goocanvas[python,${PYTHON_USEDEP},introspection]
 	dev-python/reportlab[${PYTHON_USEDEP}]
+	dev-python/pyenchant[${PYTHON_USEDEP}]
 	>=app-text/ghostscript-gpl-8.63
 	>=app-text/unpaper-0.3"
 
