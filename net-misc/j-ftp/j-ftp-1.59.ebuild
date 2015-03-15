@@ -1,4 +1,4 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -8,11 +8,11 @@ inherit java-pkg-2 java-ant-2
 
 DESCRIPTION="Java GUI client for FTP, SMB, SFTP and NFS"
 HOMEPAGE="http://j-ftp.sourceforge.net"
-SRC_URI="mirror://sourceforge/${PN}/${PV}/${P}.tar.gz"
+SRC_URI="mirror://sourceforge/${PN}/jftp/${PV}/${P}.tar.gz"
 
 LICENSE="GPL-3"
 SLOT="0"
-KEYWORDS="amd64"
+KEYWORDS="~amd64"
 IUSE=""
 
 EANT_BUILD_TARGET="jars"
@@ -35,6 +35,7 @@ src_install() {
 	doins "${FILESDIR}/jftp.desktop"
 	insinto /usr/share/pixmaps
 	doins "${FILESDIR}/jftp.xpm"
+	dodoc CHANGELOG readme
 }
 
 pkg_postinst() {
