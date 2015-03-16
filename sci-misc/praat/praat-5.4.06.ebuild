@@ -1,4 +1,4 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -24,7 +24,8 @@ DEPEND="|| ( ( x11-libs/libXmu
 		)
 		virtual/x11
 	)
-	x11-libs/motif"
+	x11-libs/motif
+	media-libs/alsa-lib"
 RDEPEND="${DEPEND}"
 KEYWORDS="~amd64"
 IUSE=""
@@ -36,13 +37,19 @@ S="${WORKDIR}/sources_${MY_PV}"
 src_prepare() {
 	# TODO: following line should be updated for non-linux etc. builds
 	# (Flammie does not have testing equipment)
-	cp "${S}/makefiles/makefile.defs.linux" "${S}/makefile.defs"
-	sed -i -e 's:^CC = gcc:CC = $(USER_CC):' "${S}/makefile.defs"
-	sed -i -e "s:g++:$(tc-getCXX) ${CXXFLAGS}:" "${S}/makefile"
+	cp "${S}/makefiles/makefile.defs.linux.alsa" "${S}/makefile.defs"
+	sed -i -e 's:^CC = gcc:CC = $(USER_CC):' \
+		-e 's:^CXX = g++:CXX = $(USER_CXX):' \
+		-e 's:^AR = ar:AR = $(USER_AR):' \
+		-e 's:^LINK = g++:LINK = $(USER_LINK):' \
+		-e '/^CFLAGS/s/ -O[0-9] / /' \
+		-e '/^CFLAGS/s/ -g\([0-9]\|\) / /' \
+		"${S}/makefile.defs"
 }
 
 src_compile() {
-	emake USER_CC="$(tc-getCC) ${CFLAGS}"
+	emake USER_CC="$(tc-getCC) ${CFLAGS}" USER_CXX="$(tc-getCXX) ${CXXFLAGS}" \
+		"USER_AR=$(tc-getAR)" "USER_LINK=$(tc-getCXX) ${LDFLAGS}"
 }
 
 src_install() {
