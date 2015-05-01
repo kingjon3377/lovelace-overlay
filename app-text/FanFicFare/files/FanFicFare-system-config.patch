@@ -1,0 +1,16 @@
+--- fanficfare/cli.py.old	2015-01-02 19:25:00.061764104 -0500
++++ fanficfare/cli.py	2015-01-02 19:25:47.551170405 -0500
+@@ -157,10 +157,12 @@
+     if passed_defaultsini:
+         configuration.readfp(passed_defaultsini)
+ 
+     if isfile(join(dirname(__file__), 'defaults.ini')):
+         conflist.append(join(dirname(__file__), 'defaults.ini'))
+         
++    if isfile('/etc/fanficfare/defaults.ini'):
++  	conflist.append('/etc/fanficfare/defaults.ini')
+     if isfile(join(homepath, 'defaults.ini')):
+         conflist.append(join(homepath, 'defaults.ini'))
+     if isfile(join(homepath2, 'defaults.ini')):
+         conflist.append(join(homepath2, 'defaults.ini'))
+     if isfile('defaults.ini'):
