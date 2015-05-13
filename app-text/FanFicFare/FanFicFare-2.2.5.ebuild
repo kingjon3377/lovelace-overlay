@@ -24,7 +24,7 @@ DEPEND="${RDEPEND}"
 
 # TODO: Add USE flag for calibre plugin and web-service
 
-src_prepare() {
+python_prepare_all() {
 #	edos2unix $(find . -type f -print) || die # a file has a space in it, so inline
 	find . -type f \( -name \*.png -o -exec sed -i 's/\r$//' -- {} + \) || die
 	cp "${FILESDIR}"/adapter_* "fanficfare/adapters/" || die
@@ -36,7 +36,7 @@ src_prepare() {
 		{} + || die
 	epatch "${FILESDIR}/dwiggie-fff.patch"
 	epatch "${FILESDIR}/${PN}-system-config.patch"
-	distutils-r1_src_prepare
+	distutils-r1_python_prepare_all
 }
 
 python_install_all() {
