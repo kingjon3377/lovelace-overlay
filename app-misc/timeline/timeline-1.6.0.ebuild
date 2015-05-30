@@ -21,24 +21,29 @@ IUSE=""
 
 RDEPEND="dev-python/markdown[${PYTHON_USEDEP}]
 	dev-python/wxpython:2.8[${PYTHON_USEDEP}]
-	dev-python/pysvg"
-#	dev-python/pysvg[${PYTHON_USEDEP}]"
+	dev-python/icalendar[${PYTHON_USEDEP}]
+	dev-python/pytz[${PYTHON_USEDEP}]
+	dev-python/pysvg[${PYTHON_USEDEP}]"
 DEPEND="${RDEPEND}
-	test? ( dev-python/mock[${PYTHON_USEDEP}] )"
+	test? (
+		dev-python/mock[${PYTHON_USEDEP}]
+		dev-python/mechanize[${PYTHON_USEDEP}]
+	)"
 
-# A test fails
 src_test() {
-	VIRTUALX_COMMAND="${PYTHON} ./execute-specs.py"
+	VIRTUALX_COMMAND="${PYTHON} test/execute-specs.py"
 	virtualmake
 }
 
 src_install() {
 	insinto $(python_get_sitedir)/${PN}
 	dodir $(python_get_sitedir)/${PN}
-	doins -r timelinelib/ icons/
-	doins ${PN}.py
+	doins -r source/timelinelib/ icons/
+	doins source/${PN}.py
 	python_fix_shebang "${D}"/$(python_get_sitedir)/${PN}/${PN}.py
 	fperms +x $(python_get_sitedir)/${PN}/${PN}.py
 	dodir /usr/bin
 	dosym $(python_get_sitedir)/${PN}/${PN}.py /usr/bin/${PN}
+	dodoc AUTHORS README
+	dodoc -r doc/*
 }
