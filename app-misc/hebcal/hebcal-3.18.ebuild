@@ -12,7 +12,7 @@ SRC_URI="https://github.com/${PN}/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="amd64"
+KEYWORDS="~amd64"
 IUSE=""
 
 DEPEND=""
@@ -26,7 +26,7 @@ src_prepare() {
 	# Remove reference to missing test program
 #	sed -i -e 's/ hebcal-3//' tests/Makefile.am || die
 
-	# The source downloaded from Github includes only Makefile.am
+	# Included generated-build-files reference versions of aclocal, etc., we don't use
 	eautoreconf
 }
 
@@ -36,6 +36,6 @@ src_test() {
 
 src_install() {
 	emake DESTDIR="${D}" install
-	dodoc AUTHORS ChangeLog HACKING NEWS OLD_NEWS README TODO Manual README.md README.mkd
+	dodoc AUTHORS NEWS OLD_NEWS Manual README.md
 	dohtml Manual.html
 }
