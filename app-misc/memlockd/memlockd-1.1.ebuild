@@ -7,7 +7,7 @@ EAPI=5
 inherit toolchain-funcs
 
 DESCRIPTION="Locks important files into memory and out of swap"
-HOMEPAGE="http://www.coker.com.au/projects/memlockd/"
+HOMEPAGE="http://doc.coker.com.au/projects/memlockd/"
 SRC_URI="http://www.coker.com.au/${PN}/${PN}_${PV}.tar.gz"
 
 LICENSE="GPL-2"
