@@ -604,5 +604,5 @@ kde_pkg_postrm() {
 
 case ${EAPI:-0} in
 	0|1) EXPORT_FUNCTIONS pkg_setup src_unpack src_compile src_install pkg_postinst pkg_postrm pkg_preinst;;
-	2) EXPORT_FUNCTIONS pkg_setup src_unpack src_prepare src_configure src_compile src_install pkg_postinst pkg_postrm pkg_preinst;;
+	2|3|4|5) EXPORT_FUNCTIONS pkg_setup src_unpack src_prepare src_configure src_compile src_install pkg_postinst pkg_postrm pkg_preinst;;
 esac

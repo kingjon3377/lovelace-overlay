@@ -459,5 +459,5 @@ kde-meta_src_install() {
 }
 case ${EAPI:-0} in
 	0|1) EXPORT_FUNCTIONS src_unpack src_compile src_install;;
-	2) EXPORT_FUNCTIONS src_unpack src_prepare src_configure src_compile src_install;;
+	2|3|4|5) EXPORT_FUNCTIONS src_unpack src_prepare src_configure src_compile src_install;;
 esac
