@@ -20,7 +20,7 @@ DEPEND="dev-perl/XML-DOM
 	dev-perl/DateManip
 	dev-perl/Email-Valid
 	dev-perl/Authen-SASL
-	perl-core/MIME-Base64"
+	virtual/perl-MIME-Base64"
 RDEPEND="${DEPEND}"
 
 src_prepare() {
