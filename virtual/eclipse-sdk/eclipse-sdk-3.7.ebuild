@@ -5,10 +5,10 @@
 EAPI=5
 
 DESCRIPTION="Virtual to pull in either the source or the binary package for Eclipse IDE"
-HOMEPAGE="http://www.eclipse.org"
+HOMEPAGE=""
 SRC_URI=""
 
-LICENSE="GPL-2"
+LICENSE=""
 SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""
