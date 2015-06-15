@@ -16,7 +16,7 @@ KEYWORDS="alpha amd64 arm hppa ia64 m68k ~mips ppc ppc64 s390 sh sparc x86 ~spar
 IUSE="nls static"
 
 RDEPEND="sys-devel/m4
-	app-admin/eselect-yacc"
+	app-eselect/eselect-yacc"
 DEPEND="${RDEPEND}
 	nls? ( sys-devel/gettext )"
 
