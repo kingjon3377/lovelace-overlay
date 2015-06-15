@@ -22,7 +22,7 @@ DEPEND="sys-libs/zlib
 	media-libs/libpng
 	virtual/jpeg
 	media-libs/freetype
-	wxwidgets? ( app-admin/eselect-wxwidgets
+	wxwidgets? ( app-eselect/eselect-wxwidgets
 		>=x11-libs/wxGTK-2.8 )
 	qt4? ( dev-qt/qtcore:4
 		dev-qt/qtgui:4 )
