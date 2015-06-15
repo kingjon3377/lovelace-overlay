@@ -64,7 +64,7 @@ COMMON_DEPEND="
 	openssl?	( dev-libs/openssl )
 	pcre?	( dev-libs/libpcre:3 )
 	pdf?	( app-text/poppler )
-	postgres?	( dev-db/postgresql-base )
+	postgres?	( dev-db/postgresql )
 	qt4? (
 		dev-qt/qtwebkit:4
 		dev-qt/qtcore:4

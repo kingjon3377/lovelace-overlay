@@ -49,7 +49,7 @@ COMMON_DEPEND="
 	)
 	pcre?	( dev-libs/libpcre:3 )
 	pdf?	( app-text/poppler )
-	postgres?	( dev-db/postgresql-base )
+	postgres?	( dev-db/postgresql )
 	qt4? (
 		dev-qt/qtgui:4
 		dev-qt/qtwebkit:4

@@ -24,7 +24,7 @@ RDEPEND="dev-lang/ghc:=
 	dev-libs/boehm-gc
 	gnutls? ( net-libs/gnutls )
 	pcre? ( dev-libs/libpcre )
-	postgres? ( dev-db/postgresql-base )
+	postgres? ( dev-db/postgresql )
 	sqlite? ( dev-db/sqlite )
 	   sdl? ( media-libs/libsdl )
 	gd? ( media-libs/gd )
