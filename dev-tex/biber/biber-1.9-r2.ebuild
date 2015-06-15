@@ -48,7 +48,7 @@ RDEPEND=">=dev-lang/perl-5.16
 	>=virtual/perl-Unicode-Collate-1.04"
 DEPEND="${RDEPEND}
 	dev-perl/Config-AutoConf
-	virtual/perl-Module-Build
+	dev-perl/Module-Build
 	test? ( dev-perl/File-Which
 			dev-perl/Test-Pod
 			dev-perl/Test-Pod-Coverage )"
