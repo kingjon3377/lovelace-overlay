@@ -35,7 +35,7 @@ COMMON_DEPEND="
 	opengl?	( >=media-libs/mesa-7.0.2 )
 	pcre?	( >=dev-libs/libpcre-7.6-r1 )
 	pdf?	( >=app-text/poppler-0.12.3-r3 )
-	postgres?	( >=dev-db/postgresql-base-8.2 )
+	postgres?	( >=dev-db/postgresql-8.2 )
 	qt3? ( dev-qt/qt-meta:3 )
 	sdl?	(
 		>=media-libs/sdl-image-1.2.6-r1
