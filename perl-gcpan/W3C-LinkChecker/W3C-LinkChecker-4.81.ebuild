@@ -20,7 +20,7 @@ DEPEND="dev-perl/URI
 	dev-perl/Net-IP
 	perl-gcpan/CSS-DOM
 	dev-perl/Encode-Locale
-	>=dev-perl/config-general-2.500.0
+	>=dev-perl/Config-General-2.500.0
 	dev-perl/HTML-Parser
 	>=dev-perl/TermReadKey-2.300.0
 	>=dev-perl/libwww-perl-6.40.0
