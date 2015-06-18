@@ -22,7 +22,7 @@ IUSE="jis2k +htmltidy"
 
 DEPEND=">=app-text/opensp-1.5.2
 	dev-perl/Config-General
-	perl-core/Encode
+	virtual/perl-Encode
 	dev-perl/Encode-HanExtra
 	dev-perl/HTML-Parser
 	perl-gcpan/HTML-Encoding
