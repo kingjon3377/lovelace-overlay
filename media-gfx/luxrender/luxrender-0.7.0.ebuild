@@ -30,7 +30,7 @@ DEPEND="${RDEPEND}
 	sys-devel/bison
 	sys-devel/flex
 	sys-apps/sed
-	doc? ( >=app-doc/doxygen-1.5.7[-nodot] )"
+	doc? ( >=app-doc/doxygen-1.5.7[dot] )"
 PDEPEND="blender? ( =media-gfx/luxblend-${PV} )"
 
 S="${WORKDIR}/lux-${EHG_REVISION}"
