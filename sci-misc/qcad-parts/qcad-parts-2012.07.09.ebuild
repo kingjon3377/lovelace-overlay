@@ -25,7 +25,7 @@ SRC_URI="architecture? ( $(create_uri Architecture) )
 	nounproject? ( $(create_uri thenounproject.com) )"
 
 SLOT="0"
-KEYWORDS="amd64 x86"
+KEYWORDS="~amd64 ~x86"
 IUSE="+architecture +electronics +gis +hydraulics +circuits +mechanics +misc +processing +nounproject"
 REQUIRED_USE="|| ( architecture electronics gis hydraulics circuits mechanics misc processing nounproject )"
 
