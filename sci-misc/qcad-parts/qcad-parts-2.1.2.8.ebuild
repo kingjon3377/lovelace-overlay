@@ -13,7 +13,7 @@ HOMEPAGE="http://www.ribbonsoft.com/qcad_library.html"
 SRC_URI="ftp://anonymous:anonymous@ribbonsoft.com/archives/${MY_PN}/${MY_PN}-${MY_PV}.zip"
 
 SLOT="0"
-KEYWORDS="amd64 x86"
+KEYWORDS="~amd64 ~x86"
 IUSE=""
 
 DEPEND="app-arch/unzip"
