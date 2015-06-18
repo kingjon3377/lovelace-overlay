@@ -21,7 +21,7 @@ KEYWORDS="~amd64"
 IUSE="jis2k +htmltidy"
 
 DEPEND=">=app-text/opensp-1.5.2
-	dev-perl/config-general
+	dev-perl/Config-General
 	perl-core/Encode
 	dev-perl/Encode-HanExtra
 	dev-perl/HTML-Parser
