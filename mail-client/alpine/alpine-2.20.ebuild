@@ -76,7 +76,7 @@ src_install() {
 	dodoc NOTICE README*
 
 	if use doc ; then
-		dodoc doc/brochure.txt 
+		dodoc doc/brochure.txt
 
 		docinto html/tech-notes
 		dohtml -r doc/tech-notes/

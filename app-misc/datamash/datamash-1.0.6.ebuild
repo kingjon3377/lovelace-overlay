@@ -18,10 +18,10 @@ IUSE="nls"
 RDEPEND="nls? ( virtual/libintl )"
 
 DEPEND="${RDEPEND}
-    nls? ( sys-devel/gettext )"
+	nls? ( sys-devel/gettext )"
 
 DOCS=( NEWS README THANKS AUTHORS ChangeLog )
 
 src_configure() {
-    econf $(use_enable nls)
+	econf $(use_enable nls)
 }
