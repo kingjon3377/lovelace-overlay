@@ -15,7 +15,7 @@ SRC_URI="http://src.luxrender.net/lux/archive/${EHG_REVISION}.tar.bz2"
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE="sse2 doc debug blender"
+IUSE="cpu_flags_x86_sse2 doc debug blender"
 
 RDEPEND=">=dev-libs/boost-1.37
 	media-libs/openexr
@@ -44,7 +44,7 @@ src_prepare() {
 }
 
 src_configure() {
-	use sse2 && append-flags "-msse -msse2 -DLUX_USE_SSE"
+	use cpu_flags_x86_sse2 && append-flags "-msse -msse2 -DLUX_USE_SSE"
 	use debug && append-flags -ggdb
 
 	need-wxwidgets unicode
