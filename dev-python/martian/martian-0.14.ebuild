@@ -24,7 +24,7 @@ IUSE="test"
 RDEPEND="dev-python/zope-interface[${PYTHON_USEDEP}]"
 DEPEND="${RDEPEND}
 	dev-python/setuptools[${PYTHON_USEDEP}]
-	test? ( net-zope/zope-testing[${PYTHON_USEDEP}] 
+	test? ( net-zope/zope-testing[${PYTHON_USEDEP}]
 			dev-python/nose[${PYTHON_USEDEP}] )"
 
 DOCS="CHANGES.txt CREDITS.txt src/martian/README.txt"
