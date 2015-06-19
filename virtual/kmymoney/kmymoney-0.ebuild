@@ -14,4 +14,5 @@ KEYWORDS="amd64"
 IUSE=""
 
 DEPEND=""
-RDEPEND="|| ( app-office/kmymoney app-office/kmymoney2 )"
+#RDEPEND="|| ( app-office/kmymoney app-office/kmymoney2 )"
+RDEPEND="app-office/kmymoney"

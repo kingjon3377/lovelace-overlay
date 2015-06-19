@@ -13,4 +13,5 @@ KEYWORDS="amd64"
 IUSE=""
 
 DEPEND=""
-RDEPEND="|| ( sys-fs/ntfs3g[ntfsprogs] sys-fs/ntfsprogs )"
+#RDEPEND="|| ( sys-fs/ntfs3g[ntfsprogs] sys-fs/ntfsprogs )"
+RDEPEND="sys-fs/ntfs3g[ntfsprogs]"
