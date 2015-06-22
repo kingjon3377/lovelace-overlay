@@ -25,6 +25,7 @@ net-zope/zope-publisher python_targets_python2_6
 net-zope/zope-security python_targets_python2_6
 net-zope/zope-traversing python_targets_python2_6
 dev-python/lazr-batchnavigator python_targets_python2_6
+net-zope/zope-component python_targets_python3_3 python_targets_python3_4
 
 # Don't pull in ~arch repoze-sphinx-autointerface when we want to be 'stable'
 net-zope/zope-exceptions doc
