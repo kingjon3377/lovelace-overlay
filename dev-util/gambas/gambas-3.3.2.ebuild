@@ -38,7 +38,7 @@ COMMON_DEPEND="
 	jit?	( >=sys-devel/llvm-3.1 )
 	media?	( media-libs/gstreamer )
 	mysql?	( >=virtual/mysql-5.0 )
-	mime?	( dev-libs/gmime:2.4 )
+	mime?	( dev-libs/gmime:2.6 )
 	ncurses? ( sys-libs/ncurses )
 	net? ( >=net-misc/curl-7.13 )
 	odbc?	( dev-db/unixODBC )
