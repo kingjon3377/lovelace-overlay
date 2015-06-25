@@ -16,7 +16,7 @@ KEYWORDS="amd64"
 IUSE=""
 
 DEPEND="dev-lang/perl
-	dev-lang/tk"
+	dev-lang/tk:="
 RDEPEND="${DEPEND}"
 
 src_prepare() {
