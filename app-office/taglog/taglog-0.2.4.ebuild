@@ -13,7 +13,7 @@ SLOT="0"
 KEYWORDS="amd64"
 IUSE=""
 
-DEPEND="dev-lang/tk"
+DEPEND="dev-lang/tk:="
 RDEPEND="${DEPEND}"
 
 src_prepare() {
