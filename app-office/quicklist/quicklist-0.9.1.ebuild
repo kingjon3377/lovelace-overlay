@@ -1,4 +1,4 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -17,7 +17,7 @@ IUSE=""
 
 DEPEND="x11-libs/gtk+:2
 	dev-libs/glib:2
-	x11-libs/gtk+extra
+	x11-libs/gtk+extra:2
 	gnome-extra/gtkhtml:3.14"
 RDEPEND="${DEPEND}"
 
