@@ -1,10 +1,11 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
 EAPI=5
 
-inherit distutils bzr
+PYTHON_COMPAT=( python2_7 )
+inherit distutils-r1 bzr
 
 DESCRIPTION="bzr plugin to submit an email to a Patch Queue Manager"
 HOMEPAGE="https://launchpad.net/bzr-pqm"
@@ -16,6 +17,6 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE="+launchpad"
 
-DEPEND="dev-vcs/bzr
-	launchpad? ( dev-python/launchpadlib )"
+DEPEND="dev-vcs/bzr[${PYTHON_USEDEP}]
+	launchpad? ( dev-python/launchpadlib[${PYTHON_USEDEP}] )"
 RDEPEND="${DEPEND}"
