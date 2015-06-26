@@ -1,4 +1,4 @@
-# Copyright 1999-2012 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -26,10 +26,23 @@ src_unpack() {
 }
 
 src_prepare() {
-	cd "${WORKDIR}"
-	epatch "${FILESDIR}/tcm_2.20+TSQD-4.2.diff"
-	cd "${S}"
-	epatch debian/patches/*patch "${FILESDIR}/warnings.patch"
+	find . -name Makefile -exec sed -i -e '/DO NOT DELETE THIS LINE/q' {} + || die
+	mkdir debian
+	cp "${FILESDIR}/Config.tmpl" debian
+	while read patch;do
+		epatch "${FILESDIR}/${patch}.dpatch"
+	done <<-EOF
+01_makefile
+02_export_png
+12_quote_system_call
+13_fix_flex_compile
+15_fix_gcc_4_0
+16_gv_preview
+20_fix_doc
+30_amd64_null
+31_gcc_4_1
+	EOF
+	epatch "${FILESDIR}/warnings.patch"
 	cp -f "${FILESDIR}/Config.tmpl_gentoo" src/Config.tmpl
 #	sed -i -e 's/^libs: staticlibs$/libs: semidynamiclibs/' src/Makefile.gcc
 	sed -i -e 's:^extern int errno;$:#include <errno.h>:' src/gl/text2ps.c
@@ -110,4 +123,38 @@ src_install() {
 #				"TCM_INSTALL_MAN=${D}/usr/share/man" \
 #				"TCM_INSTALL_DIR=${D}/usr" CHMOD=chmod install
 #	done
+	make_tcm_menu() {
+		$exe=$1
+		$title=$2
+		$cat=$3
+		if [ -z $cat ]; then
+			$cat="Applications/Graphics"
+		else
+			$cat="Applications/Graphics/${cat}"
+		fi
+		make_desktop_entry "${exe}" "${title}" "" "${cat}"
+	}
+	make_tcm_menu /usr/bin/tcm "TCM Control Panel" ""
+	make_tcm_menu /usr/bin/tgd "TGD - Tool for Generic Diagrams" "TCM Generic Editors"
+	make_tcm_menu /usr/bin/tgt "TGT - Tool for Generic Tables" "TCM Generic Editors"
+	make_tcm_menu /usr/bin/tgtt "TGTT - Tool for Generic Textual Trees" "TCM Generic Editors"
+	make_tcm_menu /usr/bin/tesd "TESD - Tool for Entry Relationship Diagrams" "TCM Structured Analysis Editors"
+	make_tcm_menu /usr/bin/tefd "TEFD - Tool for Data and Event Flow Diagrams" "TCM Structured Analysis Editors"
+	make_tcm_menu /usr/bin/tstd "TSTD - Tool for State Transition Diagrams (Mealy)" "TCM Structured Analysis Editors"
+	make_tcm_menu /usr/bin/ttut "TTUT - Tool for Transaction Use Tables" "TCM Structured Analysis Editors"
+	make_tcm_menu /usr/bin/tucd "TUCD - Tool for Use Case Diagrams" "TCM UML Editors"
+	make_tcm_menu /usr/bin/tssd "TSSD - Tool for Static Structure Diagrams" "TCM UML Editors"
+	make_tcm_menu /usr/bin/tatd "TATD - Tool for Activity Diagrams" "TCM UML Editors"
+	make_tcm_menu /usr/bin/tscd "TSCD - Tool for Statechart Diagrams" "TCM UML Editors"
+	make_tcm_menu /usr/bin/tsqd "TSQD - Tool for Sequence Diagrams" "TCM UML Editors"
+	make_tcm_menu /usr/bin/tcbd "TCBD - Tool for Collaboration Diagrams" "TCM UML Editors"
+	make_tcm_menu /usr/bin/tcpd "TCPD - Tool for Component Diagrams" "TCM UML Editors"
+	make_tcm_menu /usr/bin/tdpd "TDPD - Tool for Deployment Diagrams" "TCM UML Editors"
+	make_tcm_menu /usr/bin/terd "TERD - Tool for Entity Relationship Diagrams (classic)" "TCM Miscellaneous Editors"
+	make_tcm_menu /usr/bin/tcrd "TCRD - Tool for Class Relationship Diagrams (obsolete)" "TCM Miscellaneous Editors"
+	make_tcm_menu /usr/bin/tdfd "TDFD - Tool for Data Flow Diagrams (subset of TEFD)" "TCM Miscellaneous Editors"
+	make_tcm_menu /usr/bin/tpsd "TPSD - Tool for Process Structure Diagrams" "TCM Miscellaneous Editors"
+	make_tcm_menu /usr/bin/tsnd "TSND - Tool for System Network Diagrams" "TCM Miscellaneous Editors"
+	make_tcm_menu /usr/bin/trpg "TRPG - Tool for Recursive Process Graphs" "TCM Miscellaneous Editors"
+	make_tcm_menu /usr/bin/ttdt "TTDT - Tool for Transaction Decomposition Tables" "TCM Miscellaneous Editors"
 }
