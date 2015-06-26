@@ -20,7 +20,7 @@ IUSE="+perl +python +tcl"
 
 DEPEND="perl? ( dev-lang/perl )
 	python? ( ${PYTHON_DEPS} )
-	tcl? ( dev-lang/tcl )"
+	tcl? ( dev-lang/tcl:= )"
 RDEPEND="${DEPEND}
 	perl? ( dev-lang/perl:= )"
 
