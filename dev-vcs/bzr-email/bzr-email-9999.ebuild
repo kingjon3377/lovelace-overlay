@@ -1,10 +1,11 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
 EAPI=5
 
-inherit distutils bzr
+PYTHON_COMPAT=( python2_7 )
+inherit distutils-r1 bzr
 
 DESCRIPTION="Notification email plugin for Bazaar"
 HOMEPAGE="https://launchpad.net/bzr-email"
@@ -16,7 +17,7 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""
 
-DEPEND="dev-vcs/bzr"
+DEPEND="dev-vcs/bzr[${PYTHON_USEDEP}]"
 RDEPEND="${DEPEND}"
 
 # setup.py doesn't run tests for some reason
