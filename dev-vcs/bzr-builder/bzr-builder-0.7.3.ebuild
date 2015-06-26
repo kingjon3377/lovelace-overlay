@@ -1,4 +1,4 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -6,7 +6,8 @@ EAPI=5
 
 PYTHON_MODNAME="bzrlib/plugins/builder"
 
-inherit distutils
+PYTHON_COMPAT=( python2_7 )
+inherit distutils-r1
 
 DESCRIPTION="construct a bzr branch from a recipe"
 HOMEPAGE="http://launchpad.net/bzr-builder"
@@ -17,6 +18,6 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""
 
-DEPEND="dev-vcs/bzr
-	dev-python/python-debian"
+DEPEND="dev-vcs/bzr[${PYTHON_USEDEP}]
+	dev-python/python-debian[${PYTHON_USEDEP}]"
 RDEPEND="${DEPEND}"
