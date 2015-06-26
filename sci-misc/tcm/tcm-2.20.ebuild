@@ -16,7 +16,7 @@ SLOT="0"
 KEYWORDS="amd64"
 IUSE=""
 
-DEPEND="x11-libs/motif"
+DEPEND="x11-libs/motif:0"
 RDEPEND="${DEPEND}"
 
 src_unpack() {
