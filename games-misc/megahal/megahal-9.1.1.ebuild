@@ -28,6 +28,16 @@ REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 
 src_prepare() {
 	epatch "${FILESDIR}"/megahal_9.1.1a-9.diff
+	mkdir -p debian
+	if use perl;then
+		cp "${FILESDIR}/"*.pl . || die
+		cp "${FILESDIR}/"*.pm debian/ || die
+	fi
+	if use python; then
+		cp "${FILESDIR}/"*.py . || die
+	fi
+	cp "${FILESDIR}/megahal-personal" debian/ || die
+	sed -i -e "s@/lib/@/$(get_libdir)/g" debian/megahal-personal
 }
 
 src_compile() {
@@ -47,5 +57,6 @@ src_install() {
 	newman docs/megahal.1 megahal.6
 	newman docs/megahal.1 megahal-personal.6
 	doman docs/megahal_interfaces.3
-	dodoc ChangeLog docs/paper.txt docs/README.TXT debian/README.debian
+	dodoc ChangeLog docs/paper.txt docs/README.TXT "${FILESDIR}/README.debian"
+	make_desktop_entry /usr/bin/megahal "MegaHal" "" "Applications/Science/Social"
 }
