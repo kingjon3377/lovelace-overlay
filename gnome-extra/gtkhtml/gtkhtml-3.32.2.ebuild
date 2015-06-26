@@ -50,13 +50,3 @@ src_install() {
 	# Remove .la files since old will be removed anyway while updating
 	find "${ED}" -name "*.la" -delete || die "remove of la files failed"
 }
-
-pkg_preinst() {
-	gnome2_pkg_preinst
-	preserve_old_lib /usr/$(get_libdir)/libgtkhtml-editor.so.0
-}
-
-pkg_postinst() {
-	gnome2_pkg_postinst
-	preserve_old_lib_notify /usr/$(get_libdir)/libgtkhtml-editor.so.0
-}
