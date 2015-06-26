@@ -36,5 +36,5 @@ src_configure() {
 src_install() {
 	emake DESTDIR="${D}" install || die
 	dodoc AUTHORS ChangeLog README || die
-	prune_libtool_files --all
+	prune_libtool_files
 }
