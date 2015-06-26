@@ -1,4 +1,4 @@
-# Copyright 1999-2010 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -29,14 +29,13 @@ src_compile() {
 	#CONFIG="-O2 `pkg-config --libs --cflags libgtop-2.0` -Wall -lpthread -DWHICH_WISH=\"`which xmessage`\" -DVERSION=\"$(PV)\""
 	#$(tc-getCC) ${CFLAGS} das_watchdog.c -o  ${PN} ${CONFIG} || die "compile failed"
 	emake VERSION="${PV}"
-	gzip -d -c "${FILESDIR}/das_watchdog-init.d.gz" > das_watchdog-init.d || die "extracting rc-script"
 }
 
 src_install() {
 	dosbin ${PN}
 	dobin test_rt
 	dodoc README
-	newinitd das_watchdog-init.d ${PN}
+	newinitd "${FILESDIR}/das_watchdog-init.d" ${PN}
 }
 
 pkg_postinst() {
