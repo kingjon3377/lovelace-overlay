@@ -1,4 +1,4 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -8,7 +8,8 @@ PYTHON_MODNAME="libbe"
 SUPPORT_PYTHON_ABIS="1"
 RESTRICT_PYTHON_ABIS="2.4 3.*"
 
-inherit eutils distutils
+PYTHON_COMPAT=( python2_7 )
+inherit eutils distutils-r1
 
 if [[ ${PV} == "9999" ]] ; then
 	inherit git-2
@@ -25,14 +26,13 @@ HOMEPAGE="http://bugseverywhere.org/"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="bash-completion"
+IUSE=""
 
-RDEPEND="dev-lang/python
-	dev-python/jinja
-	dev-python/pyyaml"
+RDEPEND="dev-python/jinja[${PYTHON_USEDEP}]
+	dev-python/pyyaml[${PYTHON_USEDEP}]"
 DEPEND="${RDEPEND}
-	dev-vcs/git
-	dev-python/docutils"
+	dev-vcs/git[python,${PYTHON_USEDEP}]
+	dev-python/docutils[${PYTHON_USEDEP}]"
 
 # Tests depend on too many VCSes and apparently-randomly break.
 RESTRICT="test"
@@ -46,24 +46,18 @@ src_unpack() {
 	cd "${S}"
 }
 
-src_prepare() {
-	distutils_src_prepare
-}
-
 src_compile() {
 	make libbe/_version.py || die "_version.py generation failed"
 	emake RST2MAN="/usr/bin/rst2man.py" doc/man/be.1
-	distutils_src_compile
+	distutils-r1_src_compile
 }
 
 src_install() {
-	distutils_src_install
+	distutils-r1_src_install
 	dodoc AUTHORS NEWS README
 	if [[ ${PV} != "9999" ]] ; then
 		dodoc ChangeLog
 	fi
-	if use bash-completion ; then
-		insinto /etc/bash_completion.d/
-		newins misc/completion/be.bash be
-	fi
+	insinto /etc/bash_completion.d/
+	newins misc/completion/be.bash be
 }
