@@ -21,10 +21,10 @@ RDEPEND="${DEPEND}"
 
 src_prepare() {
 	epatch "${FILESDIR}/xword_1.0-7.diff"
-	mv -i debian/xword.1 debian/xword.6 || die "fixing man page section failed"
 }
 
 python_test() {
+	cp "${FILESDIR}/test.py" . || die
 	$(PYTHON) test.py || die "tests failed"
 }
 
@@ -33,5 +33,7 @@ src_install() {
 	insinto /usr/share/games/xword
 	doins *png
 	dogamesbin xword
-	doman debian/xword.6
+	doman "${FILESDIR}/xword.6"
+	insinto /usr/share/applications
+	doins "${FILESDIR}/${PN}.desktop"
 }
