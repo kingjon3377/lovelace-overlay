@@ -1,11 +1,11 @@
-# Copyright 1999-2012 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
 EAPI=5
-SUPPORT_PYTHON_ABIS=true
 
-inherit python
+PYTHON_COMPAT=( python2_7 python3_{3,4} )
+inherit python-r1
 
 DESCRIPTION="Command-line utility to to provide quick access to current weather conditions and forecasts."
 HOMEPAGE="http://fungi.yuggoth.org/weather/"
@@ -27,7 +27,7 @@ src_install() {
 		insinto "$(python_get_sitedir)"
 		doins ${PN}.py
 	}
-	python_execute_function my_install
+	python_foreach_impl my_install
 
 	insinto /etc
 	doins ${PN}rc overrides.conf
