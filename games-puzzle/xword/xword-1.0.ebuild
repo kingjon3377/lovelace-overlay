@@ -1,10 +1,11 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
 EAPI=5
 
-inherit games eutils python
+PYTHON_COMPAT=( python2_7 )
+inherit games eutils python-single-r1
 
 DESCRIPTION="GTK program for doing crossword puzzles"
 HOMEPAGE="http://x-word.org/"
@@ -15,7 +16,7 @@ SLOT="0"
 KEYWORDS="amd64"
 IUSE=""
 
-DEPEND="dev-python/pygtk:2"
+DEPEND="dev-python/pygtk:2[${PYTHON_USEDEP}]"
 RDEPEND="${DEPEND}"
 
 src_prepare() {
@@ -23,7 +24,7 @@ src_prepare() {
 	mv -i debian/xword.1 debian/xword.6 || die "fixing man page section failed"
 }
 
-src_test() {
+python_test() {
 	$(PYTHON) test.py || die "tests failed"
 }
 
