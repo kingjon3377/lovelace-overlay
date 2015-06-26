@@ -1,10 +1,11 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
 EAPI=5
 
-inherit games distutils
+PYTHON_COMPAT=( python2_7 )
+inherit games distutils-r1
 
 DESCRIPTION="anagram word game"
 HOMEPAGE="https://launchpad.net/pynagram"
@@ -15,11 +16,11 @@ SLOT="0"
 KEYWORDS="amd64"
 IUSE=""
 
-DEPEND=""
+DEPEND="dev-python/PyQt4[${PYTHON_USEDEP}]"
 RDEPEND="${DEPEND}"
 
 src_install() {
-	distutils_src_install
+	distutils-r1_src_install
 	dodir /usr/games/bin
 	mv -i "${D}/usr/bin/${PN}" "${D}/usr/games/bin" || die "fixing install path failed"
 }
