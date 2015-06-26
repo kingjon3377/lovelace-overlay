@@ -1,4 +1,4 @@
-# Copyright 1999-2009 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -26,6 +26,7 @@ DEPEND="${RDEPEND}
 S="${WORKDIR}"/${MY_PN}_v${PV}/${MY_PN}/Source
 
 src_prepare(){
+	edos2unix Common/b2BlockAllocator.cpp Common/b2Math.h
 	epatch "${FILESDIR}"/${P}-gcc4.patch
 	sed -i -e "s:../Source/::g" -i ../Include/Box2D.h || die "sed failed"
 }
