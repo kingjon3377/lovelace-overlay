@@ -47,6 +47,5 @@ src_prepare() {
 
 src_install() {
 	gnome2_src_install
-	# Remove .la files since old will be removed anyway while updating
-	find "${ED}" -name "*.la" -delete || die "remove of la files failed"
+	prune_libtool_files
 }
