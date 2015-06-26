@@ -1,4 +1,4 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -29,6 +29,7 @@ DEPEND="x11-libs/gtk+:1
 RDEPEND="${DEPEND}"
 
 src_prepare() {
+	edos2unix doc/man/${PN}.1 || die
 	epatch "${FILESDIR}/${P}.diff" "${FILESDIR}/datarootdir.patch" "${FILESDIR}/missing_separator.patch"
 	ln -s /usr/share/gettext/config.rpath .
 	eautoreconf
