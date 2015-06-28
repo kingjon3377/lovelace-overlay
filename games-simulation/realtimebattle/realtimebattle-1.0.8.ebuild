@@ -18,10 +18,10 @@ KEYWORDS="x86 amd64"
 IUSE="perl nls java debug +doc"
 SLOT=0
 
-DEPEND=">=x11-libs/gtk+-2.0.3
+DEPEND="x11-libs/gtk+:2
 		perl? ( dev-lang/perl )
 		nls? ( sys-devel/gettext )
-		java? ( virtual/jre )"
+		java? ( virtual/jre:* )"
 RDEPEND="${DEPEND}"
 
 src_unpack() {
