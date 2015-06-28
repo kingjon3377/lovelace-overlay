@@ -1,0 +1,230 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2005-11-11 21:45+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-15\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../mls_text.c:87 ../mls_text.c:98 ../mls_text.c:109 ../mls_text.c:220
+#: ../mls_text.c:229 ../mls_text.c:259 ../mls_text.c:383 ../mls_text.c:394
+#: ../mls_text.c:428
+msgid "(unknown)"
+msgstr "(desconocido)"
+
+#: ../mls_text.c:139 ../mls_text.c:176
+msgid "msgs"
+msgstr "msgs"
+
+#: ../mls_text.c:198 ../mls_text.c:358
+msgid "Statistics from"
+msgstr "Estadísticas del"
+
+#: ../mls_text.c:200 ../mls_text.c:360
+msgid "to"
+msgstr "al"
+
+#: ../mls_text.c:201 ../mls_text.c:361
+msgid "for"
+msgstr "por"
+
+#: ../mls_text.c:207 ../mls_text.c:367
+msgid "People who have written most messages:"
+msgstr "Personas que han escrito más mensajes:"
+
+#: ../mls_text.c:209 ../mls_text.c:218 ../mls_text.c:227 ../mls_text.c:257
+msgid "-Author-"
+msgstr "-Autor--"
+
+#: ../mls_text.c:209 ../mls_text.c:237 ../mls_text.c:247
+msgid "--Msg-"
+msgstr "--Msg-"
+
+#: ../mls_text.c:209 ../mls_text.c:237 ../mls_text.c:247 ../mls_text.c:257
+msgid "-Percent-"
+msgstr "-Percent-"
+
+#: ../mls_text.c:213 ../mls_text.c:241 ../mls_text.c:251 ../mls_text.c:374
+#: ../mls_text.c:407 ../mls_text.c:418
+msgid "other"
+msgstr "otros"
+
+#: ../mls_text.c:217 ../mls_text.c:378
+msgid "Best authors, by total size of their messages (w/o quoting):"
+msgstr "Mejores autores, por tamaño total de sus mensajes (sin citar):"
+
+#: ../mls_text.c:226 ../mls_text.c:389
+msgid "Best authors, by average size of their message (w/o quoting):"
+msgstr "Mejores autores, por tamaño medio de su mensaje (sin citar):"
+
+#: ../mls_text.c:235 ../mls_text.c:400
+msgid "Table showing the most successful subjects:"
+msgstr "Asuntos más utilizados:"
+
+#: ../mls_text.c:237
+msgid "-Subject-"
+msgstr "-Asunto--"
+
+#: ../mls_text.c:245 ../mls_text.c:411
+msgid "Most used email clients:"
+msgstr "Clientes de correo más utilizados:"
+
+#: ../mls_text.c:247
+msgid "-Mailer--"
+msgstr "-Mailer--"
+
+#: ../mls_text.c:255 ../mls_text.c:422
+msgid "Table of maximal quoting:"
+msgstr "Personas que más han citado:"
+
+#: ../mls_text.c:263 ../mls_text.c:431
+msgid "average"
+msgstr "media"
+
+#: ../mls_text.c:268 ../mls_text.c:436
+msgid "Graph showing number of messages written during hours of day:"
+msgstr "Número de mensajes escritos a distintas horas del día:"
+
+#: ../mls_text.c:270 ../mls_text.c:437
+msgid "hour "
+msgstr "hora "
+
+#: ../mls_text.c:271 ../mls_text.c:279 ../mls_text.c:287 ../mls_text.c:295
+#: ../mls_text.c:438 ../mls_text.c:445 ../mls_text.c:456 ../mls_text.c:467
+msgid "Warning"
+msgstr "Atención"
+
+#: ../mls_text.c:271 ../mls_text.c:279 ../mls_text.c:287 ../mls_text.c:295
+#: ../mls_text.c:438 ../mls_text.c:445 ../mls_text.c:456 ../mls_text.c:467
+msgid "message(s) not counted"
+msgstr "mensajes sin contar"
+
+#: ../mls_text.c:276 ../mls_text.c:443
+msgid "Graph showing number of messages written during days of month:"
+msgstr "Número de mensajes escritos a lo largo del mes:"
+
+#: ../mls_text.c:278 ../mls_text.c:444
+msgid "day "
+msgstr "día "
+
+#: ../mls_text.c:284 ../mls_text.c:454
+msgid "Graph showing number of messages written during days of week:"
+msgstr "Número de mensajes escritos a lo largo de la semana:"
+
+#: ../mls_text.c:286 ../mls_text.c:451
+msgid "Mon Tue Wed Thu Fri Sat Sun"
+msgstr "Lun Mar Mie Jue Vie Sab Dom"
+
+#: ../mls_text.c:292 ../mls_text.c:465
+msgid "Graph showing number of messages written during months of year:"
+msgstr ""
+"Gráfico mostrando el número de mensajes escritos en los distintos meses del "
+"año:"
+
+#: ../mls_text.c:294 ../mls_text.c:462
+msgid "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec"
+msgstr "Ene Feb Mar Abr May Jun Jul Ago Sep Oct Nov Dic"
+
+#: ../mls_text.c:298 ../mls_text.c:470
+msgid "Maximal quoting:"
+msgstr "Mensaje más citado:"
+
+#: ../mls_text.c:299 ../mls_text.c:305 ../mls_text.c:472 ../mls_text.c:480
+msgid "Author     :"
+msgstr "Autor         :"
+
+#: ../mls_text.c:300 ../mls_text.c:306 ../mls_text.c:311 ../mls_text.c:473
+#: ../mls_text.c:481 ../mls_text.c:488
+msgid "Subject    :"
+msgstr "Asunto        :"
+
+#: ../mls_text.c:301 ../mls_text.c:307 ../mls_text.c:474 ../mls_text.c:482
+msgid "Date       :"
+msgstr "Fecha         :"
+
+#: ../mls_text.c:302 ../mls_text.c:475
+msgid "Quote ratio:"
+msgstr "Ratio citación:"
+
+#: ../mls_text.c:302 ../mls_text.c:308 ../mls_text.c:313 ../mls_text.c:319
+#: ../mls_text.c:320 ../mls_text.c:475 ../mls_text.c:483 ../mls_text.c:490
+#: ../mls_text.c:498 ../mls_text.c:499
+msgid "bytes"
+msgstr "bytes"
+
+#: ../mls_text.c:304 ../mls_text.c:478
+msgid "Longest message:"
+msgstr "Mensaje más largo:"
+
+#: ../mls_text.c:308 ../mls_text.c:483
+msgid "Size       :"
+msgstr "Tamaño        :"
+
+#: ../mls_text.c:310 ../mls_text.c:486
+msgid "Most successful subject:"
+msgstr "Asunto más utilizado:"
+
+#: ../mls_text.c:312 ../mls_text.c:489
+msgid "No. of msgs:"
+msgstr "Núm. de msgs  :"
+
+#: ../mls_text.c:313 ../mls_text.c:490
+msgid "Total size :"
+msgstr "Tam. total    :"
+
+#: ../mls_text.c:315 ../mls_text.c:493
+msgid "Final summary:"
+msgstr "Resumen final:"
+
+#: ../mls_text.c:316 ../mls_text.c:495
+msgid "Total number of messages:            "
+msgstr "Número total de mensajes:         "
+
+#: ../mls_text.c:317 ../mls_text.c:496
+msgid "Total number of different authors:   "
+msgstr "Número total de autores distintos:"
+
+#: ../mls_text.c:318 ../mls_text.c:497
+msgid "Total number of different subjects:  "
+msgstr "Número total de asuntos distintos:"
+
+#: ../mls_text.c:319 ../mls_text.c:498
+msgid "Total size of messages (w/o headers):"
+msgstr "Tamaño total (sin cabeceras):     "
+
+#: ../mls_text.c:320 ../mls_text.c:499
+msgid "Average size of a message:           "
+msgstr "Tamaño medio del mensaje:         "
+
+#: ../mls_text.c:371 ../mls_text.c:381 ../mls_text.c:392 ../mls_text.c:426
+msgid "Author"
+msgstr "Autor"
+
+#: ../mls_text.c:371 ../mls_text.c:404 ../mls_text.c:415
+msgid "Msg"
+msgstr "Msg"
+
+#: ../mls_text.c:371 ../mls_text.c:404 ../mls_text.c:415 ../mls_text.c:426
+msgid "Percent"
+msgstr "Percent"
+
+#: ../mls_text.c:404
+msgid "Subject"
+msgstr "Asunto"
+
+#: ../mls_text.c:415
+msgid "Mailer"
+msgstr "Mailer"
+
+#~ msgid "iso-8859-1"
+#~ msgstr "iso-8859-1"

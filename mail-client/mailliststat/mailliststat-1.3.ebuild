@@ -1,4 +1,4 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -13,7 +13,7 @@ SRC_URI="http://www.marki-online.net/MLS/mls-${PV}.tgz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE="nls"
+IUSE="nls linguas_de linguas_es linguas_fr linguas_it linguas_pt_BR linguas_sk linguas_sr"
 
 RDEPEND=""
 DEPEND="${RDEPEND}
@@ -24,6 +24,15 @@ S="${WORKDIR}/mls-${PV}"
 src_prepare() {
 	epatch "${FILESDIR}/mailliststat_1.3-5.diff"
 	epatch "${FILESDIR}/*patch"
+	rm mls_lang.h mls.1
+	for lang in de es fr it pt_BR sk sr
+	do
+		use linguas_${lang} && cp "${FILESDIR}/${lang}.po" po/
+	done
+	cp "${FILESDIR}/${PN}.pot" po/ || die
+	cp "${FILESDIR}/po-Makefile" po/Makefile || die
+	cp "${FILESDIR}/${PN}.1" . || die
+	cp "${FILESDIR}/man-Makefile" man/Makefile || die
 	sed -i -e 's:(DESTDIR)/man:(DESTDIR)/share/man:' -e 's:gcc -D:$(USER_CC) -D:' Makefile || die "sed failed"
 	use nls || sed -i -e 's/all: po4a/all:/' man/Makefile || die "sed failed"
 }
