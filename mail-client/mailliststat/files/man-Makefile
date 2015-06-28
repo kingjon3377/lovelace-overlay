@@ -1,0 +1,14 @@
+all: po4a
+	po4a -q po4a/po4a.cfg
+
+clean:
+	-rm po4a/po/*~
+
+install:
+	test -d $(DESTDIR)/share/man/man1/ || \
+	  install -d -m 755 $(DESTDIR)/share/man/man1
+	install -p -m 644 mailliststat.1 $(DESTDIR)/share/man/man1
+	gzip -9f $(DESTDIR)/share/man/man1/mailliststat.1
+
+uninstall:
+	-rm -f $(DESTDIR)/share/man/man1/mailliststat.1.gz
