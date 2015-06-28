@@ -1,10 +1,11 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
 EAPI=5
 
-inherit distutils
+PYTHON_COMPAT=( python2_7 )
+inherit distutils-r1
 
 DESCRIPTION="SBackup is a simple backup solution intended for desktop use."
 HOMEPAGE="https://launchpad.net/sbackup"
@@ -19,12 +20,13 @@ IUSE=""
 RESTRICT=test
 
 #DEPEND="dev-python/gnome-python"
+#DEPEND="dev-python/gnome-python-base:2[${PYTHON_USEDEP}]
 DEPEND="dev-python/gnome-python-base:2
-	dev-python/gconf-python:2
-	dev-python/gnome-vfs-python:2
-	dev-python/libgnomecanvas-python:2
-	dev-python/libbonobo-python:2
-	dev-python/libgnome-python:2"
+	dev-python/gconf-python:2[${PYTHON_USEDEP}]
+	dev-python/gnome-vfs-python:2[${PYTHON_USEDEP}]
+	dev-python/libgnomecanvas-python:2[${PYTHON_USEDEP}]
+	dev-python/libbonobo-python:2[${PYTHON_USEDEP}]
+	dev-python/libgnome-python:2[${PYTHON_USEDEP}]"
 RDEPEND="${DEPEND}
 	app-admin/sudo
 	x11-libs/gksu"
