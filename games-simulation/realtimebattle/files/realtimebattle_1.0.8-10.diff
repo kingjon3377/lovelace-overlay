@@ -164,7 +164,7 @@
 +Source: realtimebattle
 +Section: games
 +Priority: optional
-+Maintainer: Rémi Vanicat <vanicat@debian.org>
++Maintainer: Remi Vanicat <vanicat@debian.org>
 +Standards-Version: 3.8.3
 +Build-Depends: debhelper (>= 5), libgtk2.0-dev, libglib2.0-dev
 +Build-Depends-Indep: default-jdk-builddep
@@ -230,7 +230,7 @@
 +  * Deleting postinst and prerm that are not needed anymore
 +  * New Standards-Version: 3.8.3
 +
-+ -- Rémi Vanicat <vanicat@debian.org>  Tue, 29 Sep 2009 23:27:26 +0200
++ -- Remi Vanicat <vanicat@debian.org>  Tue, 29 Sep 2009 23:27:26 +0200
 +
 +realtimebattle (1.0.8-9) unstable; urgency=low
 +
@@ -240,20 +240,20 @@
 +  * Another header to explicitly #include in c++ (Closes: #504847)
 +  * Add an section to the info file (Closes: #528885)
 +
-+ -- Rémi Vanicat <vanicat@debian.org>  Wed, 20 May 2009 04:11:01 +0200
++ -- Remi Vanicat <vanicat@debian.org>  Wed, 20 May 2009 04:11:01 +0200
 +
 +realtimebattle (1.0.8-8) unstable; urgency=high
 +
 +  * Suppression of the logging in the perl robot as it may lead to a
 +    security risk (Closes: #496385).
 +
-+ -- Rémi Vanicat <vanicat@debian.org>  Tue, 26 Aug 2008 01:00:54 +0200
++ -- Remi Vanicat <vanicat@debian.org>  Tue, 26 Aug 2008 01:00:54 +0200
 +
 +realtimebattle (1.0.8-7) unstable; urgency=low
 +
 +  * correction of a typo in build-indep dependency (closes: 473931)
 +
-+ -- Rémi Vanicat <vanicat@debian.org>  Sun, 06 Apr 2008 09:57:58 +0200
++ -- Remi Vanicat <vanicat@debian.org>  Sun, 06 Apr 2008 09:57:58 +0200
 +
 +realtimebattle (1.0.8-6) unstable; urgency=low
 +
@@ -261,13 +261,13 @@
 +    (Closes: #471551).
 +  * Use Vcs-* and not XS-Vcs-* in control
 +
-+ -- Rémi Vanicat <vanicat@debian.org>  Sat, 22 Mar 2008 10:32:12 +0100
++ -- Remi Vanicat <vanicat@debian.org>  Sat, 22 Mar 2008 10:32:12 +0100
 +
 +realtimebattle (1.0.8-5) unstable; urgency=low
 +
 +  * Don't try to build jBot when not building binary indep package
 +
-+ -- Rémi Vanicat <vanicat@debian.org>  Mon, 03 Mar 2008 07:50:06 +0100
++ -- Remi Vanicat <vanicat@debian.org>  Mon, 03 Mar 2008 07:50:06 +0100
 +
 +realtimebattle (1.0.8-4) unstable; urgency=low
 +
@@ -278,7 +278,7 @@
 +  * Use M_PI in place of M_PIL (closes: #447700)
 +  * Severall cleanup for lintian
 +
-+ -- Rémi Vanicat <vanicat@debian.org>  Fri, 29 Feb 2008 14:22:07 +0100
++ -- Remi Vanicat <vanicat@debian.org>  Fri, 29 Feb 2008 14:22:07 +0100
 +
 +realtimebattle (1.0.8-3) unstable; urgency=low
 +
@@ -286,7 +286,7 @@
 +  * Make realtimebattle binNMU safe thanks to Lior Kaplan (closes: 432994)
 +  * adding XS-Vcs-Browser and XS-Vcs-git
 +
-+ -- Rémi Vanicat <vanicat@debian.org>  Wed, 08 Aug 2007 10:52:21 +0200
++ -- Remi Vanicat <vanicat@debian.org>  Wed, 08 Aug 2007 10:52:21 +0200
 +
 +realtimebattle (1.0.8-2) unstable; urgency=low
 +
@@ -294,7 +294,7 @@
 +  * Really applying patch for gcc 4.1 (closes: #356157, 357403)
 +  * Changing config.guess and config.sub (closes: #342428)
 +
-+ -- Rémi Vanicat <vanicat@debian.org>  Fri, 17 Mar 2006 16:26:19 +0100
++ -- Remi Vanicat <vanicat@debian.org>  Fri, 17 Mar 2006 16:26:19 +0100
 +
 +realtimebattle (1.0.8-1) unstable; urgency=low
 +
@@ -302,7 +302,7 @@
 +  * Adding manpage from cvs (closes: #110739)
 +  * Applying patch for gcc 4.1 (closes: #356157)
 +
-+ -- Rémi Vanicat <vanicat@debian.org>  Fri, 10 Mar 2006 11:29:42 +0100
++ -- Remi Vanicat <vanicat@debian.org>  Fri, 10 Mar 2006 11:29:42 +0100
 +
 +realtimebattle (1.0.7+20050807-1) unstable; urgency=low
 +
@@ -317,7 +317,7 @@
 +  * Make doc-base happy with the name of the Info file
 +  * Override menu-icon-missing as icon is in the common package
 +
-+ -- Rémi Vanicat <vanicat@debian.org>  Wed, 10 Aug 2005 11:22:18 +0200
++ -- Remi Vanicat <vanicat@debian.org>  Wed, 10 Aug 2005 11:22:18 +0200
 +
 +realtimebattle (1.0.7-5) unstable; urgency=low
 +
@@ -326,7 +326,7 @@
 +  * Correction of the menu entry
 +  * use jikes and not gcj to compile the java files
 +
-+ -- Rémi Vanicat <vanicat@debian.org>  Wed, 23 Mar 2005 22:27:34 +0100
++ -- Remi Vanicat <vanicat@debian.org>  Wed, 23 Mar 2005 22:27:34 +0100
 +
 +realtimebattle (1.0.7-4) unstable; urgency=low
 +
@@ -338,13 +338,13 @@
 +    their needed files
 +  * Move rtb-team out of /usr/share
 +
-+ -- Rémi Vanicat <vanicat@debian.org>  Thu, 20 Jan 2005 14:46:25 +0100
++ -- Remi Vanicat <vanicat@debian.org>  Thu, 20 Jan 2005 14:46:25 +0100
 +
 +realtimebattle (1.0.7-3) unstable; urgency=low
 +
 +  * Added buildep on gcj for the java robot
 +
-+ -- Rémi Vanicat <vanicat@debian.org>  Wed, 22 Dec 2004 15:25:59 +0100
++ -- Remi Vanicat <vanicat@debian.org>  Wed, 22 Dec 2004 15:25:59 +0100
 +
 +realtimebattle (1.0.7-2) unstable; urgency=low
 +
@@ -352,36 +352,36 @@
 +  * apply upstream patch for partial gcc-3.4 compilation
 +    (it still fail on Team Framework for now)
 +
-+ -- Rémi Vanicat <vanicat@debian.org>  Wed, 22 Dec 2004 10:49:01 +0100
++ -- Remi Vanicat <vanicat@debian.org>  Wed, 22 Dec 2004 10:49:01 +0100
 +
 +realtimebattle (1.0.7-1) unstable; urgency=low
 +
 +  * New upstream release
 +
-+ -- Rémi Vanicat <vanicat@debian.org>  Fri, 17 Dec 2004 15:32:44 +0100
++ -- Remi Vanicat <vanicat@debian.org>  Fri, 17 Dec 2004 15:32:44 +0100
 +
 +realtimebattle (1.0.6-3) unstable; urgency=low
 +
 +  * Add AM_MAINTAINER_MODE to configure.in
 +
-+ -- Rémi Vanicat <vanicat@debian.org>  Fri, 16 Jan 2004 01:32:24 +0100
++ -- Remi Vanicat <vanicat@debian.org>  Fri, 16 Jan 2004 01:32:24 +0100
 +
 +realtimebattle (1.0.6-2) unstable; urgency=low
 +
 +  * Don't use dh_installinfo, but directly install-info (closes: #225604).
 +  * change name of RealTimeBattle.info.gz to realtimebattle.info.gz.
 +
-+ -- Rémi Vanicat <vanicat@debian.org>  Sat,  3 Jan 2004 12:11:31 +0100
++ -- Remi Vanicat <vanicat@debian.org>  Sat,  3 Jan 2004 12:11:31 +0100
 +
 +realtimebattle (1.0.6-1) unstable; urgency=low
 +
 +  * New upstream release
-+  * New Maintener (Rémi Vanicat <vanicat@debian.org)
++  * New Maintener (Remi Vanicat <vanicat@debian.org)
 +  * Compile now with g++ 3.3 (closes: #134033, #192461)
 +  * Acknowledge NMU from Matthias Klose <doko@debian.org> :
 +    (closes: #221274)
 +
-+ -- Rémi Vanicat <vanicat@debian.org>  Fri,  5 Dec 2003 13:58:23 +0100
++ -- Remi Vanicat <vanicat@debian.org>  Fri,  5 Dec 2003 13:58:23 +0100
 +
 +realtimebattle (1.0.5-5.1) unstable; urgency=low
 +
@@ -702,7 +702,7 @@
 @@ -0,0 +1,29 @@
 +This package was debianized by Fredrik Hallenberg hallon@debian.org on
 +Sat,  6 Feb 1999 18:06:51 +0100.
-+Then it was Adopted by Rémi Vanicat <vanicat@debian.org> on
++Then it was Adopted by Remi Vanicat <vanicat@debian.org> on
 +Fri,  5 Dec 2003 13:58:23 +0100.
 +
 +It was downloaded from http://sourceforge.net/project/showfiles.php?group_id=561
@@ -2845,7 +2845,7 @@
  send the following data and any information you think might be
 --- realtimebattle-1.0.8.orig/Documentation/RealTimeBattle.info
 +++ realtimebattle-1.0.8/Documentation/RealTimeBattle.info
-@@ -3,6 +3,11 @@
+@@ -3,3 +3,8 @@
  
     \input texinfo
  
@@ -2854,9 +2854,6 @@
 +* RealTimeBattle: (RealTimeBattle).	A robot programming game
 +END-INFO-DIR-ENTRY
 +
- 
- File: RealTimeBattle.info,  Node: Top,  Next: Introduction,  Up: (dir)
- 
 --- realtimebattle-1.0.8.orig/include/Messagetypes.h
 +++ realtimebattle-1.0.8/include/Messagetypes.h
 @@ -150,7 +150,7 @@
