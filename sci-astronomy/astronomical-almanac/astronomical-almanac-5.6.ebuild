@@ -1,4 +1,4 @@
-# Copyright 1999-2012 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -37,9 +37,9 @@ src_install() {
 	doins star.cat messier.cat orbit.cat
 	dodir /etc
 	insinto /etc
-	doins debian/aa.ini
+	doins "${FILESDIR}/aa.ini"
 	dodoc aa-55.xml aa.ans aa.que aa.rsp read.me readme.404
-	doman debian/*.1
-	dodoc debian/changelog debian/leg57-4.txt debian/leg57.log
-	dodoc debian/leg57.work debian/README.*
+	doman "${FILESDIR}"/*.1
+	dodoc "${FILESDIR}"/changelog "${FILESDIR}/leg57-4.txt" "${FILESDIR}/leg57.log"
+	dodoc "${FILESDIR}/leg57.work" "${FILESDIR}/"README.*
 }
