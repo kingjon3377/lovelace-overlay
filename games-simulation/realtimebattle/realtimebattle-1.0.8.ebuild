@@ -34,7 +34,9 @@ src_unpack() {
 
 src_prepare() {
 	edos2unix team-framework/bots/cobra/cobra_clientspecificrepository.h
+	sed -i -e "s@$(echo -e '\037')@~@g" Documentation/RealTimeBattle.info || die
 	epatch "${FILESDIR}/realtimebattle_1.0.8-10.diff"
+	sed -i -e "s@~@$(echo -e '\037')@g" Documentation/RealTimeBattle.info || die
 }
 
 src_configure() {
@@ -55,4 +57,6 @@ src_install(){
 	use doc || rm -Rf "${D}/usr/share/doc/${PF}"
 	rm -f "${D}/usr/games/RealTimeBattle"
 	rm "${D}//usr/share/locale/locale.alias"
+	make_desktop_entry "${GAMES_BINDIR}/${PN}" RealTimeBattle ${PN}.xpm "Games/Simulation"
+	doman "${FILESDIR}/${PN}.6"
 }
