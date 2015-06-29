@@ -37,6 +37,7 @@ src_prepare() {
 	sed -i -e "s@$(echo -e '\037')@~@g" Documentation/RealTimeBattle.info || die
 	epatch "${FILESDIR}/realtimebattle_1.0.8-10.diff"
 	sed -i -e "s@~@$(echo -e '\037')@g" Documentation/RealTimeBattle.info || die
+	epatch "${FILESDIR}/missing_headers.patch"
 }
 
 src_configure() {

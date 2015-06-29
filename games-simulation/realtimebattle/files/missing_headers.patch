@@ -1,0 +1,79 @@
+diff -ru realtimebattle-1.0.8.old/team-framework/io/unixclientcommunicator.cpp realtimebattle-1.0.8/team-framework/io/unixclientcommunicator.cpp
+--- realtimebattle-1.0.8.old/team-framework/io/unixclientcommunicator.cpp	2015-06-28 17:52:54.308819492 -0400
++++ realtimebattle-1.0.8/team-framework/io/unixclientcommunicator.cpp	2015-06-28 17:53:10.536820011 -0400
+@@ -46,6 +46,7 @@
+ #include <sys/types.h>
+ #include <sys/socket.h>
+ #include <sys/un.h>
++#include <unistd.h>
+ 
+ /**
+  * Namespace
+diff -ru realtimebattle-1.0.8.old/team-framework/io/unixinstreambuf.cpp realtimebattle-1.0.8/team-framework/io/unixinstreambuf.cpp
+--- realtimebattle-1.0.8.old/team-framework/io/unixinstreambuf.cpp	2015-06-28 17:52:54.308819492 -0400
++++ realtimebattle-1.0.8/team-framework/io/unixinstreambuf.cpp	2015-06-28 17:56:10.143825758 -0400
+@@ -34,6 +34,7 @@
+ #include <sstream>
+ #include <errno.h>
+ #include <cstring>
++#include <unistd.h>
+ /**
+  * Namespace
+  */
+diff -ru realtimebattle-1.0.8.old/team-framework/io/unixoutstreambuf.cpp realtimebattle-1.0.8/team-framework/io/unixoutstreambuf.cpp
+--- realtimebattle-1.0.8.old/team-framework/io/unixoutstreambuf.cpp	2015-06-28 17:52:54.308819492 -0400
++++ realtimebattle-1.0.8/team-framework/io/unixoutstreambuf.cpp	2015-06-28 17:55:49.527825099 -0400
+@@ -32,6 +32,7 @@
+ #include <errno.h>
+ #include <cstring>
+ #include <cstdio>
++#include <unistd.h>
+ /**
+  * Namespace
+  */
+diff -ru realtimebattle-1.0.8.old/team-framework/io/unixremoteclientconnection.cpp realtimebattle-1.0.8/team-framework/io/unixremoteclientconnection.cpp
+--- realtimebattle-1.0.8.old/team-framework/io/unixremoteclientconnection.cpp	2015-06-28 17:52:54.309819492 -0400
++++ realtimebattle-1.0.8/team-framework/io/unixremoteclientconnection.cpp	2015-06-28 17:55:19.120824126 -0400
+@@ -36,6 +36,7 @@
+ #include <iostream>
+ #include <sstream>
+ #include <ios>
++#include <unistd.h>
+ 
+ /**
+  * Namespace
+diff -ru realtimebattle-1.0.8.old/team-framework/io/unixrtbconnection.cpp realtimebattle-1.0.8/team-framework/io/unixrtbconnection.cpp
+--- realtimebattle-1.0.8.old/team-framework/io/unixrtbconnection.cpp	2015-06-28 17:52:54.309819492 -0400
++++ realtimebattle-1.0.8/team-framework/io/unixrtbconnection.cpp	2015-06-28 17:58:17.950829848 -0400
+@@ -33,6 +33,8 @@
+ #include <iostream>
+ #include <sstream>
+ #include <ios>
++#include <sys/types.h>
++#include <unistd.h>
+ 
+ /**
+  * Namespace
+diff -ru realtimebattle-1.0.8.old/team-framework/io/unixservercommunicator.cpp realtimebattle-1.0.8/team-framework/io/unixservercommunicator.cpp
+--- realtimebattle-1.0.8.old/team-framework/io/unixservercommunicator.cpp	2015-06-28 17:52:54.308819492 -0400
++++ realtimebattle-1.0.8/team-framework/io/unixservercommunicator.cpp	2015-06-28 17:56:42.279826787 -0400
+@@ -50,6 +50,7 @@
+ #include <sys/types.h>
+ #include <sys/socket.h>
+ #include <sys/un.h>
++#include <unistd.h>
+ 
+ /**
+  * Namespace
+diff -ru realtimebattle-1.0.8.old/team-framework/io/unixserverconnection.h realtimebattle-1.0.8/team-framework/io/unixserverconnection.h
+--- realtimebattle-1.0.8.old/team-framework/io/unixserverconnection.h	2015-06-28 17:52:54.308819492 -0400
++++ realtimebattle-1.0.8/team-framework/io/unixserverconnection.h	2015-06-28 17:57:39.983828633 -0400
+@@ -32,6 +32,8 @@
+ #include "unixinstream.h"
+ #include "unixoutstream.h"
+ #include <memory>
++#include <sys/types.h>
++#include <unistd.h>
+ 
+ /**
+  * Namespace IO
