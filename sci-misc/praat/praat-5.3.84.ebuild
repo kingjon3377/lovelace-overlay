@@ -20,7 +20,7 @@ DEPEND="|| ( ( x11-libs/libXmu
 			x11-libs/libXext
 			x11-libs/libSM
 			x11-libs/libXp
-			x11-libs/gtk+
+			x11-libs/gtk+:2
 		)
 		virtual/x11
 	)
