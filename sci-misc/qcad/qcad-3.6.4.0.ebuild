@@ -29,7 +29,7 @@ RDEPEND="x11-libs/libX11
 	media-libs/glu
 	media-libs/freetype
 	media-libs/fontconfig
-	dev-libs/openssl
+	dev-libs/openssl:0
 	sys-apps/dbus
 	x11-libs/libSM
 	media-libs/mesa
