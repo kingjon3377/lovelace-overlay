@@ -15,7 +15,7 @@ SLOT="0"
 KEYWORDS="amd64"
 IUSE=""
 
-DEPEND="sys-libs/readline"
+DEPEND="sys-libs/readline:0"
 RDEPEND="${DEPEND}"
 
 S="${WORKDIR}/${PN}"
