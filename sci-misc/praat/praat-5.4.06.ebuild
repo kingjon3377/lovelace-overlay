@@ -24,7 +24,7 @@ DEPEND="|| ( ( x11-libs/libXmu
 		)
 		virtual/x11
 	)
-	x11-libs/motif
+	x11-libs/motif:0
 	media-libs/alsa-lib"
 RDEPEND="${DEPEND}"
 KEYWORDS="~amd64"
