@@ -15,7 +15,7 @@ LICENSE="GPL-2"
 KEYWORDS="amd64 x86"
 IUSE=""
 
-DEPEND="dev-lang/tcl"
+DEPEND="dev-lang/tcl:="
 RDEPEND="${DEPEND}"
 
 src_prepare() {
