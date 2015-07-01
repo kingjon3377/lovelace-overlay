@@ -16,7 +16,7 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
 
-DEPEND="dev-libs/openssl
+DEPEND="dev-libs/openssl:0
 	>=net-misc/curl-7.12[ssl]"
 RDEPEND="${DEPEND}"
 
