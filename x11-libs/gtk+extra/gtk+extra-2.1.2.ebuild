@@ -17,7 +17,7 @@ IUSE="static-libs"
 RDEPEND="x11-libs/gtk+:2
 	dev-libs/glib:2"
 DEPEND="${RDEPEND}
-	dev-util/pkgconfig"
+	virtual/pkgconfig"
 
 src_prepare() {
 	epatch "${FILESDIR}"/${P}-build.patch \
