@@ -16,7 +16,7 @@ KEYWORDS="amd64"
 IUSE=""
 
 DEPEND="media-libs/libsndfile
-	sci-libs/fftw
+	sci-libs/fftw:3.0
 	gnome-base/libgnomeui
 	gnome-base/libgnome"
 RDEPEND="${DEPEND}"
