@@ -15,12 +15,12 @@ SLOT="0"
 KEYWORDS="amd64"
 IUSE=""
 
-DEPEND="sci-libs/fftw
+DEPEND="sci-libs/fftw:3.0
 	media-libs/libao
 	media-libs/libsndfile
 	media-libs/libsamplerate
-	dev-libs/glib
-	x11-libs/gtk+
+	dev-libs/glib:2
+	x11-libs/gtk+:2
 	x11-libs/pango"
 RDEPEND="${DEPEND}"
 
