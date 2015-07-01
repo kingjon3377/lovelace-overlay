@@ -39,7 +39,7 @@ RDEPEND="
 		virtual/acl
 	)
 	alsa? ( media-libs/alsa-lib )
-	|| ( net-dns/avahi[mdnsresponder-compat] net-misc/mDNSResponder )
+	net-dns/avahi[mdnsresponder-compat]
 	cups? ( >=net-print/cups-1.1.19 )
 	fam? ( virtual/fam )
 	jpeg2k? ( media-libs/jasper )
