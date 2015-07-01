@@ -25,8 +25,8 @@ SRC_BASE="http://www.eclipse.org/downloads/download.php?file=/technology/epp/dow
 DESCRIPTION="Eclipse SDK"
 HOMEPAGE="http://www.eclipse.org"
 SRC_URI="
-         amd64? ( ${SRC_BASE}-x86_64.tar.gz&r=1 -> ${P}-x86_64.tar.gz )
-         x86? ( ${SRC_BASE}.tar.gz&r=1 -> ${P}.tar.gz )"
+	amd64? ( ${SRC_BASE}-x86_64.tar.gz&r=1 -> ${P}-x86_64.tar.gz )
+	x86? ( ${SRC_BASE}.tar.gz&r=1 -> ${P}.tar.gz )"
 
 LICENSE="EPL-1.0"
 SLOT="$(get_version_component_range 1-2)"
