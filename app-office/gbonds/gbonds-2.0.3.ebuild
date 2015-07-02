@@ -1,4 +1,4 @@
-# Copyright 1999-2012 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /archive/cvsdir/portage/app-office/gbonds/gbonds-0.7.4.ebuild,v 1.1.1.1 2002/08/24 16:28:52 set Exp $
 # Copyright 2002 Paul Thompson
@@ -23,10 +23,10 @@ KEYWORDS="x86 amd64"
 
 # Some of these are pulled from the home page claims, the rest are ripped from
 # the libraries the program is linked against. Some may be redundant.
-DEPEND=">=x11-libs/gtk+-2.2
-		>=dev-libs/libxml2-2.4
-		>=gnome-base/libgnomeprintui-2.2
-		>=gnome-base/gnome-vfs-2.2
+DEPEND="x11-libs/gtk+:2
+		dev-libs/libxml2:2
+		gnome-base/libgnomeprintui:2.2
+		gnome-base/gnome-vfs:2
 		nls? ( sys-devel/gettext )
 		x11-base/xorg-x11
 		gnome-base/libgnomeui
