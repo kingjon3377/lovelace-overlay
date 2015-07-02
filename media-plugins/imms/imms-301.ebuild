@@ -1,4 +1,4 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -14,14 +14,14 @@ RESTRICT="mirror"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="vorbis remote"
-DEPEND=">=dev-db/sqlite-3
-	>=dev-libs/glib-2
+DEPEND="dev-db/sqlite:3
+	dev-libs/glib:2
 	dev-libs/libpcre
 	|| ( media-libs/id3lib media-libs/taglib )
-	>=sci-libs/fftw-3.0
+	sci-libs/fftw:3.0
 	sci-libs/torch
 	media-sound/sox
-	remote? ( >=gnome-base/libglade-2.0 >=x11-libs/gtk+-2 )
+	remote? ( gnome-base/libglade:2.0 x11-libs/gtk+:2 )
 	vorbis? ( media-libs/libvorbis )
 	media-sound/audacious"
 RDEPEND="${DEPEND}"
