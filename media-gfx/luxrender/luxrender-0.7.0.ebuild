@@ -1,4 +1,4 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -19,9 +19,9 @@ IUSE="cpu_flags_x86_sse2 doc debug blender"
 
 RDEPEND=">=dev-libs/boost-1.37
 	media-libs/openexr
-	media-libs/tiff
-	media-libs/libpng
-	virtual/jpeg
+	media-libs/tiff:0
+	media-libs/libpng:0
+	virtual/jpeg:0
 	media-libs/ilmbase
 	media-libs/freeimage
 	virtual/opengl
