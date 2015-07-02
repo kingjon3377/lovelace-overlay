@@ -1,4 +1,4 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -18,15 +18,15 @@ KEYWORDS="amd64"
 IUSE=""
 
 DEPEND="kde-base/pykde4[${PYTHON_USEDEP}]
-	dev-lang/vala
+	dev-lang/vala:=
 	dev-libs/glib:2[${PYTHON_USEDEP}]
 	net-libs/libsoup
 	dev-libs/libxml2
 	x11-libs/gtk+:2
-	x11-libs/gtksourceview
-	app-text/gtkspell
-	net-libs/webkit-gtk
-	dev-libs/libgee"
+	x11-libs/gtksourceview:2.0
+	app-text/gtkspell:2
+	net-libs/webkit-gtk:2
+	dev-libs/libgee:0.8"
 RDEPEND="${DEPEND}"
 
 pkg_postinst() {
