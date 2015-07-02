@@ -1,4 +1,4 @@
-# Copyright 1999-2013 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/kde-base/kdelibs/kdelibs-3.5.10-r6.ebuild,v 1.8 2009/08/01 07:12:04 ssuominen Exp $
 
@@ -26,7 +26,7 @@ RDEPEND="
 	>=dev-libs/libxslt-1.1.16
 	>=dev-libs/libxml2-2.6.6
 	>=dev-libs/libpcre-6.6
-	>=dev-libs/openssl-0.9.7d
+	dev-libs/openssl:0
 	media-libs/fontconfig
 	>=media-libs/freetype-2
 	media-libs/libart_lgpl
@@ -44,13 +44,13 @@ RDEPEND="
 	fam? ( virtual/fam )
 	jpeg2k? ( media-libs/jasper )
 	kerberos? ( virtual/krb5 )
-	lua? ( dev-lang/lua )
+	lua? ( dev-lang/lua:0 )
 	openexr? ( >=media-libs/openexr-1.2.2-r2 )
 	spell? (
 		>=app-dicts/aspell-en-6.0.0
 		>=app-text/aspell-0.60.5
 	)
-	tiff? ( media-libs/tiff )
+	tiff? ( media-libs/tiff:0 )
 	utempter? ( sys-libs/libutempter )
 	>=x11-themes/hicolor-icon-theme-0.12
 "
