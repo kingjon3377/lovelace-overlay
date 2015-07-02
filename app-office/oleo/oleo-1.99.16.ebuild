@@ -1,4 +1,4 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -19,7 +19,7 @@ DEPEND="sys-libs/ncurses
 	sys-devel/gettext
 	sys-apps/texinfo
 	X? ( x11-libs/libX11 )
-	motif? ( x11-libs/motif
+	motif? ( x11-libs/motif:0
 		x11-libs/xbae
 		media-libs/plotutils )"
 RDEPEND="${DEPEND}"
