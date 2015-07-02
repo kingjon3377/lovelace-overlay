@@ -1,4 +1,4 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -13,7 +13,7 @@ SLOT="0"
 KEYWORDS="amd64"
 IUSE=""
 
-DEPEND="dev-libs/openssl
+DEPEND="dev-libs/openssl:0
 	dev-libs/argtable"
 RDEPEND="${DEPEND}
 	app-arch/gzip[rsyncable]"
