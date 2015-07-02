@@ -1,4 +1,4 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -23,7 +23,7 @@ DEPEND="media-libs/libart_lgpl
 	gnome-base/libgnomeui
 	gnome-base/libgnomecanvas
 	gnome-base/gnome-vfs
-	sys-libs/readline
+	sys-libs/readline:0
 	sys-libs/libtermcap-compat
 	gnome-base/libbonoboui"
 RDEPEND="${DEPEND}"
