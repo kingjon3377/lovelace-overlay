@@ -1,4 +1,4 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -12,10 +12,10 @@ LICENSE="GPL-3"
 SLOT="0"
 IUSE="spell"
 
-RDEPEND=">=x11-libs/gtk+-2.12
+RDEPEND="x11-libs/gtk+:2
 	dev-libs/glib:2
-	dev-libs/libxml2
-	spell? ( app-text/gtkspell )
+	dev-libs/libxml2:2
+	spell? ( app-text/gtkspell:2 )
 	dev-libs/libunique:1"
 
 DEPEND="${RDEPEND}
