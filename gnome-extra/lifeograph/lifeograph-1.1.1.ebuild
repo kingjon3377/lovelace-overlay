@@ -1,4 +1,4 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -15,10 +15,10 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""
 
-DEPEND="dev-cpp/gtkmm
+DEPEND="dev-cpp/gtkmm:2.4
 	dev-cpp/gconfmm
-	app-text/gtkspell
-	dev-libs/libgcrypt"
+	app-text/gtkspell:2
+	dev-libs/libgcrypt:0"
 RDEPEND="${DEPEND}"
 
 src_configure() {
