@@ -18,7 +18,7 @@ KEYWORDS="amd64"
 IUSE=""
 
 RDEPEND="${PYTHON_DEPS}
-	dev-python/beautifulsoup[${PYTHON_USEDEP}]
+	dev-python/beautifulsoup:python-2[${PYTHON_USEDEP}]
 	dev-python/html5lib[${PYTHON_USEDEP}]"
 DEPEND="${RDEPEND}"
 
