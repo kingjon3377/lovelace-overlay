@@ -1,4 +1,4 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -25,7 +25,7 @@ RDEPEND="dev-perl/Class-Accessor
 	perl-gcpan/File-Touch
 	dev-perl/Getopt-Mixed
 	virtual/perl-MIME-Base64"
-DEPEND="virtual/perl-Module-Build"
+DEPEND="dev-perl/Module-Build"
 
 src_install() {
 	perl-module_src_install
