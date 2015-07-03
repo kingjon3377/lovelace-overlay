@@ -1,4 +1,4 @@
-# Copyright 1999-2013 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/app-text/fbreader/fbreader-0.99.4-r1.ebuild,v 1.4 2013/03/31 16:19:32 ago Exp $
 
@@ -22,7 +22,7 @@ RDEPEND="
 	dev-libs/expat
 	dev-libs/liblinebreak
 	dev-libs/fribidi
-	dev-db/sqlite
+	dev-db/sqlite:3
 	net-misc/curl
 	sys-libs/zlib
 	dev-qt/qtcore:4
