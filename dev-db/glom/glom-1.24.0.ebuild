@@ -1,4 +1,4 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -31,7 +31,7 @@ RDEPEND="
 	app-text/iso-codes
 	>=dev-cpp/gtksourceviewmm-3:3.0
 	dev-libs/boost[python]
-	postgres? ( dev-db/postgresql[server] )
+	postgres? ( dev-db/postgresql:=[server] )
 "
 # FIXME: is postgres-server really needed ?
 DEPEND="${RDEPEND}
