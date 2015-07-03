@@ -1,4 +1,4 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 # TODO: make sure this works, and fix it if it doesn't.
@@ -18,7 +18,7 @@ KEYWORDS="amd64"
 IUSE="+nls"
 
 DEPEND="media-libs/giflib
-	media-libs/libpng
+	media-libs/libpng:0
 	media-libs/sdl-mixer
 	media-libs/libsdl
 	x11-libs/libX11"
