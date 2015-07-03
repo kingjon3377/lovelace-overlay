@@ -6,9 +6,7 @@
     <email>maintainer-needed@gentoo.org</email>
   </maintainer>
   <use>
-    <flag name="corba">Enable CORBA 2 ORB (<pkg>net-misc/omniORB</pkg>)</flag>
     <flag name="smtp">Enable smtp support.</flag>
-	<flag name="qt3">Enable qt3 user interface, the only supported one in Gambas 2.x</flag>
 	<flag name="imageio">Enable image IO via <pkg>x11-libs/gdk-pixbuf</pkg></flag>
 	<flag name="desktop">Enable desktop module</flag>
 	<flag name="imageimlib">Enable image IO via <pkg>media-libs/imlib2</pkg></flag>
