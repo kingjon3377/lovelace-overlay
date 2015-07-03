@@ -1,4 +1,4 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -20,12 +20,12 @@ RDEPEND="dev-lang/ghc:=
 	dev-haskell/happy:=
 	sys-libs/zlib
 	dev-libs/libpcre
-	dev-libs/libgcrypt
+	dev-libs/libgcrypt:0
 	dev-libs/boehm-gc
 	gnutls? ( net-libs/gnutls )
 	pcre? ( dev-libs/libpcre )
-	postgres? ( dev-db/postgresql )
-	sqlite? ( dev-db/sqlite )
+	postgres? ( dev-db/postgresql:= )
+	sqlite? ( dev-db/sqlite:3 )
 	   sdl? ( media-libs/libsdl )
 	gd? ( media-libs/gd )
 	media-libs/freeglut
