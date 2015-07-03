@@ -1,4 +1,4 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -17,7 +17,7 @@ IUSE=""
 
 # Tests rely on data that isn't distributed in the tarball.
 RESTRICT="test"
-DEPEND="dev-lang/lua
+DEPEND="dev-lang/lua:0
 	media-libs/sdl-mixer
 	media-libs/sdl-ttf"
 RDEPEND="${DEPEND}"
