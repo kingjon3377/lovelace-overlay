@@ -18,7 +18,7 @@ KEYWORDS="~x86 ~amd64"
 
 IUSE="apache2 dump"
 
-DEPEND="dev-python/beautifulsoup[${PYTHON_USEDEP}]
+DEPEND="dev-python/beautifulsoup:python-2[${PYTHON_USEDEP}]
 	dev-python/pychm[${PYTHON_USEDEP}]
 	apache2? ( www-apache/mod_python[${PYTHON_USEDEP}] )
 	dump? ( app-text/htmldoc
