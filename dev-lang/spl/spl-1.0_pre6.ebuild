@@ -1,4 +1,4 @@
-# Copyright 1999-2010 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -17,13 +17,13 @@ IUSE="+sqlite +mysql +postgresql +xml +sdl +doc +kde +fann +opengl +vim-syntax"
 
 DEPEND="sys-apps/coreutils
 	dev-libs/libpcre
-	sys-libs/readline
+	sys-libs/readline:0
 	dev-libs/expat
 	net-misc/curl
 	sys-apps/util-linux
-	sqlite? ( dev-db/sqlite )
+	sqlite? ( dev-db/sqlite:3 )
 	mysql? ( dev-db/mysql )
-	postgresql? ( dev-db/postgresql )
+	postgresql? ( dev-db/postgresql:= )
 	xml? ( dev-libs/libxml2 dev-libs/libxslt )
 	doc? ( app-text/texlive-core )
 	kde? ( kde-base/smokekde )
