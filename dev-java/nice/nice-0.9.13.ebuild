@@ -1,4 +1,4 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -17,7 +17,7 @@ LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~x86 amd64"
 IUSE=""
-RDEPEND=">=virtual/jre-1.5
+RDEPEND=">=virtual/jre-1.5:*
 		sys-apps/groff
 		>=dev-java/javacc-3.2"
 DEPEND=">=virtual/jdk-1.5
