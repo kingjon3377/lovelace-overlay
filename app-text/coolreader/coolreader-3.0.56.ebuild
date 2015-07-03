@@ -1,4 +1,4 @@
-# Copyright 1999-2012 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -19,11 +19,11 @@ KEYWORDS="amd64"
 IUSE="+qt4 wxwidgets hyphen"
 
 DEPEND="sys-libs/zlib
-	media-libs/libpng
-	virtual/jpeg
+	media-libs/libpng:0
+	virtual/jpeg:0
 	media-libs/freetype
 	wxwidgets? ( app-eselect/eselect-wxwidgets
-		>=x11-libs/wxGTK-2.8 )
+		x11-libs/wxGTK:2.8 )
 	qt4? ( dev-qt/qtcore:4
 		dev-qt/qtgui:4 )
 	hyphen? ( app-arch/unzip )"
