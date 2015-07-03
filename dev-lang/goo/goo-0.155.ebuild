@@ -1,4 +1,4 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -16,7 +16,7 @@ KEYWORDS="amd64"
 IUSE=""
 
 DEPEND="dev-libs/boehm-gc
-	dev-libs/gmp"
+	dev-libs/gmp:0"
 RDEPEND="${DEPEND}"
 
 S=${WORKDIR}/goo-0_155-any-dev
