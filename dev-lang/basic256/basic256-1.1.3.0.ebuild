@@ -1,4 +1,4 @@
-# Copyright 1999-2012 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -18,7 +18,7 @@ IUSE="linguas_en linguas_de linguas_es linguas_fr linguas_nl linguas_ru"
 RDEPEND="dev-qt/qtcore:4
 	dev-qt/qtgui:4
 	media-libs/sdl-mixer
-	dev-db/sqlite
+	dev-db/sqlite:3
 	app-accessibility/espeak[portaudio]"
 DEPEND="${RDEPEND}
 	sys-devel/flex
