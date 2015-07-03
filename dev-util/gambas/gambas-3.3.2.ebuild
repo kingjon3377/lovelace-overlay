@@ -1,4 +1,4 @@
-# Copyright 1999-2012 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -36,7 +36,7 @@ COMMON_DEPEND="
 	imageio? ( x11-libs/gdk-pixbuf:2 )
 	imageimlib?	( media-libs/imlib2 )
 	jit?	( >=sys-devel/llvm-3.1 )
-	media?	( media-libs/gstreamer )
+	media?	( media-libs/gstreamer:0.10 )
 	mysql?	( >=virtual/mysql-5.0 )
 	mime?	( dev-libs/gmime:2.6 )
 	ncurses? ( sys-libs/ncurses )
@@ -49,7 +49,7 @@ COMMON_DEPEND="
 	)
 	pcre?	( dev-libs/libpcre:3 )
 	pdf?	( app-text/poppler )
-	postgres?	( dev-db/postgresql )
+	postgres?	( dev-db/postgresql:= )
 	qt4? (
 		dev-qt/qtgui:4
 		dev-qt/qtwebkit:4
@@ -66,8 +66,8 @@ COMMON_DEPEND="
 	smtp?	( dev-libs/glib:2 )
 	svg?	( gnome-base/librsvg )
 	v4l?	(
-		media-libs/libpng
-		virtual/jpeg
+		media-libs/libpng:0
+		virtual/jpeg:0
 	)
 	xml?	(
 		dev-libs/libxml2:2

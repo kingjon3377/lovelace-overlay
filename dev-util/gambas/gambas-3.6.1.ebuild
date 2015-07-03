@@ -1,4 +1,4 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -35,7 +35,7 @@ COMMON_DEPEND="
 		x11-misc/xdg-utils
 		gnome-base/gnome-keyring
 	)
-	gmp?	( dev-libs/gmp )
+	gmp?	( dev-libs/gmp:0 )
 	gsl?	( sci-libs/gsl )
 	gtk?	(
 		x11-libs/gtk+:2
@@ -47,7 +47,7 @@ COMMON_DEPEND="
 	jit?	( >=sys-devel/llvm-3.1 )
 	media?	(
 		media-libs/gstreamer:1.0
-		media-libs/gst-plugins-base
+		media-libs/gst-plugins-base:1.0
 		media-plugins/gst-plugins-xvideo
 	)
 	mysql?	( >=virtual/mysql-5.0 )
@@ -61,10 +61,10 @@ COMMON_DEPEND="
 		media-libs/glew
 		virtual/glu
 	)
-	openssl?	( dev-libs/openssl )
+	openssl?	( dev-libs/openssl:0 )
 	pcre?	( dev-libs/libpcre:3 )
 	pdf?	( app-text/poppler )
-	postgres?	( dev-db/postgresql )
+	postgres?	( dev-db/postgresql:= )
 	qt4? (
 		dev-qt/qtwebkit:4
 		dev-qt/qtcore:4
@@ -82,8 +82,8 @@ COMMON_DEPEND="
 	svg?	( gnome-base/librsvg )
 	v4l?	(
 		media-tv/v4l-utils
-		media-libs/libpng
-		virtual/jpeg
+		media-libs/libpng:0
+		virtual/jpeg:0
 	)
 	xml?	(
 		dev-libs/libxml2:2
