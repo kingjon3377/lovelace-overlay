@@ -1,4 +1,4 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -21,7 +21,7 @@ KEYWORDS="~amd64"
 IUSE=""
 
 DEPEND=">=dev-lang/ghc-6.8:=
-	sys-devel/gcc
+	sys-devel/gcc:=
 	dev-cpp/gccxml:=
 	dev-haskell/hexpat:=
 	sys-devel/gdb
