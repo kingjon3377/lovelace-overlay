@@ -1,4 +1,4 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -18,7 +18,7 @@ IUSE="+gtk +doc +readline emacs"
 DEPEND="dev-libs/glib:2
 	gtk? ( x11-libs/gtk+:2 )
 	doc? ( sys-apps/texinfo )
-	readline? ( sys-libs/readline )"
+	readline? ( sys-libs/readline:0 )"
 RDEPEND="${DEPEND}"
 
 src_configure() {
