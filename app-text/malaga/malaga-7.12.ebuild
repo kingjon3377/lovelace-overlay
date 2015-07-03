@@ -21,6 +21,10 @@ DEPEND="dev-libs/glib:2
 	readline? ( sys-libs/readline:0 )"
 RDEPEND="${DEPEND}"
 
+src_prepare() {
+	epatch "${FILESDIR}/malaga-7.12-makefile-malshow-libm.patch"
+}
+
 src_configure() {
 	econf $(use_with readline )
 }
@@ -31,10 +35,10 @@ src_install() {
 }
 
 pkg_postinst() {
-	einfo "If you are using Emacs, add the line"
-	einfo "	(require 'malaga \".../malaga-7.5/malaga.el\")"
-	einfo "to the file \".emacs\" in your home directory, "
-	einfo "so the Malaga extensions will be loaded automatically "
-	einfo "if you are starting Emacs."
-	einfo "	(Use the absolute path for \".../malaga-7.5\".)"
+	if use emacs; then
+		einfo "Add the line"
+		einfo " (require 'malaga \"/usr/share/malaga/malaga.el\")"
+		einfo "to ~/.emacs so the Malaga extensions will be loaded "
+		einfo "automatically when you start Emacs."
+	fi
 }
