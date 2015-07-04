@@ -1,9 +1,9 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/x11-misc/gdevilspie/gdevilspie-0.5.ebuild,v 1.2 2014/08/10 20:02:27 slyfox Exp $
+# $Header: /var/cvsroot/gentoo-x86/x11-misc/gdevilspie/gdevilspie-0.5-r1.ebuild,v 1.1 2015/04/26 12:22:43 pacho Exp $
 
 EAPI=5
-PYTHON_COMPAT=( python2_{6,7} )
+PYTHON_COMPAT=( python2_7 )
 
 inherit distutils-r1
 
@@ -16,12 +16,18 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
 
-DEPEND="dev-python/pygtk:2[${PYTHON_USEDEP}]
-	dev-python/libwnck-python[${PYTHON_USEDEP}]"
+DEPEND="
+	dev-python/pygtk:2[${PYTHON_USEDEP}]
+	dev-python/libwnck-python[${PYTHON_USEDEP}]
+"
 RDEPEND="${DEPEND}
-	x11-misc/devilspie"
+	x11-misc/devilspie
+"
 
-PATCHES=( "${FILESDIR}"/xdg_basedirectory.patch )
+PATCHES=(
+	# Fix paths for finding XDG and glade file, bug #539638 
+	"${FILESDIR}"/xdg_basedirectory.patch
+)
 
 src_prepare() {
 	sed -i -e "s:doc/gdevilspie:doc/${PF}:" setup.py || die
