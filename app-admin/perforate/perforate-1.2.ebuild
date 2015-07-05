@@ -1,4 +1,4 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -34,5 +34,12 @@ src_compile() {
 src_install() {
 	dobin zum finddup findstrip
 	dodoc README.perforate
-	doman debian/*.1
+	doman "${FILESDIR}"/*.1
+}
+
+pkg_postinst() {
+	if has_version sys-boot/lilo; then
+		ewarn "If you use lilo and zum the directory where your kernel image lives,"
+		ewarn "your system will become unbootable unless you run lilo again."
+	fi
 }
