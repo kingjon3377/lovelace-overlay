@@ -1,0 +1,8 @@
+all:
+	make -C man
+
+clean:
+	rm -fr *~ core *.pyc
+	make -C man clean
+
+.PHONY: all clean

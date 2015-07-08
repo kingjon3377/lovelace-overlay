@@ -1,0 +1,12 @@
+DB2MAN=/usr/share/sgml/docbook/xsl-stylesheets/manpages/docbook.xsl
+XP=xsltproc -''-nonet
+
+all: wotsap.1
+
+wotsap.1: wotsap.dbk
+	$(XP) $(DB2MAN) $<
+
+clean:
+	rm -fr wotsap.1 *~
+
+.PHONY: all clean
