@@ -1,34 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
-<!-- 
-$Header: /var/cvsroot/gentoo-x86/skel.metadata.xml,v 1.18 2008/07/28 19:27:05 cardoe Exp $
-
-This is the example metadata file.
-The root element of this file is <pkgmetadata>. Within this element a 
-number of subelements are allowed: herd, maintainer, and 
-longdescription. herd is a required subelement.
-
-For a full description look at:
-http://www.gentoo.org/proj/en/devrel/handbook/handbook.xml?part=2&chap=4
-
-
-Before committing, please remove the comments from this file. They are 
-not relevant for general metadata.xml files.
--->
 <pkgmetadata>
-<herd>proxy-maintainers</herd>
-<maintainer>
-  <email>@gentoo.org</email>
-<!--  <description>Description of the maintainership</description> -->
-</maintainer>
-<!-- <longdescription>Long description of the package</longdescription> -->
-<!--
-<use>
-  <flag name='flag'>Description of how USE='flag' affects this package</flag>
-  <flag name='userland_GNU'>Description of how USERLAND='GNU' affects this
-	  package</flag>
-  <flag name='aspell'>Uses <pkg>app-text/aspell</pkg> for spell checking.
-	  Requires an installed dictionary from <cat>app-dicts</cat></flag>
-</use>
--->
+ <longdescription>This is a database of places using information gathered in
+   the 2000 census. There are entries for places (primarily cities), counties,
+   and ZIP codes (using the 1990 Census ZIP code information and the 2000
+   Census Zip Code Tabulation Area information).
+
+   Each place entry contains:
+  * Full name for the city
+  * Type of entry (city, borough, village, etc)
+  * Total population and housing units
+  * Total land and water area, given in both square miles and
+    square kilometers
+  * Government FIPS code
+  * State the city is within
+  * Latitude and longitude of the city
+  * ZIP codes for the location from 1990.
+
+  Each county entry contains:
+  * Full name for the county
+  * Type of entry (county, municipio, parish, borough, etc)
+  * Total population and housing units
+  * Total land and water area, in both mi^2 and km^2
+  * State the county is within
+  * Latitude and longitude of the county
+
+ The 1990 ZIP Code Information provides:
+  * The name of location for each ZIP code (normally a city)
+  * The other ZIP codes corresponding to the same location.
+ The 2000 ZCTA information provides:
+  * Total population and housing unit count in a given ZIP code
+  * Total land and water area for the ZIP code
+  * The state in which the ZIP code is located
+  * The latitude and longitude of the ZIP code
+ </longdescription>
 </pkgmetadata>
