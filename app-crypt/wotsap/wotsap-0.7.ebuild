@@ -1,4 +1,4 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -15,22 +15,25 @@ SLOT="0"
 KEYWORDS="amd64"
 IUSE=""
 
-DEPEND=""
-RDEPEND="${DEPEND}"
+COMMON_DEPEND=""
+DEPEND="${COMMON_DEPEND}
+	app-text/docbook-xsl-stylesheets
+	dev-libs/libxslt"
+RDEPEND="${COMMON_DEPEND}
+	net-misc/wget
+	|| ( media-fonts/dejavu media-fonts/freefont )"
 
 src_prepare() {
-	cd "${WORKDIR}" && epatch "${FILESDIR}/wotsap_0.7-2.diff"
-	cd "${S}"
-	sed -i -e 's:/usr/share/xml/docbook/stylesheet/nwalsh/manpages/docbook.xsl:/usr/share/sgml/docbook/xsl-stylesheets/manpages/docbook.xsl:g' \
-		man/* || die "sed failed"
-}
-
-src_compile() {
-	default_src_compile DB2MAN=/usr/share/sgml/docbook/xsl-stylesheets/manpages/docbook.xsl
+	epatch "${FILESDIR}/wotsap_0.7-2.diff"
+	mkdir -p man
+	cp "${FILESDIR}/${P}.dbk" man/${PN}.dbk
+	cp "${FILESDIR}/${P}-man-Makefile" man/Makefile
+	cp "${FILESDIR}/${P}-Makefile" Makefile
 }
 
 src_install() {
-	dobin wotsap pks2wot dl-latest.wot
+	dobin wotsap pks2wot
+	newbin "${FILESDIR}/${P}-dl-latest.wot" dl-latest.wot
 	dodoc wotfileformat.txt ChangeLog
 	doman man/wotsap.1
 }
