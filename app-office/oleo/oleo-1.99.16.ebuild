@@ -49,9 +49,9 @@ src_compile() {
 src_install() {
 	sed -i -e 's:prefix = /usr:prefix = $(DESTDIR)/usr:' po/Makefile || die "hack to avoid sandbox violation failed"
 	emake DESTDIR="${D}" install
-	doman debian/oleo.1
-	dodoc AUTHORS FAQ NEWS README* THANKS TODO debian/copyright debian/changelog ChangeLog
+	doman "${FILESDIR}/${PN}.1"
+	dodoc AUTHORS FAQ NEWS README* THANKS TODO "${FILESDIR}/debian-changelog" "${FILESDIR}/ChangeLog" "${FILESDIR}/debian-TODO"
 	docinto examples && dodoc examples/*
-	domenu debian/oleo.desktop
+	domenu "${FILESDIR}/${PN}.desktop"
 	rm -r "${D}"/usr/Oleo || die "fixing mis-installed docs failed"
 }
