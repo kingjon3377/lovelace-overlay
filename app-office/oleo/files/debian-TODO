@@ -1,0 +1,10 @@
+xbae and xl? should be included in m4 directory.
+
+oleo man page should go upstream.
+
+'make "CFLAGS=-O2"' does not work.  This is a bug in some Makefile.am.
+
+look at sysinfo function, which is defined differently on different platforms
+
+perhaps many parts of utils.c should be moved to lib, HAVE_* where
+function is defined in file if not in library

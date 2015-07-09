@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=Oleo Spreadsheet Program
+Comment=Spreadsheet program
+Exec=oleo
+Icon=oleo
+Type=Application
+Terminal=false
+Categories=Math;Science;

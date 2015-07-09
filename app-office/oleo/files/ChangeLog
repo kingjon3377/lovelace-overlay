@@ -1,0 +1,143 @@
+Fri Jan 24 00:01:18 1997  Kevin Dalley  <kevin@aimnet.com>
+
+	*  lib/dummy.c: guarantees that at least one file is in library.
+	
+	* lib/alloca.c lib/_doprnt.c, lib/alloca.c, lib/mktime.c,
+ 	lib/random.c, strftime.c, vfprintf.c, vsprintf.c, xmalloc.c: moved
+ 	from .. directory
+
+	* lib/Makefile.am: 
+
+	* rules: add info pages
+
+	* postrm,postinst: Debian installtion file added to distribution
+
+	* TODO: list of items to modify for Debian release
+
+	* Changelog: 
+
+	* xrdb.c: 
+
+	* window.c: 
+
+	* utils.c: 
+
+	* sysdef.h: 
+
+	* sylk.c: 
+
+	* stub.c: 
+
+	* string.c: 
+
+	* sc.c: 
+
+	* regions.c: 
+
+	* ref.c: 
+
+	* print.c: 
+
+	* parse.y: 
+
+	* parse.c: 
+
+	* panic.c: 
+
+	* oleofile.h: 
+
+	* oleofile.c: 
+
+	* obstack.c: 
+
+	* lists.c: 
+
+	* list.c: 
+
+	* line.c: 
+
+	* key.c: 
+
+	* ir.h: 
+
+	* ir.c: 
+
+	* io-x11.h: 
+
+	* io-x11.c: 
+
+	* io-utils.c: 
+
+	* io-term.c: 
+
+	* io-edit.c: 
+
+	* io-curses.c: 
+
+	* io-abstract.h: 
+
+	* input.c, init.c, info.c, help.c, hash.h, hash.c, graph.c,
+ 	funcs.c, forminfo.c, format.c, font.c, eval.c, display.c, defun.h,
+ 	decompile.c, date.c, cmd.c, cells.c, byte-compile.c, busi.c,
+ 	basic.c, args.c: modified during conversion to new autoconf and
+ 	automake
+
+	* oleo.info-3: 
+
+	* oleo.info-2: 
+
+	* oleo.info-1: 
+
+	* oleo.info: 
+
+	* windows.texi: 
+
+	* style.texi: 
+
+	* programs.texi: 
+
+	* print-plot.texi: 
+
+	* options.texi: 
+
+	* oleo.texi: 
+
+	* making-changes.texi: 
+
+	* macros.texi: 
+
+	* keymaps.texi: 
+
+	* interface.texi: 
+
+	* functions.texi, expressions.texi, entering-data.texi,
+ 	cell-refs.texi, bugs.texi, basics.texi: added new texi files
+	
+	* configure.in, configure: updated configuration files
+
+	* stamp-h.in, config.h.in, aclocal.m4, acinclude.m4, acconfig.h:
+ 	added during automake conversion
+
+	* Makefile.am: added automake file
+
+	* Makefile.in: deleted file due to switch to automake
+
+	* AUTHORS: added GNU AUTHORS file
+	
+Sat Jan 18 01:07:20 1997  Kevin Dalley  <kevin@aimnet.com>
+
+	* Makefile.am: new file used by automake to generate Makefile.in.
+
+	* xmalloc.c, vsprintf.c, vfprintf.c, strftime.c, random.c,
+ 	mktime.c, alloca.c, _doprnt.c: moved files to lib directory, since
+ 	they are only installed if needed.
+
+Sun Jan 12 10:48:33 1997  Kevin Dalley  <kevin@aimnet.com>
+
+	* oleo.texi: added texi files from source, added
+ 	START-INFO-DIR-ENTRY entry.
+
+	* getdate.y, getdate.c: added new version of getdate.y included in
+ 	distribution from fileutils-3.15.
+
+
