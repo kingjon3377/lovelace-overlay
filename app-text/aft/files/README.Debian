@@ -1,0 +1,12 @@
+AFT for Debian
+--------------
+
+/usr/share/doc/aft/vim contains a vim syntax highlighting script and notes on 
+how to use it by David Bourgeois. I will try to get this into the vim package 
+at some point in the future, but for now you will have to install them 
+yourself.
+
+The same goes for the file in the jed directory, which is an AFT mode for the
+popular jed editor, by Guido Gonzato.
+
+ -- Robert Lemmen <robertle@semistable.com>, Fri, 16 Apr 2004 15:54:52 +0200
