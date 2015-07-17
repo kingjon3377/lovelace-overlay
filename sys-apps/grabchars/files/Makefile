@@ -56,7 +56,6 @@ release:
 	@$(MAKE) CFLAGS=$(CFLAGS) all
 
 grabchars: $(OBJS)
-	- mv grabchars grabchars.old 2>/dev/null
 	@echo loading...
 	$(CC) $(CFLAGS) $(OBJS)  -o grabchars
 	@echo done...
