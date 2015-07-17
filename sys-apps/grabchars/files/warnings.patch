@@ -1,0 +1,98 @@
+diff -ru grabchars-1.9.old/grabchars.c grabchars-1.9/grabchars.c
+--- grabchars-1.9.old/grabchars.c	2015-07-17 11:43:02.963187580 -0400
++++ grabchars-1.9/grabchars.c	2015-07-17 11:48:22.109197706 -0400
+@@ -122,7 +122,7 @@
+ register char **argv;
+ {
+ 	/* two signal/wrapup handling routines in sys.c */
+-	int lets_go (), overtime ();
++	__sighandler_t lets_go, overtime;
+ 
+ 	/* for -d option */
+ 	void handle_default ();
+@@ -234,7 +234,7 @@
+ 				** we must have some valid time >0 seconds to
+ 				** get here, so we'll set an alarm...
+ 				*/
+-				(SIGRET) signal (SIGALRM, overtime);
++				signal (SIGALRM, overtime);
+ 				alarm ((unsigned int) timeout);
+ 				break;
+ 			case 'E':	/* DV: honor erase/kill flag */
+@@ -289,7 +289,7 @@
+ 			fprintf (stderr,
+ 			"Error:  Couldn't malloc space for erase buffer\n");
+ 			exit_stat = -1;
+-			lets_go();
++			lets_go(0);
+ 		}
+ 	}
+ #endif
+@@ -360,5 +360,5 @@
+ #endif
+ 
+ 	exit_stat = num_read;
+-	lets_go ();
++	lets_go (0);
+ }
+diff -ru grabchars-1.9.old/sys.c grabchars-1.9/sys.c
+--- grabchars-1.9.old/sys.c	2015-07-17 11:43:02.962187593 -0400
++++ grabchars-1.9/sys.c	2015-07-17 11:49:12.256570778 -0400
+@@ -96,13 +96,13 @@
+ /* handle the outside world */
+ init_signal ()
+ {
+-	int lets_go ();
++	__sighandler_t lets_go;
+ 
+ #ifdef BSD
+ 	(SIGRET) signal (SIGTSTP, lets_go);
+ #endif
+-	(SIGRET) signal (SIGINT, lets_go);
+-	(SIGRET) signal (SIGQUIT, lets_go);
++	signal (SIGINT, lets_go);
++	signal (SIGQUIT, lets_go);
+ }
+ 
+ /*
+@@ -111,7 +111,7 @@
+ */
+ int overtime ()
+ {
+-	int lets_go ();
++	__sighandler_t lets_go;
+ 	void handle_default ();
+ 
+ 	/* does not return */
+@@ -119,7 +119,7 @@
+ 		handle_default ();
+ 
+ 	exit_stat = -2;
+-	lets_go ();
++	lets_go (0);
+ }
+ 
+ /*
+@@ -128,7 +128,7 @@
+ */
+ void handle_default ()
+ {
+-	int lets_go ();
++	__sighandler_t lets_go;
+ 
+ 	if (! flags->silent) {
+ 		fputs (default_string, outfile);
+@@ -136,11 +136,11 @@
+ 			fputs (default_string, otherout);
+ 	}
+ 	exit_stat = strlen (default_string);
+-	lets_go ();
++	lets_go (0);
+ }
+ 
+ /*	clean up and get out of here... */
+-int lets_go ()
++int lets_go (int ignored)
+ {
+ #ifdef BSD
+ 	ioctl (0, TIOCSETP, &orig);

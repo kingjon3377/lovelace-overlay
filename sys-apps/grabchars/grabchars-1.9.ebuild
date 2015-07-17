@@ -31,7 +31,7 @@ src_unpack() {
 
 src_prepare() {
 	cp "${FILESDIR}/Makefile" "${S}/Makefile" || die
-	epatch "${FILESDIR}/headers.patch"
+	epatch "${FILESDIR}/headers.patch" "${FILESDIR}/warnings.patch"
 }
 
 src_compile() {
