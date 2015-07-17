@@ -36,7 +36,8 @@ src_prepare() {
 
 src_compile() {
 	tc-export CC
-	default USER_CFLAGS="${CFLAGS}"
+	export USER_CFLAGS="${CFLAGS}"
+	default
 }
 
 src_install() {
