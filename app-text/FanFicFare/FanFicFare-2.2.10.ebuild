@@ -52,4 +52,5 @@ python_install_all() {
 python_test() {
 	cd "${T}"
 	"${PYTHON}" "${S}/fanficfare/cli.py" http://archiveofourown.org/works/257191 || die
+	test -f "Not Place_ but People-ao3_257191.epub" || die "Expected downloaded ebook not present"
 }
