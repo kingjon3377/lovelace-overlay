@@ -28,7 +28,7 @@ RDEPEND="
 DEPEND="${RDEPEND}
 	app-arch/unzip
 	dev-python/setuptools[${PYTHON_USEDEP}]
-	test? ( net-zope/zope-testrunner )
+	test? ( net-zope/zope-testrunner[${PYTHON_USEDEP}] )
 	doc? (
 		dev-python/repoze-sphinx-autointerface[${PYTHON_USEDEP}]
 		dev-python/sphinx[${PYTHON_USEDEP}]
