@@ -21,10 +21,9 @@ IUSE=""
 COMMON_DEP=""
 
 RDEPEND=">=virtual/jre-1.6
-  ${COMMON_DEP}"
+	${COMMON_DEP}"
 DEPEND=">=virtual/jdk-1.6
-  app-arch/unzip
-  ${COMMON_DEP}"
+	app-arch/unzip
+	${COMMON_DEP}"
 
 S=${WORKDIR}
-
