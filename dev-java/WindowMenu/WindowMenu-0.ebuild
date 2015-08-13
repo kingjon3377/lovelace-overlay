@@ -28,8 +28,3 @@ DEPEND=">=virtual/jdk-1.6
 
 S=${WORKDIR}
 
-src_install() {
-  java-pkg_dojar "${PN}.jar"
-  use doc && java-pkg_dojavadoc build/javadoc
-  use source && java-pkg_dosrc src
-}
