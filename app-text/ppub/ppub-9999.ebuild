@@ -1,6 +1,6 @@
-# Copyright 1999-2013 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Id$
 
 EAPI=5
 
@@ -24,6 +24,10 @@ RDEPEND="app-arch/unzip
 	dev-python/pygobject:3[${PYTHON_USEDEP}]
 	net-libs/webkit-gtk:3"
 DEPEND="${RDEPEND}"
+
+src_prepare() {
+	epatch "${FILESDIR}/fix-unicode-error.patch"
+}
 
 src_install() {
 	emake PREFIX="${D}/usr" install
