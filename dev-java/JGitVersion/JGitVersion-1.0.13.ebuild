@@ -18,7 +18,9 @@ KEYWORDS="~amd64"
 
 IUSE=""
 
-COMMON_DEP="dev-java/ant-core:0"
+COMMON_DEP="dev-java/ant-core:0
+	|| ( dev-java/jgit dev-java/jgit-bin )
+	"
 
 RDEPEND=">=virtual/jre-1.5
 	${COMMON_DEP}"
@@ -35,11 +37,19 @@ src_prepare() {
 	sed -i -e 's@<jgitversion dir="." property="build.version"/>@<property name="build.version">'"${PV}"'</property>@' build.xml || die
 	rm lib/ant/ant.jar || die
 	java-pkg_jar-from --into lib/ant ant-core ant.jar || die
-	# FIXME: Package JGit and gitective
+	rm lib/jgit/*.jar || die
+	if has_version dev-java/jgit; then
+		java-pkg_jar-from --into lib/jgit jgit || die
+	else
+		java-pkg_jar-from --into lib/jgit jgit-bin || die
+	fi
+	sed -i -e 's@lib/jgit/org.eclipse.jgit_2.2.0.201212191850-r.jar@lib/jgit/jgit.jar@' build.xml || die
+	# FIXME: Package gitective
 }
 
 src_install() {
 	java-pkg_newjar "build/jgitversion-${PV}.jar" "${PN}.jar"
+	java-pkg_newjar "lib/gitective/gitective-core-0.9.9.jar" "gitective-core.jar"
 	java-pkg_register-ant-task
 	use source && java-pkg_dosrc src
 }
