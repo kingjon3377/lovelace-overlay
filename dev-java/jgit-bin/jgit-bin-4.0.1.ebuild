@@ -35,5 +35,5 @@ EANT_DOC_TARGET=""
 S="${WORKDIR}"
 
 src_install() {
-  java-pkg_newjar "${DISTDIR}/org.eclipse.${MY_PN}-${MY_PV}.jar" "${PN}.jar"
+  java-pkg_newjar "${DISTDIR}/org.eclipse.${MY_PN}-${MY_PV}.jar" "${MY_PN}.jar"
 }
