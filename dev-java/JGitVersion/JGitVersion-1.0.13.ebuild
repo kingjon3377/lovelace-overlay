@@ -39,7 +39,7 @@ src_prepare() {
 }
 
 src_install() {
-	java-pkg_dojar "build/jgitversion-${PV}.jar""${PN}.jar"
+	java-pkg_newjar "build/jgitversion-${PV}.jar" "${PN}.jar"
 	java-pkg_register-ant-task
 	use source && java-pkg_dosrc src
 }
