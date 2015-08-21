@@ -69,3 +69,6 @@ dev-ruby/polytexnic
 # Tests segfault; install process probably needs reconsidering
 =app-text/bool-0.2.2
 
+# Not complete due to missing deps (org.eclipse.jetty, which is *not* www-servers/jetty!)
+dev-java/jgit
+
