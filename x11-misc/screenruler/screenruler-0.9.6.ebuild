@@ -1,11 +1,13 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Id$
 # From bug #107710 or the graaf overlay
 
 EAPI=5
 
-inherit eutils fdo-mime
+USE_RUBY="ruby19 ruby20"
+
+inherit ruby-ng eutils fdo-mime
 
 DESCRIPTION="Ruler measure objects on your screen"
 HOMEPAGE="http://gnomecoder.wordpress.com/screenruler/"
@@ -16,34 +18,37 @@ KEYWORDS="~amd64 ~x86"
 IUSE=""
 SRC_URI="http://launchpad.net/${PN}/trunk/${PV}/+download/${P}.tar.gz"
 
-RDEPEND="dev-ruby/rcairo[ruby_targets_ruby19]
-	dev-ruby/ruby-gtk2[ruby_targets_ruby19]
-	dev-ruby/ruby-gettext[ruby_targets_ruby19]"
+ruby_add_rdepend "dev-ruby/rcairo dev-ruby/ruby-gtk2 dev-ruby/ruby-gettext"
 
-src_prepare() {
-	epatch "${FILESDIR}/screenruler-bug831501.patch"
-	sed -i -e "s/File.dirname(__FILE__)/'\/usr\/share\/screenruler'/" screenruler.rb
+RUBY_PATCHES=( "${FILESDIR}/screenruler-bug831501.patch" )
+
+#src_prepare() {
+	#sed -i -e "s/File.dirname(__FILE__)/'\/usr\/share\/screenruler'/" screenruler.rb
+#}
+
+RUBY_S=${PN}
+
+each_ruby_install() {
+	pwd
+	ls
+	# Borrowing from doruby
+	sitelibdir=$(ruby_rbconfig_value 'sitelibdir')
+	insinto "${sitelibdir#${EPREFIX}}/${PN}"
+	doins *.rb *glade* *.png
+	doins -r utils
+	fperms +x "${sitelibdir#${EPREFIX}}/${PN}/${PN}.rb"
+	if ! test -d "${D}/usr/bin" ; then
+		dodir /usr/bin
+		dosym "../../${sitelibdir#${EPREFIX}}/${PN}/${PN}.rb" /usr/bin/${PN}
+	fi
+	if ! test -d "${D}/usr/share/pixmaps"; then
+		dodir /usr/share/pixmaps
+		dosym "../../../${sitelibdir#${EPREFIX}}/${PN}/${PN}-icon.png" /usr/share/pixmaps/${PN}-icon.png
+	fi
 }
 
-S="${WORKDIR}/${PN}"
-
-# There is no installation mechanism in the tarball, so just put
-# everything in the right place
-src_install() {
-	make_desktop_entry screenruler "Screen Ruler" screenruler-icon "Utility;Gnome;GTK;"
-
-	insinto /usr/share/${PN}
-	doins "${S}"/*.rb
-	doins "${S}"/*glade*
-	doins "${S}"/*.png
-	insinto /usr/share/${PN}/utils
-	doins "${S}"/utils/*
-
-	exeinto /usr/share/${PN}
-	doexe "${S}"/screenruler.rb
-
-	dosym /usr/share/${PN}/screenruler.rb /usr/bin/screenruler
-	dosym /usr/share/${PN}/screenruler-icon.png /usr/share/pixmaps/screenruler-icon.png
+all_ruby_install() {
+	make_desktop_entry ${PN} "Screen Ruler" ${PN}-icon "Utility;Gnome;Gtk;"
 }
 
 pkg_postinst() {
