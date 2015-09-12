@@ -26,7 +26,7 @@ diff -up /usr/share/screenruler/screenruler.rb.orig /usr/share/screenruler/scree
  
  require 'addons_ruby'									# for multi-file 'require'
 -require 'gtk2', 'settings', 'addons_gtk', 'ruler_window', 'preferences_window', 'help_window'
-+require 'gtk2', 'settings', 'libglade2', 'gconf2', 'addons_gtk'
++require 'gtk2', 'settings', 'addons_gtk'
 +require_relative 'ruler_window'
 +require_relative 'preferences_window'
 +require_relative 'help_window'
