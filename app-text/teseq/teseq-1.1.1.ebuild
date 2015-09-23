@@ -1,16 +1,16 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Id$
 
 EAPI=5
 
 DESCRIPTION="Renders terminal typescripts human-readable"
-HOMEPAGE="http://www.gnu.org/software/teseq/"
-SRC_URI="mirror://gnu/teseq/${P}.tar.gz"
+HOMEPAGE="https://www.gnu.org/software/teseq/"
+SRC_URI="mirror://gnu/${PN}/${P}.tar.xz"
 
 LICENSE="GPL-3"
 SLOT="0"
-KEYWORDS="amd64"
+KEYWORDS="~amd64"
 IUSE="test"
 
 RDEPEND="dev-lang/perl"
