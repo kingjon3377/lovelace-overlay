@@ -1,0 +1,171 @@
+diff -Nur mailliststat-1.3/examples/example.php mailliststat-1.3.new/examples/example.php
+--- mailliststat-1.3/examples/example.php	2005-12-01 21:19:04.000000000 +0100
++++ mailliststat-1.3.new/examples/example.php	2005-12-01 21:40:37.000000000 +0100
+@@ -8,7 +8,7 @@
+ $mls->title="Statistics for MOBiL (year 2002)";
+ $mls->default_lang="sk";
+ $mls->default_topX="25";
+-$mls->path="/usr/local/bin/mls"; // mls executable
++$mls->path="/usr/local/bin/mailliststat"; // mailliststat executable
+ $mls->input="/home/marki/2002.cache"; // input file
+ $mls->graph="dwmy"; // show graphs for Day, Week, Month and Year
+ $mls->is_cache=true; // input file is cache (and not MBOX)
+diff -Nur mailliststat-1.3/examples/forward mailliststat-1.3.new/examples/forward
+--- mailliststat-1.3/examples/forward	2005-12-01 21:19:04.000000000 +0100
++++ mailliststat-1.3.new/examples/forward	2005-12-01 21:41:47.000000000 +0100
+@@ -9,8 +9,8 @@
+ # now run MLS
+ # we can update several cache files here...
+ # first, aggregate stats
+-"|/usr/local/bin/mls -q -u /home/marki/list-whole.cache"
++"|/usr/local/bin/mailliststat -q -u /home/marki/list-whole.cache"
+ # stats for actual month (to file list-year-month.cache)
+-"|/usr/local/bin/mls -q -u /home/marki/list-`/bin/date +'%Y-%m'`.cache"
++"|/usr/local/bin/mailliststat -q -u /home/marki/list-`/bin/date +'%Y-%m'`.cache"
+ # stats for actual month (to file list-year.cache)
+-"|/usr/local/bin/mls -q -u /home/marki/list-`/bin/date +'%Y'`.cache"
++"|/usr/local/bin/mailliststat -q -u /home/marki/list-`/bin/date +'%Y'`.cache"
+diff -Nur mailliststat-1.3/examples/procmailrc mailliststat-1.3.new/examples/procmailrc
+--- mailliststat-1.3/examples/procmailrc	2005-12-01 21:19:04.000000000 +0100
++++ mailliststat-1.3.new/examples/procmailrc	2005-12-01 21:41:34.000000000 +0100
+@@ -1,13 +1,13 @@
+ # example of running MLS from .procmailrc (or side-wide procmailrc)
+ 
+-# run mls for mailing list named MOBiL
++# run mailliststat for mailing list named MOBiL
+ # (search in headers, carbon copy, use "mls_lock".$LOCKEXT as local lock-file)
+ # update cache file for actual month, actual year and aggregate...
+ :0 Hc:mls_lock
+ * ^Sender: mobil-admin@mobil.sk
+-|~/usr/local/bin/mls -q -u /home/marki/mobil-whole.cache
+-|~/usr/local/bin/mls -q -u /home/marki/mobil-`date +'%Y'`.cache
+-|~/usr/local/bin/mls -q -u /home/marki/mobil-`date +'%Y-%m'`.cache
++|~/usr/local/bin/mailliststat -q -u /home/marki/mobil-whole.cache
++|~/usr/local/bin/mailliststat -q -u /home/marki/mobil-`date +'%Y'`.cache
++|~/usr/local/bin/mailliststat -q -u /home/marki/mobil-`date +'%Y-%m'`.cache
+ 
+ # ...
+ # your usual recipes
+diff -Nur mailliststat-1.3/HISTORY.mls.txt mailliststat-1.3.new/HISTORY.mls.txt
+--- mailliststat-1.3/HISTORY.mls.txt	2005-12-01 21:19:04.000000000 +0100
++++ mailliststat-1.3.new/HISTORY.mls.txt	2005-12-01 21:37:01.000000000 +0100
+@@ -19,7 +19,8 @@
+ 
+ 1.3   + Portugues Brasil translation
+       + added detection of some more email and news clients
+-      + updating cache file now possible (to run mls from .forward for example)
++      + updating cache file now possible (to run maillliststat from .forward
++        for example)
+       + quiet mode (-q) - will print only errors (to stderr)
+       + new graph - msgs written during months of year
+       + new command-line option (-g) to specify which graphs to show
+@@ -37,7 +38,7 @@
+       * added workaround to detect Pine mailer (search in Message-ID header)
+       * some changes in regex's - better detection of "Re:"s in subject and
+         mailer identification; changes won't show up in old cache files, you
+-	should re-generate them using this version of mls
++	should re-generate them using this version of mailliststat
+ 
+ 1.2.1 * fixed bug in PHP wrapper causing incomplete output
+ 
+diff -Nur mailliststat-1.3/html/mls_class.php mailliststat-1.3.new/html/mls_class.php
+--- mailliststat-1.3/html/mls_class.php	2005-12-01 21:19:04.000000000 +0100
++++ mailliststat-1.3.new/html/mls_class.php	2005-12-01 21:39:58.000000000 +0100
+@@ -44,9 +44,10 @@
+  var $input="/home/marki/mobil.cache";
+  // is input file Cache or MBOX? (using cache file is recommended)
+  var $is_cache=true;
+- // path to mls executable
+- var $path="/usr/local/bin/mls";
+- // graphs to show (-g in mls; don't specify to use default in mls)
++ // path to mailliststat executable
++ var $path="/usr/local/bin/mailliststat";
++ // graphs to show (-g in mailliststat; don't specify to use default in
++ // mailliststat)
+  var $graph="";
+  // default values for LANG & topXX
+  var $default_lang="EN";
+@@ -69,14 +70,14 @@
+  function Run() { // main function called by user
+    global $HTTP_GET_VARS;
+    // get user submitted values (or use default)
+-   $this->lang=$HTTP_GET_VARS['lang']; // language (-l option in mls)
++   $this->lang=$HTTP_GET_VARS['lang']; // language (-l option in mailliststat)
+    $this->topX=$HTTP_GET_VARS['topX']; // print topXX (-n)
+    if (!$this->lang) $this->lang=$this->default_lang;
+    if (!$this->topX) $this->topX=$this->default_topX;
+    // check user (web) submitted data for validity
+    if (!eregi("^[a-z]{2}$",$this->lang) || !eregi("^[0-9]{1,3}$",$this->topX))
+       $this->error("You have specified invalid parameters!");
+-   echo $this->RunMLS(); // run mls & print output
++   echo $this->RunMLS(); // run mailliststat & print output
+    $this->timeEnd();
+  }// Run()
+ 
+@@ -87,7 +88,7 @@
+    die("</BODY></HTML>");
+  }// error()
+ 
+- function RunMLS() { // run mls & return modified output
++ function RunMLS() { // run mailliststat & return modified output
+    if ($this->is_cache) $inp="-r";
+                    else $inp="-i";
+    $exec=escapeShellCmd($this->path);
+@@ -101,7 +102,7 @@
+    // check return value
+    switch($ret) {
+     case   1: $this->error("Cache file has wrong format!");
+-    case   2: $this->error("Invalid parameters while executing mls!");
++    case   2: $this->error("Invalid parameters while executing mailliststat!");
+     case   3: $this->error("Cannot open input file!");
+     case   4: $this->error("Not enough memory!");
+     case 127: $this->error("Cannot run MLS!");
+diff -Nur mailliststat-1.3/Makefile mailliststat-1.3.new/Makefile
+--- mailliststat-1.3/Makefile	2005-12-01 21:52:01.000000000 +0100
++++ mailliststat-1.3.new/Makefile	2005-12-01 21:52:48.000000000 +0100
+@@ -7,7 +7,7 @@
+ #OPTIMIZE=-O7 -mpentiumpro
+ OPTIMIZE=-O3
+ 
+-PACKAGE=mls
++PACKAGE=mailliststat
+ # debug symbols will be stripped anyway during 'make install'
+ DEBUG=-g
+ 
+diff -Nur mailliststat-1.3/README.txt mailliststat-1.3.new/README.txt
+--- mailliststat-1.3/README.txt	2005-12-01 21:19:04.000000000 +0100
++++ mailliststat-1.3.new/README.txt	2005-12-01 21:38:48.000000000 +0100
+@@ -89,15 +89,15 @@
+ 
+ * HTML output
+   You can choose between 2 modes of output - TEXT and HTML. When in HTML mode,
+-  mls will produce the output as HTML page. When you specify HTML2 mode, only
+-  the body of HTML document is produced (no header/footer) - it can be used
+-  to have different HTML header/footer when calling mls as CGI or when using
+-  PHP wrapper. The output consists of HTML tables and bar graphs. Almost every
+-  aspect of how it looks can be configured by modifying CSS style-sheet. Please
+-  note that files "style_mls.css" and "bar.gif" must be present in the same
+-  directory as produced HTML file. You can, however, modify both to best suit
+-  your needs. Everything should be clear after reading comments in CSS file and
+-  looking at the produced HTML source.
++  mailliststat will produce the output as HTML page. When you specify HTML2
++  mode, only the body of HTML document is produced (no header/footer) - it can
++  be used to have different HTML header/footer when calling mailliststat as
++  CGI or when using PHP wrapper. The output consists of HTML tables and bar
++  graphs. Almost every aspect of how it looks can be configured by modifying
++  CSS style-sheet. Please note that files "style_mls.css" and "bar.gif" must
++  be present in the same directory as produced HTML file. You can, however,
++  modify both to best suit your needs. Everything should be clear after
++  reading comments in CSS file and looking at the produced HTML source.
+ 
+   I was unsure what type of graphs to produce. I have tried also horizontal
+   bar graphs and if you want to try them, just uncomment part of code in
+@@ -124,7 +124,7 @@
+   some PHP script to present list of these cache files to user.
+ 
+   Format of cache files was changed in version 1.3, because of new stats added.
+-  Now it contains version info, so mls can inform you that you have to
++  Now it contains version info, so mailliststat can inform you that you have to
+   re-create that cache file with new version. Unfortunately, you have to
+   re-create them also when you want new email clients to be recognized also in
+   old (already processed) messages. Note that email clients detection was buggy

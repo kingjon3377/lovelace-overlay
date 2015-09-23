@@ -1,0 +1,48 @@
+PACKAGE = mailliststat
+
+MSGFMT = /usr/bin/msgfmt
+XGETTEXT = /usr/bin/xgettext
+MSGMERGE = msgmerge
+
+POFILES = $(wildcard *.po)
+LANG = $(basename $(POFILES))
+MOFILES = $(addsuffix .mo,$(LANG))
+
+POTFILES = ../mls_text.c
+
+DOMAIN = $(PACKAGE)
+
+XGETTEXT_OPTIONS = --keyword=_ --keyword=N_
+
+%.mo: %.po
+	$(MSGFMT) -o $@ $<
+
+all: update-po $(MOFILES)
+
+$(DOMAIN).pot: $(POTFILES)
+	$(XGETTEXT) --default-domain=$(DOMAIN) \
+	  --add-comments=TRANSLATORS: $(XGETTEXT_OPTIONS) \
+	  -o $@ $(POTFILES)
+
+update-po: $(DOMAIN).pot
+	for po in $(POFILES); do \
+	  echo -n "Updating $$po"; \
+	  $(MSGMERGE) -U $$po $(DOMAIN).pot; \
+	done;
+
+install: all
+	@for i in $(MOFILES) ; do \
+	  t=$(LOCALEDIR)/`basename $$i .mo`/LC_MESSAGES ;\
+	  test -d $$t || install -d -m 755 $$t ;\
+	  install -m 644 $$i $$t/$(DOMAIN).mo ;\
+	done
+
+uninstall:
+	for i in $(MOFILES); do \
+	  rm -f $(LOCALEDIR)/`basename $$i .mo`/LC_MESSAGES/$(DOMAIN).mo ;\
+	done
+
+clean:
+	-rm -rf *~ *.mo
+
+.PHONY: update-po

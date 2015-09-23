@@ -1,0 +1,41 @@
+Description: Allow _etext to be 'T' on 64bit systems
+  The _etext symbol can be not only 'A' but also 'T' on 64 bit systems
+Author: Vincent Stehlé <vincent.stehle@laposte.net>
+--- a/kerneltop.c
++++ b/kerneltop.c
+@@ -174,7 +174,7 @@
+  * ? Symbol type is unknown or object file format specific
+  *
+  * What kerneltop wants/needs is all of the 'T' and 't' symbols that
+- * are between "<address> T _stext" and "<address> A _etext".
++ * are between "<address> T _stext" and "<address> A(or T) _etext".
+  */
+ 
+ static void
+@@ -582,7 +582,7 @@
+ 	char mode [8];
+ 	int fn_len;
+ 	char begin_text[] = "_stext";	// want all T/t between begin/end text
+-	char end_text[] = "_etext";	// this one is Absolute.
++	char end_text[] = "_etext";	// this one is absolute or T.
+ 
+ 	// try specified/default name first.
+ 	if ((mapf = myopen (mapFile, "r", &popenMap)))
+@@ -651,7 +651,7 @@
+ 			exit (1);
+ 		}
+ 
+-		if (*mode == 'A' &&
++		if ((*mode == 'A' || *mode == 'T') &&
+ 		    !strcmp (fn_name, end_text)) {
+ 			adrz = fn_adr;
+ 			text_lines++;
+@@ -697,7 +697,7 @@
+ 				prgname, mapFile, maplineno);
+ 			exit (1);
+ 		}
+-		if (*mode == 'A' &&
++		if ((*mode == 'A' || *mode == 'T') &&
+ 		    !strcmp (fn_name, end_text))
+ 			break;
+ 		if (*mode != 'T' && *mode != 't')

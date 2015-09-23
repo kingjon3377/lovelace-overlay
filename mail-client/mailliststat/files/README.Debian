@@ -1,0 +1,14 @@
+The Debian Package MLS
+----------------------
+
+This is the MLS MailListStat program packaged for Debian
+by Kevin M. Rosenberg <kmr@debian.org>, July 2002.
+
+This package displays statistics on mailbox files that are in
+the MBOX format.
+
+Compared to the upstream version, this package has renamed
+the binary and manpage files to "mailliststat" from the original "mls"
+and has an improved l10n support.
+
+The home for MLS is http://marki.host.sk/MLS.

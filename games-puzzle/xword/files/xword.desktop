@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Name=Xword
+GenericName=Crossword Puzzles
+Comment=Do crossword puzzles
+Exec=xword
+Terminal=false
+Type=Application
+MimeType=application/x-crossword;
+Categories=Game;LogicGame;

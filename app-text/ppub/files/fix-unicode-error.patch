@@ -1,0 +1,13 @@
+--- ppub.py.in.old	2015-08-19 20:00:50.426917301 -0400
++++ ppub.py.in	2015-08-19 20:02:53.241921231 -0400
+@@ -16,6 +16,10 @@
+ import os
+ import shutil
+ import sys
++
++reload(sys)  
++sys.setdefaultencoding('utf8')
++
+ import ConfigParser
+ import getpass
+ import threading

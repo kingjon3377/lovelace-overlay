@@ -1,0 +1,32 @@
+#!/sbin/runscript
+
+opts="start stop restart"
+
+depend() {
+	need net
+}
+
+start() {
+	ebegin "Starting GNU Image-Finding Tool server"
+	if [[ ! -e ${BASEDIR}/gift-config.mrml ]]; then
+		einfo "First run... copying base files..."
+		su ${USER} -c "cp /usr/share/gift/* ${BASEDIR}"
+	fi
+	start-stop-daemon --quiet --start -c ${USER} \
+		-x /usr/bin/gift -- ${PORT} ${BASEDIR} &>${LOGFILE} &
+	eend $?
+
+}
+
+stop() {
+	ebegin "Stoping GNU Image-Finding Tool server"
+	start-stop-daemon -o --stop -x /usr/bin/gift &>/dev/null
+	eend $?
+}
+
+restart() {
+	svc_stop
+	sleep 2
+	svc_start
+}
+

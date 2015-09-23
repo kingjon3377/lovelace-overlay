@@ -1,0 +1,71 @@
+From 5850ca0c827bd3795314d5bb87831bee23b9bc7e Mon Sep 17 00:00:00 2001
+From: Michael Hartl <michael@michaelhartl.com>
+Date: Fri, 21 Mar 2014 17:43:32 -0700
+Subject: [PATCH 11/19] Update the README
+
+---
+ README.md                 | 14 ++++++++++++++
+ README => README_ORIGINAL |  8 ++++----
+ 2 files changed, 18 insertions(+), 4 deletions(-)
+ create mode 100644 README.md
+ rename README => README_ORIGINAL (94%)
+
+diff --git a/README.md b/README.md
+new file mode 100644
+index 0000000..2faf755
+--- /dev/null
++++ b/README.md
+@@ -0,0 +1,14 @@
++# Tralics
++
++Tralics is a LaTeX-to-XML translator developed by [Inria](http://en.wikipedia.org/wiki/French_Institute_for_Research_in_Computer_Science_and_Automation). This is a fork of Tralics used by [Softcover](http://softcover.io/).
++
++## Installation
++
++The Softcover ebook production system is distributed via the Ruby gems `softcover` and `polytexnic`. The `polytexnic` gem ships with precompiled Tralics binaries for OS X and select Linux distributions, so that `polytexnic` Just Works™ on most systems. But if your system is not among those supported natively, you should compile a version of Tralics for your system and place the resulting excutable on the path:
++
++    $ git clone https://github.com/softcover/tralics
++    $ cd tralics/src
++    $ make
++    $ cp tralics /usr/local/bin
++
++In place of `/usr/local/bin` in the last step, you can choose any directory on your path.
+diff --git a/README b/README_ORIGINAL
+similarity index 94%
+rename from README
+rename to README_ORIGINAL
+index 1023fa2..4e31c92 100644
+--- a/README
++++ b/README_ORIGINAL
+@@ -1,7 +1,7 @@
+ This is the README file for Tralics
+ 
+ This software is governed by the CeCILL license under French law and
+-abiding by the rules of distribution of free software.  You can  use, 
++abiding by the rules of distribution of free software.  You can  use,
+ modify and/ or redistribute the software under the terms of the CeCILL
+ license as circulated by CEA, CNRS and INRIA at the following URL
+    http://www.cecill.info
+@@ -37,8 +37,8 @@ The Test directory contains `alltests',
+   them against models.
+ 
+ Since July 2008, directories raweb, xml, styles, icons are distributed
+-in an alternate file, named tralics-extra-2.12.7.tar.gz 
+-(the version number may vary). 
++in an alternate file, named tralics-extra-2.12.7.tar.gz
++(the version number may vary).
+ 
+ 
+ 
+@@ -46,7 +46,7 @@ In case of problem contact : tralics@sophia.inria.fr
+ or consult the Web page: http://www.inria.fr/apics/tralics
+ 
+ 
+-The remaining of the archive is formed of miscellaneous files, that can be 
++The remaining of the archive is formed of miscellaneous files, that can be
+ used to convert the XML produced by Tralics into HTML, Pdf, or whatever.
+ 
+ 
+-- 
+1.8.5.5
+

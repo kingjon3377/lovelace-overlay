@@ -1,0 +1,548 @@
+--- land.hc.old	2009-10-20 08:03:31.000000000 -0400
++++ land.hc	2009-10-20 08:04:14.000000000 -0400
+@@ -99,7 +99,7 @@
+      }.
+ 
+ .  get_size
+-     {fscanf (f, "%d", &num_units);
++     {if (!fscanf (f, "%d", &num_units)) exit(1);
+      }.
+ 
+ .  read_units
+@@ -114,7 +114,7 @@
+       int color;
+       int money;
+ 
+-      fscanf (f, "%d %d %d %d %d", &type, &x, &y, &color, &money);
++      if (!fscanf (f, "%d %d %d %d %d", &type, &x, &y, &color, &money)) exit(1);
+       if (type == object_mine)
+          {objects->create_building (x, y, type, money, 0, none);
+          };
+@@ -162,14 +162,14 @@
+ .  get_size
+      {int d;
+ 
+-      fscanf (f, "%d %d %d", &d, &landscape_dx, &landscape_dy);
++      if (!fscanf (f, "%d %d %d", &d, &landscape_dx, &landscape_dy)) exit(1);
+      }.
+ 
+ .  read_landscape
+      {for (int y = 0; y < landscape_dy; y++)
+         for (int x = 0; x < landscape_dx; x++)
+-          {fscanf (f,  "%d", &landscape [x][y]);
+-           fscanf (f1, "%d", &landhight [x][y]);
++          {if (!fscanf (f,  "%d", &landscape [x][y])) exit(1);
++           if (!fscanf (f1, "%d", &landhight [x][y])) exit(1);
+           };
+      }.
+ 
+@@ -1164,7 +1164,7 @@
+ .  load_info
+      {char d [128];
+ 
+-      fscanf (infos, "%d %d %d %d %d %d %d %d %s",
++      if (!fscanf (infos, "%d %d %d %d %d %d %d %d %s",
+               &land_properties [lno].overview_color,
+               &land_properties [lno].walk_possible,
+               &land_properties [lno].with_hl,
+@@ -1173,7 +1173,7 @@
+               &land_properties [lno].is_dig,
+               &land_properties [lno].is_water,
+               &land_properties [lno].can_grow,
+-              d);
++              d)) exit(1);
+      }.
+ 
+   }
+--- xbm.hc.old	2009-10-20 08:26:57.000000000 -0400
++++ xbm.hc	2009-10-20 08:27:28.000000000 -0400
+@@ -36,8 +36,8 @@
+ .  get_size
+     {char d [128];
+ 
+-     fscanf (xbm_data, "%s %s %d", d, d, &dx);
+-     fscanf (xbm_data, "%s %s %d", d, d, &dy);
++     if (!fscanf (xbm_data, "%s %s %d", d, d, &dx)) exit(1);
++     if (!fscanf (xbm_data, "%s %s %d", d, d, &dy)) exit(1);
+      skip_line;
+      skip_line;
+     }.
+@@ -75,7 +75,7 @@
+ .  get_new_b
+      {char bb [128];
+ 
+-      fscanf (xbm_data, "%s", bb);
++      if (!fscanf (xbm_data, "%s", bb)) exit(1);
+       b = hextoint (substring (bb, 2));
+      }.
+ 
+--- cmap_edit.hc.old	2009-10-20 08:30:31.000000000 -0400
++++ cmap_edit.hc	2009-10-20 08:31:14.000000000 -0400
+@@ -320,13 +320,13 @@
+ .  read_size
+      {int d;
+ 
+-      fscanf (f, "%d %d %d %d", &d, &dx, &dy, &t_color);
++      if (!fscanf (f, "%d %d %d %d", &d, &dx, &dy, &t_color)) exit(1);
+      }.
+ 
+ .  read_data
+      {for (int y = 0; y < dy; y++)
+         for (int x = 0; x < dx; x++)
+-          fscanf (f, "%d", &map [x][y]);
++          if (!fscanf (f, "%d", &map [x][y])) exit(1);
+      }.
+ 
+ .  perhaps_load_mask
+@@ -1445,7 +1445,7 @@
+ .  read_dx_dy
+      {int d;
+ 
+-      fscanf (f, "%d %d %d %d", &version, &dxx, &dyy, &bg);
++      if (!fscanf (f, "%d %d %d %d", &version, &dxx, &dyy, &bg)) exit(1);
+      }.
+ 
+ .  read_pixels
+@@ -1455,7 +1455,7 @@
+      }.
+ 
+ .  read_pixel
+-     {fscanf (f, "%d", &o_map [x][y]);
++     {if (!fscanf (f, "%d", &o_map [x][y])) exit(1);
+      }.   
+ 
+   }
+@@ -1499,7 +1499,7 @@
+ .  read_dxx_dyy
+      {int d;
+ 
+-      fscanf (f, "%d %d %d %d", &version, &dxx, &dyy, &bg);
++      if (!fscanf (f, "%d %d %d %d", &version, &dxx, &dyy, &bg)) exit(1);
+      }.
+ 
+ .  read_pixels
+@@ -1509,7 +1509,7 @@
+      }.
+ 
+ .  read_pixel
+-     {fscanf (f, "%d", &o_map [x][y]);
++     {if (!fscanf (f, "%d", &o_map [x][y])) exit(1);
+      }.   
+ 
+   }
+--- cmap_edit.hc.old	2009-10-20 08:34:43.000000000 -0400
++++ cmap_edit.hc	2009-10-20 08:35:44.000000000 -0400
+@@ -403,7 +403,7 @@
+      {char cmd [128];
+  
+       sprintf (cmd, "rm %s", complete (name, ".xbm"));
+-      system  (cmd);
++      if (system  (cmd)==-1) exit(1);
+      }.
+ 
+ .  perhaps_save_mask
+@@ -766,7 +766,7 @@
+ 
+ .  perform_init
+      {printf ("Enter size (dx, dy) :\n");
+-      scanf  ("%d %d", &dx, &dy);
++      if (!scanf  ("%d %d", &dx, &dy)) exit(1);
+       if (dx > 100 || dy > 100)
+          {pixel_dx = 1;
+           pixel_dy = 1;
+@@ -1000,7 +1000,7 @@
+ 
+ .  get_sdx_sdy
+      {printf ("sdx sdy no :");
+-      scanf  ("%d %d %d", &sdx, &sdy, &no);
++      if (!scanf  ("%d %d %d", &sdx, &sdy, &no)) exit(1);
+      }.
+ 
+ .  check_save
+--- cmap.hc.old	2009-10-20 08:39:03.000000000 -0400
++++ cmap.hc	2009-10-20 08:39:34.000000000 -0400
+@@ -52,7 +52,7 @@
+ .  read_dx_dy
+      {int d;
+ 
+-      fscanf (f, "%d %d %d %d", &d, &dx, &dy, &d);
++      if (!fscanf (f, "%d %d %d %d", &d, &dx, &dy, &d)) exit(1);
+      }.
+ 
+ .  read_pixels
+@@ -74,7 +74,7 @@
+ .  read_pixel
+      {int c;
+ 
+-      fscanf       (f, "%d", &c);
++      if (!fscanf       (f, "%d", &c)) exit(1);
+       if (is_color_trans)
+          c = ct->trans (c);
+       if (c != last_c)
+--- ppm.hc.old	2009-10-20 08:45:24.000000000 -0400
++++ ppm.hc	2009-10-20 08:46:07.000000000 -0400
+@@ -155,10 +155,10 @@
+      }.
+ 
+ .  read_pixel
+-     {fscanf (data, "%d %d %d",
++     {if (!fscanf (data, "%d %d %d",
+               &r_data [ind (x, y)],
+               &g_data [ind (x, y)],
+-              &b_data [ind (x, y)]);
++              &b_data [ind (x, y)])) exit(1);
+      }.
+ 
+ .  read_bin_pixels
+--- compress.hc.old	2009-10-20 08:49:03.000000000 -0400
++++ compress.hc	2009-10-20 08:49:29.000000000 -0400
+@@ -105,14 +105,14 @@
+       strcpy  (n1, frame_name ("pcx"));
+       strcpy  (n2, frame_name ("ppm"));
+       sprintf (cmd, "pcxtoppm %s > %s", n1, n2);
+-      system  (cmd);
++      if (system  (cmd)==-1) exit(1);
+      }.
+ 
+ .  delete_ppm
+      {char cmd [256];
+ 
+       sprintf (cmd, "rm %s", frame_name ("ppm"));
+-      system  (cmd);
++      if (system  (cmd)==-1) exit(1);
+      }.
+ 
+ .  encode_frame
+@@ -325,9 +325,9 @@
+       strcpy  (n1, frame_name ("ppm"));
+       strcpy  (n2, frame_name ("pcx"));
+       sprintf (cmd, "ppmtopcx %s > %s", n1, n2);
+-      system  (cmd);
++      if (system  (cmd)==-1) exit(1);
+       sprintf (cmd, "rm %s", n1);
+-      system  (cmd);
++      if (system  (cmd)==-1) exit(1);
+      }.
+ 
+ .  get_same_sequence
+--- table.hc.old	2009-10-20 08:53:13.000000000 -0400
++++ table.hc	2009-10-20 08:54:51.000000000 -0400
+@@ -110,7 +110,7 @@
+      {char cmd [128];
+ 
+       sprintf (cmd, "rm -f %s%s", dir, name);
+-      system  (cmd);
++      if (system  (cmd)==-1) exit(1);
+       printf ("file '%s' was empty\n", name);
+      }.
+ 
+@@ -239,22 +239,22 @@
+ .  load_dd
+      {int d;
+ 
+-      fscanf (f, "%d %d %d %d %d",
++      if (!fscanf (f, "%d %d %d %d %d",
+               &number_of_columns,
+               &number_of_rows,
+               &column_length,
+               &d,
+-              &id);
++              &id)) exit(1);
+       for (int i = 0; i < number_of_columns; i++)
+         load_column;
+      }.
+ 
+ .  load_column
+-     {fscanf (f, "%s %d %d %d\n", 
++     {if (!fscanf (f, "%s %d %d %d\n", 
+               column_name  [i],
+               &column_type  [i],
+               &column_size  [i],
+-              &column_index [i]);
++              &column_index [i])) exit(1);
+      }.
+ 
+ .  load_data
+@@ -270,7 +270,7 @@
+ 
+       for (int j = 0; j < number_of_columns; j++)
+         read_field;
+-      fscanf (f, "\n");
++      if (!fscanf (f, "\n")) exit(1);
+      }.
+ 
+ .  read_field
+@@ -291,7 +291,7 @@
+       float y;
+       float z;
+ 
+-      fscanf (f, "%f %f %f ", &x, &y, &z);
++      if (!fscanf (f, "%f %f %f ", &x, &y, &z)) exit(1);
+       p.x = x;
+       p.y = y;
+       p.z = z;
+@@ -313,11 +313,11 @@
+       float p3y;
+       float p3z;
+ 
+-      fscanf (f, "%f %f %f %f %f %f %f %f %f %f %f %f ", 
++      if (!fscanf (f, "%f %f %f %f %f %f %f %f %f %f %f %f ", 
+               &p0x, &p0y, &p0z, 
+               &p1x, &p1y, &p1z, 
+               &p2x, &p2y, &p2z, 
+-              &p3x, &p3y, &p3z);
++              &p3x, &p3y, &p3z)) exit(1);
+       write  (row_no, j, new_cube (new_point (p0x, p0y, p0z),
+                                    new_point (p1x, p1y, p1z),
+                                    new_point (p2x, p2y, p2z),
+@@ -336,10 +336,10 @@
+       float p2y;
+       float p2z;
+ 
+-      fscanf (f, "%f %f %f %f %f %f %f %f %f ", 
++      if (!fscanf (f, "%f %f %f %f %f %f %f %f %f ", 
+               &p0x, &p0y, &p0z, 
+               &p1x, &p1y, &p1z, 
+-              &p2x, &p2y, &p2z);
++              &p2x, &p2y, &p2z)) exit(1);
+       write  (row_no, j, new_plane (new_point (p0x, p0y, p0z),
+                                     new_point (p1x, p1y, p1z),
+                                     new_point (p2x, p2y, p2z)));
+@@ -350,9 +350,9 @@
+       float  a;
+       int    size;
+ 
+-      fscanf (f, "%d ", &size);
++      if (!fscanf (f, "%d ", &size)) exit(1);
+       for (int g = 0; g < max_config_size; g++)
+-        {fscanf (f, "%f ", &a);
++        {if (!fscanf (f, "%f ", &a)) exit(1);
+          c.v [g] = a;
+         };
+       write  (row_no, j, c);
+@@ -364,28 +364,28 @@
+       float a1;
+       float a2;
+ 
+-      fscanf (f, "%f %f %f ", &a0, &a1, &a2);
++      if (!fscanf (f, "%f %f %f ", &a0, &a1, &a2)) exit(1);
+       write  (row_no, j, new_vector (a0, a1, a2));
+      }.
+       
+ .  read_int
+      {int k;
+ 
+-      fscanf (f, "%d ", &k);
++      if (!fscanf (f, "%d ", &k)) exit(1);
+       write  (row_no, j, k);
+      }.
+ 
+ .  read_float
+      {float k;
+ 
+-      fscanf (f, "%f ", &k);
++      if (!fscanf (f, "%f ", &k)) exit(1);
+       write  (row_no, j, k);
+      }.
+ 
+ .  read_text
+      {char t [128];
+ 
+-      fscanf (f, "%s ", t);
++      if (!fscanf (f, "%s ", t)) exit(1);
+       write  (row_no, j, t);
+      }.
+ 
+@@ -399,7 +399,7 @@
+   {char cmd [128];
+ 
+    /* sprintf (cmd, "rm %s%s", dir, name);
+-   system  (cmd); */
++   if (system  (cmd)==-1) exit(1); */
+    strcpy  (dir,  new_dir);
+    strcpy  (name, new_name);
+    was_write_access = true;
+@@ -1318,7 +1318,7 @@
+      {char cmd [128];
+ 
+       sprintf (cmd, "rm -f %s%s", local_dir, names [t->id]);
+-      system  (cmd);
++      if (system  (cmd)==-1) exit(1);
+      }.
+ 
+ .  check_dangling_pointers
+--- io.hc.old	2009-10-20 08:57:49.000000000 -0400
++++ io.hc	2009-10-20 08:58:10.000000000 -0400
+@@ -17,7 +17,7 @@
+   {float d;
+ 
+    printf ("%s", msg);
+-   scanf  ("%f", &d);
++   if (!scanf  ("%f", &d)) exit(1);
+    return (double) d;
+  }
+ 
+@@ -25,6 +25,6 @@
+   {int i;
+ 
+    printf ("%s", msg);
+-   scanf  ("%d", &i);
++   if (!scanf  ("%d", &i)) exit(1);
+    return i;
+  }
+--- io.hc.old	2009-10-20 09:01:42.000000000 -0400
++++ io.hc	2009-10-20 09:01:58.000000000 -0400
+@@ -1,4 +1,5 @@
+ #include "io.h"
++#include <stdlib.h>
+ 
+ void ack () 
+   {while (getchar () != '\n');
+--- win.hc.old	2009-10-20 09:07:16.000000000 -0400
++++ win.hc	2009-10-20 09:07:50.000000000 -0400
+@@ -30,8 +30,8 @@
+       char d [128];
+ 
+       f = fopen (name, "r");
+-      fscanf (f, "%s %s %d", d, d, &dx);
+-      fscanf (f, "%s %s %d", d, d, &dy);
++      if (!fscanf (f, "%s %s %d", d, d, &dx)) exit(1);
++      if (!fscanf (f, "%s %s %d", d, d, &dy)) exit(1);
+       fclose (f);
+       return true;
+      }.
+@@ -119,7 +119,7 @@
+ .  perform_init
+      {win_handler_init = true;
+       if (! f_exists (".windefaults.params"))
+-         system ("cp /home/hua/craft/.windefaults.params .");
++         if (system ("cp /home/hua/craft/.windefaults.params .")==-1) exit(1);
+       win_defaults = new paramreader (".windefaults");
+      }.
+ 
+--- multi_dial.hc.old	2009-10-20 09:14:33.000000000 -0400
++++ multi_dial.hc	2009-10-20 09:15:10.000000000 -0400
+@@ -140,7 +140,7 @@
+ 
+ .  read_values
+      {for (int i = 0; i < num_buttons; i++)
+-        fscanf (f, "%d", &values [i]);
++        if (!fscanf (f, "%d", &values [i])) exit(1);
+      }.
+ 
+   }
+--- xsystem.hc.old	2009-10-20 09:18:24.000000000 -0400
++++ xsystem.hc	2009-10-20 09:18:54.000000000 -0400
+@@ -16,7 +16,7 @@
+      {char f_cmd [1024];
+ 
+       sprintf (f_cmd, "%s &", cmd);
+-      system  (f_cmd);
++      if (system  (f_cmd)==-1) exit(1);
+      }.
+ 
+ .  get_job_no
+@@ -28,7 +28,7 @@
+      {char cmd [128];
+ 
+       sprintf (cmd, "csh -c \"jobs -l > %s\"", temp_file_name);
+-      system  (cmd);
++      if (system  (cmd)==-1) exit(1);
+      }.
+ 
+ .  read_no
+@@ -36,7 +36,7 @@
+       char d [128];
+ 
+       f = fopen (temp_file_name, "r");
+-      fscanf (f, "%s %d", d, &job_no);
++      if (!fscanf (f, "%s %d", d, &job_no)) exit(1);
+       fclose (f);
+      }.
+  
+--- ppm_handler.hc.old	2009-10-20 09:21:56.000000000 -0400
++++ ppm_handler.hc	2009-10-20 09:24:18.000000000 -0400
+@@ -18,7 +18,7 @@
+       char type [128]; 
+ 
+       f = fopen (name, "r");
+-      fscanf (f, "%s %d %d %d", type, &dx, &dy, &color);
++      if (!fscanf (f, "%s %d %d %d", type, &dx, &dy, &color)) exit(1);
+       fclose (f);
+       return (strcmp (type, "P6") == 0);
+      }.
+--- ppm_handler.hc.old	2009-10-20 09:27:36.000000000 -0400
++++ ppm_handler.hc	2009-10-20 09:27:53.000000000 -0400
+@@ -7,6 +7,7 @@
+ #include <cstring>
+ #include "ppm_handler.h"
+ #include "xfile.h"
++#include <stdlib.h>
+ 
+ bool ppm_size (char name [], int &dx, int &dy, int &color)
+   {if   (f_exists (name))
+--- paramreader.hc.old	2009-10-20 09:32:24.000000000 -0400
++++ paramreader.hc	2009-10-20 09:33:38.000000000 -0400
+@@ -23,7 +23,7 @@
+       handle_param_error;
+ 
+ .  handle_param_error
+-     {system    ("sound /home/hua/sound/laughter");
++     {if (system    ("sound /home/hua/sound/laughter")==-1) exit(1);
+       errorstop (2, "paramreader", "Oh boy, better play golf");
+      }.
+   }
+@@ -55,7 +55,7 @@
+      (sym [0] == '#' && strcmp (sym, "#include") != 0).
+ 
+ .  get_sym
+-     fscanf (act_f, "%s", sym).  
++     {if (!fscanf (act_f, "%s", sym)) exit(1);}.  
+ 
+ .  act_f
+      f [num_includes - 1].
+--- objects.hc.old	2009-10-20 09:42:48.000000000 -0400
++++ objects.hc	2009-10-20 09:43:05.000000000 -0400
+@@ -26,7 +26,7 @@
+    float y;
+    float z;
+ 
+-   scanf ("%f %f %f", &x, &y, &z);
++   if (!scanf ("%f %f %f", &x, &y, &z)) exit(1);
+    p.x = x; p.y = y; p.z = z;
+   }
+ 
+--- cmap_selector.hc.old	2009-10-20 09:46:34.000000000 -0400
++++ cmap_selector.hc	2009-10-20 09:46:59.000000000 -0400
+@@ -363,7 +363,7 @@
+       if   (strlen (file_name) == 0)
+            sprintf (cmd, "csh -f -c \"ls -F > filesel.temp\"");
+       else sprintf (cmd, "csh -f -c \"ls -F %s > filesel.temp\"", file_name);
+-      system (cmd);
++      if (system (cmd)==-1) exit(1);
+      }.
+ 
+ .  file_path
+--- file_selector.hc.old	2009-10-20 09:50:20.000000000 -0400
++++ file_selector.hc	2009-10-20 09:51:45.000000000 -0400
+@@ -168,7 +168,7 @@
+       if   (strlen (file_name) == 0)
+            sprintf (cmd, "csh -f -c \"ls -F > filesel.temp\"");
+       else sprintf (cmd, "csh -f -c \"ls -F %s > filesel.temp\"", file_name);
+-      system (cmd);
++      if (system (cmd)==-1) exit(1);
+      }.
+ 
+ .  file_path
+@@ -308,9 +308,9 @@
+                "csh -f -c \"cd %s; pushd .. > %s/filesel.temp\"",
+                old_dir,
+                getenv ("PWD"));
+-      system  (cmd);
++      if (system  (cmd)==-1) exit(1);
+       f = fopen ("filesel.temp", "r");
+-      fscanf    (f, "%s", file_name);
++      if (!fscanf    (f, "%s", file_name)) exit (1);
+       strcat    (file_name, "/");
+       fclose    (f);
+      }.

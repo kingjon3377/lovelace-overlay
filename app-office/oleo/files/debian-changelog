@@ -1,0 +1,264 @@
+oleo (1.99.16-10ubuntu1) hardy; urgency=low
+
+  * Merge from Debian unstable. (LP: #186035) Remaining Ubuntu changes:
+    - Re-enable building against X
+    - Added .desktop and install icon in /usr/share/pixmaps.
+    - Changed build depends libmysqlclient-dev to libmysqlclient15-dev.
+    - Modify Maintainer value to match Debian-Maintainer-Field Spec
+    - Call update-desktop-database during install and removal.
+    - Add gettext to Build-Depends.
+  * Adjusted oleo.desktop to be freedesktop compliant 
+
+ -- Stefan Ebner <hellboy195@gmail.com>  Sun, 03 Feb 2008 22:40:35 +0100
+
+oleo (1.99.16-10) unstable; urgency=low
+
+  * QA upload.
+  * chmod +x /usr/share/doc/oleo/examples (Closes: #393979)
+
+ -- Aurelien Jarno <aurel32@debian.org>  Sun, 30 Dec 2007 16:09:12 +0100
+
+oleo (1.99.16-9ubuntu1) gutsy; urgency=low
+
+  * Merge from Debian unstable.
+  * Remaining Ubuntu changes:
+    - Re-enable building against X
+    - Added .desktop and install icon in /usr/share/pixmaps.
+    - Changed build depends libmysqlclient-dev to libmysqlclient15-dev.
+    - Correct install call for /usr/share/doc/oleo/examples.
+  * Munge Maintainer field as per spec.
+  * Add gettext to Build-Depends. 
+
+ -- Steve Kowalik <stevenk@ubuntu.com>  Thu, 14 Jun 2007 10:33:18 +1000
+
+oleo (1.99.16-9) unstable; urgency=low
+
+  * Orphan package:
+    Set Maintainer to Debian QA Group <packages@qa.debian.org>.
+
+ -- Mario Lang <mlang@debian.org>  Sat, 09 Jun 2007 17:45:51 +0200
+
+oleo (1.99.16-8.1ubuntu4) edgy; urgency=low
+
+  * Damn! Add #!/bin/sh to the postrm. (Ubuntu: #59786)
+
+ -- Steve Kowalik <stevenk@ubuntu.com>  Wed, 13 Sep 2006 09:37:25 +1000
+
+oleo (1.99.16-8.1ubuntu3) edgy; urgency=low
+
+  * Correct wrong permissions for /usr/share/doc/oleo/examples harder,
+    chmod -R will also change the permissions of a directory.
+
+ -- Steve Kowalik <stevenk@ubuntu.com>  Sun, 10 Sep 2006 17:38:11 +1000
+
+oleo (1.99.16-8.1ubuntu2) edgy; urgency=low
+
+  [ Vassilis Pandis ]
+  * Added .desktop and install icon in /usr/share/pixmaps (Malone #49759)
+
+  [ Sarah Hobbs ]
+  * Changed build depends libmysqlclient-dev to libmysqlclient15-dev.  Closes
+    Malone #59637
+  * Thankyou to Michael Bienia for pointing this out.
+
+  [ Steve Kowalik ]
+  * Correct install call for /usr/share/doc/oleo/examples.
+
+ -- Sarah Hobbs <hobbsee@ubuntu.com>  Sun, 10 Sep 2006 01:10:00 +1000
+
+oleo (1.99.16-8.1ubuntu1) edgy; urgency=low 
+
+  * Re-sync with Debian
+  * Re-enable building with x
+
+ -- Barry deFreese <bddebian@comcast.net>  Wed, 26 Jul 2006 23:07:20 -0400
+
+oleo (1.99.16-8.1) unstable; urgency=low
+
+  * Non-maintainer upload
+  * Splitted xlibs-dev build-dep (Closes: #346884)
+  * New build now links against libxdb1 (Closes: #343396)
+
+ -- Marc 'HE' Brockschmidt <he@debian.org>  Sat, 21 Jan 2006 10:23:01 +0100
+
+oleo (1.99.16-8ubuntu1) breezy; urgency=low
+
+  * Update to latest Debian version to include all of their gcc4 fixes.
+  * Re-enable the X11 build, which works much better after we remove the
+    explicit requests to the X headers to not give us function prototypes
+    in src/io-x11.c and src/xrdb.c (#define NeedFunctionPrototypes 0).
+
+ -- Adam Conrad <adconrad@ubuntu.com>  Mon, 19 Sep 2005 11:49:21 +1000
+
+oleo (1.99.16-8) unstable; urgency=low
+
+  * Fix several GCC-4 related build failures (thanks to Andreas Jochens)
+    (Closes: #262671, #287854, #300294).
+  * Rebuild with ABI-transited libplot (Closes: #322233).
+  * For some reason, io-x11.c fails compilation, probably xorg related,
+    disable X11 support completely for now, oleo is ncurses/terminal
+    based only until I can figure out more.
+
+ -- Mario Lang <mlang@debian.org>  Sun,  4 Sep 2005 13:55:29 +0200
+
+oleo (1.99.16-7) unstable; urgency=low
+
+  * New maintainer (Closes: #192664, #181600, #173638, #110075, #129155)
+  * Change node name from .oleorc to ~/.oleorc (Closes: #116422)
+  * Add full path to info doc-base index (Closes: #149544)
+  * Remove /usr/doc handling from post/prerm
+  * Standards-Version to 3.5.9
+
+ -- Mario Lang <mlang@debian.org>  Tue, 13 May 2003 16:59:14 +0200
+
+oleo (1.99.16-6.2) unstable; urgency=low
+
+  * NMU
+  * Fix broken bison syntax (Closes: #173638)
+  * Rebuild against new libxdb (Closes: #181600)
+  * Change Build-Depends from libmysqlclient10-dev to libmysqlclient-dev
+  * Rename __nan to oleo__nan for now, because it conflicts with a glibc
+    symbol. Use of a __ prefix outside of glibc and the kernel is
+    *wrong*. If this ever gets a real maintainer, they should smack
+    upstream about the head and then fix the rest (Closes: #129155)
+
+ -- Andrew Suffield <asuffield@debian.org>  Fri, 11 Apr 2003 20:59:22 +0100
+
+oleo (1.99.16-6.1) unstable; urgency=low
+
+  * NMU
+  * Remove extraneous (and incorrect) getenv decl from sysdef.h,
+    as indicated in the bts.  Closes: #110075.
+
+ -- LaMont Jones <lamont@debian.org>  Sat, 12 Jan 2002 22:35:24 -0700
+
+oleo (1.99.16-6) unstable; urgency=low
+
+  * Add build-depends on bison|byacc (closes: #106214).
+
+ -- Kevin Dalley <kevind@rahul.net>  Sun, 22 Jul 2001 11:54:26 -0700
+
+oleo (1.99.16-5) unstable; urgency=low
+
+  * Removed build-dependency upon libstdc++2.10-dev, which is undesirable
+    (closes: #104913).
+
+ -- Kevin Dalley <kevind@rahul.net>  Fri, 20 Jul 2001 22:42:53 -0700
+
+oleo (1.99.16-4) unstable; urgency=low
+
+  * removed unnecessary Build-Depends, libc6-dev.
+
+ -- Kevin Dalley <kevind@rahul.net>  Fri,  1 Jun 2001 20:29:45 -0700
+
+oleo (1.99.16-3) unstable; urgency=low
+
+  * fixed problem in Xresources directory which did not honor DESTDIR
+    (closes: #99098).
+
+ -- Kevin Dalley <kevind@rahul.net>  Tue, 29 May 2001 03:08:12 -0700
+
+oleo (1.99.16-2) unstable; urgency=low
+
+  * recompiled with libmysqlclient10 (closes: #97609)
+
+ -- Kevin Dalley <kevind@rahul.net>  Fri, 18 May 2001 01:04:11 -0700
+
+oleo (1.99.16-1) unstable; urgency=low
+
+  * upgraded to new upstream release, which fixes many bugs (closes:
+    #81266, #5259, #23915).
+  * fixed problem with diff, missing newline (closes: #94714).
+
+ -- Kevin Dalley <kevind@rahul.net>  Mon, 23 Apr 2001 22:14:51 -0700
+
+oleo (1.6-16) unstable; urgency=low
+
+  * added menu
+  * added oleo man page (closes: #47103, #26049)
+  * update to Standards-Version 2.5.0.0
+  * use doc-base
+
+ -- Kevin Dalley <kevind@rahul.net>  Sun, 31 Oct 1999 03:35:51 -0800
+
+oleo (1.6-15) frozen unstable; urgency=low
+
+  * removed undef of NULL (fixes bug #30069)
+
+ -- Kevin Dalley <kevind@rahul.net>  Fri, 18 Dec 1998 23:22:32 -0800
+
+oleo (1.6-14) unstable; urgency=low
+
+  * removed attempted installation of oleo.menu (bug #27806)
+
+ -- Kevin Dalley <kevind@rahul.net>  Mon, 12 Oct 1998 20:28:52 -0700
+
+oleo (1.6-13) unstable; urgency=low
+
+  * recompiled against libncurses4.
+
+ -- Kevin Dalley <kevind@rahul.net>  Fri,  9 Oct 1998 03:38:55 -0700
+
+oleo (1.6-12) stable unstable; urgency=low
+
+  * recompiled oleo, which fixes critical bug #25664, where oleo hangs
+    when given "--nw" option.
+  * corrected permissions of various files
+  * created link from oleo man page to undocumented man page
+
+ -- Kevin Dalley <kevind@rahul.net>  Sat, 22 Aug 1998 14:10:39 -0700
+
+oleo (1.6-11) unstable; urgency=low
+
+  * corrected diffs for distribution
+  * stuck everything in one directory again
+
+ -- Kevin Dalley <kevind@rahul.net>  Wed,  3 Dec 1997 23:16:46 -0800
+
+oleo (1.6-10) unstable; urgency=low
+
+  * linked with new libraries
+
+ -- Kevin Dalley <kevin@aimnet.com>  Sun, 21 Sep 1997 14:17:24 -0700
+
+oleo (1.6-9) unstable; urgency=low
+
+  * linked with libc6, ncurses3.4, xlib6 (>= 3.3-0)
+
+ -- Kevin Dalley <kevin@aimnet.com>  Mon,  7 Jul 1997 01:32:10 -0700
+
+oleo (1.6-8) unstable; urgency=low
+
+  * delete preinst, since it is not needed.
+  * use automake and newer autoconf, which allows easier compilation on
+    many platforms.
+  * oleo.texi: added texi oleo pages
+  * completely changed structure of source directories
+
+ -- Kevin Dalley <kevin@aimnet.com>  Fri, 7 Mar 1997 09:00:22 -0800
+
+oleo (1.6-7) unstable; urgency=low
+
+  * Updated to Standards-Version 2.1.1.0.
+  * fixed bug #3631: oleo description: no ext
+
+ -- Kevin Dalley <kevin@aimnet.com>  Mon, 14 Oct 1996 20:09:17 -0700
+
+Sun May  5 11:18:06 1996  Kevin Dalley  <kevin@aplysia.iway.aimnet.com (Kevin Dalley)>
+* debian.rules : upgraded to debian revision 6
+* debian.control : changed Pre-Depends back to Depends
+Sat Apr 13 13:56:14 1996  Kevin Dalley  <kevin@aplysia.iway.aimnet.com (Kevin Dalley)>
+	* debian.control, debian.rules:
+	added architecture and updated debian.rules
+Sat Mar 16 13:25:10 1996  Kevin Dalley  <kevin@aplysia.iway.aimnet.com (Kevin Dalley)>
+	* debian.README: updated for new release
+	* debian.preinst: debian preinstallation file added
+	* install-sh: added for compatibility with new autoconf
+	* debian.rules: updated version header, removed Makefile.linux
+	* debian.control: updated version header, changed maintainer
+	* byte-compile.c, parse.y, parse.tab.c: changed instr to instruct
+	to avoid conflict with curses.h file in Linux
+	* Makefile.linux: deleted, configure derived Makefile is now used.
+Local variables:
+mode: debian-changelog
+End:

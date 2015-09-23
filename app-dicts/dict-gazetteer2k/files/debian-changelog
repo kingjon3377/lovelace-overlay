@@ -1,0 +1,45 @@
+dict-gazetteer2k (1.0.0-5.2) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * /etc/init.d/dictd sanity checks; closes: #441915.
+
+ -- Robert S. Edmonds <edmonds@debian.org>  Tue, 11 Sep 2007 16:51:04 -0400
+
+dict-gazetteer2k (1.0.0-5.1) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * Use invoke-rc.d; closes: #367740.
+
+ -- Robert S. Edmonds <edmonds@debian.org>  Sun, 02 Sep 2007 02:20:42 -0400
+
+dict-gazetteer2k (1.0.0-5) unstable; urgency=medium
+
+  * Updated for more recent Python packages.  Closes: #398716.
+
+ -- John Goerzen <jgoerzen@complete.org>  Fri, 17 Nov 2006 06:40:47 -0600
+
+dict-gazetteer2k (1.0.0-4) unstable; urgency=low
+
+  * Updated with correct location of postal codes file.  Closes: #332561.
+
+ -- John Goerzen <jgoerzen@complete.org>  Tue, 11 Oct 2005 05:06:17 -0500
+
+dict-gazetteer2k (1.0.0-3) unstable; urgency=low
+
+  * Updated build process for Python 2.3.  Closes: #212069.
+
+ -- John Goerzen <jgoerzen@complete.org>  Tue,  7 Oct 2003 13:33:41 -0500
+
+dict-gazetteer2k (1.0.0-2) unstable; urgency=low
+
+  * Updated indentation in descriptions in control file.
+    Closes: #156326, #156325, #156324.
+  * Changed build dep from dictd to dictzip.
+
+ -- John Goerzen <jgoerzen@complete.org>  Wed,  5 Feb 2003 15:55:21 -0600
+
+dict-gazetteer2k (1.0.0-1) unstable; urgency=low
+
+  * Initial Release.
+
+ -- John Goerzen <jgoerzen@complete.org>  Mon, 29 Apr 2002 13:42:47 -0500

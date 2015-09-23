@@ -1,0 +1,575 @@
+--- brandy-1.20~pre5.orig/makefile
++++ brandy-1.20~pre5/makefile
+@@ -3,7 +3,7 @@
+ CC = gcc
+ LD = gcc
+ 
+-CFLAGS += -g -DDEBUG -I/usr/include/SDL
++CFLAGS += -g -I/usr/include/SDL
+ CFLAGS2 = -O2 -I/usr/include/SDL
+ 
+ LDFLAGS =
+@@ -244,7 +244,7 @@
+ 	strip brandy
+ 
+ check:
+-	$(CC) $(CFLAGS) -Wall -O2 $(SRC) $(LIBS) -o brandy
++	$(CC) $(CFLAGS) -Wall $(SRC) $(LIBS) -o brandy
+ 
+ clean:
+ 	rm -f $(SRCDIR)/*.o brandy
+--- brandy-1.20~pre5.orig/src/keyboard.c
++++ brandy-1.20~pre5/src/keyboard.c
+@@ -162,7 +162,7 @@
+ #if defined(TARGET_LINUX) | defined(TARGET_NETBSD) | defined(TARGET_MACOSX)\
+  | defined(TARGET_DJGPP) | defined(TARGET_FREEBSD) | defined(TARGET_OPENBSD)\
+  | defined(TARGET_AMIGA) & defined(__GNUC__)\
+- | defined(TARGET_GNUKFREEBSD)
++ | defined(TARGET_GNUKFREEBSD) | defined(TARGET_GNU)
+ #include <sys/time.h>
+ #include <sys/types.h>
+ #include <errno.h>
+@@ -286,6 +286,8 @@
+ #define OSVERSION 0xF5
+ #elif defined(TARGET_GNUKFREEBSD)
+ #define OSVERSION 0xF4
++#elif defined(TARGET_GNU)
++#define OSVERSION 0xF3
+ #else
+ #error Target operating system is either not defined or not supported
+ #endif
+@@ -333,7 +335,7 @@
+ 
+ #if defined(TARGET_LINUX) | defined(TARGET_NETBSD) | defined(TARGET_MACOSX)\
+  | defined(TARGET_FREEBSD) |defined(TARGET_OPENBSD) | defined(TARGET_AMIGA) & defined(__GNUC__)\
+- | defined(TARGET_GNUKFREEBSD)
++ | defined(TARGET_GNUKFREEBSD) | defined(TARGET_GNU)
+ 
+ static struct termios origtty;	/* Copy of original keyboard parameters */
+ static int32 keyboard;		/* File descriptor for keyboard */
+@@ -410,7 +412,7 @@
+ 
+ #if defined(TARGET_LINUX) | defined(TARGET_NETBSD) | defined(TARGET_MACOSX)\
+  | defined(TARGET_FREEBSD) | defined(TARGET_OPENBSD) | defined(TARGET_AMIGA) & defined(__GNUC__)\
+- | defined(TARGET_GNUKFREEBSD)
++ | defined(TARGET_GNUKFREEBSD) | defined(TARGET_GNU)
+ 
+ /* ----- Linux-, *BSD- and MACOS-specific keyboard input functions ----- */
+ 
+@@ -1502,7 +1504,7 @@
+ 
+ #elif defined(TARGET_LINUX) | defined(TARGET_NETBSD) | defined(TARGET_MACOSX)\
+  | defined(TARGET_FREEBSD) | defined(TARGET_OPENBSD) | defined(TARGET_AMIGA) & defined(__GNUC__)\
+- | defined(TARGET_GNUKFREEBSD)
++ | defined(TARGET_GNUKFREEBSD) | defined(TARGET_GNU)
+ 
+ /*
+ ** 'init_keyboard' initialises the keyboard code. It checks to
+--- brandy-1.20~pre5.orig/src/target.h
++++ brandy-1.20~pre5/src/target.h
+@@ -89,6 +89,12 @@
+ #define BRANDY_OS "GNU/kFreeBSD"
+ #endif
+ 
++#if (defined __GNU__)
++#define TARGET_GNU
++#define USE_SDL
++#define BRANDY_OS "GNU/Hurd"
++#endif
++
+ #ifdef DJGPP
+ #define TARGET_DJGPP
+ #define BRANDY_OS "DJGPP"
+@@ -163,7 +169,7 @@
+ #define EDITOR_VARIABLE "EDITOR"
+ #define DEFAULT_EDITOR "edit"
+ #elif defined(TARGET_LINUX) | defined(TARGET_NETBSD) | defined(TARGET_FREEBSD)\
+- | defined(TARGET_OPENBSD) | defined(TARGET_GNUKFREEBSD)
++ | defined(TARGET_OPENBSD) | defined(TARGET_GNUKFREEBSD) | defined(TARGET_GNU)
+ #define EDITOR_VARIABLE "EDITOR"
+ #define DEFAULT_EDITOR "vi"
+ #elif defined(TARGET_MACOSX)
+@@ -189,7 +195,7 @@
+ #define DIR_SEPS "\\/:"
+ #define DIR_SEP '\\'
+ #elif defined(TARGET_LINUX) | defined(TARGET_NETBSD) | defined(TARGET_MACOSX)\
+- | defined(TARGET_FREEBSD) | defined(TARGET_OPENBSD) | defined(TARGET_GNUKFREEBSD)
++ | defined(TARGET_FREEBSD) | defined(TARGET_OPENBSD) | defined(TARGET_GNUKFREEBSD) | defined(TARGET_GNU)
+ #define DIR_SEPS "/"
+ #define DIR_SEP '/'
+ #elif defined(TARGET_RISCOS)
+@@ -206,7 +212,7 @@
+ #define MACTYPE 0x600
+ #elif defined(TARGET_LINUX) | defined(TARGET_NETBSD) | defined(TARGET_MACOSX)\
+  | defined(TARGET_FREEBSD) | defined(TARGET_OPENBSD) | defined(TARGET_AMIGA)\
+- | defined(TARGET_GNUKFREEBSD)
++ | defined(TARGET_GNUKFREEBSD) | defined(TARGET_GNU)
+ #define MACTYPE 0x800
+ #elif defined(TARGET_DJGPP) | defined(TARGET_WIN32) | defined(TARGET_BCC32)
+ #define MACTYPE 0x2000
+--- brandy-1.20~pre5.orig/debian/compat
++++ brandy-1.20~pre5/debian/compat
+@@ -0,0 +1 @@
++5
+--- brandy-1.20~pre5.orig/debian/docs
++++ brandy-1.20~pre5/debian/docs
+@@ -0,0 +1,7 @@
++docs/README
++docs/basic
++docs/compiling
++docs/graphics
++docs/internals
++docs/messages
++docs/use
+--- brandy-1.20~pre5.orig/debian/dirs
++++ brandy-1.20~pre5/debian/dirs
+@@ -0,0 +1,2 @@
++usr/bin
++usr/share/doc/brandy/examples
+--- brandy-1.20~pre5.orig/debian/brandy.1
++++ brandy-1.20~pre5/debian/brandy.1
+@@ -0,0 +1,170 @@
++.TH BRANDY 1 "28 May 2001" "brandy 1.0.10" "BASIC V interpreter"
++.\" This man page was compiled by Darren Salt.
++
++.SH NAME
++brandy \- a portable BBC BASIC V interpreter
++
++.SH SYNOPSIS
++.B brandy
++.RB [ \-help ]
++.RB [ \-size\ SIZE ]
++.RB [ \-lib\ FILENAME ]
++.RB [ \-load\ FILENAME ]
++.RB [ \-path\ DIRECTORY[,DIRECTORY]... ]
++.RB [ \-quit\ FILENAME ]
++.RB [ \-chain\ FILENAME ]
++.RB [ \-ignore ]
++.RB [ FILENAME ]
++
++.SH DESCRIPTION
++
++.B Brandy
++is an interpreter for
++.BR "BASIC V" ,
++the dialect of BASIC that Acorn Computers supplied with their ranges of
++desktop computers that use the ARM processor such as the Archimedes and
++Risc PC, and is still in use on these and compatibles.
++
++.B BASIC V
++is an extended version of BBC BASIC. This was the BASIC used on the BBC Micro
++that Acorn made during the early 1980s.
++
++
++.SH OPTIONS
++
++.TP
++.B \-help
++Print a summary of these options.
++
++.TP
++.B \-size SIZE
++Set the size of the Basic workspace to
++.B SIZE
++bytes when starting the interpreter. The minimum size allowed is 10000 bytes
++and anything below this value will be set to it. The maximum size is limited
++only by the environment in which the program is being run. The size may have
++a suffix of
++.I k
++to denote that the size is in kilobytes or
++.I m
++if it is in megabytes. For example,
++.B \-size 100k
++will set the workspace size to 100 kilobytes (102400 bytes) and
++.B \-size 8m
++will set it to eight megabytes (8388608 bytes).
++
++.TP
++.B \-lib FILENAME
++Load Basic library
++.B FILENAME
++when the interpreter starts. This option can be
++repeated as many times as required to load a number of libraries. This is
++equivalent to typing
++.B INSTALL \(lqFILENAME\(rq
++at the interpreter's command line. The libraries are loaded in the order
++given on the command line. Note that the search order is the reverse of this.
++
++.TP
++.B \-load FILENAME
++Load Basic program
++.B FILENAME
++when the interpreter starts.
++
++.TP
++.B \-path DIRECTORY[,DIRECTORY]...
++This specifies a list of directories that the interpreter will search when
++looking for libraries and programs. The directory names are separated by
++commas. The pseudo-variable
++.B FILEPATH$
++is set to this value.
++
++.TP
++.B \-quit FILENAME
++Load and run the Basic program
++.BR FILENAME .
++Leave the interpreter when the program has finished running.
++
++.TP
++.B \-chain FILENAME
++Load and run the Basic program
++.BR FILENAME .
++Remain in the interpreter when the program has finished running.
++
++.TP
++.B \-graphics
++Start the interpreter with the screen in graphics mode in versions of the
++program which support graphics and the screen can be in either text or
++graphics modes.
++
++.TP
++.B \-ignore
++Ignore certain `unsupported feature' errors. By default the interpreter
++reports an error whenever it comes across a BASIC V feature that it does not
++support. This option allows some unsupported features that do not affect the
++basic running of the program to be ignored.
++
++.TP
++.B FILENAME
++This is exactly equivalent to
++.BR \-chain .
++
++.P
++The case of the names of the options is ignored. It depends on the operating
++system under which the interpreter is running as to whether the names of
++files are case sensitive or insensitive.
++
++
++.SH FILES
++
++.TP 2.2i
++.I brandy
++executable
++
++.TP 2.2i
++.I /usr/share/doc/brandy/examples
++example BASIC programs
++
++
++.SH "SEE ALSO"
++
++.TP 2.2i
++.I /usr/share/doc/brandy
++full documentation (use
++.I zless
++to view it)
++
++.LP
++Brandy's home page
++.IP
++http://www.brandy.iconbar.com/
++
++.LP
++There is some very useful documentation for the BBC Micro available on the
++Internet. One very good site is
++.I The BBC Lives!
++at:
++.IP
++http://www.nvg.ntnu.no/bbc/
++
++
++.SH AUTHOR
++
++David Daniels, with contributions from Darren Salt
++
++
++.SH "REPORTING BUGS"
++
++Report bugs to <dave_daniels@argonet.co.uk> or on the newsgroup
++.IR comp.sys.acorn.programmer .
++
++
++.SH COPYRIGHT
++
++Copyright (c) 2000, 2001 David Daniels.
++This is free software; see the source for copying conditions. There is NO
++warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
++
++
++.\" .SH MAINTAINER
++.\" Darren\ Salt,
++.\" http://www.youmustbejoking.demon.co.uk/
+--- brandy-1.20~pre5.orig/debian/changelog
++++ brandy-1.20~pre5/debian/changelog
+@@ -0,0 +1,130 @@
++brandy (1.20~pre5-3) unstable; urgency=low
++
++  * Fix FTBFS on GNU/Hurd with patch from Barry deFreese Closes: #532358
++  * Bump standards version to 3.8.1 (no changes required).
++
++ -- Colin Tuckley <colint@debian.org>  Mon, 08 Jun 2009 21:26:50 +0100
++
++brandy (1.20~pre5-2) unstable; urgency=low
++
++  * Bump standards version (no changes required).
++  * Fix doc-base section
++
++ -- Colin Tuckley <colint@debian.org>  Mon, 16 Feb 2009 20:13:40 +0000
++
++brandy (1.20~pre5-1) unstable; urgency=low
++
++  * New Upstream Release.
++  * New maintainer email address.
++  * Bump standards version (no changes required).
++
++ -- Colin Tuckley <colint@debian.org>  Wed, 26 Dec 2007 16:35:52 +0000
++
++brandy (1.20~pre4-2) unstable; urgency=low
++
++  * exit after displaying help when invoked with -help Closes: #442931
++  * add sleep/delay to event loop to prevent cpu hogging Closes: #442932
++  * don't ignore errors when doing make clean in debian/rules
++  * updated menu section (Apps -> Applications) 
++
++ -- Colin Tuckley <colin@tuckley.org>  Tue, 18 Sep 2007 11:56:09 +0100
++
++brandy (1.20~pre4-1) unstable; urgency=low
++
++  * New Upstream Release
++
++ -- Colin Tuckley <colin@tuckley.org>  Mon, 11 Jun 2007 12:09:31 +0100
++
++brandy (1.20~pre3-2) unstable; urgency=low
++
++  * Fix problem with INKEY when wait time was zero in keyboard.c
++  * Fix FTBFS on GNU/kFreeBSD patch by Cyril Brulebois Closes: #413868
++
++ -- Colin Tuckley <colin@tuckley.org>  Fri,  9 Mar 2007 14:12:30 +0000
++
++brandy (1.20~pre3-1) unstable; urgency=low
++
++  * New Upstream Release
++    Jlib graphics library replaced with sdl on Linux/Unix
++  * New Maintainer - Colin Tuckley
++
++ -- Colin Tuckley <colin@tuckley.org>  Sat, 30 Dec 2006 15:28:42 +0000
++
++brandy (1.19-1) unstable; urgency=low
++
++  * New upstream release
++  * New maintainer
++
++ -- Wookey <wookey@debian.org>  Tue,  7 Nov 2006 13:45:01 +0000
++
++brandy (1.16-1) unstable; urgency=low
++
++  * "New" upstream release.
++
++ -- Darren Salt <linux@youmustbejoking.demon.co.uk>  Mon, 28 Feb 2005 23:10:05 +0000
++
++brandy (1.0.13-2) unstable; urgency=low
++
++  * Bumped standards version to 3.5.10.
++
++ -- Darren Salt <linux@youmustbejoking.demon.co.uk>  Wed,  2 Jul 2003 23:29:26 +0100
++
++brandy (1.0.13-1) unstable; urgency=low
++
++  * New upstream release.
++  * Regenerated debian/rules.
++
++ -- Darren Salt <linux@youmustbejoking.demon.co.uk>  Tue,  4 Feb 2003 18:25:37 +0000
++
++brandy (1.0.12-2) unstable; urgency=low
++
++  * debian/rules:
++    - Ensure that the configure script is properly regenerated.
++    - Call ./configure properly.
++  * Implemented a better way of auto-generating dependencies.
++    Consequently, src/Makefile.real.in is no longer required.
++  * textgraph.c: added the rest of RISC OS 4's default ISO-8859-1 charset.
++
++ -- Darren Salt <linux@youmustbejoking.demon.co.uk>  Sat, 27 Oct 2001 16:30:27 +0100
++
++brandy (1.0.12-1) unstable; urgency=low
++
++  * New upstream source. Includes source patches for 1.0.10-3.
++  * Updated configure.in.
++
++ -- Darren Salt <linux@youmustbejoking.demon.co.uk>  Mon,  8 Oct 2001 23:34:34 +0100
++
++brandy (1.0.10-4) unstable; urgency=low
++
++  * Removed configure.in.bak (which shouldn't have been there).
++  * Changed sprintf -> vsprintf in emulate_printf().
++
++ -- Darren Salt <linux@youmustbejoking.demon.co.uk>  Sun,  2 Sep 2001 01:34:16 +0100
++
++brandy (1.0.10-3) unstable; urgency=low
++
++  * Bugfix: removed a memmove() from the PRINT_INT case in
++    fileio.c:fileio_getnumber.
++  * Bugfix: configure no longer uses bash function definitions.
++
++ -- Darren Salt <linux@youmustbejoking.demon.co.uk>  Mon, 11 Jun 2001 20:29:33 +0100
++
++brandy (1.0.10-2) unstable; urgency=low
++
++  * Added support for the five-byte float format traditionally
++    used by BBC BASIC.
++  * Added support for the loading of gzipped programs.
++    Detection is automatic.
++  * Modified reading and writing (INPUT#. PRINT#) to use the
++    ARM double format.
++  * Added a manpage.
++
++ -- Darren Salt <linux@youmustbejoking.demon.co.uk>  Wed,  6 Jun 2001 17:18:31 +0100
++
++brandy (1.0.10-1) unstable; urgency=low
++
++  * Initial debianisation.
++  * Added a configure script and makefiles.
++    (The original makefile remains unchanged and unrenamed.)
++
++ -- Darren Salt <linux@youmustbejoking.demon.co.uk>  Mon,  4 Jun 2001 14:28:16 +0100
+--- brandy-1.20~pre5.orig/debian/rules
++++ brandy-1.20~pre5/debian/rules
+@@ -0,0 +1,73 @@
++#!/usr/bin/make -f
++
++# Uncomment this to turn on verbose mode.
++#export DH_VERBOSE=1
++
++CFLAGS = -Wall
++
++ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
++	CFLAGS += -O0
++else
++	CFLAGS += -O2
++endif
++ifneq (,$(findstring debug,$(DEB_BUILD_OPTIONS)))
++	CFLAGS += -g
++endif
++ifeq (,$(findstring nostrip,$(DEB_BUILD_OPTIONS)))
++	INSTALL_PROGRAM += -s
++endif
++export CFLAGS
++
++configure configure-stamp:
++
++build: build-stamp
++
++build-stamp:
++	dh_testdir
++	$(MAKE)
++	touch build-stamp
++
++clean:
++	dh_testdir
++	dh_testroot
++	rm -f build-stamp configure-stamp
++	[ ! -f makefile ] || $(MAKE) clean
++	dh_clean
++
++install: build
++	dh_testdir
++	dh_testroot
++	dh_clean -k
++	dh_installdirs
++	install brandy debian/brandy/usr/bin
++#	install -m644 examples/* debian/brandy/usr/share/doc/brandy/examples
++
++# Build architecture-independent files here.
++binary-indep: build install
++# We have nothing to do by default.
++
++# Build architecture-dependent files here.
++binary-arch: build install
++	dh_testdir
++	dh_testroot
++#	dh_installdebconf
++	dh_installdocs
++	dh_installexamples examples/*
++	dh_installmenu
++#	dh_installmime
++	dh_installman debian/brandy.1
++#	dh_undocumented
++	dh_installchangelogs docs/history
++	dh_link
++	dh_strip
++	dh_compress
++	dh_fixperms
++#	dh_makeshlibs
++	dh_installdeb
++	dh_shlibdeps
++	dh_gencontrol
++	dh_md5sums
++	dh_builddeb
++
++binary: binary-indep binary-arch
++.PHONY: build clean binary-indep binary-arch binary install configure
+--- brandy-1.20~pre5.orig/debian/menu
++++ brandy-1.20~pre5/debian/menu
+@@ -0,0 +1,2 @@
++?package(brandy):needs="X11" section="Applications/Programming"\
++  title="Brandy" command="/usr/bin/brandy"
+--- brandy-1.20~pre5.orig/debian/copyright
++++ brandy-1.20~pre5/debian/copyright
+@@ -0,0 +1,18 @@
++This package was debianized by Colin Tuckley <colin@tuckley.org> on
++Fri, 29 Dec 2006 18:18:16 +0000.
++
++It was downloaded from https://sourceforge.net/project/showfiles.php?group_id=185535&package_id=216227&release_id=477058
++
++Upstream Authors: David Daniels <dave_daniels@argonet.co.uk>
++                  Colin Tuckley <colin@tuckley.org>
++
++Copyright: (C) 2000, 2001, 2002, 2003, 2004, 2005 2006 David Daniels
++           and 2006 2007 Colin Tuckley
++
++License:
++
++GNU GPL version 2 or later; see /usr/share/common-licenses/GPL.
++
++
++The Debian packaging is (C) 2006, 2007 Colin Tuckley <colint@debian.org>
++and is licensed under the GPL, see `/usr/share/common-licenses/GPL'.
+--- brandy-1.20~pre5.orig/debian/doc-base
++++ brandy-1.20~pre5/debian/doc-base
+@@ -0,0 +1,15 @@
++Document: brandy
++Title: Brandy BBC BASIC V interpreter documentation
++Author: David Daniels <dave_daniels@argonet.co.uk>
++Abstract: This manual describes Brandy and BBC BASIC.
++Section: Programming
++
++Format: text
++Files: /usr/share/doc/brandy/README
++  /usr/share/doc/brandy/basic.gz
++ /usr/share/doc/brandy/graphics.gz
++ /usr/share/doc/brandy/internals.gz
++ /usr/share/doc/brandy/messages.gz
++ /usr/share/doc/brandy/compiling.gz
++ /usr/share/doc/brandy/use.gz
++
+--- brandy-1.20~pre5.orig/debian/control
++++ brandy-1.20~pre5/debian/control
+@@ -0,0 +1,18 @@
++Source: brandy
++Section: interpreters
++Priority: optional
++Maintainer: Colin Tuckley <colint@debian.org>
++Build-Depends: debhelper (>= 5), libsdl1.2-dev
++Homepage: http://sourceforge.net/projects/brandy
++Standards-Version: 3.8.1
++
++Package: brandy
++Architecture: any
++Depends: ${shlibs:Depends}
++Description: BBC BASIC V interpreter
++ Brandy is an interpreter for BBC Basic. It is source code compatible with the
++ BASIC V interpreter in RISC OS and runs under a number of different
++ operating systems.
++ .
++ Note that it is not possible to make operating system calls from within a
++ program except under RISC OS.

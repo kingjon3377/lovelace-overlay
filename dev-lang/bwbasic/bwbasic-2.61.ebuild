@@ -1,0 +1,40 @@
+# Copyright 1999-2014 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+# $Header: $
+
+EAPI=5
+
+inherit toolchain-funcs eutils
+
+DESCRIPTION="Bywater BASIC Interpreter"
+HOMEPAGE="http://sourceforge.net/projects/bwbasic/"
+SRC_URI="mirror://sourceforge/${PN}/${PN}/version%20${PV}/${P}.zip"
+
+LICENSE="GPL-3"
+SLOT="0"
+KEYWORDS="~amd64"
+IUSE=""
+
+DEPEND=""
+RDEPEND=""
+
+S="${WORKDIR}"
+
+src_prepare() {
+	edos2unix $(find . -type f)
+	epatch "${FILESDIR}/bwbasic_2.20pl2-9.diff" "${FILESDIR}/renum.patch" "${FILESDIR}/redefines.patch"
+	chmod +x configure
+}
+
+src_compile() {
+	emake CC=$(tc-getCC)
+}
+
+src_install() {
+	dobin bwbasic renum
+	doman debian/renum.1
+	doman "${FILESDIR}/bwbasic.1"
+	dodoc README bwbasic.doc
+	docinto examples
+	dodoc bwbtest/*
+}

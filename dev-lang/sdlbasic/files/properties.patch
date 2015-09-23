@@ -1,0 +1,13 @@
+Index: sdlbasic/src/sdlBasic/share/sdlBasic/sdlBasic.properties
+===================================================================
+--- sdlbasic.orig/src/sdlBasic/share/sdlBasic/sdlBasic.properties	2008-11-15 18:25:48.000000000 +0100
++++ sdlbasic/src/sdlBasic/share/sdlBasic/sdlBasic.properties	2008-11-15 18:26:06.000000000 +0100
+@@ -651,7 +651,7 @@
+ 	BASEDIR=$(SciteDefaultHome)/../..
+ 	# uncomment this if you use kde and have problems with audio
+ 	#ARTSDSP=artsdsp -m
+-	SDLBRT=$(ARTSDSP) $/usr/bin/sdlBrt
++	SDLBRT=$(ARTSDSP) /usr/bin/sdlBrt
+ 	BROWSER=firefox
+     command.go.*.sdlbas=$(SDLBRT) "$(FilePath)"
+ 	command.help.*.sdlbas=$(BROWSER) "file:/usr/share/doc/sdlbasic/english/QuickHelp.html"

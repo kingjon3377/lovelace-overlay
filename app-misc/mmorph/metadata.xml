@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+ <longdescription>The MULTEXT morphology tool, mmorph, is a free implementation
+   of the two-level formalism for natural language morphology.</longdescription>
+</pkgmetadata>

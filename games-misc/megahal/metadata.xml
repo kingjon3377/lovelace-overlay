@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+ <longdescription>Conversation simulator that can learn as you talk to it.
+   Conversation simulators are computer programs which give the appearance of
+   conversing with a user in natural language. Such programs are effective
+   because they exploit the fact that human beings tend to read much more
+   meaning into what is said than is actually there; we are fooled into reading
+   structure into chaos, and we interpret non-sequitur as valid
+   conversation.
+   
+  MegaHAL differs from conversation simulators such as Eliza in that it uses a
+  Markov Model to learn how to hold a conversation. It is possible to teach
+  MegaHAL to talk about new topics, and in different
+  languages.</longdescription>
+</pkgmetadata>

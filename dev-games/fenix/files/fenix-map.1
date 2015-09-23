@@ -1,0 +1,77 @@
+.\" (c) 2007 Miriam Ruiz <little_miry@yahoo.es>
+.\" 
+.\" This document is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or
+.\" (at your option) any later version.
+.\" 
+.\" This package is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\" GNU General Public License for more details.
+.\" 
+.\" You should have received a copy of the GNU General Public License
+.\" along with this package; if not, write to the Free Software
+.\" Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+.TH "fenix-map" "1" "0.92a" "" ""
+.SH "NAME"
+fenix\-map \- convert images to fenix native format (map)
+.SH "SYNOPSIS"
+.B fenix\-map [option] filename.map
+.SH "DESCRIPTION"
+This program is used to convert jpgs, pngs, gifs, etc. to fenix native image format (.map)
+.PP 
+options:
+.TP 
+\fB\-l\fR
+Describe MAP file (default option)
+.TP 
+\fB\-p\fR
+Extract palette file (.PAL) from the graphic
+.TP 
+\fB\-c\fR
+Convert MAP file to 16bpp format
+.TP 
+\fB\-g\fR
+Convert MAP file to PNG file
+.TP 
+\fB\-m\fR
+Convert PNG or GIF file to MAP file
+.TP 
+\fB\-s\fR
+Modify MAP file parameters
+.TP 
+\fB\-n\fR
+Remove MAP file transparency
+.TP 
+\fB\-z=#\fR
+PNG transparent color ('0' color) range
+.TP 
+\fB\-#\fR
+Compresion level (0\-9 NOTE: 0 DIV compatible for 8bpps MAP files)
+.PP 
+.PP 
+Options for \-l/\-m/\-c(# means integer value):
+.TP 
+\fB+name=...\fR
+Change the name for the MAP (up to 32 characters)
+.TP 
+\fB+id=#\fR
+Change MAP code (0\-999))
+.TP 
+\fB+center=[#,#]\fR
+Change center for the MAP (control point 0)
+.TP 
+\fB+animation=...\fR
+Animation sequence for ANIMATED MAPS
+.TP 
+\fB+speed=#\fR
+Frame duration (ms) for each animation frame
+.TP 
+\fB+#=[#,#]\fR
+Control point definition
+.SH "SEE ALSO"
+.BR fenix (1),
+.BR fenix\-fxc (1),
+.BR fenix\-fxi (1),
+.BR fenix\-fpg (1)

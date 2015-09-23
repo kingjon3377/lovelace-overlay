@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+<longdescription>Fenix is an interpreted script programming language, especially
+designed to developing and running 2D games. It has a full graphic library,
+sound engine and full featured 2D game engine, making game development extremely
+easy.</longdescription>
+</pkgmetadata>

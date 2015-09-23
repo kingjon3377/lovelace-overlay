@@ -1,0 +1,10 @@
+--- src/Compress.cpp.old	2010-11-27 21:33:10.000000000 -0500
++++ src/Compress.cpp	2010-11-27 21:33:26.000000000 -0500
+@@ -10,6 +10,7 @@
+ #include <sys/mman.h>
+ #include <sys/stat.h>
+ #include <fcntl.h>
++#include <string>
+ 
+ #include <boost/io/ios_state.hpp>
+ 

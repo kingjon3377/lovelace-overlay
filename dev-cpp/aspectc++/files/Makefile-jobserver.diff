@@ -1,0 +1,10 @@
+--- Puma/tools/Makefile.old	2012-08-11 06:05:50.000000000 -0400
++++ Puma/tools/Makefile	2012-08-11 06:06:27.000000000 -0400
+@@ -14,6 +14,6 @@
+ clean: $(SUBDIRS)
+ 
+ $(SUBDIRS):
+-	@$(MAKE) -C $@ $(MAKECMDGOALS)
++	+@$(MAKE) -C $@ $(MAKECMDGOALS)
+ 
+ .PHONY: all clean $(SUBDIRS)

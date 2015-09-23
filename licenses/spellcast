@@ -1,0 +1,46 @@
+This package was debianized by Javier Fernández-Sanguino Peña
+<jfs@computer.org>
+Wed, 23 Sep 1998 18:43:26 -0700.
+
+It was downloaded from 
+- http://rsazuer.swan.ac.uk/~rsjames/spellcast (transcripts and manual page
+with symbols) from J.W.Armstrong@swansea.ac.uk
+- http://www.contrib.andrew.cmu.edu/~gc00/reviews/spellcaster.html. Rules of
+the original game posted at rec.games.abstract
+
+Original Copyright:
+
+This documentation is set up freely in the web, however, the original
+paper-and-pencil version of this game was created by Richard Bartle 
+(76703.3042@compuserve.com). He has expressed (see below) that
+derivative works may not be sold for profit without his permission.
+
+Relevant emails:
+
+From: RBartle@aol.com 
+Subject: Re: spellcast 
+To: che@debian.org 
+Date: 06 Oct 1998 02:42:27 -0700 
+ 
+BEN    - 
+
+ >The license of a Debian component may not restrict any party from 
+ >selling or giving away the software as a component of an aggregate 
+ >software distribution containing programs from several different 
+ >sources. The license may not require a royalty or other fee for such 
+ >sale. 
+I have no problem with this. What I don't want is for some commercial game 
+company to produce a version of my game and not pay me royalties for it. 
+If it's part of a general collection of games, and it's OK by Andrew, then 
+yes, 
+his implementation can go on your distribution disc. 
+
+ >I believe the intention of the license to Spellcast as it is intends to make 
+it free 
+ >software 
+Yes, but the intention was that it be TOTALLY free. If people sell it for 
+profit, then it's not totally free; if they charge for it to cover 
+distribution costs, 
+well, OK. 
+
+

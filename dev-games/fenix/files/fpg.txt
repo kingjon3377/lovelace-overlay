@@ -1,0 +1,189 @@
+EspecificaciÃ³n del formato FPG
+
+Esta secciÃ³n describe el contenido de un fichero FPG. No es necesario conocer
+estos detalles simplemente para programar juegos, pero serÃ¡n de utilidad a
+quien quiera realizar utilidades en lenguajes externos que lean o escriban
+ficheros FPG.
+
+Un fichero FPG no incluye compresiÃ³n. Fenix soporta de forma transparente el
+uso de compresiÃ³n GZIP en los ficheros, sin necesidad de marcarlos
+especialmente con extensiÃ³n .gz. Normalmente un fichero FPG se guarda en disco
+comprimido de esta manera, pero en el resto del fichero asumiremos que el
+fichero FPG no estÃ¡ comprimido.
+
+Cabecera
+
+Un fichero FPG comienza con la siguiente cabecera:
+ ____________________________________________________________________________
+|Nombre____________|TamaÃ±o_|DescripciÃ³n______________________________________|
+|                  |       |Cadena de caracteres de identificaciÃ³n del       |
+|                  |       |fichero. Debe contener exactamente "fpg" o "f16",|
+|MAGIC             |3 bytes|en minusculas. Dependiendo de estos valores lo   |
+|                  |       |que sigue en el fichero se referirÃ¡ a un archivo |
+|__________________|_______|FPG_de_8_bits_(fpg)_o_de_16_bits_(f16).__________|
+|                  |       |A continuaciÃ³n, los cuatro bytes 1Ah, 0Dh, 0Ah y |
+|                  |       |00h. Esta terminaciÃ³n indica, en un fichero MS-  |
+|TERMINACIÃN MS-DOS|4 bytes|DOS, final de fichero. Gracias a ella un comando |
+|                  |       |TYPE en MS-DOS no mostrarÃ­a los datos binarios   |
+|__________________|_______|del_fichero._____________________________________|
+|                  |       |CÃ³digo de versiÃ³n. Debido a que no se han        |
+|VERSION           |1 byte |introducido cambios en el formato, este valor es |
+|__________________|_______|siempre_00h._____________________________________|
+
+Paleta de colores
+
+A continuaciÃ³n, si el grÃ¡fico es de 8 bits (tal como indica la cabecera del
+fichero) y sÃ³lo en ese caso, aparecen 768 bytes con la paleta de colores. Cada
+color ocupa tres bytes en orden RGB (rojo, verde y azul) y con un rango para
+cada componente de color de 0 a 63. Seguido aparecerÃ¡n 576 bytes con
+informaciÃ³n de las gamas, que podran ser ignorados en Fenix. Para mas
+informaciÃ³n sobre este punto y sobre el formato PAL en general, consulta la
+especificaciÃ³n del formato PAL.
+
+Mapas
+
+Seguidamente se almacenan los mapas, sin orden necesario. Tan solo habrÃ¡ que
+leer los datos hasta que se produzca el EOF (end of file - final de fichero).
+SerÃ¡ solo en ese caso cuando estemos seguros de que no existen mÃ¡s mapas
+almacenados en el fichero. No cabe duda decir que esto imposibilita la
+adicciÃ³n de nueva informacion adicional.
+
+Todos los bloques de datos que representan a un mapa siguen la misma
+estructura. Esto es, un descriptor con informaciÃ³n acerca del mismo y,
+seguidamente, los datos propios del mapa.
+
+Como acabamos de decir:
+ ____________________________________________________________________________
+|Nombre___________|TamaÃ±o__________|DescripciÃ³n______________________________|
+|                 |                |Identificador del grÃ¡fico, de 0 a 999.   |
+|                 |                |Cuando el grÃ¡fico forma parte de una     |
+|                 |                |librerÃ­a FPG, indica su nÃºmero de        |
+|ID               |4 bytes         |Ã­ndice. El hecho de que se guarde en el  |
+|                 |                |fichero FPG permite extraer un grÃ¡fico   |
+|                 |                |del fichero FPG, grabarlo como MAP, y que|
+|                 |                |ocupe la misma posiciÃ³n si se importa de |
+|_________________|________________|nuevo_o_se_copia_en_otro_FPG_diferente.__|
+|                 |                |Este dato contiene el tamaÃ±o en bytes de |
+|                 |                |los datos del mapa. Su uso principal es  |
+|TAMAÃO EN BYTES  |4 bytes         |obtener esa informaciÃ³n de forma         |
+|                 |                |inmediata, aunque serÃ­a tambiÃ©n posible  |
+|                 |                |hacerlo mediante un calculo sobre el     |
+|_________________|________________|ancho,_el_alto_y_la_profundidad_de_color.|
+|                 |                |Cadena de texto de 32 bytes que se       |
+|                 |                |corresponde con una breve descripciÃ³n del|
+|                 |                |contenido del grÃ¡fico. Debe ocupar       |
+|                 |                |exactamente 32 bytes, con lo cual si la  |
+|                 |                |descripciÃ³n es menor en tamaÃ±o, la       |
+|DESCRIPCIÃN      |32 bytes        |cadena deberÃ¡ ser rellenada con el       |
+|                 |                |cÃ³digo ASCII 0. AdemÃ¡s, es otra fuente   |
+|                 |                |de informaciÃ³n acerca del grÃ¡fico, lo    |
+|                 |                |que permite hacernos una idea de lo que  |
+|                 |                |nos encontraremos sin necesidad de leer y|
+|_________________|________________|representar_los_datos_del_mapa.__________|
+|                 |                |Cadena de texto de 12 bytes que se       |
+|                 |                |corresponde con el nombre de archivo del |
+|                 |                |grÃ¡fico. Debe ocupar exactamente 12      |
+|                 |                |bytes, con lo cual si el nombre es menor |
+|                 |                |en tamaÃ±o, la cadena deberÃ¡ ser          |
+|                 |                |rellenada con el cÃ³digo ASCII 0. El hecho|
+|                 |                |de que se guarde en el fichero FPG       |
+|NOMBRE DE ARCHIVO|12 bytes        |permite aÃ±adir un grÃ¡fico al fichero FPG |
+|                 |                |manteniendo dicho nombre y,              |
+|                 |                |posteriormente, grabarlo como MAP con el |
+|                 |                |mismo nombre exactamente. AdemÃ¡s, es otra|
+|                 |                |fuente de informaciÃ³n acerca del         |
+|                 |                |grÃ¡fico, lo que permite hacernos una idea|
+|                 |                |de lo que nos encontraremos sin necesidad|
+|_________________|________________|de_leer_y_representar_los_datos_del_mapa.|
+|                 |                |Ancho en pixels del grÃ¡fico. A partir de |
+|                 |                |este ancho se puede calcular la cantidad |
+|                 |                |de memoria en bytes que ocupa una fila   |
+|                 |                |del grÃ¡fico en disco, y que depende de la|
+|ANCHO            |4 bytes         |PROFUNDIDAD de la cabecera:              |
+|                 |                |    * Profundidad 8: ancho               |
+|                 |                |    * Profundiad 16: ancho * 2           |
+|                 |                |NOTA : El tamaÃ±o en bytes de este dato   |
+|                 |                |difiere del que podemos encontrar en un  |
+|_________________|________________|fichero_MAP._____________________________|
+|                 |                |Alto en pixels del pixels del grÃ¡fico.   |
+|ALTO             |4 bytes         |NOTA : El tamaÃ±o en bytes de este dato   |
+|                 |                |difiere del que podemos encontrar en un  |
+|_________________|________________|fichero_MAP._____________________________|
+|                 |                |InformaciÃ³n adicional acerca de este mapa|
+|                 |                |en concreto.                             |
+|                 |                |Actualmente, en este dato se almacena    |
+|                 |                |informaciÃ³n acerca del numero de puntos  |
+|                 |                |de control y de la animaciÃ³n. Para saber |
+|                 |                |estos dos valores solo deberemos someter |
+|                 |                |dicho dato a un AND. Las constantes son: |
+|                 |                |    * F_NCPOINTS = 0x0FFF                |
+|FLAGS            |4 bytes         |    * F_ANIMATION = 0x1000               |
+|                 |                |Por ejemplo, para hayar el numero de     |
+|                 |                |puntos de control basta con hacer:       |
+|                 |                |n_cpoints = flags AND F_NCPOINTS         |
+|                 |                |NOTA : La animaciÃ³n en el formato MAP    |
+|                 |                |estÃ¡ en desuso y poco documentada, por lo|
+|                 |                |que se desaconseja su uso.               |
+|                 |                |NOTA : El tamaÃ±o en bytes de este dato   |
+|                 |                |difiere del que podemos encontrar en un  |
+|_________________|________________|fichero_MAP._____________________________|
+|                 |                |A continuaciÃ³n se almacenan los puntos de|
+|                 |                |control, tantos como indique el valor    |
+|                 |                |extraido del dato FLAGS. Es posible que  |
+|PUNTOS DE CONTROL|TamaÃ±o Variable |esta secciÃ³n no estÃ© presente si ese     |
+|                 |                |valor es cero. En todo caso, cada punto  |
+|                 |                |de control es una estructura de 4 bytes  |
+|_________________|________________|que_se_especifica_mÃ¡s_adelante.__________|
+|                 |                |Por Ãºltimo, aparecen los datos del       |
+|                 |                |grÃ¡fico propiamente dichos, de arriba a  |
+|                 |                |abajo:                                   |
+|                 |                |TamaÃ±o en bytes de los datos = [ (ancho *|
+|                 |                |alto) * (bpp / 8) ]                      |
+|                 |                |En un grÃ¡fico de 8 bits el valor 0       |
+|DATOS DEL MAPA   |TamaÃ±o Variable |(Ã­ndice 0 de la paleta) estÃ¡ reservado   |
+|                 |                |para los pixels transparentes.           |
+|                 |                |En un grÃ¡fico de 16 bits, cada pixel se  |
+|                 |                |guarda en formato RGB565 con el valor 0  |
+|                 |                |reservado para los pixels transparentes  |
+|                 |                |(lo cual significa que el color negro    |
+|                 |                |puro no puede usarse, siendo necesario   |
+|_________________|________________|sustituirlo_por_un_valor_aproximado).____|
+
+Puntos de control
+
+En este apartado se almacenan los puntos de control, tantos como indique el
+valor extraido del dato FLAGS. Es posible que esta secciÃ³n no estÃ© presente
+si ese valor es cero. En todo caso, cada punto de control es una estructura de
+4 bytes que contiene:
+ ____________________________________________________________________________
+|Nombre|TamaÃ±o_|DescripciÃ³n__________________________________________________|
+|X_____|2_bytes|Coordenada_X_del_punto_de_control.___________________________|
+|Y_____|2_bytes|Coordenada_Y_del_punto_de_control.___________________________|
+
+Imaginemos que tenemos configurado solo el punto de control 54, por ejemplo.
+Aun asÃ­ en el fichero se veran representados todos los puntos de control hasta
+ese. En este caso los puntos que no hemos configurado tendran un valor de -
+1 tanto en la coordenada X como en la Y.
+
+Ejemplo:
+
+      Solo hemos configurado el punto 4. Por lo tanto tendremos esto:
+            Punto 000 : X = -1; Y = -1
+            Punto 001: X = -1; Y = -1
+            Punto 002 : X = -1; Y = -1
+            Punto 003 : X = -1; Y = -1
+            Punto 004 : X = 200; Y = 125
+
+      Ahora hemos configurado el punto 2 y el 4. Por lo tanto tendremos esto:
+            Punto 000 : X = -1; Y = -1
+            Punto 001 : X = -1; Y = -1
+            Punto 002 : X = 64; Y = 32
+            Punto 003 : X = -1; Y = -1
+            Punto 004 : X = 200; Y = 125
+
+NOTA : Con la inclusiÃ³n de la posibilidad de usar puntos de control con
+coordenadas negativas, no estoy seguro de que esto siga vigente (lo de usar el
+-1 para puntos de control nulos).
+
+Obtenido de http://fenixworld.se32.com/fenixwiki/
+Disponible bajo los tÃ©rminos de la GNU Free Documentation License 1.2

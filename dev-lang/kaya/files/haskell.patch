@@ -1,0 +1,260 @@
+Description: Fix haskell modules import
+Author: Vincent Legout <vincent@legout.info>
+Bug-Debian: http://bugs.debian.org/665064
+Last-Update: 2012-07-07
+
+Index: kaya-0.4.4/compiler/Main.hs
+===================================================================
+--- kaya-0.4.4.orig/compiler/Main.hs	2012-07-07 09:44:37.652451626 +0200
++++ kaya-0.4.4/compiler/Main.hs	2012-07-07 10:00:48.052454170 +0200
+@@ -26,9 +26,11 @@
+ import Module
+ import REPL
+ 
+-import Monad
++import Control.Monad
+ import Debug.Trace
+-import System
++import System.Cmd
++import System.Environment
++import System.Exit
+ import System.Directory
+ 
+ main :: IO ()
+Index: kaya-0.4.4/compiler/REPL.hs.in
+===================================================================
+--- kaya-0.4.4.orig/compiler/REPL.hs.in	2012-07-07 09:44:37.652451626 +0200
++++ kaya-0.4.4/compiler/REPL.hs.in	2012-07-07 09:53:04.792452953 +0200
+@@ -27,11 +27,11 @@
+ import Language
+ import Errors
+ import Lib
+-import List
++import Data.List
+ 
+-import CForeign
+-import Ptr
+-import IO
++import Foreign.C
++import Foreign.Ptr
++import System.IO
+ import @readlinemodule@
+ import System.Directory
+ 
+Index: kaya-0.4.4/compiler/Options.hs
+===================================================================
+--- kaya-0.4.4.orig/compiler/Options.hs	2012-07-07 09:44:37.652451626 +0200
++++ kaya-0.4.4/compiler/Options.hs	2012-07-07 09:51:02.248452629 +0200
+@@ -8,7 +8,7 @@
+ 
+ module Options where
+ 
+-import System
++import System.Exit
+ import Lib
+ 
+ data Option = NoPrelude | DumpTAC | DumpTree | DumpRaw | KeepC | ShowGCC
+Index: kaya-0.4.4/compiler/Context.hs
+===================================================================
+--- kaya-0.4.4.orig/compiler/Context.hs	2012-07-07 09:44:37.652451626 +0200
++++ kaya-0.4.4/compiler/Context.hs	2012-07-07 09:44:39.172451629 +0200
+@@ -2,7 +2,7 @@
+ 
+ import AbsSyntax
+ 
+-import List
++import Data.List
+ import Portability
+ 
+ -- Contexts containing names and type information
+Index: kaya-0.4.4/compiler/Language.hs
+===================================================================
+--- kaya-0.4.4.orig/compiler/Language.hs	2012-07-07 09:44:37.652451626 +0200
++++ kaya-0.4.4/compiler/Language.hs	2012-07-07 09:44:39.172451629 +0200
+@@ -12,7 +12,7 @@
+ 
+ ----- Useful gadgets on the abstract syntax; also reexports syntax types.
+ 
+-import List
++import Data.List
+ import Debug.Trace
+ import AbsSyntax
+ import Context
+Index: kaya-0.4.4/compiler/Inference.hs
+===================================================================
+--- kaya-0.4.4.orig/compiler/Inference.hs	2012-07-07 09:44:37.652451626 +0200
++++ kaya-0.4.4/compiler/Inference.hs	2012-07-07 09:44:39.172451629 +0200
+@@ -18,7 +18,7 @@
+ import Module
+ 
+ import Debug.Trace
+-import List
++import Data.List
+ import Control.Monad
+ 
+ -- Step one : insert type declarations (with UnknownType) so that at least
+Index: kaya-0.4.4/compiler/Module.hs
+===================================================================
+--- kaya-0.4.4.orig/compiler/Module.hs	2012-07-07 09:44:37.652451626 +0200
++++ kaya-0.4.4/compiler/Module.hs	2012-07-07 09:44:39.172451629 +0200
+@@ -16,7 +16,7 @@
+ import Language
+ import Debug.Trace
+ import System.Directory
+-import List
++import Data.List
+ import Lib
+ import Options
+ import Portability
+Index: kaya-0.4.4/compiler/PMComp.hs
+===================================================================
+--- kaya-0.4.4.orig/compiler/PMComp.hs	2012-07-07 09:44:37.652451626 +0200
++++ kaya-0.4.4/compiler/PMComp.hs	2012-07-07 09:44:39.172451629 +0200
+@@ -17,7 +17,7 @@
+ 
+ import Control.Monad.State
+ import Debug.Trace
+-import List(group,sort,sortBy,transpose,nub)
++import Data.List(group,sort,sortBy,transpose,nub)
+ 
+ mkCase :: String -> Int -> Context -> Name -> -- for finding constructor names
+           Int -> -- first variable to introduce (we might need this several times per function, so names we introduce need to be unique!)
+Index: kaya-0.4.4/compiler/Lexer.hs
+===================================================================
+--- kaya-0.4.4.orig/compiler/Lexer.hs	2012-07-07 09:44:37.652451626 +0200
++++ kaya-0.4.4/compiler/Lexer.hs	2012-07-07 09:44:39.172451629 +0200
+@@ -8,7 +8,7 @@
+ 
+ module Lexer where
+ 
+-import Char
++import Data.Char
+ import Language
+ import Debug.Trace
+ 
+Index: kaya-0.4.4/compiler/Parser.y
+===================================================================
+--- kaya-0.4.4.orig/compiler/Parser.y	2012-07-07 09:44:37.652451626 +0200
++++ kaya-0.4.4/compiler/Parser.y	2012-07-07 09:44:52.692451665 +0200
+@@ -10,13 +10,13 @@
+ 
+ module Parser where
+ 
+-import Char
++import Data.Char
+ import Language
+ import Debug.Trace
+ import System.IO.Unsafe
+ import Lib
+ import Module
+-import IO
++import System.IO
+ import Lexer
+ 
+ }
+Index: kaya-0.4.4/compiler/Chaser.hs
+===================================================================
+--- kaya-0.4.4.orig/compiler/Chaser.hs	2009-04-12 12:27:04.000000000 +0200
++++ kaya-0.4.4/compiler/Chaser.hs	2012-07-07 09:46:52.444451975 +0200
+@@ -15,13 +15,11 @@
+ import Lib
+ import Lexer
+ 
+-import Char
+-import IO
+-import System
++import Data.Char
+ import System.IO
+ import System.Directory
+ import Debug.Trace
+-import Monad
++import Control.Monad
+ 
+ import System.IO.Unsafe
+ import Foreign
+Index: kaya-0.4.4/compiler/Driver.hs
+===================================================================
+--- kaya-0.4.4.orig/compiler/Driver.hs	2009-04-12 12:27:04.000000000 +0200
++++ kaya-0.4.4/compiler/Driver.hs	2012-07-07 09:58:07.920453981 +0200
+@@ -28,13 +28,14 @@
+ import ProgramDump
+ import REPL
+ 
+-import System
++import System.Cmd
++import System.Exit
+ import System.Directory
+ import Portability
+ import System.Random
+-import IO
++import System.IO
+ import Debug.Trace
+-import List
++import Data.List
+ import Control.Monad
+ 
+ -- Compile a file, with extra options to gcc, and main options. Returns the
+Index: kaya-0.4.4/compiler/CallGraph.hs
+===================================================================
+--- kaya-0.4.4.orig/compiler/CallGraph.hs	2009-04-12 12:27:03.000000000 +0200
++++ kaya-0.4.4/compiler/CallGraph.hs	2012-07-07 09:48:02.756452162 +0200
+@@ -11,7 +11,7 @@
+ -- Implements a call graph, showing which functions call which others
+ 
+ import Language
+-import List
++import Data.List
+ 
+ -- List of names paired with the names that function calls
+ type CG = [(Name, [Name])]
+Index: kaya-0.4.4/compiler/APIDocs.hs
+===================================================================
+--- kaya-0.4.4.orig/compiler/APIDocs.hs	2009-04-12 12:27:04.000000000 +0200
++++ kaya-0.4.4/compiler/APIDocs.hs	2012-07-07 09:48:26.244452223 +0200
+@@ -11,7 +11,7 @@
+ import Language
+ import Debug.Trace
+ import System.Directory
+-import List
++import Data.List
+ import Module
+ 
+ xmlise :: String -> String
+Index: kaya-0.4.4/compiler/CodegenCPP.hs
+===================================================================
+--- kaya-0.4.4.orig/compiler/CodegenCPP.hs	2012-07-07 09:44:39.156451629 +0200
++++ kaya-0.4.4/compiler/CodegenCPP.hs	2012-07-07 09:48:51.492452256 +0200
+@@ -11,7 +11,7 @@
+ import Options
+ import TAC
+ import Language
+-import IO
++import System.IO
+ import Debug.Trace
+ import Lib
+ 
+Index: kaya-0.4.4/compiler/KeyGen.hs
+===================================================================
+--- kaya-0.4.4.orig/compiler/KeyGen.hs	2012-07-07 09:44:39.156451629 +0200
++++ kaya-0.4.4/compiler/KeyGen.hs	2012-07-07 09:49:13.700452205 +0200
+@@ -1,6 +1,6 @@
+ module KeyGen(mkkey) where
+ 
+-import Char
++import Data.Char
+ import System.Random
+ import System.Directory
+ import System.IO
+Index: kaya-0.4.4/compiler/TAC.hs
+===================================================================
+--- kaya-0.4.4.orig/compiler/TAC.hs	2009-04-12 12:27:04.000000000 +0200
++++ kaya-0.4.4/compiler/TAC.hs	2012-07-07 09:49:41.800452421 +0200
+@@ -15,7 +15,7 @@
+ 
+ import Language
+ import Debug.Trace
+-import List
++import Data.List
+ import Control.Monad.State
+ import Data.Maybe
+ 

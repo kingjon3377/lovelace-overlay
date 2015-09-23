@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+<use><flag name="7zip">Pull in <pkg>app-arch/p7zip</pkg>, to be sure to be able to attempt .7z files.</flag>
+<flag name="rar">Pull in <pkg>app-arch/unrar</pkg>, to be sure to be able to attempt RAR files.</flag>
+<flag name="zip">Pull in <pkg>app-arch/unzip</pkg>, to be sure to be able to attempt Zip files.</flag>
+</use>
+</pkgmetadata>
+

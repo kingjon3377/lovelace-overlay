@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+<use>
+  <flag name='architecture'>Install the 'architecture' parts library</flag>
+  <flag name='electronics'>Install the 'electronics' parts library</flag>
+  <flag name='gis'>Install the 'gis' parts library</flag>
+  <flag name='hydraulics'>Install the 'hydraulics' parts library</flag>
+  <flag name='circuits'>Install the 'LRM circuits' parts library</flag>
+  <flag name='mechanics'>Install the 'mechanics' parts library</flag>
+  <flag name='misc'>Install the 'miscellaneous' parts library</flag>
+  <flag name='processing'>Install the 'processing' parts library</flag>
+  <flag name='nounproject'>Install the parts library from The Noun Project</flag>
+</use>
+</pkgmetadata>

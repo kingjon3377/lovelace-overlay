@@ -1,0 +1,75 @@
+.\"                                      Hey, EMACS: -*- nroff -*-
+.TH MANCALA 6 "13 March 2001"
+.\" Please adjust this date whenever revising the manpage.
+.\"
+.SH NAME
+mancala \- simple board game for human player and computer
+.SH SYNOPSIS
+.B mancala
+.I level\-top level\-bottom number\-of\-stones
+.br
+.B xmancala [\-stones N]
+.br
+.B mancala\-text
+.SH DESCRIPTION
+This manual page documents briefly the
+.B mancala
+and
+.B xmancala
+commands.
+This manual page was written for the Debian GNU/Linux distribution
+because the original program does not have a manual page.
+.PP
+.B mancala
+runs the game in the console, while
+.B xmancala
+is a fancy X\-interface.
+.B mancala\-text
+is a shell script to run mancala in a console from the Debian menu system.
+.PP
+When run as
+.B xmancala 
+the program has no options, and should be self\-explanatory.  Built in buttons
+and sliders control the difficulty level (default 4), and bring up the rules
+of the game.  
+.PP
+The console version,
+.BR mancala ,
+has no access to the rules, and the difficulty level can only be set on the
+command line (see below).  When it is your turn to play, you enter the letter
+of the cell that you want to move the stones from,
+.IR A " to " F
+(case insensitive).  The rules are contained in the file
+.IR /usr/share/doc/mancala/RULES .
+.SH OPTIONS
+When run as
+.BR mancala ,
+the program normally takes two arguments,
+.IR level\-top " and " level\-bottom ,
+one of which should be
+.I 0
+to represent the human player (you), and the other should be in the range
+.IR 1 " to " 9 ,
+to represent the skill level of the computer player.  The first argument
+represents the top player, who starts.
+.PP
+Alternatively, you can give a single argument or two non\-zero arguments, to
+watch the computer playing itself, or two zero arguments, to play against
+another human player on the same console.
+.PP
+For the console version, you can add a third argument to specify the number
+of stones per hole. For xmancala you can specify the number of stones per
+hole using the \-stones N argument.
+.PP
+On Debian systems, the shell script 
+.B mancala\-text
+is provided to facilitate running mancala in a console, from the Debian menu
+system.  This script will run mancala with a difficulty level of 4, and will
+pause when the game is finished, to enable the player to view the final
+screen.
+.SH SEE ALSO
+<http//en.wikipedia.org/wiki/Mancala>
+.SH AUTHOR
+This manual page was written by Andrew Gray <ajpg@debian.org>
+for the Debian GNU/Linux system (but may be used by others).
+

@@ -1,0 +1,640 @@
+--- astronomical-almanac-5.6.orig/aa.ans
++++ astronomical-almanac-5.6/aa.ans
+@@ -313,7 +313,7 @@
+ Calendar date: Year (1986) ? Month (1-12) (1) ? Day.fraction (1.000000) ? Time: Hours (12) ? Minutes (40) ? Seconds (0.000000) ? 1986 January 1 Wednesday  6h 09m 05.130s  UT
+ 1986 January 1 Wednesday  6h 10m 00.000s  TDT
+ Julian day 2446431.7569444, delta T = 54.87 s
+-Enter interval between tabulations in days (1.000000) ? Number of tabulations to display (1) ? Planet number 0-9 or 88 to read star, 99 to read orbit (9) ? Name of star catalogue file:  (star.cat) ? Line number (1) ? 2000 00 08 23.265  29 05 25.58   1.039  -16.33 -12.0 0.0240   2.06 alAnd(Alpheratz)       4
++Enter interval between tabulations in days (1.000000) ? Number of tabulations to display (1) ? Planet number 0-9 or 88 to read star, 99 to read orbit (9) ? Name of star catalogue file:  (/usr/share/aa/star.cat) ? Line number (1) ? 2000 00 08 23.265  29 05 25.58   1.039  -16.33 -12.0 0.0240   2.06 alAnd(Alpheratz)       4
+ 
+ 
+                alpha Andromedae (Alpheratz)
+@@ -342,7 +342,7 @@
+ Calendar date: Year (1986) ? Month (1-12) (1) ? Day.fraction (1.000000) ? Time: Hours (6) ? Minutes (10) ? Seconds (0.000000) ? 1986 January 1 Wednesday  8h 26m 05.130s  UT
+ 1986 January 1 Wednesday  8h 27m 00.000s  TDT
+ Julian day 2446431.8520833, delta T = 54.87 s
+-Enter interval between tabulations in days (1.000000) ? Number of tabulations to display (1) ? Planet number 0-9 or 88 to read star, 99 to read orbit (88) ? Name of orbit catalogue file:  (orbit.cat) ? Line number (1) ? 2447120.5 34.0897 267.3835 73.9085 167.4675275 0.00045478773
++Enter interval between tabulations in days (1.000000) ? Number of tabulations to display (1) ? Planet number 0-9 or 88 to read star, 99 to read orbit (88) ? Name of orbit catalogue file:  (/usr/share/aa/orbit.cat) ? Line number (1) ? 2447120.5 34.0897 267.3835 73.9085 167.4675275 0.00045478773
+ 
+ 0.994811 0.0062424619 2433282.423 5.0 0.0 Bradfield_1987s	5
+ 
+--- astronomical-almanac-5.6.orig/aa.c
++++ astronomical-almanac-5.6/aa.c
+@@ -37,7 +37,7 @@
+  */
+ #include "kep.h"
+ 
+-#ifdef __BORLANDC__
++#if __BORLANDC__ || __STDC__
+ #include <stdlib.h>
+ #endif
+ 
+--- astronomical-almanac-5.6.orig/aa.que
++++ astronomical-almanac-5.6/aa.que
+@@ -97,7 +97,7 @@
+ 1
+ 1
+ 88
+-star.cat
++/usr/share/aa/star.cat
+ 1
+ 1986
+ 1
+@@ -108,7 +108,7 @@
+ 1
+ 1
+ 99
+-orbit.cat
++/usr/share/aa/orbit.cat
+ 5
+ 1986
+ 1
+--- astronomical-almanac-5.6.orig/conjunct.c
++++ astronomical-almanac-5.6/conjunct.c
+@@ -1,20 +1,21 @@
+-/* Search program to find dates of equinox or new moon.  */
++/* Search program to find dates of equinox or new/full moon.  */
++
++double STARTDATE;
++double ENDDATE;
+ 
+-/* November 28, 4057 B.C.*/
+-/* #define STARTDATE  239935.5 */
+-
+-#define STARTDATE  625379.5
+-
+-/* January 31, 1982 */
+-#define ENDDATE    2445000.5
+-
+-/* Define one of these nonzero, the others zero.  */
+ #define NEWMOON 1
+ #define FULLMOON 0
+ #define FIRST_QUARTER_MOON 0
+ #define THIRD_QUARTER_MOON 0
+-#define EQUINOX 0
+-
++#define SPRING 2
++#define SUMMER 3
++#define AUTUMN 4
++#define WINTER 5
++
++#define _XOPEN_SOURCE /* glibc2 needs this to declare strptime */
++#include <stdlib.h>
++#include <getopt.h>
++#include <time.h>
+ #include "kep.h"
+ /* Conversion factors between degrees and radians */
+ double DTR = 1.7453292519943295769e-2;
+@@ -16,6 +17,9 @@
+ double PI = 3.14159265358979323846;
+ double TPI = 6.28318530717958647693;
+ 
++/* unused, but must be defined for rplanet.c and rstar.c */
++struct orbit *elobject;	/* pointer to orbital elements of object */
++
+ extern double PI;
+ 
+ /* Standard epochs.  Note Julian epochs (J) are measured in
+@@ -115,56 +119,132 @@
+ double dradt, ddecdt;
+ extern double FAR moonpol[];
+ extern double FAR moonpp[];
++static int event=NEWMOON;
+ 
+ double zgetdate(), gethms();
+ double func(), search();
+ int apparent();
+ 
+-struct orbit *elobject;
+-double robject[3] = {0.0, 0.0, 0.0};
+ static int first_search;
+-
+-
+-int main()
++int main(int argc, char **argv)
+ {
+-  double t, t0;
++  double t=0, t0;
++  int c;
++  time_t now=time(NULL);
++  struct tm date=*localtime(&now);
+ 
+   kinit();
++
++  STARTDATE=caltoj( date.tm_year+1900, date.tm_mon+1, date.tm_mday );
++  ENDDATE=caltoj( date.tm_year+1900+1, date.tm_mon+1, date.tm_mday );
++
++  while (1) {
++    int option_index = 0;
++    static struct option long_options[] = {
++      {"start", 1, 0, 's'},
++      {"end", 1, 0, 'e'},
++      {"spring", 0, 0, 'V'},
++      {"vernal", 0, 0, 'V'},
++      {"summer", 0, 0, 'S'},
++      {"autumn", 0, 0, 'A'},
++      {"fall", 0, 0, 'A'},
++      {"winter", 0, 0, 'W'},
++      {"newmoon", 0, 0, 'N'},
++      {"fullmoon", 0, 0, 'F'},
++      {"help", 0, 0, 'h'},
++      {0, 0, 0, 0}
++    };
++    c = getopt_long (argc, argv, "s:e:VSAWNFh",
++		     long_options, &option_index);
++    if (c == -1)
++      break;
++    switch (c) {
++    case 's': 
++      if (strptime(optarg, "%Y-%m-%d", &date))
++	STARTDATE=caltoj( date.tm_year+1900, date.tm_mon+1, date.tm_mday );
++      else
++	STARTDATE=atof(optarg); 
++      break;
++    case 'e':
++      if (strptime(optarg, "%Y-%m-%d", &date))
++	ENDDATE=caltoj( date.tm_year+1900, date.tm_mon+1, date.tm_mday );
++      else
++	ENDDATE=atof(optarg); 
++      break;
++    case 'V': event=SPRING; break;
++    case 'S': event=SUMMER; break;
++    case 'A': event=AUTUMN; break;
++    case 'W': event=WINTER; break;
++    case 'N': event=NEWMOON; break;
++    case 'F': event=FULLMOON; break;
++    case 'h': 
++    default:
++      printf("conjunct -  find dates of equinox or new/full moon\n"
++	     "options:\n"
++	     " -s, --start DATE  Julian or ISO 8601 starting date (default today)\n"
++	     " -e, --end DATE  ending date (default 1 year from today)\n"
++	     " -V, --vernal    find times of spring equinox\n"
++	     " -S, --summer    find times of summer solstice\n"
++	     " -A, --autumn    find times of autumn equinox\n"
++	     " -W, --winter    find times of winter solstice\n"
++	     " -F, --fullmoon  find times of full moon\n"
++	     " -N, --newmoon   find times of new moon (default)\n");
++      exit(0);		     
++      break;
++    }
++  }
++  if (STARTDATE >= ENDDATE)
++    {
++      printf("start date=%f >= end date=%f\n", STARTDATE, ENDDATE);
++      exit(1);
++    }
++  
+   objnum = 0;
+-  t0 = STARTDATE;
+-  first_search = 0;
+-  while( t0 <= ENDDATE )
++  //  printf("184:STARTDATE=%6.1f\n", STARTDATE);
++  t0 = STARTDATE - (((event==FULLMOON)||(event==NEWMOON))?40:400);
++  while( 1 )
+     {
+       prtflg = 0;
+-#if EQUINOX
+-      t = search( t0, 0.0, 364.0 );
+-#endif
+-#if NEWMOON
+-      t = search( t0, 0.0, 27.0 );
+-#endif
+-#if FULLMOON
+-      t = search( t0, PI, 27.0 );
+-#endif
+-#if FIRST_QUARTER_MOON
+-      t = search( t0, -0.5*PI, 27.0 );
+-#endif
+-#if THIRD_QUARTER_MOON
+-      t = search( t0, 0.5*PI, 27.0 );
+-#endif
++      switch(event)
++	{
++	case SPRING:
++	  t = search( t0, 0.0, 364.0 );
++	  break;
++	case AUTUMN:
++	  t = search( t0, PI, 364.0 );
++	  break;
++	case WINTER:
++	  t = search( t0, -PI/2, 364.0 );
++	  break;
++	case SUMMER:
++	  t = search( t0, PI/2, 364.0 );
++	  break;
++	case NEWMOON:
++	  t = search( t0, 0.0, 27.0 );
++	  break;
++	case FULLMOON:
++	  t = search( t0, PI, 27.0 );
++	  break;
++	}
+       TDT = t;
+-      printf("%.4f ", t);
+-      prtflg = 1;
+-      jtocal(t);
++      if (t > ENDDATE)
++	break;
++      if (t >= STARTDATE)
++	{
++	  printf("%.4f ", t);
++	  prtflg = 1;
++	  jtocal(t);
++	}
+       t0 = t;
+     }
+ exit(0);
+ }
+ 
+ 
+ /* Search for desired conjunction.
+    On the first call to this function, search forward from date T
+    in steps of delta / 8 days until the error changes sign.
+    On subsequent calls, step forward delta days, then search forward
+    in steps of 1 day until the error changes sign.
+    Then, in both cases, reduce the error by interval halving
+    until the function equals Y with the desired precision.  */
+
+ static int first_search = 0;
+ 
+ double search(t, y, delta)
+-double t, y, delta;
++     double t, y, delta;
+ {
+   double tl, tm, th, yl, ym, yh, el, eh, em, dt;
+ 
+   if (first_search == 0)
+     {
+       dt = 0.125 * delta;
+       first_search = 1;
+       th = t;
+     }
+   else
+     {
+       dt = 1.0;
+       th = t + delta;
+     }
+   yh = func(th);
+   eh = yh - y;
+   if (eh > PI)
+     eh -= TPI;
+   if (eh <= -PI)
+     eh += TPI;
+   /* Bracket the solution date.  */
+   for (;;)
+     {
+       tl = th;
+       yl = yh;
+       el = eh;
+       th = th + dt;
+       yh = func(th);
+       eh = yh - y;
+     if(eh > PI)
+       eh -= TPI;
+     if(eh <= -PI)
+       eh += TPI;
+     /* Keep searching while error is large.  */
+     if (fabs (eh) > 0.5*PI)
+ 	continue;
+     /* Look for sign change.  */
+     if((el * eh) <= 0.0)
+ 	break;
+     }
+ 
+ /* Search by simple interval halving.  */
+ while( (th - tl) > .00001 )
+   {
+     tm = 0.5 * (tl + th);
+     ym = func(tm);
+     em = ym - y;
+     if(em > PI)
+       em -= TPI;
+     if(em <= -PI)
+       em += TPI;
+     /* Replace the interval boundary that has the same sign as em.  */
+      if( em * eh > 0 )
+       {
+ 	yh = ym;
+ 	th = tm;
+ 	eh = em;
+       }
+     else
+       {
+ 	yl = ym;
+ 	tl = tm;
+ 	el = em;
+       }
+   }
+  tm = tl + (th - tl) * (-el)/(yh -yl);
+ return (tm);
+ }
+ 
+-/* Compute desired relation of apperent ecliptic longitude
++/* Compute desired relation of apparent ecliptic longitude
+    as a function of the ephemeris date.  */
+ double func(t)
+ double t;
+ {
+   double p[3], q[3], polar[3];
+   double s;
+-#if NEWMOON || FULLMOON || FIRST_QUARTER_MOON || THIRD_QUARTER_MOON
+   double m;
+-#endif
++  double val;
+ 
+   TDT = t;
+   /* Longitude of the sun.  */
+   objnum = 0;
+   apparent(p,q);
+   lonlat(p,TDT,polar,0);
+-  s = polar[0];
+-#if NEWMOON || FULLMOON || FIRST_QUARTER_MOON || THIRD_QUARTER_MOON
+-  /* Longitude of the moon.  */
+-  objnum = 3;
+-  apparent(p,q);
+-  lonlat(p,TDT,polar,0);
+-  m = polar[0];
+-  return (s - m);
+-#endif
+-#if EQUINOX
+-  return s;
+-#endif
++  val = s = polar[0];
++  switch(event)
++    {
++    case NEWMOON:
++    case FULLMOON:
++      /* Longitude of the moon.  */
++      objnum = 3;
++      apparent(p,q);
++      lonlat(p,TDT,polar,0);
++      m = polar[0];
++      val = s - m;
++      break;
++    case SPRING:
++    case WINTER:
++    case AUTUMN:
++    case SUMMER:
++      val = s;
++      break;
++    }
++  return val;
+ }
+ 
+ 
+@@ -319,7 +431,7 @@
+  */
+ precess( p, TDT, -1 );
+ 
+-/* Ajust for nutation
++/* Adjust for nutation
+  * at current ecliptic.
+  */
+ epsiln( TDT );
+--- astronomical-almanac-5.6.orig/dms.c
++++ astronomical-almanac-5.6/dms.c
+@@ -5,6 +5,8 @@
+ #include "kep.h"
+ #if __STDC__
+ double caltoj (long, int, double);
++#include <string.h>
++#include <stdlib.h>
+ #else
+ double caltoj();
+ #endif
+@@ -485,7 +487,13 @@
+ else
+ 	printf( "Illegal input format\n"  );
+ printf( ") ? ");
+-gets(s);
++{
++  char *str;
++  if (fgets(s,40,stdin) == NULL)
++    exit(0);
++  if ((str = strchr(s, '\n')))
++    *str=0;
++}
+ if( s[0] != '\0' )
+ 	sscanf( s, format, num );
+ return(0);
+--- astronomical-almanac-5.6.orig/ear404.c
++++ astronomical-almanac-5.6/ear404.c
+@@ -1518,7 +1518,7 @@
+          3,        13,
+ 
+ };
+-static char FAR args[] = {
++static char SIGNED FAR args[] = {
+   0,  3,
+   3,  4,  3, -8,  4,  3,  5,  1,
+   2,  2,  5, -5,  6,  2,
+--- astronomical-almanac-5.6.orig/jup404.c
++++ astronomical-almanac-5.6/jup404.c
+@@ -1058,7 +1058,7 @@
+ 
+ };
+ 
+-static char FAR args[] = {
++static char SIGNED FAR args[] = {
+   0,  6,
+   3,  2,  5, -6,  6,  3,  7,  0,
+   2,  2,  5, -5,  6,  6,
+--- astronomical-almanac-5.6.orig/kfiles.c
++++ astronomical-almanac-5.6/kfiles.c
+@@ -3,7 +3,7 @@
+  * or file containing orbital elements.
+  */
+ 
+-#if __BORLANDC__
++#if __BORLANDC__ || __STDC__
+ #include <stdlib.h>
+ #endif
+ 
+@@ -26,8 +26,8 @@
+ 
+ extern char *intfmt, *strfmt;/* see dms.c */
+ 
+-static char starnam[80] = {'s','t','a','r','.','c','a','t','\0'};
+-static char orbnam[80] = {'o','r','b','i','t','.','c','a','t','\0'};
++static char starnam[80] = "/usr/share/aa/star.cat";
++static char orbnam[80] = "/usr/share/aa/orbit.cat";
+ static int linenum = 1;
+ 
+ /* Read initialization file aa.ini
+@@ -73,8 +73,19 @@
+ printf( "\n\tSteve Moshier's Ephemeris Program v5.6\n\n" );
+ printf( "Planetary and lunar positions approximate DE404.\n" );
+ 
+-f = fopen( "aa.ini", "r" );
+-if( f )
++{
++   char *t = getenv("HOME");
++   strcpy(s, "aa.ini");
++   if (t && strlen(t)<70) 
++     {
++       strcpy(s,t);
++       strcat(s,"/.aa.ini");
++     }
++}
++
++if( (f=fopen("aa.ini","r")) ||
++    (f=fopen(s,"r")) ||
++    (f=fopen("/etc/aa.ini","r")) )
+ 	{
+ 	fgets( s, 80, f );
+ 	sscanf( s, "%lf", &tlong );
+--- astronomical-almanac-5.6.orig/mar404.c
++++ astronomical-almanac-5.6/mar404.c
+@@ -1344,7 +1344,7 @@
+ 
+ };
+ 
+-static char FAR args[] = {
++static char SIGNED FAR args[] = {
+   0,  4,
+   3,  4,  3, -8,  4,  3,  5,  2,
+   3,  5,  2, -6,  3, -4,  4,  0,
+--- astronomical-almanac-5.6.orig/mer404.c
++++ astronomical-almanac-5.6/mer404.c
+@@ -878,7 +878,7 @@
+ 
+ };
+ 
+-static char FAR args[] = {
++static char SIGNED FAR args[] = {
+   0,  3,
+   3,  1,  1,-10,  3, 11,  4,  0,
+   2,  2,  5, -5,  6,  2,
+--- astronomical-almanac-5.6.orig/mlat404.c
++++ astronomical-almanac-5.6/mlat404.c
+@@ -735,7 +735,7 @@
+          0,       119,
+ 
+ };
+-static char FAR args[] = {
++static char SIGNED FAR args[] = {
+   0,  1,
+   3,  1, 10,  1, 12, -1, 11,  1,
+   4,  2, 10,  2, 12, -1, 13, -1, 11,  0,
+--- astronomical-almanac-5.6.orig/mlr404.c
++++ astronomical-almanac-5.6/mlr404.c
+@@ -2618,7 +2618,7 @@
+ 
+ };
+ 
+-static char FAR args[] = {
++static char SIGNED FAR args[] = {
+   0,  3,
+   3,  4,  3, -8,  4,  3,  5,  1,
+   2,  2,  5, -5,  6,  2,
+--- astronomical-almanac-5.6.orig/moonrise.c
++++ astronomical-almanac-5.6/moonrise.c
+@@ -12,6 +12,9 @@
+ double PI = 3.14159265358979323846;
+ double TPI = 6.28318530717958647693;
+ 
++/* unused, but must be defined for rplanet.c and rstar.c */
++struct orbit *elobject;	/* pointer to orbital elements of object */
++
+ extern double PI;
+ 
+ /* Standard epochs.  Note Julian epochs (J) are measured in
+--- astronomical-almanac-5.6.orig/nep404.c
++++ astronomical-almanac-5.6/nep404.c
+@@ -386,7 +386,7 @@
+ 
+ };
+ 
+-static char FAR args[] = {
++static char SIGNED FAR args[] = {
+   0,  3,
+   2,  1,  7, -2,  8,  0,
+   3,  3,  5, -8,  6,  3,  8,  0,
+--- astronomical-almanac-5.6.orig/plantbl.h
++++ astronomical-almanac-5.6/plantbl.h
+@@ -22,11 +22,28 @@
+ 
+ #define NARGS 18
+ 
++#ifdef _MSC_VER
++#define SIGNED
++#else
++  /* On some systems such as Silicon Graphics, char is unsigned
++     by default.  */
++#ifdef vax
++  /* VAX CC rejects "signed char."  */
++#define SIGNED
++#else
++#ifdef __STDC__
++#define SIGNED signed
++#else
++#define SIGNED
++#endif
++#endif
++#endif
++
+ struct plantbl {
+   char maxargs;
+   char max_harmonic[NARGS];
+   char max_power_of_t;
+-  char FAR *arg_tbl;
++  char SIGNED FAR *arg_tbl;
+   void FAR *lon_tbl;
+   void FAR *lat_tbl;
+   void FAR *rad_tbl;
+--- astronomical-almanac-5.6.orig/plu404.c
++++ astronomical-almanac-5.6/plu404.c
+@@ -1192,7 +1192,7 @@
+ 
+ };
+ 
+-static char FAR args[] = {
++static char SIGNED FAR args[] = {
+   0,  7,
+   2,  3,  7, -9,  9,  0,
+   2,  4,  7,-12,  9,  0,
+--- astronomical-almanac-5.6.orig/rplanet.c
++++ astronomical-almanac-5.6/rplanet.c
+@@ -133,7 +133,7 @@
+ 
+ 
+ extern struct orbit *elobject;
+-extern double robject[];
++static double robject[3];
+ 
+ int doplanet()
+ {
+--- astronomical-almanac-5.6.orig/sat404.c
++++ astronomical-almanac-5.6/sat404.c
+@@ -1487,7 +1487,7 @@
+ 
+ };
+ 
+-static char FAR args[] = {
++static char SIGNED FAR args[] = {
+   0,  7,
+   3,  2,  5, -6,  6,  3,  7,  0,
+   2,  2,  5, -5,  6,  5,
+--- astronomical-almanac-5.6.orig/ura404.c
++++ astronomical-almanac-5.6/ura404.c
+@@ -1171,7 +1171,7 @@
+ 
+ };
+ 
+-static char FAR args[] = {
++static char SIGNED FAR args[] = {
+   0,  3,
+   2,  1,  7, -2,  8,  0,
+   2,  2,  7, -4,  8,  0,
+--- astronomical-almanac-5.6.orig/ven404.c
++++ astronomical-almanac-5.6/ven404.c
+@@ -701,7 +701,7 @@
+ 
+ };
+ 
+-static char FAR args[] = {
++static char SIGNED FAR args[] = {
+   0,  3,
+   2,  2,  5, -5,  6,  0,
+   3,  2,  2,  1,  3, -8,  4,  0,
