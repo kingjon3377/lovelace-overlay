@@ -1,11 +1,10 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Id$
 
 EAPI=5
 JAVA_PKG_WANT_SOURCE=1.5
 JAVA_PKG_WANT_TARGET=1.5
-JAVA_PKG_WANT_BUILD_VM="sun-jdk-1.5 sun-jdk-1.6 icedtea-6"
 
 inherit java-pkg-2 java-ant-2 eutils
 
