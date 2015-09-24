@@ -8,8 +8,6 @@ MY_PN=TurtleBlocks
 
 MY_P=${MY_PN}-${PV}
 
-DISTUTILS_GLOBAL_OPTIONS=("* --no-sugar")
-
 DISTUTILS_SINGLE_IMPL=yes
 
 PYTHON_COMPAT=( python2_{6,7} )
