@@ -4,7 +4,6 @@
 
 EAPI=5
 
-PYTHON_DEPEND="2:2.6"
 GCONF_DEBUG=no
 
 PYTHON_COMPAT=( python{2_5,2_6,2_7} )
@@ -31,7 +30,7 @@ RDEPEND="${PYTHON_DEPS}
 	dev-libs/dbus-glib
 	dev-python/dbus-python[${PYTHON_USEDEP}]
 	dev-python/pygtk[${PYTHON_USEDEP}]
-	dev-python/gtkspell-python
+	dev-python/gtkspell-python[${PYTHON_USEDEP}]
 	dev-python/pygtksourceview[${PYTHON_USEDEP}]"
 	#dev-python/gtkspell-python[${PYTHON_USEDEP}]
 DEPEND="${RDEPEND}
@@ -60,7 +59,7 @@ src_prepare() {
 }
 
 src_configure() {
-	python_export_best
+	python_setup
 	default_src_configure
 }
 
