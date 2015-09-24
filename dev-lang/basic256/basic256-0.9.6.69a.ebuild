@@ -4,7 +4,7 @@
 
 EAPI=5
 
-inherit qt4-r2
+inherit eutils qt4-r2
 
 DESCRIPTION="educational BASIC programming environment for children"
 HOMEPAGE="http://www.basic256.org/"
@@ -28,6 +28,7 @@ S="${WORKDIR}"
 
 src_prepare() {
 	sed -i -e 's:/usr/local:/usr:' Makefile* *pro
+	epatch "${FILESDIR}/add_unistd.patch"
 	default
 }
 

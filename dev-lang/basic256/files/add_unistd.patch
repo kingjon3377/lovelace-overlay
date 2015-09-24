@@ -1,0 +1,22 @@
+diff -ru work.old/Interpreter.cpp work/Interpreter.cpp
+--- work.old/Interpreter.cpp	2015-09-23 23:46:16.606198171 -0400
++++ work/Interpreter.cpp	2015-09-23 23:46:49.523199224 -0400
+@@ -25,6 +25,7 @@
+ #include <string>
+ #include <sqlite3.h>
+ #include <errno.h>
++#include <unistd.h>
+ 
+ #ifdef WIN32
+ 	#include <winsock.h>
+diff -ru work.old/RunController.cpp work/RunController.cpp
+--- work.old/RunController.cpp	2015-09-23 23:46:16.607198171 -0400
++++ work/RunController.cpp	2015-09-23 23:47:07.317199794 -0400
+@@ -19,6 +19,7 @@
+ 
+ #include <math.h>
+ #include <iostream>
++#include <unistd.h>
+ #include <QMutex>
+ #include <QWaitCondition>
+ #include <QFileDialog>
