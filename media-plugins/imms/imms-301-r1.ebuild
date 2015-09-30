@@ -14,23 +14,25 @@ RESTRICT="mirror"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="vorbis remote"
+# Will not compile against torch-3.1, for some reason
 DEPEND="dev-db/sqlite:3
 	dev-libs/glib:2
 	dev-libs/libpcre
 	|| ( media-libs/id3lib media-libs/taglib )
 	sci-libs/fftw:3.0
 	sci-libs/torch
+	!=sci-libs/torch-3.1
 	media-sound/sox
 	remote? ( gnome-base/libglade:2.0 x11-libs/gtk+:2 )
 	vorbis? ( media-libs/libvorbis )
-	media-sound/audacious"
+	>=media-sound/audacious-3.6"
 RDEPEND="${DEPEND}"
 
 S="${WORKDIR}/${PN}-r${PV}"
 
 src_prepare() {
 	default_src_prepare
-	epatch "${FILESDIR}/audacious-3.x.patch"
+	epatch "${FILESDIR}/${P}-"*.patch
 #	sed -i -e 's:auddrct.h:drct.h:' configure.ac || die "sed failed"
 #	sed -i -e 's:audacious_drct_playqueue_add:audacious_drct_pq_add:' \
 #		configure.ac clients/audacious/audplugin.cc || die "sed failed"
