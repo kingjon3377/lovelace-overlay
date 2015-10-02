@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Id$
 
 EAPI=5
 PYTHON_COMPAT=( python2_7 )
@@ -14,7 +14,7 @@ SRC_URI="https://github.com/JimmXinu/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="Apache-2.0"
 SLOT="0"
-KEYWORDS="~amd64"
+KEYWORDS="amd64"
 IUSE=""
 
 RDEPEND="${PYTHON_DEPS}
@@ -24,7 +24,7 @@ DEPEND="${RDEPEND}"
 
 # TODO: Add USE flag for calibre plugin and web-service
 
-python_prepare_all() {
+src_prepare() {
 #	edos2unix $(find . -type f -print) || die # a file has a space in it, so inline
 	find . -type f \( -name \*.png -o -exec sed -i 's/\r$//' -- {} + \) || die
 	cp "${FILESDIR}"/adapter_* "fanficfare/adapters/" || die
@@ -35,8 +35,8 @@ python_prepare_all() {
 		-e 's/from \.\.BeautifulSoup import/from BeautifulSoup import/' \
 		{} + || die
 	epatch "${FILESDIR}/dwiggie-fff.patch"
-	epatch "${FILESDIR}/${PN}-system-config.patch"
-	distutils-r1_python_prepare_all
+	epatch "${FILESDIR}/${PN}-2.2.13-system-config.patch"
+	distutils-r1_src_prepare
 }
 
 python_install_all() {
@@ -52,4 +52,5 @@ python_install_all() {
 python_test() {
 	cd "${T}"
 	"${PYTHON}" "${S}/fanficfare/cli.py" http://archiveofourown.org/works/257191 || die
+	test -f "Not Place_ but People-ao3_257191.epub" || die "Expected downloaded ebook not present"
 }
