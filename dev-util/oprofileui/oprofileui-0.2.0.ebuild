@@ -1,7 +1,7 @@
-# Copyright 1999-2012 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
-# Copyright 1999-2009 Tiziano Müller
+# $Id$
+# Copyright 1999-2015 Tiziano Müller
 
 EAPI=5
 

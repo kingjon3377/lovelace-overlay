@@ -1,6 +1,6 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Id$
 # From sunrise. TODO: add my changes to bug #294727. With changes from betagarden overlay.
 
 EAPI=5
