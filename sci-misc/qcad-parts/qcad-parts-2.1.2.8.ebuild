@@ -1,6 +1,6 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/sci-misc/qcad-parts/qcad-parts-2.0.1.2-r1.ebuild,v 1.5 2006/11/05 23:37:54 jer Exp $
+# $Id$
 
 EAPI=5
 
