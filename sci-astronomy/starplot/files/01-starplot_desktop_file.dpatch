@@ -1,0 +1,22 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## 01-starplot_desktop_file.dpatch by  Francisco Manuel GarcÃ­a Claramonte
+## <franciscomanuel.garcia@hispalinux.es>
+##
+## DP: This patch updates the starplot.desktop file, with the with the 
+## non-localized comment field.
+##
+## License: This patch is licensed under terms of GPL2, or (at your option)
+## any later version.
+
+@DPATCH@
+diff -urNad starplot-0.95.5~/starplot.desktop starplot-0.95.5/starplot.desktop
+--- starplot-0.95.5~/starplot.desktop	2008-03-05 00:05:42.000000000 +0100
++++ starplot-0.95.5/starplot.desktop	2008-12-03 13:22:02.000000000 +0100
+@@ -2,6 +2,7 @@
+ Version=1.0
+ Name=StarPlot Star Chart Viewer
+ GenericName=Star Chart Viewer
++Comment=View detailed star charts in 3D
+ Comment[en]=View detailed star charts in 3D
+ Comment[es]=Vista detallada de grÃ¡ficos de estrellas en 3D
+ Type=Application
