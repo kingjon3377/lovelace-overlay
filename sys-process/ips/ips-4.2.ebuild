@@ -16,7 +16,7 @@ KEYWORDS="~amd64"
 IUSE=""
 
 DEPEND="x11-libs/libX11
-	sys-libs/ncurses"
+	sys-libs/ncurses:0"
 RDEPEND="${DEPEND}"
 
 src_compile() {
