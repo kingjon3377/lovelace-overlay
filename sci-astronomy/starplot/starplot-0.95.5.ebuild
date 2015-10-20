@@ -20,10 +20,7 @@ DEPEND="x11-libs/gtk+:2
 RDEPEND="${DEPEND}"
 
 src_prepare() {
-	cd "${WORKDIR}"
-	epatch "${FILESDIR}/starplot_0.95.5-4.diff"
-	cd "${S}"
-	epatch debian/patches/*patch
+	epatch "${FILESDIR}"/*.dpatch
 }
 
 src_install () {
@@ -33,11 +30,11 @@ src_install () {
 	insinto /usr/share/pixmaps
 	doins src/gui/*.xpm
 	dohtml -r doc/html
-	dodoc ChangeLog AUTHORS NEWS NLS-TEAM README TODO debian/README.source
+	dodoc ChangeLog AUTHORS NEWS NLS-TEAM README TODO "${FILESDIR}/README.source"
 	dodir /usr/$(get_libdir)/stardata
 	insinto /usr/$(get_libdir)/stardata
-	newins debian/starplot.sh ${PN}
+	newins "${FILESDIR}/${PN}.sh" ${PN}
 	dodir /usr/share/${PN}/specfiles
 	insinto /usr/share/${PN}/specfiles
-	doins debian/*.spec
+	doins "${FILESDIR}"/*.spec
 }
