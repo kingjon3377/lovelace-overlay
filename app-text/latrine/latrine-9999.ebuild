@@ -16,7 +16,7 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""
 
-RDEPEND="sys-libs/ncurses[unicode]
+RDEPEND="sys-libs/ncurses:0[unicode]
 	dev-db/sqlite:3"
 DEPEND="${RDEPEND}
 	sys-devel/autoconf-archive"
