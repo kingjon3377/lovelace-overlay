@@ -26,9 +26,9 @@ COMMON_DEP=""
 
 RDEPEND=">=virtual/jre-1.4
 	dev-java/slf4j-api
-  ${COMMON_DEP}"
+	${COMMON_DEP}"
 DEPEND=">=virtual/jdk-1.4
-  ${COMMON_DEP}"
+	${COMMON_DEP}"
 
 EANT_BUILD_TARGET=""
 EANT_DOC_TARGET=""
@@ -37,5 +37,5 @@ S="${WORKDIR}"
 
 src_install() {
 	java-pkg_register-dependency slf4j-api
-  java-pkg_newjar "${DISTDIR}/org.eclipse.${MY_PN}-${MY_PV}.jar" "${MY_PN}.jar"
+	java-pkg_newjar "${DISTDIR}/org.eclipse.${MY_PN}-${MY_PV}.jar" "${MY_PN}.jar"
 }
