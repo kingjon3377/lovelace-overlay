@@ -26,7 +26,12 @@ src_unpack() {
 }
 
 src_prepare() {
-	cd "${WORKDIR}"/all && epatch "${FILESDIR}/docdiff_0.3.4-1.diff" "${P}"/debian/patches/*patch
+	cd "${WORKDIR}"/all && epatch \
+		"${FILESDIR}/01path.dpatch" \
+		"${FILESDIR}/02svndocdiff.dpatch" \
+		"${FILESDIR}/03cgipath.dpatch" \
+		"${FILESDIR}/04ignorewhitespace.dpatch" \
+		"${FILESDIR}/05wordwrap.dpatch"
 }
 
 each_ruby_install() {

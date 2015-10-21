@@ -1,0 +1,89 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## 05wordwrap.dpatch by Kenshi Muto <kmuto@debian.org>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: No description.
+
+@DPATCH@
+diff -urNad docdiff-0.3.4~/docdiff/document.rb docdiff-0.3.4/docdiff/document.rb
+--- docdiff-0.3.4~/docdiff/document.rb	2007-10-06 16:58:40.000000000 +0000
++++ docdiff-0.3.4/docdiff/document.rb	2007-12-10 06:26:21.000000000 +0000
+@@ -55,6 +55,9 @@
+   def split_to_word()
+     @body.split_to_word
+   end
++  def split_to_word_verbose()
++    @body.split_to_word_verbose
++  end
+   def split_to_char()
+     @body.split_to_char
+   end
+diff -urNad docdiff-0.3.4~/docdiff.rb docdiff-0.3.4/docdiff.rb
+--- docdiff-0.3.4~/docdiff.rb	2007-12-10 06:26:04.000000000 +0000
++++ docdiff-0.3.4/docdiff.rb	2007-12-10 06:26:21.000000000 +0000
+@@ -61,6 +61,26 @@
+                                      doc1.encoding, doc1.eol)
+         after_change  = Document.new(line[2].to_s,
+                                      doc2.encoding, doc2.eol)
++        Difference.new(before_change.split_to_word_verbose,
++                       after_change.split_to_word_verbose).each{|word|
++          words << word
++        }
++      else  # :common_elt_elt, :del_elt, or :add_elt
++        words << line
++      end
++    }
++    words
++  end
++
++  def compare_by_wordwrap(doc1, doc2)
++    lines = compare_by_line(doc1, doc2)
++    words = Difference.new
++    lines.each{|line|
++      if line.first == :change_elt
++        before_change = Document.new(line[1].to_s,
++                                     doc1.encoding, doc1.eol)
++        after_change  = Document.new(line[2].to_s,
++                                     doc2.encoding, doc2.eol)
+         Difference.new(before_change.split_to_word,
+                        after_change.split_to_word).each{|word|
+           words << word
+@@ -120,6 +140,7 @@
+     case option[:resolution]
+     when "line"; then difference = compare_by_line(doc1, doc2)
+     when "word"; then difference = compare_by_line_word(doc1, doc2)
++    when "wordwrap"; then difference = compare_by_wordwrap(doc1, doc2)
+     when "char"; then difference = compare_by_line_word_char(doc1, doc2)
+     else
+       raise "Unsupported resolution: #{option[:resolution].inspect}"
+@@ -184,7 +205,7 @@
+   # do_config_stuff
+ 
+   default_config = {
+-    :resolution    => "word",
++    :resolution    => "wordwrap",
+     :encoding      => "auto",
+     :eol           => "auto",
+     :format        => "html",
+@@ -198,18 +219,20 @@
+   # if invoked as "worddiff" or "chardiff",
+   # appropriate resolution is set respectively.
+   case File.basename($0, ".*")
++  when "wordwrapdiff" then; clo[:resolution] = "wordwrap"
+   when "worddiff" then; clo[:resolution] = "word"
+   when "chardiff" then; clo[:resolution] = "char"
+   end
+ 
+   ARGV.options {|o|
+     o.def_option('--resolution=RESOLUTION',
+-                 possible_resolutions = ['line', 'word', 'char'],
++                 possible_resolutions = ['line', 'word', 'wordwrap', 'char'],
+                  'specify resolution (granularity)',
+                  possible_resolutions.join('|') + ' (default is word)'
+                 ){|clo[:resolution]| clo[:resolution] ||= "word"}
+     o.def_option('--line', 'set resolution to line'){clo[:resolution] = "line"}
+     o.def_option('--word', 'set resolution to word'){clo[:resolution] = "word"}
++    o.def_option('--wordwrap', 'set resolution to wordwrap'){clo[:resolution] = "word"}
+     o.def_option('--char', 'set resolution to char'){clo[:resolution] = "char"}
+ 
+     o.def_option('--encoding=ENCODING',

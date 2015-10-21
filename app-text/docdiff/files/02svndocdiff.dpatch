@@ -1,0 +1,20 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## 02svndocdiff.dpatch by Kenshi Muto <kmuto@debian.org>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: No description.
+
+@DPATCH@
+diff -urNad docdiff-0.3.4~/docdiff/view.rb docdiff-0.3.4/docdiff/view.rb
+--- docdiff-0.3.4~/docdiff/view.rb	2007-12-09 08:14:09.000000000 +0000
++++ docdiff-0.3.4/docdiff/view.rb	2007-12-10 05:54:55.000000000 +0000
+@@ -262,7 +262,8 @@
+     [(@eol_char||"") + '</div></body></html>' + (@eol_char||"")]
+   end
+   HTMLEscapeDic = {'<'=>'&lt;', '>'=>'&gt;', '&'=>'&amp;', '  '=>'&nbsp;&nbsp;',
+-                   "\r\n" => "<br />\r\n", "\r" => "<br />\r", "\n" => "<br />\n"}
++                   "\r\n" => "<br />\r\n", "\r" => "<br />\r", "\n" => "<br />\n",
++                   "" => "<a name=\"currentloc\"></a>"}
+   HTMLEscapePat = /(\r\n|#{HTMLEscapeDic.keys.collect{|k|Regexp.quote(k)}.join('|')})/m
+   def html_tags()
+     {:outside_escape_dic  => HTMLEscapeDic,
