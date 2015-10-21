@@ -15,7 +15,7 @@ SLOT="0"
 KEYWORDS="amd64"
 IUSE=""
 
-DEPEND="sys-libs/ncurses
+DEPEND="sys-libs/ncurses:0
 	x11-libs/libX11
 	x11-libs/libICE"
 RDEPEND="${DEPEND}"
