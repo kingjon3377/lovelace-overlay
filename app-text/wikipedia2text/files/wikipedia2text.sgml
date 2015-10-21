@@ -1,0 +1,486 @@
+<!doctype refentry PUBLIC "-//OASIS//DTD DocBook V4.1//EN" [
+
+<!-- Process this file with docbook-to-man to generate an nroff manual
+     page: `docbook-to-man manpage.sgml > manpage.1'.  You may view
+     the manual page with: `docbook-to-man manpage.sgml | nroff -man |
+     less'.  A typical entry in a Makefile or Makefile.am is:
+
+manpage.1: manpage.sgml
+	docbook-to-man $< > $@
+
+    
+	The docbook-to-man binary is found in the docbook-to-man package.
+	Please remember that if you create the nroff version in one of the
+	debian/rules file targets (such as build), you will need to include
+	docbook-to-man in your Build-Depends control field.
+
+  -->
+
+  <!-- Fill in your name for FIRSTNAME and SURNAME. -->
+  <!ENTITY dhfirstname "<firstname>Axel</firstname>">
+  <!ENTITY dhsurname   "<surname>Beckert</surname>">
+  <!-- Please adjust the date whenever revising the manpage. -->
+  <!ENTITY dhdate      "<date>August 27, 2005</date>">
+  <!-- SECTION should be 1-8, maybe w/ subsection other parameters are
+       allowed: see man(7), man(1). -->
+  <!ENTITY dhsection   "<manvolnum>1</manvolnum>">
+  <!ENTITY dhemail     "<email>&lt;abe@deuxchevaux.org&gt;</email>">
+  <!ENTITY dhusername  "Axel Beckert">
+  <!ENTITY dhucpackage "<refentrytitle>WIKIPEDIA2TEXT</refentrytitle>">
+  <!ENTITY dhpackage   "wikipedia2text">
+  <!ENTITY dhcommand   "<command>&dhpackage;</command>">
+
+  <!ENTITY debian      "<productname>Debian</productname>">
+  <!ENTITY wikipedia   "<productname>Wikipedia</productname>">
+  <!ENTITY gnu         "<acronym>GNU</acronym>">
+  <!ENTITY gpl         "&gnu; <acronym>GPL</acronym>">
+]>
+
+<refentry>
+  <refentryinfo>
+    <address>
+      &dhemail;
+    </address>
+    <author>
+      &dhfirstname;
+      &dhsurname;
+    </author>
+    <copyright>
+      <year>2005</year>
+      <holder>&dhusername;</holder>
+    </copyright>
+    &dhdate;
+  </refentryinfo>
+  <refmeta>
+    &dhucpackage;
+
+    &dhsection;
+  </refmeta>
+  <refnamediv>
+    <refname>&dhpackage;</refname>
+
+    <refpurpose>displays &wikipedia; entries on the command line</refpurpose>
+  </refnamediv>
+  <refsynopsisdiv>
+    <cmdsynopsis>
+      &dhcommand;
+
+      <arg choice="opt"><option>-BCnNoOpPsSuU</option></arg>
+      <arg choice="opt"><option>-b</option> <replaceable>prog</replaceable></arg>
+      <arg choice="opt"><group choice="req"><arg><option>-c</option></arg> <arg><option>-i</option></arg> <arg><option>-I</option></arg></group> <replaceable>patt</replaceable></arg>
+      <arg choice="opt"><option>-l</option> <replaceable>lang</replaceable></arg>
+      <arg choice="opt"><option>-W</option> <replaceable>base-url</replaceable></arg>
+      <arg choice="req"><replaceable>Query</replaceable></arg>
+    </cmdsynopsis>
+    <cmdsynopsis>
+      &dhcommand;
+
+      <arg choice="req"> <option>-o</option></arg>
+      <arg choice="opt"><option>-b</option> <replaceable>prog</replaceable></arg>
+      <arg choice="opt"><option>-l</option> <replaceable>lang</replaceable></arg>
+      <arg choice="req"><replaceable>Query</replaceable></arg>
+    </cmdsynopsis>
+    <cmdsynopsis>
+      &dhcommand;
+
+      <arg choice="opt"><option>-h</option></arg>
+    </cmdsynopsis>
+    <cmdsynopsis>
+      &dhcommand;
+
+      <arg choice="req"> <option>-v</option></arg>
+    </cmdsynopsis>
+    <cmdsynopsis>
+      &dhcommand;
+
+      <arg choice="req"> <option>-r</option></arg>
+    </cmdsynopsis>
+  </refsynopsisdiv>
+  <refsect1>
+    <title>DESCRIPTION</title>
+
+    <para>This manual page documents briefly the
+      &dhcommand; command<!-- and it's shortcut
+      <command>wiki</command> -->.</para>
+
+    <para>&dhcommand; fetches and renders &wikipedia; articles using a
+      text-mode web-browser (currently recognises
+      <command>elinks</command>, <command>links2</command>,
+      <command>links</command>, <command>lynx</command> and
+      <command>w3m</command>) and display the text of the article on
+      STDOUT respectively in a pager.</para>
+
+  </refsect1>
+  <refsect1>
+    <title>OPTIONS</title>
+
+    <para>The program recognizes the following command line
+      options:</para>
+
+    <variablelist>
+      <varlistentry>
+        <term><option>-b</option> <replaceable>prog</replaceable></term>
+        <listitem>
+          <para>Use program <replaceable>prog</replaceable> as
+            browser.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>-B</option></term>
+        <listitem>
+          <para>Do not use browser configured via configuration file
+            or environment.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>-c</option> <replaceable>patt</replaceable>, <option>-I</option> <replaceable>patt</replaceable></term>
+        <listitem>
+          <para>Colorize case-sensitive pattern
+            <replaceable>patt</replaceable> in output.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>-C</option>, <option>-N</option></term>
+        <listitem>
+          <para>Colorize output.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>-h</option></term>
+        <listitem>
+          <para>Show help and a summary of options.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>-i</option> <replaceable>patt</replaceable></term>
+        <listitem>
+          <para>Colorize case-insensitive pattern
+            <replaceable>patt</replaceable> in output.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>-l</option> <replaceable>lang</replaceable></term>
+        <listitem>
+          <para>use &wikipedia; in
+          language <replaceable>lang</replaceable>. See the
+          &wikipedia; Languages entry elsewhere in this
+          document.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>-n</option></term>
+        <listitem>
+          <para>Do not colorize output.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>-o</option></term>
+        <listitem>
+          <para>Open the &wikipedia; page in the browser.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>-O</option></term>
+        <listitem>
+          <para>Do not open the &wikipedia; page in the browser.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>-p</option></term>
+        <listitem>
+          <para>Use a pager (set by default).</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>-P</option></term>
+        <listitem>
+          <para>Don't use a pager.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>-r</option></term>
+        <listitem>
+          <para>Display a random &wikipedia; article.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>-s</option></term>
+        <listitem>
+          <para>Display only the summary of the &wikipedia; article.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>-S</option></term>
+        <listitem>
+          <para>Display the full content of the &wikipedia; article
+            and not only the summary.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>-u</option></term>
+        <listitem>
+          <para>Just print the URL of the &wikipedia; page and exit.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>-U</option></term>
+        <listitem>
+          <para>Display the full content of the &wikipedia; article
+            and not only print the URL of the page.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>-v</option></term>
+        <listitem>
+          <para>Show version number.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><option>-W</option> <replaceable>base-url</replaceable></term>
+        <listitem>
+          <para>use <replaceable>base-url</replaceable> as base URL
+                for wikipedia (e.g. use a different wiki), querying
+                this URL will happen by appending the search
+                term.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </refsect1>
+
+  <refsect1>
+    <title>ENVIRONMENT</title>
+
+    <para>The following environment variables are recognized:</para>
+
+     <variablelist>
+       <varlistentry>
+         <term><varname>ABROWSER</varname></term>
+         <listitem>
+           <para>Browser to use as default instead of to found or
+           configured web browser.</para>
+         </listitem>
+       </varlistentry>
+
+       <varlistentry>
+         <term><varname>IGNCASE</varname></term>
+         <listitem>
+           <para>Default value for case-sensitivity of colorizing
+             the output. Can be set to "true" or "false".</para>
+         </listitem>
+       </varlistentry>
+
+       <varlistentry>
+         <term><varname>LOCAL</varname></term>
+         <listitem>
+
+           <para>
+	     Default value for language in which &wikipedia; should be
+	     used. See the &wikipedia; Languages entry elsewhere in
+	     this document.</para>
+
+         </listitem>
+       </varlistentry>
+
+       <varlistentry>
+         <term><varname>OUTPUTURL</varname></term>
+         <listitem>
+           <para>Determines, if &dhcommand; should display only
+   	  the URL of the &wikipedia; article by default. Can
+   	  be set to "true" or "false".</para>
+         </listitem>
+       </varlistentry>
+
+       <varlistentry>
+         <term><varname>PAGER</varname></term>
+         <listitem>
+           <para>Default value for pager to use. Can also be set
+             to "true", in which case, &dhcommand; tries to
+             figure out the appropriate pager, or "false", which
+             means not to use a pager at all.</para>
+         </listitem>
+       </varlistentry>
+
+       <varlistentry>
+         <term><varname>SHORT</varname></term>
+         <listitem>
+           <para>Determines, if &dhcommand; should display only
+   	  the summary of the &wikipedia; article by default. Can
+   	  be set to "true" or "false".</para>
+         </listitem>
+       </varlistentry>
+
+       <varlistentry>
+         <term><varname>USEBROWSER</varname></term>
+         <listitem>
+           <para>
+   	  Determines, if &dhcommand; should open the &wikipedia; page
+   	  via <command>openurl</command> in the globally set default
+   	  browser, i.e. <command>Firefox</command> or
+	  <command>Konqueror</command>, by default. Can be set to
+   	  "true" or "false".</para>
+         </listitem>
+       </varlistentry>
+     </variablelist>
+
+  </refsect1>
+  <refsect1>
+    <title>FILES</title>
+
+    <variablelist>
+      <varlistentry>
+        <term><filename>$HOME/.wikipedia2textrc</filename></term>
+        <listitem>
+          <para>Will be sourced from <command>&dhpackage</command> on
+	    startup. Should contain variable assignments. The same
+	    variables as for the environment are recognised.</para>
+	</listitem>
+      </varlistentry>
+    </variablelist>
+
+  </refsect1>
+  <refsect1>
+    <title>WIKIPEDIA LANGUAGES</title>
+
+    <para>&dhcommand; currently supports the following
+      &wikipedia; languages:</para>
+
+    <variablelist>
+
+<varlistentry><term>af</term>
+	<listitem><para>Cape Dutch (Afrikaans)</para></listitem></varlistentry>
+<varlistentry><term>als</term>
+	<listitem><para>Alemannic</para></listitem></varlistentry>
+<varlistentry><term>ca</term>
+	<listitem><para>Catalan</para></listitem></varlistentry>
+<varlistentry><term>cs</term>
+	<listitem><para>Czech</para></listitem></varlistentry>
+<varlistentry><term>da</term>
+	<listitem><para>Danish</para></listitem></varlistentry>
+<varlistentry><term>de</term>
+	<listitem><para>German</para></listitem></varlistentry>
+<varlistentry><term>en</term>
+	<listitem><para>English</para></listitem></varlistentry>
+<varlistentry><term>eo</term>
+	<listitem><para>Esperanto</para></listitem></varlistentry>
+<varlistentry><term>es</term>
+	<listitem><para>Spanish</para></listitem></varlistentry>
+<varlistentry><term>fi</term>
+	<listitem><para>Finnish</para></listitem></varlistentry>
+<varlistentry><term>fr</term>
+	<listitem><para>French</para></listitem></varlistentry>
+<varlistentry><term>hu</term>
+	<listitem><para>Hungarian</para></listitem></varlistentry>
+<varlistentry><term>ia</term>
+	<listitem><para>Interlingua</para></listitem></varlistentry>
+<varlistentry><term>is</term>
+	<listitem><para>Islandic</para></listitem></varlistentry>
+<varlistentry><term>it</term>
+	<listitem><para>Italian</para></listitem></varlistentry>
+<varlistentry><term>la</term>
+	<listitem><para>Latin</para></listitem></varlistentry>
+<varlistentry><term>lb</term>
+	<listitem><para>Luxembourgian</para></listitem></varlistentry>
+<varlistentry><term>nds</term>
+	<listitem><para>Low German</para></listitem></varlistentry>
+<varlistentry><term>nl</term>
+	<listitem><para>Dutch</para></listitem></varlistentry>
+<varlistentry><term>nn, no</term>
+	<listitem><para>Norwegian (Nynorsk and Bokm&aring;l)</para></listitem></varlistentry>
+<varlistentry><term>pl</term>
+	<listitem><para>Polish</para></listitem></varlistentry>
+<varlistentry><term>pt</term>
+	<listitem><para>Portuguese</para></listitem></varlistentry>
+<varlistentry><term>rm</term>
+	<listitem><para>Rhaeto-Romanic</para></listitem></varlistentry>
+<varlistentry><term>ro</term>
+	<listitem><para>Romanian</para></listitem></varlistentry>
+<varlistentry><term>simple</term>
+	<listitem><para>Simple English</para></listitem></varlistentry>
+<varlistentry><term>sk</term>
+	<listitem><para>Slovak</para></listitem></varlistentry>
+<varlistentry><term>sl</term>
+	<listitem><para>Slovenian</para></listitem></varlistentry>
+<varlistentry><term>sv</term>
+	<listitem><para>Swedish</para></listitem></varlistentry>
+<varlistentry><term>tr</term>
+	<listitem><para>Turkish</para></listitem></varlistentry>
+
+    </variablelist>
+  </refsect1>
+  <refsect1>
+    <title>SEE ALSO</title>
+    <para>elinks(1), links(1), links2(1), lynx(1), w3m(1)</para>
+  </refsect1>
+  <refsect1>
+    <title>AUTHOR</title>
+
+    <para>&dhcommand; was written by Christian Brabandt
+      &lt;cb@256bit.org&gt;. Patches also from &dhusername;
+      &dhemail;.</para>
+
+    <para>This manual page was written by &dhusername; &dhemail; for
+      the &debian; system (but may be used by others).  Permission is
+      granted to copy, distribute and/or modify this document under
+      the terms of the &gnu; General Public License
+      (<acronym>GPL</acronym>), Version 2 any later version published
+      by the Free Software Foundation.</para>
+
+    <para>On Debian systems, the complete text of the &gnu General
+      Public License can be found in
+      <filename>/usr/share/common-licenses/GPL</filename>.</para>
+  </refsect1>
+  <refsect1>
+    <title>HISTORY</title>
+
+    <para>&dhpackage; was first released by Christian Brabandt on
+      <ulink
+      url="http://blog.256bit.org/archives/126-Wikipedia-in-der-Shell.html">in
+      his blog</ulink> with as script named
+      <command>wiki</command>. Some users may find it useful to create
+      an alias with that name for speeding up the typing of a
+      &dhcommand; command if no other command of that name is
+      present.</para>
+
+  </refsect1>
+  <refsect1>
+    <title>OTHER INFO</title>
+    <para>The current version of &dhcommand; should be available at
+      <ulink url="http://www.256bit.org/~chrisbra/wiki">on Christian
+      Brabandt's website</ulink>.</para>
+  </refsect1>
+</refentry>
+
+<!-- Keep this comment at the end of the file
+Local variables:
+mode: sgml
+sgml-omittag:t
+sgml-shorttag:t
+sgml-minimize-attributes:nil
+sgml-always-quote-attributes:t
+sgml-indent-step:2
+sgml-indent-data:t
+sgml-parent-document:nil
+sgml-default-dtd-file:nil
+sgml-exposed-tags:nil
+sgml-local-catalogs:nil
+sgml-local-ecat-files:nil
+End:
+-->
