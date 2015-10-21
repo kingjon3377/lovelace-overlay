@@ -1,0 +1,10 @@
+wikipedia2text for Debian
+-------------------------
+
+The script originally was named just wiki. I the meanwhile
+wikipedia2text is also the official name.
+
+The Debian package also offers a symlink named wp2t as shortcut.
+
+ -- Axel Beckert <abe@deuxchevaux.org>  Mon, 26 May 2008 18:59:01 +0200
+

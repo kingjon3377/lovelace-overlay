@@ -1,0 +1,66 @@
+wikipedia2text (0.11-2) unstable; urgency=low
+
+  * Added ${misc:Depends} to Depends (fixes Lintian warning)
+  * Changed the maintainer e-mail address to my debian.org address.
+  * Bumped Standards-Version to 3.8.4 (no changes)
+
+ -- Axel Beckert <abe@debian.org>  Mon, 01 Feb 2010 00:48:31 +0100
+
+wikipedia2text (0.11-1) unstable; urgency=low
+
+  * New upstream release
+    + fixes unwanted globbing (Closes: #537782)
+  * Bumped Standards-Version to 3.8.2 (no changes)
+  * Added watch file (currently suffers from #538717).
+  * Updated upstream URL in copyright file.
+  * Updated dependency on lynx-ssl to lynx | lynx-cur
+  * Moved docbook-to-man from Build-Depends to Build-Depends-Indep (fixes
+    Lintian informational warning).
+
+ -- Axel Beckert <abe@deuxchevaux.org>  Tue, 28 Jul 2009 01:21:47 +0200
+
+wikipedia2text (0.10-2) unstable; urgency=low
+
+  * Add missing dependency on liburi-perl (Closes: #520874)
+  * Bumped Standards-Version to 3.8.1 (no changes necessary)
+  * Bumped debhelper compatibility to V7:
+    - debian/rules: Changed dh_clean -k to dh_prep
+
+ -- Axel Beckert <abe@deuxchevaux.org>  Mon, 23 Mar 2009 12:39:43 +0100
+
+wikipedia2text (0.10-1) unstable; urgency=low
+
+  * New upstream version (Closes: #413693)
+  * License change to BSD
+  * Upstream renamed script to wikipedia2text: appropriately changed
+    rules and README.Debian
+  * Adapted copyright file to the currently preferred format
+  * Bump standards version to 3.8.0
+  * Added Vcs-* headers and Homepage header to control file
+  * Recommends most (Closes: #397911)
+  * Alternative text browsers now are only suggested, no more recommended.
+  * Fixed some typos in the man page and worked around broken docbook to
+    man converter (Closes: #437934)
+
+ -- Axel Beckert <abe@deuxchevaux.org>  Tue, 10 Jun 2008 00:35:43 +0200
+
+wikipedia2text (0.05-2) unstable; urgency=low
+
+  * Build-Depends: docbook-to-man (Closes: #397553)
+
+ -- Axel Beckert <abe@deuxchevaux.org>  Wed,  8 Nov 2006 10:51:19 +0100
+
+wikipedia2text (0.05-1) unstable; urgency=low
+
+  * New upstream version with patches helpful for debianisation.
+  * Support for links, links2 and w3m
+  * Support for 28 further Wikipedia languages
+  * Closes: #325417 (ITP)
+
+ -- Axel Beckert <abe@deuxchevaux.org>  Fri, 13 Oct 2006 02:20:38 +0200
+
+wikipedia2text (0.04-1) unstable; urgency=low
+
+  * Initial version for testing.
+
+ -- Axel Beckert <abe@deuxchevaux.org>  Sat, 27 Aug 2005 17:35:14 +0200
