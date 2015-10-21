@@ -27,7 +27,8 @@ RDEPEND="${DEPEND}"
 REQUIRED_USE="motif? ( X )"
 
 src_prepare() {
-	epatch "${FILESDIR}/oleo_1.99.16-10ubuntu1.diff" "${FILESDIR}/destdir.patch" "${FILESDIR}/label.patch"
+	epatch "${FILESDIR}/oleo_1.99.16-10ubuntu1.diff" "${FILESDIR}/destdir.patch" \
+		"${FILESDIR}/label.patch" "${FILESDIR}/update-cat-id-tbl.patch"
 }
 
 src_configure() {
