@@ -1,0 +1,21 @@
+--- polygen-1.0.6/src/main.ml	2004-06-25 11:58:00.000000000 +0200
++++ polygen-1.0.6/src/main.ml	2004-11-23 19:44:14.000000000 +0100
+@@ -150,10 +176,14 @@
+             done;
+ 
+             (* store compiled grammar *)
+-            try
+-            	msg "storing compiled grammar...";
+-            	store_obj source decls
+-            with Failure s -> msg s
++	    if (Sys.file_exists(source^".o") = false)
++	    then
++	    begin
++                try
++            	    msg "storing compiled grammar...";
++            	    store_obj source decls
++                with Failure s -> msg s
++	    end
+ ;;
+ 
+ 
