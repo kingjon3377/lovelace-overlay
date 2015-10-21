@@ -1,0 +1,16 @@
+--- polygen-1.0.6/src/io.ml	2004-06-25 10:38:35.000000000 +0200
++++ polygen-1.0.6/src/io.ml	2005-08-29 16:28:09.822686120 +0200
+@@ -57,12 +57,11 @@
+ 	let file = source ^ __obj in
+     try
+         let tmp = Printf.sprintf "%s.%d" file (Unix.getpid ()) in
+-        let oc = open_out_gen [Open_wronly; Open_binary; Open_creat; Open_trunc] 0o600 tmp in
++        let oc = open_out_gen [Open_wronly; Open_binary; Open_creat; Open_trunc] 0o666 tmp in
+         let obj = make_obj data
+         in
+             Marshal.to_channel oc obj [];
+             close_out oc;
+-            Unix.chmod tmp 0o666;
+             Unix.rename tmp file
+ 
+     with Unix.Unix_error (e, _, _) ->

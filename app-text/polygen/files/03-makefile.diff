@@ -1,0 +1,80 @@
+--- src/makefile	2005-11-21 21:33:38.000000000 +0100
++++ src/makefile	2006-11-16 15:43:01.568333250 +0100
+@@ -10,27 +10,37 @@
+ VERSION    := $(shell cat <VERSION)
+ DATE       := $(shell cat <DATE)
+ 
+-MLDEP	    = ocamldep -native
+-MLC 		= ocamlopt.opt
++# must be linked in this order
++SRCS	   :=	ver.ml	        \
++		prelude.ml	\
++		err.ml		\
++		absyn.ml	\
++		env.ml		\
++		check.ml	\
++		pre.ml		\
++		gen.ml		\
++		fake.ml		\
++		parser.ml	\
++		lexer.ml	\
++		io.ml		\
++		main.ml
++
++ifeq ($(NATIVE), false)
++MLC		= ocamlc
++MLCOPTS		= -unsafe
++MLLDOPTS	= unix.cma
++OBJS		:= $(SRCS:.ml=.cmo)
++else
++MLC		= ocamlopt
+ MLCOPTS		= -inline 23 -unsafe
+ MLLDOPTS	= unix.cmxa
++OBJS		:= $(SRCS:.ml=.cmx)
++endif
++
++MLDEP	    = ocamldep -native
+ MLLEX		= ocamllex
+ MLYACC		= ocamlyacc
+ 
+-# must be linked in this order
+-OBJS	   := ver.cmx		        \
+-	          prelude.cmx           \
+-              err.cmx               \
+-              absyn.cmx             \
+-              env.cmx               \
+-              check.cmx             \
+-              pre.cmx               \
+-              gen.cmx               \
+-              fake.cmx	   	        \
+-	          parser.cmx lexer.cmx  \
+-	          io.cmx		        \
+-              main.cmx
+-SRCS       := $(OBJS:.cmx=.ml)
+ 
+ 
+ all: $(NAME)
+@@ -41,17 +51,18 @@
+ %.cmi: %.mli
+ 	$(MLC) -c $(MLCOPTS) $< -o $@
+ 
++%.cmo: %.ml
++	$(MLC) -c $(MLCOPTS) $< -o $@
++
+ %.cmx: %.ml
+ 	$(MLC) -c $(MLCOPTS) $< -o $@
+ 
+ parser.mli parser.ml lexer.ml: lexer.mll parser.mly
+ 	$(MLLEX) lexer.mll
+ 	$(MLYACC) parser.mly
+-    # workaround for ocamlyacc "open" lack
+-	@mv parser.mli _parser.mli
+-	@echo -e "open Absyn\n" >parser.mli
+-	@cat <_parser.mli >>parser.mli
+-	@rm -f _parser.mli
++	# workaround for ocamlyacc "open" lack
++	(echo "open Absyn" ; echo ; cat parser.mli) > _parser.mli
++	@mv _parser.mli parser.mli
+ 
+ ver.ml: ver.ml.template
+ 	sed -e "s/%VERSION%/$(VERSION)/" -e "s/%DATE%/$(DATE)/" ver.ml.template >ver.ml

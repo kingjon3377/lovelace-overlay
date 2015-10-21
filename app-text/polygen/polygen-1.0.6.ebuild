@@ -25,11 +25,9 @@ DEPEND="${COMMON_DEPEND}
 #S="${WORKDIR}/${P}"
 
 src_prepare() {
-	cd "${WORKDIR}"
-	epatch "${FILESDIR}"/polygen_1.0.6.ds2-10.diff
-	rm "${WORKDIR}/${P}.ds2/debian/patches/02-grammar-typos.patch" || die "removing unwanted patch failed"
-	cd "${S}"
-	epatch ../${P}.ds2/debian/patches/*
+	epatch "${FILESDIR}/01-dont-regenerate-existing-ofiles.diff" \
+		"${FILESDIR}/03-makefile.diff" "${FILESDIR}/04-create-mode.diff" \
+		"${FILESDIR}/05-8bit-strings.diff"
 }
 
 src_compile() {
@@ -38,4 +36,18 @@ src_compile() {
 
 src_install() {
 	dobin "${S}/src/polygen"
+	newbin "${FILESDIR}/polyrun.pl" polyrun
+	doman "${FILESDIR}/polyrun.1"
+	dodoc "${FILESDIR}/README.Debian"
+
+	einfo "Following Debian, in order to keep the polygen binary as close as"
+	einfo "possible to the one upstream distributes, the extension that would"
+	einfo "have polygen look for grammar candidates in /usr/share/polygen has"
+	einfo "been moved to a wrapper script called polyrun."
+	einfo
+	einfo "As a consequence, for most polygen invocations you should now use"
+	einfo "polyrun instead of polygen."
+	einfo
+	einfo "Example grammars can be found at"
+	einfo "http://people.debian.org/~enrico/polygen-debian"
 }

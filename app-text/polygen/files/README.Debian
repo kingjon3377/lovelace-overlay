@@ -1,0 +1,40 @@
+README for the Polygen Debian package
+=====================================
+
+Polygen is...
+
+   ...the tool everybody was so anxiously expecting.
+    - Daily Telegraph
+
+   The solution to all occultism problems.
+    - Harold Tribune
+
+   ...the finest product ever designed for alpinism.
+    - The Sun
+
+   The ultimate solution to all problems. No way to miss it.
+    - GirlPower
+
+
+Polygen is fun.
+
+It's even more fun if you start creating your own grammars.
+
+If you want to play, you can have a look at the existing grammars in
+/usr/share/polygen, and keep /usr/share/doc/polygen/HOWTO-Refman.en.html as a
+reference.
+
+If you happen to create some nice grammars, don't forget to send them to me!
+You can do it nicely with reportbug:
+
+	reportbug -kA mygrammar.grm polygen
+
+I'll take care of forwarding your grammars to the upstream authors, and they
+will include them in the next polygen-data and in the wonderful website
+www.polygen.org
+
+
+Enjoy your Polygen, Trombygen, Polliflex, Sporkysnell, Polpycess!
+
+---
+Enrico Zini <enrico@debian.org>
