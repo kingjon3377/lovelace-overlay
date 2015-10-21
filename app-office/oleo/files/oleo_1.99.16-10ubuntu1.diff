@@ -903,36 +903,3 @@
  #include <X11/X.h>
  #include <X11/Xlib.h>
  #include <X11/Xutil.h>
---- oleo-1.99.16.orig/Xresources/Makefile.am
-+++ oleo-1.99.16/Xresources/Makefile.am
-@@ -17,9 +17,9 @@
- endir =		$(xdefaultsdir)
- 
- install-data-hook:
--		$(mkinstalldirs) $(nldir) $(frdir) $(endir)
--		$(INSTALL_DATA) $(srcdir)/Oleo.nl $(nldir)/Oleo
--		$(INSTALL_DATA) $(srcdir)/Oleo.fr $(frdir)/Oleo
--		$(INSTALL_DATA) $(srcdir)/Oleo.en $(endir)/Oleo
-+		$(mkinstalldirs) $(DESTDIR)$(nldir) $(DESTDIR)$(frdir) $(DESTDIR)$(endir)
-+		$(INSTALL_DATA) $(srcdir)/Oleo.nl $(DESTDIR)$(nldir)/Oleo
-+		$(INSTALL_DATA) $(srcdir)/Oleo.fr $(DESTDIR)$(frdir)/Oleo
-+		$(INSTALL_DATA) $(srcdir)/Oleo.en $(DESTDIR)$(endir)/Oleo
- 
- MAINTAINERCLEANFILES = Makefile.in
---- oleo-1.99.16.orig/Xresources/Makefile.in
-+++ oleo-1.99.16/Xresources/Makefile.in
-@@ -235,10 +235,10 @@
- 
- 
- install-data-hook:
--		$(mkinstalldirs) $(nldir) $(frdir) $(endir)
--		$(INSTALL_DATA) $(srcdir)/Oleo.nl $(nldir)/Oleo
--		$(INSTALL_DATA) $(srcdir)/Oleo.fr $(frdir)/Oleo
--		$(INSTALL_DATA) $(srcdir)/Oleo.en $(endir)/Oleo
-+		$(mkinstalldirs) $(DESTDIR)$(nldir) $(DESTDIR)$(frdir) $(DESTDIR)$(endir)
-+		$(INSTALL_DATA) $(srcdir)/Oleo.nl $(DESTDIR)$(nldir)/Oleo
-+		$(INSTALL_DATA) $(srcdir)/Oleo.fr $(DESTDIR)$(frdir)/Oleo
-+		$(INSTALL_DATA) $(srcdir)/Oleo.en $(DESTDIR)$(endir)/Oleo
- 
- # Tell versions [3.59,3.63) of GNU make to not export all variables.
- # Otherwise a system limit (for SysV at least) may be exceeded.
