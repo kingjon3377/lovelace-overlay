@@ -27,4 +27,8 @@ src_prepare() {
 
 src_install() {
 	emake prefix="${D}/usr" datadir="${D}/usr/share" install
+	doman "${FILESDIR}/${PN}.1"
+	docinto examples
+	dodoc "${FILESDIR}/${PN}.emacsen-startup"
+	dobin "${FILESDIR}/${PN}.sh"
 }
