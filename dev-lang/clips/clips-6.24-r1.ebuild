@@ -23,7 +23,7 @@ SLOT="0"
 KEYWORDS="~x86 amd64"
 IUSE="X"
 
-RDEPEND="sys-libs/ncurses
+RDEPEND="sys-libs/ncurses:0
 		X? ( x11-base/xorg-server )"
 DEPEND="${RDEPEND}
 	app-arch/unzip"

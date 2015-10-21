@@ -30,7 +30,7 @@ RDEPEND="dev-lang/ghc:=
 	gd? ( media-libs/gd )
 	media-libs/freeglut
 	media-libs/mesa
-	sys-libs/ncurses
+	sys-libs/ncurses:0
 	mysql? ( dev-db/mysql ) "
 
 DEPEND="${RDEPEND}"
