@@ -15,7 +15,7 @@ SLOT="0"
 KEYWORDS="amd64"
 IUSE="+X +motif"
 
-DEPEND="sys-libs/ncurses
+DEPEND="sys-libs/ncurses:0
 	sys-devel/gettext
 	sys-apps/texinfo
 	X? ( x11-libs/libX11 )
