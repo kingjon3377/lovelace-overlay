@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/app-text/fbreader/fbreader-0.99.4-r1.ebuild,v 1.4 2013/03/31 16:19:32 ago Exp $
+# $Id$
 
 EAPI=5
 
