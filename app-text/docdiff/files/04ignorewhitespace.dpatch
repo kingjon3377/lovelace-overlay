@@ -1,0 +1,117 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## 04ignorewhitespace.dpatch by Kenshi Muto <kmuto@debian.org>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: No description.
+
+@DPATCH@
+diff -urNad docdiff-0.3.4~/docdiff/charstring.rb docdiff-0.3.4/docdiff/charstring.rb
+--- docdiff-0.3.4~/docdiff/charstring.rb	2007-12-10 06:37:07.000000000 +0000
++++ docdiff-0.3.4/docdiff/charstring.rb	2007-12-10 06:37:08.000000000 +0000
+@@ -14,9 +14,20 @@
+ #    @encoding = CharString.guess_encoding(string)
+ #    @eol     = CharString.guess_eol(string)
+ =end unnecessary
++    @fullstring = string
+     super
+   end
+ 
++  # Fullstring includes non-graphical characters like newlines and spaces.
++  # These are (optionally) kept separate, because users comparing documents
++  # don't care about whitespace changes.
++  attr_reader :fullstring
++  attr_writer :fullstring
++
++  def to_s()
++    @fullstring
++  end
++
+   def encoding()
+     @encoding
+ #     if @encoding
+@@ -292,7 +303,8 @@
+     count_latin_blank_char() + count_ja_blank_char()
+   end
+ 
+-  def split_to_word()
++  # splits a string into words, treating whitespaces as words.
++  def split_to_word_verbose()
+     raise "Encodings[encoding] is #{Encodings[encoding].inspect}: encoding not specified or auto-detection failed." unless Encodings[encoding]
+     # raise "EOLChars[eol] is #{EOLChars[eol].inspect}: eol not specified or auto-detection failed." unless EOLChars[eol]
+     scan(Regexp.new(Encodings[encoding]::WORD_REGEXP_SRC, 
+@@ -300,6 +312,21 @@
+                     encoding.sub(/ASCII/i, 'none'))
+     )
+   end
++  # splits a string into words, storing whitespaces in an attribute of
++  # the preceeding word.
++  def split_to_word()
++    words = split_to_word_verbose()
++    word_regex = Regexp.new(Encodings[encoding]::PURE_WORD_REGEXP_SRC,
++                    Regexp::MULTILINE,
++                    encoding.sub(/ASCII/i, 'none'))
++    result = words.collect { |word|
++      word_text = word.scan(word_regex).select{|x| x != ""}[0]
++      word_text.extend CharString
++      word_text.fullstring = word
++      word_text
++    }
++  end
++
+   alias to_words split_to_word
+ 
+   def count_word()
+diff -urNad docdiff-0.3.4~/docdiff/encoding/en_ascii.rb docdiff-0.3.4/docdiff/encoding/en_ascii.rb
+--- docdiff-0.3.4~/docdiff/encoding/en_ascii.rb	2007-12-10 06:37:03.000000000 +0000
++++ docdiff-0.3.4/docdiff/encoding/en_ascii.rb	2007-12-10 06:37:08.000000000 +0000
+@@ -67,9 +67,10 @@
+     PRINT.replace(Regexp.quote(PRINT)) # kludge to avoid warning "character class has `[' without escape"
+     GRAPH.replace(Regexp.quote(GRAPH)) # kludge to avoid warning "character class has `[' without escape"
+ 
+-    WORD_REGEXP_SRC = ["(?:[#{GRAPH}]+[#{BLANK}]?)", 
+-                       "|(?:[#{SPACE}]+)", 
+-                       "|(?:.+?)"].join
++    WORD_REGEXP_SRC = ["(?:[#{PUNCT}]+[#{SPACE}]?)", 
++                       "|(?:[#{ALNUM}]+[#{SPACE}]*)",
++                       "|(?:[^#{GRAPH}]+)"].join
++    PURE_WORD_REGEXP_SRC = "[#{GRAPH}]+"
+ 
+     # override default method, as ASCII has no Japanese in it
+     def count_ja_graph_char()
+diff -urNad docdiff-0.3.4~/docdiff/view.rb docdiff-0.3.4/docdiff/view.rb
+--- docdiff-0.3.4~/docdiff/view.rb	2007-12-10 06:37:07.000000000 +0000
++++ docdiff-0.3.4/docdiff/view.rb	2007-12-10 06:38:26.000000000 +0000
+@@ -52,20 +52,27 @@
+     str.gsub(tags[:outside_escape_pat]){|m| tags[:outside_escape_dic][m]}
+   end
+ 
++  def format_block(block)
++    if block == nil
++        ""
++    else
++        block.collect {|x| x.to_s}.to_s
++    end
++  end
++
+   def apply_style(tags, headfoot = true)
+     result = []
+     @difference.each{|block|
+       operation = block.first
++      src = format_block(block[1])
++      tgt = format_block(block[2])
+       if block_given?
+-        src = yield block[1].to_s
+-        tgt = yield block[2].to_s
+-      else
+-        src = block[1].to_s
+-        tgt = block[2].to_s
++        src = yield source
++        tgt = yield target
+       end
+       case operation
+       when :common_elt_elt
+-        result << (tags[:start_common] + escape_outside(src, tags) + tags[:end_common])
++        result << (tags[:start_common] + escape_outside(tgt, tags) + tags[:end_common])
+       when :change_elt
+         result << (tags[:start_before_change] + escape_inside(src, tags) + tags[:end_before_change] +
+                    tags[:start_after_change]  + escape_inside(tgt, tags) + tags[:end_after_change])
