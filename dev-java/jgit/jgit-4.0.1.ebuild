@@ -34,9 +34,9 @@ COMMON_DEP="dev-java/slf4j-api:0
 	dev-java/jsch:0"
 
 RDEPEND=">=virtual/jre-1.7
-  ${COMMON_DEP}"
+	${COMMON_DEP}"
 DEPEND=">=virtual/jdk-1.7
-  ${COMMON_DEP}"
+	${COMMON_DEP}"
 
 EANT_BUILD_TARGET=""
 EANT_DOC_TARGET=""

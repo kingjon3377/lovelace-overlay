@@ -23,10 +23,10 @@ COMMON_DEP="dev-java/junit:4"
 S="${WORKDIR}/${PN}-JavaEWAH-${PV}"
 
 RDEPEND=">=virtual/jre-1.6
-  ${COMMON_DEP}"
+	${COMMON_DEP}"
 DEPEND=">=virtual/jdk-1.6
-  app-arch/unzip
-  ${COMMON_DEP}"
+	app-arch/unzip
+	${COMMON_DEP}"
 
 EANT_BUILD_TARGET=""
 EANT_DOC_TARGET=""
@@ -39,10 +39,10 @@ src_prepare() {
 }
 
 src_install() {
-  java-pkg-simple_src_install
-  dodoc CHANGELOG README.md
-  if use examples; then
-  	dodoc example.java
-	dodoc -r examples
-  fi
+	java-pkg-simple_src_install
+	dodoc CHANGELOG README.md
+	if use examples; then
+		dodoc example.java
+		dodoc -r examples
+	fi
 }
