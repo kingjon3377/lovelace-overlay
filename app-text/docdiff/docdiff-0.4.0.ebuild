@@ -29,7 +29,7 @@ src_prepare() {
 	cd "${WORKDIR}"/all && epatch \
 		"${FILESDIR}/01svn-r196.dpatch"
 		"${FILESDIR}/02svndocdiff.dpatch"
-		"${FILESDIR}/03cgipath.dpatch" 
+		"${FILESDIR}/03cgipath.dpatch"
 }
 
 each_ruby_install() {
