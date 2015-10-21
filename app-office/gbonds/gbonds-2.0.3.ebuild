@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /archive/cvsdir/portage/app-office/gbonds/gbonds-0.7.4.ebuild,v 1.1.1.1 2002/08/24 16:28:52 set Exp $
+# $Id$
 # Copyright 2002 Paul Thompson
 
 EAPI=5
