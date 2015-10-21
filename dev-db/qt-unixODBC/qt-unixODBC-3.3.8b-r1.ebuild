@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/dev-db/qt-unixODBC/qt-unixODBC-3.3.8b.ebuild,v 1.6 2009/01/17 16:39:16 nixnut Exp $
+# $Id$
 
 EAPI=5
 
