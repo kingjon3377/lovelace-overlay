@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /home/bhepple/fun/sf/g/gjots/gjots2.ebuild,v 1.7.2.23 2012-06-02 12:42:57 bhepple Exp $
+# $Id$
 
 EAPI=5
 
