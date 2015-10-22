@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+<!-- <longdescription>Long description of the package</longdescription> -->
+<use>
+	<flag name="google-storage">Enable access to Google Drive</flag>
+	<flag name="automate-captchas">Try to use <pkg>app-text/tesseract</pkg> to
+	  automatically decode CAPTCHAs</flag>
+<!--	<flag name="aspell">Uses <pkg>app-text/aspell</pkg> for spell checking.
+		Requires an installed dictionary from <cat>app-dicts</cat></flag> -->
+</use>
+</pkgmetadata>
