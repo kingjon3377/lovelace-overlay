@@ -29,9 +29,7 @@ DEPEND="media-libs/libart_lgpl
 RDEPEND="${DEPEND}"
 
 src_prepare() {
-	cd "${WORKDIR}" && epatch "${FILESDIR}/rcalc_0.5.0-1.3.diff"
-	cd "${S}" && epatch debian/patches/*diff
-	sed -i -e 's:grcalc:rcalc:g' debian/grcalc.1 || die "sed failed"
+	epatch "${FILESDIR}/10_reduce_precision.diff" "${FILESDIR}/20_vte_build.diff"
 }
 
 src_configure() {
@@ -43,5 +41,5 @@ src_configure() {
 src_install() {
 	gnome2_src_install
 	dodoc AUTHORS ChangeLog NEWS README
-	newman debian/grcalc.1 rcalc.1
+	doman "${FILESDIR}/rcalc.1"
 }
