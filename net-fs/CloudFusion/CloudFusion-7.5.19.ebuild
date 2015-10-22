@@ -19,7 +19,7 @@ IUSE="google-storage automate-captchas" #sikuli
 
 RDEPEND="${PYTHON_DEPS}
 		google-storage? (
-			dev-libs/openssl
+			dev-libs/openssl:0
 			virtual/libffi
 		)
 		automate-captchas? (
