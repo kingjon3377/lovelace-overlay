@@ -17,7 +17,7 @@ IUSE="doc ipv6 kerberos ldap nls passfile smime spell ssl threads topal"
 
 DEPEND="virtual/pam
 	>=net-libs/c-client-2007f-r4[topal=]
-	>=sys-libs/ncurses-5.1
+	sys-libs/ncurses:0
 	>=dev-libs/openssl-1.0
 	ldap? ( net-nds/openldap )
 	kerberos? ( app-crypt/mit-krb5 )
