@@ -19,7 +19,7 @@ KEYWORDS="~amd64 ~x86"
 IUSE="
 	+bzip2 +cairo crypt +curl dbus +desktop examples gmp gsl +gtk httpd +imageio imageimlib \
 	jit +media mysql +mime +ncurses +net +opengl postgres odbc openssl openal +pcre +pdf \
-	+qt4 +sdl +sdlsound smtp sqlite +sqlite3 +svg +v4l +xml +zlib"
+	+qt4 +sdl +sdlsound smtp +sqlite +svg +v4l +xml +zlib"
 
 REQUIRED_USE="gtk? ( cairo ) media? ( v4l ) mysql? ( zlib ) net? ( curl ) sdl? ( opengl ) xml? ( net ) net? ( mime )"
 
@@ -77,8 +77,7 @@ COMMON_DEPEND="
 	)
 	sdlsound?	( media-libs/sdl-sound )
 	smtp?	( dev-libs/glib:2 )
-	sqlite?	( dev-db/sqlite:0 )
-	sqlite3?	( dev-db/sqlite:3 )
+	sqlite?	( dev-db/sqlite:3 )
 	svg?	( gnome-base/librsvg )
 	v4l?	(
 		media-tv/v4l-utils
@@ -118,8 +117,7 @@ src_configure() {
 		$(use_enable mysql) \
 		$(use_enable odbc) \
 		$(use_enable postgres postgresql) \
-		$(use_enable sqlite sqlite2) \
-		$(use_enable sqlite3) \
+		$(use_enable sqlite sqlite3) \
 		$(use_enable net) \
 		$(use_enable curl) \
 		$(use_enable smtp) \
@@ -157,8 +155,7 @@ src_install() {
 	use net && newdoc gb.net/src/doc/README gb.net-README
 	use net && newdoc gb.net/src/doc/changes.txt gb.net-ChangeLog
 	use pcre && newdoc gb.pcre/src/README gb.pcre-README
-	use sqlite && newdoc gb.db.sqlite2/README gb.db.squlite2-README
-	use sqlite3 && newdoc gb.db.sqlite3/README gb.db.sqlite3-README
+	use sqlite && newdoc gb.db.sqlite3/README gb.db.sqlite3-README
 	use jit && newdoc gb.jit/README gb.jit-README
 	use smtp && newdoc gb.net.smtp/README gb.net.smtp-README
 
