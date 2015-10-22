@@ -19,7 +19,7 @@ KEYWORDS="~amd64 ~x86"
 IUSE="
 	+bzip2 cairo crypt +curl dbus desktop +examples gsl +gtk +imageio imageimlib \
 	jit +media mysql mime +ncurses net +opengl postgres odbc +pcre +pdf \
-	+qt4 +sdl +sdlsound smtp sqlite +sqlite3 +svg v4l +xml +zlib"
+	+qt4 +sdl +sdlsound smtp +sqlite +svg v4l +xml +zlib"
 # doc
 
 COMMON_DEPEND="
@@ -60,8 +60,7 @@ COMMON_DEPEND="
 		>=media-libs/sdl-image-1.2.6-r1
 		>=media-libs/sdl-mixer-1.2.7
 	)
-	sqlite?	( dev-db/sqlite:0 )
-	sqlite3?	( dev-db/sqlite:3 )
+	sqlite?	( dev-db/sqlite:3 )
 	sdlsound?	( media-libs/sdl-sound )
 	smtp?	( dev-libs/glib:2 )
 	svg?	( gnome-base/librsvg )
@@ -98,8 +97,7 @@ src_configure() {
 		$(use_enable mysql) \
 		$(use_enable odbc) \
 		$(use_enable postgres postgresql) \
-		$(use_enable sqlite sqlite2) \
-		$(use_enable sqlite3) \
+		$(use_enable sqlite sqlite3) \
 		$(use_enable net) \
 		$(use_enable curl) \
 		$(use_enable smtp) \
@@ -138,8 +136,7 @@ src_install() {
 	use net && newdoc gb.net/src/doc/README gb.net-README
 	use net && newdoc gb.net/src/doc/changes.txt gb.net-ChangeLog
 	use pcre && newdoc gb.pcre/src/README gb.pcre-README
-	use sqlite && newdoc gb.db.sqlite2/README gb.db.squlite2-README
-	use sqlite3 && newdoc gb.db.sqlite3/README gb.db.sqlite3-README
+	use sqlite && newdoc gb.db.sqlite3/README gb.db.sqlite3-README
 	use jit && newdoc gb.jit/README gb.jit-README
 	use smtp && newdoc gb.net.smtp/README gb.net.smtp-README
 
