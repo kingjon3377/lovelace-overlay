@@ -1,6 +1,6 @@
-# Copyright 1999-2009 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/kde-base/klatin/klatin-3.5.10.ebuild,v 1.7 2009/07/12 11:53:46 armin76 Exp $
+# $Id$
 EAPI=5
 KMNAME=kdeedu
 inherit kde-meta
