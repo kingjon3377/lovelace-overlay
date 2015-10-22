@@ -39,7 +39,7 @@ COMMON_DEPEND="
 	media?	( media-libs/gstreamer:0.10 )
 	mysql?	( >=virtual/mysql-5.0 )
 	mime?	( dev-libs/gmime:2.6 )
-	ncurses? ( sys-libs/ncurses )
+	ncurses? ( sys-libs/ncurses:0 )
 	net? ( >=net-misc/curl-7.13 )
 	odbc?	( dev-db/unixODBC )
 	opengl?	(

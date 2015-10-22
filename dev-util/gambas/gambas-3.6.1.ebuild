@@ -52,7 +52,7 @@ COMMON_DEPEND="
 	)
 	mysql?	( >=virtual/mysql-5.0 )
 	mime?	( dev-libs/gmime:2.6 )
-	ncurses? ( sys-libs/ncurses )
+	ncurses? ( sys-libs/ncurses:0 )
 	odbc?	( dev-db/unixODBC )
 	openal? ( media-libs/alure )
 	opengl?	(
