@@ -1,6 +1,6 @@
-# Copyright 1999-2012 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/dev-util/yacc/yacc-1.9.1-r5.ebuild,v 1.2 2012/09/26 07:34:45 ulm Exp $
+# $Id$
 
 inherit eutils toolchain-funcs
 
