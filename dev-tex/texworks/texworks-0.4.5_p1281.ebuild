@@ -53,7 +53,7 @@ src_install() {
 
 	insinto /usr/share/doc/texworks-help
 	doins -r manual/en
-	dodoc README PACKAGING COPYING NEWS
+	dodoc README PACKAGING NEWS
 	doman man/texworks.1
 
 	# install translations
