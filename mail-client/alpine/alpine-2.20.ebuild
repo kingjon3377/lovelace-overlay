@@ -27,11 +27,7 @@ RDEPEND="${DEPEND}
 	app-misc/mime-types
 	!<=net-mail/uw-imap-2004g"
 
-pkg_setup() {
-	if use smime && use topal ; then
-		ewarn "You can not have USE='smime topal'. Assuming topal is more important."
-	fi
-}
+REQUIRED_USE="smime? ( !topal ) topal? ( !smime )"
 
 src_prepare() {
 	eautoreconf
