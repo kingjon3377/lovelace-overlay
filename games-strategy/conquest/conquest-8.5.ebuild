@@ -15,7 +15,7 @@ SLOT="0"
 KEYWORDS="amd64"
 IUSE="+opengl"
 
-DEPEND="sys-libs/ncurses
+DEPEND="sys-libs/ncurses:0
 	opengl? ( media-libs/freeglut
 		media-libs/sdl-mixer )"
 RDEPEND="${DEPEND}"
