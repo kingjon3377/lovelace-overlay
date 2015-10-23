@@ -18,7 +18,7 @@ KEYWORDS="~amd64"
 
 IUSE=""
 
-RDEPEND=">=virtual/jre-1.5
+RDEPEND=">=virtual/jre-1.5:*
 	dev-java/commons-compress:0
 	>=dev-java/ant-core-1.7.0:0"
 DEPEND=">=virtual/jdk-1.5
