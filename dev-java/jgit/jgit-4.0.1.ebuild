@@ -22,6 +22,7 @@ S="${WORKDIR}/${PN}-${MY_PV}"
 
 IUSE=""
 
+# 	www-servers/jetty:6[client]
 COMMON_DEP="dev-java/slf4j-api:0
 	dev-java/junit:4
 	dev-java/osgi-core-api:0
@@ -30,7 +31,6 @@ COMMON_DEP="dev-java/slf4j-api:0
 	dev-java/javaewah:0
 	dev-java/commons-httpclient:3
 	dev-java/servletapi:2.4
-	www-servers/jetty:6[client]
 	dev-java/jsch:0"
 
 RDEPEND=">=virtual/jre-1.7
