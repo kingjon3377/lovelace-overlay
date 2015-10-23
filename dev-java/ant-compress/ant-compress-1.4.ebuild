@@ -12,7 +12,7 @@ DESCRIPTION="Ant tasks needing commons-compress"
 HOMEPAGE="https://ant.apache.org/antlibs/compress/index.html"
 SRC_URI="mirror://apache/ant/antlibs/compress/source/apache-${P}-src.tar.gz"
 
-LICENSE=""
+LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="~amd64"
 
