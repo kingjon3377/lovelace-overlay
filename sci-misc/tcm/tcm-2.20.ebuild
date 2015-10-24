@@ -40,6 +40,10 @@ src_prepare() {
 16_gv_preview
 20_fix_doc
 30_amd64_null
+30_amd64_null_2
+30_amd64_null_3
+30_amd64_null_4
+30_amd64_null_5
 31_gcc_4_1
 	EOF
 	epatch "${FILESDIR}/warnings.patch"
