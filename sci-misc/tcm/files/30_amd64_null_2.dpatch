@@ -1,0 +1,522 @@
+diff -Nur tcm-2.20+TSQD.orig/src/ed/editwindow.c tcm-2.20+TSQD/src/ed/editwindow.c
+--- tcm-2.20.orig/src/ed/editwindow.c	2004-07-21 19:51:37.000000000 +0200
++++ tcm-2.20/src/ed/editwindow.c	2006-04-02 15:13:09.000000000 +0200
+@@ -125,7 +125,7 @@
+ 	logoBitmap.xbm_bits = (unsigned char *)Teapot2a_bits;
+ 	logoPixmap = logoBitmap.CreatePixmap(parent, GetDisplay());
+ 	Widget form = XtVaCreateManagedWidget(GetName()->getstr(), 
+-		xmFormWidgetClass, parent, 0);
++		xmFormWidgetClass, parent, NULL);
+ 	// find type of document tool 
+ 	int tool = GetTool();
+ 	// parse command line options
+@@ -275,7 +275,7 @@
+ 	Pixel fg, bg;
+ 	// get the foreground and background colors of the parent
+ 	// to make the pixmaps appear using a consistent color
+-	XtVaGetValues(parent, XmNforeground, &fg, XmNbackground, &bg, 0);
++	XtVaGetValues(parent, XmNforeground, &fg, XmNbackground, &bg, NULL);
+ 	// the pixmap is loaded from a X11 bitmap, called DEFAULT_ICON.
+ 	Pixmap px = logoBitmap.CreatePixmap(parent, GetDisplay()); 
+ 	Widget button = XtVaCreateManagedWidget(
+@@ -283,7 +283,7 @@
+ 			XmNlabelPixmap, px,
+ 			XmNlabelType, XmPIXMAP,
+ 			XmNtopAttachment, XmATTACH_FORM,
+-			XmNrightAttachment, XmATTACH_FORM, 0);
++			XmNrightAttachment, XmATTACH_FORM, NULL);
+ 	XtAddCallback(button, XmNactivateCallback, AboutCB, (XtPointer)this);
+ 	AddLiteClue(button, "TCM logo");
+ 	return button;
+@@ -298,31 +298,31 @@
+ 		xmRowColumnWidgetClass, parent, 
+ 		XmNadjustLast, True,
+ 		XmNorientation, XmHORIZONTAL,
+-		XmNleftAttachment, XmATTACH_FORM, 0);
++		XmNleftAttachment, XmATTACH_FORM, NULL);
+ 	if (menubar)
+ 		XtVaSetValues(rc, XmNtopAttachment, XmATTACH_WIDGET,
+-			XmNtopWidget, menubar, 0);
++			XmNtopWidget, menubar, NULL);
+ 	if (logo)
+ 		XtVaSetValues(rc, XmNrightAttachment, XmATTACH_WIDGET,
+-			XmNrightWidget, logo, 0);
++			XmNrightWidget, logo, NULL);
+ 	XtVaCreateManagedWidget("Document Type: ",
+ 		xmLabelWidgetClass, rc,
+-		XmNalignment, XmALIGNMENT_BEGINNING, 0);
++		XmNalignment, XmALIGNMENT_BEGINNING, NULL);
+ 	documentType = XtVaCreateManagedWidget("DocumentType",
+ 		xmTextFieldWidgetClass, rc, 
+ 		XmNcolumns, 15,
+ 		XmNeditable, False,
+-		XmNcursorPositionVisible, False, 0);
++		XmNcursorPositionVisible, False, NULL);
+ 	AddLiteClue(documentType, 
+ 		"The type of document that is edited by this editor (fixed)");
+ 	XtVaCreateManagedWidget("Name: ",
+ 		xmLabelWidgetClass, rc, 
+-		XmNalignment, XmALIGNMENT_BEGINNING, 0);
++		XmNalignment, XmALIGNMENT_BEGINNING, NULL);
+ 	documentName = XtVaCreateManagedWidget("DocumentName",
+ 		xmTextFieldWidgetClass, rc, 
+ 		XmNeditable, True,
+ 		XmNcolumns, 10,
+-		XmNcursorPositionVisible, True, 0);
++		XmNcursorPositionVisible, True, NULL);
+ 	AddLiteClue(documentName, 
+ 	 	"The document name. Can be changed (apply with <enter>)");
+ 	if (check(document))
+@@ -331,11 +331,11 @@
+ 	if (Toolkit::HierarchicEditor(GetTool())) {
+ //		XtVaCreateManagedWidget("Level: ",
+ //			xmLabelWidgetClass, rc,
+-//			XmNalignment, XmALIGNMENT_BEGINNING, 0);
++//			XmNalignment, XmALIGNMENT_BEGINNING, NULL);
+ //		documentLevel = XtVaCreateManagedWidget("DocumentLevel",
+ //			xmTextFieldWidgetClass, rc,
+ //			XmNeditable, False,
+-//			XmNcursorPositionVisible, False, 0);
++//			XmNcursorPositionVisible, False, NULL);
+ //		AddLiteClue(documentLevel,
+ //			"The current level in the document (fixed)");
+ 	}
+@@ -352,11 +352,11 @@
+ 		return 0;
+ 	Widget rc = XtVaCreateWidget("ControlArea", 
+ 		xmRowColumnWidgetClass, parent, 
+-		XmNorientation, XmHORIZONTAL, 0);
++		XmNorientation, XmHORIZONTAL, NULL);
+ 	if (statusArea) 
+ 		XtVaSetValues(rc, XmNtopWidget, statusArea, 
+-			XmNtopAttachment, XmATTACH_WIDGET, 0);
+-	XtVaSetValues(rc, XmNbottomAttachment, XmATTACH_FORM, 0);
++			XmNtopAttachment, XmATTACH_WIDGET, NULL);
++	XtVaSetValues(rc, XmNbottomAttachment, XmATTACH_FORM, NULL);
+ 	XtManageChild(rc);
+ 	return rc;
+ }
+@@ -368,20 +368,20 @@
+ 		return 0;
+ 	Widget rc = XtVaCreateWidget("StatusArea", 
+ 		xmRowColumnWidgetClass, parent, 
+-		XmNorientation, XmHORIZONTAL, 0);
++		XmNorientation, XmHORIZONTAL, NULL);
+ 	if (controlArea) 
+ 		XtVaSetValues(rc, XmNbottomWidget, controlArea, 
+-			XmNbottomAttachment, XmATTACH_WIDGET, 0);
++			XmNbottomAttachment, XmATTACH_WIDGET, NULL);
+ 	statusText = XtVaCreateManagedWidget("StatusText",
+ 		xmTextFieldWidgetClass, rc, 
+ 		XmNeditable, False,
+ 		XmNcursorPositionVisible, False,
+ 		XmNshadowThickness, 0,
+-		XmNvalue, "...", 0);
++		XmNvalue, "...", NULL);
+ 	if (screenType <= SVGA)
+-		XtVaSetValues(statusText, XmNcolumns, 40, 0);
++		XtVaSetValues(statusText, XmNcolumns, 40, NULL);
+ 	else
+-		XtVaSetValues(statusText, XmNcolumns, 50, 0);
++		XtVaSetValues(statusText, XmNcolumns, 50, NULL);
+ 	XtManageChild(rc);
+ 	return rc;
+ }
+@@ -394,7 +394,7 @@
+ 	Widget toggle = XtVaCreateManagedWidget(label, 
+ 		xmToggleButtonWidgetClass, parent,
+ 		XmNlabelString, text,
+-		XmNset, Init, 0);
++		XmNset, Init, NULL);
+ 	XtAddCallback(toggle, XmNvalueChangedCallback, fun, clientData);
+ 	XmStringFree(text);
+ 	return toggle;
+@@ -406,7 +406,7 @@
+ 		return;
+ 	Widget undoMenuItem = editMenu->GetMenuItem("Undo");
+ 	if (undoMenuItem) {
+-		XtVaSetValues(undoMenuItem, XmNsensitive, flag, 0);
++		XtVaSetValues(undoMenuItem, XmNsensitive, flag, NULL);
+ 	}
+ }
+ 
+@@ -416,7 +416,7 @@
+ 		return;
+ 	Widget redoMenuItem = editMenu->GetMenuItem("Redo");
+ 	if (redoMenuItem)
+-		XtVaSetValues(redoMenuItem, XmNsensitive, flag, 0);
++		XtVaSetValues(redoMenuItem, XmNsensitive, flag, NULL);
+ }
+ 
+ void EditWindow::SetUndoName(const char *uname) {
+@@ -426,7 +426,7 @@
+ 	XmString s = CreateXmString(uname);
+ 	Widget undoMenuItem = editMenu->GetMenuItem("Undo");
+ 	if (undoMenuItem)
+-		XtVaSetValues(undoMenuItem, XmNlabelString, s, 0);
++		XtVaSetValues(undoMenuItem, XmNlabelString, s, NULL);
+ 	XmStringFree(s);
+ }
+ 
+@@ -437,7 +437,7 @@
+ 	XmString s = CreateXmString(uname);
+ 	Widget redoMenuItem = editMenu->GetMenuItem("Redo");
+ 	if (redoMenuItem)
+-		XtVaSetValues(redoMenuItem, XmNlabelString, s, 0);
++		XtVaSetValues(redoMenuItem, XmNlabelString, s, NULL);
+ 	XmStringFree(s);
+ }
+ 
+@@ -523,7 +523,7 @@
+ 
+ void EditWindow::SetStatus(const char *message) {
+ 	if (statusText)
+-		XtVaSetValues(statusText, XmNvalue, message, 0); 
++		XtVaSetValues(statusText, XmNvalue, message, NULL); 
+ }
+ 
+ void EditWindow::SetStatus(const string *message) {
+@@ -534,7 +534,7 @@
+ 	if (documentName) {
+ 		int columns = min(30, max(10, strlen(s)+2));
+ 		XtVaSetValues(documentName, XmNvalue, s, 
+-                              XmNcolumns, columns, 0); 
++                              XmNcolumns, columns, NULL); 
+ 		// show document name also in the icon.
+ 		SetIconName(s); 
+ 	}
+@@ -548,7 +548,7 @@
+ 	if (documentType) {
+ 		int columns = min(30, max(10, strlen(s)+2));
+ 		XtVaSetValues(documentType, XmNvalue, s,
+-				    XmNcolumns, columns, 0); 
++				    XmNcolumns, columns, NULL); 
+ 	}
+ }
+ 
+@@ -560,7 +560,7 @@
+ 	if (dirName) {
+ 		int columns = min(30, max(10, strlen(s)+4));
+ 		XtVaSetValues(dirName, XmNvalue, s,
+-				XmNcolumns, columns, 0); 
++				XmNcolumns, columns, NULL); 
+ 	}
+ }
+ 
+@@ -570,7 +570,7 @@
+ 
+ void EditWindow::SetModified(bool set) {
+ 	if (modifiedToggle)
+-		XtVaSetValues(modifiedToggle, XmNset, set, 0); 
++		XtVaSetValues(modifiedToggle, XmNset, set, NULL); 
+ }
+ 
+ void EditWindow::AboutCB(Widget w, XtPointer, XtPointer) {
+@@ -581,7 +581,7 @@
+ void EditWindow::SetDocumentLevel(const char *s) {
+ 	if (documentLevel)
+ 		XtVaSetValues(documentLevel, XmNvalue, s,
+-					    XmNcolumns, strlen(s)+1, 0);
++					    XmNcolumns, strlen(s)+1, NULL);
+ }
+ 
+ void EditWindow::SetDocumentLevel(const string *s) {
+diff -Nur tcm-2.20+TSQD.orig/src/ed/startupwindow.c tcm-2.20+TSQD/src/ed/startupwindow.c
+--- tcm-2.20.orig/src/ed/startupwindow.c	2006-04-02 15:12:45.000000000 +0200
++++ tcm-2.20/src/ed/startupwindow.c	2006-04-02 15:13:09.000000000 +0200
+@@ -91,7 +91,7 @@
+ 	if (!check(parent))
+ 		return 0;
+ 	Widget startupForm = XtVaCreateWidget("StartupWindow", xmFormWidgetClass,
+-		parent, 0);
++		parent, NULL);
+ 	initDrawingWidth = config->GetDrawingWidth();
+ 	initDrawingHeight = config->GetDrawingHeight();
+ 	maxDrawingWidth = max(initDrawingWidth, config->GetDrawingMaxWidth());
+@@ -188,27 +188,27 @@
+ 		XmNtopWidget, menuBar,
+ 		XmNleftAttachment, XmATTACH_FORM, 
+ 		XmNbottomAttachment, XmATTACH_FORM, 
+-		XmNrightAttachment, XmATTACH_FORM, 0);
++		XmNrightAttachment, XmATTACH_FORM, NULL);
+ 	mainForm = XtVaCreateWidget("form",
+-		xmFormWidgetClass, scrolledWindow, 0);
++		xmFormWidgetClass, scrolledWindow, NULL);
+ 	// *** GEN *** //
+ 	Widget frameGEN = XtVaCreateManagedWidget("frameGEN", 
+ 				xmFrameWidgetClass, mainForm,
+ 				XmNleftAttachment, XmATTACH_FORM, 
+ 				XmNrightAttachment, XmATTACH_FORM,
+-				0);
++				NULL);
+ 	XtVaCreateManagedWidget("Generic Editors", 
+ 			xmLabelWidgetClass, frameGEN,
+-			XmNchildType, XmFRAME_TITLE_CHILD, 0);
++			XmNchildType, XmFRAME_TITLE_CHILD, NULL);
+ 	Widget rowcolGEN = XtVaCreateManagedWidget("rowcolGEN", 
+-				xmRowColumnWidgetClass, frameGEN, 0);
++				xmRowColumnWidgetClass, frameGEN, NULL);
+ 	AddToolEntry(rowcolGEN, 0); // TGD. 
+ 	AddToolEntry(rowcolGEN, 9); // TGT. 
+ 	AddToolEntry(rowcolGEN, 13); // TGTT. 
+ 	XtVaCreateManagedWidget("separator", 
+ 			xmSeparatorWidgetClass, mainForm,
+ 			XmNmargin, 8, 
+-			XmNseparatorType, XmNO_LINE, 0);
++			XmNseparatorType, XmNO_LINE, NULL);
+ 	// *** SA (YSM) *** //
+ 	Widget frameSA = XtVaCreateManagedWidget("frameSA", 
+ 				xmFrameWidgetClass, mainForm,
+@@ -216,13 +216,13 @@
+ 				XmNtopWidget, frameGEN,
+ 				XmNleftAttachment, XmATTACH_FORM, 
+ 				XmNrightAttachment, XmATTACH_FORM,
+-				0);
++				NULL);
+ 	XtVaCreateManagedWidget("Structured Analysis Editors", 
+ 			xmLabelWidgetClass, frameSA, 
+-			XmNchildType, XmFRAME_TITLE_CHILD, 0);
++			XmNchildType, XmFRAME_TITLE_CHILD, NULL);
+ 	Widget rowcolSA = XtVaCreateManagedWidget("rowcolSA", 
+ 			xmRowColumnWidgetClass, frameSA, 
+-			XmNspacing, 4, 0);
++			XmNspacing, 4, NULL);
+ 	AddToolEntry(rowcolSA, 26);	// ERD. 
+ 	AddToolEntry(rowcolSA, 7);	// EFD
+ 	AddToolEntry(rowcolSA, 3);	// MST. 
+@@ -232,7 +232,7 @@
+ 	XtVaCreateManagedWidget("separator", 
+ 			xmSeparatorWidgetClass, mainForm,
+  			XmNmargin, 8, 
+-			XmNseparatorType, XmNO_LINE, 0);
++			XmNseparatorType, XmNO_LINE, NULL);
+ 	// *** UML *** //
+ 	Widget frameUML = XtVaCreateManagedWidget("frameUML", 
+ 				xmFrameWidgetClass, mainForm,
+@@ -240,13 +240,13 @@
+ 				XmNtopWidget, frameSA,
+ 				XmNleftAttachment, XmATTACH_FORM, 
+ 				XmNrightAttachment, XmATTACH_FORM,
+-				0);
++				NULL);
+ 	XtVaCreateManagedWidget("UML Editors", 
+ 			xmLabelWidgetClass, frameUML, 
+-			XmNchildType, XmFRAME_TITLE_CHILD, 0);
++			XmNchildType, XmFRAME_TITLE_CHILD, NULL);
+ 	Widget rowcolUML = XtVaCreateManagedWidget("rowcolUML", 
+ 			xmRowColumnWidgetClass, frameUML, 
+-			XmNspacing, 4, 0);
++			XmNspacing, 4, NULL);
+ 	AddToolEntry(rowcolUML, 23);	// TUCD. 
+ 	AddToolEntry(rowcolUML, 18);	// TSSD. 
+ 	AddToolEntry(rowcolUML, 25);	// TATD. 
+@@ -258,7 +258,7 @@
+ 	XtVaCreateManagedWidget("separator", 
+ 			xmSeparatorWidgetClass, mainForm,
+ 			XmNmargin, 8, 
+-			XmNseparatorType, XmNO_LINE, 0);
++			XmNseparatorType, XmNO_LINE, NULL);
+ 	// *** MISC *** //
+ 	Widget frameMISC = XtVaCreateManagedWidget("frameMISC", 
+ 				xmFrameWidgetClass, mainForm,
+@@ -266,12 +266,12 @@
+ 				XmNtopWidget, frameUML,
+ 				XmNleftAttachment, XmATTACH_FORM, 
+ 				XmNrightAttachment, XmATTACH_FORM,
+-				0);
++				NULL);
+ 	XtVaCreateManagedWidget("Miscellaneous Editors", 
+ 			xmLabelWidgetClass, frameMISC,
+-			XmNchildType, XmFRAME_TITLE_CHILD, 0);
++			XmNchildType, XmFRAME_TITLE_CHILD, NULL);
+ 	Widget rowcolMISC = XtVaCreateManagedWidget("rowcolMISC", 
+-			xmRowColumnWidgetClass, frameMISC, 0);
++			xmRowColumnWidgetClass, frameMISC, NULL);
+ 	AddToolEntry(rowcolMISC, 1);	// ERD 
+ 	AddToolEntry(rowcolMISC, 2);	// CRD 
+ 	AddToolEntry(rowcolMISC, 6);	// DFD
+@@ -282,14 +282,14 @@
+ 	XtVaCreateManagedWidget("separator", 
+ 			xmSeparatorWidgetClass, mainForm,
+ 			XmNmargin, 8, 
+-			XmNseparatorType, XmNO_LINE, 0);
++			XmNseparatorType, XmNO_LINE, NULL);
+ 	Widget formSTATUS =  XtVaCreateManagedWidget("formSTATUS",
+ 				xmFormWidgetClass, mainForm,
+ 				XmNtopAttachment, XmATTACH_WIDGET,
+ 				XmNtopWidget, frameMISC,
+ 				XmNleftAttachment, XmATTACH_FORM,
+ 				XmNrightAttachment, XmATTACH_FORM,
+-				0);
++				NULL);
+ 	int stColumns = 42;
+ 	if (WidthOfScreen(XtScreen(parent)) <= 1024)
+ 		// <= SVGA
+@@ -302,7 +302,7 @@
+ 			XmNcolumns, stColumns, 
+ 			XmNtopAttachment, XmATTACH_FORM,
+ 			XmNrightAttachment, XmATTACH_FORM,
+-			XmNleftAttachment, XmATTACH_FORM, 0);
++			XmNleftAttachment, XmATTACH_FORM, NULL);
+ 	XtManageChild(mainForm);
+ 	XtManageChild(scrolledWindow);
+ 	XtManageChild(parent);
+@@ -357,7 +357,7 @@
+ 	viewMenu = new Menu(bar, Menu::PULLDOWN, "View", 0, viewItems);
+ 	helpMenu = new Menu(bar, Menu::PULLDOWN, "Help", 0, helpItems);
+ 	// tell bar which bar which button is the help menu
+-	XtVaSetValues(bar, XmNmenuHelpWidget, helpMenu->GetWidget(), 0);
++	XtVaSetValues(bar, XmNmenuHelpWidget, helpMenu->GetWidget(), NULL);
+ 	// Bar is done -- manage it
+ 	XtManageChild(bar);
+ 	return bar;
+@@ -366,7 +366,7 @@
+ void StartupWindow::AddToolEntry(Widget parent, int i) {
+ 	XmString xmtt; char tt[MAXNAME]; char ttinfo[MAXNAME];
+ 	Widget form = XtVaCreateWidget("form", 
+-		xmFormWidgetClass, parent, 0);
++		xmFormWidgetClass, parent, NULL);
+ 	Widget button = XtVaCreateManagedWidget(Toolkit::TOOL_NAMES[i], 
+ 		xmPushButtonWidgetClass, form, XmNwidth, 50, 
+ 		XmNheight, 22,
+@@ -374,7 +374,7 @@
+ 		XmNbottomAttachment, XmATTACH_FORM,
+ 		XmNleftAttachment, XmATTACH_FORM, 
+ 		XmNuserData, i,
+-		0);
++		NULL);
+ 	strcpy(tt, Toolkit::DOCUMENT_TYPES[i]);
+ 	xmtt = CreateXmString(tt);
+ 	strcpy(ttinfo, Toolkit::DOCUMENT_TYPES_INFO[i]);
+@@ -386,7 +386,7 @@
+ 		XmNtopAttachment, XmATTACH_FORM,
+ 		XmNbottomAttachment, XmATTACH_FORM,
+ 		XmNleftOffset, 6,
+-		0);
++		NULL);
+ 	XtAddCallback(button, XmNactivateCallback, StartEditorCB, 
+ 			(XtPointer *)this);
+ 	XmStringFree(xmtt);
+@@ -600,7 +600,7 @@
+ 
+ void StartupWindow::SetStatus(const char *s) {
+ 	if (statusBar)
+-		XtVaSetValues(statusBar, XmNvalue, s, 0);
++		XtVaSetValues(statusBar, XmNvalue, s, NULL);
+ }
+ 
+ void StartupWindow::SetStatus(const string *s) {
+@@ -661,7 +661,7 @@
+ void StartupWindow::StartEditorCB(Widget w, XtPointer clientData, XtPointer) {
+ 	StartupWindow *s = (StartupWindow *)clientData;
+ 	int num;
+-	XtVaGetValues(w, XmNuserData, &num, 0);
++	XtVaGetValues(w, XmNuserData, &num, NULL);
+ 	s->StartEditor(num);
+ }
+ 
+@@ -735,13 +735,13 @@
+ 	Helper *hp = (Helper *)cd;
+ 	hp->SetStatus("action: help");
+ 	Helper::HelpTopicType tp;
+-	XtVaGetValues(w, XmNuserData, &tp, 0);
++	XtVaGetValues(w, XmNuserData, &tp, NULL);
+ 	hp->Help(tp);
+ }
+ 
+ void StartupWindow::Finalize() {
+ 	Dimension fwd, fht;
+-	XtVaGetValues(mainForm, XmNwidth, &fwd, XmNheight, &fht, 0);
++	XtVaGetValues(mainForm, XmNwidth, &fwd, XmNheight, &fht, NULL);
+ 	// std::cout << "mainForm width = " << fwd << std::endl;
+ 	// std::cout << "mainForm height = " << fht << std::endl;
+ 	Screen *screen = XtScreen(GetWidget());
+@@ -752,6 +752,6 @@
+ 	Dimension ht = min(sht*9/10, fht+39);  // experimentally
+ 	// std::cout << "win width = " << wd << std::endl;
+ 	// std::cout << "win height = " << ht << std::endl;
+-	XtVaSetValues(GetWidget(), XmNwidth, wd, 0);
+-	XtVaSetValues(GetWidget(), XmNheight, ht, 0);
++	XtVaSetValues(GetWidget(), XmNwidth, wd, NULL);
++	XtVaSetValues(GetWidget(), XmNheight, ht, NULL);
+ }
+diff -Nur tcm-2.20+TSQD.orig/src/sd/bv/psstubs.c tcm-2.20+TSQD/src/sd/bv/psstubs.c
+--- tcm-2.20.orig/src/sd/bv/psstubs.c	2004-07-21 19:54:14.000000000 +0200
++++ tcm-2.20/src/sd/bv/psstubs.c	2006-04-02 15:13:09.000000000 +0200
+@@ -25,6 +25,6 @@
+ 
+ void PSStubs::ShowSequenceCB(Widget w, XtPointer cd, XtPointer) {
+ 	int num;
+-	XtVaGetValues(w, XmNuserData, &num, 0);
++	XtVaGetValues(w, XmNuserData, &num, NULL);
+ 	((PSViewer *)cd)->SetShowSequences(num);
+ }
+diff -Nur tcm-2.20+TSQD.orig/src/sd/bv/pswindow.c tcm-2.20+TSQD/src/sd/bv/pswindow.c
+--- tcm-2.20.orig/src/sd/bv/pswindow.c	2004-07-21 19:54:20.000000000 +0200
++++ tcm-2.20/src/sd/bv/pswindow.c	2006-04-02 15:13:09.000000000 +0200
+@@ -75,7 +75,7 @@
+ //	// make the duplicate item insensitive.
+ //	Widget w1 = editMenu->GetMenuItem("Duplicate");
+ //	if (w1)
+-//		XtVaSetValues(w1, XmNsensitive, False, 0);
++//		XtVaSetValues(w1, XmNsensitive, False, NULL);
+ //	return bar;
+ //}
+ 
+diff -Nur tcm-2.20+TSQD.orig/src/sd/dv/erstubs.c tcm-2.20+TSQD/src/sd/dv/erstubs.c
+--- tcm-2.20.orig/src/sd/dv/erstubs.c	2004-07-21 19:53:12.000000000 +0200
++++ tcm-2.20/src/sd/dv/erstubs.c	2006-04-02 15:13:09.000000000 +0200
+@@ -36,7 +36,7 @@
+         // get menu item label and look to which dir it corresponds
+         XmString xms;
+         xms = CreateXmString("");
+-        XtVaGetValues(w, XmNlabelString, &xms, 0);
++        XtVaGetValues(w, XmNlabelString, &xms, NULL);
+         char *txt;
+         ReadDirection::Type dir;
+         if (XmStringGetLtoR(xms, XmFONTLIST_DEFAULT_TAG, &txt)) {
+diff -Nur tcm-2.20+TSQD.orig/src/sd/fv/dfwindow.c tcm-2.20+TSQD/src/sd/fv/dfwindow.c
+--- tcm-2.20.orig/src/sd/fv/dfwindow.c	2004-07-21 19:56:20.000000000 +0200
++++ tcm-2.20/src/sd/fv/dfwindow.c	2006-04-02 15:13:09.000000000 +0200
+@@ -87,7 +87,7 @@
+ 
+ void DFWindow::SetDiagram(const char *s) {
+ 	if (dfDiagram)
+-		XtVaSetValues(dfDiagram, XmNvalue, s, 0); 
++		XtVaSetValues(dfDiagram, XmNvalue, s, NULL); 
+ }
+  
+ void DFWindow::SetDiagram(const string *s) {
+@@ -108,9 +108,9 @@
+ 		XmNtopAttachment, XmATTACH_WIDGET,
+ 		XmNtopWidget, GetDocumentArea(),
+ 		XmNleftAttachment, XmATTACH_FORM,
+-		XmNorientation, XmVERTICAL, 0);
+-	Widget t1 = XtVaCreateWidget("tiles1", xmRowColumnWidgetClass, t, 0);
+-	Widget t2 = XtVaCreateWidget("tiles2", xmRowColumnWidgetClass, t, 0);
++		XmNorientation, XmVERTICAL, NULL);
++	Widget t1 = XtVaCreateWidget("tiles1", xmRowColumnWidgetClass, t, NULL);
++	Widget t2 = XtVaCreateWidget("tiles2", xmRowColumnWidgetClass, t, NULL);
+ 	CreateNodeIcons(t1);
+ 	CreateEdgeIcons(t1);
+ 	CreateDiagramField(t2);
+@@ -124,15 +124,15 @@
+ void DFWindow::CreateDiagramField(Widget parent) {
+ 	Widget frame = XtVaCreateManagedWidget("tiles_frame3",
+ 		xmFrameWidgetClass, parent,
+-		XmNshadowType, XmSHADOW_ETCHED_IN, 0);
++		XmNshadowType, XmSHADOW_ETCHED_IN, NULL);
+ 	Widget rc = XtVaCreateWidget("rc3", xmRowColumnWidgetClass, frame,
+-			XmNentryAlignment, XmALIGNMENT_CENTER, 0);
+-	XtVaCreateManagedWidget("Diagram", xmLabelWidgetClass, rc, 0);
++			XmNentryAlignment, XmALIGNMENT_CENTER, NULL);
++	XtVaCreateManagedWidget("Diagram", xmLabelWidgetClass, rc, NULL);
+ 	dfDiagram = XtVaCreateManagedWidget("DFDiagram",
+ 			xmTextFieldWidgetClass, rc,
+ 			XmNcolumns, 5,
+ 			XmNeditable, True,
+-			XmNcursorPositionVisible, True, 0);
++			XmNcursorPositionVisible, True, NULL);
+ 	XtAddCallback(dfDiagram, XmNactivateCallback, 
+ 	 		DFStubs::ChangeDiagramCB, (XtPointer)GetDocument());
+ 	AddLiteClue(dfDiagram, "Set diagram index (apply with <return>)");
