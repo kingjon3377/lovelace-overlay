@@ -34,6 +34,7 @@ src_prepare() {
 	done <<-EOF
 01_makefile
 02_export_png
+02_export_png_2
 12_quote_system_call
 13_fix_flex_compile
 15_fix_gcc_4_0
