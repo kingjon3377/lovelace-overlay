@@ -1,0 +1,69 @@
+--- aft-5.097.orig/aft-xhtml.dat
++++ aft-5.097/aft-xhtml.dat
+@@ -9,7 +9,7 @@
+ # element markup. 
+ #
+ Preamble{
+-<?xml version=\'1.0\' encoding=\'iso-8859-1\'?>
++<?xml version='1.0' encoding='iso-8859-1'?>
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+ <html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+--- aft-5.097.orig/Makefile.in
++++ aft-5.097/Makefile.in
+@@ -144,7 +144,7 @@
+ 
+ pkgdata_DATA = $(BUILT_SOURCES) AFT.pm
+ pkgdata_SCRIPTS = compile.pl postrtf.pl launch_ie.pl
+-DOCS = aft2rtf-doc.rtf aft-refman.html
++DOCS = aft2rtf-doc.html aft-refman.html
+ TOCS = aft2rtf-doc.aft-TOC aft-refman.aft-TOC
+ MISCDOCS = aft.gif aft.jpg aft.eps ChangeLog.aft
+ docdir = $(datadir)/doc/@PACKAGE@
+@@ -562,8 +562,8 @@
+ .dat.pm:
+ 	@PERL@ compile.pl $<
+ 
+-aft2rtf-doc.rtf: aft2rtf-doc.aft
+-	@PERL@ aft.pl --type=rtf aft2rtf-doc.aft
++aft2rtf-doc.html: aft2rtf-doc.aft
++	@PERL@ aft.pl --type=html aft2rtf-doc.aft
+ 
+ aft-refman.html: aft-refman.aft
+ 	@PERL@ aft.pl --type=bn-html aft-refman.aft
+--- aft-5.097.orig/compile.pl
++++ aft-5.097/compile.pl
+@@ -1,7 +1,4 @@
+-: # use perl                                  -*- mode: Perl; -*-
+-	eval 'exec perl -S $0 "$@"'
+-		if $running_under_some_shell;
+-
++#!/usr/bin/perl
+ #
+ # compile.pl - AFT element file compiler.
+ #
+--- aft-5.097.orig/postrtf.pl
++++ aft-5.097/postrtf.pl
+@@ -1,3 +1,4 @@
++#!/usr/bin/perl
+ #
+ # postrtf.pl - postprocessing of rtf-files generated from AFT
+ #
+@@ -148,4 +149,5 @@
+ 
+ open(FILE, ">$rtffile") || die "postrtf: $rtffile couldn't be opened: $!\n";
+ print FILE $STR;
+-close (FILE);
+\ No newline at end of file
++close (FILE);
++
+--- aft-5.097.orig/aft.in
++++ aft-5.097/aft.in
+@@ -1,6 +1,4 @@
+-: # use perl                                  -*- mode: Perl; -*-
+-	eval 'exec perl -S $0 "$@"'
+-		if $running_under_some_shell;
++#!/usr/bin/perl
+ 
+ use strict;
+ use lib "@prefix@/share/@PACKAGE@";

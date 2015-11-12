@@ -1,0 +1,16 @@
+--- polygen-1.0.6/src/lexer.mll	2005-11-21 20:21:00.000000000 +0100
++++ polygen-1.0.6/src/lexer.mll	2005-12-11 23:44:49.000000000 +0100
+@@ -24,12 +24,7 @@
+                       let c = String.make 1 (char_of_int (int_of_string s))
+                       in
+                           c ^ (quote lexbuf) }
+-
+-  | ['a'-'z' 'A'-'Z' '0'-'9' '!' '£' '$' '%' '&' '/' '(' ')' '=' '?' '^' '\''
+-     '[' ']' '*' '+' '@' '#' '<' '>' ',' '.' '-' ';' ':' '_' '{' '}' '`' '~'
+-     '|' ' ']       { let s = Lexing.lexeme lexbuf in s ^ (quote lexbuf) }
+-
+-  | _                { raise (Failure ("illegal character '" ^ (String.escaped (Lexing.lexeme lexbuf)) ^ "' within quote")) }
++  | _               { let s = Lexing.lexeme lexbuf in s ^ (quote lexbuf) }
+ 
+ and comment = parse
+     "*)"            { token lexbuf }

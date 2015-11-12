@@ -1,0 +1,22 @@
+From 6d8506d2797ba129637b5268338f081dd37667ab Mon Sep 17 00:00:00 2001
+From: Michael Hartl <michael@michaelhartl.com>
+Date: Tue, 12 Feb 2013 17:06:16 -0800
+Subject: [PATCH 02/19] Use same gemset as polytexnic-core (mainly for
+ pivotal-github)
+
+---
+ .rvmrc | 1 +
+ 1 file changed, 1 insertion(+)
+ create mode 100644 .rvmrc
+
+diff --git a/.rvmrc b/.rvmrc
+new file mode 100644
+index 0000000..c216366
+--- /dev/null
++++ b/.rvmrc
+@@ -0,0 +1 @@
++rvm use 1.9.3@polytexnic-core
+\ No newline at end of file
+-- 
+1.8.5.5
+

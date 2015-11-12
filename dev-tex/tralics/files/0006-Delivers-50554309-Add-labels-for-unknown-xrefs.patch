@@ -1,0 +1,61 @@
+From 5164df1cdf978da0e8eb28d38b6e8fd2baf8f47b Mon Sep 17 00:00:00 2001
+From: Michael Hartl <michael@michaelhartl.com>
+Date: Fri, 24 May 2013 22:48:42 -0700
+Subject: [PATCH 06/19] [Delivers #50554309] Add labels for unknown xrefs
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+When the label `cha:bar` is undefined, the result is to have, e.g.,
+
+    Chapter <ref target='cha:bar'/>
+
+instead of
+
+    Chapter <ref />
+
+This allows the display of the missing label in the HTML for reference.
+
+Note: this un-does the deletion to work around the ^M issue. (If
+that comment makes no sense, ignore it.)
+---
+ Modele/testerr.xml |   4 ++--
+ src/txpost.C       |   1 +
+ 2 files changed, 2 insertions(+), 1 deletions(-)
+
+diff --git a/Modele/testerr.xml b/Modele/testerr.xml
+index 298fe0c..e95cc6d 100644
+--- a/Modele/testerr.xml
++++ b/Modele/testerr.xml
+@@ -1,6 +1,6 @@
+ <?xml version='1.0' encoding='UTF-8'?>
+ <!DOCTYPE book SYSTEM 'classes.dtd'>
+-<!-- Translated from latex by tralics 2.14.5, date: 2012/05/14-->
++<!-- Translated from latex by tralics 2.15.0, date: 2013/05/24-->
+ <book>
+ <error n='\DeclareStringOption' l='13' c='bad redef'/><error n='\DeclareVoidOption' l='13' c='bad redef'/><error n='\DeclareBoolOption' l='14' c='bad redef'/><error n='\DeclareBoolOption' l='15' c='bad redef'/><error n='\DeclareBoolOption' l='16' c='bad redef'/><error n='\DeclareComplementaryOption' l='17' c='bad redef'/><error n='\DeclareComplementaryOption' l='18' c='bad redef'/><error n='\DeclareComplementaryOption' l='19' c='bad redef'/><error n='\KVO@boolkey' l='20' c='bad bool'/><error n='\KVO@voidkey' l='20' c='bad opt'/><error n='\PackageError' l='26' c='uerror'/><error n='\PackageError' l='27' c='uerror'/><error n='\PackageError' l='29' c='uerror'/><p>This document contains a number of errors.
+ <error n='\For' l='70' c='Undefined command'/><error n='\instance' l='70' c='Undefined command'/><error n='\this' l='70' c='Undefined command'/><error n='\sentence' l='70' c='Undefined command'/>.
+@@ -129,7 +129,7 @@ Error here
+ <error n='\tralics@get@config' l='263' c='illegal data'/><error n='\tralics@get@config' l='263' c='illegal data'/><error n='\tralics@get@config' l='263' c='illegal data'/><pers prenom='a' nom='de Pers3' affiliation='' profession='' hdr='hdr' research-centre='Lyon'>d</pers></p>
+ <p>X<error n='&amp;' l='265' c='Unexpected ampersand'/><error n='\\' l='265' c='Bad use of \\'/>and <error n='\newline' l='265' c='Bad use of \newline'/>
+ <figure rend='inline' file='a.b.c'/><error n='\error' l='266' c='Wrong dots in graphic file a.b.c'/>
+-<ref/>
++<ref target='mod:a'/>
+ <error n='\PackageError' l='268' c='uerror'/></p>
+ <accueil isproject='true' html='testerr'>
+ <theme><error n='\tralics@get@config' l='278' c='Bad theme'/>com</theme>
+diff --git a/src/txpost.C b/src/txpost.C
+index 968b911..93a06e4 100644
+--- a/src/txpost.C
++++ b/src/txpost.C
+@@ -137,6 +137,7 @@ void Parser::check_all_ids()
+ 		  << "undefined label `" << V 
+ 		  << "' (first use at line " << L->get_lineno() 
+ 		  << " in file " << L->get_filename() << ")";
++      Xid(E).add_attribute(the_names[np_target],V);
+       Istring B = L->get_id();
+       for(unsigned int j=0;j<removed_labels.size(); j++) {
+ 	if(removed_labels[j].second==B)
+-- 
+1.8.5.5
+

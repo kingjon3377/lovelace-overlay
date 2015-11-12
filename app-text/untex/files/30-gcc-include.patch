@@ -1,0 +1,18 @@
+From: Jari Aalto <jari.aalto@cante.net>
+Subject: Add missing includes for functions strcat(), exit() etc.
+
+---
+ untex.c |    2 ++
+ 1 file changed, 2 insertions(+)
+
+--- a/untex.c
++++ b/untex.c
+@@ -41,6 +41,8 @@
+ */
+ 
+ 
++#include <string.h>
++#include <stdlib.h>
+ #include <stddef.h>
+ #include <stdio.h>
+ #include <ctype.h>

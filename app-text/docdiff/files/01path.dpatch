@@ -1,0 +1,115 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## 01patch.dpatch by Kenshi Muto <kmuto@debian.org>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: No description.
+
+@DPATCH@
+diff -urNad docdiff-0.3.4~/devutil/char_by_charclass.rb docdiff-0.3.4/devutil/char_by_charclass.rb
+--- docdiff-0.3.4~/devutil/char_by_charclass.rb	2007-10-06 16:58:41.000000000 +0000
++++ docdiff-0.3.4/devutil/char_by_charclass.rb	2007-12-10 05:49:39.000000000 +0000
+@@ -1,4 +1,4 @@
+-#!/usr/bin/ruby
++#!/usr/bin/ruby1.8
+ # test character classes on ASCII characters.
+ # 2003-03-10 Hisashi MORITA
+ 
+diff -urNad docdiff-0.3.4~/devutil/charclass_by_char.rb docdiff-0.3.4/devutil/charclass_by_char.rb
+--- docdiff-0.3.4~/devutil/charclass_by_char.rb	2007-10-06 16:58:41.000000000 +0000
++++ docdiff-0.3.4/devutil/charclass_by_char.rb	2007-12-10 05:49:49.000000000 +0000
+@@ -1,4 +1,4 @@
+-#!/usr/bin/ruby
++#!/usr/bin/ruby1.8
+ # test character classes on ASCII characters.
+ # 2003-03-10 Hisashi MORITA
+ 
+diff -urNad docdiff-0.3.4~/devutil/jis0208.rb docdiff-0.3.4/devutil/jis0208.rb
+--- docdiff-0.3.4~/devutil/jis0208.rb	2007-10-06 16:58:41.000000000 +0000
++++ docdiff-0.3.4/devutil/jis0208.rb	2007-12-10 05:49:55.000000000 +0000
+@@ -1,4 +1,4 @@
+-#!/usr/bin/ruby
++#!/usr/bin/ruby1.8
+ # Extracts multibyte characters from JIS0208.TXT.
+ # (ftp://ftp.unicode.org/Public/MAPPINGS/OBSOLETE/EASTASIA/JIS/JIS0208.TXT)
+ # 2003-03-03 .. 20xx-xx-xx, Hisashi MORITA.  Use freely at your own risk.
+diff -urNad docdiff-0.3.4~/docdiff/charstring.rb docdiff-0.3.4/docdiff/charstring.rb
+--- docdiff-0.3.4~/docdiff/charstring.rb	2007-10-06 16:58:40.000000000 +0000
++++ docdiff-0.3.4/docdiff/charstring.rb	2007-12-10 05:50:51.000000000 +0000
+@@ -1,4 +1,4 @@
+-#!/usr/bin/ruby
++#!/usr/bin/ruby1.8
+ # Character String module.
+ # To use, include to String, or extend String.
+ # 2003- Hisashi MORITA
+diff -urNad docdiff-0.3.4~/docdiff/view.rb docdiff-0.3.4/docdiff/view.rb
+--- docdiff-0.3.4~/docdiff/view.rb	2007-12-09 08:14:09.000000000 +0000
++++ docdiff-0.3.4/docdiff/view.rb	2007-12-10 05:50:53.000000000 +0000
+@@ -1,4 +1,4 @@
+-#!/usr/bin/ruby
++#!/usr/bin/ruby1.8
+ 
+ class String
+   def scan_lines(eol)
+diff -urNad docdiff-0.3.4~/docdiff.rb docdiff-0.3.4/docdiff.rb
+--- docdiff-0.3.4~/docdiff.rb	2007-12-09 06:56:40.000000000 +0000
++++ docdiff-0.3.4/docdiff.rb	2007-12-10 05:49:02.000000000 +0000
+@@ -1,4 +1,4 @@
+-#!/usr/bin/ruby
++#!/usr/bin/ruby1.8
+ # DocDiff: word/char-oriented text comparison utility
+ # 2002-06-27 Thu ... 200x-xx-xx xxx
+ # Hisashi MORITA
+diff -urNad docdiff-0.3.4~/docdiffwebui.cgi docdiff-0.3.4/docdiffwebui.cgi
+--- docdiff-0.3.4~/docdiffwebui.cgi	2007-10-06 16:58:41.000000000 +0000
++++ docdiff-0.3.4/docdiffwebui.cgi	2007-12-10 05:49:21.000000000 +0000
+@@ -1,4 +1,4 @@
+-#!/usr/bin/ruby
++#!/usr/bin/ruby1.8
+ # DocDiff Web UI (CGI)
+ # 2005-10-08.. Hisashi Morita
+ # requirement: Ruby 1.8+ (for timeout.rb)
+diff -urNad docdiff-0.3.4~/testcharstring.rb docdiff-0.3.4/testcharstring.rb
+--- docdiff-0.3.4~/testcharstring.rb	2007-10-06 16:58:41.000000000 +0000
++++ docdiff-0.3.4/testcharstring.rb	2007-12-10 05:50:23.000000000 +0000
+@@ -1,4 +1,4 @@
+-#!/usr/bin/ruby
++#!/usr/bin/ruby1.8
+ require 'test/unit'
+ require 'docdiff/charstring'
+ require 'nkf'
+diff -urNad docdiff-0.3.4~/testdifference.rb docdiff-0.3.4/testdifference.rb
+--- docdiff-0.3.4~/testdifference.rb	2007-10-06 16:58:41.000000000 +0000
++++ docdiff-0.3.4/testdifference.rb	2007-12-10 05:50:25.000000000 +0000
+@@ -1,4 +1,4 @@
+-#!/usr/bin/ruby
++#!/usr/bin/ruby1.8
+ require 'test/unit'
+ require 'docdiff/difference'
+ require 'nkf'
+diff -urNad docdiff-0.3.4~/testdocdiff.rb docdiff-0.3.4/testdocdiff.rb
+--- docdiff-0.3.4~/testdocdiff.rb	2007-10-06 16:58:41.000000000 +0000
++++ docdiff-0.3.4/testdocdiff.rb	2007-12-10 05:50:27.000000000 +0000
+@@ -1,4 +1,4 @@
+-#!/usr/bin/ruby
++#!/usr/bin/ruby1.8
+ require 'test/unit'
+ require 'docdiff'
+ require 'nkf'
+diff -urNad docdiff-0.3.4~/testdocument.rb docdiff-0.3.4/testdocument.rb
+--- docdiff-0.3.4~/testdocument.rb	2007-10-06 16:58:41.000000000 +0000
++++ docdiff-0.3.4/testdocument.rb	2007-12-10 05:50:30.000000000 +0000
+@@ -1,4 +1,4 @@
+-#!/usr/bin/ruby
++#!/usr/bin/ruby1.8
+ require 'test/unit'
+ require 'docdiff/document'
+ require 'nkf'
+diff -urNad docdiff-0.3.4~/testview.rb docdiff-0.3.4/testview.rb
+--- docdiff-0.3.4~/testview.rb	2007-12-09 06:11:31.000000000 +0000
++++ docdiff-0.3.4/testview.rb	2007-12-10 05:50:33.000000000 +0000
+@@ -1,4 +1,4 @@
+-#!/usr/bin/ruby
++#!/usr/bin/ruby1.8
+ require 'test/unit'
+ require 'docdiff/view'
+ require 'docdiff/difference'

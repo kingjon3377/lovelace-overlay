@@ -1,0 +1,15 @@
+diff -ru src.old/Makefile src/Makefile
+--- src.old/Makefile	2011-01-15 21:01:31.000000000 -0500
++++ src/Makefile	2011-01-15 21:02:27.000000000 -0500
+@@ -148,9 +148,9 @@
+ INSTALL_PROGRAM = ${INSTALL}
+ INSTALL_SCRIPT = ${INSTALL}
+ INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
+-LDFLAGS = -L/usr/X11R6/lib  -Wl,-O1 -Wl,--as-needed -lSDL -lpthread -lSDL_mixer -lpng14  
++LDFLAGS = -L/usr/X11R6/lib  -Wl,-O1 -Wl,--as-needed 
+ LIBOBJS = 
+-LIBS = -lSDL_net -lSDL_image -lGLU -lGL 
++LIBS = -lSDL_net -lSDL_image -lGLU -lGL -lSDL -lpthread -lSDL_mixer -lpng14  
+ LTLIBOBJS = 
+ MAKEINFO = ${SHELL} /var/tmp/portage/games-simulation/opencity-0.0.6.2/work/opencity-0.0.6.2stable/missing --run makeinfo
+ MKDIR_P = /bin/mkdir -p

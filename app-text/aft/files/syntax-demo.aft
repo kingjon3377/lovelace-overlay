@@ -1,0 +1,122 @@
+#---TABSTOP=3
+*Title: We should not see the Hello World Title
+here is a para
+   *a bullet
+   a continuation. Will? we be able to wrap to another continuation? Wrap wrap
+   wrap, yep
+
+   should be literal mode, i am going to check on the wrapping wrapping
+   wrapping, yep it all lines up
+      no centering but not positioned quite where I expect
+
+      are we centred? yes
+      still centred? yes
+		hard tab centred? yes
+
+here is a para before the title and toc
+
+*Title: Hello world. 
+*TOC I get eaten. TOC not broken.
+
+*Image:  aft.gif
+*Image-center: aft.gif 
+
+*A section.
+**Double section.
+**Second double section.
+   **Not a section but a list.
+
+another para
+ 
+there was a blank there, but this won't be a separate para
+ 
+ 
+and another here all one para
+
+   we think we_are_in_verbatim_mode_ so don't balance the stuff. 
+could be fooled up color
+^<< 
+we think we_are_in_verbatim_mode_ so don't balance the stuff. All diff. para.
+^>>
+more possibly fooled up color
+
+new para (in this case empty line, blank, empty line) -- won't give extra 
+space between paras
+
+}+Very _Important_ Information+{
+
+   1 not a numbered list -- you need a blank space below
+
+   2. a numbered list
+   3). another _numbered_ list with a .
+   4) another list with no .
+   a continuation
+   
+   [four?]
+   . five?
+   yes named list continuation
+  more continue should fail
+5. oughto be plain and one para.
+
+   # A test of a quote
+   with a continuation.
+
+   ! Here should be the start of a table !
+   !-------------------------------------!
+   ! 1 ! 2 ! 3 ! 4 ! 5 ! 6! 7 ! 8 ! 9 ! 
+   no continue
+
+^<<Filter Is this eaten? Yes
+Here is _some_ literal text.
+ ^>> and _this __ won't_ end it.
+^>>
+
+Back to normal text.
+
+ #--- not a comment
+#--- here is a comment
+
+-------- eaten
+
+try tabbing all these lines back and forth to see tab, double tab hilights
+or lack of for most of below (else we get bleeding for face stuff)
+
+''Here is a para that
+should be all italic.''
+
+This is bold
+screwed up._
+
+_
+
+A plain para.
+
+_This is bold working, but according
+to doc. should be screwed. This is_bold?
+
+word_with_bold
+
+   as its literal mode _no bold_
+
+|Tele type line.| more plaine
+plaine |Teletype line.| more plaine
+|~small in the _same_ para.~| end of para
+
+A long para. about some I don't know, it could be some very very very
+{+Very _Important_ Information+}, which must have the ref on one line.
+
+try https and other stuff too
+http://home.thezone.net/~dbourgeo/. (period?)
+http://www.vim.org.
+mailto:dbourgeo@thezone.net (fails)
+#---PASS-HTML <a href=mailto:dbourgeo@thezone.net>dbourgeo@thezone.net</a>
+ftp://hello.net
+
+Try a non-visible mailto: {-Mail me@mailto:dbourgeo@thezone.net-}.
+Visible mailto: {+mailto:dbourgeo@thezone.net+} (no lead/trail spaces, etc.)
+Try a file: {+file:myfile+}
+
+This ref {+Is screwed up-}
+So is this one }- I am on
+two lines. -{
+A word or two. All one para.

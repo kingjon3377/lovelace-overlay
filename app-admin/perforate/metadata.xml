@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+ <longdescription>GNU cp used to detect files that contain 0-filled holes and
+   save disk space by skipping them with lseek when writing a file and thus not
+   allocating disk blocks. Unfortunately it does no longer. So here is program
+   to make holes in existing files.
+
+   Also there are some scripts that help cleaning up the hard disk (finding
+   duplicated and/or unstripped files).</longdescription>
+</pkgmetadata>

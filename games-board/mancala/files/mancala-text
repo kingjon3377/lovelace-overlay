@@ -1,0 +1,15 @@
+#!/bin/sh
+
+# mancala-text - short script to run mancala in xterm for debian
+
+# Andrew Gray <ajpg@debian.org>, Sat, 15 Jul 2008 00:16:28 +0100
+
+# Modified for Gentoo's documentation location and games binary dir by Jonathan
+# Lovelace <kingjon3377@gmail.com> 2014-09-16
+
+echo "Rules are in file /usr/share/doc/REPLACEME/RULES under Gentoo."
+echo ""
+GAMESDIR/mancala 0 4
+echo ""
+printf "Finished - press ENTER  "
+read RUBBISH

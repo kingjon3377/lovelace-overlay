@@ -1,0 +1,47 @@
+Author: Paul Wise <pabs@debian.org>
+Description: Allow Linux distros to specify an absolute path to the graphics and use ~/.primrose for settings.
+Forwarded: http://sf.net/support/tracker.php?aid=2740890
+--- a/tilePlacementGames/game1/gameSource/common.cpp
++++ b/tilePlacementGames/game1/gameSource/common.cpp
+@@ -12,7 +12,7 @@
+ 
+ 
+ Image *readTGA( char *inFileName ) {
+-    return readTGA( "graphics", inFileName );
++    return readTGA( DATADIR"graphics", inFileName );
+     }
+ 
+ 
+--- a/tilePlacementGames/game1/gameSource/game.cpp
++++ b/tilePlacementGames/game1/gameSource/game.cpp
+@@ -23,6 +23,10 @@
+ 
+ #include <GL/gl.h>
+ 
++#include <string.h>
++#include <stdlib.h>
++#include <sys/stat.h>
++#include <sys/types.h>
+ 
+ #include "minorGems/util/random/CustomRandomSource.h"
+ #include "minorGems/util/SettingsManager.h"
+@@ -491,6 +495,19 @@
+     #endif
+ 
+ 
++    #define SETTINGS "/.primrose"
++    char* home = getenv( "HOME" );
++    size_t len = strlen( home );
++    size_t len2 = sizeof( SETTINGS );
++    char* dir = (char*)malloc( len + len2 );
++    if( dir ){
++        strcpy( dir, home );
++        if( dir[len-1] == '/') strcpy( dir + len - 1, SETTINGS );
++        else strcpy( dir + len, SETTINGS );
++        mkdir( dir, 0777 );
++        SettingsManager::setDirectoryName( dir );
++    }
++
+ 
+ 
+     // don't use the same salt every time

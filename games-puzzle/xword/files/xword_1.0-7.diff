@@ -1,0 +1,155 @@
+--- xword-1.0.orig/xword
++++ xword-1.0/xword
+@@ -1,7 +1,8 @@
+ #!/usr/bin/python
+  
+-# Copyright (c) 2005-2006,
++# Copyright (c) 2005-2006, 2009
+ #   Bill McCloskey    <bill.mccloskey@gmail.com>
++#   Dafydd Harries    <daf@rhydd.org>
+ # All rights reserved.
+ 
+ # Redistribution and use in source and binary forms, with or without
+@@ -51,7 +52,7 @@
+ import pickle
+ import ConfigParser
+ 
+-HOME_PATH = os.path.dirname(sys.argv[0])
++HOME_PATH = '/usr/share/games/xword'
+ CHECK_ICON = HOME_PATH + '/crossword-check.png'
+ CHECK_ALL_ICON = HOME_PATH + '/crossword-check-all.png'
+ SOLVE_ICON = HOME_PATH + '/crossword-solve.png'
+@@ -263,35 +264,39 @@
+         number = 1
+         for y in range(self.height):
+             for x in range(self.width):
+-                is_fresh_x = self.is_black(x-1, y)
+-                is_fresh_y = self.is_black(x, y-1)
++                new_across = False
++                new_down = False
+ 
+                 if not self.is_black(x, y):
+-                    if is_fresh_x:
+-                        self.across_map[x, y] = number
+-                        if self.is_black(x+1, y):
+-                            self.across_clues[number] = ''
+-                        else:
+-                            self.across_clues[number] = self.clues.pop(0)
+-                    else: self.across_map[x, y] = self.across_map[x-1, y]
++                    if ((x, y) not in self.across_map and
++                            not self.is_black(x+1, y)):
++                        new_across = True
++                        self.across_clues[number] = self.clues.pop(0)
++
++                        for x_ in range(x, self.width):
++                            if self.is_black(x_, y):
++                                break
++
++                            self.across_map[x_, y] = number
+                     
+-                    if is_fresh_y:
+-                        self.down_map[x, y] = number
+-                        if self.is_black(x, y+1): # see April 30, 2006 puzzle
+-                            self.down_clues[number] = ''
+-                        else:
+-                            self.down_clues[number] = self.clues.pop(0)
+-                    else: self.down_map[x, y] = self.down_map[x, y-1]
+-
+-                    if is_fresh_x or is_fresh_y:
+-                        self.is_across[number] = is_fresh_x
+-                        self.is_down[number] = is_fresh_y
++                    if ((x, y) not in self.down_map and
++                            # see April 30, 2006 puzzle
++                            not self.is_black(x, y+1)):
++                        new_down = True
++                        self.down_clues[number] = self.clues.pop(0)
++
++                        for y_ in range(y, self.height):
++                            if self.is_black(x, y_):
++                                break
++
++                            self.down_map[x, y_] = number
++
++                    if new_across or new_down:
++                        self.is_across[number] = new_across
++                        self.is_down[number] = new_down
+                         self.number_map[number] = (x, y)
+                         self.number_rev_map[x, y] = number
+                         number += 1
+-                else:
+-                    self.across_map[x, y] = 0
+-                    self.down_map[x, y] = 0
+         self.max_number = number-1
+ 
+     def hashcode(self):
+@@ -378,6 +383,14 @@
+             if mode == DOWN and self.is_down[n]: break
+         return n
+ 
++    def first_number(self, mode):
++        n = 1
++        while True:
++            if mode == ACROSS and self.is_across[n]: break
++            if mode == DOWN and self.is_down[n]: break
++            n += 1
++        return n
++
+     def final_number(self, mode):
+         n = self.max_number
+         while True:
+@@ -934,9 +947,7 @@
+         self.selection = []
+ 
+         self.mode = ACROSS
+-        (x, y) = (0, 0)
+-        if puzzle.is_black(x, y):
+-            ((x, y), _) = puzzle.next_cell(0, 0, ACROSS, 1, True)
++        x, y = self.puzzle.number_map[self.puzzle.first_number(ACROSS)]
+         self.move_to(x, y)
+ 
+     def connect(self, ev, handler):
+@@ -996,8 +1007,15 @@
+                 self.do_update('box-update', xp, yp)
+ 
+             self.do_update('title-update')
+-            self.do_update('across-update', self.puzzle.number(x, y, ACROSS))
+-            self.do_update('down-update', self.puzzle.number(x, y, DOWN))
++
++            if (x, y) not in self.puzzle.mode_maps[self.mode]:
++                self.switch_mode()
++
++            if (x, y) in self.puzzle.across_map:
++                self.do_update('across-update', self.puzzle.number(x, y, ACROSS))
++
++            if (x, y) in self.puzzle.down_map:
++                self.do_update('down-update', self.puzzle.number(x, y, DOWN))
+ 
+     def select_word(self, mode, n):
+         if mode <> self.mode: self.switch_mode()
+@@ -1023,7 +1041,7 @@
+             ((x, y), _) = self.puzzle.next_cell(self.x, self.y,
+                                                 self.mode, amt, skip_black)
+             self.move_to(x, y)
+-        else:
++        elif (self.x, self.y) in self.puzzle.mode_maps[1 - self.mode]:
+             self.switch_mode()
+ 
+     def back_space(self):
+@@ -1037,7 +1055,7 @@
+         n = self.puzzle.incr_number(self.x, self.y, self.mode, incr)
+         if n == 0:
+             self.switch_mode()
+-            if incr == 1: n = 1
++            if incr == 1: n = self.puzzle.first_number(self.mode)
+             else: n = self.puzzle.final_number(self.mode)
+         (x, y) = self.puzzle.number_map[n]
+         (x, y) = self.puzzle.find_blank_cell(x, y, self.mode, 1)
+@@ -1683,6 +1701,8 @@
+ 
+     def puzzle_key_event(self, item, event):
+         name = gtk.gdk.keyval_name(event.keyval)
++        if name is None:
++            return False
+         c = self.control
+         if len(name) is 1 and name.isalpha():
+             c.input_char(self.skip_filled, name)

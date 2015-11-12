@@ -1,0 +1,61 @@
+--- mailliststat-1.3.orig/mls_text.h
++++ mailliststat-1.3/mls_text.h
+@@ -30,7 +30,8 @@
+ void PrintTopQ(nTptr, int);
+ void PrintTopHtml(nTptr, int);
+ void PrintGraph(long[], int, int);
+-void PrintGraphHtml(long[], long[][], int, char *);
++//Removed to allow building with GCC 4 - SDT 2005-07-31
++//void PrintGraphHtml(long[], long[][], int, char *);
+ 
+ void PrintStatText(int, char *);
+ void PrintStatHtml(int, char *, short);
+--- mailliststat-1.3.orig/Makefile
++++ mailliststat-1.3/Makefile
+@@ -7,6 +7,7 @@
+ #OPTIMIZE=-O7 -mpentiumpro
+ OPTIMIZE=-O3
+ 
++PACKAGE=mls
+ # debug symbols will be stripped anyway during 'make install'
+ DEBUG=-g
+ 
+@@ -18,8 +19,8 @@
+ 
+ OBJS=mls.o mls_mime.o mls_text.o mls_list.o mls_stat.o
+ 
+-mls: $(OBJS) Makefile
+-	$(CC) $(CFLAGS) $(OBJS) -o mls
++$(PACKAGE): $(OBJS) Makefile
++	$(CC) $(CFLAGS) $(OBJS) -o $(PACKAGE)
+ 
+ mls.o: mls.c mls.h Makefile
+ 	$(CC) $(CFLAGS) -c mls.c -o mls.o
+@@ -36,10 +37,11 @@
+ mls_text.o: mls_text.c mls_text.h mls_lang.h Makefile
+ 	$(CC) $(CFLAGS) -c mls_text.c -o mls_text.o
+ 
+-install: mls
+-	install -m 755 -g root -o root -s mls $(DESTDIR)/bin
+-	install -m 644 -g root -o root mls.1 $(DESTDIR)/man/man1
+-	gzip -9f $(DESTDIR)/man/man1/mls.1
++install: $(PACKAGE)
++	test -d $(DESTDIR)/bin || install -d -m 755 $(DESTDIR)/bin
++	install -p -m 755 -s $(PACKAGE) $(DESTDIR)/bin
++	install -m 644 -g root -o root $(PACKAGE).1 $(DESTDIR)/man/man1
++	gzip -9f $(DESTDIR)/man/man1/$(PACKAGE).1
+ 	@echo "**************************************************************"
+ 	@echo "*** To use HTML feature or PHP wrapper, copy contents of   ***"
+ 	@echo "*** 'html' subdirectory to location accessible by your     ***"
+@@ -49,8 +51,8 @@
+ 	@echo "******************** MLS install complete ********************"
+ 
+ clean:
+-	rm -f $(wildcard *.o) mls
++	rm -f $(wildcard *.o) $(PACKAGE)
+ 
+ uninstall:
+-	rm -fv $(DESTDIR)/bin/mls
+-	rm -fv $(DESTDIR)/man/man1/mls.1.gz
++	rm -fv $(DESTDIR)/bin/$(PACKAGE)
++	rm -fv $(DESTDIR)/man/man1/$(PACKAGE).1.gz

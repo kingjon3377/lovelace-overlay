@@ -1,0 +1,96 @@
+From 77f34adb025e045d519ae3dd43fb671e87b1f998 Mon Sep 17 00:00:00 2001
+From: Michael Hartl <michael@michaelhartl.com>
+Date: Mon, 25 Feb 2013 13:17:06 -0800
+Subject: [PATCH 05/19] [Delivers #45092983] Convert \ldots to &#133; outside
+ of math mode
+
+---
+ Modele/tormath.xml  |   2 +-
+ Modele/tormath1.xml |   2 +-
+ Modele/tormath2.xml |   2 +-
+ Modele/tormath3.xml |   2 +-
+ Modele/torture.xml  |   2 +-
+ src/txcommands.C    |   2 +-
+ 8 files changed, 10 insertions(+), 7 deletions(-)
+
+diff --git a/Modele/tormath.xml b/Modele/tormath.xml
+index 6ca8fa8..7432c02 100644
+--- a/Modele/tormath.xml
++++ b/Modele/tormath.xml
+@@ -346,7 +346,7 @@ y &amp; = &amp; Cx \\
+ <p noindent='true'><texmath textype='inline' type='inline'>\int f\mathopen )a+b\mathclose (=c+d</texmath>
+ <texmath textype='inline' type='inline'>\int f(a+b)=c+d</texmath></p>
+ <p><texmath textype='inline' type='inline'>a\limits \displaylimits \nolimits b</texmath></p>
+-<p>wwwwwwwwwwwwa...b...cÂ Â Â dÂ Â Â Â Â Â e f$g%h&amp;ijÂ k{l}mÄ±nâ™¯oâ™®pâ™­q_</p>
++<p>wwwwwwwwwwwwa...b&#133;cÂ Â Â dÂ Â Â Â Â Â e f$g%h&amp;ijÂ k{l}mÄ±nâ™¯oâ™®pâ™­q_</p>
+ <p noindent='true'><texmath textype='inline' type='inline'>a\dots b\ldots c\quad d\qquad e f\$g\%h\&amp;i\!j\,k\lbrace l\rbrace m\i n\sharp o\natural p\flat q\_</texmath></p>
+ <p>Math spacing</p>
+ <p noindent='true'><texmath textype='inline' type='inline'>xxxxx</texmath></p>
+diff --git a/Modele/tormath1.xml b/Modele/tormath1.xml
+index 6ff6d03..8a3428e 100644
+--- a/Modele/tormath1.xml
++++ b/Modele/tormath1.xml
+@@ -192,7 +192,7 @@ c)</p>
+ <p noindent='true'><formula type='inline'><math xmlns='http://www.w3.org/1998/Math/MathML'><mrow><mo>&int;</mo><mi>f</mi><mo>)</mo><mi>a</mi><mo>+</mo><mi>b</mi><mo>(</mo><mo>=</mo><mi>c</mi><mo>+</mo><mi>d</mi></mrow></math></formula>
+ <formula type='inline'><math xmlns='http://www.w3.org/1998/Math/MathML'><mrow><mo>&int;</mo><mi>f</mi><mo>(</mo><mi>a</mi><mo>+</mo><mi>b</mi><mo>)</mo><mo>=</mo><mi>c</mi><mo>+</mo><mi>d</mi></mrow></math></formula></p>
+ <p><formula type='inline'><math xmlns='http://www.w3.org/1998/Math/MathML'><mrow><mi>a</mi><mi>b</mi></mrow></math></formula></p>
+-<p>wwwwwwwwwwwwa...b...cÂ Â Â dÂ Â Â Â Â Â e f$g%h&amp;ijÂ k{l}mÄ±nâ™¯oâ™®pâ™­q_</p>
++<p>wwwwwwwwwwwwa...b&#133;cÂ Â Â dÂ Â Â Â Â Â e f$g%h&amp;ijÂ k{l}mÄ±nâ™¯oâ™®pâ™­q_</p>
+ <p noindent='true'><formula type='inline'><math xmlns='http://www.w3.org/1998/Math/MathML'><mrow><mi>a</mi><mo>&ctdot;</mo><mi>b</mi><mo>...</mo><mi>c</mi><mspace width='1.em'/><mi>d</mi><mspace width='2.em'/><mi>e</mi><mi>f</mi><mi>$</mi><mi>g</mi><mo>%</mo><mi>h</mi><mo>&amp;</mo><mi>i</mi><mspace width='-0.166667em'/><mi>j</mi><mspace width='0.166667em'/><mi>k</mi><mo>&lbrace;</mo><mi>l</mi><mo>&rbrace;</mo><mi>m</mi><mo>&inodot;</mo><mi>n</mi><mo>&sharp;</mo><mi>o</mi><mo>&natur;</mo><mi>p</mi><mo>&flat;</mo><mi>q</mi><mo>_</mo></mrow></math></formula></p>
+ <p>Math spacing</p>
+ <p noindent='true'><formula type='inline'><math xmlns='http://www.w3.org/1998/Math/MathML'><mrow><mi>x</mi><mi>x</mi><mi>x</mi><mi>x</mi><mi>x</mi></mrow></math></formula></p>
+diff --git a/Modele/tormath2.xml b/Modele/tormath2.xml
+index 8066fc6..b7d2d45 100644
+--- a/Modele/tormath2.xml
++++ b/Modele/tormath2.xml
+@@ -346,7 +346,7 @@ y &amp; = &amp; Cx <elt name='\'/>
+ <p noindent='true'><texmath textype='inline' type='inline'><int/>f<mathopen/>)a+b<mathclose/>(=c+d</texmath>
+ <texmath textype='inline' type='inline'><int/>f(a+b)=c+d</texmath></p>
+ <p><texmath textype='inline' type='inline'>a<limits/><displaylimits/><nolimits/>b</texmath></p>
+-<p>wwwwwwwwwwwwa...b...c   d      e f$g%h&amp;ij k{l}m&#x131;n&#x266F;o&#x266E;p&#x266D;q_</p>
++<p>wwwwwwwwwwwwa...b&#133;c   d      e f$g%h&amp;ij k{l}m&#x131;n&#x266F;o&#x266E;p&#x266D;q_</p>
+ <p noindent='true'><texmath textype='inline' type='inline'>a<dots/>b<ldots/>c<quad/>d<qquad/>e f<elt name='$'/>g<elt name='%'/>h<elt name='&amp;'/>i<elt name='!'/>j<elt name=','/>k<lbrace/>l<rbrace/>m<i/>n<sharp/>o<natural/>p<flat/>q<elt name='_'/></texmath></p>
+ <p>Math spacing</p>
+ <p noindent='true'><texmath textype='inline' type='inline'>xxxxx</texmath></p>
+diff --git a/Modele/tormath3.xml b/Modele/tormath3.xml
+index 8dc028a..1c76c2b 100644
+--- a/Modele/tormath3.xml
++++ b/Modele/tormath3.xml
+@@ -346,7 +346,7 @@ y &amp; = &amp; Cx \\
+ <p noindent='true'><formula type='inline'><math xmlns='http://www.w3.org/1998/Math/MathML'><mrow><mo>&int;</mo><mi>f</mi><mo>)</mo><mi>a</mi><mo>+</mo><mi>b</mi><mo>(</mo><mo>=</mo><mi>c</mi><mo>+</mo><mi>d</mi></mrow></math><texmath>\int f\mathopen )a+b\mathclose (=c+d</texmath></formula>
+ <formula type='inline'><math xmlns='http://www.w3.org/1998/Math/MathML'><mrow><mo>&int;</mo><mi>f</mi><mo>(</mo><mi>a</mi><mo>+</mo><mi>b</mi><mo>)</mo><mo>=</mo><mi>c</mi><mo>+</mo><mi>d</mi></mrow></math><texmath>\int f(a+b)=c+d</texmath></formula></p>
+ <p><formula type='inline'><math xmlns='http://www.w3.org/1998/Math/MathML'><mrow><mi>a</mi><mi>b</mi></mrow></math><texmath>a\limits \displaylimits \nolimits b</texmath></formula></p>
+-<p>wwwwwwwwwwwwa...b...c   d      e f$g%h&amp;ij k{l}m&#x131;n&#x266F;o&#x266E;p&#x266D;q_</p>
++<p>wwwwwwwwwwwwa...b&#133;c   d      e f$g%h&amp;ij k{l}m&#x131;n&#x266F;o&#x266E;p&#x266D;q_</p>
+ <p noindent='true'><formula type='inline'><math xmlns='http://www.w3.org/1998/Math/MathML'><mrow><mi>a</mi><mo>&ctdot;</mo><mi>b</mi><mo>...</mo><mi>c</mi><mspace width='1.em'/><mi>d</mi><mspace width='2.em'/><mi>e</mi><mi>f</mi><mi>$</mi><mi>g</mi><mo>%</mo><mi>h</mi><mo>&amp;</mo><mi>i</mi><mspace width='-0.166667em'/><mi>j</mi><mspace width='0.166667em'/><mi>k</mi><mo>&lbrace;</mo><mi>l</mi><mo>&rbrace;</mo><mi>m</mi><mo>&inodot;</mo><mi>n</mi><mo>&sharp;</mo><mi>o</mi><mo>&natur;</mo><mi>p</mi><mo>&flat;</mo><mi>q</mi><mo>_</mo></mrow></math><texmath>a\dots b\ldots c\quad d\qquad e f\$g\%h\&amp;i\!j\,k\lbrace l\rbrace m\i n\sharp o\natural p\flat q\_</texmath></formula></p>
+ <p>Math spacing</p>
+ <p noindent='true'><formula type='inline'><math xmlns='http://www.w3.org/1998/Math/MathML'><mrow><mi>x</mi><mi>x</mi><mi>x</mi><mi>x</mi><mi>x</mi></mrow></math><texmath>xxxxx</texmath></formula></p>
+diff --git a/Modele/torture.xml b/Modele/torture.xml
+index 6ef776c..bbfbd2b 100644
+--- a/Modele/torture.xml
++++ b/Modele/torture.xml
+@@ -851,7 +851,7 @@ F<pic-framebox width='1.79999' height='6' position='5'>text</pic-framebox></p>
+ <p noindent='true'><formula type='inline'><math xmlns='http://www.w3.org/1998/Math/MathML'><mrow><mo>&int;</mo><mi>f</mi><mo>)</mo><mi>a</mi><mo>+</mo><mi>b</mi><mo>(</mo><mo>=</mo><mi>c</mi><mo>+</mo><mi>d</mi></mrow></math></formula>
+ <formula type='inline'><math xmlns='http://www.w3.org/1998/Math/MathML'><mrow><mo>&int;</mo><mi>f</mi><mo>(</mo><mi>a</mi><mo>+</mo><mi>b</mi><mo>)</mo><mo>=</mo><mi>c</mi><mo>+</mo><mi>d</mi></mrow></math></formula></p>
+ <p><formula type='inline'><math xmlns='http://www.w3.org/1998/Math/MathML'><mrow><mi>a</mi><mi>b</mi></mrow></math></formula></p>
+-<p>wwwwwwwwwwwwa...b...c   d      e f$g%h&amp;ij k{l}m&#x131;n&#x266F;o&#x266E;p&#x266D;q_</p>
++<p>wwwwwwwwwwwwa...b&#133;c   d      e f$g%h&amp;ij k{l}m&#x131;n&#x266F;o&#x266E;p&#x266D;q_</p>
+ <p noindent='true'><formula type='inline'><math xmlns='http://www.w3.org/1998/Math/MathML'><mrow><mi>a</mi><mo>&ctdot;</mo><mi>b</mi><mo>...</mo><mi>c</mi><mspace width='1.em'/><mi>d</mi><mspace width='2.em'/><mi>e</mi><mi>f</mi><mi>$</mi><mi>g</mi><mo>%</mo><mi>h</mi><mo>&amp;</mo><mi>i</mi><mspace width='-0.166667em'/><mi>j</mi><mspace width='0.166667em'/><mi>k</mi><mo>&lbrace;</mo><mi>l</mi><mo>&rbrace;</mo><mi>m</mi><mo>&inodot;</mo><mi>n</mi><mo>&sharp;</mo><mi>o</mi><mo>&natur;</mo><mi>p</mi><mo>&flat;</mo><mi>q</mi><mo>_</mo></mrow></math></formula></p>
+ <p>Math spacing</p>
+ <p noindent='true'><formula type='inline'><math xmlns='http://www.w3.org/1998/Math/MathML'><mrow><mi>x</mi><mi>x</mi><mi>x</mi><mi>x</mi><mi>x</mi></mrow></math></formula></p>
+diff --git a/src/txcommands.C b/src/txcommands.C
+index d713bca..7cb59a5 100644
+--- a/src/txcommands.C
++++ b/src/txcommands.C
+@@ -336,7 +336,7 @@ void Parser::T_cst1(int c)
+   case TeX_code : process_string("<TeX/>"); return;;
+   case SS_code : process_string("SS"); return;
+   case dots_code : process_string("..."); return;
+-  case ldots_code : process_string("..."); return;
++  case ldots_code : process_string("&#133;"); return;
+   case space_code : process_string(" "); return;
+   case dollar_code : process_char('$'); return;
+   case percent_code : process_char('%'); return;
+-- 
+1.8.5.5
+

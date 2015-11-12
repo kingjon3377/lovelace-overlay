@@ -1,0 +1,25 @@
+From 301d178e29a6bb881ff48d79be39ffe08a95bfb8 Mon Sep 17 00:00:00 2001
+From: "Artur R. Czechowski" <arturcz@hell.pl>
+Date: Sun, 18 Mar 2012 01:28:05 +0100
+Subject: [PATCH] Don't use deprecated sox options
+
+This fixes #21.
+---
+ imms/analyzer/soxprovider.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/imms/analyzer/soxprovider.h b/imms/analyzer/soxprovider.h
+index 984c0fa..265c5d5 100644
+--- a/imms/analyzer/soxprovider.h
++++ b/imms/analyzer/soxprovider.h
+@@ -36,8 +36,8 @@ FILE *run_sox(const string &path, int samplerate, bool sign = false)
+     if (extension == "mp3" || extension == "ogg")
+         command << "-t ." << extension << " ";
+     command << "\'" << epath << "\' ";
+-    command << "-t .raw -2 -c 1 -r " << samplerate
+-        << (sign ? " -s" : " -u") << " -";
++    command << "-t .raw -b 16 -c 1 -r " << samplerate
++        << (sign ? " -e signed-integer" : " -e unsigned-integer") << " -";
+     LOG(INFO) << "Executing: " << command.str() << endl;
+     return popen(command.str().c_str(), "r");
+ }

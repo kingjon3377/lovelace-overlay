@@ -1,0 +1,652 @@
+--- realtimebattle-1.0.8.orig/Robots/Makefile.in
++++ realtimebattle-1.0.8/Robots/Makefile.in
+@@ -246,7 +246,7 @@
+ sysconfdir = @sysconfdir@
+ target_alias = @target_alias@
+ uudecode = @uudecode@
+-SUBDIRS = empty rotate_and_fire seek_and_destroy xt-bot thomas2 joypad_robot jBot perl-Skeleton perl raziel
++SUBDIRS = $(ROBOTS)
+ all: all-recursive
+ 
+ .SUFFIXES:
+--- realtimebattle-1.0.8.orig/Robots/perl/perl.robot.in
++++ realtimebattle-1.0.8/Robots/perl/perl.robot.in
+@@ -119,8 +119,8 @@
+ my %OPTION;
+ my %RDATA = (Energy => 100, RobotsLeft => 0);
+ 
+-open(LOG,">>/tmp/perl.robot.log") || die "Kann Logfile nicht öffnen: $!";
+-LOG->autoflush(1);
++#open(LOG,">>/tmp/perl.robot.log") || die "Kann Logfile nicht öffnen: $!";
++#LOG->autoflush(1);
+ STDOUT->autoflush(1);
+ STDERR->autoflush(1);
+ 
+@@ -131,13 +131,13 @@
+ $SIG{USR2} = 'IGNORE';
+ $SIG{HUP}  = \&quit_bot;
+ 
+-print LOG "Starting Roboter\n";
++#print LOG "Starting Roboter\n";
+ 
+ while(not $QUIT) {
+   &run_robot
+ }
+ 
+-print LOG "Jetzt ist aber Ende\a\n";
++#print LOG "Jetzt ist aber Ende\a\n";
+ exit;
+ ###################################################################
+ 
+@@ -179,7 +179,8 @@
+   elsif ($cmd eq "Dead")       {Dead()}
+   elsif ($cmd eq "GameFinishes") {GameFinishes()}
+   elsif ($cmd eq "ExitRobot")  {ExitRobot()}
+-  else {print LOG "Unknown Command $input\n";
++  else {
++#        print LOG "Unknown Command $input\n";
+ #        print "Print Unknown Command $input\n"
+        }
+ }
+@@ -190,7 +191,7 @@
+ sub Initialize($) {
+   my $arg = shift;
+   if ($arg ==1) {
+-    print LOG "Initialising\n";
++#    print LOG "Initialising\n";
+     Name($NAME);
+     Colour($COLOR);
+     Print("Ahh, awaken again...");
+@@ -228,7 +229,7 @@
+ #  print LOG "Radar: $dist, $obj, $angle\n";
+   if ($obj == 0) {tac_fire($angle)}
+   if ($obj == 2 or $obj == 4) {tac_wall($dist)}
+-  print LOG "Gotch: $obj\n" if ($obj == 5);
++#  print LOG "Gotch: $obj\n" if ($obj == 5);
+ }
+ 
+ sub Info($$$) {
+@@ -256,7 +257,7 @@
+   if ($RDATA{RobotsLeft}) {
+     if ($robots < $RDATA{RobotsLeft}) {
+       Print("Gotcha. Onother one's gone! :-)");
+-    }  
++    }
+   }
+   $RDATA{RobotsLeft} = $robots;
+ }
+@@ -265,13 +266,13 @@
+   my $obj  = shift;
+   my $angle= shift;
+   if    ($obj == 4) {Print("Boom! Hit by a mine")}
+-  elsif ($obj == 3) {Print("Yamm! Cookies Cookiiiies!")}  
++  elsif ($obj == 3) {Print("Yamm! Cookies Cookiiiies!")}
+ }
+ 
+ sub Warning($$) {
+   my $type = shift;
+   my $msg = join(" ",@_);
+-  print LOG "WARN: ($type) $msg\n";
++#  print LOG "WARN: ($type) $msg\n";
+   Print("Someone's fucking me: ($type) $msg");
+ }
+ 
+@@ -293,13 +294,13 @@
+ # Tools
+ sub dump_options() {
+   $OPTION{'ROBOT_MAX_ROTATE'}=12;
+-  print LOG "RobotMaxRotate(): ", $OPTION{ROBOT_MAX_ROTATE()},"\n";
+-  print LOG "RobotMaxRotate: ", $OPTION{ROBOT_MAX_ROTATE},"\n";
+-  print LOG "RobotCannonMaxRotate: ", $OPTION{ROBOT_CANNON_MAX_ROTATE()},"\n";
+-  print LOG "RobotMaxAcceleration: ", $OPTION{ROBOT_MAX_ACCELERATION()},"\n";
+-  print LOG "RobotMinAcceleration: ", $OPTION{ROBOT_MIN_ACCELERATION()},"\n";
+-  print LOG "RobotStartEnergy: ", $OPTION{ROBOT_START_ENERGY()},"\n";
+-  
++#   print LOG "RobotMaxRotate(): ", $OPTION{ROBOT_MAX_ROTATE()},"\n";
++#   print LOG "RobotMaxRotate: ", $OPTION{ROBOT_MAX_ROTATE},"\n";
++#   print LOG "RobotCannonMaxRotate: ", $OPTION{ROBOT_CANNON_MAX_ROTATE()},"\n";
++#   print LOG "RobotMaxAcceleration: ", $OPTION{ROBOT_MAX_ACCELERATION()},"\n";
++#   print LOG "RobotMinAcceleration: ", $OPTION{ROBOT_MIN_ACCELERATION()},"\n";
++#   print LOG "RobotStartEnergy: ", $OPTION{ROBOT_START_ENERGY()},"\n";
++
+ }
+ 
+ ##########################################################################
+--- realtimebattle-1.0.8.orig/Robots/joypad_robot/joypad_robot.c
++++ realtimebattle-1.0.8/Robots/joypad_robot/joypad_robot.c
+@@ -18,7 +18,7 @@
+ /* #include<Messagetypes.h> */
+ 
+ double GAME_OPT[13];
+-double rotate_angle = M_PIl/36; /* 5 deg */
++double rotate_angle = M_PI/36; /* 5 deg */
+ int joy_fd = -1;
+ 
+ 
+@@ -28,7 +28,7 @@
+   {
+     puts("Name Joybot");
+     puts("Colour B2DD32 32DDBs");
+-    
++
+     fflush(stdout);
+   }
+ }
+@@ -51,7 +51,7 @@
+ void left(void)
+ {
+   printf("RotateAmount 1 %f %f\n",GAME_OPT[ROBOT_MAX_ROTATE],rotate_angle);
+-  
++
+ }
+ 
+ void shoot(void)
+@@ -151,7 +151,7 @@
+                   break;
+               default:
+                   break; /* do nothing */
+-                      
++
+             }
+             break;
+         case JS_EVENT_AXIS:
+@@ -243,5 +243,5 @@
+   printf("RobotOption %i 1\n",USE_NON_BLOCKING);
+   fflush(stdout);
+   main_loop();
+-  
++
+ }
+--- realtimebattle-1.0.8.orig/Robots/thomas2/thomas2.cc
++++ realtimebattle-1.0.8/Robots/thomas2/thomas2.cc
+@@ -25,6 +25,7 @@
+ #include <glib.h>
+ #include <math.h>
+ #include <Messagetypes.h>
++#include <cstring>
+ #define abs(x) ((x>0) ? (x) : -(x))
+ #define sgn(x) ((x>0) ? 1 : -1)
+ #define max(a,b) (((a) > (b)) ? (a) : (b))
+--- realtimebattle-1.0.8.orig/Robots/seek_and_destroy/seek_and_destroy.cc
++++ realtimebattle-1.0.8/Robots/seek_and_destroy/seek_and_destroy.cc
+@@ -20,6 +20,7 @@
+ 
+ #include <math.h>
+ #include "Messagetypes.h"
++#include <cstring>
+ 
+ using namespace std;
+ 
+--- realtimebattle-1.0.8.orig/Robots/jBot/jBot.robot.in
++++ realtimebattle-1.0.8/Robots/jBot/jBot.robot.in
+@@ -20,4 +20,4 @@
+ echo RobotOption $SIGNAL 0
+ echo RobotOption $USE_NON_BLOCKING 1
+ # program options: 1=SLEEP in [ms], 2=Robot Name
+-exec @JAVA@ -classpath $CLASSPATH:$RTB_PATH JBotMain $SLEEP $RobotName
++exec java -classpath $CLASSPATH:$RTB_PATH JBotMain $SLEEP $RobotName
+--- realtimebattle-1.0.8.orig/Robots/xt-bot/xt-bot-a.cpp
++++ realtimebattle-1.0.8/Robots/xt-bot/xt-bot-a.cpp
+@@ -30,6 +30,7 @@
+ #include <signal.h>
+ #include <unistd.h>
+ #include <Messagetypes.h>
++#include <cstring>
+ using std::cout;
+ using std::cin;
+ using std::endl;
+@@ -64,9 +65,9 @@
+    bot(){ fahr_winkel = 0.0; }
+    void init();
+    void options();
+-   void nachricht(); 
+-   void debug(char *);
+-   void print(char *);
++   void nachricht();
++   void debug(const char *);
++   void print(const char *);
+    void beschleunigen(double);
+    void rotateamount(int, double, double);
+    void sweep(int,double,double,double);
+@@ -86,7 +87,7 @@
+   cout<<"Accelerate "<<i<<endl;
+  }
+ 
+-void bot::print(char *a)
++void bot::print(const char *a)
+  {
+   cout<<"Print "<<a<<endl;
+  } 
+@@ -103,7 +104,7 @@
+   cout<<"Name xt2-bot A"<<endl;
+  }
+ 
+-void bot::debug(char *str)
++void bot::debug(const char *str)
+  {
+   cout<<"Debug "<<str<<endl;
+  }
+--- realtimebattle-1.0.8.orig/Robots/xt-bot/xt-bot-b.cpp
++++ realtimebattle-1.0.8/Robots/xt-bot/xt-bot-b.cpp
+@@ -31,6 +31,7 @@
+ #include <signal.h>
+ #include <unistd.h>
+ #include <Messagetypes.h>
++#include <cstring>
+ 
+ using std::cout;
+ using std::cin;
+@@ -67,9 +68,9 @@
+    bot(){ fahr_winkel = 0.0; }
+    void init();
+    void options();
+-   void nachricht(); 
+-   void debug(char *);
+-   void print(char *);
++   void nachricht();
++   void debug(const char *);
++   void print(const char *);
+    void beschleunigen(double);
+    void rotateamount(int, double, double);
+    void sweep(int,double,double,double);
+@@ -89,7 +90,7 @@
+   cout<<"Accelerate "<<i<<endl;
+  }
+ 
+-void bot::print(char *a)
++void bot::print(const char *a)
+  {
+   cout<<"Print "<<a<<endl;
+  } 
+@@ -106,7 +107,7 @@
+   cout<<"Name xt2-bot B"<<endl;
+  }
+ 
+-void bot::debug(char *str)
++void bot::debug(const char *str)
+  {
+   cout<<"Debug "<<str<<endl;
+  }
+--- realtimebattle-1.0.8.orig/Documentation/RealTimeBattle.info
++++ realtimebattle-1.0.8/Documentation/RealTimeBattle.info
+@@ -3,6 +3,11 @@
+ 
+    \input texinfo
+ 
++INFO-DIR-SECTION Games
++START-INFO-DIR-ENTRY
++* RealTimeBattle: (RealTimeBattle).	A robot programming game
++END-INFO-DIR-ENTRY
++
+ ~
+ File: RealTimeBattle.info,  Node: Top,  Next: Introduction,  Up: (dir)
+ 
+--- realtimebattle-1.0.8.orig/include/Messagetypes.h
++++ realtimebattle-1.0.8/include/Messagetypes.h
+@@ -150,7 +150,7 @@
+ 
+ struct Message
+ {
+-  char* msg;
++  const char* msg;
+   int number_of_args;
+   enum argument_type arg_type[4];
+ };
+--- realtimebattle-1.0.8.orig/include/Vector2D.h
++++ realtimebattle-1.0.8/include/Vector2D.h
+@@ -24,6 +24,9 @@
+ 
+ using namespace std;
+ 
++class Vector2D;
++Vector2D angle2vec(const double);
++
+ class Vector2D
+ {
+ public:
+--- realtimebattle-1.0.8.orig/include/Dialog.h
++++ realtimebattle-1.0.8/include/Dialog.h
+@@ -27,6 +27,7 @@
+ #ifndef NO_GRAPHICS
+ 
+ #include <list>
++#include <string>
+ using namespace std;
+ 
+ struct _GtkWidget;
+@@ -52,7 +53,7 @@
+   Dialog                            ( const string& info,
+                                       const list<string>& button_labels,
+                                       const DialogFunction func,
+-                                      const gchar* window_title = "RealTimeBattle" );
++                                      const gchar* window_title = (gchar *)"RealTimeBattle" );
+   ~Dialog                           () {}
+ 
+   static void generate_result       ( GtkWidget* widget, result_t* result_p );
+--- realtimebattle-1.0.8.orig/team-framework/createrobot.sh
++++ realtimebattle-1.0.8/team-framework/createrobot.sh
+@@ -32,7 +32,7 @@
+ #! /bin/sh
+ #mkdir -p /tmp/@TEAM@/
+ #rm -f "/tmp/@TEAM@/@STRATEGY@-@ROBOTNAME@-@TEAM@.log"
+-exec "@RTBHOME@/rtb-team" "@RTBHOME@/@STRATEGY@-@ROBOTNAME@-@TEAM@.conf"
++exec "@RTBHOME@/rtb-team" "/usr/share/doc/realtimebattle/examples/rtb-team-framework/@STRATEGY@-@ROBOTNAME@-@TEAM@.conf"
+ #"@RTBHOME@/rtb-team" "@RTBHOME@/@STRATEGY@-@ROBOTNAME@-@TEAM@.conf"
+ __EOF
+ else
+--- realtimebattle-1.0.8.orig/team-framework/io/unixinstreambuf.cpp
++++ realtimebattle-1.0.8/team-framework/io/unixinstreambuf.cpp
+@@ -33,7 +33,7 @@
+ #include "../exceptions/confignotloadedexception.h"
+ #include <sstream>
+ #include <errno.h>
+-
++#include <cstring>
+ /**
+  * Namespace
+  */
+--- realtimebattle-1.0.8.orig/team-framework/io/unixoutstreambuf.cpp
++++ realtimebattle-1.0.8/team-framework/io/unixoutstreambuf.cpp
+@@ -1,6 +1,6 @@
+ /************************************************************************
+     $Id: unixoutstreambuf.cpp,v 1.3 2005/01/06 17:59:28 jonico Exp $
+-    
++
+     RTB - Team Framework: Framework for RealTime Battle robots to communicate efficiently in a team
+     Copyright (C) 2004 The RTB- Team Framework Group: http://rtb-team.sourceforge.net
+ 
+@@ -30,20 +30,22 @@
+ #include "unixoutstreambuf.h"
+ #include <sstream>
+ #include <errno.h>
++#include <cstring>
++#include <cstdio>
+ /**
+  * Namespace
+  */
+ namespace IO {
+-	
++
+ 	using std::ostringstream;
+-	
+-	/** 
++
++	/**
+ 	 * Constructor
+ 	 */
+ 	UnixOutStreambuf::UnixOutStreambuf(int fd) throw()
+ 	: _fd(fd) {
+ 	}
+-	/** 
++	/**
+ 	 * Methods
+ 	 */
+ 	/**
+@@ -52,10 +54,10 @@
+ 	int UnixOutStreambuf::overflow (int character) throw (IOException, bad_exception) {
+ 		if( character != EOF ) {
+ 			char data = character;
+-			
++
+ 			//writing successful?
+ 			if( write(_fd, &data, 1) != 1 ) {
+-			
++
+ 				//throw exception
+ 				ostringstream int2string;
+ 				int2string << _fd;
+@@ -65,16 +67,16 @@
+ 		return character;
+ 	}
+ 	/**
+-	 * 
++	 *
+ 	 */
+ 	streamsize UnixOutStreambuf::xsputn (const char* databuffer, streamsize size) throw(IOException, bad_exception) {
+ 		int num = write(_fd, databuffer, size);
+-		
++
+ 		//writing successful?
+ 		if( num >= 0 )
+ 			return num;
+ 		else {
+-			
++
+ 			//throw exception
+ 			ostringstream int2string;
+ 			int2string << _fd;
+--- realtimebattle-1.0.8.orig/team-framework/parser/configurationparser.h
++++ realtimebattle-1.0.8/team-framework/parser/configurationparser.h
+@@ -51,7 +51,7 @@
+ 	* Public stuff
+ 	*/
+ 	public:
+-		ConfigurationParser::ConfigurationParser() throw (bad_exception);
++		ConfigurationParser() throw (bad_exception);
+ 		void addFile(const string& filename) throw(ParserException, bad_exception);
+ 		const map<string, map<string, string> >& getConfigurationData() const throw();
+ 	/*
+--- realtimebattle-1.0.8.orig/team-framework/bots/cobra/cobra_clientspecificrepository.h
++++ realtimebattle-1.0.8/team-framework/bots/cobra/cobra_clientspecificrepository.h
+@@ -31,6 +31,7 @@
+ 
+ #include "../../strategies/clientspecificrepository.h"
+ #include "../../exceptions/strategyexception.h"
++#include <memory>
+ 
+ namespace cobra {
+ 
+--- realtimebattle-1.0.8.orig/src/StartTournamentWindow.cc
++++ realtimebattle-1.0.8/src/StartTournamentWindow.cc
+@@ -150,9 +150,9 @@
+ 
+       add_clist( tour_clist, hbox );
+ 
+-      char* button_labels[] = { _(" Remove "), _(" Select All "),
+-                                _(" Unselect All "), _(" Add "),
+-                                _(" Select All "), _(" Unselect All ") };
++      const char* button_labels[] = { _(" Remove "), _(" Select All "),
++				      _(" Unselect All "), _(" Add "),
++				      _(" Select All "), _(" Unselect All ") };
+ 
+       GtkWidget* vbox2 = NULL;
+ 
+@@ -635,10 +635,10 @@
+         {
+           start_tournament_info_t* info = *li;
+ 
+-          char* lst[] = { "" };
++          const char* lst[] = { "" };
+ 
+-          int row = gtk_clist_append( GTK_CLIST( tour_clist ), lst );
+-          gtk_clist_set_foreground( GTK_CLIST( tour_clist ), row, 
++          int row = gtk_clist_append( GTK_CLIST( tour_clist ), (gchar **)lst );
++          gtk_clist_set_foreground( GTK_CLIST( tour_clist ), row,
+                                     the_gui.get_fg_gdk_colour_p());
+           gtk_clist_set_background( GTK_CLIST( tour_clist ), row, 
+                                     the_gui.get_bg_gdk_colour_p());
+@@ -995,9 +995,9 @@
+       start_tournament_info_t* info_dir_p = *li;
+       if( info_dir_p->selected )
+         {
+-          char * list[] = { "" };
+-          
+-          int row = gtk_clist_append( GTK_CLIST( clist_tourn ), list );
++          const char * list[] = { "" };
++
++          int row = gtk_clist_append( GTK_CLIST( clist_tourn ), (gchar **)list );
+           gtk_clist_set_foreground( GTK_CLIST( clist_tourn ), row,
+                                     the_gui.get_fg_gdk_colour_p() );
+           gtk_clist_set_background( GTK_CLIST( clist_tourn ), row,
+--- realtimebattle-1.0.8.orig/src/Various.cc
++++ realtimebattle-1.0.8/src/Various.cc
+@@ -54,6 +54,7 @@
+ #include <dirent.h>
+ #include <algorithm>
+ #include <cctype>
++#include <cstring>
+ using namespace std;
+ 
+ #include "Various.h"
+--- realtimebattle-1.0.8.orig/src/ControlWindow.cc
++++ realtimebattle-1.0.8/src/ControlWindow.cc
+@@ -62,6 +62,17 @@
+   gtk_signal_connect( GTK_OBJECT( window_p ), "delete_event",
+                       (GtkSignalFunc) ControlWindow::delete_event_occured,
+                       (gpointer) this );
++  
++  // The window use an icon
++  
++  {
++    GdkPixbuf *icon = gdk_pixbuf_new_from_file ("/usr/share/pixmaps/realtimebattle.xpm", NULL);
++    if (icon != NULL)
++      {
++	gtk_window_set_default_icon(icon);
++	gdk_pixbuf_unref(icon);
++      }
++  }
+ 
+   // Main boxes
+ 
+@@ -285,7 +296,7 @@
+   gtk_box_pack_start( GTK_BOX( hbox ), time_control, TRUE, TRUE, 0 );
+   gtk_widget_show( time_control );
+ 
+-  char* rew_xpm[13] =
++  const char* rew_xpm[13] =
+   { "18 10 2 1",
+     "       c None",
+     "x      c #000000000000",
+@@ -299,7 +310,7 @@
+     "   xxxxxx   xxxxxx",
+     "     xxxx     xxxx",
+     "       xx       xx" };
+-  char* ffw_xpm[13] =
++  const char* ffw_xpm[13] =
+   { "18 10 2 1",
+     "       c None",
+     "x      c #000000000000",
+@@ -316,7 +327,7 @@
+ 
+   struct button_t
+   {
+-    char** xpm;
++    const char** xpm;
+     string label;
+     GtkSignalFunc clicked_func;
+     GtkSignalFunc pressed_func;
+@@ -378,7 +389,7 @@
+           pixmap = gdk_pixmap_create_from_xpm_d( window_p->window,
+                                                  &bitmap_mask,
+                                                  &(window_p->style->black),
+-                                                 replay_buttons[i].xpm );
++                                                 (gchar**)replay_buttons[i].xpm );
+           GtkWidget* pixmap_widget = gtk_pixmap_new( pixmap, bitmap_mask );
+           gtk_widget_show( pixmap_widget );
+           gtk_container_add( GTK_CONTAINER( button_w ), pixmap_widget );
+--- realtimebattle-1.0.8.orig/src/ScoreWindow.cc
++++ realtimebattle-1.0.8/src/ScoreWindow.cc
+@@ -69,9 +69,9 @@
+   gtk_container_add( GTK_CONTAINER( window_p ), scrolled_win );
+   gtk_widget_show ( scrolled_win );
+ 
+-  char * titles[6] = { "", _("Name"), _("Energy"), _("Place"),
+-                       _("Last"), _("Score") };
+-  clist = gtk_clist_new_with_titles( 6, titles );
++  const char * titles[6] = { "", _("Name"), _("Energy"), _("Place"),
++			     _("Last"), _("Score") };
++  clist = gtk_clist_new_with_titles( 6, (gchar**) titles );
+   gtk_clist_set_selection_mode( GTK_CLIST( clist ), GTK_SELECTION_BROWSE );
+   gtk_clist_set_column_width( GTK_CLIST( clist ), 0, 5 );
+   gtk_clist_set_column_width( GTK_CLIST( clist ), 1, 120 );
+@@ -261,8 +261,8 @@
+     {
+       robot_p = (Robot*)(*li);
+ 
+-      char* empty_list[] = { "", "", "", "", "", "" };
+-      int row = gtk_clist_append( GTK_CLIST( clist ), empty_list );
++      const char* empty_list[] = { "", "", "", "", "", "" };
++      int row = gtk_clist_append( GTK_CLIST( clist ), (gchar **)empty_list );
+ 
+       gtk_clist_set_foreground( GTK_CLIST( clist ), row,
+                                 the_gui.get_fg_gdk_colour_p() );
+--- realtimebattle-1.0.8.orig/src/StatisticsWindow.cc
++++ realtimebattle-1.0.8/src/StatisticsWindow.cc
+@@ -111,7 +111,7 @@
+   gtk_widget_show( hbox );
+ 
+   {
+-    char* first_xpm[13] =
++    const char* first_xpm[13] =
+     { "13 10 2 1",
+       "       c None",
+       "x      c #000000000000",
+@@ -125,7 +125,7 @@
+       "xx     xxxxxx",
+       "xx       xxxx",
+       "xx         xx" };
+-    char* prev_xpm[13] =
++    const char* prev_xpm[13] =
+     { "9 10 2 1",
+       "       c None",
+       "x      c #000000000000",
+@@ -139,7 +139,7 @@
+       "   xxxxxx",
+       "     xxxx",
+       "       xx" };
+-    char* next_xpm[13] =
++    const char* next_xpm[13] =
+     { "9 10 2 1",
+       "       c None",
+       "x      c #000000000000",
+@@ -153,7 +153,7 @@
+       "xxxxxx   ",
+       "xxxx     ",
+       "xx       " };
+-    char* last_xpm[13] =
++    const char* last_xpm[13] =
+     { "13 10 2 1",
+       "       c None",
+       "x      c #000000000000",
+@@ -169,7 +169,7 @@
+       "xx         xx" };
+ 
+     struct button_t
+-    { char** xpm; GtkSignalFunc func; gpointer data; int pack; };
++    { const char** xpm; GtkSignalFunc func; gpointer data; int pack; };
+ 
+     struct button_t buttons[] = {
+       { first_xpm, (GtkSignalFunc) StatisticsWindow::change_stats_viewed,
+@@ -194,7 +194,7 @@
+             pixmap = gdk_pixmap_create_from_xpm_d( window_p->window,
+                                                    &bitmap_mask,
+                                                    &(window_p->style->black),
+-                                                   buttons[i].xpm );
++                                                   (gchar **)buttons[i].xpm );
+             GtkWidget* pixmap_widget = gtk_pixmap_new( pixmap, bitmap_mask );
+             gtk_widget_show( pixmap_widget );
+             gtk_container_add( GTK_CONTAINER( button_w ), pixmap_widget );
+@@ -222,9 +222,9 @@
+   gtk_box_pack_start( GTK_BOX( vbox ), scrolled_win, TRUE, TRUE, 0);
+   gtk_widget_show( scrolled_win );
+ 
+-  char * titles[7] = { "",_("Name"), _("Position"), _("Points"),
+-                       _("Games"), _("Survival Time"), _("Total Points") };
+-  clist = gtk_clist_new_with_titles(7, titles );
++  const char * titles[7] = { "",_("Name"), _("Position"), _("Points"),
++			     _("Games"), _("Survival Time"), _("Total Points") };
++  clist = gtk_clist_new_with_titles(7, (gchar **)titles );
+   gtk_clist_set_selection_mode( GTK_CLIST( clist ), GTK_SELECTION_BROWSE );
+   gtk_clist_set_column_width( GTK_CLIST( clist ), 0, 5 );
+   gtk_clist_set_column_width( GTK_CLIST( clist ), 1, 120 );
+@@ -543,8 +543,8 @@
+ StatisticsWindow::add_new_row( Robot* robot_p, stat_t average_stat,
+                                int games_played )
+ {
+-  char* empty_list[] = { "", "", "", "", "", "", "", "" };
+-  int row = gtk_clist_append( GTK_CLIST( clist ), empty_list );
++  const char* empty_list[] = { "", "", "", "", "", "", "", "" };
++  int row = gtk_clist_append( GTK_CLIST( clist ), (gchar **)empty_list );
+   gtk_clist_set_foreground( GTK_CLIST( clist ), row,
+                             the_gui.get_fg_gdk_colour_p() );
+   gtk_clist_set_background( GTK_CLIST( clist ), row,

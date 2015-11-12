@@ -1,0 +1,326 @@
+--- oleo-1.99.16.orig/po/oleo.pot
++++ oleo-1.99.16/po/oleo.pot
+@@ -6,27 +6,29 @@
+ msgid ""
+ msgstr ""
+ "Project-Id-Version: PACKAGE VERSION\n"
+-"POT-Creation-Date: 2001-03-10 15:32+0100\n"
++"Report-Msgid-Bugs-To: \n"
++"POT-Creation-Date: 2005-09-04 15:52+0200\n"
+ "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+ "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+ "Language-Team: LANGUAGE <LL@li.org>\n"
+ "MIME-Version: 1.0\n"
+ "Content-Type: text/plain; charset=CHARSET\n"
+-"Content-Transfer-Encoding: ENCODING\n"
++"Content-Transfer-Encoding: 8bit\n"
+ 
+-#: src/io-term.c:815
++#: src/io-term.c:817
+ #, c-format
+ msgid ""
+ "This is %s %s\n"
+ "\n"
+ msgstr ""
+ 
+-#: src/io-term.c:817
++#: src/io-term.c:819
+ #, c-format
+ msgid "Usage: %s [OPTION]... [FILE]...\n"
+ msgstr ""
+ 
+-#: src/io-term.c:820
++#: src/io-term.c:822
++#, c-format
+ msgid ""
+ "\n"
+ "  -h, --help               display this help and exit\n"
+@@ -43,56 +46,74 @@
+ "Report bugs to <bug-oleo@gnu.org>.\n"
+ msgstr ""
+ 
+-#: src/io-term.c:1025
++#: src/io-term.c:1027
+ #, c-format
+ msgid "%s %s\n"
+ msgstr ""
+ 
+-#: src/io-term.c:1026
+-msgid "Copyright © 1992-2000 Free Software Foundation, Inc.\n"
++#: src/io-term.c:1028
++#, c-format
++msgid "Copyright (C) 1992-2000 Free Software Foundation, Inc.\n"
+ msgstr ""
+ 
+-#: src/io-term.c:1027
++#: src/io-term.c:1029
+ #, c-format
+ msgid "%s comes with ABSOLUTELY NO WARRANTY.\n"
+ msgstr ""
+ 
+-#: src/io-term.c:1028
++#: src/io-term.c:1030
+ #, c-format
+ msgid "You may redistribute copies of %s\n"
+ msgstr ""
+ 
+-#: src/io-term.c:1029
++#: src/io-term.c:1031
++#, c-format
+ msgid "under the terms of the GNU General Public License.\n"
+ msgstr ""
+ 
+-#: src/io-term.c:1030
++#: src/io-term.c:1032
++#, c-format
+ msgid "For more information about these matters, "
+ msgstr ""
+ 
+-#: src/io-term.c:1031
++#: src/io-term.c:1033
++#, c-format
+ msgid "see the files named COPYING.\n"
+ msgstr ""
+ 
+-#: src/io-term.c:1174
++#: src/io-term.c:1176
++#, c-format
+ msgid "Error in the builtin init scripts (a bug!).\n"
+ msgstr ""
+ 
+-#: src/io-term.c:1194 src/io-term.c:1196
++#: src/io-term.c:1196 src/io-term.c:1198
+ #, c-format
+ msgid "   error occured in init file %s near line %d."
+ msgstr ""
+ 
+-#: src/io-term.c:1215 src/io-term.c:1216
++#: src/io-term.c:1217 src/io-term.c:1218
+ #, c-format
+ msgid ", error occured reading '%s'\n"
+ msgstr ""
+ 
+-#: src/io-term.c:1223 src/io-term.c:1224
++#: src/io-term.c:1225 src/io-term.c:1226
+ #, c-format
+ msgid "Can't open %s: %s\n"
+ msgstr ""
+ 
++#.
++#. * This is used in two places.
++#.
++#: src/io-motif.c:150
++msgid ""
++"\n"
++"GNU Oleo is free software, you are welcome to\n"
++"distribute copies of it. See the file COPYING for the\n"
++"conditions.\n"
++"\n"
++"GNU Oleo comes with ABSOLUTELY NO WARRANTY."
++msgstr ""
++
+ #: src/io-motif.c:722
+ msgid "Fit Print Area"
+ msgstr ""
+@@ -330,5 +351,6 @@
+ msgstr ""
+ 
+ #: src/io-motif.c:4791 src/io-motif.c:5906
++#, c-format
+ msgid "XmProcessTraversal failed\n"
+ msgstr ""
+--- oleo-1.99.16.orig/src/io-utils.c
++++ oleo-1.99.16/src/io-utils.c
+@@ -71,7 +71,7 @@
+ 
+ double __plinf;
+ double __neinf;
+-double __nan;
++double oleo__nan;
+ 
+ char nname[] = "#NOT_A_NUMBER";
+ char iname[] = "#INFINITY";
+@@ -125,7 +125,7 @@
+   __neinf = divide (-1., 0.);
+   (void) signal (SIGFPE, ignore_sig);
+ #endif
+-  __nan = __plinf + __neinf;
++  oleo__nan = __plinf + __neinf;
+ }
+ 
+ 
+--- oleo-1.99.16.orig/src/ref.c
++++ oleo-1.99.16/src/ref.c
+@@ -263,7 +263,7 @@
+ read_new_value (CELLREF row, CELLREF col, char *form, char *val)
+ {
+   unsigned char *new_bytes;
+-  extern double __plinf, __neinf, __nan;
++  extern double __plinf, __neinf, oleo__nan;
+ 
+   cur_row = row;
+   cur_col = col;
+@@ -348,7 +348,7 @@
+ 	  else if (!stricmp (nname, val))
+ 	    {
+ 	      SET_TYP (my_cell, TYP_FLT);
+-	      my_cell->cell_flt = __nan;
++	      my_cell->cell_flt = oleo__nan;
+ 	    }
+ 	  else
+ 	    {
+--- oleo-1.99.16.orig/src/io-x11.c
++++ oleo-1.99.16/src/io-x11.c
+@@ -34,7 +34,7 @@
+ #include <stdio.h>
+ #include <ctype.h>
+ #include <sys/param.h>
+-#define NeedFunctionPrototypes 0
++/* #define NeedFunctionPrototypes 0 */
+ #include <X11/X.h>
+ #include <X11/Xlib.h>
+ #include <X11/Xutil.h>
+--- oleo-1.99.16.orig/src/plotter.c
++++ oleo-1.99.16/src/plotter.c
+@@ -2639,8 +2639,6 @@
+ 	case SP_PLOT_PIE:
+ 		sp_pie_plot_point(mg, point);
+ 		break;
+-	default:
+-		/* ?? */
+ 	}
+ }
+ 
+@@ -2770,8 +2768,6 @@
+ 	case SP_PLOT_PIE:
+ 		sp_pie_begin_graph(mg, scale, trans_x, trans_y);
+ 		break;
+-	default:
+-		/* ??? */
+ 	}
+ 
+ 	sp_first_dataset(mg);
+@@ -2790,8 +2786,6 @@
+ 	case SP_PLOT_PIE:
+ 		sp_pie_end_graph(mg);
+ 		break;
+-	default:
+-		/* ??? */
+ 	}
+ }
+ 
+--- oleo-1.99.16.orig/src/io-term.c
++++ oleo-1.99.16/src/io-term.c
+@@ -234,7 +234,7 @@
+ 
+ 		if (Preferences[i].copynext) {
+ 			ptr += strlen(Preferences[i].name) + 1;
+-			((char *)Preferences[i].var) = strdup(ptr);
++			Preferences[i].var = strdup(ptr);
+ 		} else if (Preferences[i].var)
+ 			*((int *)Preferences[i].var) = Preferences[i].value;
+ 
+@@ -770,6 +770,8 @@
+     }
+ }
+ 
++extern struct cmd_func cmd_funcs[];
++
+ static void
+ init_maps (void)
+ {
+@@ -1023,7 +1025,7 @@
+ 	  case 'v':
+ 	  case 'V':
+ 	    printf(_("%s %s\n"), GNU_PACKAGE, VERSION);
+-            printf(_("Copyright © 1992-2000 Free Software Foundation, Inc.\n"));
++            printf(_("Copyright (C) 1992-2000 Free Software Foundation, Inc.\n"));
+             printf(_("%s comes with ABSOLUTELY NO WARRANTY.\n"), GNU_PACKAGE);
+             printf(_("You may redistribute copies of %s\n"), PACKAGE);
+             printf(_("under the terms of the GNU General Public License.\n"));
+--- oleo-1.99.16.orig/src/io-term.h
++++ oleo-1.99.16/src/io-term.h
+@@ -44,8 +44,6 @@
+ extern int default_lock;
+ 
+ 
+-extern struct cmd_func cmd_funcs[];
+-
+ /* When printing ascii output, this controls page width. */
+ extern int modified;
+ 
+--- oleo-1.99.16.orig/src/global.h
++++ oleo-1.99.16/src/global.h
+@@ -208,7 +208,7 @@
+ extern char nname[];
+ 
+ extern VOIDSTAR parse_hash;
+-extern double __plinf, __neinf, __nan;
++extern double __plinf, __neinf, oleo__nan;
+ 
+ /* These have two uses.  During parsing, these contain the 
+  * base address of all relative references.  During evaluation,
+@@ -231,7 +231,7 @@
+ 
+ extern unsigned short current_cycle;
+ extern int ioerror;
+-extern int errno;
++#include <errno.h>
+ extern const char oleo_version_string[];
+ 
+ extern double astof (char **);
+--- oleo-1.99.16.orig/src/eval.c
++++ oleo-1.99.16/src/eval.c
+@@ -565,7 +565,7 @@
+ 	case CONST_NINF:
+ 	case CONST_NAN:
+ 	  p->type = TYP_FLT;
+-	  p->Float = (byte == CONST_INF) ? __plinf : ((byte == CONST_NINF) ? __neinf : __nan);
++	  p->Float = (byte == CONST_INF) ? __plinf : ((byte == CONST_NINF) ? __neinf : oleo__nan);
+ 	  break;
+ 
+ 	case VAR:
+--- oleo-1.99.16.orig/src/posixtm.y
++++ oleo-1.99.16/src/posixtm.y
+@@ -85,6 +85,7 @@
+ 		   YYABORT;
+ 		 }
+ 	       }
++		;
+ 
+ year : digitpair {
+                    t.tm_year = $1;
+--- oleo-1.99.16.orig/src/sysdef.h
++++ oleo-1.99.16/src/sysdef.h
+@@ -119,8 +119,6 @@
+ 
+ #endif /* !defined(__STDC__) */
+ 
+-extern char *getenv ();
+-
+ #ifndef RETSIGTYPE
+ #define RETSIGTYPE void
+ #endif /* RETSIGTYPE */
+--- oleo-1.99.16.orig/src/basic.h
++++ oleo-1.99.16/src/basic.h
+@@ -36,9 +36,6 @@
+ 
+ extern const int colmagic[9];
+ extern  const int rowmagic[9];
+-extern char * motion_name[9];
+-extern enum motion_magic complementary_motion[9];
+-extern enum motion_magic opposite_motion[9];
+ 
+ extern int run_load_hooks;
+ 
+--- oleo-1.99.16.orig/src/xrdb.c
++++ oleo-1.99.16/src/xrdb.c
+@@ -57,7 +57,7 @@
+ /* This should be included before the X include files; otherwise, we get
+    warnings about redefining NULL under BSD 4.3.  */
+ #include <sys/param.h>
+-#define NeedFunctionPrototypes 0
++/* #define NeedFunctionPrototypes 0 */
+ #include <X11/X.h>
+ #include <X11/Xlib.h>
+ #include <X11/Xutil.h>

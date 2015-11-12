@@ -1,0 +1,25 @@
+* Remove netbeans propertyfile cruft -- we don't need the damned thing, its just dragging in usless deps.
+Index: opticalraytracer-3.0/nbproject/build-impl.xml
+===================================================================
+--- opticalraytracer-3.0.orig/nbproject/build-impl.xml	2011-03-27 20:29:46.000000000 +0100
++++ opticalraytracer-3.0/nbproject/build-impl.xml	2011-03-27 20:29:50.000000000 +0100
+@@ -501,9 +501,6 @@
+         <touch file="${built-jar.properties}" verbose="false"/>
+         <property file="${built-jar.properties}" prefix="already.built.jar."/>
+         <antcall target="-warn-already-built-jar"/>
+-        <propertyfile file="${built-jar.properties}">
+-            <entry key="${basedir}" value=""/>
+-        </propertyfile>
+     </target>
+     <target depends="init,-check-automatic-build,-clean-after-automatic-build" name="-verify-automatic-build"/>
+     <target depends="init" name="-check-automatic-build">
+@@ -862,9 +859,6 @@
+         <touch file="${built-clean.properties}" verbose="false"/>
+         <property file="${built-clean.properties}" prefix="already.built.clean."/>
+         <antcall target="-warn-already-built-clean"/>
+-        <propertyfile file="${built-clean.properties}">
+-            <entry key="${basedir}" value=""/>
+-        </propertyfile>
+     </target>
+     <target depends="init" name="-do-clean">
+         <delete dir="${build.dir}"/>

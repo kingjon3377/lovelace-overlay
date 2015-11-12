@@ -1,0 +1,10 @@
+--- fanficfare/cli.py.old	2015-10-02 14:44:52.463307390 -0400
++++ fanficfare/cli.py	2015-10-02 14:45:44.170660959 -0400
+@@ -216,6 +216,7 @@
+ 
+     # don't need to check existance for our selves.
+     conflist.append(join(dirname(__file__), 'defaults.ini'))
++    conflist.append('/etc/fanficfare/defaults.ini')
+     conflist.append(join(homepath, 'defaults.ini'))
+     conflist.append(join(homepath2, 'defaults.ini'))
+     conflist.append('defaults.ini')

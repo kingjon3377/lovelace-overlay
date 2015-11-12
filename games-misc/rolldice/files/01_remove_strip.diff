@@ -1,0 +1,14 @@
+From: Luis Uribe <acme@eviled.org>
+Subject: Remove the stripping of the package from upstream
+Index: rolldice/Makefile
+===================================================================
+--- rolldice.orig/Makefile	2010-04-24 17:32:32.000000000 -0500
++++ rolldice/Makefile	2010-04-24 17:33:31.000000000 -0500
+@@ -21,7 +21,6 @@
+ install: $(EXECFILES)
+ 	install -d $(BIN) $(MAN)
+ 	install ./rolldice $(BIN)
+-	strip $(BIN)/rolldice
+ 	gzip -9 -c rolldice.6 > rolldice.6.gz
+ 	install -m644 rolldice.6.gz $(MAN)
+ 

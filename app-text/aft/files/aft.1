@@ -1,0 +1,57 @@
+.TH aft 1 "22. April 2003" "Almost Free Text"
+.SH NAME
+aft \- "free form" document preparation system
+
+.SH SYNOPSIS
+.B aft
+[\fI\-\-verbose\fR] [\fI\-\-autonumber\fR] [\fI\-\-output=file | \-\-output=\-\fR]
+[\fI\-\-type=output\-type\fR] \fIinfile ..\fR
+
+.SH DESCRIPTION
+AFT is a nearly free format documentation system which can be typed in using any
+editor or wordprocessor that supports tabs or hard spaces (column-based spaces
+whose number doesn't shrink or grow based on formatting). By using AFT, you are
+no longer constrained to one wordprocessing file standard (such as Microsoft
+Word), nor do you have to enter a plethora of weird syntactical incantations of
+an embedded mark up language (such as LaTeX or HTML).
+
+Unlike other mark up languages, AFT is designed to parse and recognize patterns
+rather than formal commands. That is why there is no single escape or command
+sequence that tells AFT what to do. In this regard, AFT will process almost
+anything you throw at it.
+
+An AFT document is easily converted into such popular formats as HTML, RTF and
+LaTeX. Because there are few commands, learning to write a document in AFT
+requires little effort. This doesn't mean that AFT is not powerful. In fact,
+this very document was conceived and written using AFT. 
+
+.SH USAGE
+Running AFT is as simple as typing:
+
+aft NAME_OF_YOUR_FILE.aft
+
+
+.SH OPTIONS
+.TP
+.B \-\-verbose
+Generate a lot of commentary. By default, AFT will just silently process files
+(unless errors occur). Using this option causes AFT to keep you informed about
+what it is doing.
+.TP
+.B \-\-autonumber
+This switch tells AFT to automatically number your sections.--output=file |
+.TP
+.B \-\-output=\-
+This tells AFT where to send its processed output. You can supply a filename
+(file) or \- which tells AFT to write to your standard output (your display or
+stdout).
+.TP
+.B \-\-type=output_type
+This tells AFT what type of output to do. For example HTML output is used for
+html and DocBook output is used for docbook. As a side effect, this will also
+specify the file name extension for the output file if the \-\-output option 
+isn't specified.
+.TP
+.B infile ..
+One or more AFT documents to be processed.
+

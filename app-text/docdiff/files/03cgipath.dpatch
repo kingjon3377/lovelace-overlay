@@ -1,0 +1,19 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## 03cgipath.dpatch by Kenshi Muto <kmuto@debian.org>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: No description.
+
+@DPATCH@
+diff -urNad docdiff-0.3.4~/docdiffwebui.html docdiff-0.3.4/docdiffwebui.html
+--- docdiff-0.3.4~/docdiffwebui.html	2007-10-06 16:58:41.000000000 +0000
++++ docdiff-0.3.4/docdiffwebui.html	2007-12-10 05:56:44.000000000 +0000
+@@ -43,7 +43,7 @@
+   <p><a href="http://www.kt.rim.or.jp/~hisashim/docdiff/">DocDiff</a> is a word/char oriented text file comparison utility.</p>
+   <p><strong>Caution: This web ui is totally experimental and insecure!  Do not use it on public site.</strong></p>
+   <div class="form">
+-  <form action="cgi-bin/docdiffwebui.cgi" method="post" enctype="multipart/form-data" target="_blank">
++  <form action="/cgi-bin/docdiffwebui.cgi" method="post" enctype="multipart/form-data" target="_blank">
+     <fieldset>
+       <legend>Files to compare</legend>
+       <ol>

@@ -1,0 +1,727 @@
+--- ../craft.orig/buttons.h	Wed Mar 19 08:40:07 1997
++++ ./buttons.h	Sun Jun 28 20:08:05 2009
+@@ -58,7 +58,7 @@
+      
+ 
+      button (win  *b_w,
+-             char b_label [],
++             const char b_label [],
+              int  b_x,
+              int  b_y,
+              bool b_with_repeat = false,
+@@ -76,8 +76,8 @@
+      void press (bool mode);
+      bool eval  (int  &button);
+      bool eval  ();
+-     void write (char label_string []);
+-     void write (char label_string [], bool is_pressed);
++     void write (const char label_string []);
++     void write (const char label_string [], bool is_pressed);
+ 
+   };
+ 
+--- ../craft.orig/cmap.h	Fri Feb 21 06:48:24 1997
++++ ./cmap.h	Sun Jun 28 18:53:02 2009
+@@ -23,7 +23,7 @@
+    int         rot;
+ 
+    cmap      (win  *w_i,
+-              char name_i [],
++              const char name_i [],
+               bool preload = true,
+               bool smart_load = true);
+    ~cmap     ();
+--- ../craft.orig/cmap_selector.h	Fri Feb 21 06:48:24 1997
++++ ./cmap_selector.h	Sun Jun 28 21:24:38 2009
+@@ -40,7 +40,7 @@
+    int      case_dy;   
+    int      case_dx;
+    
+-   cmap_selector     (char name [], 
++   cmap_selector     (const char name [], 
+                       win  *w,
+                       int  num_cases,
+                       char case_string [max_cmap_selector_cases][128],
+@@ -65,8 +65,8 @@
+ 
+   }; 
+ 
+-bool cmap_sel      (char name [], char pattern []);
+-void get_file_list (char file_pattern [],
++bool cmap_sel      (const char name [], const char pattern []);
++void get_file_list (const char file_pattern [],
+                     int  &num_files,
+                     char file_list [max_cmap_selector_cases][128]);
+ 
+--- ../craft.orig/compress.h	Fri Feb 21 06:48:58 1997
++++ ./compress.h	Sun Jun 28 19:44:59 2009
+@@ -26,7 +26,7 @@
+      compress  ();
+      ~compress ();
+ 
+-     char *frame_name (char postfix []);
++     char *frame_name (const char postfix []);
+      void encode      (char name    []);
+      void decode      (char name    []);
+  
+--- ../craft.orig/cry.hc	Fri Feb 21 06:50:13 1997
++++ ./cry.hc	Sun Jun 28 19:48:00 2009
+@@ -1,3 +1,4 @@
++#include <cstdlib>
+ #include "cry.h"
+ 
+ void cry (char *func_name)
+--- ../craft.orig/dial.h	Fri Feb 21 06:50:13 1997
++++ ./dial.h	Sun Jun 28 18:54:56 2009
+@@ -35,7 +35,7 @@
+ 
+      int  val_dx;
+ 
+-     getline *g_value;
++     class getline *g_value;
+      button  *up;
+      button  *down;
+      button  *up2;
+@@ -46,7 +46,7 @@
+      bool    with_edit;
+ 
+    dial  (win  *w, 
+-          char title [],
++          const char title [],
+           int  title_dx,
+           int  x, 
+           int  y,
+@@ -60,7 +60,7 @@
+           int  incr2       = 0,
+           bool auto_repeat = false);
+    dial  (win  *w, 
+-          char title [],
++          const char title [],
+           int  title_dx,
+           int  x, 
+           int  y,
+--- ../craft.orig/errorhandling.h	Wed Mar 19 08:41:06 1997
++++ ./errorhandling.h	Sun Jun 28 19:02:39 2009
+@@ -13,26 +13,26 @@
+ #include "stdio.h"
+ 
+ void errorstop (int  error_no,
+-                char c_class [],
+-                char msg     []);
++                const char c_class [],
++                const char msg     []);
+ 
+ void errorstop (int  error_no,
+-                char c_class [],
+-                char msg     [],
+-                char info    []);
++                const char c_class [],
++                const char msg     [],
++                const char info    []);
+ 
+ void errorstop (int  error_no,
+-                char c_class [],
+-                char msg     [],
+-                char info    [],
+-		char param1  []);
++                const char c_class [],
++                const char msg     [],
++                const char info    [],
++		const char param1  []);
+ 
+ void errorstop (int  error_no,
+-                char c_class [],
+-                char msg     [],
+-                char info    [],
+-		char param1  [],
+-                char param2  []);
++                const char c_class [],
++                const char msg     [],
++                const char info    [],
++		const char param1  [],
++                const char param2  []);
+ 
+ #endif
+ 
+--- ../craft.orig/file_selector.h	Fri Feb 21 06:50:14 1997
++++ ./file_selector.h	Sun Jun 28 19:41:06 2009
+@@ -16,8 +16,8 @@
+    win      *w;
+ 
+    selector *sel;
+-   getline  *get_name;
+-   getline  *get_pattern;
++   class getline  *get_name;
++   class getline  *get_pattern;
+ 
+    int      num_files;
+    char     file_list [max_selector_cases][128];
+@@ -32,17 +32,17 @@
+ 
+    button   *cancel;
+   
+-   file_selector      (char name [], 
++   file_selector      (const char name [], 
+                        int  x,
+                        int  y,
+-                       char file_name    [],
+-                       char file_pattern [],
++                       const char file_name    [],
++                       const char file_pattern [],
+                        bool must_exists = true);
+ 
+-   file_selector      (char name [],
++   file_selector      (const char name [],
+                        int  x,
+                        int  y,
+-                       char full_file_name [],
++                       const char full_file_name [],
+                        bool must_exist = true);
+ 
+    ~file_selector     ();
+--- ../craft.orig/getline.h	Fri Feb 21 06:50:14 1997
++++ ./getline.h	Sun Jun 28 18:56:35 2009
+@@ -37,7 +37,7 @@
+    bool    was_deactive;
+    bool    is_single_char;
+    
+-   getline      (char name [],
++   getline      (const char name [],
+                  win  *w,
+                  char string [],
+                  int  x,
+--- ../craft.orig/hcc/hcc.cc	Fri Feb 21 06:50:16 1997
++++ ./hcc/hcc.cc	Sun Jun 28 18:51:50 2009
+@@ -1,8 +1,8 @@
+-#include "bool.h"
+-#include "stdio.h"
+-#include "std.h"
+-#include "string.h"
+-#include "ctype.h"
++#include "../bool.h"
++#include <cstdio>
++#include <cstdlib>
++#include <cstring>
++#include <cctype>
+ 
+ #define max_refinements 10000
+ #define max_src_lines   10000
+@@ -39,7 +39,7 @@
+ 
+ 
+ 
+-void f_open (FILE *&f, char name [], char mode [])
++void f_open (FILE *&f, const char name [], const char mode [])
+   {f = fopen (name, mode);
+     /* check_error */      {if (mode [0] == 'r' && f == NULL)
+          {printf ("1, FILE, file '%s' not found\n", name);
+@@ -91,7 +91,7 @@
+ 
+ void changeall (char s           [], 
+                 int  max_length_of_s,
+-                char tmplate     [],
++                const char tmplate     [],
+                 char replacement [])
+ 
+   {char *pos;
+@@ -175,7 +175,7 @@
+      };
+   }
+ 
+-void pass_1_error (int line_no, char msg [], int l)
++void pass_1_error (int line_no, const char msg [], int l)
+   {char err_msg [256];
+    char ii      [128];
+ 
+@@ -187,7 +187,7 @@
+    exit      (1);
+   }
+ 
+-void pass_1_error (int line_no, char msg [])
++void pass_1_error (int line_no, const char msg [])
+   {fclose (src);
+    printf ("error : %d : %s\n", line_no, msg);
+    exit   (1);
+--- ../craft.orig/install	Thu Jun 12 08:30:18 1997
++++ ./install	Sun Jun 28 18:42:20 2009
+@@ -1,75 +1,75 @@
+-#!/bin/sh 
++#!/bin/bash 
+ 
+ #---------------------------------------------------------------------
+ #
+ # The following assigns must be changed according to your system
+ #
+ 
+-GCC=gcc
+-GPP="g++"
++GCC=${CC:-gcc}
++GPP=${CXX:-g++}
+ 
+-XLIB=/usr/X11R6/lib
++#XLIB=/usr/X11R6/lib
+ 
+ #
+ #--------------------------------------------------------------------
+ 
+-CFLAGS="-O2 -fexpensive-optimizations -finline-functions"
++#CFLAGS="-O2 -fexpensive-optimizations -finline-functions"
+ HCC=hcc/hcc
+ CMP="$HCC -compiler $GCC $CFLAGS -c"
+ 
+-LFLAGS="-lX11 -lm -L$XLIB"
++LFLAGS="${LDFLAGS} -lX11 -lm"
+ 
+ 
+-echo hcc           ; gcc  -o hcc/hcc hcc/hcc.cc
++echo hcc           ; ${GPP}  -o ${HCC} hcc/hcc.cc || exit 1
+ 
+-echo color_trans   ; $CMP color_trans
+-echo xtimer        ; $CMP xtimer        
+-echo option_menu   ; $CMP option_menu   
+-echo setupedit     ; $CMP setupedit     
+-echo robot         ; $CMP robot         
+-echo land          ; $CMP land          
+-echo ship          ; $CMP ship          
+-echo building      ; $CMP building      
+-echo dir           ; $CMP dir           
+-echo object_handler; $CMP object_handler 
+-echo pic           ; $CMP pic           
+-echo player        ; $CMP player        
+-echo field         ; $CMP field         
+-echo ilfield       ; $CMP ilfield       
+-echo xbm           ; $CMP xbm           
+-echo cmap_edit     ; $CMP cmap_edit     
+-echo cmap          ; $CMP cmap          
+-echo ppm           ; $CMP ppm           
+-echo compress      ; $CMP compress      
+-echo table         ; $CMP table         
+-echo xmath         ; $CMP xmath         
+-echo io            ; $CMP io            
+-echo cry           ; $CMP cry           
+-echo win           ; $CMP win           
+-echo dial          ; $CMP dial          
+-echo multi_dial    ; $CMP multi_dial    
+-echo menu          ; $CMP menu          
+-echo xsystem       ; $CMP xsystem       
+-echo xfile         ; $CMP xfile         
+-echo ppm_handler   ; $CMP ppm_handler   
+-echo errorhandling ; $CMP errorhandling 
+-echo paramreader   ; $CMP paramreader   
+-echo pattern_match ; $CMP pattern_match 
+-echo objects       ; $CMP objects       
+-echo xstring       ; $CMP xstring       
+-echo id_handler    ; $CMP id_handler    
+-echo masks         ; $CMP masks         
+-echo buttons       ; $CMP buttons       
+-echo lru           ; $CMP lru           
+-echo scroller      ; $CMP scroller      
+-echo selector      ; $CMP selector      
+-echo cmap_selector ; $CMP cmap_selector 
+-echo getline       ; $CMP getline       
+-echo file_selector ; $CMP file_selector 
+-echo history       ; $CMP history       
+-echo craft         ; $CMP craft            
++echo color_trans   ; $CMP color_trans || exit 1
++echo xtimer        ; $CMP xtimer         || exit 1
++echo option_menu   ; $CMP option_menu    || exit 1
++echo setupedit     ; $CMP setupedit      || exit 1
++echo robot         ; $CMP robot          || exit 1
++echo land          ; $CMP land           || exit 1
++echo ship          ; $CMP ship           || exit 1
++echo building      ; $CMP building       || exit 1
++echo dir           ; $CMP dir            || exit 1
++echo object_handler; $CMP object_handler  || exit 1
++echo pic           ; $CMP pic            || exit 1
++echo player        ; $CMP player         || exit 1
++echo field         ; $CMP field          || exit 1
++echo ilfield       ; $CMP ilfield        || exit 1
++echo xbm           ; $CMP xbm            || exit 1
++echo cmap_edit     ; $CMP cmap_edit      || exit 1
++echo cmap          ; $CMP cmap           || exit 1
++echo ppm           ; $CMP ppm            || exit 1
++echo compress      ; $CMP compress       || exit 1
++echo table         ; $CMP table          || exit 1
++echo xmath         ; $CMP xmath          || exit 1
++echo io            ; $CMP io             || exit 1
++echo cry           ; $CMP cry            || exit 1
++echo win           ; $CMP win            || exit 1
++echo dial          ; $CMP dial           || exit 1
++echo multi_dial    ; $CMP multi_dial     || exit 1
++echo menu          ; $CMP menu           || exit 1
++echo xsystem       ; $CMP xsystem        || exit 1
++echo xfile         ; $CMP xfile          || exit 1
++echo ppm_handler   ; $CMP ppm_handler    || exit 1
++echo errorhandling ; $CMP errorhandling  || exit 1
++echo paramreader   ; $CMP paramreader    || exit 1
++echo pattern_match ; $CMP pattern_match  || exit 1
++echo objects       ; $CMP objects        || exit 1
++echo xstring       ; $CMP xstring        || exit 1
++echo id_handler    ; $CMP id_handler     || exit 1
++echo masks         ; $CMP masks          || exit 1
++echo buttons       ; $CMP buttons        || exit 1
++echo lru           ; $CMP lru            || exit 1
++echo scroller      ; $CMP scroller       || exit 1
++echo selector      ; $CMP selector       || exit 1
++echo cmap_selector ; $CMP cmap_selector  || exit 1
++echo getline       ; $CMP getline        || exit 1
++echo file_selector ; $CMP file_selector  || exit 1
++echo history       ; $CMP history        || exit 1
++echo craft         ; $CMP craft             || exit 1
+ 
+-$GPP xtimer.o option_menu.o setupedit.o robot.o land.o ship.o building.o dir.o object_handler.o pic.o player.o field.o ilfield.o xbm.o cmap_edit.o cmap.o ppm.o compress.o table.o xmath.o io.o cry.o win.o dial.o multi_dial.o menu.o xsystem.o xfile.o ppm_handler.o errorhandling.o paramreader.o pattern_match.o objects.o xstring.o id_handler.o color_trans.o masks.o buttons.o lru.o scroller.o selector.o cmap_selector.o getline.o file_selector.o history.o craft.o $LFLAGS -o craft
++$GPP xtimer.o option_menu.o setupedit.o robot.o land.o ship.o building.o dir.o object_handler.o pic.o player.o field.o ilfield.o xbm.o cmap_edit.o cmap.o ppm.o compress.o table.o xmath.o io.o cry.o win.o dial.o multi_dial.o menu.o xsystem.o xfile.o ppm_handler.o errorhandling.o paramreader.o pattern_match.o objects.o xstring.o id_handler.o color_trans.o masks.o buttons.o lru.o scroller.o selector.o cmap_selector.o getline.o file_selector.o history.o craft.o $LFLAGS -o craft || exit 1
+ 
+ 
+ 
+--- ../craft.orig/masks.h	Fri Feb 21 06:52:06 1997
++++ ./masks.h	Sun Jun 28 21:11:01 2009
+@@ -25,20 +25,20 @@
+                  int dx, int dy, 
+                  int color_1, int color_2);
+ 
+-bool yes        (win *w, char host [], char question []);
+-bool yes        (char host [], char question []);
+-bool yes        (char question []);
+-void ack        (char host [], char msg []);
+-void ack        (char message []);
++bool yes        (win *w, const char host [], const char question []);
++bool yes        (const char host [], const char question []);
++bool yes        (const char question []);
++void ack        (const char host [], const char msg []);
++void ack        (const char message []);
+ void tell       (win  *&w,
+-                 char message []);
+-void tell       (char host [],
++                 const char message []);
++void tell       (const char host [],
+                  win  *&w,
+-                 char message []);
+-void tell       (char host [],
++                 const char message []);
++void tell       (const char host [],
+                  win  *parent,
+                  win  *&w,
+-                 char message []);
++                 const char message []);
+ 
+ bool get_line   (char s    [],
+                  char name [],
+--- ../craft.orig/menu.h	Wed Mar 19 08:41:59 1997
++++ ./menu.h	Sun Jun 28 20:10:00 2009
+@@ -93,10 +93,10 @@
+   
+ 
+       menu ();
+-      menu (char name [],
++      menu (const char name [],
+             int  x,
+             int  y,
+-            char cmds [],
++            const char cmds [],
+             int  wmode = m_pop_up,
+             int  menu_group = std_menu_group);
+ 
+@@ -112,7 +112,7 @@
+      void release      ();
+      void release      (int no);
+      void write        (int m_no, char string [], bool pressed = false);
+-     bool get_cmd      (char cmds [], int &p, char cmd []);
++     bool get_cmd      (const char cmds [], int &p, char cmd []);
+      
+   };
+ 
+--- ../craft.orig/object_handler.h	Thu Apr 17 09:07:38 1997
++++ ./object_handler.h	Sun Jun 28 19:17:30 2009
+@@ -297,7 +297,7 @@
+   bool can_built             (int id, int x, int y, int cmd,
+                               bool is_robot = false);
+   bool attack_possible       (int id, int x, int y);
+-  void write                 (int color, char msg []);
++  void write                 (int color, const char msg []);
+   bool direct_move           (int id, int range, int &dx, int &dy);
+   bool max_diff              (int x, int y, int h);
+   bool min_diff              (int x, int y, int h);
+--- ../craft.orig/option_menu.hc	Fri Mar 21 07:20:47 1997
++++ ./option_menu.hc	Sun Jun 28 18:57:14 2009
+@@ -185,7 +185,7 @@
+   {dial    *d_is_self;
+    dial    *d_is_suny;
+    dial    *d_water_world;
+-   getline *seed;
++   class getline *seed;
+    char    seed_s [128];
+ 
+    init;
+@@ -217,7 +217,7 @@
+       d_is_suny     = new dial (w, "", 0,200, 140,is_suny);
+       d_water_world = new dial (w, "", 0,200, 180,is_water_world);
+       strcpy (seed_s, "");
+-      seed = new getline ("", w, seed_s, 200, 250, 90, 24);
++      seed = new class getline ("", w, seed_s, 200, 250, 90, 24);
+      }.
+ 
+ .  finish
+@@ -270,8 +270,8 @@
+   }
+ 
+ void player_menu (int act_menu, int &tic)
+-  {getline  *g_host;
+-   getline  *g_name;
++  {class getline  *g_host;
++   class getline  *g_name;
+ 
+    init;
+    session;
+@@ -298,8 +298,8 @@
+      }.
+ 
+ .  show_buttons
+-     {g_host  = new getline  ("",w, host [pno],60,160,180, 20);
+-      g_name  = new getline  ("",w, name [pno],60,230,180, 20);
++     {g_host  = new class getline  ("",w, host [pno],60,160,180, 20);
++      g_name  = new class getline  ("",w, name [pno],60,230,180, 20);
+      }.
+ 
+ .  finish
+--- ../craft.orig/paramreader.h	Wed Mar 19 08:42:26 1997
++++ ./paramreader.h	Sun Jun 28 21:18:22 2009
+@@ -56,13 +56,13 @@
+      int  num_includes;
+ 
+ 
+-          paramreader (char *param_file_name);
++          paramreader (const char *param_file_name);
+ 
+    void   dump       ();
+-   char * s_param    (char name []);
++   char * s_param    (const char name []);
+    double d_param    (char name []);
+-   int    i_param    (char name []);
+-   int    param_no   (char name []);
++   int    i_param    (const char name []);
++   int    param_no   (const char name []);
+    void   set        (char name [], char value []);
+    void   read_sym   (char sym  [], bool &is_eof);
+    int    max_i_name ();
+--- ../craft.orig/player.h	Fri Feb 21 06:52:14 1997
++++ ./player.h	Sun Jun 28 19:31:30 2009
+@@ -24,7 +24,7 @@
+ 
+    color_trans *ct [max_players];
+ 
+-   getline *g_msg;
++   class getline *g_msg;
+  
+    int    wdx;
+    int    wdy;
+@@ -149,7 +149,7 @@
+    void edit                ();
+ 
+    void inform              (char msg []);
+-   void write               (char msg []);
++   void write               (const char msg []);
+ 
+    void load_pics           ();
+ 
+@@ -184,17 +184,17 @@
+    int  x_center            (int lx);
+    int  y_center            (int ly);
+ 
+-   void show_percent        (int x,int y,int dx,int dy,int p,char title []);
++   void show_percent        (int x,int y,int dx,int dy,int p,const char title []);
+    void clear_percent       (int x,int y,int dx,int dy);
+    void clear_status        ();
+    void show_status         (int id, bool is_first_time);
+ 
+-   void push_cmd            (char name [], 
++   void push_cmd            (const char name [], 
+                              int  code, 
+                              char c, 
+                              int  price, 
+                              int  wood);
+-   void adjust_cmd          (int cmd, char c, char name []);
++   void adjust_cmd          (int cmd, char c, const char name []);
+    void adjust_cmds         ();
+ 
+    void talk                (char from [], char msg []);
+--- ../craft.orig/ppm_handler.hc	Fri Feb 21 06:52:17 1997
++++ ./ppm_handler.hc	Sun Jun 28 20:27:49 2009
+@@ -4,6 +4,7 @@
+ /*                                                                      */
+ /*======================================================================*/
+ 
++#include <cstring>
+ #include "ppm_handler.h"
+ #include "xfile.h"
+ 
+--- ../craft.orig/scroller.h	Fri Feb 21 06:52:19 1997
++++ ./scroller.h	Sun Jun 28 18:57:40 2009
+@@ -39,7 +39,7 @@
+      button *button_incr;
+      button *button_decr;
+ 
+-     scroller  (char name [],
++     scroller  (const char name [],
+                 win  *w,
+                 int  x,
+                 int  y,
+--- ../craft.orig/selector.h	Fri Feb 21 06:52:20 1997
++++ ./selector.h	Sun Jun 28 21:31:55 2009
+@@ -38,7 +38,7 @@
+    bool     mark         [max_selector_cases];
+    int      case_dy;   
+    
+-   selector (char name [], 
++   selector (const char name [], 
+              win  *w,
+              int  num_cases,
+              char case_string [max_selector_cases][128],
+--- ../craft.orig/table.h	Wed Mar 19 08:43:26 1997
++++ ./table.h	Sun Jun 28 19:59:03 2009
+@@ -68,7 +68,7 @@
+      table  (char dir [], char name [], bool &is_new, int lru_size = 0);
+      ~table ();
+ 
+-     void  check_bound (int adr, int row_no, int column_no, char action []);
++     void  check_bound (int adr, int row_no, int column_no, const char action []);
+      void  save        ();
+      void  load        ();
+ 
+@@ -76,7 +76,7 @@
+      void  rename      (char  new_name []);
+      void  copy        (table *destination); 
+ 
+-     int   add_column  (char name [], int type);
++     int   add_column  (const char name [], int type);
+      int   column_no   (char name []);
+      int   num_columns (); 
+ 
+--- ../craft.orig/win.h	Wed Mar 19 08:43:52 1997
++++ ./win.h	Sun Jun 28 21:15:21 2009
+@@ -129,7 +129,7 @@
+ /* ROUTINES text size information (deklarations)                        */
+ /*----------------------------------------------------------------------*/
+ 
+-void text_size (char s [], char font [], int &dx, int &dy, int &num_of_lines);
++void text_size (const char s [], const char font [], int &dx, int &dy, int &num_of_lines);
+ 
+ /*----------------------------------------------------------------------*/
+ /* Default Handler (deklarations)                                       */
+@@ -140,11 +140,11 @@
+ extern bool        win_handler_init;
+ extern paramreader *win_defaults;
+ 
+-int   win_default_i (int param, char default_name []);
+-int   win_default_i (char default_name []);
+-int   win_default_c (int param, char default_name []);
+-int   win_default_c (char default_name []);
+-char *win_default_s (char default_name []);
++int   win_default_i (int param, const char default_name []);
++int   win_default_i (const char default_name []);
++int   win_default_c (int param, const char default_name []);
++int   win_default_c (const char default_name []);
++char *win_default_s (const char default_name []);
+ int   win_color     (char color_name   []);
+ 
+ /*----------------------------------------------------------------------*/
+@@ -241,10 +241,10 @@
+      int           event_mark;
+      int           event_id;
+ 
+-          win  (char title []);
++          win  (const char title []);
+ 
+-          win  (char title [],
+-                char host  [],
++          win  (const char title [],
++                const char host  [],
+                 int  x,
+                 int  y, 
+                 int  dx,
+@@ -252,8 +252,8 @@
+                 bool enable        = true,
+                 bool resize_enable = false);
+           win  (win  *parent,
+-                char title [],
+-                char host  [],
++                const char title [],
++                const char host  [],
+                 int  x,
+                 int  y, 
+                 int  dx,
+@@ -289,9 +289,9 @@
+      void   mark_mouse       ();
+      void   scratch_mouse    ();
+      void   clear            ();
+-     void   set_font         (char name []);
+-     void   text_size        (char string [], int &dx, int &dy);
+-     void   write            (int x, int y, char   string []);
++     void   set_font         (const char name []);
++     void   text_size        (const char string [], int &dx, int &dy);
++     void   write            (int x, int y, const char   string []);
+      void   write            (int x, int y, double d);
+      void   write            (int x, int y, int    i);
+      void   set_clip         (int x, int y, int dx, int dy);
+@@ -332,13 +332,13 @@
+      int    dy               ();
+      void   tick             (bool just_raised);
+      void   tick             ();
+-     void   alloc_color      (char name [], int no);
++     void   alloc_color      (const char name [], int no);
+      void   create_color_map ();
+      void   draw             (polyline *p);
+      void   fill             (polyline *p);
+      void   xsync            ();
+ 
+-     Window grab             (Display *dsp, Window wnd, char name []);
++     Window grab             (Display *dsp, Window wnd, const char name []);
+ 
+      void   get_image        (XImage *&i, int x, int y, int dx, int dy);
+      void   put_image        (XImage *i, int x, int y, int dx, int dy);
+--- ../craft.orig/xfile.h	Wed Mar 19 08:44:01 1997
++++ ./xfile.h	Sun Jun 28 21:30:16 2009
+@@ -16,15 +16,15 @@
+ 
+ double d_get              (FILE *f, bool &is_eof);
+ time_t f_date             (char f_name []);
+-bool   f_exists           (char f_name []);
+-void   f_open             (FILE *&f, char name [], char mode []);
++bool   f_exists           (const char f_name []);
++void   f_open             (FILE *&f, const char name [], const char mode []);
+ void   f_open_with_extend (FILE *&f, char name [], char mode [], int max_no);
+ char   *f_getline         (FILE *f,  char line [], int  max_length); 
+ 
+ char   *f_postfix         (char full_path []);
+-char   *f_name            (char full_path []);
++char   *f_name            (const char full_path []);
+ char   *f_tail            (char full_path []);
+-char   *f_path            (char full_path []);
++char   *f_path            (const char full_path []);
+ char   *f_home_dir        (char full_path []);
+ bool   f_is_pattern       (char f_name    []);
+ bool   f_is_dir           (char f_name    []);
+@@ -35,8 +35,8 @@
+                            char f_pat  [],
+                            char mode   []);
+ 
+-char   *complete          (char name [],
+-                           char tail []);
++char   *complete          (const char name [],
++                           const char tail []);
+ 
+ void   bprintf            (FILE *f, int num_bytes, int i);
+ bool   bscanf             (FILE *f, int num_bytes, int &i);
+--- ../craft.orig/xstring.h	Fri Feb 21 06:52:27 1997
++++ ./xstring.h	Sun Jun 28 20:26:26 2009
+@@ -14,8 +14,8 @@
+                  int  max_length_of_s,
+                  char tmpalte     [],
+                  char replacement []);
+-char *substring (char s [], int from, int to);
+-char *substring (char s [], int from); 
++char *substring (const char s [], int from, int to);
++char *substring (const char s [], int from); 
+ int  submatch   (char s [], char p [], int &pos);
+ void strcat     (char s [], int len, char app []);
+ void delchar    (char s [], int pos);

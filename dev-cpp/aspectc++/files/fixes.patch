@@ -1,0 +1,70 @@
+diff -ru Puma.old/tools/orange/automaton.h Puma/tools/orange/automaton.h
+--- Puma.old/tools/orange/automaton.h	2010-12-09 03:24:40.000000000 -0500
++++ Puma/tools/orange/automaton.h	2010-12-09 03:27:07.000000000 -0500
+@@ -113,8 +113,8 @@
+    State* AddState (void);
+    void RemoveState (State* State);
+    void ShiftState (Automaton& From, State* State);
+-   void Automaton::ScanStates (ListEntry*& Context);
+-   State* Automaton::NextState (ListEntry*& Context);
++   void ScanStates (ListEntry*& Context);
++   State* NextState (ListEntry*& Context);
+    void Print (void);
+  };
+ 
+diff -ru Puma.old/tools/orange/classes.h Puma/tools/orange/classes.h
+--- Puma.old/tools/orange/classes.h	2010-12-09 03:24:40.000000000 -0500
++++ Puma/tools/orange/classes.h	2010-12-09 03:26:14.000000000 -0500
+@@ -41,7 +41,7 @@
+  }
+ 
+ inline void ClassId::Print (void)
+- { cout << "<" << Id << ">";
++ { std::cout << "<" << Id << ">";
+  }
+ 
+ 
+diff -ru Puma.old/tools/orange/charset.cc Puma/tools/orange/charset.cc
+--- Puma.old/tools/orange/charset.cc	2010-12-09 03:31:05.000000000 -0500
++++ Puma/tools/orange/charset.cc	2010-12-09 03:32:21.000000000 -0500
+@@ -2,6 +2,7 @@
+ # include "charconst.h"
+ # include <stdlib.h>
+ # include <iostream>
++using namespace std;
+ 
+ # define BIT_BLOCK(Char)   (Char / 32)
+ # define BIT_VAL(Char)     (1 << (Char % 32))
+diff -ru Puma.old/tools/orange/classes.cc Puma/tools/orange/classes.cc
+--- Puma.old/tools/orange/classes.cc	2010-12-09 03:36:18.000000000 -0500
++++ Puma/tools/orange/classes.cc	2010-12-09 03:36:36.000000000 -0500
+@@ -4,6 +4,7 @@
+ # include <iostream>
+ # include "classes.h"
+ # include "charset.h"
++using namespace std;
+ 
+ struct MapEntry 
+  { ClassId         Id;
+diff -ru Puma.old/tools/orange/expr_names.cc Puma/tools/orange/expr_names.cc
+--- Puma.old/tools/orange/expr_names.cc	2010-12-09 03:39:04.000000000 -0500
++++ Puma/tools/orange/expr_names.cc	2010-12-09 03:39:23.000000000 -0500
+@@ -1,5 +1,6 @@
+-#include <iostream.h>
++#include <iostream>
+ #include "expr_names.h"
++using namespace std;
+ 
+ void ExprNames::add (char* name)
+  {
+diff -ru Puma.old/src/aspects/ExtACKeywords.ah Puma/src/aspects/ExtACKeywords.ah
+--- Puma.old/src/aspects/ExtACKeywords.ah	2010-12-09 03:42:27.000000000 -0500
++++ Puma/src/aspects/ExtACKeywords.ah	2010-12-09 03:44:40.000000000 -0500
+@@ -21,6 +21,7 @@
+ 
+ #include "Puma/CProject.h"
+ #include "Puma/FileUnit.h"
++#include <cstring>
+ 
+ using namespace Puma;
+ 

@@ -1,0 +1,48 @@
+--- oleo-1.99.16.orig/doc/expressions.texi
++++ oleo-1.99.16/doc/expressions.texi
+@@ -1,4 +1,4 @@
+-@node   Expressions, , .oleorc file, Basics
++@node   Expressions, , ~/.oleorc file, Basics
+ @section Expressions
+ @cindex Expressions
+ 
+--- oleo-1.99.16.orig/doc/basics.texi
++++ oleo-1.99.16/doc/basics.texi
+@@ -46,7 +46,7 @@
+ * Getting Help::                Getting help
+ * Saving and reading::          Saving and reading Spreadsheets
+ * Command Line Options::        Command Line Options
+-* .oleorc file::                The initialization file
++* ~/.oleorc file::              The initialization file
+ * Expressions::                 Types of expressions
+ @end menu
+ 
+@@ -109,7 +109,7 @@
+ M-x set-option @key{RET} input -1
+ @end example
+ 
+-This can be made the default.  (@pxref{.oleorc file})
++This can be made the default.  (@pxref{~/.oleorc file})
+ 
+ @node Status Line , Work Area, Minibuffer, The Screen
+ @unnumberedsubsec The status line
+@@ -638,7 +638,7 @@
+ 
+ 
+ 
+-@node Command Line Options, .oleorc file, Saving and reading, Basics
++@node Command Line Options, ~/.oleorc file, Saving and reading, Basics
+ @section Command Line Options
+ @comment  node-name,  next,  previous,  up
+ @cindex Command Line Options
+@@ -683,8 +683,8 @@
+ @end table
+ 
+ 
+-@node .oleorc file, Expressions, Command Line Options, Basics
+-@section The @file{.oleorc} file
++@node ~/.oleorc file, Expressions, Command Line Options, Basics
++@section The @file{~/.oleorc} file
+ @cindex .oleorc
+ @comment  node-name,  next,  previous,  up
+ 

@@ -1,0 +1,22 @@
+--- grabchars.c.old	2013-03-01 14:29:45.000000000 -0500
++++ grabchars.c	2013-03-01 14:30:45.000000000 -0500
+@@ -97,6 +97,8 @@
+ #include <stdio.h>
+ #include <signal.h>
+ #include <ctype.h>
++#include <stdlib.h>
++#include <string.h>
+ #include "grabchars.h"
+ 
+ /*	see globals.c */
+--- sys.c.old	2013-03-01 14:35:26.000000000 -0500
++++ sys.c	2013-03-01 14:35:51.000000000 -0500
+@@ -20,6 +20,8 @@
+ 
+ #include <stdio.h>
+ #include <signal.h>
++#include <string.h>
++#include <stdlib.h>
+ #include "grabchars.h"
+ 
+ 

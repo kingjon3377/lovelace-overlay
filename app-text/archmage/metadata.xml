@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+<herd>proxy-maintainers</herd>
+<use>
+  <flag name='dump'>Allow dumping to text using <pkg>app-text/htmldoc</pkg> and
+  	either <pkg>www-client/lynx</pkg> or <pkg>www-client/elinks</pkg></flag>
+</use>
+</pkgmetadata>

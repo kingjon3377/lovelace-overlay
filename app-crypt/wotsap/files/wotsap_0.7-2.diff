@@ -1,0 +1,23 @@
+--- wotsap-0.7.orig/wotsap
++++ wotsap-0.7/wotsap
+@@ -1494,6 +1494,20 @@
+             self.font = ImageFont.load(fontfile)
+             return
+ 
++        # Modified by Giovanni Mascellani <g.mascellani@gmail.com> for Debian packaging
++        # If no fonts are specified on command line tries first for existing TTF
++        # before falling back to the built-in one.
++	try:
++            self.font = ImageFont.truetype("/usr/share/fonts/dejavu/DejaVuSans.ttf", ttffilesize)
++            return
++	except IOError:
++            pass
++	try:
++            self.font = ImageFont.truetype("/usr/share/fonts/freefont/FreeSans.ttf", ttffilesize)
++            return
++	except IOError:
++            pass
++
+         import StringIO, base64, zlib
+         self.font = ImageFont.ImageFont()
+ 

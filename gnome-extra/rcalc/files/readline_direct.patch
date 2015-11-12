@@ -1,0 +1,73 @@
+--- configure.old	2010-11-22 17:31:39.000000000 -0500
++++ configure	2010-11-22 17:33:59.000000000 -0500
+@@ -6361,9 +6361,68 @@
+ { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_readline_readline" >&5
+ $as_echo "$ac_cv_lib_readline_readline" >&6; }
+ if test "x$ac_cv_lib_readline_readline" = x""yes; then :
+-  READLINE_LIB="-lreadline"
++  READLINE_LIBS="-lreadline"
+ else
+-  as_fn_error "Readline library not found" "$LINENO" 5
++  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for readline in -lreadline with -ltermcap" >&5
++$as_echo_n "checking for readline in -lreadline with -ltermcap... " >&6; }
++        ac_save_LIBS="$LIBS"
++        LIBS="$ac_save_LIBS -lreadline -ltermcap"
++        cat confdefs.h - <<_ACEOF >conftest.$ac_ext
++/* end confdefs.h.  */
++#include <stdio.h>
++#include <readline/readline.h>
++int
++main ()
++{
++readline("");
++  ;
++  return 0;
++}
++_ACEOF
++if ac_fn_c_try_link "$LINENO"; then :
++  { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
++$as_echo "yes" >&6; }
++            READLINE_LIBS="-lreadline -ltermcap"
++            LIBS="$ac_save_LIBS"
++            have_readline=yes
++else
++  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
++$as_echo "no" >&6; }
++          { $as_echo "$as_me:${as_lineno-$LINENO}: checking for readline in -lreadline with -lncurses" >&5
++$as_echo_n "checking for readline in -lreadline with -lncurses... " >&6; }
++          LIBS="$ac_save_LIBS -lreadline -lncurses"
++          cat confdefs.h - <<_ACEOF >conftest.$ac_ext
++/* end confdefs.h.  */
++#include <stdio.h>
++#include <readline/readline.h>
++int
++main ()
++{
++readline("");
++  ;
++  return 0;
++}
++_ACEOF
++if ac_fn_c_try_link "$LINENO"; then :
++  { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
++$as_echo "yes" >&6; }
++              READLINE_LIBS="-lreadline -lncurses"
++              LIBS="$ac_save_LIBS"
++              have_readline=yes
++else
++  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
++$as_echo "no" >&6; }
++            READLINE_LIBS=""
++            LIBS="$ac_save_LIBS"
++
++fi
++rm -f core conftest.err conftest.$ac_objext \
++    conftest$ac_exeext conftest.$ac_ext
++
++fi
++rm -f core conftest.err conftest.$ac_objext \
++    conftest$ac_exeext conftest.$ac_ext
++
+ fi
+ 
+ 	READLINE_LIBS="$TERMCAP_LIB $READLINE_LIB"

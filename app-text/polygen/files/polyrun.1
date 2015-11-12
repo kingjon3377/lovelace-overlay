@@ -1,0 +1,32 @@
+.TH POLYRUN 1 "October 2, 2006"
+.SH NAME
+polyrun, polyfind \- Find polygen grammars and run polygen
+.SH SYNOPSIS
+.B polyrun
+.RI [options]
+grammar
+.br
+.B polyfind
+.RI grammar
+.SH DESCRIPTION
+\fBpolyrun\fP runs \fBpolygen\fP expanding the given grammar name into its full path,
+so that \fBpolygen\fP can find it.
+.P
+Grammars (which can be specified with partial paths, such as \fIdebian/flame\fP)
+are searched in the current directory first, then in a subdirectory of
+\fI/usr/share/polygen\fP according to the current locale settings, then
+recursively under \fI/usr/share/polygen\fP and all its subdirectories.
+Grammars can be specified with or without the \fI.grm\fP extension.
+.P
+\fBpolyfind\fP just looks for the full pathname of the given grammar and prints
+it on standard output.
+.SH OPTIONS
+\fBpolyrun\fP is a wrapper to \fBpolygen\fP, and the options are passed to \fBpolygen\fP as-is.
+.P
+\fBpolyfind\fP only takes the grammar name as argument.
+.SH SEE ALSO
+polygen(1),
+polygen-data(6)
+.SH AUTHOR
+\fBpolyrun\fP/\fBpolyfind\fP and this manpage are written and maintained by
+enrico@enricozini.org.

@@ -1,0 +1,864 @@
+diff -Nur mailliststat-1.3/examples/example.php mailliststat-1.3.new/examples/example.php
+--- mailliststat-1.3/examples/example.php	2005-12-01 21:44:46.000000000 +0100
++++ mailliststat-1.3.new/examples/example.php	2005-12-01 22:16:50.000000000 +0100
+@@ -6,7 +6,6 @@
+ require("mls_class.php");
+ $mls=new MailListStat;
+ $mls->title="Statistics for MOBiL (year 2002)";
+-$mls->default_lang="sk";
+ $mls->default_topX="25";
+ $mls->path="/usr/local/bin/mailliststat"; // mailliststat executable
+ $mls->input="/home/marki/2002.cache"; // input file
+diff -Nur mailliststat-1.3/html/mls_class.php mailliststat-1.3.new/html/mls_class.php
+--- mailliststat-1.3/html/mls_class.php	2005-12-01 21:44:46.000000000 +0100
++++ mailliststat-1.3.new/html/mls_class.php	2005-12-01 22:16:13.000000000 +0100
+@@ -27,7 +27,6 @@
+ ===cut===example===list.php===
+ require("mls.php");
+ $mls=new MailListStat;
+-$mls->default_lang="SK";
+ $mls->input="/home/marki/list.cache";
+ $mls->is_cache=true;
+ $mls->Run();
+@@ -49,8 +48,7 @@
+  // graphs to show (-g in mailliststat; don't specify to use default in
+  // mailliststat)
+  var $graph="";
+- // default values for LANG & topXX
+- var $default_lang="EN";
++ // default values for topXX
+  var $default_topX="10";
+  // alter email addresses in output to prevent spam?
+  // Specify regexp search & replace patterns; empty to do nothing
+@@ -59,7 +57,6 @@
+  var $email_srch="@";
+  var $email_repl=" (at) ";
+  //$email_repl="@NOSPAM.";
+- var $lang="";
+  var $topX="";
+  var $timer_start=0;
+ 
+@@ -70,12 +67,10 @@
+  function Run() { // main function called by user
+    global $HTTP_GET_VARS;
+    // get user submitted values (or use default)
+-   $this->lang=$HTTP_GET_VARS['lang']; // language (-l option in mailliststat)
+    $this->topX=$HTTP_GET_VARS['topX']; // print topXX (-n)
+-   if (!$this->lang) $this->lang=$this->default_lang;
+    if (!$this->topX) $this->topX=$this->default_topX;
+    // check user (web) submitted data for validity
+-   if (!eregi("^[a-z]{2}$",$this->lang) || !eregi("^[0-9]{1,3}$",$this->topX))
++   if (!eregi("^[0-9]{1,3}$",$this->topX))
+       $this->error("You have specified invalid parameters!");
+    echo $this->RunMLS(); // run mailliststat & print output
+    $this->timeEnd();
+@@ -96,7 +91,7 @@
+    if ($this->name)  $exec.=" -t ".escapeShellArg($this->name);
+    if ($this->title) $exec.=" -T ".escapeShellArg($this->title);
+    if ($this->graph) $exec.=" -g ".escapeShellArg($this->graph);
+-   $exec.=" -n $this->topX -l $this->lang $inp ".escapeShellArg($this->input);
++   $exec.=" -n $this->topX $inp ".escapeShellArg($this->input);
+    $exec.=" -q"; // quiet
+    exec($exec, $a_out, $ret);
+    // check return value
+@@ -119,26 +114,15 @@
+    } else return $buff;
+  }// RunMLS()
+ 
+- function PrepareLinks() { // prepare links for changing LANG & topXX
++ function PrepareLinks() { // prepare links for changing topXX
+    global $HTTP_SERVER_VARS;
+    $self=$HTTP_SERVER_VARS['PHP_SELF'];
+    $added="<center>\n";
+-   $added.="<b>Language:</b>&nbsp;[&nbsp;";
+-   $a_lang1=array("de","en","fr","it","sk","es","sr","br");
+-   $a_lang2=array("Deutsch","English","Francais","Italiano","Slovak","Spanish","Serbian","Portugues Brasil");
+-   for ($i=0; $i < count($a_lang1); $i++) {
+-     $o1=$a_lang1[$i];
+-     $o2=$a_lang2[$i];
+-     if (StrToUpper($this->lang)!=StrToUpper($o1)) $o2="<a href=\"$self?topX=$this->topX&lang=$o1\">$o2</a>";
+-     $o2.="&nbsp;";
+-     if ($i) $o2="|&nbsp;".$o2;
+-     $added.=$o2;
+-   }
+-   $added.="]<br>\n<b>Print TOP:</b>&nbsp;[&nbsp;";
++   $added.="<b>Print TOP:</b>&nbsp;[&nbsp;";
+    $a_topX=array("5","10","20","25","50","100","200","250","500","999");
+    for ($i=0; $i < count($a_topX); $i++) {
+      $o1=$a_topX[$i];
+-     if ($this->topX != $o1) $o1="<a class=\"wr\" href=\"$self?topX=$o1&lang=$this->lang\">$o1</a>";
++     if ($this->topX != $o1) $o1="<a class=\"wr\" href=\"$self?topX=$o1\">$o1</a>";
+      $o1.="&nbsp;";
+      if ($i) $o1="|&nbsp;".$o1;
+      $added.=$o1;
+diff -Nur mailliststat-1.3/INSTALL mailliststat-1.3.new/INSTALL
+--- mailliststat-1.3/INSTALL	2005-12-01 21:44:46.000000000 +0100
++++ mailliststat-1.3.new/INSTALL	2005-12-01 22:10:32.000000000 +0100
+@@ -33,16 +33,4 @@
+ * PHP wrapper - see file README
+ * Examples    - see dir  examples/
+ 
+- How to add another language
+-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-* You can just translate everything in mls_lang.h and send it to me and I will
+-  include it in next release.
+-
+-* Or can add another language as specified in mls_lang.h, but you will need to
+-  change also mls.c
+-  * add line for your language to parameters-parsing switch(c) - it's at the
+-    beginning of main()
+-
+-* Sorry for such a bad implementation, but I have no time to learn gettext()
+-  and it has disadvantage that it needs specials files to be located somewhere.
+ /****************************************************************************/
+diff -Nur mailliststat-1.3/Makefile mailliststat-1.3.new/Makefile
+--- mailliststat-1.3/Makefile	2005-12-01 22:01:57.000000000 +0100
++++ mailliststat-1.3.new/Makefile	2005-12-01 22:03:18.000000000 +0100
+@@ -8,18 +8,20 @@
+ OPTIMIZE=-O3
+ 
+ PACKAGE=mailliststat
++DESTDIR=/usr/local
++LOCALEDIR=$(DESTDIR)/share/locale
+ # debug symbols will be stripped anyway during 'make install'
+ DEBUG=-g
+ 
+ #### DON'T CHANGE ANYTHING BELOW ####
+-DESTDIR=/usr/local
+ CFLAGS=-Wall $(OPTIMIZE) $(DEBUG)
+ LIBS=-lm
+-CC=gcc
++CC=gcc -DLOCALEDIR="\"$(LOCALEDIR)\"" -DPACKAGE="\"$(PACKAGE)\""
+ 
+ OBJS=mls.o mls_mime.o mls_text.o mls_list.o mls_stat.o
+ 
+ all: mailliststat
++	make -C po/ all
+ 	make -C man/ all
+ 
+ $(PACKAGE): $(OBJS) Makefile
+@@ -37,7 +39,7 @@
+ mls_stat.o: mls_stat.c mls_stat.h Makefile
+ 	$(CC) $(CFLAGS) -c mls_stat.c -o mls_stat.o
+ 
+-mls_text.o: mls_text.c mls_text.h mls_lang.h Makefile
++mls_text.o: mls_text.c mls_text.h Makefile
+ 	$(CC) $(CFLAGS) -c mls_text.c -o mls_text.o
+ 
+ install: $(PACKAGE)
+@@ -51,12 +53,16 @@
+ 	@echo "*** See also 'examples' subdir for some hints...           ***"
+ 	@echo "******************** MLS install complete ********************"
+ 	make -C man/ install DESTDIR=$(DESTDIR)
++	make -C po/ install LOCALEDIR=$(LOCALEDIR)
+ 
+ clean:
+ 	rm -f $(wildcard *.o) $(PACKAGE)
++	make -C po/ clean
+ 	make -C man/ clean
+ 
++
+ uninstall:
+ 	rm -fv $(DESTDIR)/bin/$(PACKAGE)
+ 	rm -fv $(DESTDIR)/man/man1/$(PACKAGE).1.gz
+ 	make -C man/ uninstall DESTDIR=$(DESTDIR)
++	make -C po/ uninstall LOCALEDIR=$(LOCALEDIR)
+diff -Nur mailliststat-1.3/man/mailliststat.1 mailliststat-1.3.new/man/mailliststat.1
+--- mailliststat-1.3/man/mailliststat.1	2005-12-01 21:44:46.000000000 +0100
++++ mailliststat-1.3.new/man/mailliststat.1	2005-12-01 22:28:37.000000000 +0100
+@@ -3,8 +3,7 @@
+ .SH NAME
+ mailliststat \- Display useful statistics on email messages
+ .SH SYNOPSIS
+-.B mailliststat [-hvq] [-l
+-.IB lang "] [-i"
++.B mailliststat [-hvq] [-i
+ .IB file "] [-o"
+ .IB file "] [-r|w|u"
+ .IB file "] [-t|T"
+@@ -36,20 +35,6 @@
+ 200th, ..., 900th, 1000th, 2000th ... message being processed) and warnings 
+ about malformed headers found
+ .TP
+-.BI \-l " lang"
+-select output language; please note that this applies only to generated 
+-statistics - program messages printed to
+-.I stderr
+-ale always in English. These languages are currently supported:
+-.IR EN " (English),"
+-.IR SK " (Slovak),"
+-.IR IT " (Italian),"
+-.IR FR " (Francais),"
+-.IR DE " (Deutsch),"
+-.IR ES " (Spanish),"
+-.IR SR " (Serbian),"
+-.IR BR " (Portugues Brasil)."
+-.TP
+ .BI \-i " file"
+ name of input file (if not specified, use
+ .IR stdin ")."
+@@ -108,7 +93,7 @@
+ of cache file is invalid. Try to create the cache file again.
+ .TP
+ .B 2
+-Invalid command-line option/language. You have specified an invalid
++Invalid command-line option. You have specified an invalid
+ command-line parameter.
+ .TP
+ .B 3
+@@ -140,8 +125,8 @@
+ put their special messages to the mailbox. This message is only ignored when
+ reporting oldest message found.
+ .SS Output
+-Statistics is put into output file (or stdout if unspecified) in specified
+-language. All diagnostic messages are written to stderr and are in English.
++Statistics is put into output file (or stdout if unspecified). All
++diagnostic messages are written to stderr.
+ Output consists of several statistical data - tables, graphs and summaries.
+ The title has two formats depending on
+ .I "-t"
+@@ -197,7 +182,7 @@
+ actual stats using
+ .B mailliststat
+  as CGI script. It has an advantage over static stats
+-that user can choose language and others options and it will be generated
++that user can choose options and it will be generated
+ in a moment!
+ 
+ To update cache file, use the
+@@ -223,13 +208,13 @@
+ I have written also PHP wrapper for
+ .B mailliststat
+ to make it more "interactive". It has
+-two major advantages over plain HTML output from
++one major advantage over plain HTML output from
+ .BR mailliststat :
+ User can choose output
+-language and number of TOP items to show. It works by running
++number of TOP items to show. It works by running
+ .B mailliststat
+-with appopriate command-line options. It's safe, because only two items from user
+-are language and topXX which are checked using regexp, so running arbitrary
++with appopriate command-line options. It's safe, because only one item from user
++is topXX which is checked using regexp, so running arbitrary
+ code is not possible. You can also alter
+ .B mailliststat
+ output - for example change @ in email addresses to (at) to prevent spamming.
+diff -Nur mailliststat-1.3/mls.c mailliststat-1.3.new/mls.c
+--- mailliststat-1.3/mls.c	2005-12-01 21:44:46.000000000 +0100
++++ mailliststat-1.3.new/mls.c	2005-12-01 22:08:45.000000000 +0100
+@@ -23,12 +23,13 @@
+ #include "mls_mime.h"
+ #include "mls_list.h"
+ #include "mls_stat.h"
++#include <libintl.h>
++
+ 
+ /* ************************************************** GLOBAL VARIABLES *** */
+ FILE *fInp,*fOut;  // In/Out file handler
+ long nSprav=0;     // total number of messages
+ long nDlzka=0;     // total size of msgs (only body parts are counted)
+-int lang=99;       // language to use on output (99=not def.)
+ int verbose=0;     // verbose mode
+ int quiet=0;       // quiet mode
+ int onlytitle=0;   // show only user-defined text as title? (w/o oldest/newest date)
+@@ -64,7 +65,6 @@
+   fprintf(stderr,"  -h      ... print this help text and exit\n");
+   fprintf(stderr,"  -v      ... verbose mode - print some \"useful\" info\n");
+   fprintf(stderr,"  -q      ... be quiet (print only errors to stderr)\n");
+-  fprintf(stderr,"  -l lang ... select output language (EN,SK,IT,FR,DE,ES,SR,BR)*\n");
+   fprintf(stderr,"  -i file ... name of input file (if not specified, stdin)\n");
+   fprintf(stderr,"  -o file ... name of output file (if not specified, stdout)\n");
+   fprintf(stderr,"  -r file ... read input from cache file instead of mailbox\n");
+@@ -255,24 +255,16 @@
+   struct rusage r_usage;      // for resource usage stats
+ #endif
+ 
++  setlocale (LC_ALL, "");
++  bindtextdomain (PACKAGE, LOCALEDIR);
++  textdomain (PACKAGE);
++
+   if (gettimeofday(&t_beg,NULL)) myWarn("Error: gettimeofday()",strerror(errno),0);
+   t_oldest=t_newest=0;
+   // parse parameters
+   opterr=0;
+   while ((c=getopt(argc, argv, "hl:i:o:t:T:n:r:w:u:m:g:vq"))>=0) {
+     switch (c) {
+-      case 'l': // output language
+-                lang=99;
+-                if (!strncasecmp(optarg,"SK\000",3)) lang=0;
+-                if (!strncasecmp(optarg,"EN\000",3)) lang=1;
+-                if (!strncasecmp(optarg,"IT\000",3)) lang=2;
+-                if (!strncasecmp(optarg,"FR\000",3)) lang=3;
+-                if (!strncasecmp(optarg,"DE\000",3)) lang=4;
+-                if (!strncasecmp(optarg,"ES\000",3)) lang=5;
+-                if (!strncasecmp(optarg,"SR\000",3)) lang=6;
+-                if (!strncasecmp(optarg,"BR\000",3)) lang=7;
+-		if (lang==99) myWarn("Invalid language!","\nSK=Slovak  EN=English IT=Italiano ES=Spanish\nSR=Serbian DE=Deutsch FR=Francais BR=Portugues Brasil",2);
+-                break;
+       case 'm': // mode of output stats
+                 mode=99;
+                 if (!strncasecmp(optarg,"text\000" ,5)) mode=0;
+@@ -374,11 +366,6 @@
+      fOut=stdout;
+   }
+ 
+-  if ((lang==99) && !(files & (F_WRITE | F_UPDATE))) { // no language && doing normal output (= not doing cache write/update)
+-     myWarn("No output language specified, using default English.","",0);
+-     lang=1;
+-  }
+-
+   if ((msgQ=(nQptr)malloc(sizeof(struct bestQUOTE)))==NULL) myWarn("Not enough memory!","",4);
+   msgQ->auth[0]='\0';
+   msgQ->subj[0]='\0';
+diff -Nur mailliststat-1.3/mls_mime.c mailliststat-1.3.new/mls_mime.c
+--- mailliststat-1.3/mls_mime.c	2005-12-01 21:44:46.000000000 +0100
++++ mailliststat-1.3.new/mls_mime.c	2005-12-01 22:42:37.000000000 +0100
+@@ -94,7 +94,7 @@
+ 
+ void compile_mime_regex() {
+  char sB[]="(=\\?([0-9a-z-]*)\\?B\\?([0-9a-z+/=]*)\\?=)";
+- char sQ[]="(=\\?([0-9a-z-]*)\\?Q\\?(([!-<]|[>-~]|=[0-9a-f]{2}|\\0x9| |_)*)\\?=)";
++ char sQ[]="(=\\?([0-9a-z-]*)\\?Q\\?(([:print:]*[^? ])*)\\?=)";
+  char sH[]="(=[0-9a-z]{2})";
+ 
+  if (regcomp(&r_base64, sB, REG_EXTENDED | REG_ICASE) > 0) myWarn("Error compiling regex!","(mime_base64)",5);
+diff -Nur mailliststat-1.3/mls_text.c mailliststat-1.3.new/mls_text.c
+--- mailliststat-1.3/mls_text.c	2005-12-01 21:44:46.000000000 +0100
++++ mailliststat-1.3.new/mls_text.c	2005-12-01 22:08:45.000000000 +0100
+@@ -19,13 +19,14 @@
+  ****************************************************************************/
+ 
+ #include "mls.h"
+-#include "mls_lang.h"
+ #include "mls_stat.h"
++#include <libintl.h>
++#include <langinfo.h>
++#define _(String) gettext (String)
+ 
+ // because we must specify it when 2dimensional array is passed to function
+ #define SNUMB_LEN	4
+ 
+-extern int lang;
+ extern int graph;
+ extern int onlytitle;
+ extern FILE *fOut;
+@@ -83,7 +84,7 @@
+   int i;
+   
+   for (i=1, akt=first; (i <= top) && (akt!=NULL); i++, akt=akt->next) {
+-      if (akt->text[0]=='\0') myCopy(akt->text, langUnknown[lang], MAX_TEXT);
++      if (akt->text[0]=='\0') myCopy(akt->text, _("(unknown)"), MAX_TEXT);
+       fprintf(fOut,"|%3i | %-44.44s |%5li |%6.2f %% |\n",i,akt->text,akt->count,(float)akt->count/nSprav*100);
+   }
+ }
+@@ -94,7 +95,7 @@
+   int i;
+   
+   for (i=1, akt=first; (i <= top) && (akt!=NULL); i++, akt=akt->next) {
+-      if (akt->text[0]=='\0') myCopy(akt->text, langUnknown[lang], MAX_TEXT);
++      if (akt->text[0]=='\0') myCopy(akt->text, _("(unknown)"), MAX_TEXT);
+       fprintf(fOut," <TR class=\"%s\"><td align=\"right\">%i<td>%s<td align=\"right\">%li<td align=\"right\">%6.2f %%\n",(i%2)?"topXXtr1":"topXXtr2",i,akt->text,akt->count,(float)akt->count/nSprav*100);
+   }
+ }
+@@ -105,7 +106,7 @@
+   int i;
+   
+   for (i=1, akt=first; (i <= top) && (akt!=NULL); i++, akt=akt->next) {
+-      if (akt->text[0]=='\0') myCopy(akt->text, langUnknown[lang], MAX_TEXT);
++      if (akt->text[0]=='\0') myCopy(akt->text, _("(unknown)"), MAX_TEXT);
+       fprintf(fOut,"|%3i | %-45.45s       |%6.2f %% |\n",i,akt->text,(float)akt->count/100);
+   }
+ }
+@@ -135,7 +136,7 @@
+     }
+     fprintf(fOut,"\n%3i%% -%s", i*10, line);
+     if (i==10) fprintf(fOut," - %li", max);
+-    if (i== 9) fprintf(fOut," %s", langMess[lang]);
++    if (i== 9) fprintf(fOut," %s", _("msgs"));
+   }
+   // footer - description of x-axis
+   for (i=0; i < max_index; i++) {
+@@ -161,7 +162,7 @@
+ // GRAPH w/ HORIZONTAL BARS (and ALT tags)
+ /*
+   fprintf(fOut," <TR valign=\"middle\"><td class=\"graph\" align=\"center\"><i>%s</i>", sHeader);
+-  fprintf(fOut,"<td class=\"graph\" align=\"left\">&nbsp;<i>%s</i>\n", langMess[lang]);
++  fprintf(fOut,"<td class=\"graph\" align=\"left\">&nbsp;<i>%s</i>\n", _("msgs"));
+   for (i=0; i < max_index; i++) {
+     a=(float)data[i]/max;
+     for (j=0; j < a*10; j++) ch[j]='#'; // print # for every 10%
+@@ -172,7 +173,7 @@
+   }
+ */
+ // GRAPH w/ VERTICAL BARS
+-  fprintf(fOut, "<TR valign=\"bottom\"><td class=\"graph\" align=\"center\">%s\n", langMess[lang]);
++  fprintf(fOut, "<TR valign=\"bottom\"><td class=\"graph\" align=\"center\">%s\n", _("msgs"));
+   for (i=0; i < max_index; i++) {
+     a=(float)data[i]/max;
+     a*=150; // max. height of bar
+@@ -194,129 +195,129 @@
+ 
+   if (nSprav > 0) {
+    tm1=localtime(&t_oldest);
+-   sprintf(string,"\n %s %i.%i.%i", langTit1[lang], tm1->tm_mday, tm1->tm_mon+1, tm1->tm_year+1900);
++   sprintf(string,"\n %s %i.%i.%i", _("Statistics from"), tm1->tm_mday, tm1->tm_mon+1, tm1->tm_year+1900);
+    tm1=localtime(&t_newest);
+-   sprintf(string+strlen(string)," %s %i.%i.%i", langTit2[lang], tm1->tm_mday, tm1->tm_mon+1, tm1->tm_year+1900);
+-   if (title[0]!='\0') sprintf(string+strlen(string)," %s %s",langTit3[lang],title);
++   sprintf(string+strlen(string)," %s %i.%i.%i", _("to"), tm1->tm_mday, tm1->tm_mon+1, tm1->tm_year+1900);
++   if (title[0]!='\0') sprintf(string+strlen(string)," %s %s",_("for"),title);
+    if (onlytitle==1) sprintf(string, "%s", title); // only user-defined title
+    fprintf(fOut,"%s\n",string);
+    for (i=0; i<strlen(string); i++) fprintf(fOut,"~");
+ 
+    // TOP AUTHORS by no. of msgs
+-   fprintf(fOut,"\n***** %s\n",langTOPpeople[lang]);
+-// fprintf(fOut,"+----+----%s----------------------------------+%s+-Percent-+\n",langGAuthor[lang],langGMess[lang]);
+-   fprintf(fOut,"+----+----%s----------------------------------+%s+%s+\n",langGAuthor[lang],langGMess[lang],langPercent[lang]);
++   fprintf(fOut,"\n***** %s\n",_("People who have written most messages:"));
++// fprintf(fOut,"+----+----%s----------------------------------+%s+-Percent-+\n",_("-Author-"),_("--Msg-"));
++   fprintf(fOut,"+----+----%s----------------------------------+%s+%s+\n",_("-Author-"),_("--Msg-"),_("-Percent-"));
+    PrintTop(zozA, topXX);
+    fprintf(fOut,"+----+----------------------------------------------+------+---------+\n");
+    i=nSprav - GetSumZoz(zozA, topXX);
+-   fprintf(fOut,"|    | %-44.44s |%5li | %5.2f %% |\n",langOstI[lang],i,(float)i/nSprav*100);
++   fprintf(fOut,"|    | %-44.44s |%5li | %5.2f %% |\n",_("other"),i,(float)i/nSprav*100);
+    fprintf(fOut,"+----+----------------------------------------------+------+---------+\n");
+ 
+    // TOP AUTHORS by total size of msgs
+-   fprintf(fOut,"\n***** %s\n",langTOPauthorSizeT[lang]);
+-   fprintf(fOut,"+----+----%s------------------------------------------+-KBytes-+\n",langGAuthor[lang]);
++   fprintf(fOut,"\n***** %s\n",_("Best authors, by total size of their messages (w/o quoting):"));
++   fprintf(fOut,"+----+----%s------------------------------------------+-KBytes-+\n",_("-Author-"));
+    for (i=1, akt=zozAt; (i <= topXX) && (akt!=NULL); i++, akt=akt->next) {
+-       if (akt->text[0]=='\0') myCopy(akt->text, langUnknown[lang], MAX_TEXT);
++       if (akt->text[0]=='\0') myCopy(akt->text, _("(unknown)"), MAX_TEXT);
+        fprintf(fOut,"|%3li | %-52.52s | %6.1f |\n",i,akt->text,(float)akt->count/1024);
+    }
+    fprintf(fOut,"+----+------------------------------------------------------+--------+\n");
+ 
+    // TOP AUTHORS by average size of msgs
+-   fprintf(fOut,"\n***** %s\n",langTOPauthorSizeA[lang]);
+-   fprintf(fOut,"+----+----%s-------------------------------------------+-bytes-+\n",langGAuthor[lang]);
++   fprintf(fOut,"\n***** %s\n",_("Best authors, by average size of their message (w/o quoting):"));
++   fprintf(fOut,"+----+----%s-------------------------------------------+-bytes-+\n",_("-Author-"));
+    for (i=1, akt=zozAa; (i <= topXX) && (akt!=NULL); i++, akt=akt->next) {
+-       if (akt->text[0]=='\0') myCopy(akt->text, langUnknown[lang], MAX_TEXT);
++       if (akt->text[0]=='\0') myCopy(akt->text, _("(unknown)"), MAX_TEXT);
+        fprintf(fOut,"|%3li | %-53.53s |%6lu |\n",i,akt->text,akt->count);
+    }
+    fprintf(fOut,"+----+-------------------------------------------------------+-------+\n");
+ 
+    // TOP SUBJ
+-   fprintf(fOut,"\n***** %s\n",langTOPsubj[lang]);
+-// fprintf(fOut,"+----+----Subject-----------------------------------+%s+-Percent-+\n",langGMess[lang]);
+-   fprintf(fOut,"+----+---%s----------------------------------+%s+%s+\n",langSubject[lang],langGMess[lang],langPercent[lang]);
++   fprintf(fOut,"\n***** %s\n",_("Table showing the most successful subjects:"));
++// fprintf(fOut,"+----+----Subject-----------------------------------+%s+-Percent-+\n",_("--Msg-"));
++   fprintf(fOut,"+----+---%s----------------------------------+%s+%s+\n",_("-Subject-"),_("--Msg-"),_("-Percent-"));
+    PrintTop(zozS, topXX);
+    fprintf(fOut,"+----+----------------------------------------------+------+---------+\n");
+    i=nSprav - GetSumZoz(zozS, topXX);
+-   fprintf(fOut,"|    | %-44.44s |%5li | %5.2f %% |\n",langOstE[lang],i,(float)i/nSprav*100);
++   fprintf(fOut,"|    | %-44.44s |%5li | %5.2f %% |\n",_("other"),i,(float)i/nSprav*100);
+    fprintf(fOut,"+----+----------------------------------------------+------+---------+\n");
+ 
+    // TOP MAILERS
+-   fprintf(fOut,"\n***** %s\n",langTOPmail[lang]);
+-// fprintf(fOut,"+----+----Mailer------------------------------------+%s+-Percent-+\n",langGMess[lang]);
+-   fprintf(fOut,"+----+---%s----------------------------------+%s+%s+\n",langMailer[lang],langGMess[lang],langPercent[lang]);
++   fprintf(fOut,"\n***** %s\n",_("Most used email clients:"));
++// fprintf(fOut,"+----+----Mailer------------------------------------+%s+-Percent-+\n",_("--Msg-"));
++   fprintf(fOut,"+----+---%s----------------------------------+%s+%s+\n",_("-Mailer--"),_("--Msg-"),_("-Percent-"));
+    PrintTop(zozM, topXX);
+    fprintf(fOut,"+----+----------------------------------------------+------+---------+\n");
+    i=nSprav - GetSumZoz(zozM, topXX);
+-   fprintf(fOut,"|    | %-44.44s |%5li | %5.2f %% |\n",langOstE[lang],i,(float)i/nSprav*100);
++   fprintf(fOut,"|    | %-44.44s |%5li | %5.2f %% |\n",_("other"),i,(float)i/nSprav*100);
+    fprintf(fOut,"+----+----------------------------------------------+------+---------+\n");
+ 
+    // TOP QUOTING
+-   fprintf(fOut,"\n***** %s\n",langTOPquote[lang]);
+-// fprintf(fOut,"+----+----%s-----------------------------------------+-Percent-+\n",langGAuthor[lang]);
+-   fprintf(fOut,"+----+----%s-----------------------------------------+%s+\n",langGAuthor[lang],langPercent[lang]);
++   fprintf(fOut,"\n***** %s\n",_("Table of maximal quoting:"));
++// fprintf(fOut,"+----+----%s-----------------------------------------+-Percent-+\n",_("-Author-"));
++   fprintf(fOut,"+----+----%s-----------------------------------------+%s+\n",_("-Author-"),_("-Percent-"));
+    for (i=1, akt=zozQ; (i <= topXX) && (akt!=NULL); i++, akt=akt->next) {
+-       if (akt->text[0]=='\0') myCopy(akt->text, langUnknown[lang], MAX_TEXT);
++       if (akt->text[0]=='\0') myCopy(akt->text, _("(unknown)"), MAX_TEXT);
+        fprintf(fOut,"|%3li | %-45.45s       |%6.2f %% |\n",i,akt->text,(float)akt->count/100);
+    }
+    fprintf(fOut,"+----+-----------------------------------------------------+---------+\n");
+-   fprintf(fOut,"|    | %-45.45s       | %5.2f %% |\n",langAvg[lang],(float)GetSumZozQ(zozQ)/nDlzka*100);
++   fprintf(fOut,"|    | %-45.45s       | %5.2f %% |\n",_("average"),(float)GetSumZozQ(zozQ)/nDlzka*100);
+    fprintf(fOut,"+----+-----------------------------------------------------+---------+\n");
+ 
+    // Hours of day
+    if (graph & G_DAY) {
+-     fprintf(fOut,"\n***** %s\n",langGhour[lang]);
++     fprintf(fOut,"\n***** %s\n",_("Graph showing number of messages written during hours of day:"));
+      PrintGraph(nHod,24,2);
+-     fprintf(fOut,"%s 0         5           11          17          23\n",langHour[lang]);
+-     if (GetSum(nHod, 24) != nSprav) fprintf(fOut,"!!!!! %s: %li %s.\n",langWarn[lang],nSprav - GetSum(nHod,24),langCount[lang]);
++     fprintf(fOut,"%s 0         5           11          17          23\n",_("hour "));
++     if (GetSum(nHod, 24) != nSprav) fprintf(fOut,"!!!!! %s: %li %s.\n",_("Warning"),nSprav - GetSum(nHod,24),_("message(s) not counted"));
+    }
+ 
+    // Days of month
+    if (graph & G_MONTH) {
+-     fprintf(fOut,"\n\n***** %s\n",langGday[lang]);
++     fprintf(fOut,"\n\n***** %s\n",_("Graph showing number of messages written during days of month:"));
+      PrintGraph(nDen,31,2);
+-     fprintf(fOut," %s 1         6           12          18          24            31\n",langDay[lang]);
+-     if (GetSum(nDen, 31) != nSprav) fprintf(fOut,"!!!!! %s: %li %s.\n",langWarn[lang],nSprav - GetSum(nDen,31),langCount[lang]);
++     fprintf(fOut," %s 1         6           12          18          24            31\n",_("day "));
++     if (GetSum(nDen, 31) != nSprav) fprintf(fOut,"!!!!! %s: %li %s.\n",_("Warning"),nSprav - GetSum(nDen,31),_("message(s) not counted"));
+    }
+ 
+    // Days of week
+    if (graph & G_WEEK) {
+-     fprintf(fOut,"\n\n***** %s\n",langGdow[lang]);
++     fprintf(fOut,"\n\n***** %s\n",_("Graph showing number of messages written during days of week:"));
+      PrintGraph(nDOW,7,4);
+-     fprintf(fOut,"     %s\n",langDOW[lang]);
+-     if (GetSum(nDOW, 7) != nSprav) fprintf(fOut,"!!!!! %s: %li %s.\n",langWarn[lang],nSprav - GetSum(nDOW,7),langCount[lang]);
++     fprintf(fOut,"     %s\n",_("Mon Tue Wed Thu Fri Sat Sun"));
++     if (GetSum(nDOW, 7) != nSprav) fprintf(fOut,"!!!!! %s: %li %s.\n",_("Warning"),nSprav - GetSum(nDOW,7),_("message(s) not counted"));
+    }
+ 
+    // Months of year
+    if (graph & G_YEAR) {
+-     fprintf(fOut,"\n\n***** %s\n",langGmon[lang]);
++     fprintf(fOut,"\n\n***** %s\n",_("Graph showing number of messages written during months of year:"));
+      PrintGraph(nMon,12,4);
+-     fprintf(fOut,"     %s\n",langMON[lang]);
+-     if (GetSum(nMon, 12) != nSprav) fprintf(fOut,"!!!!! %s: %li %s.\n",langWarn[lang],nSprav - GetSum(nMon,12),langCount[lang]);
++     fprintf(fOut,"     %s\n",_("Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec"));
++     if (GetSum(nMon, 12) != nSprav) fprintf(fOut,"!!!!! %s: %li %s.\n",_("Warning"),nSprav - GetSum(nMon,12),_("message(s) not counted"));
+    }
+ 
+-   fprintf(fOut,"\n\n***** %s\n",langMaxQuot[lang]);
+-   fprintf(fOut,"      %s %s\n",langAuth[lang], msgQ->auth);
+-   fprintf(fOut,"      %s %s\n",langSubj[lang], msgQ->subj);
+-   fprintf(fOut,"      %s %s\n",langDate[lang], msgQ->date);
+-   fprintf(fOut,"      %s %0.2f%% / %li %s\n",langRate[lang], msgQ->perc*100,msgQ->size, langByte[lang]);
+-
+-   fprintf(fOut,"\n***** %s\n",langMaxLeng[lang]);
+-   fprintf(fOut,"      %s %s\n",langAuth[lang], msgD->auth);
+-   fprintf(fOut,"      %s %s\n",langSubj[lang], msgD->subj);
+-   fprintf(fOut,"      %s %s\n",langDate[lang], msgD->date);
+-   fprintf(fOut,"      %s %li %s\n",langSize[lang], msgD->size, langByte[lang]);
+-
+-   fprintf(fOut,"\n***** %s\n",langMaxSubj[lang]);
+-   fprintf(fOut,"      %s %s\n" ,langSubj[lang], zozS->text);
+-   fprintf(fOut,"      %s %li\n",langNumb[lang], zozS->count);
+-   fprintf(fOut,"      %s %li %s\n",langSSiz[lang], zozS->size, langByte[lang]);
+-
+-   fprintf(fOut,"\n***** %s\n",langEndStat[lang]);
+-   fprintf(fOut,"      %s %li\n",langTotMess[lang], nSprav);
+-   fprintf(fOut,"      %s %li\n",langTotAuth[lang], GetCount(zozA));
+-   fprintf(fOut,"      %s %li\n",langTotSubj[lang], GetCount(zozS));
+-   fprintf(fOut,"      %s %li %s\n",langTotLeng[lang], nDlzka, langByte[lang]);
+-   fprintf(fOut,"      %s %li %s\n",langAvgLeng[lang], nDlzka/nSprav, langByte[lang]);
++   fprintf(fOut,"\n\n***** %s\n",_("Maximal quoting:"));
++   fprintf(fOut,"      %s %s\n",_("Author     :"), msgQ->auth);
++   fprintf(fOut,"      %s %s\n",_("Subject    :"), msgQ->subj);
++   fprintf(fOut,"      %s %s\n",_("Date       :"), msgQ->date);
++   fprintf(fOut,"      %s %0.2f%% / %li %s\n",_("Quote ratio:"), msgQ->perc*100,msgQ->size, _("bytes"));
++
++   fprintf(fOut,"\n***** %s\n",_("Longest message:"));
++   fprintf(fOut,"      %s %s\n",_("Author     :"), msgD->auth);
++   fprintf(fOut,"      %s %s\n",_("Subject    :"), msgD->subj);
++   fprintf(fOut,"      %s %s\n",_("Date       :"), msgD->date);
++   fprintf(fOut,"      %s %li %s\n",_("Size       :"), msgD->size, _("bytes"));
++
++   fprintf(fOut,"\n***** %s\n",_("Most successful subject:"));
++   fprintf(fOut,"      %s %s\n" ,_("Subject    :"), zozS->text);
++   fprintf(fOut,"      %s %li\n",_("No. of msgs:"), zozS->count);
++   fprintf(fOut,"      %s %li %s\n",_("Total size :"), zozS->size, _("bytes"));
++
++   fprintf(fOut,"\n***** %s\n",_("Final summary:"));
++   fprintf(fOut,"      %s %li\n",_("Total number of messages:            "), nSprav);
++   fprintf(fOut,"      %s %li\n",_("Total number of different authors:   "), GetCount(zozA));
++   fprintf(fOut,"      %s %li\n",_("Total number of different subjects:  "), GetCount(zozS));
++   fprintf(fOut,"      %s %li %s\n",_("Total size of messages (w/o headers):"), nDlzka, _("bytes"));
++   fprintf(fOut,"      %s %li %s\n",_("Average size of a message:           "), nDlzka/nSprav, _("bytes"));
+ 
+    fprintf(fOut,"\n");
+    fprintf(fOut,"***** Generated by MailListStat v%s, (C) 2001-2003 <marki (at) nexin.sk>\n",VERSION);
+@@ -336,7 +337,7 @@
+   if (mode!=2) { // don't print HTML header/footer in html2 mode
+     fprintf(fOut,"<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n");
+     fprintf(fOut,"<HTML><HEAD>\n");
+-    fprintf(fOut,"  <META HTTP-EQUIV=\"Content-Type\" CONTENT=\"text/html; charset=%s\">\n",langCharset[lang]);
++    fprintf(fOut,"  <META HTTP-EQUIV=\"Content-Type\" CONTENT=\"text/html; charset=%s\">\n",nl_langinfo(CODESET));
+     fprintf(fOut,"  <META NAME=\"GENERATOR\" CONTENT=\"MailListStat by (C) Marki, 2001-2003\">\n");
+     fprintf(fOut,"  <META NAME=\"AUTHOR\" CONTENT=\"(marki (at) nexin.sk)  (http://freshmeat.net/projects/mls)\">\n");
+     fprintf(fOut,"  <LINK href=\"style_mls.css\" rel=\"stylesheet\" type=\"text/css\">\n");
+@@ -354,148 +355,148 @@
+    if (onlytitle==1) fprintf(fOut, "%s", title); // only user-defined title
+    else { // normal title
+      tm1=localtime(&t_oldest);
+-     fprintf(fOut,"%s %i.%i.%i ", langTit1[lang], tm1->tm_mday, tm1->tm_mon+1, tm1->tm_year+1900);
++     fprintf(fOut,"%s %i.%i.%i ", _("Statistics from"), tm1->tm_mday, tm1->tm_mon+1, tm1->tm_year+1900);
+      tm1=localtime(&t_newest);
+-     fprintf(fOut,"%s %i.%i.%i" , langTit2[lang], tm1->tm_mday, tm1->tm_mon+1, tm1->tm_year+1900);
+-     if (title[0]!='\0') fprintf(fOut,"<br>%s %s",langTit3[lang],title);
++     fprintf(fOut,"%s %i.%i.%i" , _("to"), tm1->tm_mday, tm1->tm_mon+1, tm1->tm_year+1900);
++     if (title[0]!='\0') fprintf(fOut,"<br>%s %s",_("for"),title);
+    }
+    fprintf(fOut,"</h1>\n");
+    fprintf(fOut,"<!-- === -->\n"); // marker for PHP wrapper
+ 
+    // TOP AUTHORS by no. of msgs
+-   fprintf(fOut,"\n<h2 id=\"zozA\">%s</h2>\n",langTOPpeople[lang]);
++   fprintf(fOut,"\n<h2 id=\"zozA\">%s</h2>\n",_("People who have written most messages:"));
+    fprintf(fOut,"<TABLE class=\"topXX\">\n");
+    fprintf(fOut," <TR class=\"topXXhead\">");
+-// fprintf(fOut,"<td>&nbsp;<td>&nbsp;%s&nbsp;<td>&nbsp;%s&nbsp;<td>&nbsp;Percent&nbsp;\n",langGAuthorHtml[lang],langGMessHtml[lang]);
+-   fprintf(fOut,"<td>&nbsp;<td>&nbsp;%s&nbsp;<td>&nbsp;%s&nbsp;<td>&nbsp;%s&nbsp;\n",langGAuthorHtml[lang],langGMessHtml[lang],langPercentHtml[lang]);
++// fprintf(fOut,"<td>&nbsp;<td>&nbsp;%s&nbsp;<td>&nbsp;%s&nbsp;<td>&nbsp;Percent&nbsp;\n",_("Author"),_("Msg"));
++   fprintf(fOut,"<td>&nbsp;<td>&nbsp;%s&nbsp;<td>&nbsp;%s&nbsp;<td>&nbsp;%s&nbsp;\n",_("Author"),_("Msg"),_("Percent"));
+    PrintTopHtml(zozA, topXX);
+    i=nSprav - GetSumZoz(zozA, topXX);
+-   fprintf(fOut," <TR class=\"topXXtrO\"><td>&nbsp;<td>%s<td align=\"right\">%li<td align=\"right\">%5.2f %%\n",langOstI[lang],i,(float)i/nSprav*100);
++   fprintf(fOut," <TR class=\"topXXtrO\"><td>&nbsp;<td>%s<td align=\"right\">%li<td align=\"right\">%5.2f %%\n",_("other"),i,(float)i/nSprav*100);
+    fprintf(fOut,"</TABLE>\n");
+ 
+    // TOP AUTHORS by total size of msgs
+-   fprintf(fOut,"\n<h2 id=\"zozAt\">%s</h2>\n",langTOPauthorSizeT[lang]);
++   fprintf(fOut,"\n<h2 id=\"zozAt\">%s</h2>\n",_("Best authors, by total size of their messages (w/o quoting):"));
+    fprintf(fOut,"<TABLE class=\"topXX\">\n");
+    fprintf(fOut," <TR class=\"topXXhead\">");
+-   fprintf(fOut,"<td>&nbsp;<td>&nbsp;%s&nbsp;<td>&nbsp;KBytes&nbsp;\n",langGAuthorHtml[lang]);
++   fprintf(fOut,"<td>&nbsp;<td>&nbsp;%s&nbsp;<td>&nbsp;KBytes&nbsp;\n",_("Author"));
+    for (i=1, akt=zozAt; (i <= topXX) && (akt!=NULL); i++, akt=akt->next) {
+-       if (akt->text[0]=='\0') myCopy(akt->text, langUnknown[lang], MAX_TEXT);
++       if (akt->text[0]=='\0') myCopy(akt->text, _("(unknown)"), MAX_TEXT);
+        fprintf(fOut," <TR class=\"%s\"><td align=\"right\">%li<td>%s<td align=\"right\">%6.1f\n",(i%2)?"topXXtr1":"topXXtr2",i,akt->text,(float)akt->count/1024);
+    }
+    fprintf(fOut,"</TABLE>\n");
+ 
+    // TOP AUTHORS by average size of msgs
+-   fprintf(fOut,"\n<h2 id=\"zozAa\">%s</h2>\n",langTOPauthorSizeA[lang]);
++   fprintf(fOut,"\n<h2 id=\"zozAa\">%s</h2>\n",_("Best authors, by average size of their message (w/o quoting):"));
+    fprintf(fOut,"<TABLE class=\"topXX\">\n");
+    fprintf(fOut," <TR class=\"topXXhead\">");
+-   fprintf(fOut,"<td>&nbsp;<td>&nbsp;%s&nbsp;<td>&nbsp;bytes&nbsp;\n",langGAuthorHtml[lang]);
++   fprintf(fOut,"<td>&nbsp;<td>&nbsp;%s&nbsp;<td>&nbsp;bytes&nbsp;\n",_("Author"));
+    for (i=1, akt=zozAa; (i <= topXX) && (akt!=NULL); i++, akt=akt->next) {
+-       if (akt->text[0]=='\0') myCopy(akt->text, langUnknown[lang], MAX_TEXT);
++       if (akt->text[0]=='\0') myCopy(akt->text, _("(unknown)"), MAX_TEXT);
+        fprintf(fOut," <TR class=\"%s\"><td align=\"right\">%li<td>%s<td align=\"right\">%lu\n",(i%2)?"topXXtr1":"topXXtr2",i,akt->text,akt->count);
+    }
+    fprintf(fOut,"</TABLE>\n");
+ 
+    // TOP SUBJ
+-   fprintf(fOut,"\n<h2 id=\"zozS\">%s</h2>\n",langTOPsubj[lang]);
++   fprintf(fOut,"\n<h2 id=\"zozS\">%s</h2>\n",_("Table showing the most successful subjects:"));
+    fprintf(fOut,"<TABLE class=\"topXX\">\n");
+    fprintf(fOut," <TR class=\"topXXhead\">");
+-// fprintf(fOut,"<td>&nbsp;<td>&nbsp;Subject&nbsp;<td>&nbsp;%s&nbsp;<td>&nbsp;Percent&nbsp;\n",langGMessHtml[lang]);
+-   fprintf(fOut,"<td>&nbsp;<td>&nbsp;%s&nbsp;<td>&nbsp;%s&nbsp;<td>&nbsp;%s&nbsp;\n",langSubjectHtml[lang],langGMessHtml[lang],langPercentHtml[lang]);
++// fprintf(fOut,"<td>&nbsp;<td>&nbsp;Subject&nbsp;<td>&nbsp;%s&nbsp;<td>&nbsp;Percent&nbsp;\n",_("Msg"));
++   fprintf(fOut,"<td>&nbsp;<td>&nbsp;%s&nbsp;<td>&nbsp;%s&nbsp;<td>&nbsp;%s&nbsp;\n",_("Subject"),_("Msg"),_("Percent"));
+    PrintTopHtml(zozS, topXX);
+    i=nSprav - GetSumZoz(zozS, topXX);
+-   fprintf(fOut," <TR class=\"topXXtrO\"><td>&nbsp;<td>%s<td align=\"right\">%li<td align=\"right\">%5.2f %%\n",langOstE[lang],i,(float)i/nSprav*100);
++   fprintf(fOut," <TR class=\"topXXtrO\"><td>&nbsp;<td>%s<td align=\"right\">%li<td align=\"right\">%5.2f %%\n",_("other"),i,(float)i/nSprav*100);
+    fprintf(fOut,"</TABLE>\n");
+ 
+    // TOP MAILERS
+-   fprintf(fOut,"\n<h2 id=\"zozM\">%s</h2>\n",langTOPmail[lang]);
++   fprintf(fOut,"\n<h2 id=\"zozM\">%s</h2>\n",_("Most used email clients:"));
+    fprintf(fOut,"<TABLE class=\"topXX\">\n");
+    fprintf(fOut," <TR class=\"topXXhead\">");
+-// fprintf(fOut,"<td>&nbsp;<td>&nbsp;Mailer&nbsp;<td>&nbsp;%s&nbsp;<td>&nbsp;Percent&nbsp;\n",langGMessHtml[lang]);
+-   fprintf(fOut,"<td>&nbsp;<td>&nbsp;%s&nbsp;<td>&nbsp;%s&nbsp;<td>&nbsp;%s&nbsp;\n",langMailerHtml[lang],langGMessHtml[lang],langPercentHtml[lang]);
++// fprintf(fOut,"<td>&nbsp;<td>&nbsp;Mailer&nbsp;<td>&nbsp;%s&nbsp;<td>&nbsp;Percent&nbsp;\n",_("Msg"));
++   fprintf(fOut,"<td>&nbsp;<td>&nbsp;%s&nbsp;<td>&nbsp;%s&nbsp;<td>&nbsp;%s&nbsp;\n",_("Mailer"),_("Msg"),_("Percent"));
+    PrintTopHtml(zozM, topXX);
+    i=nSprav - GetSumZoz(zozM, topXX);
+-   fprintf(fOut," <TR class=\"topXXtrO\"><td>&nbsp;<td>%s<td align=\"right\">%li<td align=\"right\">%5.2f %%\n",langOstE[lang],i,(float)i/nSprav*100);
++   fprintf(fOut," <TR class=\"topXXtrO\"><td>&nbsp;<td>%s<td align=\"right\">%li<td align=\"right\">%5.2f %%\n",_("other"),i,(float)i/nSprav*100);
+    fprintf(fOut,"</TABLE>\n");
+ 
+    // TOP QUOTING
+-   fprintf(fOut,"\n<h2 id=\"zozQ\">%s</h2>\n",langTOPquote[lang]);
++   fprintf(fOut,"\n<h2 id=\"zozQ\">%s</h2>\n",_("Table of maximal quoting:"));
+    fprintf(fOut,"<TABLE class=\"topXX\">\n");
+    fprintf(fOut," <TR class=\"topXXhead\">");
+-// fprintf(fOut,"<td>&nbsp;<td>&nbsp;%s&nbsp;<td>&nbsp;Percent&nbsp;\n",langGAuthorHtml[lang]);
+-   fprintf(fOut,"<td>&nbsp;<td>&nbsp;%s&nbsp;<td>&nbsp;%s&nbsp;\n",langGAuthorHtml[lang],langPercentHtml[lang]);
++// fprintf(fOut,"<td>&nbsp;<td>&nbsp;%s&nbsp;<td>&nbsp;Percent&nbsp;\n",_("Author"));
++   fprintf(fOut,"<td>&nbsp;<td>&nbsp;%s&nbsp;<td>&nbsp;%s&nbsp;\n",_("Author"),_("Percent"));
+    for (i=1, akt=zozQ; (i <= topXX) && (akt!=NULL); i++, akt=akt->next) {
+-       if (akt->text[0]=='\0') myCopy(akt->text, langUnknown[lang], MAX_TEXT);
++       if (akt->text[0]=='\0') myCopy(akt->text, _("(unknown)"), MAX_TEXT);
+        fprintf(fOut," <TR class=\"%s\"><td align=\"right\">%li<td>%s<td align=\"right\">%6.2f %%\n",(i%2)?"topXXtr1":"topXXtr2",i,akt->text,(float)akt->count/100);
+    }
+-   fprintf(fOut," <TR class=\"topXXtrO\"><td>&nbsp;<td>%s<td align=\"right\">%6.2f %%\n",langAvg[lang],(float)GetSumZozQ(zozQ)/nDlzka*100);
++   fprintf(fOut," <TR class=\"topXXtrO\"><td>&nbsp;<td>%s<td align=\"right\">%6.2f %%\n",_("average"),(float)GetSumZozQ(zozQ)/nDlzka*100);
+    fprintf(fOut,"</TABLE>\n");
+ 
+    // Hours of day
+    if (graph & G_DAY) {
+-     fprintf(fOut,"\n<h2 id=\"Ghour\">%s</h2>\n",langGhour[lang]);
+-     PrintGraphHtml(nHod, sNumb, 24, langHour[lang]);
+-     if (GetSum(nHod, 24) != nSprav) fprintf(fOut,"<br><b>%s:</b> <i>%li %s</i>.<br>\n",langWarn[lang],nSprav - GetSum(nHod,24),langCount[lang]);
++     fprintf(fOut,"\n<h2 id=\"Ghour\">%s</h2>\n",_("Graph showing number of messages written during hours of day:"));
++     PrintGraphHtml(nHod, sNumb, 24, _("hour "));
++     if (GetSum(nHod, 24) != nSprav) fprintf(fOut,"<br><b>%s:</b> <i>%li %s</i>.<br>\n",_("Warning"),nSprav - GetSum(nHod,24),_("message(s) not counted"));
+    }
+ 
+    // Days of month
+    if (graph & G_MONTH) {
+-     fprintf(fOut,"\n<h2 id=\"Gmonth\">%s</h2>\n",langGday[lang]);
+-     PrintGraphHtml(nDen, sNumb+1, 31, langDay[lang]);
+-     if (GetSum(nDen, 31) != nSprav) fprintf(fOut,"<br><b>%s:</b> <i>%li %s</i>.<br>\n",langWarn[lang],nSprav - GetSum(nDen,31),langCount[lang]);
++     fprintf(fOut,"\n<h2 id=\"Gmonth\">%s</h2>\n",_("Graph showing number of messages written during days of month:"));
++     PrintGraphHtml(nDen, sNumb+1, 31, _("day "));
++     if (GetSum(nDen, 31) != nSprav) fprintf(fOut,"<br><b>%s:</b> <i>%li %s</i>.<br>\n",_("Warning"),nSprav - GetSum(nDen,31),_("message(s) not counted"));
+    }
+ 
+    // Days of week
+    if (graph & G_WEEK) {
+-     for (i=0; i <= 7; i++) { // fill the sNumb array with week-day names from langDOW[lang]
+-        strncpy(sNumb[i], langDOW[lang]+i*4, 3);
++     for (i=0; i <= 7; i++) { // fill the sNumb array with week-day names from _("Mon Tue Wed Thu Fri Sat Sun")
++        strncpy(sNumb[i], _("Mon Tue Wed Thu Fri Sat Sun")+i*4, 3);
+         sNumb[i][3]='\0';
+      }
+-     fprintf(fOut,"\n<h2 id=\"Gweek\">%s</h2>\n",langGdow[lang]);
++     fprintf(fOut,"\n<h2 id=\"Gweek\">%s</h2>\n",_("Graph showing number of messages written during days of week:"));
+      PrintGraphHtml(nDOW, sNumb, 7, "");
+-     if (GetSum(nDOW,  7) != nSprav) fprintf(fOut,"<br><b>%s:</b> <i>%li %s</i>.<br>\n",langWarn[lang],nSprav - GetSum(nDOW, 7),langCount[lang]);
++     if (GetSum(nDOW,  7) != nSprav) fprintf(fOut,"<br><b>%s:</b> <i>%li %s</i>.<br>\n",_("Warning"),nSprav - GetSum(nDOW, 7),_("message(s) not counted"));
+    }
+ 
+    // Months of year
+    if (graph & G_YEAR) {
+-     for (i=0; i <=12; i++) { // fill the sNumb array with month-names from langMON[lang]
+-        strncpy(sNumb[i], langMON[lang]+i*4, 3);
++     for (i=0; i <=12; i++) { // fill the sNumb array with month-names from _("Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec")
++        strncpy(sNumb[i], _("Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec")+i*4, 3);
+         sNumb[i][3]='\0';
+      }
+-     fprintf(fOut,"\n<h2 id=\"Gmonth\">%s</h2>\n",langGmon[lang]);
++     fprintf(fOut,"\n<h2 id=\"Gmonth\">%s</h2>\n",_("Graph showing number of messages written during months of year:"));
+      PrintGraphHtml(nMon, sNumb,12, "");
+-     if (GetSum(nMon, 12) != nSprav) fprintf(fOut,"<br><b>%s:</b> <i>%li %s</i>.<br>\n",langWarn[lang],nSprav - GetSum(nMon,12),langCount[lang]);
++     if (GetSum(nMon, 12) != nSprav) fprintf(fOut,"<br><b>%s:</b> <i>%li %s</i>.<br>\n",_("Warning"),nSprav - GetSum(nMon,12),_("message(s) not counted"));
+    }
+ 
+-   fprintf(fOut,"\n<h2 id=\"endstat\">%s</h2>\n",langMaxQuot[lang]);
++   fprintf(fOut,"\n<h2 id=\"endstat\">%s</h2>\n",_("Maximal quoting:"));
+    fprintf(fOut,"<TABLE class=\"endstat\">\n");
+-   fprintf(fOut," <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %s \n",langAuth[lang], msgQ->auth);
+-   fprintf(fOut," <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %s \n",langSubj[lang], msgQ->subj);
+-   fprintf(fOut," <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %s \n",langDate[lang], msgQ->date);
+-   fprintf(fOut," <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %0.2f%% / %li %s\n",langRate[lang], msgQ->perc*100,msgQ->size, langByte[lang]);
++   fprintf(fOut," <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %s \n",_("Author     :"), msgQ->auth);
++   fprintf(fOut," <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %s \n",_("Subject    :"), msgQ->subj);
++   fprintf(fOut," <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %s \n",_("Date       :"), msgQ->date);
++   fprintf(fOut," <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %0.2f%% / %li %s\n",_("Quote ratio:"), msgQ->perc*100,msgQ->size, _("bytes"));
+    fprintf(fOut,"</TABLE>\n");
+ 
+-   fprintf(fOut,"\n<h2>%s</h2>\n",langMaxLeng[lang]);
++   fprintf(fOut,"\n<h2>%s</h2>\n",_("Longest message:"));
+    fprintf(fOut,"<TABLE class=\"endstat\">\n");
+-   fprintf(fOut,"  <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %s\n",langAuth[lang], msgD->auth);
+-   fprintf(fOut,"  <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %s\n",langSubj[lang], msgD->subj);
+-   fprintf(fOut,"  <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %s\n",langDate[lang], msgD->date);
+-   fprintf(fOut,"  <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %li %s\n",langSize[lang], msgD->size, langByte[lang]);
++   fprintf(fOut,"  <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %s\n",_("Author     :"), msgD->auth);
++   fprintf(fOut,"  <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %s\n",_("Subject    :"), msgD->subj);
++   fprintf(fOut,"  <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %s\n",_("Date       :"), msgD->date);
++   fprintf(fOut,"  <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %li %s\n",_("Size       :"), msgD->size, _("bytes"));
+    fprintf(fOut,"</TABLE>\n");
+ 
+-   fprintf(fOut,"\n<h2>%s</h2>\n",langMaxSubj[lang]);
++   fprintf(fOut,"\n<h2>%s</h2>\n",_("Most successful subject:"));
+    fprintf(fOut,"<TABLE class=\"endstat\">\n");
+-   fprintf(fOut," <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %s\n" ,langSubj[lang], zozS->text);
+-   fprintf(fOut," <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %li\n",langNumb[lang], zozS->count);
+-   fprintf(fOut," <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %li %s\n",langSSiz[lang], zozS->size, langByte[lang]);
++   fprintf(fOut," <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %s\n" ,_("Subject    :"), zozS->text);
++   fprintf(fOut," <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %li\n",_("No. of msgs:"), zozS->count);
++   fprintf(fOut," <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %li %s\n",_("Total size :"), zozS->size, _("bytes"));
+    fprintf(fOut,"</TABLE>\n");
+ 
+-   fprintf(fOut,"\n<h2>%s</h2>\n",langEndStat[lang]);
++   fprintf(fOut,"\n<h2>%s</h2>\n",_("Final summary:"));
+    fprintf(fOut,"<TABLE class=\"endstat\">\n");
+-   fprintf(fOut,"  <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %li\n",langTotMess[lang], nSprav);
+-   fprintf(fOut,"  <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %li\n",langTotAuth[lang], GetCount(zozA));
+-   fprintf(fOut,"  <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %li\n",langTotSubj[lang], GetCount(zozS));
+-   fprintf(fOut,"  <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %li %s\n",langTotLeng[lang], nDlzka, langByte[lang]);
+-   fprintf(fOut,"  <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %li %s\n",langAvgLeng[lang], nDlzka/nSprav, langByte[lang]);
++   fprintf(fOut,"  <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %li\n",_("Total number of messages:            "), nSprav);
++   fprintf(fOut,"  <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %li\n",_("Total number of different authors:   "), GetCount(zozA));
++   fprintf(fOut,"  <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %li\n",_("Total number of different subjects:  "), GetCount(zozS));
++   fprintf(fOut,"  <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %li %s\n",_("Total size of messages (w/o headers):"), nDlzka, _("bytes"));
++   fprintf(fOut,"  <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %li %s\n",_("Average size of a message:           "), nDlzka/nSprav, _("bytes"));
+    fprintf(fOut,"</TABLE>\n");
+ 
+    fprintf(fOut,"\n<HR>\n");
+diff -Nur mailliststat-1.3/README.txt mailliststat-1.3.new/README.txt
+--- mailliststat-1.3/README.txt	2005-12-01 21:44:46.000000000 +0100
++++ mailliststat-1.3.new/README.txt	2005-12-01 22:28:18.000000000 +0100
+@@ -38,10 +38,6 @@
+   -r file ... read input from cache file instead of mailbox
+   -w file ... write cache file (no stats produced)
+   -u file ... update cache file (read cache, read input, write cache)
+-  -l lang ... output language - SK (Slovak), EN (English), IT (Italiano),
+-              FR (Francais), DE (Deutsch), ES (Spanish), SR (Serbian),
+-	      BR (Portugues Brasil) {EN}
+-              diagnostic messages are always printed in English
+   -m mode ... mode of output (text, html, html2) {text}
+   -n XX   ... print TOP XX authors, subjects and quoting {10}
+   -t text ... name of mailing list, see below for details
+@@ -66,9 +62,9 @@
+   reporting oldest message found.
+ 
+ * Output
+-  Statistics is put into output file (or stdout if unspecified) in specified
+-  language. All diagnostic messages are written to stderr and are in English.
+-  Output consists of several statistical data - tables, graphs and summaries.
++  Statistics is put into output file (or stdout if unspecified). All
++  diagnostic messages are written to stderr. Output consists of several
++  statistical data - tables, graphs and summaries.
+   The title has two formats depending on "-t" parameter. If it's not specified,
+   it looks like "Statistics from 16.8.2001 to 7.9.2001", where first date is
+   date of the oldest message found in input and second is date of the newest
+@@ -109,8 +105,7 @@
+   file is very fast, so it is useful for integration with web pages. Now you
+   can update the cache file just after new mail was received. Users can view
+   actual stats using MLS as CGI script. It has an advantage over static stats
+-  that user can choose language and others options and it will be generated
+-  in a moment!
++  that user can choose options and it will be generated in a moment!
+ 
+   To update cache file, use the -u option. It works like this: first, the stats
+   are loaded from cache file (doesn't have to exist) and then new message(s)
+@@ -132,12 +127,12 @@
+ 
+ * PHP wrapper
+   I have written also PHP wrapper for MLS to make it more "interactive". It has
+-  two major advantages over plain HTML output from MLS: User can choose output
+-  language and number of TOP items to show. It works by running MLS with
+-  appopriate command-line options. It's safe, because only two items from user
+-  are language and topXX which are checked using regexp, so running arbitrary
+-  code is not possible. You can also alter MLS output - for example change @
+-  in email addresses to (at) to prevent spamming.
++  one major advantage over plain HTML output from MLS: User can choose number
++  of TOP items to show. It works by running MLS with appopriate command-line
++  options. It's safe, because only one item from user is topXX which is
++  checked using regexp, so running arbitrary code is not possible. You can
++  also alter MLS output - for example change @ in email addresses to (at) to
++  prevent spamming.
+   
+   You can have normal MBOX file as input, but I recommend using cache file.
+   When using cache file, the stats are produced in a moment. You can see how

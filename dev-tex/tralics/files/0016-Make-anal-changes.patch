@@ -1,0 +1,25 @@
+From 2eb2c139f768e6c4b7c713426947ad34fbf79752 Mon Sep 17 00:00:00 2001
+From: Michael Hartl <michael@michaelhartl.com>
+Date: Sun, 23 Mar 2014 12:26:30 -0700
+Subject: [PATCH 16/19] Make anal changes
+
+---
+ README.md | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/README.md b/README.md
+index f6520bf..ae5abfc 100644
+--- a/README.md
++++ b/README.md
+@@ -15,7 +15,7 @@ In the last step, in place of `/usr/local/bin`, you can choose any directory on
+ 
+     $ sudo cp tralics /usr/local/bin
+ 
+-To get `make` to execute, you may have to edit the Makefile and edit the `CXX` variable. For example, on OS X Mavericks I had to set
++To get `make` to execute, you may have to edit the Makefile and customize the `CXX` variable. For example, on OS X Mavericks I had to set
+ 
+     CXX=g++ -stdlib=libstdc++
+ 
+-- 
+1.8.5.5
+

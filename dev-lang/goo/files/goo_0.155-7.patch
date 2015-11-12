@@ -1,0 +1,977 @@
+--- goo-0.155.orig/configure
++++ goo-0.155/configure
+@@ -2037,9 +2037,9 @@
+ cat > conftest.$ac_ext <<EOF
+ #line 2039 "configure"
+ #include "confdefs.h"
+-
+-int main() {
+ __thread int testvar;
++int main() {
++
+ ; return 0; }
+ EOF
+ if { (eval echo configure:2046: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+--- goo-0.155.orig/configure.in
++++ goo-0.155/configure.in
+@@ -39,8 +39,8 @@
+ fi
+ AC_DEFINE(_REENTRANT)
+ AC_MSG_CHECKING([whether the compiler supports thread-local variables])
+-AC_TRY_COMPILE([],
+-[__thread int testvar;], [
++AC_TRY_COMPILE([__thread int testvar;],
++[], [
+ AC_DEFINE(HAVE_THREAD_LOCAL_VARIABLE)
+ AC_MSG_RESULT([yes])], AC_MSG_RESULT([no]))
+ AC_CHECK_LIB(pthread, pthread_create, [
+--- goo-0.155.orig/c/grt.c
++++ goo-0.155/c/grt.c
+@@ -49,6 +49,7 @@
+   printf("ERROR: ");
+   println(condition);
+   YPbreak("");
++  return PNUL;
+ }
+ 
+ /* STACK */
+@@ -143,7 +144,7 @@
+   PINT i, size;
+   P   c, y;
+   c    = YPobject_class(x);
+-  size = YPiu(YPclass_prop_len(c));
++  size = (PINT)YPiu(YPclass_prop_len(c));
+   y    = YPobject_of(c, (P)size);
+   for (i = 0; i < (PINT)size; i++)
+     YPprop_elt_setter(YPprop_elt(x, (P)i), y, (P)i);
+@@ -244,7 +245,7 @@
+ 
+ unsigned long env_nallocd = 0;
+ 
+-INLINE P ENVFAB (int n) {
++INLINE P ENVFAB (PINT n) {
+   unsigned long snallocd = nallocd;
+   ENV env = allocate(sizeof(ENV_DATA) + ((n - 1) * sizeof(P)));
+   env_nallocd += nallocd - snallocd;
+@@ -252,7 +253,7 @@
+   return env;
+ }
+ 
+-P YPvm_fun_env_fab (P n) { return ENVFAB((int)n); }
++P YPvm_fun_env_fab (P n) { return ENVFAB((PINT)n); }
+ 
+ P FABENV (int size, ...) {
+   int i;
+@@ -510,6 +511,7 @@
+       return "<loc>";
+     }
+   }
++  return "BOGUS"; /* should be unreachable */
+ }
+ 
+ #define MIN(x,y) ((x)<(y) ? (x) : (y))
+@@ -538,9 +540,9 @@
+   } 
+   switch (t) {
+   case int_tag:
+-    printf("%d", untag(adr)); return;
++    printf("%ld", untag(adr)); return;
+   case chr_tag:
+-    printf("%c", untag(adr)); return;
++    printf("%c", (char)untag(adr)); return;
+   case loc_tag:
+     printf("&0x%lx", tag((P)untag(adr), 0)); return;
+   default:
+@@ -551,7 +553,7 @@
+   } else if (strcmp(typename, "<chr>") == 0) {
+     printf("%c", (char)(PINT)YPprop_elt(adr, (P)0));
+   } else if (strcmp(typename, "<loc>") == 0) {
+-    printf("&0x%lx", YPprop_elt(adr, (P)0));
++    printf("&0x%lx", (PINT)YPprop_elt(adr, (P)0));
+   } else if (strcmp(typename, "<flo>") == 0) {
+     INTFLO x;
+     x.i = (PINT)YPprop_elt(adr, (P)0);
+@@ -640,21 +642,21 @@
+       printf("]");
+     }
+     */
+-    printf(" 0x%lx)", adr);
++    printf(" 0x%lx)", (PINT)adr);
+   } else if (strcmp(typename, "<gen>") == 0) {
+     printf("(GEN ");
+     print_kind((P)YPmet_name(adr), 0, depth+1);
+     print_kind(FUNSPECS(adr), 0, depth + 1);
+-    printf(" 0x%lx)", adr);
++    printf(" 0x%lx)", (PINT)adr);
+   } else if (strcmp(typename, "<file-out-port>") == 0) {
+-    printf("(OUT-PORT 0x%lx)", adr);
++    printf("(OUT-PORT 0x%lx)", (PINT)adr);
+   } else if (strcmp(typename, "<file-in-port>") == 0) {
+-    printf("(IN-PORT 0x%lx)", adr);
++    printf("(IN-PORT 0x%lx)", (PINT)adr);
+   } else {
+     int i;
+     P c       = YPobject_class(adr);
+-    int size  = (int)YPiu(YPclass_prop_len(c));
+-    int below = MIN(size, 10);
++    PINT size = (PINT)YPiu(YPclass_prop_len(c));
++    PINT below = MIN(size, 10);
+     printf("(%s", typename);
+     for (i = 0; i < below; i++) {
+       printf(" "); 
+@@ -664,7 +666,7 @@
+ 	printf("..."); break;
+       }
+     }
+-    printf(" 0x%lx)", adr);
++    printf(" 0x%lx)", (PINT)adr);
+   }} else {
+     printf("<>");
+   }
+@@ -679,19 +681,19 @@
+     printf("NUL");
+   else {
+     char* typename = type(adr);
+-    printf("0x%lx", adr);
++    printf("0x%lx", (PINT)adr);
+     if (typename) 
+       printf(" ISA %s", typename);
+   }
+ }
+-void desprop (int i, P adr) {
+-  printf("%d: ", i);
++void desprop (PINT i, P adr) {
++  printf("%ld: ", i);
+   prtobj(adr);
+   printf("\n");
+ }
+ 
+ void desobj (P adr) {
+-  int i;
++  PINT i;
+   if (adr == PNUL) {
+     printf("PNUL\n");
+   } else {
+@@ -709,15 +711,15 @@
+       int genp  = strcmp(typename, "<gen>") == 0;
+       int funp  = metp | genp;
+       P c       = YPobject_class(adr);
+-      int size  = (int)YPiu(YPclass_prop_len(c));
++      PINT size = (PINT)YPiu(YPclass_prop_len(c));
+       int from  = funp ? 1 : 0;
+-      int below = MIN(metp ? size - 1 : size, 10);
++      PINT below = MIN(metp ? size - 1 : size, 10);
+       for (i = from; i < below; i++)
+ 	desprop(i, YPprop_elt(adr, (PINT)i));
+       if (metp) {
+ 	int j;
+ 	ENV env = (ENV)YPprop_elt(adr, (P)FUNENVOFFSET);
+-	printf("ENV SIZE %d\n", env->size);
++	printf("ENV SIZE %ld\n", env->size);
+ 	for (j = 0; j < env->size; j++, i++)
+ 	  desprop(i, ENVGET(env, j));
+       }
+@@ -814,7 +816,7 @@
+ }
+ 
+ P YevalSg2cYPprint_cpu_usage(char *message) {
+-	return;
++	return PNUL;
+ /*
+   struct rusage usage;
+   getrusage(RUSAGE_SELF, &usage);
+@@ -965,7 +967,7 @@
+ }
+ 
+ P YPfab_dyn_var() {
+-  T* key = (T*)allocate(sizeof(T));
++  int* key = (int*)allocate(sizeof(int));
+   DYNFAB(key);
+   return (P)key;
+ }
+@@ -1000,7 +1002,7 @@
+   *key = dynvar_key++;
+   if (dynvar_key > MAX_DYNVARS)
+     XXCALL1(1, Yerror, YPsb("TOO MANY DYNAMIC VARIABLES."));
+-  return (P)*key;
++  return (P)(PINT)*key;
+ }
+ 
+ REGS YPfab_regs() {
+--- goo-0.155.orig/c/grt.h
++++ goo-0.155/c/grt.h
+@@ -4,6 +4,8 @@
+ #define IN_GRT
+ #if !defined(_MSC_VER)
+ #include "config.h"
++#define _GNU_SOURCE
++#include <unistd.h>
+ #else
+ #undef PINT
+ #define NOGDI
+@@ -13,15 +15,22 @@
+ #undef PINT
+ #undef WIN32
+ #endif
++#ifdef WITH_THREADS
++#define GC_THREADS
++#define _REENTRANT
++#endif
+ #include <time.h>
+ #include <stdarg.h>
+ #include <stdio.h>
++#include <stdlib.h>
+ #include <string.h>
+ #include <setjmp.h>
+ #include <math.h>
+ #ifdef HAVE_POSIX_THREAD
+ #include <pthread.h>
+-#include <gc/gc_pthread_redirects.h>
++/* gc.h will do this for us after setting up its own configuration
++   macros properly; including it prematurely can backfire. */
++/* #include <gc/gc_pthread_redirects.h> */
+ #endif
+ 
+ #if defined(_MSC_VER)
+@@ -46,6 +55,12 @@
+ #define IMPORTEXPORT
+ #endif
+ 
++#ifdef __GNUC__
++#define UNUSED __attribute__((__unused__))
++#else
++#define UNUSED
++#endif
++
+ /* LOW LEVEL */
+ 
+ typedef FILE*          PPORT;
+@@ -79,6 +94,26 @@
+ IMPORTEXPORT extern P YPopts(P loc, P len);
+ IMPORTEXPORT extern P YPib(P i);
+ 
++IMPORTEXPORT extern P YOadd (P,P);
++IMPORTEXPORT extern P YOadd_new (P,P);
++IMPORTEXPORT extern P YOlen (P);
++IMPORTEXPORT extern P YOpair (P,P);
++IMPORTEXPORT extern P YOtail_setter (P,P);
++IMPORTEXPORT extern P YPallocate_stack (P);
++IMPORTEXPORT extern P YPdo_stack_frames (P fun);
++IMPORTEXPORT extern P YPfb (P);
++IMPORTEXPORT extern P YPfu (P);
++IMPORTEXPORT extern P YPhead_setter (P,P);
++IMPORTEXPORT extern P YPiu (P);
++IMPORTEXPORT extern P YPrep (P,P);
++IMPORTEXPORT extern P YPstr (P,P);
++IMPORTEXPORT extern P YPtail_setter (P,P);
++
++IMPORTEXPORT extern P YPunexec(P name);
++IMPORTEXPORT extern P YevalSg2cYPprint_cpu_usage(char *message);
++IMPORTEXPORT extern P allocate (unsigned long size);
++IMPORTEXPORT extern P allocate_atomic (unsigned long size);
++
+ /*
+   Not used yet.
+ #define YPprim_nary_start(arg) va_list ap; va_start(ap, arg)
+@@ -86,12 +121,12 @@
+ #define YPprim_nary_end() va_end(ap)
+ */
+ 
+-#define YPEE(x, y)    ((x) == (y))
+-#define YPeqQ(x, y)   ((x) == (y))
++#define YPEE(x, y)    ((PLOG)((x) == (y)))
++#define YPeqQ(x, y)   ((PLOG)((x) == (y)))
+ #define YPbb(x)       (((x) == 0) ? YPfalse : YPtrue)
+-#define YPbu(x)       ((x) == YPfalse)
+-#define YPiE(x, y)    (((PINT)(x)) == ((PINT)(y)))
+-#define YPiL(x, y)    (((PINT)(x)) <  ((PINT)(y)))
++#define YPbu(x)       ((PLOG)((x) == YPfalse))
++#define YPiE(x, y)    ((PLOG)(((PINT)(x)) == ((PINT)(y))))
++#define YPiL(x, y)    ((PLOG)(((PINT)(x)) <  ((PINT)(y))))
+ #define YPiA(x, y)    (((PINT)(x)) +  ((PINT)(y)))
+ #define YPi_(x, y)    (((PINT)(x)) -  ((PINT)(y)))
+ #define YPiT(x, y)    (((PINT)(x)) *  ((PINT)(y)))
+@@ -107,8 +142,8 @@
+ #define YPiGG(x, y)   (((PINT)(x)) >> ((PINT)(y)))
+ #define YPiLLL(x, y)  (((PINT)(x)) << ((PINT)(y))) /* TODO: FIX THIS <<< */
+ #define YPiGGG(x, y)  (((PINT)(x)) >> ((PINT)(y))) /* TODO: FIX THIS >>> */
+-#define YPcE(x, y)    (((PCHR)(PINT)(x)) == ((PCHR)(PINT)(y)))
+-#define YPcL(x, y)    (((PCHR)(PINT)(x)) <  ((PCHR)(PINT)(y)))
++#define YPcE(x, y)    ((PLOG)(((PCHR)(PINT)(x)) == ((PCHR)(PINT)(y))))
++#define YPcL(x, y)    ((PLOG)(((PCHR)(PINT)(x)) <  ((PCHR)(PINT)(y))))
+ 
+ #define RTVBOUNDP(x)  (((x) == PNUL) ? YPfalse : YPtrue)
+ #define BOUNDP(x)     RTVBOUNDP(x)
+@@ -145,11 +180,46 @@
+ #define YPprop_elt_setter(z, x, i) (((OBJECT)(x))->values[(PINT)(i)] = (z))
+ #define YPprop_dat_at(x, i)        (&(((OBJECT)(x))->values[(PINT)(i)]))
+ 
++IMPORTEXPORT extern P YPclass (P,P,P,P,P,P,P,P,P,P,P,P);
++IMPORTEXPORT extern P YPclass_ancestors_setter (P,P);
++IMPORTEXPORT extern P YPclass_children_setter (P,P);
++IMPORTEXPORT extern P YPclass_direct_props_setter (P,P);
++IMPORTEXPORT extern P YPclass_forward_setter (P,P);
++IMPORTEXPORT extern P YPclass_gens_setter (P,P);
++IMPORTEXPORT extern P YPclass_id_setter (P,P);
++IMPORTEXPORT extern P YPclass_mets_setter (P,P);
++IMPORTEXPORT extern P YPclass_prop_len_setter (P,P);
++IMPORTEXPORT extern P YPclass_props_setter (P,P);
++IMPORTEXPORT extern P YPclass_row_setter (P,P);
++
+ /* FLO */
+ 
+ IMPORTEXPORT extern P FLOINT (PFLO x);
+ IMPORTEXPORT extern P YPflo_bits (P x);
+ 
++IMPORTEXPORT extern P YgooSmathYPfA(P x, P y);
++IMPORTEXPORT extern P YgooSmathYPfE(P x, P y);
++IMPORTEXPORT extern P YgooSmathYPfL(P x, P y);
++IMPORTEXPORT extern P YgooSmathYPfS(P x, P y);
++IMPORTEXPORT extern P YgooSmathYPfT(P x, P y);
++IMPORTEXPORT extern P YgooSmathYPf_(P x, P y);
++IMPORTEXPORT extern P YgooSmathYPfacos(P x);
++IMPORTEXPORT extern P YgooSmathYPfasin(P x);
++IMPORTEXPORT extern P YgooSmathYPfatan(P x);
++IMPORTEXPORT extern P YgooSmathYPfatan2(P y, P x);
++IMPORTEXPORT extern P YgooSmathYPfcos(P x);
++IMPORTEXPORT extern P YgooSmathYPfcosh(P x);
++IMPORTEXPORT extern P YgooSmathYPfi2f(P x);
++IMPORTEXPORT extern P YgooSmathYPflo_bits (P x);
++IMPORTEXPORT extern P YgooSmathYPflog(P x);
++IMPORTEXPORT extern P YgooSmathYPfpow(P x, P n);
++IMPORTEXPORT extern P YgooSmathYPfsin(P x);
++IMPORTEXPORT extern P YgooSmathYPfsinh(P x);
++IMPORTEXPORT extern P YgooSmathYPfsqrt(P x);
++IMPORTEXPORT extern P YgooSmathYPft(P x);
++IMPORTEXPORT extern P YgooSmathYPftan(P x);
++IMPORTEXPORT extern P YgooSmathYPftanh(P x);
++
+ /* REP */
+ 
+ #define REP_LEN_OFF 0
+@@ -174,6 +244,9 @@
+ #define YPtelt(x, i)           ((P)(YPprop_elt((x), (PINT)((char*)REP_DAT_OFF + (long)(i)))))
+ #define YPtelt_setter(z, x, i) ((P)(YPprop_elt_setter((z), (x), (PINT)((char*)REP_DAT_OFF + (long)(i)))))
+ 
++IMPORTEXPORT extern P YPopts_tup (P,P,P);
++IMPORTEXPORT extern P YPtup (P,P);
++
+ /* STR */
+ 
+ #if !defined(_MSC_VER)
+@@ -182,7 +255,7 @@
+ 
+ IMPORTEXPORT extern P YPPsfab (P size, P fill);
+ IMPORTEXPORT extern P YPsb (P str);
+-#define YPsu(x)                ((P)(YPrep_dat(x)))
++#define YPsu(x)                ((char*)(YPrep_dat(x)))
+ #define YPslen(x)              ((P)(YPprop_elt((x), (PINT)REP_LEN_OFF)))
+ #define YPselt(x, i)           ((P)(PINT)(((PSTR)(YPsu(x)))[((PINT)(i))]))
+ #define YPselt_setter(z, x, i) ((P)(PINT)(((PSTR)(YPsu(x)))[((PINT)(i))] = ((PCHR)(PINT)(z))))
+@@ -201,6 +274,41 @@
+     }                                                                         \
+   } while (0)
+ 
++IMPORTEXPORT extern P YgooSsystemYPcompile (P cfile, P sofile, P incs, P libs);
++IMPORTEXPORT extern P YgooSsystemYPcreate_directory (P name);
++IMPORTEXPORT extern P YgooSsystemYPfile_existsQ (P name);
++IMPORTEXPORT extern P YgooSsystemYPfile_mtime (P name);
++IMPORTEXPORT extern P YgooSsystemYPfile_type (P name);
++IMPORTEXPORT extern P YgooSsystemYPload(P name);
++IMPORTEXPORT extern P YgooSsystemYPos_name ();
++IMPORTEXPORT extern P YgooSsystemYPos_val (P name);
++IMPORTEXPORT extern P YgooSsystemYPos_val_setter (P value, P name);
++IMPORTEXPORT extern P YgooSsystemYPtime ();
++
++IMPORTEXPORT extern P YtimeSeventYPevent_broadcast (P handle);
++IMPORTEXPORT extern P YtimeSeventYPevent_create (P name);
++IMPORTEXPORT extern P YtimeSeventYPevent_reset (P handle);
++IMPORTEXPORT extern P YtimeSeventYPevent_signal (P handle);
++IMPORTEXPORT extern P YtimeSeventYPevent_wait (P event, P lock);
++IMPORTEXPORT extern P YtimeSeventYPevent_wait_timed (P event, P lock,
++						     P timeout);
++
++IMPORTEXPORT extern P YtimeSlockYPlock_create (P name);
++IMPORTEXPORT extern P YtimeSlockYPlock_destroy (P handle);
++IMPORTEXPORT extern P YtimeSlockYPlock_lock (P handle);
++IMPORTEXPORT extern P YtimeSlockYPlock_try_lock (P handle);
++IMPORTEXPORT extern P YtimeSlockYPlock_unlock (P handle);
++
++IMPORTEXPORT extern P YtimeSthreadsYPthread_create (P function);
++IMPORTEXPORT extern P YtimeSthreadsYPthread_current ();
++IMPORTEXPORT extern P YtimeSthreadsYPthread_detach ();
++IMPORTEXPORT extern P YtimeSthreadsYPthread_goo_thread ();
++IMPORTEXPORT extern P YtimeSthreadsYPthread_goo_thread_setter (P value);
++IMPORTEXPORT extern P YtimeSthreadsYPthread_join (P thread);
++IMPORTEXPORT extern P YtimeSthreadsYPthread_priority (P thread);
++IMPORTEXPORT extern P YtimeSthreadsYPthread_priority_setter (P x, P thread);
++IMPORTEXPORT extern P YtimeSthreadsYPthread_sleep (P secs);
++IMPORTEXPORT extern P YtimeSthreadsYPthread_yield ();
+ 
+ /* CLOSURES */
+ 
+@@ -314,6 +422,10 @@
+ #define FUNENVGET(f, i)    ENVGET(FUNENV((f)), (i))
+ #define FUNENVPUT(z, f, i) ENVPUT((z), FUNENV((f)), (i))
+ 
++IMPORTEXPORT extern P YgooSfunYprop_bound_atQ (P,P);
++IMPORTEXPORT extern P YgooSfunYprop_value_at (P,P);
++IMPORTEXPORT extern P YgooSfunYprop_value_at_setter (P,P,P);
++
+ // THREAD LOCAL VARIABLE SUPPORT
+ 
+ #ifdef WITH_THREADS
+@@ -364,28 +476,28 @@
+ #define REGSCREF()    (regs?regs:(regs=REGSREF()))
+ #define REGSSET(v)    TSET(tregs, (P)(v))
+ #define DEFREGS()     REGS regs = REGSREF()
+-#define DEFCREGS()    REGS regs = (REGS)0
+-#define YPdef_regs()  regs = REGSREF()
+-#define YPset_regs(x) regs = (REGS)(x)
++#define DEFCREGS()    REGS regs UNUSED = (REGS)0
++#define YPdef_regs()  (regs = REGSREF())
++#define YPset_regs(x) (regs = (REGS)(x))
+ 
+ #define REG(x)       (regs->x)
+ #define CREG(x)      (REGSCREF()->x)
+ #define REGSET(x, v) (regs->x = (v))
+ 
+-#define MAX_STACK_SIZE         70000
++#define MAX_STACK_SIZE         170000
+ #define YPmax_stack_len()      (MAX_STACK_SIZE)
+ 
+ #define YPfun_reg()            (Pfun)
+ #define YPnext_methods_reg()   (REG(next_methods))
+ #define YPnext_methods_reg_setter(x) (REG(next_methods) = (x))
+ #define YPsp_reg()             (REG(sp))
+-#define YPsp_elt(i)            (REG(sp)[(int)i])
++#define YPsp_elt(i)            (REG(sp)[(PINT)i])
+ #define YPfp_reg()             (REG(fp))
+ #define YPsp_reg_setter(value) (REGSET(sp, value))
+ #define YPfp_reg_setter(value) (REGSET(fp, value))
+ #define YPstack_reg()          (REG(stack))
+-#define YPstack_check_regQ()          (P)(REG(stack_checkp))
+-#define YPstack_check_regQ_setter(x)  (REGSET(stack_checkp, (int)x))
++#define YPstack_check_regQ()          (P)(PINT)(REG(stack_checkp))
++#define YPstack_check_regQ_setter(x)  (REGSET(stack_checkp, (int)(PINT)x))
+ 
+ #define YPvpc()             (REG(vpc))
+ #define YPvfn()             (REG(vfn))
+@@ -441,6 +553,11 @@
+   return ((P*)v)[(PINT)i] = x;
+ }
+ 
++IMPORTEXPORT extern P YPtag (P,P);
++IMPORTEXPORT extern P YPtag_into (P,P);
++IMPORTEXPORT extern P YPuntag (P);
++IMPORTEXPORT extern P YPuntag_into (P);
++
+ 
+ /* CALLS */
+ 
+@@ -468,7 +585,7 @@
+ */
+ 
+ #define FUNREG()          *(REG(sp)-1)
+-#define LINK_STACK()      P Pfun = FUNREG(); P Pnext_methods = REG(next_methods); *REG(sp) = REG(fp); REGSET(fp, REG(sp)); REGSET(sp, REG(sp)+1); 
++#define LINK_STACK()      P Pfun UNUSED = FUNREG(); P Pnext_methods UNUSED = REG(next_methods); *REG(sp) = REG(fp); REGSET(fp, REG(sp)); REGSET(sp, REG(sp)+1); 
+ #define UNLINK_STACK()    {REGSET(sp, REG(fp));  REGSET(fp, *REG(sp)); }
+ #define YPunlink_stack() (0);UNLINK_STACK()
+ #define ARGLEN()          (REG(fp)[-2])
+@@ -664,6 +781,18 @@
+ #define RET(x) \
+   { YPfun_val_check_type(regs, (x), Pfun); return (x); }
+ 
++IMPORTEXPORT extern P YOsingleton_isaQ (P,P);
++IMPORTEXPORT extern P YPfun_cache_setter (P,P);
++IMPORTEXPORT extern P YPgen_cache (P,P,P,P,P);
++IMPORTEXPORT extern P YPgen_cache_arg_pos_setter (P,P);
++IMPORTEXPORT extern P YPgen_cache_classes_setter (P,P);
++IMPORTEXPORT extern P YPgen_cache_singletons_setter (P,P);
++IMPORTEXPORT extern P YPgen_code_setter (P,P);
++IMPORTEXPORT extern P YPgen_mets_setter (P,P);
++IMPORTEXPORT extern P YPmet_env_setter (P,P);
++IMPORTEXPORT extern P YPpatch_early_generics ();
++IMPORTEXPORT extern P YPsingleton (P);
++
+ /* NON-LOCAL EXITS */
+ 
+ IMPORTEXPORT extern P do_exit (REGS regs );
+@@ -767,7 +896,7 @@
+ IMPORTEXPORT extern P regsym (P* adr, char *modstr, char *namestr);
+ IMPORTEXPORT extern P YPdo_runtime_bindings (P fun);
+ 
+-/* EOF OBJECT */
++/* I/O */
+ 
+ STATIC_NOT_GRT_C INLINE P YPeof_objectQ (P x) { 
+   return (P)(PLOG)((PINT)x == EOF); 
+@@ -777,6 +906,20 @@
+   return (P)EOF; 
+ }
+ 
++IMPORTEXPORT extern P YgooSioSportYPclose_in_port (P s);
++IMPORTEXPORT extern P YgooSioSportYPclose_out_port (P s);
++IMPORTEXPORT extern PPORT YgooSioSportYPcurrent_in_port (void);
++IMPORTEXPORT extern PPORT YgooSioSportYPcurrent_out_port (void);
++IMPORTEXPORT extern P YgooSioSportYPforce_out (P s);
++IMPORTEXPORT extern P YgooSioSportYPget (P s);
++IMPORTEXPORT extern P YgooSioSportYPnewline (P s);
++IMPORTEXPORT extern P YgooSioSportYPopen_in_file (P name);
++IMPORTEXPORT extern P YgooSioSportYPopen_out_file (P name);
++IMPORTEXPORT extern P YgooSioSportYPpeek (P s);
++IMPORTEXPORT extern P YgooSioSportYPput (P s, P x);
++IMPORTEXPORT extern P YgooSioSportYPputs (P s, P x);
++IMPORTEXPORT extern P YgooSioSportYPreadyQ (P s);
++
+ /* LOCATIVES */
+ 
+ STATIC_NOT_GRT_C  INLINE P YPloc_val (P loc) {
+--- goo-0.155.orig/c/g2c/goo/boot.c
++++ goo-0.155/c/g2c/goo/boot.c
+@@ -984,13 +984,13 @@
+ 
+ P YPallocate_stack(P num_) {
+   P retF1;
+-  P T0,T1,T2,T3;
++  P T0,T1,T2,T3,T4;
+ DEFCREGS();
+   (P)YPdef_regs();
+-  T3 = (P)YPsp_reg();
+-  retF1 = T3;
++  T4 = (P)YPsp_reg();
++  retF1 = T4;
+   T1 = (P)YPsp_reg();
+-  T2 = (P)YPiT((P)4,num_);
++  T3 = (P)(sizeof(P));  T2 = (P)YPiT(T3,num_);
+   T0 = (P)YPiA(T1,T2);
+   (P)YPsp_reg_setter(T0);
+   return retF1;
+--- goo-0.155.orig/c/g2c/goo/%system.c
++++ goo-0.155/c/g2c/goo/%system.c
+@@ -6,8 +6,10 @@
+ 
+ #include <sys/stat.h>
+ #if !defined(_MSC_VER)
++#include <sys/wait.h>
+ #include <unistd.h>
+ #endif
++#include <ctype.h>
+ #include <errno.h>
+ 
+ extern P Yfab_sym;
+@@ -236,6 +238,7 @@
+   printf("Got to 8\n");
+   return YPtrue;
+ */
++  return PNUL;
+ #endif
+ }
+ 
+@@ -269,7 +272,7 @@
+   mod = dlopen(name, RTLD_NOW | RTLD_GLOBAL);
+   if (mod == NULL)
+   {
+-    printf("FAILED TO LOAD %s BECAUSE %s\n", name, dlerror());
++    printf("FAILED TO LOAD %s BECAUSE %s\n", (char*)name, dlerror());
+ 	return YPfalse;
+   }
+   else {
+--- goo-0.155.orig/c/g2c/goo/bignum.c
++++ goo-0.155/c/g2c/goo/bignum.c
+@@ -785,7 +785,7 @@
+ static inline PINT iu (P x) { return (PINT)IU(x); }
+ static inline P    ib (PINT x) { return (P)tag((P)x, int_tag); }
+ 
+-static inline mpz_init_zero(mpz_ptr z) {
++static inline void mpz_init_zero(mpz_ptr z) {
+   z->_mp_size  = 0;
+   z->_mp_alloc = 0;
+   z->_mp_d     = &dummy_limb;
+@@ -885,6 +885,7 @@
+ 
+ P gmp_initialize () {
+   mp_set_memory_functions(GC_malloc, gmp_realloc, do_nothing_free);
++  return PNUL;
+ }
+ 
+ 
+@@ -1630,7 +1631,7 @@
+ LINK_STACK();
+   ARG(x_, 0);
+   ARG(y_, 1);
+-  T3 = (P)( mpz_sgn(bignum_to_mpz(y_)) );  xF5279 = T3;
++  T3 = (P)( (PINT)mpz_sgn(bignum_to_mpz(y_)) );  xF5279 = T3;
+   xF5280 = xF5279;
+   tF5281 = (P)1;
+   T2 = (P)YPiLL(xF5280,(P)2);
+@@ -1649,7 +1650,7 @@
+ LINK_STACK();
+   ARG(x_, 0);
+   ARG(y_, 1);
+-  T3 = (P)( mpz_sgn(bignum_to_mpz(x_)) );  xF5282 = T3;
++  T3 = (P)( (PINT)mpz_sgn(bignum_to_mpz(x_)) );  xF5282 = T3;
+   xF5283 = xF5282;
+   tF5284 = (P)1;
+   T2 = (P)YPiLL(xF5283,(P)2);
+@@ -1668,7 +1669,7 @@
+ LINK_STACK();
+   ARG(x_, 0);
+   ARG(y_, 1);
+-  T3 = (P)( mpz_cmp(bignum_to_mpz(x_), bignum_to_mpz(y_)) );  xF5285 = T3;
++  T3 = (P)( (PINT)mpz_cmp(bignum_to_mpz(x_), bignum_to_mpz(y_)) );  xF5285 = T3;
+   xF5286 = xF5285;
+   tF5287 = (P)1;
+   T2 = (P)YPiLL(xF5286,(P)2);
+@@ -1687,7 +1688,7 @@
+ LINK_STACK();
+   ARG(x_, 0);
+   ARG(y_, 1);
+-  T3 = (P)( mpz_cmp(bignum_to_mpz(x_), bignum_to_mpz(y_)) );  xF5288 = T3;
++  T3 = (P)( (PINT)mpz_cmp(bignum_to_mpz(x_), bignum_to_mpz(y_)) );  xF5288 = T3;
+   xF5289 = xF5288;
+   tF5290 = (P)1;
+   T2 = (P)YPiLL(xF5289,(P)2);
+@@ -1979,7 +1980,7 @@
+ LINK_STACK();
+   ARG(x_, 0);
+   ARG(y_, 1);
+-  T1 = (P)( mpz_tstbit(bignum_to_mpz(x_), iu(y_)) );  T0 = (P)YPbb(T1);
++  T1 = (P)( (PLOG)mpz_tstbit(bignum_to_mpz(x_), iu(y_)) );  T0 = (P)YPbb(T1);
+ UNLINK_STACK();
+   RET(T0);
+ }
+@@ -2000,7 +2001,7 @@
+   P T0,T1;
+ LINK_STACK();
+   ARG(x_, 0);
+-  T1 = (P)( mpz_odd_p(bignum_to_mpz(x_)) );  T0 = (P)YPbb(T1);
++  T1 = (P)( (PLOG)mpz_odd_p(bignum_to_mpz(x_)) );  T0 = (P)YPbb(T1);
+ UNLINK_STACK();
+   RET(T0);
+ }
+@@ -2192,7 +2193,7 @@
+   dividedF5316 = T5;
+   resultF5317 = YPint((P)0);
+   YPfalse;
+-{  INTFLO iz;  iz.i = (P)YPfu(x_);
++{  INTFLO iz;  iz.i = (PINT)(P)YPfu(x_);
+      if (rawint_fits_fixnum((PINT)iz.f))
+        resultF5317 = ib((PINT)iz.f);
+      else { 
+--- goo-0.155.orig/c/g2c/time/%event.c
++++ goo-0.155/c/g2c/time/%event.c
+@@ -12,27 +12,28 @@
+ }
+ 
+ P YtimeSeventYPevent_reset (P handle) {
+-  return (P)pthread_cond_init((pthread_cond_t *)handle, NULL); // TODO: ????
++  return (P)(PINT)pthread_cond_init((pthread_cond_t *)handle, NULL); // TODO: ????
+ }
+ 
+ P YtimeSeventYPevent_pulse (P handle) {
+   // return (P)PulseEvent((HANDLE)handle);
++  return PNUL;
+ }
+ 
+ P YtimeSeventYPevent_signal (P handle) {
+-  return (P)pthread_cond_signal((pthread_cond_t *)handle);
++  return (P)(PINT)pthread_cond_signal((pthread_cond_t *)handle);
+ }
+ 
+ P YtimeSeventYPevent_broadcast (P handle) {
+-  return (P)pthread_cond_broadcast((pthread_cond_t *)handle);
++  return (P)(PINT)pthread_cond_broadcast((pthread_cond_t *)handle);
+ }
+ 
+ P YtimeSeventYPevent_destroy (P handle) {
+-  return (P)pthread_cond_destroy((pthread_cond_t *)handle);
++  return (P)(PINT)pthread_cond_destroy((pthread_cond_t *)handle);
+ }
+ 
+ P YtimeSeventYPevent_wait (P event, P lock) {
+-  return (P)pthread_cond_wait
++  return (P)(PINT)pthread_cond_wait
+     ((pthread_cond_t *)event, (pthread_mutex_t *)lock);
+ }
+ 
+@@ -42,7 +43,7 @@
+   x.i = (PINT)timeout;
+   time.tv_sec  = (time_t)truncf(x.f);
+   time.tv_nsec = (long)((x.f - time.tv_sec) * 1000000000.0);
+-  return (P)pthread_cond_timedwait
++  return (P)(PINT)pthread_cond_timedwait
+     ((pthread_cond_t *)event, (pthread_mutex_t *)lock, &time);
+ }
+ 
+--- goo-0.155.orig/c/g2c/time/%threads.c
++++ goo-0.155/c/g2c/time/%threads.c
+@@ -34,11 +34,11 @@
+ }
+ 
+ P YtimeSthreadsYPthread_yield () {
+-  return (P)pthread_yield();
++  return (P)(PINT)pthread_yield();
+ }
+ 
+ P YtimeSthreadsYPthread_join (P thread) {
+-  return (P)GC_pthread_join(thread);
++  return (P)(PINT)GC_pthread_join((pthread_t)thread, NULL);
+ }
+ 
+ P YtimeSthreadsYPthread_priority (P thread) {
+@@ -53,7 +53,7 @@
+ 
+ P YtimeSthreadsYPthread_sleep (P secs) {  
+   INTFLO x;
+-  int res;
++  PINT res;
+   // struct timespec time, rem;
+   x.i = (PINT)secs;
+   // time.tv_sec  = (time_t)truncf(x.f);
+@@ -68,7 +68,7 @@
+ }
+ 
+ P YtimeSthreadsYPthread_detach () {
+-  return (P)pthread_detach(pthread_self());
++  return (P)(PINT)pthread_detach(pthread_self());
+ }
+ 
+ #elif defined(MSVC_THREAD)
+--- goo-0.155.orig/c/g2c/time/%lock.c
++++ goo-0.155/c/g2c/time/%lock.c
+@@ -11,19 +11,19 @@
+ }
+ 
+ P YtimeSlockYPlock_lock (P handle) {
+-  return (P)pthread_mutex_lock((pthread_mutex_t *)handle);
++  return (P)(PINT)pthread_mutex_lock((pthread_mutex_t *)handle);
+ }
+ 
+ P YtimeSlockYPlock_try_lock (P handle) {
+-  return (P)pthread_mutex_trylock((pthread_mutex_t *)handle);
++  return (P)(PINT)pthread_mutex_trylock((pthread_mutex_t *)handle);
+ }
+ 
+ P YtimeSlockYPlock_unlock (P handle) {
+-  return (P)pthread_mutex_unlock((pthread_mutex_t *)handle);
++  return (P)(PINT)pthread_mutex_unlock((pthread_mutex_t *)handle);
+ }
+ 
+ P YtimeSlockYPlock_destroy (P handle) {
+-  return (P)pthread_mutex_destroy((pthread_mutex_t *)handle);
++  return (P)(PINT)pthread_mutex_destroy((pthread_mutex_t *)handle);
+ }
+ 
+ #elif defined(MSVC_THREAD)
+--- goo-0.155.orig/src/goo/%system.c
++++ goo-0.155/src/goo/%system.c
+@@ -6,8 +6,10 @@
+ 
+ #include <sys/stat.h>
+ #if !defined(_MSC_VER)
++#include <sys/wait.h>
+ #include <unistd.h>
+ #endif
++#include <ctype.h>
+ #include <errno.h>
+ 
+ extern P Yfab_sym;
+@@ -236,6 +238,7 @@
+   printf("Got to 8\n");
+   return YPtrue;
+ */
++  return PNUL;
+ #endif
+ }
+ 
+@@ -269,7 +272,7 @@
+   mod = dlopen(name, RTLD_NOW | RTLD_GLOBAL);
+   if (mod == NULL)
+   {
+-    printf("FAILED TO LOAD %s BECAUSE %s\n", name, dlerror());
++    printf("FAILED TO LOAD %s BECAUSE %s\n", (char*)name, dlerror());
+ 	return YPfalse;
+   }
+   else {
+--- goo-0.155.orig/src/goo/boot.goo
++++ goo-0.155/src/goo/boot.goo
+@@ -234,7 +234,7 @@
+ (dl %allocate-stack (num)
+   (%def-regs)
+   (def ret (%sp-reg))
+-  (set (%sp-reg) (%i+ (%sp-reg) (%i* (%raw 4) num)))
++  (set (%sp-reg) (%i+ (%sp-reg) (%i* (c-expr "sizeof(P)") num)))
+   ret)
+ 
+ ;; STRUCTURES ARE OBJECT TEMPLATES WITH 
+--- goo-0.155.orig/src/goo/bignum.goo
++++ goo-0.155/src/goo/bignum.goo
+@@ -11,7 +11,7 @@
+ static inline PINT iu (P x) { return (PINT)IU(x); }
+ static inline P    ib (PINT x) { return (P)tag((P)x, int_tag); }
+ 
+-static inline mpz_init_zero(mpz_ptr z) {
++static inline void mpz_init_zero(mpz_ptr z) {
+   z->_mp_size  = 0;
+   z->_mp_alloc = 0;
+   z->_mp_d     = &dummy_limb;
+@@ -111,6 +111,7 @@
+ 
+ P gmp_initialize () {
+   mp_set_memory_functions(GC_malloc, gmp_realloc, do_nothing_free);
++  return PNUL;
+ }
+ 
+ }
+@@ -194,16 +195,16 @@
+ ;; can use this shortcut because bignums always have greater
+ ;; magnitude than fixnums, so y > 0 => x < y
+ (dm (< inline) (x|<fixnum> y|<bignum> => <log>)
+-  (= #ei{ mpz_sgn(bignum_to_mpz($y)) } 1))
++  (= #ei{ (PINT)mpz_sgn(bignum_to_mpz($y)) } 1))
+ 
+ (dm (< inline) (x|<bignum> y|<fixnum> => <log>)
+-  (= #ei{ mpz_sgn(bignum_to_mpz($x)) } -1))
++  (= #ei{ (PINT)mpz_sgn(bignum_to_mpz($x)) } -1))
+ 
+ (dm (< inline) (x|<bignum> y|<bignum> => <log>)
+-  (= #ei{ mpz_cmp(bignum_to_mpz($x), bignum_to_mpz($y)) } -1))
++  (= #ei{ (PINT)mpz_cmp(bignum_to_mpz($x), bignum_to_mpz($y)) } -1))
+ 
+ (dm (== inline) (x|<bignum> y|<bignum> => <log>)
+-  (= #ei{ mpz_cmp(bignum_to_mpz($x), bignum_to_mpz($y)) } 0))
++  (= #ei{ (PINT)mpz_cmp(bignum_to_mpz($x), bignum_to_mpz($y)) } 0))
+ 
+ (df (to-bignum inline) (x|<fixnum> => <bignum>)
+   #eg{ fixnum_to_bignum($x) })
+@@ -222,13 +223,13 @@
+ (def-b       ~  "mpz_com")
+ 
+ (dm (bit? inline) (x|<bignum> y|<fixnum> => <log>)
+-  #eb{ mpz_tstbit(bignum_to_mpz($x), iu($y)) })
++  #eb{ (PLOG)mpz_tstbit(bignum_to_mpz($x), iu($y)) })
+ 
+ (dm (even? inline) (x|<bignum> => <log>)
+   (not (odd? x)))
+ 
+ (dm (odd? inline) (x|<bignum> => <log>)
+-  #eb{ mpz_odd_p(bignum_to_mpz($x)) })
++  #eb{ (PLOG)mpz_odd_p(bignum_to_mpz($x)) })
+ 
+ ;;(dm (/ inline) (x|<bignum> y|<bignum> => <int>)
+ ;;  (arithmetic-error "No int divide, consider trunc/"))
+@@ -302,7 +303,7 @@
+ (dm trunc/ (x|<flo> y|<flo> => (tup z|<int> rem|<flo>))
+   (def divided (/ x y))
+   (def result  0)
+-  #{ INTFLO iz;  iz.i = $(%fu x);
++  #{ INTFLO iz;  iz.i = (PINT)$(%fu x);
+      if (rawint_fits_fixnum((PINT)iz.f))
+        $result = ib((PINT)iz.f);
+      else { 
+--- goo-0.155.orig/src/time/%event.c
++++ goo-0.155/src/time/%event.c
+@@ -12,27 +12,28 @@
+ }
+ 
+ P YtimeSeventYPevent_reset (P handle) {
+-  return (P)pthread_cond_init((pthread_cond_t *)handle, NULL); // TODO: ????
++  return (P)(PINT)pthread_cond_init((pthread_cond_t *)handle, NULL); // TODO: ????
+ }
+ 
+ P YtimeSeventYPevent_pulse (P handle) {
+   // return (P)PulseEvent((HANDLE)handle);
++  return PNUL;
+ }
+ 
+ P YtimeSeventYPevent_signal (P handle) {
+-  return (P)pthread_cond_signal((pthread_cond_t *)handle);
++  return (P)(PINT)pthread_cond_signal((pthread_cond_t *)handle);
+ }
+ 
+ P YtimeSeventYPevent_broadcast (P handle) {
+-  return (P)pthread_cond_broadcast((pthread_cond_t *)handle);
++  return (P)(PINT)pthread_cond_broadcast((pthread_cond_t *)handle);
+ }
+ 
+ P YtimeSeventYPevent_destroy (P handle) {
+-  return (P)pthread_cond_destroy((pthread_cond_t *)handle);
++  return (P)(PINT)pthread_cond_destroy((pthread_cond_t *)handle);
+ }
+ 
+ P YtimeSeventYPevent_wait (P event, P lock) {
+-  return (P)pthread_cond_wait
++  return (P)(PINT)pthread_cond_wait
+     ((pthread_cond_t *)event, (pthread_mutex_t *)lock);
+ }
+ 
+@@ -42,7 +43,7 @@
+   x.i = (PINT)timeout;
+   time.tv_sec  = (time_t)truncf(x.f);
+   time.tv_nsec = (long)((x.f - time.tv_sec) * 1000000000.0);
+-  return (P)pthread_cond_timedwait
++  return (P)(PINT)pthread_cond_timedwait
+     ((pthread_cond_t *)event, (pthread_mutex_t *)lock, &time);
+ }
+ 
+--- goo-0.155.orig/src/time/%threads.c
++++ goo-0.155/src/time/%threads.c
+@@ -34,11 +34,11 @@
+ }
+ 
+ P YtimeSthreadsYPthread_yield () {
+-  return (P)pthread_yield();
++  return (P)(PINT)pthread_yield();
+ }
+ 
+ P YtimeSthreadsYPthread_join (P thread) {
+-  return (P)GC_pthread_join(thread);
++  return (P)(PINT)GC_pthread_join((pthread_t)thread, NULL);
+ }
+ 
+ P YtimeSthreadsYPthread_priority (P thread) {
+@@ -53,7 +53,7 @@
+ 
+ P YtimeSthreadsYPthread_sleep (P secs) {  
+   INTFLO x;
+-  int res;
++  PINT res;
+   // struct timespec time, rem;
+   x.i = (PINT)secs;
+   // time.tv_sec  = (time_t)truncf(x.f);
+@@ -68,7 +68,7 @@
+ }
+ 
+ P YtimeSthreadsYPthread_detach () {
+-  return (P)pthread_detach(pthread_self());
++  return (P)(PINT)pthread_detach(pthread_self());
+ }
+ 
+ #elif defined(MSVC_THREAD)
+--- goo-0.155.orig/src/time/%lock.c
++++ goo-0.155/src/time/%lock.c
+@@ -11,19 +11,19 @@
+ }
+ 
+ P YtimeSlockYPlock_lock (P handle) {
+-  return (P)pthread_mutex_lock((pthread_mutex_t *)handle);
++  return (P)(PINT)pthread_mutex_lock((pthread_mutex_t *)handle);
+ }
+ 
+ P YtimeSlockYPlock_try_lock (P handle) {
+-  return (P)pthread_mutex_trylock((pthread_mutex_t *)handle);
++  return (P)(PINT)pthread_mutex_trylock((pthread_mutex_t *)handle);
+ }
+ 
+ P YtimeSlockYPlock_unlock (P handle) {
+-  return (P)pthread_mutex_unlock((pthread_mutex_t *)handle);
++  return (P)(PINT)pthread_mutex_unlock((pthread_mutex_t *)handle);
+ }
+ 
+ P YtimeSlockYPlock_destroy (P handle) {
+-  return (P)pthread_mutex_destroy((pthread_mutex_t *)handle);
++  return (P)(PINT)pthread_mutex_destroy((pthread_mutex_t *)handle);
+ }
+ 
+ #elif defined(MSVC_THREAD)

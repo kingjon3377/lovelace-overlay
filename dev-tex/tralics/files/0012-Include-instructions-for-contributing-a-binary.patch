@@ -1,0 +1,37 @@
+From 9f1f9ed17fc6fb8b7f1da4c2a2a0cfc5e1c6b286 Mon Sep 17 00:00:00 2001
+From: Michael Hartl <michael@michaelhartl.com>
+Date: Fri, 21 Mar 2014 17:58:48 -0700
+Subject: [PATCH 12/19] Include instructions for contributing a binary
+
+---
+ README.md | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
+
+diff --git a/README.md b/README.md
+index 2faf755..b15b4ac 100644
+--- a/README.md
++++ b/README.md
+@@ -4,11 +4,18 @@ Tralics is a LaTeX-to-XML translator developed by [Inria](http://en.wikipedia.or
+ 
+ ## Installation
+ 
+-The Softcover ebook production system is distributed via the Ruby gems `softcover` and `polytexnic`. The `polytexnic` gem ships with precompiled Tralics binaries for OS X and select Linux distributions, so that `polytexnic` Just Works™ on most systems. But if your system is not among those supported natively, you should compile a version of Tralics for your system and place the resulting excutable on the path:
++The Softcover ebook production system is distributed via the Ruby gems `softcover` and `polytexnic`, the latter of which uses Tralics to convert LaTeX to XML (and [thence](http://www.merriam-webster.com/dictionary/thence) to HTML). The `polytexnic` gem ships with precompiled Tralics binaries for OS X and select Linux distributions, so that `polytexnic` Just Works™ on most systems, but if your system is not among those supported natively you'll have to compile a version of Tralics for your system. This involves cloning the `tralics` repository, running `make`, and placing the resulting excutable on the path:
+ 
+     $ git clone https://github.com/softcover/tralics
+     $ cd tralics/src
+     $ make
+     $ cp tralics /usr/local/bin
+ 
+-In place of `/usr/local/bin` in the last step, you can choose any directory on your path.
++In the last step, in place of `/usr/local/bin`, you can choose any directory on your path.
++
++## Contributing a binary
++
++Ideally, we would like the `polytexnic` gem to support as many systems as possible without separate compilation steps. If you needed to compile your own binary and would like to contribute it back to the project, please send an email to <michael@softcover.io> with the `tralics` binary attached and with the result of running the following command:
++
++    $ ruby -e puts 'RUBY_VERSION'
++
+-- 
+1.8.5.5
+
