@@ -8,7 +8,7 @@ inherit games eutils toolchain-funcs
 
 DESCRIPTION="match colors on falling columns of blocks"
 HOMEPAGE="http://packages.debian.org/xjewel"
-SRC_URI="mirror://debian/pool/main/x/${PN}/${PN}_${PV}.orig.tar.gz"
+SRC_URI="ftp://ftp.warwick.ac.uk/pub/x11/xjewel-1.6.tar.z"
 
 LICENSE="xjewel"
 SLOT="0"
@@ -18,17 +18,12 @@ IUSE=""
 DEPEND="x11-libs/libX11"
 RDEPEND="${DEPEND}"
 
-src_unpack() {
-	default_src_unpack
-	cd "${WORKDIR}" && mv -i ${P}.orig ${P} || die "fixing work directory failed"
-}
-
 src_prepare() {
 	epatch "${FILESDIR}"/xjewel_1.6-24.diff
 }
 
 src_compile() {
-	emake CC=$(tc-getCC) USERDEFS="-DICON_WINDOW -DLEAVE_PAUSE ${CFLAGS}" LDFLAGS="-lX11 ${LDFLAGS}"
+	emake CC=$(tc-getCC) USERDEFS="-DICON_WINDOW -DLEAVE_PAUSE ${CFLAGS}" LDFLAGS="-lX11 ${LDFLAGS}" -f Makefile.simple
 }
 
 src_install() {
