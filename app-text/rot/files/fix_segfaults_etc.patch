@@ -1,0 +1,106 @@
+--- Makefile.old	2015-11-15 14:03:45.119863553 -0500
++++ Makefile	2015-11-15 14:24:46.289096768 -0500
+@@ -1,9 +1,9 @@
+ # Simple makefile for rot program
+ 
+-CFLAGS = -O #-DSYSV
++CFLAGS += -DSYSV
+ 
+-rot:	rot.c
+-	$(CC) $(CFLAGS) -o rot rot.c -ltermlib
++rot:	rot.c Makefile
++	$(CC) $(CFLAGS) -o rot rot.c -lncurses
+ 
+ test:	rot
+ 	./rot <rot.c
+--- rot.c.old	2015-11-15 14:03:45.128863440 -0500
++++ rot.c	2015-11-15 14:21:56.345221358 -0500
+@@ -18,9 +18,13 @@
+  */
+ 
+ #include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
+ 
+ #ifdef SYSV
+ # include <termio.h>
++# include <curses.h>
++# include <term.h>
+ #else
+ # include <sgtty.h>
+ #endif
+@@ -78,19 +82,18 @@
+ 
+ 	srand(getpid());
+ 	tinit(getenv("TERM"));
+-	while(av[1][0]=='-') {
+-		while(av[1][1]) {
+-			switch(av[1][1]) {
++	int i, j;
++	for (i = 1; i < ac && av[i] && av[i][0] == '-';i++) {
++		for (j = 1; av[i][j]; j++) {
++			switch(av[i][j]) {
+ 				case 'p': packflag=1; break;
+ 				default: printf("rot [-p] [file]...\n");
+ 			}
+-			av[1]++;
+ 		}
+-		av++;
+ 	}
+-	if(av[1])
+-		while(*++av)
+-			dropf(*av);
++	if(av[i])
++		while(*av[++i])
++			dropf(av[i]);
+ 	else
+ 		fdropf(stdin);
+ 	tend();
+@@ -134,18 +137,18 @@
+ _at(x, y)
+ int x, y;
+ {
+-	extern void	outc();
++	extern int	outc();
+ 
+ 	tputs(tgoto(cm, x, y), 1, outc);	 /* handle padding */
+ 	lastx = x;
+ 	lasty = y;
+ }
+ 
+-void
++int
+ outc(c)
+ register c;
+ {
+-	putc(c&0x7F, stdout);
++	return putc(c&0x7F, stdout);
+ }
+ 
+ tinit(name)
+@@ -193,6 +196,7 @@
+ 	fflush(stdout);
+ }
+ 
++void
+ readscreen(fp)
+ FILE *fp;
+ {
+@@ -270,6 +274,7 @@
+ 			}
+ }
+ 
++void
+ drop(line, column)
+ int line, column;
+ {
+@@ -458,7 +463,8 @@
+ 		readscreen(fp);
+ 		drawscreen();
+ 		for(i=0; i<20; i++)
+-			droplet((rand()>>4) % (li-1), (rand()>>4) % co);
++			if (li != 1)
++				droplet((rand()>>4) % (li-1), (rand()>>4) % co);
+ 		dropscreen();
+ 	}
+ }
