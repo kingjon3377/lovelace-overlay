@@ -1,0 +1,45 @@
+# Copyright 1999-2015 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+# $Id$
+
+EAPI=5
+
+inherit eutils toolchain-funcs
+
+SRC_URI_BASE="ftp://ftp.informatik.uni-stuttgart.de/pub/archive/comp.sources/misc"
+DESCRIPTION="Transpose text, making rows columns and vice versa"
+HOMEPAGE="http://doc.marsu.ru/FreeBSD/upt/ch21_21.htm"
+SRC_URI="${SRC_URI_BASE}/${PN}/part01.gz -> ${P}-part01.shar.gz"
+
+LICENSE="as-is"
+SLOT="0"
+KEYWORDS="~amd64"
+IUSE=""
+
+RDEPEND=""
+DEPEND="${DEPEND}
+	app-arch/sharutils"
+
+src_unpack() {
+	unpack ${A}
+	cd "${WORKDIR}"
+	mkdir "${P}"
+	unshar -d "${P}" *.shar || die
+}
+
+src_prepare() {
+	sed -i -e 's@cc@$(CC)@' Makefile || die
+	epatch "${FILESDIR}/fix_segfaults_etc.patch"
+}
+
+src_compile() {
+	emake CC="$(tc-getCC)" CFLAGS="${CFLAGS} -DSYSV"
+}
+
+src_test() {
+	emake test
+}
+
+src_install() {
+	dobin ${PN}
+}
