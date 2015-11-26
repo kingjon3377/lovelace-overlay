@@ -35,7 +35,7 @@ src_prepare() {
 		-e 's/from \.\.BeautifulSoup import/from BeautifulSoup import/' \
 		{} + || die
 	epatch "${FILESDIR}/dwiggie-fff.patch"
-	epatch "${FILESDIR}/${PN}-system-config.patch"
+	epatch "${FILESDIR}/${PN}-2.2.13-system-config.patch"
 	distutils-r1_src_prepare
 }
 
