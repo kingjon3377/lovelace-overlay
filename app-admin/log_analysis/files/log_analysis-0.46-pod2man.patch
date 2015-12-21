@@ -1,0 +1,20 @@
+--- log_analysis.in.old	2015-12-20 20:10:03.938947797 -0500
++++ log_analysis.in	2015-12-20 20:12:02.384951587 -0500
+@@ -8790,6 +8790,8 @@
+ 
+ =over 4
+ 
++=back
++
+ =head2 Pattern directives
+ 
+ These directives describe your logs, and are the main point of this
+@@ -8799,6 +8801,8 @@
+ the message.  For each perl pattern, you specify one or more
+ destinations that describe what you want done with it.
+ 
++=over 4
++
+ =item B<logtype:> I<type>
+ 
+ Future patterns should be applied to this logtype (ie. sulog, syslog,
