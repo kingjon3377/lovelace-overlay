@@ -20,7 +20,8 @@ DEPEND="dev-lang/perl
 RDEPEND="${DEPEND}"
 
 src_prepare() {
-	epatch "${FILESDIR}/separate_rules.patch"
+	epatch "${FILESDIR}/separate_rules.patch" \
+		"${FILESDIR}/${P}-pod2man.patch"
 }
 
 src_install() {
