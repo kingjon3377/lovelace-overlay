@@ -1,0 +1,12 @@
+--- configure.ac.old	2007-12-13 02:25:03.000000000 -0500
++++ configure.ac	2015-12-22 22:48:54.995457561 -0500
+@@ -61,7 +61,8 @@
+              libgnomeprint-2.2 >= 2.12.0
+              libgnomeprintui-2.2 >= 2.12.0
+              gtkextra-2.0 >= 2.1.1
+-             libgtkhtml-3.8 >= 3.10.0"]
++	     gnome-vfs-2.0 >= 2.0.0
++             libgtkhtml-3.14 >= 3.10.0"]
+ PKG_CHECK_MODULES(GTK, [$pkg_modules])
+ AC_SUBST(GTK_CFLAGS)
+ AC_SUBST(GTK_LIBS)
