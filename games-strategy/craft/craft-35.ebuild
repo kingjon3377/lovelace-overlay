@@ -33,7 +33,8 @@ src_unpack() {
 	}
 }
 src_prepare() {
-	epatch "${FILESDIR}"/craft-install.patch "${FILESDIR}"/fscanf-void.patch
+	epatch "${FILESDIR}"/craft-install.patch "${FILESDIR}"/fscanf-void.patch \
+		"${FILESDIR}/object_handler.patch" "${FILESDIR}/getline_rename.patch"
 	for a in field.hc cmap_edit.hc; do
 		echo >> "${WORKDIR}/${a}"
 	done

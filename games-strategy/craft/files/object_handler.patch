@@ -1,0 +1,660 @@
+diff -ru ./object_handler.hc ./object_handler.hc
+--- ./object_handler.hc	1997-06-10 02:03:44.000000000 -0400
++++ ./object_handler.hc	2015-12-23 23:01:37.782255848 -0500
+@@ -9321,7 +9321,7 @@
+   }
+ 
+ 
+-void object_handler::write (int color, char msg [])
++void object_handler::write (int color, const char msg [])
+   {players [color_player [color]]->write (msg);
+   }
+ 
+diff -ru ./player.hc ./player.hc
+--- ./player.hc	1997-03-06 10:53:58.000000000 -0500
++++ ./player.hc	2015-12-23 23:26:10.041850070 -0500
+@@ -2113,7 +2113,7 @@
+   {return (ly * pic_dy);
+   }
+ 
+-void player::show_percent (int x, int y, int dx, int dy, int p, char title [])
++void player::show_percent (int x, int y, int dx, int dy, int p, const char title [])
+   {if (! is_robot)
+       perform_show;
+ 
+@@ -2176,7 +2176,7 @@
+ 
+   }
+ 
+-void player::push_cmd (char name [], int code, char c, int a_price, int a_wood)
++void player::push_cmd (const char name [], int code, char c, int a_price, int a_wood)
+   {cmds       [num_cmds] = new button (w_status, name, x_cmd, y_cmd);
+    cmd_code   [num_cmds] = code;
+    cmd_char   [num_cmds] = c;
+@@ -2394,7 +2394,7 @@
+ 
+   }
+ 
+-void player::adjust_cmd (int cmd, char c, char name [])
++void player::adjust_cmd (int cmd, char c, const char name [])
+   {bool is_ok = true;
+ 
+    check_units;
+@@ -2869,12 +2869,12 @@
+ 
+   }
+ 
+-void player::write (char msg [])
++void player::write (const char msg [])
+   {
+   }
+ 
+ /*
+-void player::write (char msg [])
++void player::write (const char msg [])
+   {if (! is_robot)
+       perform_show;
+ 
+diff -ru ./cmap.hc ./cmap.hc
+--- ./cmap.hc	2015-12-24 01:17:38.719230096 -0500
++++ ./cmap.hc	2015-12-24 01:19:27.856865687 -0500
+@@ -2,7 +2,7 @@
+ #include "cmap.h"
+ #include "xbm.h"
+  
+-cmap::cmap (win *w_i, char name_i [], bool preload, bool smart_load)
++cmap::cmap (win *w_i, const char name_i [], bool preload, bool smart_load)
+   {w              = w_i;
+    is_mask        = false;
+    is_loaded      = false;
+diff -ru ./compress.hc ./compress.hc
+--- ./compress.hc	2015-12-24 01:21:04.771654086 -0500
++++ ./compress.hc	2015-12-24 01:23:41.882689928 -0500
+@@ -25,7 +25,7 @@
+   {
+   }
+ 
+-char *compress::frame_name (char postfix [])
++char *compress::frame_name (const char postfix [])
+   {static char r [128];
+ 
+    sprintf (r, "%s%04d.%s", name, snr, postfix);
+diff -ru ./table.hc ./table.hc
+--- ./table.hc	2015-12-24 01:24:30.256085177 -0500
++++ ./table.hc	2015-12-24 01:28:24.452157323 -0500
+@@ -66,7 +66,7 @@
+       delete (lru_queue);
+   }
+    
+-void table::check_bound (int adr, int row_no, int column_no, char action [])
++void table::check_bound (int adr, int row_no, int column_no, const char action [])
+   {if (row_no < 0 || row_no >= number_of_rows) {
+        fprintf (stderr, "row = %d\n", row_no);
+        errorstop (4, "table", action, "row out of range", name);
+@@ -424,7 +424,7 @@
+ 
+   }
+ 
+-int table::add_column (char name [], int type)
++int table::add_column (const char name [], int type)
+   {int col_no;
+ 
+    get_col_no;
+diff -ru ./win.hc ./win.hc
+--- ./win.hc	2015-12-24 01:28:53.106799091 -0500
++++ ./win.hc	2015-12-24 01:34:33.178547609 -0500
+@@ -263,8 +263,8 @@
+ /* CLASS win (funktions)                                                */
+ /*----------------------------------------------------------------------*/
+ 
+-win::win (char title [],
+-          char host  [],
++win::win (const char title [],
++          const char host  [],
+           int  x,
+           int  y, 
+           int  dx,
+@@ -512,8 +512,8 @@
+   }
+ 
+ win::win (win  *parent,
+-          char title [],
+-          char host  [],
++          const char title [],
++          const char host  [],
+           int  x,
+           int  y, 
+           int  dx,
+@@ -749,7 +749,7 @@
+ 
+   }
+ 
+-win::win (char title [])
++win::win (const char title [])
+   {mydisplay = XOpenDisplay    ("");
+    myscreen  = DefaultScreen   (mydisplay);
+    cmap      = DefaultColormap (mydisplay, myscreen);
+@@ -762,7 +762,7 @@
+    is_alien = true;
+   }
+       
+-Window win::grab (Display *dsp, Window wnd, char name [])
++Window win::grab (Display *dsp, Window wnd, const char name [])
+   {Window       *children, dummy;
+    unsigned int nchildren;
+    int          i;
+@@ -817,7 +817,7 @@
+ #undef green
+ #undef blue
+ 
+-void win::alloc_color (char name [], int no)
++void win::alloc_color (const char name [], int no)
+   {Screen *src = ScreenOfDisplay (mydisplay, myscreen);
+    XColor c;
+    XColor d;
+@@ -1753,7 +1753,7 @@
+ 
+   }
+ 
+-void win::text_size (char string [], int &dx, int &dy)
++void win::text_size (const char string [], int &dx, int &dy)
+   {if (is_enable)
+       perform_get_size;
+ 
+@@ -1767,7 +1767,7 @@
+ 
+   }
+ 
+-void win::set_font (char name [])
++void win::set_font (const char name [])
+   {if (is_enable)
+       perform_load;
+ 
+@@ -1795,7 +1795,7 @@
+    write   (x, y, s);
+   }
+ 
+-void win::write (int x, int y, char string [])
++void win::write (int x, int y, const char string [])
+   {if (is_enable)
+       perform_write;
+ 
+diff -ru ./dial.hc ./dial.hc
+--- ./dial.hc	2015-12-24 01:37:27.657366323 -0500
++++ ./dial.hc	2015-12-24 01:40:00.378457047 -0500
+@@ -16,7 +16,7 @@
+ #define val_dy    20
+ 
+ dial::dial (win  *p_w,
+-            char p_title [],
++            const char p_title [],
+             int  p_title_dx, 
+             int  p_x,
+             int  p_y,
+@@ -95,7 +95,7 @@
+ 
+ 
+ dial::dial (win  *p_w,
+-            char p_title [],
++            const char p_title [],
+             int  p_title_dx, 
+             int  p_x,
+             int  p_y,
+diff -ru ./menu.hc ./menu.hc
+--- ./menu.hc	1997-02-21 06:52:07.000000000 -0500
++++ ./menu.hc	2015-12-24 01:44:39.309969923 -0500
+@@ -27,10 +27,10 @@
+   {
+   }
+ 
+-menu::menu (char w_name [],
++menu::menu (const char w_name [],
+             int  w_x,
+             int  w_y,
+-            char w_cmds [],
++            const char w_cmds [],
+             int  w_mode,
+             int  menu_group)
+ 
+@@ -363,7 +363,7 @@
+    is_pressed [no] = false;
+   }
+ 
+-bool menu::get_cmd (char cmds [], int &p, char cmd [])
++bool menu::get_cmd (const char cmds [], int &p, char cmd [])
+   {if   (eof)
+         return false;
+    else read_cmd;
+diff -ru ./paramreader.hc ./paramreader.hc
+--- ./paramreader.hc	2015-12-24 01:45:55.521017154 -0500
++++ ./paramreader.hc	2015-12-24 01:48:35.242020367 -0500
+@@ -88,7 +88,7 @@
+   
+   }
+    
+-paramreader::paramreader (char param_file_name [])
++paramreader::paramreader (const char param_file_name [])
+   {bool is_eof = false;
+ 
+    num_params = 0;
+@@ -129,7 +129,7 @@
+      printf (">%s< = >%s<\n", name [i], value [i]);
+   }
+ 
+-int paramreader::param_no (char p_name [])
++int paramreader::param_no (const char p_name [])
+   {for (int no = 0; no < num_params; no++)
+      if (strcmp (name [no], p_name) == 0)
+         return no;
+@@ -138,7 +138,7 @@
+    return (0);
+   }
+ 
+-char * paramreader::s_param (char name [])
++char * paramreader::s_param (const char name [])
+   {return value [param_no (name)];
+   }
+ 
+@@ -146,7 +146,7 @@
+   {return atof (value [param_no (name)]);
+   }
+ 
+-int paramreader::i_param (char name [])
++int paramreader::i_param (const char name [])
+   {return atoi (value [param_no (name)]);
+   }
+ 
+diff -ru ./buttons.hc ./buttons.hc
+--- ./buttons.hc	1997-02-21 06:48:23.000000000 -0500
++++ ./buttons.hc	2015-12-24 01:53:45.297144144 -0500
+@@ -12,7 +12,7 @@
+ #include "win.h"
+ 
+ button::button (win  *b_w,
+-                char b_label [],
++                const char b_label [],
+                 int  b_x,
+                 int  b_y,
+                 bool b_with_repeat,
+@@ -179,12 +179,12 @@
+ 
+   }
+ 
+-void button::write (char label_string [])
++void button::write (const char label_string [])
+   {strcpy (label, label_string);
+    write  (label, is_pressed);
+   }
+ 
+-void button::write (char label [], bool is_pressed)
++void button::write (const char label [], bool is_pressed)
+   {draw_border;
+    if   (is_icon)
+         write_icon
+diff -ru ./scroller.hc ./scroller.hc
+--- ./scroller.hc	1997-02-21 06:52:19.000000000 -0500
++++ ./scroller.hc	2015-12-24 01:56:41.909936181 -0500
+@@ -4,7 +4,7 @@
+ #define bar_button_size 14
+ #define bar_size        16
+ 
+-scroller::scroller (char v_name [],
++scroller::scroller (const char v_name [],
+                     win  *v_w,
+                     int  v_x,
+                     int  v_y,
+diff -ru ./selector.hc ./selector.hc
+--- ./selector.hc	1997-02-21 06:52:20.000000000 -0500
++++ ./selector.hc	2015-12-24 01:58:48.153357921 -0500
+@@ -10,7 +10,7 @@
+ #define selector_marked_case_color    yellow 
+ #define selector_unmarked_case_color  black
+ 
+-selector::selector (char v_name [], 
++selector::selector (const char v_name [], 
+                     win  *v_w,
+                     int  v_num_cases,
+                     char v_case_string [max_selector_cases][128],
+diff -ru ./cmap_selector.hc ./cmap_selector.hc
+--- ./cmap_selector.hc	2015-12-24 01:59:29.882836230 -0500
++++ ./cmap_selector.hc	2015-12-24 02:02:35.861511177 -0500
+@@ -11,7 +11,7 @@
+ #define cmap_selector_marked_case_color    yellow 
+ #define cmap_selector_unmarked_case_color  black
+ 
+-cmap_selector::cmap_selector (char v_name [], 
++cmap_selector::cmap_selector (const char v_name [], 
+                               win  *v_w,
+                               int  v_num_cases,
+                               char v_case_string[max_cmap_selector_cases][128],
+Only in ./: dial.hc.orig
+Only in ./: dial.h.orig
+Only in ./: file_selector.hc.orig
+Only in ./: file_selector.h.orig
+diff -ru ./getline.hc ./getline.hc
+--- ./getline.hc	2015-12-24 02:13:46.320129291 -0500
++++ ./getline.hc	2015-12-24 02:14:57.383240880 -0500
+@@ -4,7 +4,7 @@
+ 
+ #define hist_button_name         "/hist.open"
+ 
+-getline::getline (char v_name   [],
++getline::getline (const char v_name   [],
+                   win  *v_w,        
+                   char v_string [], 
+                   int  v_x,         
+Only in ./: getline.hc.orig
+Only in ./: getline.h.orig
+diff -ru ./file_selector.hc ./file_selector.hc
+--- ./file_selector.hc	2015-12-24 02:17:50.071081985 -0500
++++ ./file_selector.hc	2015-12-24 02:21:33.626287160 -0500
+@@ -23,10 +23,10 @@
+ #define pattern_dx  292
+ #define pattern_dy  20
+   
+-file_selector::file_selector (char p_name [],
++file_selector::file_selector (const char p_name [],
+                               int  x,
+                               int  y,
+-                              char full_file_name [],
++                              const char full_file_name [],
+                               bool must_exist)
+ 
+   {store_params;
+@@ -77,11 +77,11 @@
+ 
+   }
+ 
+-file_selector::file_selector (char p_name [], 
++file_selector::file_selector (const char p_name [], 
+                               int  x,
+                               int  y,
+-                              char p_file_name    [],
+-                              char p_file_pattern [],
++                              const char p_file_name    [],
++                              const char p_file_pattern [],
+                               bool must_exist)
+ 
+   {store_params;
+diff -ru ./errorhandling.hc ./errorhandling.hc
+--- ./errorhandling.hc	1997-02-21 06:50:14.000000000 -0500
++++ ./errorhandling.hc	2015-12-24 02:28:09.605336741 -0500
+@@ -11,35 +11,35 @@
+ #include "paramreader.h"
+ 
+ void errorstop (int  error_no,
+-                char c_class [],
+-                char msg     [])
++                const char c_class [],
++                const char msg     [])
+ 
+   {errorstop (error_no, c_class, msg, "-", "-", "-");
+   }
+ 
+ void errorstop (int  error_no,
+-                char c_class [],
+-                char msg     [],
+-                char info    [])
++                const char c_class [],
++                const char msg     [],
++                const char info    [])
+ 
+   {errorstop (error_no, c_class, msg, info, "-", "-");
+   }
+ 
+ void errorstop (int  error_no,
+-                char c_class [],
+-                char msg     [],
+-                char info    [],
+-                char param1  [])
++                const char c_class [],
++                const char msg     [],
++                const char info    [],
++                const char param1  [])
+     
+   {errorstop (error_no, c_class, msg, info, param1, "-");
+   }
+ 
+ void errorstop (int  error_no,
+-                char c_class [],
+-                char msg     [],
+-                char info    [], 
+-                char param1  [],
+-                char param2  [])
++                const char c_class [],
++                const char msg     [],
++                const char info    [], 
++                const char param1  [],
++                const char param2  [])
+ 
+   {printf              ("ERROR (%d) : %s : %s : %s : %s : %s\n",
+                         error_no,
+diff -ru ./xfile.hc ./xfile.hc
+--- ./xfile.hc	1997-03-20 03:29:16.000000000 -0500
++++ ./xfile.hc	2015-12-24 02:32:05.299390159 -0500
+@@ -60,7 +60,7 @@
+ 
+   }
+ 
+-void f_open (FILE *&f, char name [], char mode [])
++void f_open (FILE *&f, const char name [], const char mode [])
+   {f = fopen (name, mode);
+    check_error;
+ 
+@@ -260,7 +260,7 @@
+ 
+   }
+ 
+-char *complete (char name [], char tail [])
++char *complete (const char name [], const char tail [])
+   {static char r [256];
+ 
+    strcpy (r, name);
+diff -ru ./xstring.hc ./xstring.hc
+--- ./xstring.hc	1997-03-19 09:21:04.000000000 -0500
++++ ./xstring.hc	2015-12-24 02:33:05.038643316 -0500
+@@ -130,7 +130,7 @@
+ 
+   }
+ 
+-char *substring (char s [], int from)
++char *substring (const char s [], int from)
+   {static bool is_init = false;
+    static char *result;
+ 
+@@ -151,7 +151,7 @@
+ 
+   }
+ 
+-char *substring (char s [], int from, int to)
++char *substring (const char s [], int from, int to)
+   {static bool is_init = false;
+    static char *result;
+ 
+diff -ru ./cmap_selector.hc ./cmap_selector.hc
+--- ./cmap_selector.hc	2015-12-24 02:33:34.332277095 -0500
++++ ./cmap_selector.hc	2015-12-24 02:42:16.247752254 -0500
+@@ -290,7 +290,7 @@
+   }
+ 
+ 
+-bool cmap_sel (char name [], char pattern [])
++bool cmap_sel (char name [], const char pattern [])
+   {int  num_cases;
+    char cases [max_cmap_selector_cases][128];
+    bool quit;
+diff -ru ./masks.hc ./masks.hc
+--- ./masks.hc	2015-12-24 02:33:34.442275720 -0500
++++ ./masks.hc	2015-12-24 02:40:18.006230476 -0500
+@@ -67,11 +67,11 @@
+    w->line      (x1, y2, x1, y1);
+   }
+ 
+-bool yes (char question [])
++bool yes (const char question [])
+   {return yes ("", question);
+   }
+ 
+-bool yes (char host [], char question [])
++bool yes (const char host [], const char question [])
+   {win    *w;
+    button *ok;
+    button *no;
+@@ -125,7 +125,7 @@
+ 
+   }
+ 
+-bool yes (win *parent, char host [], char question [])
++bool yes (win *parent, const char host [], const char question [])
+   {win    *w;
+    button *ok;
+    button *no;
+@@ -179,11 +179,11 @@
+ 
+   }
+ 
+-void ack (char message [])
++void ack (const char message [])
+   {ack ("", message);
+   }
+ 
+-void ack (char host [], char message [])
++void ack (const char host [], const char message [])
+   {win    *w;
+    button *ok;
+    int    dx;
+diff -ru ./win.hc ./win.hc
+--- ./win.hc	2015-12-24 02:33:34.326277170 -0500
++++ ./win.hc	2015-12-24 02:43:42.724671144 -0500
+@@ -125,31 +125,31 @@
+ 
+   }
+ 
+-int win_default_i (int param, char default_name [])
++int win_default_i (int param, const char default_name [])
+   {init_default_handler ();
+    if   (param != by_default)
+         return param;
+    else return win_default_i (default_name);
+   }
+ 
+-int win_default_i (char default_name [])
++int win_default_i (const char default_name [])
+   {init_default_handler ();
+    return win_defaults->i_param (default_name);
+   }
+ 
+-char *win_default_s (char default_name [])
++char *win_default_s (const char default_name [])
+   {init_default_handler ();
+    return win_defaults->s_param (default_name);
+   }
+ 
+-int win_default_c (int param, char default_name [])
++int win_default_c (int param, const char default_name [])
+   {init_default_handler ();
+    if   (param != by_default)
+         return param;
+    else return win_default_c (default_name);
+   }
+ 
+-int win_default_c (char default_name [])
++int win_default_c (const char default_name [])
+   {char color_name [128];
+ 
+    init_default_handler ();
+diff -ru ./xfile.hc ./xfile.hc
+--- ./xfile.hc	2015-12-24 02:33:34.335277058 -0500
++++ ./xfile.hc	2015-12-24 02:41:04.174653292 -0500
+@@ -29,7 +29,7 @@
+ /* General functions                                                    */
+ /*----------------------------------------------------------------------*/
+ 
+-bool f_exists (char file_name [])
++bool f_exists (const char file_name [])
+   {FILE *f;
+    bool is_error;
+ 
+diff -ru ./cmap_selector.h ./cmap_selector.h
+--- ./cmap_selector.h	2015-12-24 02:44:52.142803297 -0500
++++ ./cmap_selector.h	2015-12-24 02:49:05.768632538 -0500
+@@ -65,7 +65,7 @@
+ 
+   }; 
+ 
+-bool cmap_sel      (const char name [], const char pattern []);
++bool cmap_sel      (char name [], const char pattern []);
+ void get_file_list (const char file_pattern [],
+                     int  &num_files,
+                     char file_list [max_cmap_selector_cases][128]);
+diff -ru ./cmap_selector.hc ./cmap_selector.hc
+--- ./cmap_selector.hc	2015-12-24 02:58:05.272887807 -0500
++++ ./cmap_selector.hc	2015-12-24 03:02:53.059289982 -0500
+@@ -339,7 +339,7 @@
+   }
+ 
+ 
+-void get_file_list (char pattern [],
++void get_file_list (const char pattern [],
+                     int  &num_files,
+                     char file_list [max_cmap_selector_cases][128])
+ 
+diff -ru ./masks.hc ./masks.hc
+--- ./masks.hc	2015-12-24 02:58:05.384886407 -0500
++++ ./masks.hc	2015-12-24 03:01:00.310699533 -0500
+@@ -262,11 +262,11 @@
+ 
+   }
+ 
+-void tell (win *&w, char message [])
++void tell (win *&w, const char message [])
+   {tell ("", w, message);
+   }
+ 
+-void tell (char host [], win *&w, char message [])
++void tell (const char host [], win *&w, const char message [])
+   {open_mask;
+    tell_message;
+ 
+@@ -295,7 +295,7 @@
+ 
+   }
+ 
+-void tell (char host [], win *parent, win *&w, char message [])
++void tell (const char host [], win *parent, win *&w, const char message [])
+   {open_mask;
+    tell_message;
+ 
+diff -ru ./win.hc ./win.hc
+--- ./win.hc	2015-12-24 02:58:05.274887782 -0500
++++ ./win.hc	2015-12-24 03:01:54.620020573 -0500
+@@ -42,7 +42,7 @@
+ /* ROUTINES text size information (deklarations)                        */
+ /*----------------------------------------------------------------------*/
+ 
+-void text_size (char s [], char font [], int &dx, int &dy, int &num_lines)
++void text_size (const char s [], const char font [], int &dx, int &dy, int &num_lines)
+   {XFontStruct *font_info;
+    Display     *display;
+ 
+diff -ru ./xfile.hc ./xfile.hc
+--- ./xfile.hc	2015-12-24 02:58:05.275887769 -0500
++++ ./xfile.hc	2015-12-24 03:03:42.743668842 -0500
+@@ -124,7 +124,7 @@
+   }
+ */
+ 
+-char *f_name (char full_path [])
++char *f_name (const char full_path [])
+   {static char r [1024];
+    int         i;
+ 
+@@ -136,7 +136,7 @@
+    return r;
+   }
+ 
+-char *f_path (char full_path [])
++char *f_path (const char full_path [])
+   {static char r [1024];
+           int  p = 0;
+ 

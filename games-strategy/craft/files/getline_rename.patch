@@ -1,0 +1,381 @@
+diff -ru ./dial.h ./dial.h
+--- ./dial.h	2015-12-24 01:11:04.511158375 -0500
++++ ./dial.h	2015-12-24 01:12:03.001427146 -0500
+@@ -35,7 +35,7 @@
+ 
+      int  val_dx;
+ 
+-     class getline *g_value;
++     class cr_getline *g_value;
+      button  *up;
+      button  *down;
+      button  *up2;
+diff -ru ./dial.hc ./dial.hc
+--- ./dial.hc	1997-02-21 06:50:13.000000000 -0500
++++ ./dial.hc	2015-12-24 01:12:07.723368113 -0500
+@@ -58,7 +58,7 @@
+      }.
+ 
+ .  show_buttons
+-     {g_value = new getline ("dial", w, s_value,
++     {g_value = new cr_getline ("dial", w, s_value,
+                              x + title_dx, y,
+                              val_dx, val_dy); 
+       up   = new button (w, "/dial.up", 
+diff -ru ./file_selector.h ./file_selector.h
+--- ./file_selector.h	2015-12-24 01:11:04.513158350 -0500
++++ ./file_selector.h	2015-12-24 01:12:14.910278265 -0500
+@@ -16,8 +16,8 @@
+    win      *w;
+ 
+    selector *sel;
+-   class getline  *get_name;
+-   class getline  *get_pattern;
++   class cr_getline  *get_name;
++   class cr_getline  *get_pattern;
+ 
+    int      num_files;
+    char     file_list [max_selector_cases][128];
+diff -ru ./file_selector.hc ./file_selector.hc
+--- ./file_selector.hc	2015-12-24 01:11:04.652156612 -0500
++++ ./file_selector.hc	2015-12-24 01:12:32.161062600 -0500
+@@ -60,10 +60,10 @@
+      }.
+ 
+ .  open_getlines
+-     {get_name    = new getline ("get_name", w, file_name,
++     {get_name    = new cr_getline ("get_name", w, file_name,
+                                  name_x, name_y, name_dx, name_dy,
+                                  true);
+-      get_pattern = new getline ("get_pattern", w, file_pattern,
++      get_pattern = new cr_getline ("get_pattern", w, file_pattern,
+                                  pattern_x, pattern_y, pattern_dx, pattern_dy,
+                                  true);
+      }.
+@@ -115,10 +115,10 @@
+      }.
+ 
+ .  open_getlines
+-     {get_name    = new getline ("get_name", w, file_name,
++     {get_name    = new cr_getline ("get_name", w, file_name,
+                                  name_x, name_y, name_dx, name_dy,
+                                  true);
+-      get_pattern = new getline ("get_pattern", w, file_pattern,
++      get_pattern = new cr_getline ("get_pattern", w, file_pattern,
+                                  pattern_x, pattern_y, pattern_dx, pattern_dy,
+                                  true);
+      }.
+diff -ru ./getline.h ./getline.h
+--- ./getline.h	2015-12-24 01:11:04.514158337 -0500
++++ ./getline.h	2015-12-24 01:12:43.885916019 -0500
+@@ -6,7 +6,7 @@
+ #include "buttons.h"
+ #include "bool.h"
+ 
+-class getline
++class cr_getline
+   {public:
+ 
+    win     *w;
+@@ -37,7 +37,7 @@
+    bool    was_deactive;
+    bool    is_single_char;
+    
+-   getline      (const char name [],
++   cr_getline      (const char name [],
+                  win  *w,
+                  char string [],
+                  int  x,
+@@ -48,7 +48,7 @@
+                  bool show_histroy_top = false,
+                  bool single_char      = false);
+ 
+-   ~getline     ();
++   ~cr_getline     ();
+ 
+    bool on               ();
+    void check_activation ();
+diff -ru ./getline.hc ./getline.hc
+--- ./getline.hc	1997-02-21 06:50:14.000000000 -0500
++++ ./getline.hc	2015-12-24 01:13:09.483596004 -0500
+@@ -4,7 +4,7 @@
+ 
+ #define hist_button_name         "/hist.open"
+ 
+-getline::getline (const char v_name   [],
++cr_getline::cr_getline (const char v_name   [],
+                   win  *v_w,        
+                   char v_string [], 
+                   int  v_x,         
+@@ -24,11 +24,11 @@
+    refresh ();
+ 
+ .  get_colors
+-     {c_background = win_default_c ("getline_background");
+-      c_foreground = win_default_c ("getline_foreground");
+-      c_cursor     = win_default_c ("getline_cursor");
+-      c_light      = win_default_c ("getline_border_light");
+-      c_dark       = win_default_c ("getline_border_dark");
++     {c_background = win_default_c ("cr_getline_background");
++      c_foreground = win_default_c ("cr_getline_foreground");
++      c_cursor     = win_default_c ("cr_getline_cursor");
++      c_light      = win_default_c ("cr_getline_border_light");
++      c_dark       = win_default_c ("cr_getline_border_dark");
+      }.
+ 
+ .  init
+@@ -87,14 +87,14 @@
+ 
+   }
+ 
+-getline::~getline ()
++cr_getline::~cr_getline ()
+   {if (with_history)
+       {delete (hist_button);
+        delete (hist);
+       };
+   }
+ 
+-void getline::refresh ()
++void cr_getline::refresh ()
+   {int cx;
+    int dl;
+    int d;
+@@ -148,7 +148,7 @@
+ 
+   }
+ 
+-void getline::check_activation ()
++void cr_getline::check_activation ()
+   {int d;
+ 
+    w->tick ();
+@@ -156,7 +156,7 @@
+       active (on ());
+   }
+ 
+-bool getline::on ()
++bool cr_getline::on ()
+   {int xm;
+    int ym;
+    int button;
+@@ -171,12 +171,12 @@
+ 
+   }
+ 
+-void getline::active (bool mode)
++void cr_getline::active (bool mode)
+   {was_deactive = (is_active && ! mode);
+    is_active    = mode;
+   }
+ 
+-bool getline::eval ()
++bool cr_getline::eval ()
+   {check_activation ();
+    check_hist_button;
+    if (was_deactive)
+@@ -341,7 +341,7 @@
+ 
+   }
+ 
+-bool getline::get ()
++bool cr_getline::get ()
+   {bool any_edit;
+ 
+    eval ();
+diff -ru ./hcraft/edit/.windefaults.params ./hcraft/edit/.windefaults.params
+--- ./hcraft/edit/.windefaults.params	1997-02-21 06:50:22.000000000 -0500
++++ ./hcraft/edit/.windefaults.params	2015-12-24 01:14:37.643493854 -0500
+@@ -31,11 +31,11 @@
+ scroller_background      gray80
+ scroller_foreground      black
+ 
+-getline_border_dark      gray60
+-getline_border_light     gray90
+-getline_background       gray80
+-getline_foreground       black
+-getline_cursor           yellow
++cr_getline_border_dark      gray60
++cr_getline_border_light     gray90
++cr_getline_background       gray80
++cr_getline_foreground       black
++cr_getline_cursor           yellow
+ 
+ selector_border_dark     gray60
+ selector_border_light    gray90
+@@ -46,4 +46,4 @@
+ 
+ filesel_background       gray80
+ 
+-//
+\ No newline at end of file
++//
+diff -ru ./hcraft/edit/.windefaults.params~ ./hcraft/edit/.windefaults.params~
+--- ./hcraft/edit/.windefaults.params~	1997-02-21 06:50:22.000000000 -0500
++++ ./hcraft/edit/.windefaults.params~	2015-12-24 01:14:26.077638447 -0500
+@@ -31,11 +31,11 @@
+ scroller_background      gray80
+ scroller_foreground      black
+ 
+-getline_border_dark      gray60
+-getline_border_light     gray90
+-getline_background       gray80
+-getline_foreground       black
+-getline_cursor           yellow
++cr_getline_border_dark      gray60
++cr_getline_border_light     gray90
++cr_getline_background       gray80
++cr_getline_foreground       black
++cr_getline_cursor           yellow
+ 
+ selector_border_dark     gray60
+ selector_border_light    gray90
+@@ -46,4 +46,4 @@
+ 
+ filesel_background       gray80
+ 
+-//
+\ No newline at end of file
++//
+diff -ru ./hcraft/.windefaults.params ./hcraft/.windefaults.params
+--- ./hcraft/.windefaults.params	1997-02-21 06:51:05.000000000 -0500
++++ ./hcraft/.windefaults.params	2015-12-24 01:14:19.500720670 -0500
+@@ -31,11 +31,11 @@
+ scroller_background      gray80
+ scroller_foreground      black
+ 
+-getline_border_dark      gray60
+-getline_border_light     gray90
+-getline_background       gray80
+-getline_foreground       black
+-getline_cursor           yellow
++cr_getline_border_dark      gray60
++cr_getline_border_light     gray90
++cr_getline_background       gray80
++cr_getline_foreground       black
++cr_getline_cursor           yellow
+ 
+ selector_border_dark     gray60
+ selector_border_light    gray90
+@@ -46,4 +46,4 @@
+ 
+ filesel_background       gray80
+ 
+-//
+\ No newline at end of file
++//
+diff -ru ./hcraft/.windefaults.params~ ./hcraft/.windefaults.params~
+--- ./hcraft/.windefaults.params~	1997-02-21 06:50:19.000000000 -0500
++++ ./hcraft/.windefaults.params~	2015-12-24 01:14:13.199799442 -0500
+@@ -31,11 +31,11 @@
+ scroller_background      gray80
+ scroller_foreground      black
+ 
+-getline_border_dark      gray60
+-getline_border_light     gray90
+-getline_background       gray80
+-getline_foreground       black
+-getline_cursor           yellow
++cr_getline_border_dark      gray60
++cr_getline_border_light     gray90
++cr_getline_background       gray80
++cr_getline_foreground       black
++cr_getline_cursor           yellow
+ 
+ selector_border_dark     gray60
+ selector_border_light    gray90
+@@ -46,4 +46,4 @@
+ 
+ filesel_background       gray80
+ 
+-//
+\ No newline at end of file
++//
+diff -ru ./masks.hc ./masks.hc
+--- ./masks.hc	1997-02-21 06:52:06.000000000 -0500
++++ ./masks.hc	2015-12-24 01:14:53.793291954 -0500
+@@ -330,7 +330,7 @@
+                bool with_history)
+  
+   {win     *w;
+-   getline *gl;
++   cr_getline *gl;
+    button  *cancel;
+    bool    is_cancel;
+ 
+@@ -342,7 +342,7 @@
+ .  open_win
+      {w      = new win (name, "", 100, 100, dx + 40, 80);
+       background (w);
+-      gl     = new getline (name, w, s, 20, 20, dx, 20, with_history);
++      gl     = new cr_getline (name, w, s, 20, 20, dx, 20, with_history);
+       cancel = new button (w, "cancel", (dx+40) / 2 - 60, 50);
+      }.
+ 
+diff -ru ./option_menu.hc ./option_menu.hc
+--- ./option_menu.hc	2015-12-24 01:11:04.520158262 -0500
++++ ./option_menu.hc	2015-12-24 01:15:07.901115581 -0500
+@@ -185,7 +185,7 @@
+   {dial    *d_is_self;
+    dial    *d_is_suny;
+    dial    *d_water_world;
+-   class getline *seed;
++   class cr_getline *seed;
+    char    seed_s [128];
+ 
+    init;
+@@ -217,7 +217,7 @@
+       d_is_suny     = new dial (w, "", 0,200, 140,is_suny);
+       d_water_world = new dial (w, "", 0,200, 180,is_water_world);
+       strcpy (seed_s, "");
+-      seed = new class getline ("", w, seed_s, 200, 250, 90, 24);
++      seed = new class cr_getline ("", w, seed_s, 200, 250, 90, 24);
+      }.
+ 
+ .  finish
+@@ -270,8 +270,8 @@
+   }
+ 
+ void player_menu (int act_menu, int &tic)
+-  {class getline  *g_host;
+-   class getline  *g_name;
++  {class cr_getline  *g_host;
++   class cr_getline  *g_name;
+ 
+    init;
+    session;
+@@ -298,8 +298,8 @@
+      }.
+ 
+ .  show_buttons
+-     {g_host  = new class getline  ("",w, host [pno],60,160,180, 20);
+-      g_name  = new class getline  ("",w, name [pno],60,230,180, 20);
++     {g_host  = new class cr_getline  ("",w, host [pno],60,160,180, 20);
++      g_name  = new class cr_getline  ("",w, name [pno],60,230,180, 20);
+      }.
+ 
+ .  finish
+diff -ru ./player.h ./player.h
+--- ./player.h	2015-12-24 01:11:04.522158237 -0500
++++ ./player.h	2015-12-24 01:15:10.946077514 -0500
+@@ -24,7 +24,7 @@
+ 
+    color_trans *ct [max_players];
+ 
+-   class getline *g_msg;
++   class cr_getline *g_msg;
+  
+    int    wdx;
+    int    wdy;
+diff -ru ./player.hc ./player.hc
+--- ./player.hc	2015-12-24 01:11:04.747155424 -0500
++++ ./player.hc	2015-12-24 01:15:13.870040960 -0500
+@@ -68,7 +68,7 @@
+ .  open_w_msg
+      {w_msg = new win     (w_craft, "msg", host, 0,
+                            w_craft_dy - w_msg_dy, w_msg_dx, w_msg_dy);
+-      g_msg = new getline ("msg", w_msg, message, 1, 1,
++      g_msg = new cr_getline ("msg", w_msg, message, 1, 1,
+                            w_msg_dx-2, w_msg_dy-2, false, false, true);
+      }.
+ 
