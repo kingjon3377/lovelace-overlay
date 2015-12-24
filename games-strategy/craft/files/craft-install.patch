@@ -1,4 +1,4 @@
---- ../craft.orig/buttons.h	Wed Mar 19 08:40:07 1997
+--- ./buttons.h	Wed Mar 19 08:40:07 1997
 +++ ./buttons.h	Sun Jun 28 20:08:05 2009
 @@ -58,7 +58,7 @@
       
@@ -20,7 +20,7 @@
  
    };
  
---- ../craft.orig/cmap.h	Fri Feb 21 06:48:24 1997
+--- ./cmap.h	Fri Feb 21 06:48:24 1997
 +++ ./cmap.h	Sun Jun 28 18:53:02 2009
 @@ -23,7 +23,7 @@
     int         rot;
@@ -31,7 +31,7 @@
                bool preload = true,
                bool smart_load = true);
     ~cmap     ();
---- ../craft.orig/cmap_selector.h	Fri Feb 21 06:48:24 1997
+--- ./cmap_selector.h	Fri Feb 21 06:48:24 1997
 +++ ./cmap_selector.h	Sun Jun 28 21:24:38 2009
 @@ -40,7 +40,7 @@
     int      case_dy;   
@@ -53,7 +53,7 @@
                      int  &num_files,
                      char file_list [max_cmap_selector_cases][128]);
  
---- ../craft.orig/compress.h	Fri Feb 21 06:48:58 1997
+--- ./compress.h	Fri Feb 21 06:48:58 1997
 +++ ./compress.h	Sun Jun 28 19:44:59 2009
 @@ -26,7 +26,7 @@
       compress  ();
@@ -64,14 +64,14 @@
       void encode      (char name    []);
       void decode      (char name    []);
   
---- ../craft.orig/cry.hc	Fri Feb 21 06:50:13 1997
+--- ./cry.hc	Fri Feb 21 06:50:13 1997
 +++ ./cry.hc	Sun Jun 28 19:48:00 2009
 @@ -1,3 +1,4 @@
 +#include <cstdlib>
  #include "cry.h"
  
  void cry (char *func_name)
---- ../craft.orig/dial.h	Fri Feb 21 06:50:13 1997
+--- ./dial.h	Fri Feb 21 06:50:13 1997
 +++ ./dial.h	Sun Jun 28 18:54:56 2009
 @@ -35,7 +35,7 @@
  
@@ -100,7 +100,7 @@
            int  title_dx,
            int  x, 
            int  y,
---- ../craft.orig/errorhandling.h	Wed Mar 19 08:41:06 1997
+--- ./errorhandling.h	Wed Mar 19 08:41:06 1997
 +++ ./errorhandling.h	Sun Jun 28 19:02:39 2009
 @@ -13,26 +13,26 @@
  #include "stdio.h"
@@ -143,7 +143,7 @@
  
  #endif
  
---- ../craft.orig/file_selector.h	Fri Feb 21 06:50:14 1997
+--- ./file_selector.h	Fri Feb 21 06:50:14 1997
 +++ ./file_selector.h	Sun Jun 28 19:41:06 2009
 @@ -16,8 +16,8 @@
     win      *w;
@@ -179,7 +179,7 @@
                         bool must_exist = true);
  
     ~file_selector     ();
---- ../craft.orig/getline.h	Fri Feb 21 06:50:14 1997
+--- ./getline.h	Fri Feb 21 06:50:14 1997
 +++ ./getline.h	Sun Jun 28 18:56:35 2009
 @@ -37,7 +37,7 @@
     bool    was_deactive;
@@ -190,7 +190,7 @@
                   win  *w,
                   char string [],
                   int  x,
---- ../craft.orig/hcc/hcc.cc	Fri Feb 21 06:50:16 1997
+--- ./hcc/hcc.cc	Fri Feb 21 06:50:16 1997
 +++ ./hcc/hcc.cc	Sun Jun 28 18:51:50 2009
 @@ -1,8 +1,8 @@
 -#include "bool.h"
@@ -242,7 +242,7 @@
    {fclose (src);
     printf ("error : %d : %s\n", line_no, msg);
     exit   (1);
---- ../craft.orig/install	Thu Jun 12 08:30:18 1997
+--- ./install	Thu Jun 12 08:30:18 1997
 +++ ./install	Sun Jun 28 18:42:20 2009
 @@ -1,75 +1,75 @@
 -#!/bin/sh 
@@ -374,7 +374,7 @@
  
  
  
---- ../craft.orig/masks.h	Fri Feb 21 06:52:06 1997
+--- ./masks.h	Fri Feb 21 06:52:06 1997
 +++ ./masks.h	Sun Jun 28 21:11:01 2009
 @@ -25,20 +25,20 @@
                   int dx, int dy, 
@@ -407,7 +407,7 @@
  
  bool get_line   (char s    [],
                   char name [],
---- ../craft.orig/menu.h	Wed Mar 19 08:41:59 1997
+--- ./menu.h	Wed Mar 19 08:41:59 1997
 +++ ./menu.h	Sun Jun 28 20:10:00 2009
 @@ -93,10 +93,10 @@
    
@@ -431,7 +431,7 @@
       
    };
  
---- ../craft.orig/object_handler.h	Thu Apr 17 09:07:38 1997
+--- ./object_handler.h	Thu Apr 17 09:07:38 1997
 +++ ./object_handler.h	Sun Jun 28 19:17:30 2009
 @@ -297,7 +297,7 @@
    bool can_built             (int id, int x, int y, int cmd,
@@ -442,7 +442,7 @@
    bool direct_move           (int id, int range, int &dx, int &dy);
    bool max_diff              (int x, int y, int h);
    bool min_diff              (int x, int y, int h);
---- ../craft.orig/option_menu.hc	Fri Mar 21 07:20:47 1997
+--- ./option_menu.hc	Fri Mar 21 07:20:47 1997
 +++ ./option_menu.hc	Sun Jun 28 18:57:14 2009
 @@ -185,7 +185,7 @@
    {dial    *d_is_self;
@@ -484,7 +484,7 @@
       }.
  
  .  finish
---- ../craft.orig/paramreader.h	Wed Mar 19 08:42:26 1997
+--- ./paramreader.h	Wed Mar 19 08:42:26 1997
 +++ ./paramreader.h	Sun Jun 28 21:18:22 2009
 @@ -56,13 +56,13 @@
       int  num_includes;
@@ -504,7 +504,7 @@
     void   set        (char name [], char value []);
     void   read_sym   (char sym  [], bool &is_eof);
     int    max_i_name ();
---- ../craft.orig/player.h	Fri Feb 21 06:52:14 1997
+--- ./player.h	Fri Feb 21 06:52:14 1997
 +++ ./player.h	Sun Jun 28 19:31:30 2009
 @@ -24,7 +24,7 @@
  
@@ -545,7 +545,7 @@
     void adjust_cmds         ();
  
     void talk                (char from [], char msg []);
---- ../craft.orig/ppm_handler.hc	Fri Feb 21 06:52:17 1997
+--- ./ppm_handler.hc	Fri Feb 21 06:52:17 1997
 +++ ./ppm_handler.hc	Sun Jun 28 20:27:49 2009
 @@ -4,6 +4,7 @@
  /*                                                                      */
@@ -555,7 +555,7 @@
  #include "ppm_handler.h"
  #include "xfile.h"
  
---- ../craft.orig/scroller.h	Fri Feb 21 06:52:19 1997
+--- ./scroller.h	Fri Feb 21 06:52:19 1997
 +++ ./scroller.h	Sun Jun 28 18:57:40 2009
 @@ -39,7 +39,7 @@
       button *button_incr;
@@ -566,7 +566,7 @@
                  win  *w,
                  int  x,
                  int  y,
---- ../craft.orig/selector.h	Fri Feb 21 06:52:20 1997
+--- ./selector.h	Fri Feb 21 06:52:20 1997
 +++ ./selector.h	Sun Jun 28 21:31:55 2009
 @@ -38,7 +38,7 @@
     bool     mark         [max_selector_cases];
@@ -577,7 +577,7 @@
               win  *w,
               int  num_cases,
               char case_string [max_selector_cases][128],
---- ../craft.orig/table.h	Wed Mar 19 08:43:26 1997
+--- ./table.h	Wed Mar 19 08:43:26 1997
 +++ ./table.h	Sun Jun 28 19:59:03 2009
 @@ -68,7 +68,7 @@
       table  (char dir [], char name [], bool &is_new, int lru_size = 0);
@@ -597,7 +597,7 @@
       int   column_no   (char name []);
       int   num_columns (); 
  
---- ../craft.orig/win.h	Wed Mar 19 08:43:52 1997
+--- ./win.h	Wed Mar 19 08:43:52 1997
 +++ ./win.h	Sun Jun 28 21:15:21 2009
 @@ -129,7 +129,7 @@
  /* ROUTINES text size information (deklarations)                        */
@@ -679,7 +679,7 @@
  
       void   get_image        (XImage *&i, int x, int y, int dx, int dy);
       void   put_image        (XImage *i, int x, int y, int dx, int dy);
---- ../craft.orig/xfile.h	Wed Mar 19 08:44:01 1997
+--- ./xfile.h	Wed Mar 19 08:44:01 1997
 +++ ./xfile.h	Sun Jun 28 21:30:16 2009
 @@ -16,15 +16,15 @@
  
@@ -712,7 +712,7 @@
  
  void   bprintf            (FILE *f, int num_bytes, int i);
  bool   bscanf             (FILE *f, int num_bytes, int &i);
---- ../craft.orig/xstring.h	Fri Feb 21 06:52:27 1997
+--- ./xstring.h	Fri Feb 21 06:52:27 1997
 +++ ./xstring.h	Sun Jun 28 20:26:26 2009
 @@ -14,8 +14,8 @@
                   int  max_length_of_s,
