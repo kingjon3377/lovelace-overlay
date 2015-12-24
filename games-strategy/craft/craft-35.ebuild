@@ -7,9 +7,12 @@ EAPI=5
 inherit games eutils
 
 DESCRIPTION="Warcraft 2-like multi-player real-time strategy game"
-HOMEPAGE="http://ftp.knoppix.nl/sunsite/games/strategy/"
-SRC_URI="http://ftp.knoppix.nl/sunsite/games/strategy/craftcc35.tar.Z
-		doc? ( http://ftp.knoppix.nl/sunsite/games/strategy/craftdoc.tar.Z )"
+HOMEPAGE="http://sourceforge.net/projects/craft-vikings/"
+#HOMEPAGE="http://ftp.knoppix.nl/sunsite/games/strategy/"
+SRC_URI="mirror://sourceforge/${PN}-vikings/${PN}-vikings/${PN}-3.5/${PN}cc${PV}.tar.Z
+		doc? ( mirror://sourceforge/${PN}-vikings/${PN}-vikings/${PN}-3.5/${PN}doc.tar.Z )"
+#SRC_URI="http://ftp.knoppix.nl/sunsite/games/strategy/craftcc35.tar.Z
+		#doc? ( http://ftp.knoppix.nl/sunsite/games/strategy/craftdoc.tar.Z )"
 
 LICENSE="free-noncomm"
 SLOT="0"
