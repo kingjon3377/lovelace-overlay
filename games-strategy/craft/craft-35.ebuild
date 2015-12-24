@@ -45,7 +45,7 @@ src_compile() {
 }
 
 src_install() {
-	dobin craft
+	dogamesbin craft
 	use doc && {
 		dohtml doc/*html
 		docinto pic
