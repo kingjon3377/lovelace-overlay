@@ -19,7 +19,8 @@ DEPEND="x11-libs/libX11"
 RDEPEND="${DEPEND}"
 
 src_prepare() {
-	epatch "${FILESDIR}"/xjewel_1.6-24.diff
+	epatch "${FILESDIR}"/xjewel_1.6-24.diff \
+		"${FILESDIR}/fix_font_issues.patch"
 }
 
 src_compile() {
