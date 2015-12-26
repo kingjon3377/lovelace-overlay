@@ -1,0 +1,15 @@
+diff -ru src.old/mem.h src/mem.h
+--- src.old/mem.h	2015-12-26 00:04:26.515051948 -0500
++++ src/mem.h	2015-12-26 00:04:49.737052691 -0500
+@@ -21,8 +21,10 @@
+ #ifndef MEM_H
+ #define MEM_H
+ 
++#include <inttypes.h>
++
+ #define ALIGNBYTES      (sizeof (int) - 1)
+-#define ALIGN(p)        (((unsigned)(p) + ALIGNBYTES) & ~ALIGNBYTES)
++#define ALIGN(p)        (((uintptr_t)(p) + ALIGNBYTES) & ~ALIGNBYTES)
+ 
+ extern void  mem_init  (void);
+ extern void *mem_alloc (int);
