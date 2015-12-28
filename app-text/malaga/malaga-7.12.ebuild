@@ -23,6 +23,7 @@ RDEPEND="${DEPEND}"
 
 src_prepare() {
 	epatch "${FILESDIR}/malaga-7.12-makefile-malshow-libm.patch"
+	sed -i -e 's: -s : :g' Makefile.in || die
 }
 
 src_configure() {
