@@ -26,7 +26,7 @@ src_prepare() {
 }
 
 src_configure() {
-	econf $(use_with readline )
+	econf $(use_with readline) --enable-shared=yes --enable-static=no
 }
 
 src_install() {
