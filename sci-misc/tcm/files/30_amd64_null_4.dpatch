@@ -258,7 +258,7 @@ diff -Nur tcm-2.20+TSQD.orig/src/ui/messagelogdialog.c tcm-2.20+TSQD/src/ui/mess
 diff -Nur tcm-2.20+TSQD.orig/src/ui/modelcheckdialog.c tcm-2.20+TSQD/src/ui/modelcheckdialog.c
 --- tcm-2.20.orig/src/ui/modelcheckdialog.c	2004-07-21 19:48:30.000000000 +0200
 +++ tcm-2.20/src/ui/modelcheckdialog.c	2006-04-02 15:13:09.000000000 +0200
-@@ -45,39 +45,39 @@
+@@ -45,38 +45,38 @@
  	ManageSelectionLabel(False);
  
  	form = XtVaCreateWidget("form",
