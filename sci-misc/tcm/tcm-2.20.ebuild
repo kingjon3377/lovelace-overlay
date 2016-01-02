@@ -37,7 +37,7 @@ src_prepare() {
 02_export_png_2
 12_quote_system_call
 13_fix_flex_compile
-15_fix_gcc_4_0
+15_fix_gcc_4.0
 16_gv_preview
 20_fix_doc
 30_amd64_null
