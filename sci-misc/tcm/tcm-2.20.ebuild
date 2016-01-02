@@ -129,9 +129,9 @@ src_install() {
 #				"TCM_INSTALL_DIR=${D}/usr" CHMOD=chmod install
 #	done
 	make_tcm_menu() {
-		$exe=$1
-		$title=$2
-		$cat=$3
+		exe=$1
+		title=$2
+		cat=$3
 		if [ -z $cat ]; then
 			$cat="Applications/Graphics"
 		else
