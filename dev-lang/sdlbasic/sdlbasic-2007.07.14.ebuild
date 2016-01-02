@@ -21,6 +21,9 @@ RDEPEND="${DEPEND}"
 src_unpack() {
 	mkdir "${S}"
 	default_src_unpack
+	cd "${S}"
+	mv ../usr/* . || die
+	rmdir ../usr || die
 }
 
 src_prepare() {
