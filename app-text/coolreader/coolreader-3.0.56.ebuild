@@ -40,6 +40,9 @@ src_prepare() {
 		sed -e 's/unsigned int/unsigned long/g' -i "${S}/crengine/src/lvdocview.cpp" \
 		|| die "patching lvdocview.cpp for amd64 failed"
 	fi
+	sed -i -e 's@<freetype/@<freetype2/@' \
+		"${S}/crengine/src/lvfntman.cpp" \
+		|| die
 }
 
 pkg_pretend() {
