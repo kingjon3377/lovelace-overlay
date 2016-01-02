@@ -29,7 +29,6 @@ src_prepare() {
 		"${FILESDIR}/${PN}.xpm" "${FILESDIR}/${PN}.desktop" \
 		"${FILESDIR}/${PN}.sng" \
 		debian || die
-	epatch $(sed -e 's:^:debian/patches/:' debian/patches/series)
 	for file in makefiles fonts 64bit fix_example ldflags datadir \
 			bison_code x-www-browser quickhelp; do
 		epatch "${FILESDIR}/${file}.patch"
