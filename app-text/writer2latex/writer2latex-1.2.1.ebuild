@@ -55,7 +55,7 @@ EANT_BUILD_TARGET="all"
 
 src_prepare(){
 	sed -i -e "s:W2LPATH=.*:W2LPATH=/usr/$(get_libdir)/${PN}:" ${S_DISTRO}/w2l || die "Sed failed"
-	sed -i -e "/URE_CLASSES/s:/usr/share/java:/usr/$(get_libdir)/libreoffice/ure/share/java:" \
+	sed -i -e "/URE_CLASSES/s:/usr/share/java:/usr/$(get_libdir)/libreoffice/program/classes/:" \
 		-e "/OFFICE_CLASSES/s:/usr/share/java:/usr/$(get_libdir)/libreoffice/program/classes/:" build.xml || die
 }
 
