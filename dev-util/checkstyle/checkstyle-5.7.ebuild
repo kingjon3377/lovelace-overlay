@@ -20,7 +20,7 @@ IUSE=""
 
 COMMON_DEP="
 	dev-java/ant-core:0
-	>=dev-java/antlr-2.7.7:0[java]
+	>=dev-java/antlr-2.7.7-r7:0
 	dev-java/commons-beanutils:1.7
 	dev-java/commons-cli:1
 	dev-java/commons-logging:0
