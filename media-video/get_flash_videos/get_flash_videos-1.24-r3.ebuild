@@ -1,4 +1,4 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
@@ -9,8 +9,8 @@ MY_PN="App-${PN}"
 MY_P="${MY_PN}-${PV}"
 
 DESCRIPTION="Downloads videos from various Flash-based video hosting sites"
-HOMEPAGE="http://code.google.com/p/get-flash-videos/"
-SRC_URI="http://get-flash-videos.googlecode.com/files/${MY_P}.tar.gz"
+HOMEPAGE="https://code.google.com/p/get-flash-videos/"
+SRC_URI="https://get-flash-videos.googlecode.com/files/${MY_P}.tar.gz"
 
 LICENSE="Apache-2.0"
 SLOT="0"
@@ -60,6 +60,5 @@ src_install() {
 }
 
 pkg_postinst() {
-	perl-module_pkg_postinst
 	readme.gentoo_print_elog
 }
