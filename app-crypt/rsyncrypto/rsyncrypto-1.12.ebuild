@@ -1,4 +1,4 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
@@ -16,7 +16,7 @@ IUSE=""
 DEPEND="dev-libs/openssl:0
 	dev-libs/argtable"
 RDEPEND="${DEPEND}
-	app-arch/gzip[rsyncable]"
+	|| ( app-arch/gzip[rsyncable] >=app-arch/gzip-1.7 )"
 
 src_install() {
 	emake DESTDIR="${D}" install
