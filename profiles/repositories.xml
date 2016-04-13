@@ -4,11 +4,11 @@
   <repo quality="experimental" status="unofficial">
     <name><![CDATA[lovelace]]></name>
     <description lang="en"><![CDATA[Personal overlay shared between computers]]></description>
-    <homepage>https://bitbucket.org/kingjon/lovelace-overlay</homepage>
+    <homepage>https://github.com/kingjon3377/lovelace-overlay</homepage>
     <owner type="person">
       <email>kingjon3377@gmail.com</email>
       <name><![CDATA[Jonathan Lovelace]]></name>
     </owner>
-    <source type="mercurial">https://bitbucket.org/kingjon/lovelace-overlay</source>
+    <source type="git">https://github.com/kingjon3377/lovelace-overlay</source>
   </repo>
 </repositories>
