@@ -17,7 +17,7 @@ IUSE=""
 
 DEPEND="dev-perl/XML-DOM
 	dev-perl/gtk2-perl
-	dev-perl/DateManip
+	dev-perl/Date-Manip
 	dev-perl/Email-Valid
 	dev-perl/Authen-SASL
 	virtual/perl-MIME-Base64"
