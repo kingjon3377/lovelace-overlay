@@ -22,13 +22,4 @@
    explicitly in the AA but are referenced there. In these cases the program
    performs the full computations that are used to construct the Almanac tables
    (references are provided).</longdescription>
-<!--
-<use>
-  <flag name='flag'>Description of how USE='flag' affects this package</flag>
-  <flag name='userland_GNU'>Description of how USERLAND='GNU' affects this
-	  package</flag>
-  <flag name='aspell'>Uses <pkg>app-text/aspell</pkg> for spell checking.
-	  Requires an installed dictionary from <cat>app-dicts</cat></flag>
-</use>
--->
 </pkgmetadata>

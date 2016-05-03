@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
-<herd>proxy-maintainers</herd>
  <longdescription>Oleo is a spreadsheet program (better for you than the more
    expensive spreadsheet).  It is an X client and also runs on character-based
    terminals.  It can generate embedded Postscript renditions of spreadsheets.

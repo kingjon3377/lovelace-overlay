@@ -8,13 +8,4 @@
    Its main goal is to offer the best of both scripting and delivery languages,
    while at the same time incorporating an extreme back-to-basics philosophy.
    </longdescription>
-<!--
-<use>
-  <flag name='flag'>Description of how USE='flag' affects this package</flag>
-  <flag name='userland_GNU'>Description of how USERLAND='GNU' affects this
-	  package</flag>
-  <flag name='aspell'>Uses <pkg>app-text/aspell</pkg> for spell checking.
-	  Requires an installed dictionary from <cat>app-dicts</cat></flag>
-</use>
--->
 </pkgmetadata>

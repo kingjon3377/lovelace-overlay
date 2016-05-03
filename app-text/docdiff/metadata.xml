@@ -8,13 +8,4 @@
    user-defined markup.  It supports several encodings and end-of-line
    characters, including ASCII, UTF-8, EUC-JP, Shift_JIS, CR, LF, and CRLF.
    </longdescription>
-<!--
-<use>
-  <flag name='flag'>Description of how USE='flag' affects this package</flag>
-  <flag name='userland_GNU'>Description of how USERLAND='GNU' affects this
-	  package</flag>
-  <flag name='aspell'>Uses <pkg>app-text/aspell</pkg> for spell checking.
-	  Requires an installed dictionary from <cat>app-dicts</cat></flag>
-</use>
--->
 </pkgmetadata>

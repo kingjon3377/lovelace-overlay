@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
-<herd>proxy-maintainers</herd>
  <longdescription>StarPlot is a GTK+ based program that can be used
    interactively to view three-dimensional perspective charts of stars.  Charts
    can be re-centered, rotated, or zoomed in or out with a mouse click (this
@@ -12,13 +11,4 @@
    stellar data records to StarPlot format.  Most star data files available on
    the Internet can be converted this way if a short file describing the
    original file format is provided to starconvert.</longdescription>
-<!--
-<use>
-  <flag name='flag'>Description of how USE='flag' affects this package</flag>
-  <flag name='userland_GNU'>Description of how USERLAND='GNU' affects this
-	  package</flag>
-  <flag name='aspell'>Uses <pkg>app-text/aspell</pkg> for spell checking.
-	  Requires an installed dictionary from <cat>app-dicts</cat></flag>
-</use>
--->
 </pkgmetadata>

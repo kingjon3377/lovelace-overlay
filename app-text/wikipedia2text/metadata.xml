@@ -6,13 +6,4 @@
    just sends the text to standard out. Alternatively it opens the Wikipedia
    article in a (possibly GUI) web browser or just shows the URL of the
    appropriate Wikipedia article.</longdescription>
-<!--
-<use>
-  <flag name='flag'>Description of how USE='flag' affects this package</flag>
-  <flag name='userland_GNU'>Description of how USERLAND='GNU' affects this
-	  package</flag>
-  <flag name='aspell'>Uses <pkg>app-text/aspell</pkg> for spell checking.
-	  Requires an installed dictionary from <cat>app-dicts</cat></flag>
-</use>
--->
 </pkgmetadata>

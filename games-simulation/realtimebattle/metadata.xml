@@ -1,20 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
-<herd>proxy-maintainers</herd>
  <longdescription>RealTimeBattle is a programming game in which robots
    controlled by programs are fighting each other. The goal is to destroy the
    enemies, using the radar to examine the environment and the cannon to shoot.
 
    Robot programs can be written in any language, all communication with the
    main program is done via stdout/stdin.</longdescription>
-<!--
-<use>
-  <flag name='flag'>Description of how USE='flag' affects this package</flag>
-  <flag name='userland_GNU'>Description of how USERLAND='GNU' affects this
-	  package</flag>
-  <flag name='aspell'>Uses <pkg>app-text/aspell</pkg> for spell checking.
-	  Requires an installed dictionary from <cat>app-dicts</cat></flag>
-</use>
--->
 </pkgmetadata>

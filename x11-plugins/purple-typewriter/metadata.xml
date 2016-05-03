@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
-<maintainer>
+<maintainer type="person">
 	<email>kingjon3377@gmail.com</email>
 </maintainer>
 <longdescription>A Pidgin/libpurple plugin that plays a typewriter sound when buddies are typing</longdescription>

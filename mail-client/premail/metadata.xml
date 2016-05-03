@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
-<herd>proxy-maintainers</herd>
-<maintainer>
-  <email>@gentoo.org</email>
-</maintainer>
 <longdescription>Premail adds support for encrypted e-mail to your mailer, using
 plain PGP, PGP/MIME, MOSS, or S/MIME.  In addition, premail provides a seamless,
 transparent interface to the anonymous remailers, including full support for
