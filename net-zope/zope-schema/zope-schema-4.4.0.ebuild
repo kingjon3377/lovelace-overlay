@@ -8,7 +8,7 @@ PYTHON_MULTIPLE_ABIS="1"
 PYTHON_RESTRICTED_ABIS="2.5 2.6"
 PYTHON_TESTS_FAILURES_TOLERANT_ABIS="*-jython"
 
-PYTHON_COMPAT=( python2_7 python3_{2,3} )
+PYTHON_COMPAT=( python2_7 python3_4 ) # python3_2 python3_3
 
 inherit distutils-r1
 
