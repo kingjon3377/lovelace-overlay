@@ -1,4 +1,4 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
@@ -8,7 +8,7 @@ inherit eutils toolchain-funcs
 
 DESCRIPTION="A program specializer for C"
 HOMEPAGE="http://packages.ubuntu.com/hardy/cmix"
-SRC_URI="mirror://ubuntu/pool/universe/c/${PN}/${P/-/_}.orig.tar.gz"
+SRC_URI="ftp://ftp.cs.cuhk.hk/pub/linux/devel/lang/c/${P}-src.tar.gz"
 
 LICENSE="cmix"
 SLOT="0"
@@ -21,7 +21,8 @@ DEPEND="${RDEPEND}
 
 src_prepare() {
 	epatch "${FILESDIR}/cmix_2.0.12-6.diff" "${FILESDIR}/cmix_2.0.12-6_2.diff" \
-		"${FILESDIR}/lex-yy.cc.patch" "${FILESDIR}/headers.patch" \
+		"${FILESDIR}/lex-yy.cc.patch" "${FILESDIR}/lex-yy.cc.2.patch" \
+		"${FILESDIR}/headers.patch" \
 		"${FILESDIR}/fileops.patch" "${FILESDIR}/output.patch" \
 		"${FILESDIR}/aloc.patch" "${FILESDIR}/direc.patch"
 }
