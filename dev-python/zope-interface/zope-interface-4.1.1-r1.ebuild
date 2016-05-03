@@ -22,7 +22,7 @@ IUSE="test"
 # net-zope/zope-fixers is required for building with Python 3.
 DEPEND="dev-python/setuptools[${PYTHON_USEDEP}]
 	app-arch/unzip
-	net-zope/zope-event[${PYTHON_USEDEP}]
+	dev-python/zope-event[${PYTHON_USEDEP}]
 	test? ( net-zope/zope-testing[${PYTHON_USEDEP}] )"
 RDEPEND=""
 
