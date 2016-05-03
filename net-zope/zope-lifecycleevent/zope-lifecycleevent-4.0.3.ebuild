@@ -27,7 +27,7 @@ IUSE=""
 # net-zope/namespaces-zope[${PYTHON_USEDEP}]
 RDEPEND="
 	net-zope/zope-component[${PYTHON_USEDEP}]
-	net-zope/zope-event[${PYTHON_USEDEP}]
+	dev-python/zope-event[${PYTHON_USEDEP}]
 	dev-python/zope-interface[${PYTHON_USEDEP}]"
 DEPEND="${RDEPEND}
 	app-arch/unzip

@@ -34,7 +34,7 @@ RESTRICT="test"
 RDEPEND="
 	net-zope/zodb[${PYTHON_USEDEP}]
 	net-zope/zope-configuration[${PYTHON_USEDEP}]
-	net-zope/zope-event[${PYTHON_USEDEP}]
+	dev-python/zope-event[${PYTHON_USEDEP}]
 	net-zope/zope-hookable[${PYTHON_USEDEP}]
 	net-zope/zope-i18nmessageid[${PYTHON_USEDEP}]
 	>=dev-python/zope-interface-3.8.0[${PYTHON_USEDEP}]

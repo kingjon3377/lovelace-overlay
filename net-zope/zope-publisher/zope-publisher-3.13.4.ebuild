@@ -31,7 +31,7 @@ RDEPEND="
 	net-zope/zope-component[${PYTHON_USEDEP}]
 	net-zope/zope-configuration[${PYTHON_USEDEP}]
 	net-zope/zope-contenttype[${PYTHON_USEDEP}]
-	net-zope/zope-event[${PYTHON_USEDEP}]
+	dev-python/zope-event[${PYTHON_USEDEP}]
 	net-zope/zope-exceptions[${PYTHON_USEDEP}]
 	net-zope/zope-i18n[${PYTHON_USEDEP}]
 	dev-python/zope-interface[${PYTHON_USEDEP}]

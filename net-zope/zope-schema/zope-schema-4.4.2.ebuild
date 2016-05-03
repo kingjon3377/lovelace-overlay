@@ -27,7 +27,7 @@ IUSE="doc test"
 
 # net-zope/namespaces-zope[${PYTHON_USEDEP}]
 RDEPEND="
-	net-zope/zope-event[${PYTHON_USEDEP}]
+	dev-python/zope-event[${PYTHON_USEDEP}]
 	>=dev-python/zope-interface-3.6.0[${PYTHON_USEDEP}]
 	net-zope/zope-i18nmessageid[${PYTHON_USEDEP}]"
 DEPEND="${RDEPEND}

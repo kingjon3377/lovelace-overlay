@@ -30,7 +30,7 @@ RDEPEND="
 	net-zope/zope-annotation[${PYTHON_USEDEP}]
 	net-zope/zope-component[${PYTHON_USEDEP}]
 	net-zope/zope-datetime[${PYTHON_USEDEP}]
-	net-zope/zope-event[${PYTHON_USEDEP}]
+	dev-python/zope-event[${PYTHON_USEDEP}]
 	net-zope/zope-i18nmessageid[${PYTHON_USEDEP}]
 	dev-python/zope-interface[${PYTHON_USEDEP}]
 	net-zope/zope-lifecycleevent[${PYTHON_USEDEP}]

@@ -28,7 +28,7 @@ RDEPEND="dev-python/manuel[${PYTHON_USEDEP}]
 	net-zope/zc-lockfile[${PYTHON_USEDEP}]
 	net-zope/zconfig[${PYTHON_USEDEP}]
 	net-zope/zdaemon[${PYTHON_USEDEP}]
-	net-zope/zope-event[${PYTHON_USEDEP}]
+	dev-python/zope-event[${PYTHON_USEDEP}]
 	dev-python/zope-interface[${PYTHON_USEDEP}]
 	net-zope/zope-testing[${PYTHON_USEDEP}]
 	!media-libs/FusionSound"
