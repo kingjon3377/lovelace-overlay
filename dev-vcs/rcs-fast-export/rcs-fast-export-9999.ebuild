@@ -13,7 +13,7 @@ HOMEPAGE="https://github.com/Oblomov/rcs-fast-export"
 SRC_URI=""
 EGIT_REPO_URI="https://github.com/Oblomov/rcs-fast-export.git"
 
-LICENSE="as-is"
+LICENSE="freedist" # No license stated, see https://github.com/Oblomov/rcs-fast-export/issues/2
 SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""

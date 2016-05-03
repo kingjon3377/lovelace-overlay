@@ -11,7 +11,7 @@ HOMEPAGE="https://github.com/bnoordhuis/Infinite-Adaptive-Mario"
 SRC_URI=""
 EGIT_REPO_URI="https://github.com/bnoordhuis/Infinite-Adaptive-Mario.git"
 
-LICENSE="as-is"
+LICENSE="freedist" # No license stated; a former class project of its developer ...
 SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""
