@@ -15,7 +15,7 @@ IUSE="gdbm mysql sqlite"
 
 DEPEND="gdbm? ( sys-libs/gdbm )
 	mysql? ( virtual/mysql )
-	sqlite? ( dev-db/sqlite:0 )"
+	sqlite? ( dev-db/sqlite:3 )"
 RDEPEND="${DEPEND}"
 
 src_install() {
