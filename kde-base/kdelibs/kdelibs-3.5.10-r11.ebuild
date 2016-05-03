@@ -1,4 +1,4 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
@@ -68,7 +68,7 @@ RDEPEND="${RDEPEND}
 # Testing code is rather broken and merely for developer purposes, so disable it.
 RESTRICT="test"
 
-PATCHES=( "${FILESDIR}/${PN}-p15-r1074156.patch"
+PATCHES=( "${FILESDIR}/${PN}-p15-r1074156/"*.patch
 	"${FILESDIR}/${PN}-3.5-openssl-1.0.0.patch" )
 
 pkg_setup() {

@@ -1,0 +1,541 @@
+Index: kio/kio/kzip.cpp
+===================================================================
+--- kdelibs/kio/kio/kzip.cpp	 (.../tags/KDE/3.5.10)	(revision 850549)
++++ kdelibs/kio/kio/kzip.cpp	 (.../branches/KDE/3.5)	(revision 1074156)
+@@ -954,8 +954,8 @@
+         buffer[ 26 ] = char(mysize >> 16);
+         buffer[ 27 ] = char(mysize >> 24);
+ 
+-        buffer[ 28 ] = char(it.current()->path().length()); // filename length
+-        buffer[ 29 ] = char(it.current()->path().length() >> 8);
++        buffer[ 28 ] = char(path.length()); // filename length
++        buffer[ 29 ] = char(path.length() >> 8);
+ 
+ 	buffer[ 30 ] = char(extra_field_len);
+ 	buffer[ 31 ] = char(extra_field_len >> 8);
+@@ -1051,6 +1051,20 @@
+     return true;
+ }
+ 
++bool KZip::writeDir(const QString& name, const QString& user, const QString& group)
++{
++    // Zip files have no explicit directories, they are implicitly created during extraction time
++    // when file entries have paths in them.
++    // However, to support empty directories, we must create a dummy file entry which ends with '/'.
++    QString dirName = name;
++    if (!name.endsWith("/"))
++        dirName = dirName.append('/');
++
++    mode_t perm = 040755;
++    time_t the_time = time(0);
++    return writeFile(dirName, user, group, 0, perm, the_time, the_time, the_time, 0);
++}
++
+ // Doesn't need to be reimplemented anymore. Remove for KDE-4.0
+ bool KZip::writeFile( const QString& name, const QString& user, const QString& group, uint size, const char* data )
+ {
+@@ -1114,7 +1128,7 @@
+     }
+ 
+     // delete entries in the filelist with the same filename as the one we want
+-    // to save, so that we don´t have duplicate file entries when viewing the zip
++    // to save, so that we donï¿½t have duplicate file entries when viewing the zip
+     // with konqi...
+     // CAUTION: the old file itself is still in the zip and won't be removed !!!
+     QPtrListIterator<KZipFileEntry> it( d->m_fileList );
+@@ -1280,9 +1294,10 @@
+     if ( d->m_extraField == ModificationTime )
+         extra_field_len = 17;	// value also used in doneWriting()
+ 
++    const QCString encodedName = QFile::encodeName(d->m_currentFile->path());
+     int csize = device()->at() -
+         d->m_currentFile->headerStart() - 30 -
+-		d->m_currentFile->path().length() - extra_field_len;
++        encodedName.length() - extra_field_len;
+     d->m_currentFile->setCompressedSize(csize);
+     //kdDebug(7040) << "usize: " << d->m_currentFile->size() << endl;
+     //kdDebug(7040) << "csize: " << d->m_currentFile->compressedSize() << endl;
+Index: kabc/scripts/field.src.cpp
+===================================================================
+--- kdelibs/kabc/scripts/field.src.cpp	 (.../tags/KDE/3.5.10)	(revision 850549)
++++ kdelibs/kabc/scripts/field.src.cpp	 (.../branches/KDE/3.5)	(revision 1074156)
+@@ -36,7 +36,7 @@
+                const QString &app = QString::null )
+       : mFieldId( fieldId ), mCategory( category ), mLabel( label ),
+         mKey( key ), mApp( app ) {}
+-  
++
+     enum FieldId
+     {
+       CustomField,
+@@ -45,11 +45,11 @@
+ 
+     int fieldId() { return mFieldId; }
+     int category() { return mCategory; }
+-    
++
+     QString label() { return mLabel; }
+     QString key() { return mKey; }
+     QString app() { return mApp; }
+-    
++
+   private:
+     int mFieldId;
+     int mCategory;
+@@ -184,6 +184,8 @@
+       return a.phoneNumber( PhoneNumber::Pager ).number();
+     case FieldImpl::HomeAddressStreet:
+       return a.address( Address::Home ).street();
++    case FieldImpl::HomeAddressPostOfficeBox:
++      return a.address( Address::Home ).postOfficeBox();
+     case FieldImpl::HomeAddressLocality:
+       return a.address( Address::Home ).locality();
+     case FieldImpl::HomeAddressRegion:
+@@ -196,6 +198,8 @@
+       return a.address( Address::Home ).label();
+     case FieldImpl::BusinessAddressStreet:
+       return a.address( Address::Work ).street();
++    case FieldImpl::BusinessAddressPostOfficeBox:
++      return a.address( Address::Work ).postOfficeBox();
+     case FieldImpl::BusinessAddressLocality:
+       return a.address( Address::Work ).locality();
+     case FieldImpl::BusinessAddressRegion:
+@@ -266,6 +270,13 @@
+         a.insertAddress( address );
+         return true;
+       }
++    case FieldImpl::HomeAddressPostOfficeBox:
++      {
++        KABC::Address address = a.address( Address::Home );
++        address.setPostOfficeBox( value );
++        a.insertAddress( address );
++        return true;
++      }
+     case FieldImpl::HomeAddressLocality:
+       {
+         KABC::Address address = a.address( Address::Home );
+@@ -308,6 +319,13 @@
+         a.insertAddress( address );
+         return true;
+       }
++    case FieldImpl::BusinessAddressPostOfficeBox:
++      {
++        KABC::Address address = a.address( Address::Work );
++        address.setPostOfficeBox( value );
++        a.insertAddress( address );
++        return true;
++      }
+     case FieldImpl::BusinessAddressLocality:
+       {
+         KABC::Address address = a.address( Address::Work );
+@@ -438,7 +456,7 @@
+                         const Field::List &fields )
+ {
+   QValueList<int> fieldIds;
+-  
++
+   int custom = 0;
+   Field::List::ConstIterator it;
+   for( it = fields.begin(); it != fields.end(); ++it ) {
+@@ -452,7 +470,7 @@
+                        QString::number( custom++ ), customEntry );
+     }
+   }
+-  
++
+   cfg->writeEntry( identifier, fieldIds );
+ }
+ 
+@@ -460,7 +478,7 @@
+ {
+   KConfig *cfg = KGlobal::config();
+   KConfigGroupSaver( cfg, "KABCFields" );
+- 
++
+   return restoreFields( cfg, identifier );
+ }
+ 
+@@ -485,7 +503,7 @@
+     }
+     fields.append( new Field( f ) );
+   }
+-  
++
+   return fields;
+ }
+ 
+@@ -496,7 +514,7 @@
+   if ( !sameId ) return false;
+ 
+   if ( mImpl->fieldId() != FieldImpl::CustomField ) return true;
+-  
++
+   return mImpl->key() == field->mImpl->key();
+ }
+ 
+Index: kabc/scripts/entrylist
+===================================================================
+--- kdelibs/kabc/scripts/entrylist	 (.../tags/KDE/3.5.10)	(revision 850549)
++++ kdelibs/kabc/scripts/entrylist	 (.../branches/KDE/3.5)	(revision 1074156)
+@@ -29,6 +29,7 @@
+ 
+ #Address address
+ LF,home address street,,QString,homeAddressStreet,Address|Personal
++LF,home address post office box,,QString,homeAddressPostOfficeBox,Address|Personal
+ LF,home address city,,QString,homeAddressLocality,Address|Personal
+ LF,home address state,,QString,homeAddressRegion,Address|Personal
+ LF,home address zip code,,QString,homeAddressPostalCode,Address|Personal
+@@ -36,6 +37,7 @@
+ LF,home address label,,QString,homeAddressLabel,Address|Personal
+ 
+ LF,business address street,,QString,businessAddressStreet,Address|Organization
++LF,business address post office box,,QString,businessAddressPostOfficeBox,Address|Organization
+ LF,business address city,,QString,businessAddressLocality,Address|Organization
+ LF,business address state,,QString,businessAddressRegion,Address|Organization
+ LF,business address zip code,,QString,businessAddressPostalCode,Address|Organization
+Index: kdesu/Mainpage.dox
+===================================================================
+--- kdelibs/kdesu/Mainpage.dox	 (.../tags/KDE/3.5.10)	(revision 0)
++++ kdelibs/kdesu/Mainpage.dox	 (.../branches/KDE/3.5)	(revision 1074156)
+@@ -0,0 +1,21 @@
++/** @mainpage Console-mode authentication
++
++libkdesu provides functionality for building GUI front ends for
++(password asking) console mode programs. For example, kdesu and
++kdessh use it to interface with su and ssh respectively.
++
++@authors
++Geert Jansen \<jansen@kde.org\>
++
++@maintainers
++Adriaan de Groot \<groot@kde.org\>
++
++@licenses
++@lgpl
++
++
++*/
++
++// DOXYGEN_REFERENCES = kdecore
++// DOXYGEN_SET_PROJECT_NAME = KDEsu
++// vim:ts=4:sw=4:expandtab:filetype=doxygen
+Index: kutils/Mainpage.dox
+===================================================================
+--- kdelibs/kutils/Mainpage.dox	 (.../tags/KDE/3.5.10)	(revision 0)
++++ kdelibs/kutils/Mainpage.dox	 (.../branches/KDE/3.5)	(revision 1074156)
+@@ -0,0 +1,24 @@
++/** @mainpage Some random bits and pieces
++
++Some utility classes for KSettings, KCModule and KPlugin.
++
++@authors
++Matthias Kretz \<kretz@kde.org\><br>
++Rafael FernÃ¡ndez LÃ³pez \<ereslibre@kde.org\><br>
++Matthias Elter \<elter@kde.org\><br>
++Daniel Molkentin \<molkentin@kde.org\><br>
++Frans Englich \<frans.englich@telia.com\><br>
++Tobias Koenig \<tokoe@kde.org\><br>
++Matthias Hoelzer-Kluepfel \<hoelzer@kde.org\>
++
++@maintainers
++[Unknown/None]
++
++@licenses
++@lgpl
++
++*/
++
++// DOXYGEN_REFERENCES = kdecore kdeui kio
++// DOXYGEN_SET_PROJECT_NAME = KUtils
++// vim:ts=4:sw=4:expandtab:filetype=doxygen
+Index: kdecore/kstringhandler.cpp
+===================================================================
+--- kdelibs/kdecore/kstringhandler.cpp	 (.../tags/KDE/3.5.10)	(revision 850549)
++++ kdelibs/kdecore/kstringhandler.cpp	 (.../branches/KDE/3.5)	(revision 1074156)
+@@ -558,7 +558,7 @@
+   QString result;
+   const QChar *unicode = str.unicode();
+   for ( uint i = 0; i < str.length(); ++i )
+-    result += ( unicode[ i ].unicode() < 0x21 ) ? unicode[ i ] :
++    result += ( unicode[ i ].unicode() <= 0x21 ) ? unicode[ i ] :
+         QChar( 0x1001F - unicode[ i ].unicode() );
+ 
+   return result;
+Index: kdecore/Mainpage.dox
+===================================================================
+--- kdelibs/kdecore/Mainpage.dox	 (.../tags/KDE/3.5.10)	(revision 0)
++++ kdelibs/kdecore/Mainpage.dox	 (.../branches/KDE/3.5)	(revision 1074156)
+@@ -0,0 +1,44 @@
++/** \mainpage The KDE Core Library
++
++All KDE programs use this library to provide basic functionality such
++as the configuration system, IPC, internationalization and locale
++support, site-independent access to the filesystem and a large number
++of other (but no less important) things.
++<p>
++All KDE applications should link to the kdecore library. Also, using a
++KApplication derived class instead of QApplication is almost
++mandatory if you expect your application to behave nicely within the
++KDE environment.
++
++If you are unsure where to start, have a look at the
++<a href="http://techbase.kde.org/Development/Tutorials">tutorials on
++TechBase</a> to get you going.
++
++If you know what you are looking for, you should be able to find it in
++the <a href="annotated.html">class list</a> or the
++<a href="modules.html">modules list</a>.
++
++@authors
++Various: see copyrights on individual files for more information
++
++@maintainers
++See the
++<a href="http://websvn.kde.org/trunk/KDE/kdelibs/kdecore/MAINTAINERS?view=markup">MAINTAINERS</a>
++file.
++
++@licenses
++Library: @lgpl<br>
++Some helper utilities: @gpl
++
++*/
++
++/**
++
++\defgroup KDEMacros KDE Macros
++
++*/
++
++// DOXYGEN_EXCLUDE = malloc kde_file.h
++// DOXYGEN_SET_INPUT += @topdir@/kdemacros.h.cmake
++// DOXYGEN_SET_PROJECT_NAME = KDECore
++// vim:ts=4:sw=4:expandtab:filetype=doxygen
+Index: knewstuff/Mainpage.dox
+===================================================================
+--- kdelibs/knewstuff/Mainpage.dox	 (.../tags/KDE/3.5.10)	(revision 0)
++++ kdelibs/knewstuff/Mainpage.dox	 (.../branches/KDE/3.5)	(revision 1074156)
+@@ -0,0 +1,35 @@
++/** \mainpage Collaborative Data Sharing in KDE Applications
++
++The \b KNewStuff2 library adds data sharing capabilities to %KDE
++applications.  Technically, it implements the
++<a href="http://ghns.freedesktop.org/">GHNS</a> and
++DXS specifications. The library consists of three parts: the data management core
++and GHNS protocol implementation, the DXS web service handler, and the user interface
++classes like dialogs and buttons.
++
++Application authors should not use all of the classes directly, which are installed
++only for the purpose of implementing functionality on top of \b KNewStuff2; instead,
++the high-level KNS::Engine class provides everything an application needs.
++Both upload and download scenarios are handled by the engine. There are only two
++preparation steps necessary before this class can be used: the setup of a GHNS repository,
++and the creation of a <b>*.knsrc</b> file which will determine all aspects of the
++application's \b KNewStuff2 usage.
++
++All of the related information such as <b>*.knsrc</b> files, repositories and security
++can be found in the <a href="http://techbase.kde.org/Development/Tutorials/K_Hot_New_Stuff2">KNewStuff2 tutorial</a>.
++
++@authors
++Josef Spillner \<spillner@kde.org\>
++Jeremy Whiting \<jeremy@scitools.com\>
++
++@maintainers
++Jeremy Whiting \<jeremy@scitools.com\>
++
++@licenses
++@lgpl
++
++*/
++
++// DOXYGEN_REFERENCES = kdecore kdeui kio
++// DOXYGEN_SET_PROJECT_NAME = KNewStuff
++// vim:ts=4:sw=4:expandtab:filetype=doxygen
+Index: khtml/Mainpage.dox
+===================================================================
+--- kdelibs/khtml/Mainpage.dox	 (.../tags/KDE/3.5.10)	(revision 0)
++++ kdelibs/khtml/Mainpage.dox	 (.../branches/KDE/3.5)	(revision 1074156)
+@@ -0,0 +1,46 @@
++/** @mainpage KDE HTML Parser and Widget
++
++If you want a fully-fledged HTML browser widget in your application,
++you can use KHTMLPart to do so.
++
++@code
++KUrl url = "http://www.kde.org";
++KHTMLPart *w = new KHTMLPart();
++w->openUrl(url);
++w->view()->resize(500, 400);
++w->show();
++@endcode
++
++For more information, see the documentation for KHTMLPart.
++
++Note that using KHTMLPart may introduce security vulnerabilities
++and unnecessary bloat to your application.  Qt's text widgets are
++rich-text capable, and will interpret a limited subset of HTML.
++
++@authors
++Torben Weis \<weis@stud.uni-frankfurt.de\><br>
++Josip A. Gracin \<grac@fly.cc.fer.hr\><br>
++Martin Jones \<mjones@kde.org\><br>
++Waldo Bastian \<bastian@kde.org\><br>
++Lars Knoll \<knoll@kde.org\><br>
++Antti Koivisto \<koivisto@iki.fi\><br>
++Dirk Mueller \<mueller@kde.org\><br>
++Peter Kelly \<pmk@post.com\><br>
++George Staikos \<staikos@kde.org\><br>
++Allan Sandfeld Jensen \<kde@carewolf.com\><br>
++Germain Garand \<germain@ebooksfrance.org\><br>
++Maksim Orlovich \<maksim@kde.org\><br>
++KHTML has also heavily benefited from the work of Apple Computer, Inc.
++@maintainers
++Allan Sandfeld Jensen <br>
++Germain Garand<br>
++Maksim Orlovich
++
++@licenses
++@lgpl
++
++*/
++// DOXYGEN_REFERENCES = kdecore kdeui kio kparts kjs
++// DOXYGEN_EXCLUDE =  test*.* html rendering xml misc ecma css imload pics test 
++// DOXYGEN_SET_PROJECT_NAME = KHTML
++// vim:ts=4:sw=4:expandtab:filetype=doxygen
+Index: khtml/html/htmltokenizer.cpp
+===================================================================
+--- kdelibs/khtml/html/htmltokenizer.cpp	 (.../tags/KDE/3.5.10)	(revision 850549)
++++ kdelibs/khtml/html/htmltokenizer.cpp	 (.../branches/KDE/3.5)	(revision 1074156)
+@@ -736,7 +736,7 @@
+ #ifdef TOKEN_DEBUG
+                 kdDebug( 6036 ) << "unknown entity!" << endl;
+ #endif
+-                checkBuffer(10);
++                checkBuffer(11);
+                 // ignore the sequence, add it to the buffer as plaintext
+                 *dest++ = '&';
+                 for(unsigned int i = 0; i < cBufferPos; i++)
+Index: khtml/rendering/table_layout.cpp
+===================================================================
+--- kdelibs/khtml/rendering/table_layout.cpp	 (.../tags/KDE/3.5.10)	(revision 850549)
++++ kdelibs/khtml/rendering/table_layout.cpp	 (.../branches/KDE/3.5)	(revision 1074156)
+@@ -297,7 +297,8 @@
+ #endif
+         for ( int i = 0; available > 0 && i < nEffCols; i++ ) {
+             if ( width[i].isPercent() ) {
+-                int w = base * width[i].value() / totalPercent;
++                // totalPercent may be 0 below if all %-width specifed are 0%. (#172557)
++                int w = totalPercent ? base * width[i].value() / totalPercent : 0;
+                 available -= w;
+                 calcWidth[i] = w;
+             }
+@@ -313,7 +314,8 @@
+ 
+         for ( int i = 0; available > 0 && i < nEffCols; i++ ) {
+             if ( width[i].isVariable() ) {
+-                int w = available / totalVariable;
++                // totalVariable may be 0 below if all the variable widths specified are 0.
++                int w = totalVariable ? available / totalVariable : 0;
+                 available -= w;
+                 calcWidth[i] = w;
+ 		totalVariable--;
+Index: kjs/Mainpage.dox
+===================================================================
+--- kdelibs/kjs/Mainpage.dox	 (.../tags/KDE/3.5.10)	(revision 0)
++++ kdelibs/kjs/Mainpage.dox	 (.../branches/KDE/3.5)	(revision 1074156)
+@@ -0,0 +1,30 @@
++/** @mainpage KDE JavaScript/EcmaScript Engine
++
++This library provides an ECMAScript compatible interpreter. The ECMA standard
++is based on well known scripting languages such as Netscape's JavaScript and
++Microsoft's JScript.
++
++@authors
++Harri Porten \<porten@kde.org\><br>
++Maks Orlovich \<maksim@kde.org\><br>
++Apple Computer, Inc.<br>
++Richard Moore \<rich@kde.org\><br>
++Daegeun Lee \<realking@mizi.com\><br>
++Marco Pinelli \<pinmc@libero.it\><br>
++Christian Kirsch \<ck@held.mind.de\>
++
++@maintainers
++Maks Orlovich \<maksim@kde.org\><br>
++Harri Porten \<porten@kde.org\>
++
++@licenses
++@lgpl
++
++*/
++
++// DOXYGEN_REFERENCES = kdecore
++// DOXYGEN_SET_PROJECT_NAME = KJS
++// DOXYGEN_SET_EXCLUDE_PATTERNS += */wtf/* 
++// DOXYGEN_SET_EXCLUDE_PATTERNS += */kjs/*.cpp */kjs/*.h
++
++// vim:ts=4:sw=4:expandtab:filetype=doxygen
+Index: kjs/dtoa.cpp
+===================================================================
+--- kdelibs/kjs/dtoa.cpp	 (.../tags/KDE/3.5.10)	(revision 850549)
++++ kdelibs/kjs/dtoa.cpp	 (.../branches/KDE/3.5)	(revision 1074156)
+@@ -487,7 +487,7 @@
+ #define FREE_DTOA_LOCK(n)	/*nothing*/
+ #endif
+ 
+-#define Kmax 15
++#define Kmax (sizeof(size_t) << 3)
+ 
+  struct
+ Bigint {
+Index: kdoctools/customization/pt-BR/user.entities
+===================================================================
+--- kdelibs/kdoctools/customization/pt-BR/user.entities	 (.../tags/KDE/3.5.10)	(revision 850549)
++++ kdelibs/kdoctools/customization/pt-BR/user.entities	 (.../branches/KDE/3.5)	(revision 1074156)
+@@ -17,7 +17,7 @@
+ <!ENTITY Esc   "<keycap>Esc</keycap>">
+ <!ENTITY etc     "<abbrev>etc</abbrev>">
+ <!ENTITY ex     "<abbrev>por exemplo</abbrev>">
+-<!ENTITY FAQ     "Perguntas Mais FreqÃ¼entes (do inglÃªs <acronym>FAQ</acronym>)">
++<!ENTITY FAQ     "Perguntas mais freqÃ¼entes (do inglÃªs <acronym>FAQ</acronym>)">
+ <!ENTITY HTML	'<acronym>HTML</acronym>'>
+ <!ENTITY ie     "isto Ã©">
+ <!ENTITY infocenter	"<application>Centro de InformaÃ§Ãµes</application>">
+@@ -34,7 +34,7 @@
+ <!ENTITY LMB    "botÃ£o <mousebutton>esquerdo</mousebutton> do mouse">
+ <!ENTITY MMB    "botÃ£o do <mousebutton>meio</mousebutton> do mouse">
+ <!ENTITY OS "<acronym>Sistema Operacional</acronym>">
+-<!ENTITY RMB    "botÃ£o <mousebutton>direto</mousebutton> do mouse">
++<!ENTITY RMB    "botÃ£o <mousebutton>direito</mousebutton> do mouse">
+ <!ENTITY Shift   "<keycap>Shift</keycap>">
+ <!ENTITY systemtray "<application>bandeja do sistema</application>">
+ <!ENTITY Tab	"<keycap>Tab</keycap>">
+Index: kdoctools/Mainpage.dox
+===================================================================
+--- kdelibs/kdoctools/Mainpage.dox	 (.../tags/KDE/3.5.10)	(revision 0)
++++ kdelibs/kdoctools/Mainpage.dox	 (.../branches/KDE/3.5)	(revision 1074156)
+@@ -0,0 +1,26 @@
++/** @mainpage KDE Documentation Tools
++
++Provides a KIO slave for accessing application documentation for
++KDE and GNOME applications.
++
++@authors
++Eric Bischoff
++Claudiu Costin
++Frederik Fouvry
++David Rugge
++
++@maintainers
++[Unknown/None]
++
++@licenses
++Note: most of the files do not have licenses.
++This should be corrected.  The intention appears
++to be for the files to have a @bsd license, but
++this needs to be confirmed with the copyright
++holders.
++
++*/
++
++// DOXYGEN_REFERENCES = kdecore kdeui kio
++// DOXYGEN_SET_PROJECT_NAME = KDocTools
++// vim:ts=4:sw=4:expandtab:filetype=doxygen

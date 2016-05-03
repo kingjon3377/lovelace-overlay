@@ -1,0 +1,202 @@
+Index: kparts/Mainpage.dox
+===================================================================
+--- kdelibs/kparts/Mainpage.dox	 (.../tags/KDE/3.5.10)	(revision 0)
++++ kdelibs/kparts/Mainpage.dox	 (.../branches/KDE/3.5)	(revision 1074156)
+@@ -0,0 +1,42 @@
++/** @mainpage Framework for KDE Graphical Components
++
++This library implements the framework for KDE parts, which are
++elaborate widgets with a user-interface defined in terms of actions
++(menu items, toolbar icons). See KParts::Part.
++
++The library also provides a framework for applications that want to
++use parts. Such applications need to inherit their main window
++from KParts::MainWindow and provide a so-called shell GUI, 
++which provides a basic skeleton GUI with part-independent functionality/actions.
++
++Some KParts applications won't be specific to a given part, but expect
++to be able to embed, for instance, all types of viewers out there. For this
++the basic functionality of any viewer has been implemented in 
++KParts::ReadOnlyPart, which viewer-like parts should inherit from.
++The same applies to KParts::ReadWritePart, which is for editor-like parts.
++
++You can add actions to an existing KParts app from "outside", defining
++the code for those actions in a shared library. This mechanism is
++obviously called plugins, and implemented by KParts::Plugin.
++
++For a complete, and very simple, example of how to use KParts to display
++any kind of file (i.e. making a generic viewer), see the documentation for
++KParts::ComponentFactory::createPartInstanceFromQuery.
++
++@authors
++Simon Hausmann \<hausmann@kde.org\><br>
++David Faure \<faure@kde.org\><br>
++Kurt Granroth \<granroth@kde.org\><br>
++Michael Koch \<koch@kde.org\>
++
++@maintainers
++[Unknown/None]
++
++@licenses
++@lgpl
++
++*/
++
++// DOXYGEN_REFERENCES = kdecore kdeui kio
++// DOXYGEN_SET_PROJECT_NAME = KParts
++// vim:ts=4:sw=4:expandtab:filetype=doxygen
+Index: kded/Mainpage.dox
+===================================================================
+--- kdelibs/kded/Mainpage.dox	 (.../tags/KDE/3.5.10)	(revision 0)
++++ kdelibs/kded/Mainpage.dox	 (.../branches/KDE/3.5)	(revision 1074156)
+@@ -0,0 +1,26 @@
++/** @mainpage The KDE Daemon
++
++KDED runs in the background and performs a number of small tasks.  Some
++of these tasks are built in, others are started on demand.
++<p>
++The chances are you are looking here because you want to write a
++KDED module.  For that, see KDEDModule in kdecore and the
++<a href="http://websvn.kde.org/trunk/KDE/kdelibs/kded/README.kded?view=markup">KDED
++README</a>.
++
++
++@authors
++David Faure \<dfaure@kde.org\><br>
++Waldo Bastian \<bastian@kde.org\>
++
++@maintainers
++[Unknown/None]
++
++@licenses
++@lgpl
++
++*/
++
++// DOXYGEN_REFERENCES = kdecore kdeui kio
++// DOXYGEN_SET_PROJECT_NAME = KDED
++// vim:ts=4:sw=4:expandtab:filetype=doxygen
+Index: kdeui/kdatetbl.cpp
+===================================================================
+--- kdelibs/kdeui/kdatetbl.cpp	 (.../tags/KDE/3.5.10)	(revision 850549)
++++ kdelibs/kdeui/kdatetbl.cpp	 (.../branches/KDE/3.5)	(revision 1074156)
+@@ -47,6 +47,7 @@
+ #include "kdatetbl.h"
+ #include "kpopupmenu.h"
+ #include <qdatetime.h>
++#include <qguardedptr.h>
+ #include <qstring.h>
+ #include <qpen.h>
+ #include <qpainter.h>
+@@ -310,7 +311,7 @@
+            painter->setPen(colorGroup().highlight());
+            painter->setBrush(colorGroup().highlight());
+ 	   }
+-	   else 
++	   else
+ 	   {
+ 	   painter->setPen(colorGroup().text());
+            painter->setBrush(colorGroup().text());
+@@ -366,7 +367,7 @@
+ void KDateTable::endOfWeek()
+ {
+   setDate(date.addDays(7 - date.dayOfWeek()));
+-}    
++}
+ 
+ void
+ KDateTable::keyPressEvent( QKeyEvent *e )
+@@ -482,14 +483,14 @@
+   // old selected date:
+   temp = posFromDate( date );
+   // new position and date
+-  pos = (7 * (row - 1)) + col; 
++  pos = (7 * (row - 1)) + col;
+   QDate clickedDate = dateFromPos( pos );
+ 
+   // set the new date. If it is in the previous or next month, the month will
+   // automatically be changed, no need to do that manually...
+   setDate( clickedDate );
+ 
+-  // call updateCell on the old and new selection. If setDate switched to a different 
++  // call updateCell on the old and new selection. If setDate switched to a different
+   // month, these cells will be painted twice, but that's no problem.
+   updateCell( temp/7+1, temp%7 );
+   updateCell( row, col );
+@@ -1007,7 +1008,10 @@
+   popup(pos);
+   repaint();
+   d->exec = true;
++  const QGuardedPtr<QObject> that = this;
+   qApp->enter_loop();
++  if ( !that )
++    return QDialog::Rejected;
+   hide();
+   return result;
+ }
+Index: kdeui/kmenubar.cpp
+===================================================================
+--- kdelibs/kdeui/kmenubar.cpp	 (.../tags/KDE/3.5.10)	(revision 850549)
++++ kdelibs/kdeui/kmenubar.cpp	 (.../branches/KDE/3.5)	(revision 1074156)
+@@ -308,7 +308,7 @@
+         if( d->fallback_mode )
+         {
+             d->fallback_mode = false;
+-//            KWin::setStrut( winId(), 0, 0, 0, 0 ); KWin will set strut as it will see fit
++            KWin::setStrut( winId(), 0, 0, 0, 0 );
+             setMinimumSize( 0, 0 );
+             setMaximumSize( QWIDGETSIZE_MAX, QWIDGETSIZE_MAX );
+             updateMenuBarSize();
+Index: dnssd/Mainpage.dox
+===================================================================
+--- kdelibs/dnssd/Mainpage.dox	 (.../tags/KDE/3.5.10)	(revision 0)
++++ kdelibs/dnssd/Mainpage.dox	 (.../branches/KDE/3.5)	(revision 1074156)
+@@ -0,0 +1,40 @@
++/** @mainpage DNSSD
++
++<p>DNSSD is a library for handling the DNS-based Service Discovery Protocol (DNS-SD),
++the layer of <a href="http://www.zeroconf.org">Zeroconf</a> that allows network
++services, such as printers, to be discovered without any user intervention or
++centralized infrastructure.</p>
++
++Apple's implementation of Zeroconf is
++<a href="http://www.apple.com/macosx/technology/bonjour.html">Bonjour</a>.
++Apple's developer documentation provides lots of information about Bonjour
++in its <a href="http://developer.apple.com/documentation/Cocoa/Conceptual/NetServices/Articles/about.html#//apple_ref/doc/uid/TP40002458-SW1">Bonjour overview</a>.
++
++If you are writing an application that wants to discover services on the network,
++use DNSSD::ServiceBrowser.  You can also find available service types using ServiceTypeBrowser.
++
++If you want to announce the availability of a service provided by your application,
++use DNSSD::PublicService.
++
++DNSSD::DomainBrowser allows you to find domains (other than the local one) recommended
++for browsing or publishing to.
++
++Note that DNSSD::ServiceBrowser::isAvailable() provides information about the availability
++of the services provided by this library generally, not just for browsing services.
++
++@authors
++Jakub Stachowski
++
++@maintainers
++Jakub Stachowski
++
++@licenses
++@lgpl
++
++*/
++
++// KDE5: get rid of kdeui reference when settings.kcfgc is changed
++// DOXYGEN_REFERENCES = kdecore kdeui
++// DOXYGEN_SET_PROJECT_NAME = DNSSD
++// DOXYGEN_SET_EXCLUDE_PATTERNS += */dnssd/avahi* */dnssd/mdnsd*
++// vim:ts=4:sw=4:expandtab:filetype=doxygen
+
+Property changes on: .
+___________________________________________________________________
+Deleted: svn:mergeinfo
+Added: svn:externals
+   + admin https://svn.kde.org/home/kde/branches/KDE/3.5/kde-common/admin
+
+

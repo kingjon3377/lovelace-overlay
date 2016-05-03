@@ -1,0 +1,840 @@
+Index: doc/common/top.jpg
+===================================================================
+Cannot display: file marked as a binary type.
+svn:mime-type = application/octet-stream
+
+Property changes on: doc/common/top.jpg
+___________________________________________________________________
+Added: svn:mime-type
+   + application/octet-stream
+
+Index: doc/common/top-kde.jpg
+===================================================================
+Cannot display: file marked as a binary type.
+svn:mime-type = application/octet-stream
+
+Property changes on: doc/common/top-kde.jpg
+___________________________________________________________________
+Added: svn:mime-type
+   + application/octet-stream
+
+Index: doc/common/fdl-notice.html
+===================================================================
+--- kdelibs/doc/common/fdl-notice.html	 (.../tags/KDE/3.5.10)	(revision 850549)
++++ kdelibs/doc/common/fdl-notice.html	 (.../branches/KDE/3.5)	(revision 1074156)
+@@ -6,7 +6,7 @@
+ <body>
+ 
+ <p>Permission is granted to copy, distribute and/or modify this document
+-under the terms of the GNU Free Documentation License, Version 1.1 or any
++under the terms of the GNU Free Documentation License, Version 1.2 or any
+ later version published by the Free Software Foundation; with no Invariant
+ Sections, with no Front-Cover Texts, and with no Back-Cover Texts.  A copy
+ of the license is included <a href="fdl-license.html">here</a>.</p>
+Index: doc/common/top-right.png
+===================================================================
+Cannot display: file marked as a binary type.
+svn:mime-type = application/octet-stream
+
+Property changes on: doc/common/top-right.png
+___________________________________________________________________
+Added: svn:mime-type
+   + application/octet-stream
+
+Index: doc/common/footer.html
+===================================================================
+--- kdelibs/doc/common/footer.html	 (.../tags/KDE/3.5.10)	(revision 850549)
++++ kdelibs/doc/common/footer.html	 (.../branches/KDE/3.5)	(revision 1074156)
+@@ -1,13 +1,12 @@
+-    </div></div>
+-
+-
+-      </td>
+-  </tr>
+-  <tr>
+-    <td valign="top" id="leftmenu" width="25%">
+-      <a name="navigation"></a>
+-      <div class="menu_box"><h2>$projectname</h2>
+-<div class="nav_list">
++            </div>
++          </div>
++        </div>
++        <div id="left">
++          <div class="menu_box">
++<a name="cp-menu" /><div class="menutitle"><div>
++<h2 id="cp-menu-project">$projectname</h2>
++<a href="#cp-skip-project" class="cp-doNotDisplay">Skip menu "$projectname"</a>
++</div></div>
+ <!-- menu -->
+ <!-- cmenu.begin -->
+ <h2>Class Picker</h2>
+@@ -20,46 +19,46 @@
+ </form>
+ </div>
+ <!-- cmenu.end -->
++
++<div class="menu_box">
++<a name="cp-menu" /><div class="menutitle"><div>
++<h2 id="cp-menu-project">@topname@</h2>
++<a href="#cp-skip-project" class="cp-doNotDisplay">Skip menu "@topname@"</a>
+ </div></div>
+-<div class="menu_box"><h2>API Dox</h2>
+ <div class="nav_list">
+ <ul>
+ <!-- gmenu -->
+ </ul></div></div>
+ 
++          </div>
++        </div>
++        <div class="clearer"></div>
++      </div>
++      <div class="clearer"></div>
++    </div>
+ 
+-        </td>
+-</tr>
+-</table>
+ 
+-<span class="doNotDisplay">
+-  <a href="http://www.kde.org/" accesskey="8">KDE Home</a> |
+-  <a href="http://accessibility.kde.org/" accesskey="9">KDE Accessibility Home</a> |
+-  <a href="http://www.kde.org/media/accesskeys.php" accesskey="0">Description of Access Keys</a>
+-</span>
++    <div id="end_body"></div>
+ 
+ 
+-<div style="height: 8px"></div>
++    <div id="footer"><div id="footer_text">
++    Generated for @topname@ by
++    <a href="http://www.doxygen.org/index.html">doxygen</a> $doxygenversion<br />
+ 
+-<div id="footer">
+-  <div id="footer_left">
+-    Maintained by <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;groo&#116;&#64;kde&#46;or&#x67;">Adriaan de Groot</a>
++    This website is maintained by <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;groo&#116;&#64;kde&#46;or&#x67;">Adriaan de Groot</a>
+ and
+-<a href="&#109;a&#105;&#108;&#116;&#111;&#58;w&#105;nter&#64;kde&#46;or&#x67">Allen Winter</a>.
+-<br/>
+-    KDE and K Desktop Environment are trademarks of <a href="http://www.kde.org/areas/kde-ev/" title="Homepage of the KDE non-profit Organization">KDE e.V.</a> |
+-    <a href="http://www.kde.org/contact/impressum.php">Legal</a>
++<a href="&#109;a&#105;&#108;&#116;&#111;&#58;w&#105;n&#116;er&#64;kde&#46;or&#x67;">Allen Winter</a>.<br />
++        KDE<sup>&#174;</sup> and <a href="@topdir@/kde_gear_black.png">the K Desktop Environment<sup>&#174;</sup> logo</a> are registered trademarks of <a href="http://ev.kde.org/" title="Homepage of the KDE non-profit Organization">KDE e.V.</a> |
++        <a href="http://www.kde.org/contact/impressum.php">Legal</a>
++    </div></div>
+   </div>
+-  <div id="footer_right"><img src="/media/images/footer_right.png" style="margin: 0px" alt="" /></div>
+-</div>
+ 
+ <!--
+ WARNING: DO NOT SEND MAIL TO THE FOLLOWING EMAIL ADDRESS! YOU WILL
+ BE BLOCKED INSTANTLY AND PERMANENTLY!
+-<a href="mailto:aaaatrap-425acc3b5374943f@kde.org">Block me</a>
++<a href="mailto:aaaatrap-45abe0e0c3bebc77@kde.org">Block me</a>
+ WARNING END
+ -->
+ 
+ </body>
+ </html>
+-
+Index: doc/common/block_title_bottom.png
+===================================================================
+Cannot display: file marked as a binary type.
+svn:mime-type = application/octet-stream
+
+Property changes on: doc/common/block_title_bottom.png
+___________________________________________________________________
+Added: svn:mime-type
+   + application/octet-stream
+
+Index: doc/common/doxygen.css
+===================================================================
+--- kdelibs/doc/common/doxygen.css	 (.../tags/KDE/3.5.10)	(revision 850549)
++++ kdelibs/doc/common/doxygen.css	 (.../branches/KDE/3.5)	(revision 1074156)
+@@ -1,416 +1,96 @@
+-/**
+- * based on code by Sebastian Faubel
+- * modified by Christoph Cullmann
+- */
+-
+-/* common (X)HTML formats */
+-
+-body {
+-font-size: 100%;
+-line-height: 1.2em; /* Note: it is inherited as is, not recalculated! */
+-background-color: white;
+-color: black;
+-font-family: sans-serif;
+-padding: 0;
+-margin: 0;
++#content td.memItemLeft {
++text-align: right;
+ }
+ 
+-table, td, th {
+-font-family: sans-serif;
+-padding: 0;
+-margin: 0;
+-text-align: left;
++.groupHeader {
++font-size: medium;
++color: #418ADE;
+ }
+ 
+-input, select {
+-font-size: 0.8em;
+-line-height: 1em;
+-}
++hr { display: none; }
++#content h2 { margin-left: 0px; }
+ 
+-optgroup {
+-font-style: normal;
++table.memname {
++empty-cells: show;
++background-color: #f8f8f8;
++outline: .2em solid #d7d7d7;
++margin-top: 3em;
++margin-bottom: 1em;
+ }
+ 
+-a:link {
+-color: #0000C0;
+-text-decoration: none;
++td.memname {
++white-space: nowrap;
++font-weight: bold;
+ }
+ 
+-a:visited {
+-color: #800080;
+-text-decoration: none;
+-}
+-
+-a:hover {
+-text-decoration: underline;
+-}
+-
+-/* navigation header, this is the combined area with logo and section links */
+-
+-#nav_header_top {
+-	position: absolute;
+-	z-index: 5;
+-
+-	top: 0px;
+-	left: 0px;
+-	right: 0px;
+-	width: 100%;
+-	height: 52px;
+-
+-	text-align: right;
+-
+-  background-color: #418ade;
+-	border-bottom: 1px solid #000000;
+-}
+-
+-#nav_header_bottom {
+-	margin-top: 52px;
+-	padding: 6px 6px 6px 84px;
+-	background-color: #dfe7f3;
+-	border-bottom: 1px solid #000000;
+-	height: 1em;
+-}
+-
+-#nav_header_logo {
+-	float: left;
+-	margin-top: 10px;
+-	margin-left: 10px;
+-	border: 0px;
+-	z-index: 10;
+-}
+-
+-#nav_header_logo a img {
+-	width: 64px;
+-	height: 64px;
+-}
+-
+-/* title text */
+-#nav_header_title {
+-	position: absolute;
+-	top: 12px;
+-	left: 86px;
+-	border: 0px;
+-	font-size: 32px;
+-	font-weight: bold;
+-	color: white;
+-	white-space: nowrap;
+-
+-	line-height: 36px;
+-}
+-
+-/* location combo */
+-#nav_header_location {
+-	position: absolute;
+-	top: 12px;
+-	right: 8px;
+-	border: 0px;
+-	color: #444;
+-	vertical-align: middle;
+-	white-space: nowrap;
+-
+-	font-size: 14px;
+-}
+-
+-/* location URL */
+-#nav_header_bottom_left {
+-  float:left;
+-  text-align: left;
+-  vertical-align: middle;
+-
+-  font-size: 0.8em;
+-  line-height: 1.1em;
+-}
+-
+-/* place for the links to contact, sitemap, ... s*/
+-#nav_header_bottom_right {
+-  text-align: right;
+-  vertical-align: middle;
+-
+-  font-size: 0.8em;
+-  line-height: 1.1em;
+-}
+-
+-#nav_header_bottom a:link, #nav_header_bottom a:visited {
+-  text-decoration: none;
+-}
+-
+-#nav_header_bottom a:hover {
+-  text-decoration: underline;
+-}
+-
+-.nav_list ul {
+-margin: 0px;
+-padding: 0em;
+-}
+-
+-.nav_list ul li {
+-list-style-type: none;
+-position: relative;
+-left: -2em;
+-padding: 0px;
+-}
+-
+-/* main color definitions */
+-
+-.invisible {
+-display: none;
+-}
+-
+-.menuheader {
+-height: 0;
+-line-height: 0;
+-margin: 0;
+-padding: 0;
+-font-size: 0;
+-background-color: #3E91EB;
+-}
+-
+-#leftmenu, #rightmenu {
+-width: 20%;
+-}
+-
+-#leftmenu h2, #rightmenu h2 {
+-font-size: 1em;
+-padding-left: 1em;
+-vertical-align: middle;
+-background-color: #418ade;
+-border-top: 0.3em solid #418ade;
+-border-bottom: 0.3em solid #418ade;
+-color: white;
+-margin-top: 0;
+-}
+-
+-#leftmenu ul, #rightmenu ul {
+-margin: 0;
+-padding-left: 0.5em;
+-padding-bottom: 1em;
+-}
+-
+-#leftmenu li, #rightmenu li {
+-font-size: 0.8em;
+-margin-left: 2em;
+-}
+-
+-#leftmenu ul ul, #rightmenu ul ul {
+-margin: 0;
+-padding-left: 0;
+-}
+-
+-#leftmenu li li, #rightmenu li li{
+-font-size: 0.8em;
+-margin-left: 1em;
+-}
+-
+-/**
+- * page footer
+- */
+-
+-/* background + border at top */
+-#footer {
+-  border-top: 1px solid #000000;
+-  background-image: url(/media/images/footer_bg.png);
+-  background-repeat: repeat-x;
+-  background: #418ADE;
+-  width: 100%;
+-  height: 100px;
+-  bottom:0px;
+-}
+-
+-/* right footer, contains the wave image */
+-#footer_right {
+-  float: right;
+-  right: 0px;
+-  text-align: right;
+-  z-index: 5;
+-}
+-
+-#footer_right img {
+-display: none;
+-}
+-
+-/* left footer, contains the text */
+-#footer_left {
+-  float: left;
+-  text-align: left;
+-  padding: 1em 1.5em 0em 1.5em;
+-  clear: both;
+-  z-index: 10;
+-}
+-
+-#header {
+-font-size: 0.8em;
+-height: 1.2em;
+-padding-left: 1em;
+-vertical-align: middle;
+-background-color: #418ade;
+-color: white;
+-margin: 0;
+-padding: 0;
+-border-top: 1px solid white;
+-border-bottom: 1px solid #206dcd;
+-}
+-
+-#headerpath {
+-text-align: left;
++.paramtype {
++white-space: nowrap;
+ font-weight: bold;
+-padding-left: 0.5em;
+ }
+ 
+-#headermenu {
+-text-align: right;
++.paramname {
++white-space: nowrap;
+ font-weight: bold;
+-padding-right: 0.5em;
+ }
+ 
+-#rightmenu h3 {
+-padding: 0.3em 1.3em;
+-font-size: 1em;
+-}
+-
+-/* classes */
+-
+-/* static IDs, ordered top to bottom */
+-
+-#location {
+-padding-right: 1em;
+-vertical-align: middle;
++.paramkey {
+ text-align: right;
+ }
+ 
+-#location i {
+-color: #036;
+-font-style: normal;
+-font-size: 0.8em;
+-}
+ 
+-#location form {
+-margin: 0;
++table.mdTable {
++background-color: #f8f8f8;
++outline: .2em solid #d7d7d7;
++width: 80%;
+ }
+ 
+-#location input, #location select {
+-margin: 2px;
+-}
++td.mdRow { padding: 8px 20px; }
++td.md { font-weight: bold; }
++td.mdname1 { font-weight: bold; color: #602020; }
++td.mdname { font-weight: bold; color: #602020;  }
+ 
+-#content {
+-background-color: white;
+-padding: 0.5em 0.7em 1.5em 0.7em;
+-background-color: white;
+-text-align: justify;
++div.bic {
++border: 2px solid #E72300;
++background: #F6CFDD;
++padding: 0.5ex 1em;
+ }
+ 
+-#content td, #content th {
+-font-family: sans-serif;
+-padding: 0.25em;
+-margin: 0;
+-text-align: left;
++div.memitem {
+ }
+ 
+-#content h4, #content h3, #content h2, #content h1 {
+-color: #418ade;
+-text-align: left;
+-line-height: 1em; /* without this lines stick in each other for headings */
++div.memproto {
++/*background: #F9F9F9;
++border: 1px solid #AAAAAA;*/
++font-weight: bold;
+ }
+ 
+-#quicklinks {
+-background-color: #E6F0F9;
+-font-size: 1em;
+-padding: 1em;
+-text-align: center;
+-margin-top: 1em;
+-margin-left: 0.5em;
+-margin-bottom: 0.5em;
+-margin-right: 0.5em;
++div.memproto td {
++white-space: nowrap;
++padding:0;
++margin:0;
+ }
+ 
+-#leftmenu, #rightmenu {
+-background-color: white;
+-color: #036;
++table.memname {
++border-spacing: 0;
++border-collapse:collapse;
+ }
+ 
+-.menu_box {
+-  border-top: 8px solid white;
+-
+-  border-right: 8px solid white;
+-  border-left: 8px solid white;
+-
+-  background-color: #dfe7f3;
++td.paramtype {
++font-family:monospace;
+ }
+ 
+-#search {
+-text-align: center;
+-padding: 0.2em 0.2em 0.2em 0.2em;
++div.memproto a.el {
++font-family:monospace;
+ }
+ 
+-#search label {
+-display: none;
++div.memproto a.elRef {
++font-family:monospace;
+ }
+ 
+-#search input, #search select {
+-width: 95%;
+-margin-bottom: 2px;
+-}
+-
+-#hotspot {
+-font-size: 0.8em;
+-line-height: 1em;
+-text-align: center;
+-padding: 0 0 0.8em 0;
+-}
+-
+-#rightmenu h3 {
+-margin-bottom: 0;
+-}
+-
+-.newsbox1 {
+-background-color: #E6F0F9;
+-margin-top: 1em;
+-margin-bottom: 0.5em;
+-}
+-
+-.newsbox2 {
+-background-color: white;
+-margin-top: 1em;
+-margin-bottom: 0.5em
+-}
+-
+-/* hidden stuff */
+-.doNotDisplay {
+-  display: none;
+-}
+-
+-/* common style for tables used in the page */
+-.table_box {
+-  background-color: #dfe7f3;
+-  border: 0;
+-  padding: 0;
+-  margin: 0;
+-  border-spacing: 0;
+-}
+-
+-.table_box th {
+-  background-color: #418ade;
+-  color: white;
+-}
+-
+-td.indexkey {
+-vertical-align: top;
+-background: #dfe7f3;
+-}
+-
+-#content td.memItemLeft {
+-text-align: right;
+-}
+-
+-.groupHeader {
+-font-size: large;
+-color: #418ADE;
+-}
+-
+-hr { display: none; }
+-#content h2 { margin-left: 0px; }
+-table.mdTable { background-color: #f8f8f8; border: .2em solid #d7d7d7; }
+-td.mdRow { padding: 8px 20px; }
+-td.md { font-weight: bold; }
+-td.mdname1 { font-weight: bold; color: #602020; }
+-td.mdname { font-weight: bold; color: #602020;  }
+-
++SPAN.keyword       { color: #008000 }
++SPAN.keywordtype   { color: #604020 }
++SPAN.keywordflow   { color: #e08000 }
++SPAN.comment       { color: #800000 }
++SPAN.preprocessor  { color: #806020 }
++SPAN.stringliteral { color: #002080 }
++SPAN.charliteral   { color: #008080 }
+Index: doc/common/kde-default.css
+===================================================================
+--- kdelibs/doc/common/kde-default.css	 (.../tags/KDE/3.5.10)	(revision 850549)
++++ kdelibs/doc/common/kde-default.css	 (.../branches/KDE/3.5)	(revision 1074156)
+@@ -223,22 +223,22 @@
+ /* Visual cues for GUI elements etc in the text */
+ 
+ .guimenu, .guimenuitem, .guisubmenu { 
+-  background-color: rgb(240,240,240);
++  background-color: rgb(220,220,220);
+   color: rgb(0,0,0); /* should be inherit */
+ }
+ 
+ .guilabel, .interface, .guibutton { 
+-  background-color: rgb(240,240,240);
++  background-color: rgb(220,220,220);
+   color: rgb(0,0,0); /* should be inherit */
+ }
+ 
+ .shortcut { 
+-  background-color: rgb(240,240,240);
++  background-color: rgb(220,220,220);
+   color: rgb(0,0,0); /* should be inherit */
+ }
+ 
+ .shortcut .keycap { 
+-  background-color: rgb(240,240,240);
++  background-color: rgb(220,220,220);
+   color: rgb(0,0,0); /* should be inherit */
+ }
+ 
+@@ -247,7 +247,7 @@
+ }
+ 
+ .accel { 
+-  background-color: rgb(240,240,240);
++  background-color: rgb(220,220,220);
+   color: rgb(0,0,0); 
+   text-decoration: underline;
+ }
+@@ -270,7 +270,7 @@
+ }
+ 
+ .screen, .programlisting { 
+-  background-color: rgb(240,240,240);
++  background-color: rgb(220,220,220);
+   color: rgb(0,0,0); /* should be inherit */
+   border-style: dotted;
+   border-color: rgb(0,0,0);
+Index: kioslave/ftp/ftp.cc
+===================================================================
+--- kdelibs/kioslave/ftp/ftp.cc	 (.../tags/KDE/3.5.10)	(revision 850549)
++++ kdelibs/kioslave/ftp/ftp.cc	 (.../branches/KDE/3.5)	(revision 1074156)
+@@ -876,7 +876,7 @@
+   // The usual answer is '227 Entering Passive Mode. (160,39,200,55,6,245)'
+   // but anonftpd gives '227 =160,39,200,55,6,245'
+   int i[6];
+-  char *start = strchr(ftpResponse(3), '(');
++  const char *start = strchr(ftpResponse(3), '(');
+   if ( !start )
+     start = strchr(ftpResponse(3), '=');
+   if ( !start ||
+@@ -931,7 +931,7 @@
+     return ERR_INTERNAL;
+   }
+ 
+-  char *start = strchr(ftpResponse(3), '|');
++  const char *start = strchr(ftpResponse(3), '|');
+   if ( !start || sscanf(start, "|||%d|", &portnum) != 1)
+     return ERR_INTERNAL;
+ 
+Index: kinit/start_kdeinit.c
+===================================================================
+--- kdelibs/kinit/start_kdeinit.c	 (.../tags/KDE/3.5.10)	(revision 850549)
++++ kdelibs/kinit/start_kdeinit.c	 (.../branches/KDE/3.5)	(revision 1074156)
+@@ -44,7 +44,7 @@
+ {
+    char buf[ 1024 ];
+    int procfile;
+-   sprintf( buf, "/proc/%d/oom_adj", pid );
++   sprintf( buf, "/proc/%d/stat", pid );
+    if( !enable ) {
+        /* Be paranoid and check that the pid we got from the pipe
+           belongs to this user. */
+@@ -52,6 +52,7 @@
+        if( lstat( buf, &st ) < 0 || st.st_uid != getuid())
+            return 0;
+    }
++   sprintf( buf, "/proc/%d/oom_adj", pid );
+    procfile = open( buf, O_WRONLY );
+    if( procfile >= 0 ) {
+       if( enable )
+Index: kinit/Mainpage.dox
+===================================================================
+--- kdelibs/kinit/Mainpage.dox	 (.../tags/KDE/3.5.10)	(revision 0)
++++ kdelibs/kinit/Mainpage.dox	 (.../branches/KDE/3.5)	(revision 1074156)
+@@ -0,0 +1,29 @@
++/** @mainpage KDE Initialization Routines
++
++kdeinit is a process launcher somewhat similar to the
++famous init used for booting UNIX.
++<p>
++It launches processes by forking and then loading a
++dynamic library which should contain a 'main(...)'
++function.  This both increases the startup speed and
++reduces the memory consumption of KDE applications.
++
++kdeinit_wrapper, kshell and kwrapper provide methods
++of starting programs via kdeinit.
++
++@authors
++Waldo Bastian \<bastian@kde.org\><br>
++Process title changing code taken from the ProFTPD Project, adapted by Alex Merry
++
++@maintainers
++[Unknown/None]
++
++@licenses
++@gpl<br>
++Most code is @lgpl
++
++*/
++
++// DOXYGEN_REFERENCES = kdecore
++// DOXYGEN_SET_PROJECT_NAME = KInit
++// vim:ts=4:sw=4:expandtab:filetype=doxygen
+Index: kimgio/Mainpage.dox
+===================================================================
+--- kdelibs/kimgio/Mainpage.dox	 (.../tags/KDE/3.5.10)	(revision 0)
++++ kdelibs/kimgio/Mainpage.dox	 (.../branches/KDE/3.5)	(revision 1074156)
+@@ -0,0 +1,29 @@
++/** @mainpage ImageFormat Plugins
++
++Provides imageformat plugins for Qt so that it can read more image file types.
++
++@authors
++Sirtaj Singh Kang \<taj@kde.org><br>
++Dirk Schoenberger<br>
++Torben Weis \<weis@kde.org><br>
++Thomas Tanghus \<tanghus@kde.org><br>
++Antonio Larossa \<larossa@kde.org\><br>
++Sven Wiegand \<SWiegand@tfh-berlin.de><br>
++Dominik Seichter \<domseichter@web.de><br>
++Nadeem Hasan \<nhasan@kde.org><br>
++Melchior Franz \<mfranz@kde.org><br>
++Allen Barnett \<allen@lignumcomputing.com><br>
++Ignacio CastaÃ±o \<castano@ludicon.com><br>
++Christoph Hormann \<chris_hormann@gmx.de><br>
++Michael Ritzert \<kde@ritzert.de>
++
++@maintainers
++[Unknown/None]
++
++@licenses
++@lgpl
++
++*/
++
++// DOXYGEN_SET_PROJECT_NAME = KImgIO
++// vim:ts=4:sw=4:expandtab:filetype=doxygen
+Index: kio/kio/kzip.h
+===================================================================
+--- kdelibs/kio/kio/kzip.h	 (.../tags/KDE/3.5.10)	(revision 850549)
++++ kdelibs/kio/kio/kzip.h	 (.../branches/KDE/3.5)	(revision 1074156)
+@@ -191,10 +191,7 @@
+     /// Closes the archive
+     virtual bool closeArchive();
+ 
+-    /**
+-     * @internal Not needed for zip
+-     */
+-    virtual bool writeDir( const QString& name, const QString& user, const QString& group) { Q_UNUSED(name); Q_UNUSED(user); Q_UNUSED(group); return true; }
++    virtual bool writeDir(const QString& name, const QString& user, const QString& group);
+     // TODO(BIC) uncomment and make virtual for KDE 4.
+ //    bool writeDir( const QString& name, const QString& user, const QString& group,
+ //                        mode_t perm, time_t atime, time_t mtime, time_t ctime );
+Index: kio/kio/karchive.cpp
+===================================================================
+--- kdelibs/kio/kio/karchive.cpp	 (.../tags/KDE/3.5.10)	(revision 850549)
++++ kdelibs/kio/kio/karchive.cpp	 (.../branches/KDE/3.5)	(revision 1074156)
+@@ -588,7 +588,9 @@
+ 
+ void KArchiveDirectory::addEntry( KArchiveEntry* entry )
+ {
+-  Q_ASSERT( !entry->name().isEmpty() );
++  if( entry->name().isEmpty() )
++    return;
++
+   if( m_entries[ entry->name() ] ) {
+       kdWarning() << "KArchiveDirectory::addEntry: directory " << name()
+                   << " has entry " << entry->name() << " already" << endl;
+Index: kio/kio/kdirwatch.cpp
+===================================================================
+--- kdelibs/kio/kio/kdirwatch.cpp	 (.../tags/KDE/3.5.10)	(patchset 15)
++++ kdelibs/kio/kio/kdirwatch.cpp	 (.../branches/KDE/3.5)	(revision 1074156)
+@@ -87,7 +89,9 @@
+ {
+   return syscall (__NR_inotify_rm_watch, fd, wd);
+ }
++#endif
+ 
++#ifdef HAVE_INOTIFY
+ #ifndef  IN_ONLYDIR
+ #define  IN_ONLYDIR 0x01000000 
+ #endif
+@@ -99,7 +103,6 @@
+ #ifndef IN_MOVE_SELF
+ #define IN_MOVE_SELF 0x00000800
+ #endif
+-
+ #endif
+ 
+ #include <sys/utsname.h>
