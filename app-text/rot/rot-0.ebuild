@@ -11,7 +11,7 @@ DESCRIPTION="Transpose text, making rows columns and vice versa"
 HOMEPAGE="http://doc.marsu.ru/FreeBSD/upt/ch21_21.htm"
 SRC_URI="${SRC_URI_BASE}/${PN}/part01.gz -> ${P}-part01.shar.gz"
 
-LICENSE="as-is"
+LICENSE="freedist" # apparently---no license is given in _Unix Power Tools_
 SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""
