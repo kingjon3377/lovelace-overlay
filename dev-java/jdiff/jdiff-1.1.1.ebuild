@@ -17,7 +17,7 @@ SRC_URI="mirror://sourceforge/javadiff/javadiff/${P}/${P}.tgz"
 HOMEPAGE="http://www.jdiff.org/"
 
 CDEPEND=">=dev-java/xerces-2.8
-		dev-java/gjdoc"
+		dev-java/gnu-classpath[gjdoc]"
 
 DEPEND=">=virtual/jdk-1.4
 	${CDEPEND}"

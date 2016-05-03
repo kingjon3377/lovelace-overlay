@@ -19,7 +19,7 @@ DEPEND=""
 RDEPEND="
 	|| (
 		>=virtual/jdk-1.5
-		dev-java/gjdoc:0
+		dev-java/gnu-classpath[gjdoc]
 	)
 	>=dev-java/java-config-2.1.8"
 
