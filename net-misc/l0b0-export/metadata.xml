@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+<use>
+	<flag name="wordpress">Install the WordPress.com export script</flag>
+	<flag name="librarything">Install the LibraryThing.com export script</flag>
+</use>
+</pkgmetadata>
