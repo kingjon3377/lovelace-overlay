@@ -1,4 +1,4 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
@@ -11,7 +11,7 @@ if [[ "$PV" != "9999" ]] ; then
 	ESVN_REVISION="$PV"
 fi
 
-DESCRIPTION="a drawing puzzle game in the spirit of Crayon Physics using the same excellent Box2D engine"
+DESCRIPTION="Drawing puzzle game in the spirit of Crayon Physics using the same Box2D engine"
 HOMEPAGE="http://numptyphysics.garage.maemo.org/"
 
 LICENSE="GPL-3"

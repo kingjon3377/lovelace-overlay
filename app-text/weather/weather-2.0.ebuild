@@ -1,4 +1,4 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
@@ -7,7 +7,7 @@ EAPI=5
 PYTHON_COMPAT=( python2_7 python3_{3,4} )
 inherit python-r1
 
-DESCRIPTION="Command-line utility to to provide quick access to current weather conditions and forecasts."
+DESCRIPTION="CLI tool to provide quick access to current weather conditions and forecasts"
 HOMEPAGE="http://fungi.yuggoth.org/weather/"
 SRC_URI="http://fungi.yuggoth.org/weather/src/${P}.tar.gz"
 

@@ -1,4 +1,4 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 # Copyright owners: Arfrever Frehtes Taifersar Arahesis
@@ -14,7 +14,7 @@ inherit distutils-r1
 MY_PN="RestrictedPython"
 MY_P="${MY_PN}-${PV}"
 
-DESCRIPTION="Provides a restricted execution environment for Python, e.g. for running untrusted code"
+DESCRIPTION="A restricted execution environment for Python, e.g. for running untrusted code"
 HOMEPAGE="http://pypi.python.org/pypi/RestrictedPython"
 SRC_URI="mirror://pypi/${MY_PN:0:1}/${MY_PN}/${MY_P}.zip"
 

@@ -1,11 +1,11 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
 EAPI=5
 inherit eutils autotools toolchain-funcs multilib
 
-DESCRIPTION="Adaptive playlist framework that tracks your listening patterns and dynamically adapts to your taste"
+DESCRIPTION="Adaptive playlist framework to track listening patterns and adapt to your taste"
 HOMEPAGE="http://www.luminal.org/wiki/index.php/IMMS/IMMS"
 SRC_URI="http://imms.googlecode.com/files/${PN}-r${PV}.tar.bz2"
 

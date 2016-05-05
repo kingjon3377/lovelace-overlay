@@ -1,4 +1,4 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
@@ -6,7 +6,7 @@ EAPI=5
 
 inherit eutils
 
-DESCRIPTION="Terraform is an open source interactive height field generation and manipulation program"
+DESCRIPTION="open source interactive height field generation and manipulation program"
 HOMEPAGE="http://code.google.com/p/terraform"
 SRC_URI="http://${PN}.googlecode.com/files/${PN}-src-${PV}.tgz"
 IUSE=""

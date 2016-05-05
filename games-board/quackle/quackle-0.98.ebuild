@@ -1,4 +1,4 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
@@ -6,7 +6,7 @@ EAPI=5
 
 inherit games qt4-r2
 
-DESCRIPTION="Crossword game artificial intelligence and analysis tool that also plays Scrabble"
+DESCRIPTION="Crossword game AI and analysis tool that also plays Scrabble"
 HOMEPAGE="http://quackle.org"
 SRC_URI="https://github.com/quackle/quackle/archive/v0.98.tar.gz -> ${P}.tar.gz"
 

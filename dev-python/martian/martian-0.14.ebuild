@@ -1,4 +1,4 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 # Copyright owners: Arfrever Frehtes Taifersar Arahesis
@@ -12,7 +12,7 @@ PYTHON_COMPAT=( python2_{6,7} )
 
 inherit distutils-r1
 
-DESCRIPTION="Martian is a library that allows the embedding of configuration information in Python code."
+DESCRIPTION="A library that allows the embedding of configuration information in Python code"
 HOMEPAGE="http://pypi.python.org/pypi/martian"
 SRC_URI="mirror://pypi/${PN:0:1}/${PN}/${P}.tar.gz"
 

@@ -1,4 +1,4 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
@@ -6,7 +6,7 @@ EAPI=5
 
 inherit eutils
 
-DESCRIPTION="GOPchop is a tool for losslessly cutting and merging hardware-encoded MPEG2 video files"
+DESCRIPTION="A tool for losslessly cutting and merging hardware-encoded MPEG2 video files"
 
 HOMEPAGE="http://gopchop.sourceforge.net/"
 SRC_URI="mirror://sourceforge/gopchop/${P}.tar.gz"

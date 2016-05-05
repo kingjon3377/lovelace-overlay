@@ -1,10 +1,10 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
 EAPI=5
 
-DESCRIPTION="a program that can validate your HTML, as well as modify it to be more clean and standard"
+DESCRIPTION="a program to can validate HTML, and modify it to be more clean and standard"
 HOMEPAGE="http://www.tidyp.com/"
 SRC_URI="mirror://github/petdance/${PN}/${P}.tar.gz"
 

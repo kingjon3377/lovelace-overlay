@@ -1,4 +1,4 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 # TODO: make sure this is actually working. ISTR it isn't.
@@ -8,7 +8,7 @@ EAPI=5
 inherit eutils games autotools
 
 ATRIS_SOUNDS_P=atris-sounds-1.0.1
-DESCRIPTION="Alizarin Tetris: Tetris-like game with multi-player and extensible color, shape and sound styles"
+DESCRIPTION="Alizarin Tetris: Tetris-like game with multi-player and extensible styles"
 HOMEPAGE="http://www.cs.virginia.edu/~weimer/atris/"
 SRC_URI="http://www.cs.virginia.edu/~weimer/atris/${P}.tar.gz
 	http://www.cs.virginia.edu/~weimer/atris/${ATRIS_SOUNDS_P}.tar.gz"

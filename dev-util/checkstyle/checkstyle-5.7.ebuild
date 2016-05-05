@@ -1,4 +1,4 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
@@ -8,7 +8,7 @@ JAVA_PKG_IUSE="doc source test"
 
 inherit java-pkg-2 java-ant-2
 
-DESCRIPTION="A development tool to help programmers write Java code that adheres to a coding standard."
+DESCRIPTION="A tool to help programmers write Java code that adheres to a coding standard"
 HOMEPAGE="http://checkstyle.sourceforge.net"
 SRC_URI="mirror://sourceforge/checkstyle/${P}-src.tar.gz
 	http://dev.gentoo.org/~sera/distfiles/${PN}-5.4-maven-build.xml.tar.bz2"
