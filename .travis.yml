@@ -31,3 +31,16 @@ before_script:
 script:
     - ./../spinner.sh "python ../portage-${PORTAGE_VER}/bin/repoman full -d"
 # You can append own scripts after this line
+    - mv overlint-cli ..
+    - cd ../portage-${PORTAGE_VER}
+    - python setup.py install || true
+    - cd ../overlint-cli/overlint-0.5.3
+    - python setup.py install
+    - cd ../../travis-overlay
+    - ./../spinner.sh "overlint-cli ."
+before_install:
+    - mkdir overlint-cli
+    - cd overlint-cli
+    - wget http://gentoo.osuosl.org/distfiles/overlint-0.5.3.tar.gz
+    - tar xzf overlint-0.5.3.tar.gz
+    - cd ..
