@@ -15,8 +15,8 @@ LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64"
 # FIXME: Allow installing Google Calendar exporter. But it's a Python script.
-IUSE="+librarything +wordpress" # google-calendar 
-REQUIRED_USE="|| ( librarything wordpress )" # google-calendar 
+IUSE="+librarything +wordpress" # google-calendar
+REQUIRED_USE="|| ( librarything wordpress )" # google-calendar
 
 RDEPEND="wordpress? (
 		net-misc/wget
