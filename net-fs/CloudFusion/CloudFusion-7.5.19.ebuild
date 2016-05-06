@@ -1,4 +1,4 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
@@ -25,7 +25,7 @@ RDEPEND="${PYTHON_DEPS}
 		automate-captchas? (
 			dev-python/pycurl
 			dev-libs/libxml2[python,${PYTHON_USEDEP}]
-			|| ( dev-python/pillow[${PYTHON_USEDEP}] dev-python/imaging[${PYTHON_USEDEP}] )
+			dev-python/pillow[${PYTHON_USEDEP}]
 			app-text/tesseract
 		)
 		sys-fs/fuse"
