@@ -5,7 +5,7 @@
 
 EAPI=5
 
-USE_RUBY="ruby19 ruby20"
+USE_RUBY="ruby20 ruby21"
 
 inherit ruby-ng eutils fdo-mime
 
@@ -29,8 +29,6 @@ RUBY_PATCHES=( "${FILESDIR}/screenruler-bug831501.patch" )
 RUBY_S=${PN}
 
 each_ruby_install() {
-	pwd
-	ls
 	# Borrowing from doruby
 	sitelibdir=$(ruby_rbconfig_value 'sitelibdir')
 	insinto "${sitelibdir#${EPREFIX}}/${PN}"
