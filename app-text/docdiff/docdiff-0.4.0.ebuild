@@ -1,10 +1,10 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
 EAPI=5
 
-USE_RUBY="ruby19"
+USE_RUBY="ruby20 ruby21"
 
 inherit eutils ruby-ng
 
@@ -20,16 +20,18 @@ IUSE=""
 DEPEND=""
 RDEPEND="${DEPEND}"
 
-#src_unpack() {
-	#ruby-ng_src_unpack
-	#cd all && mv -i ${P}.orig ${P} || die "fixing dir name failed"
-#}
+each_ruby_prepare() {
+	sed -i -e "s@^RUBY = ruby@RUBY = ${RUBY}@" Makefile || die
+}
 
-src_prepare() {
-	cd "${WORKDIR}"/all && epatch \
+RUBY_PATCHES=(
 		"${FILESDIR}/01svn-r196.dpatch"
 		"${FILESDIR}/02svndocdiff.dpatch"
 		"${FILESDIR}/03cgipath.dpatch"
+)
+
+each_ruby_test() {
+	emake test
 }
 
 each_ruby_install() {
