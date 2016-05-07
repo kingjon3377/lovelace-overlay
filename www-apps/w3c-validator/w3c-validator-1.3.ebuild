@@ -1,4 +1,4 @@
-# Copyright 2009-2011 Gentoo Foundation
+# Copyright 2009-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
@@ -42,7 +42,7 @@ RDEPEND="${DEPEND}"
 # Seems to work w/out the following:
 # perl-core/CGI or virtual/perl-CGI
 # dev-perl/Text-Iconv
-# dev-perl/String-Approx 
+# dev-perl/String-Approx
 
 # Use the following to generate the required ebuilds:
 #
