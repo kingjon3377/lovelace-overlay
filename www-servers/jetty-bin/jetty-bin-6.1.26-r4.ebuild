@@ -111,24 +111,22 @@ src_install() {
 	dosym /var/log/${MY_JETTY} ${JETTY_HOME}/logs
 
 	START_CONFIG=${D}/${JETTY_HOME}/start.config
-	echo "\$(jetty.class.path).path                         always" > ${START_CONFIG}
-	echo "\$(jetty.lib)/**                                  exists \$(jetty.lib)" >> ${START_CONFIG}
-	echo "jetty.home=${JETTY_HOME}" >> ${START_CONFIG}
-	echo "org.mortbay.xml.XmlConfiguration.class" >> ${START_CONFIG}
-	echo "\$(start.class).class" >> ${START_CONFIG}
-	echo "\$(jetty.home)/etc/jetty.xml" >> ${START_CONFIG}
-	echo "\$(jetty.home)/lib/*" >> ${START_CONFIG}
-	echo "/usr/share/sun-javamail/lib/*" >> ${START_CONFIG}
-	echo "/usr/share/ant/lib/*" >> ${START_CONFIG}
-	echo "/usr/share/slf4j-api/lib/*" >> ${START_CONFIG}
-	echo "/usr/share/jta/lib/*" >> ${START_CONFIG}
-	if use tomcat7 ; then
-		echo "/usr/share/tomcat-servlet-api-3.0/lib/*" >> ${START_CONFIG}
-	else
-		echo "/usr/share/tomcat-servlet-api-2.5/lib/*" >> ${START_CONFIG}
-	fi
-	echo "" >> ${START_CONFIG}
-	echo "\$(jetty.home)/resources/" >> ${START_CONFIG}
+	cat >> "${START_CONFIG}" <<-EOF
+\$(jetty.class.path).path                         always
+\$(jetty.lib)/**                                  exists \$(jetty.lib)
+jetty.home=${JETTY_HOME}
+org.mortbay.xml.XmlConfiguration.class
+\$(start.class).class
+\$(jetty.home)/etc/jetty.xml
+\$(jetty.home)/lib/*
+/usr/share/sun-javamail/lib/*
+/usr/share/ant/lib/*
+/usr/share/slf4j-api/lib/*
+/usr/share/jta/lib/*
+/usr/share/tomcat-servlet-api-$(use tomcat7 && echo -n "3.0" || echo -n "2.5")/lib/*
+
+\$(jetty.home)/resources/
+EOF
 }
 
 pkg_preinst () {
