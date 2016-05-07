@@ -96,13 +96,8 @@ src_install() {
 	insinto /etc/${MY_JETTY}
 	doins etc/*
 
-	dodir /etc/conf.d
-	insinto /etc/conf.d
-	newins "${FILESDIR}/conf.d/${MY_JETTY}" ${MY_JETTY}
-
-	dodir /etc/init.d
-	exeinto /etc/init.d
-	newexe "${FILESDIR}/init.d/${MY_JETTY}" ${MY_JETTY}
+	doconfd "${FILESDIR}/conf.d/${MY_JETTY}"
+	doinitd "${FILESDIR}/init.d/${MY_JETTY}"
 
 	dodir /var/log/${MY_JETTY}
 
