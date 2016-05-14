@@ -1,4 +1,4 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
@@ -6,7 +6,7 @@ EAPI=5
 
 EGIT_TREE="4e07d3fe1c61f9a83732eb3021e3016feb008bdb"
 
-inherit git-2 eutils
+inherit git-r3 eutils
 
 DESCRIPTION="Comressed FUSE implementation"
 HOMEPAGE="http://www.miio.net/wordpress/projects/fusecompress/"

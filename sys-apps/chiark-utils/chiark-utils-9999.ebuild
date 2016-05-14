@@ -1,10 +1,10 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
 EAPI=5
 
-inherit git-2
+inherit git-r3
 
 DESCRIPTION="Useful utils from chiark.greenend.org.uk"
 HOMEPAGE="http://www.chiark.greenend.org.uk"

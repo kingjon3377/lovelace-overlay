@@ -1,4 +1,4 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
@@ -34,7 +34,7 @@ RDEPEND="${DEPEND}
 REQUIRED_USE="^^ ( wxwidgets qt4 )"
 
 src_unpack() {
-	git-2_src_unpack
+	git-r3_src_unpack
 	if 	use hyphen; then
 		unpack ${HYP_ARCH}
 	fi

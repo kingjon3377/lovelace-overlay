@@ -1,4 +1,4 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 # I wrote this; if it works, submit.
@@ -6,7 +6,7 @@
 EAPI=5
 
 EGIT_REPO_URI="git://git.berlios.de/boats"
-inherit qt4-r2 git-2 eutils
+inherit qt4-r2 git-r3 eutils
 
 DESCRIPTION="a race scenario drawing tool"
 HOMEPAGE="http://boats.berlios.de"

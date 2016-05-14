@@ -1,4 +1,4 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
@@ -6,7 +6,7 @@ EAPI=5
 
 EGIT_REPO_URI="git://github.com/chipx86/gtkparasite"
 
-inherit git-2 autotools eutils
+inherit git-r3 autotools eutils
 
 DESCRIPTION="GTK+ debugging and development tool"
 HOMEPAGE="http://chipx86.github.com/gtkparasite/"

@@ -1,11 +1,11 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
 EAPI="5"
 
 if [[ ${PV} = *9999* ]]; then
-	GIT_ECLASS=git-2
+	GIT_ECLASS=git-r3
 fi
 
 inherit eutils fdo-mime toolchain-funcs ${GIT_ECLASS}

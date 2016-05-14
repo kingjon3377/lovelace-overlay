@@ -1,4 +1,4 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
@@ -6,7 +6,7 @@ EAPI=5
 
 EGIT_REPO_URI="git://git.debian.org/collab-maint/bombardier.git"
 
-inherit games git-2 toolchain-funcs
+inherit games git-r3 toolchain-funcs
 
 DESCRIPTION="The GNU Bombing utility"
 HOMEPAGE="http://packages.debian.org/bombardier"

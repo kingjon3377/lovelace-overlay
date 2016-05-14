@@ -1,4 +1,4 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
@@ -6,7 +6,7 @@ EAPI=5
 
 EGIT_REPO_URI="git://git.madduck.net/madduck/pub/code/mailplate.git"
 
-inherit git-2
+inherit git-r3
 
 DESCRIPTION="reformat mail drafts according to templates"
 HOMEPAGE="http://madduck.net/code/mailplate/"

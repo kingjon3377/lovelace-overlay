@@ -1,11 +1,11 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
 EAPI=5
 EGIT_REPO_URI="git://git.debian.org/git/collab-maint/buthead.git"
 
-inherit git-2 toolchain-funcs
+inherit git-r3 toolchain-funcs
 
 DESCRIPTION="copy all but the first few lines"
 HOMEPAGE="http://packages.debian.org/unstable/buthead"

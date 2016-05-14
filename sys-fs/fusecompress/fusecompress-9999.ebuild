@@ -1,10 +1,10 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
 EAPI=5
 
-inherit git-2
+inherit git-r3
 
 DESCRIPTION="Comressed FUSE implementation"
 HOMEPAGE="http://www.miio.net/wordpress/projects/fusecompress/"

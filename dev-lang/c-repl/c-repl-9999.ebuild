@@ -1,4 +1,4 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
@@ -9,7 +9,7 @@ EAPI=5
 #EGIT_REPO_URI="git://github.com/mpereira/c-repl.git"
 EGIT_REPO_URI="git://github.com/berdario/c-repl.git"
 CABAL_FEATURES="bin"
-inherit eutils haskell-cabal git-2
+inherit eutils haskell-cabal git-r3
 
 DESCRIPTION="read-eval-print loop for C"
 HOMEPAGE="http://neugierig.org/software/c-repl/"

@@ -1,4 +1,4 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
@@ -6,7 +6,7 @@ EAPI=5
 
 EGIT_REPO_URI="git://git.debian.org/git/collab-maint/${PN}.git"
 
-inherit eutils git-2 multilib
+inherit eutils git-r3 multilib
 
 DESCRIPTION="The Scheme->C compiler, R4RS compliant"
 HOMEPAGE="http://alioth.debian.org/projects/scheme2c/"
@@ -22,6 +22,7 @@ DEPEND="dev-libs/libsigsegv
 	   X? ( x11-libs/libX11 )"
 RDEPEND="${DEPEND}"
 
+# FIXME: Convert to real multilib
 my_compile() {
 	pushd "${S}/${1}" > /dev/null
 	# Due to insanity in the build system we have to touch these to

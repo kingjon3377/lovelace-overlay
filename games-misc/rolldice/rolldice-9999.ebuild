@@ -1,4 +1,4 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
@@ -6,7 +6,7 @@ EAPI=5
 
 EGIT_REPO_URI=git://gitorious.org/debian-packages/rolldice.git
 
-inherit games git-2 eutils toolchain-funcs
+inherit games git-r3 eutils toolchain-funcs
 
 DESCRIPTION="virtual dice roller"
 HOMEPAGE="http://packages.debian.org/rolldice"
