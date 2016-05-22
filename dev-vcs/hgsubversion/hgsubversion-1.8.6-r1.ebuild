@@ -1,4 +1,4 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
@@ -19,7 +19,6 @@ IUSE="test"
 # although any ref absent in the source, tests in previous versions failed badly with >=mercurial-2.8.1
 # <dev-vcs/mercurial-2.8[${PYTHON_USEDEP}]
 RDEPEND=">=dev-vcs/mercurial-3.2[${PYTHON_USEDEP}]
-	<dev-vcs/mercurial-3.8[${PYTHON_USEDEP}]
 	|| (
 		>=dev-python/subvertpy-0.7.4[${PYTHON_USEDEP}]
 		>=dev-vcs/subversion-1.5[python] )"
