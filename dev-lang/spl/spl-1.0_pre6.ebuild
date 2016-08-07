@@ -1,4 +1,4 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
@@ -13,7 +13,7 @@ SRC_URI="http://www.clifford.at/spl/releases/${P/_/}.tar.gz"
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE="+sqlite +mysql +postgresql +xml +sdl +doc +kde +fann +opengl +vim-syntax"
+IUSE="+sqlite +mysql +postgresql +xml +sdl +doc +fann +opengl +vim-syntax"
 
 DEPEND="sys-apps/coreutils
 	dev-libs/libpcre
@@ -26,15 +26,15 @@ DEPEND="sys-apps/coreutils
 	postgresql? ( dev-db/postgresql:= )
 	xml? ( dev-libs/libxml2 dev-libs/libxslt )
 	doc? ( app-text/texlive-core )
-	kde? ( kde-base/smokekde )
 	fann? ( sci-mathematics/fann )"
 RDEPEND="${DEPEND}"
 
 S="${WORKDIR}/${P/_/}"
 
 pkg_setup() {
-	if use opengl && ! use kde; then
-		ewarn "Apparently SPL-OpenGL is pretty meaningless without SPL-KDE."
+	if use opengl; then
+		ewarn "Apparently SPL-OpenGL is pretty meaningless without SPL-KDE, which requires"
+		ewarn "tools (kde-base/smokekde) no longer packaged in Gentoo."
 	fi
 	use doc || \
 		ewarn "Disabling documentation-building may also disable building the documentation tool."
