@@ -1,4 +1,4 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
@@ -50,14 +50,17 @@ src_install() {
 	doins release/*
 	dodoc readme.txt
 	# following the Arch PKGBUILD; don't know if this is needed ...
-	dodir /usr/share/${PN}/plugins/{designer,imageformats,sqldrivers}
-	dosym ../../../$(get_libdir)/qt4/plugins/designer/libqwebview.so /usr/share/${PN}/plugins/designer
+	dodir /usr/share/${PN}/plugins/{designer,imageformats,sqldrivers,codecs}
 	dodir /usr/share/${PN}/plugins/imageformats
-	{ cd /usr/$(get_libdir)/qt4/plugins/;ls designer/libqwebview.so imageformats/*.so sqldrivers/*.so; } | while read file; do
+	{ 
+		cd /usr/$(get_libdir)/qt4/plugins/
+		ls designer/libqwebview.so imageformats/*.so sqldrivers/*.so codecs/*.so
+	} | while read file; do
 		dosym ../../../$(get_libdir)/qt4/plugins/${file} /usr/share/${PN}/plugins/${file}
 	done
 
 	doicon scripts/qcad_icon.png
 	make_desktop_entry /usr/bin/${PN} "QCad" ${PN}_icon.png 'Application;Development;Electronics;Engineering;'
 	make_wrapper ${PN} /usr/share/${PN}/${PN}-bin "" /usr/share/${PN}
+	fperms +x /usr/share/${PN}/${PN}-bin
 }
