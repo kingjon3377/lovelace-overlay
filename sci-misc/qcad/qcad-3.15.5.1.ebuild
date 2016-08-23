@@ -52,7 +52,7 @@ src_install() {
 	# following the Arch PKGBUILD; don't know if this is needed ...
 	dodir /usr/share/${PN}/plugins/{designer,imageformats,sqldrivers,codecs}
 	dodir /usr/share/${PN}/plugins/imageformats
-	{ 
+	{
 		cd /usr/$(get_libdir)/qt4/plugins/
 		ls designer/libqwebview.so imageformats/*.so sqldrivers/*.so codecs/*.so
 	} | while read file; do
