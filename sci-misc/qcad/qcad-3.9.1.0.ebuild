@@ -1,4 +1,4 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
@@ -60,4 +60,5 @@ src_install() {
 	doicon scripts/qcad_icon.png
 	make_desktop_entry /usr/bin/${PN} "QCad" ${PN}_icon.png 'Application;Development;Electronics;Engineering;'
 	make_wrapper ${PN} /usr/share/${PN}/${PN}-bin "" /usr/share/${PN}
+	fperms +x /usr/share/${PN}/${PN}-bin
 }
