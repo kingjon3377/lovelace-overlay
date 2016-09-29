@@ -147,7 +147,13 @@ class DwiggieComAdapter(BaseSiteAdapter):
         
         
     def getChaptersFromPage(self, url):
-        data = self._fetchUrl(url)
+        try:
+            data = self._fetchUrl(url)
+        except urllib2.HTTPError, e:
+            if e.code == 404:
+                return []
+            else:
+                raise e
         
         s = self.story.getMetadata('storyId').split('/')
         s.reverse()
