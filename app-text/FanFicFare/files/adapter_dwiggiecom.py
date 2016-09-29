@@ -17,6 +17,7 @@
 
 import time
 import logging
+logger = logging.getLogger(__name__)
 import re
 import urllib2
 
@@ -51,14 +52,14 @@ class DwiggieComAdapter(BaseSiteAdapter):
         
 #        # get storyId from url--url validation guarantees query is only sid=1234
 #        self.story.setMetadata('storyId',self.parsedUrl.query.split('=',)[1])
-#        logging.debug("storyId: (%s)"%self.story.getMetadata('storyId'))
+#        logger.debug("storyId: (%s)"%self.story.getMetadata('storyId'))
 		
 		
 		  # get storyId from url--url validation guarantees query correct
         m = re.match(self.getSiteURLPattern(),url)
         if m:
             self.story.setMetadata('storyId',m.group('id'))
-            logging.debug("storyId: (%s)"%self.story.getMetadata('storyId'))
+            logger.debug("storyId: (%s)"%self.story.getMetadata('storyId'))
             # normalized story URL.
             self._setURL('http://www.' + self.getSiteDomain() + '/derby/'+self.story.getMetadata('storyId')+'.htm')
         else:
@@ -338,13 +339,13 @@ class DwiggieComAdapter(BaseSiteAdapter):
         #print self.story.getMetadata('dateUpdated')
         #print self.story.getMetadata('datePublished')      
         self.story.setMetadata('numChapters',c)
-        logging.debug("numChapters: (%s)"%self.story.getMetadata('numChapters'))
+        logger.debug("numChapters: (%s)"%self.story.getMetadata('numChapters'))
         
         
         
     # grab the text for an individual chapter.
     def getChapterText(self, url):
-        logging.debug('Getting chapter text from: %s' % url)
+        logger.debug('Getting chapter text from: %s' % url)
         
         chapter = self.chapters.get(url)
 #        for c in self.chapters:
