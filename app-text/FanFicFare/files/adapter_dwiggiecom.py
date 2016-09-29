@@ -80,14 +80,14 @@ class DwiggieComAdapter(BaseSiteAdapter):
 
     @classmethod
     def getAcceptDomains(cls):
-        return ['www.dwiggie.com','dwiggie.com']
+        return ['www.dwiggie.com','dwiggie.com','thedwg.com','TheDWG.com']
 
     def getSiteExampleURLs(self):
         return "http://"+self.getSiteDomain()+"/derby/name1b.htm"
 
     def getSiteURLPattern(self):
         # http://www.dwiggie.com/derby/mari17b.htm
-        return re.escape("http://")+"(www.)?"+re.escape(self.getSiteDomain())+r"/derby/(?P<id>(old_\d{4}\/|old[a-z]\/)?[a-z]+\d+)(?P<part>[a-z]*)\.htm$"     
+        return re.escape("http://")+r"(www.)?(thedwg|TheDWG|dwiggie)\.com/derby/(?P<id>(old_\d{4}\/|old[a-z]\/)?[a-z]+\d+)(?P<part>[a-z]*)\.htm$"     
         
     def tryArchivePage(self, url):
     	
@@ -260,7 +260,12 @@ class DwiggieComAdapter(BaseSiteAdapter):
         #chapters = ["http://www.dwiggie.com"+t['href']]
 
         # get the section letter from the last page
-        m = re.match("/derby/"+self.story.getMetadata('storyId')+"(?P<section>[a-z]?).htm$",t['href'])
+        tempUrl=t['href']
+        if "http://thedwg.com/" in tempUrl:
+            tempUrl = tempUrl.replace("http://thedwg.com/","/")
+        elif "http://TheDWG.com/" in tempUrl:
+            tempUrl = tempUrl.replace("http://TheDWG.com/","/")
+        m = re.match("/derby/"+self.story.getMetadata('storyId')+"(?P<section>[a-z]?).htm$",tempUrl)
         inc = m.group('section')
         if inc == '':
             inc = 'a'
