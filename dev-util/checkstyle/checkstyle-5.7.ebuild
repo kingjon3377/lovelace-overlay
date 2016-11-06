@@ -8,10 +8,10 @@ JAVA_PKG_IUSE="doc source test"
 
 inherit java-pkg-2 java-ant-2
 
-DESCRIPTION="A tool to help programmers write Java code that adheres to a coding standard"
-HOMEPAGE="http://checkstyle.sourceforge.net"
+DESCRIPTION="Development tool to help write Java code that adheres to a coding standard"
+HOMEPAGE="https://github.com/checkstyle/checkstyle"
 SRC_URI="mirror://sourceforge/checkstyle/${P}-src.tar.gz
-	http://dev.gentoo.org/~sera/distfiles/${PN}-5.4-maven-build.xml.tar.bz2"
+	https://dev.gentoo.org/~sera/distfiles/${PN}-5.4-maven-build.xml.tar.bz2"
 
 LICENSE="LGPL-2.1"
 SLOT="0"
@@ -24,16 +24,12 @@ COMMON_DEP="
 	dev-java/commons-beanutils:1.7
 	dev-java/commons-cli:1
 	dev-java/commons-logging:0
-	dev-java/guava:0"
+	dev-java/guava:18"
 RDEPEND="${COMMON_DEP}
-	>=virtual/jre-1.5"
+	>=virtual/jre-1.6"
 DEPEND="${COMMON_DEP}
-	>=virtual/jdk-1.5
-	dev-java/ant-nodeps:0
-	test? (
-		dev-java/ant-junit
-		dev-java/junit:4
-	)"
+	>=virtual/jdk-1.6
+	test? ( dev-java/ant-junit:0 )"
 
 java_prepare() {
 	cp ../${PN}-5.4/maven-build.xml . || die
@@ -43,7 +39,7 @@ java_prepare() {
 
 	# maven ant:ant can't handle it.
 	pushd src/checkstyle/com/puppycrawl/tools/checkstyle/grammars > /dev/null || die
-		java -cp $(java-pkg_getjars antlr) antlr.Tool java.g || die
+		antlr java.g || die
 	popd > /dev/null
 	epatch "${FILESDIR}/disable-network-tests.patch"
 }
@@ -54,13 +50,14 @@ JAVA_ANT_CLASSPATH_TAGS="${JAVA_ANT_CLASSPATH_TAGS} javadoc"
 JAVA_ANT_ENCODING="iso-8859-1"
 
 EANT_BUILD_XML="maven-build.xml"
-EANT_GENTOO_CLASSPATH="ant-core,antlr,commons-beanutils-1.7,commons-cli-1,commons-logging,guava"
+EANT_GENTOO_CLASSPATH="ant-core,antlr,commons-beanutils-1.7,commons-cli-1,commons-logging,guava-18"
 EANT_BUILD_TARGET="package"
-EANT_ANT_TASKS="ant-nodeps"
 EANT_NEEDS_TOOLS="true"
 
+EANT_EXTRA_ARGS="-Dmaven.repo.local=/dev/null"
+EANT_TEST_EXTRA_ARGS="${EANT_EXTRA_ARGS} -Djunit.present=true"
+
 src_test() {
-	EANT_TEST_GENTOO_CLASSPATH="${EANT_GENTOO_CLASSPATH},junit-4"
 	java-pkg-2_src_test
 }
 
