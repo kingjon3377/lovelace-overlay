@@ -1,4 +1,4 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
@@ -6,9 +6,9 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-EAPI=5
+EAPI=6
 
-inherit eutils
+inherit eutils autotools
 
 # Version without the _p suffix
 MY_PV="${PV%%_p*}"
@@ -34,14 +34,17 @@ RDEPEND="${DEPEND}"
 
 S="${WORKDIR}/${MY_P}"
 
-src_prepare() {
-	epatch "${WORKDIR}"/"${DEBIAN_DIFF_FILE}"
-}
+PATCHES=( "${WORKDIR}/${DEBIAN_DIFF_FILE}" )
 
-src_compile() {
-	emake -j1
+src_prepare() {
+	default
+	eautoreconf
 }
 
 src_install() {
-	einstall
+	default
+	doman debian/tricklectl.8
+	dodoc debian/changelog
+	insinto /etc
+	doins trickled.conf
 }
