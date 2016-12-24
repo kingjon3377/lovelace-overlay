@@ -1,4 +1,4 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
@@ -18,7 +18,7 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""
 
-DEPEND="kde-base/pykde4[${PYTHON_USEDEP}]
+DEPEND="kde-apps/pykde4[${PYTHON_USEDEP}]
 	dev-python/PyQt4[phonon,${PYTHON_USEDEP}]"
 RDEPEND="${DEPEND}"
 
