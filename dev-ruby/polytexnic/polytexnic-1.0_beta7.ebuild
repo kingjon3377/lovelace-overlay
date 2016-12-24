@@ -17,7 +17,7 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE="test"
 
-ruby_add_rdepend ">=dev-ruby/json-1.8.1 dev-ruby/kramdown dev-ruby/msgpack"
+ruby_add_rdepend ">=dev-ruby/json-1.8.1:0 dev-ruby/kramdown dev-ruby/msgpack"
 ruby_add_rdepend ">=dev-ruby/nokogiri-1.6.0 dev-ruby/pygments_rb"
 # We _presume_ these are test dependencies ...
 ruby_add_bdepend "test? ( >=dev-ruby/rspec-2.14.1:2 dev-ruby/simplecov:0.8 )"
