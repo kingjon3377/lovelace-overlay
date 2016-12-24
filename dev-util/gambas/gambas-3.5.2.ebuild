@@ -58,7 +58,7 @@ COMMON_DEPEND="
 	opengl?	(
 		media-libs/mesa
 		|| ( x11-libs/libGLw x11-drivers/nvidia-drivers x11-drivers/ati-drivers )
-		media-libs/glew
+		media-libs/glew:0
 		virtual/glu
 	)
 	openssl?	( dev-libs/openssl:0 )

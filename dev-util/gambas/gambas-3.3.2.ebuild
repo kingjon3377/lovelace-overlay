@@ -44,7 +44,7 @@ COMMON_DEPEND="
 	odbc?	( dev-db/unixODBC )
 	opengl?	(
 		media-libs/mesa
-		media-libs/glew
+		media-libs/glew:0
 		virtual/glu
 	)
 	pcre?	( dev-libs/libpcre:3 )
