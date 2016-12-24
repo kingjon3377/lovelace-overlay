@@ -1,6 +1,8 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
+
+EAPI=6
 
 inherit eutils toolchain-funcs
 
@@ -10,38 +12,39 @@ SRC_URI="ftp://metalab.unc.edu/pub/Linux/devel/compiler-tools/${P}.tar.Z"
 
 LICENSE="public-domain"
 SLOT="0"
-KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86"
+KEYWORDS="alpha amd64 arm ~arm64 hppa ~ia64 ~mips ~ppc ppc64 ~s390 ~sh ~sparc ~x86"
 IUSE=""
 
 DEPEND="app-eselect/eselect-yacc"
 RDEPEND=""
 
-src_unpack() {
-	unpack ${A}
-	cd "${S}"
-
-	# Use our CFLAGS and LDFLAGS
-	sed -i -e 's: -O : $(CFLAGS) $(LDFLAGS) :' Makefile || die 'sed failed'
-
+PATCHES=(
 	# mkstemp patch from byacc ebuild
-	epatch "${FILESDIR}"/mkstemp.patch
+	"${FILESDIR}"/${P}-mkstemp.patch
 
 	# The following patch fixes yacc to run correctly on ia64 (and
 	# other 64-bit arches).  See bug 46233
-	epatch "${FILESDIR}"/${P}-ia64.patch
+	"${FILESDIR}"/${P}-ia64.patch
 
 	# avoid stack access error, bug 232005
-	epatch "${FILESDIR}"/${P}-CVE-2008-3196.patch
+	"${FILESDIR}"/${P}-CVE-2008-3196.patch
+)
+
+src_prepare() {
+	default
+
+	# Use our CFLAGS and LDFLAGS
+	sed -i -e 's: -O : $(CFLAGS) $(LDFLAGS) :' Makefile || die 'sed failed'
 }
 
 src_compile() {
-	emake clean || die
-	emake CC="$(tc-getCC)" CFLAGS="${CFLAGS}" || die
+	emake clean
+	emake CC="$(tc-getCC)" CFLAGS="${CFLAGS}"
 }
 
 src_install() {
-	newbin yacc yacc.yacc || die
-	doman yacc.1
+	newbin "${PN}" "yacc.${PN}"
+	doman "${PN}.1"
 	dodoc 00README* ACKNOWLEDGEMENTS NEW_FEATURES NO_WARRANTY NOTES README*
 }
 
