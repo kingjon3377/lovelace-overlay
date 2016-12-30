@@ -1,0 +1,100 @@
+--- aplus-fsf-4.22.1.orig/src/a/bstub.c
++++ aplus-fsf-4.22.1/src/a/bstub.c
+@@ -49,13 +49,14 @@
+ {
+   int rc;
+   pthread_mutexattr_t mattr;
++  pthread_mutexattr_init(&mattr);
+   if(0!=(rc=pthread_mutexattr_settype(&mattr, PTHREAD_MUTEX_ADAPTIVE_NP)))
+     {
+       perror("initMutex():pthread_mutexattr_settype");
+     }
+   if (rc==0 && pthread_mutex_init(&memStats_lock, &mattr))
+     {
+-      perror("initMutex():thread_mutex_init"); 
++      perror("initMutex():pthread_mutex_init"); 
+     }
+   return 0;
+ }
+--- aplus-fsf-4.22.1.orig/src/a/u.c
++++ aplus-fsf-4.22.1/src/a/u.c
+@@ -157,13 +157,14 @@
+ {
+   int rc;
+   pthread_mutexattr_t mattr;
++  pthread_mutexattr_init(&mattr);
+   if(0!=(rc=pthread_mutexattr_settype(&mattr, PTHREAD_MUTEX_ADAPTIVE_NP)))
+     {
+       perror("initMutex():pthread_mutexattr_settype");
+     }
+   if (rc==0 && pthread_mutex_init(&newSymbol_lock, &mattr))
+     {
+-      perror("initMutex():thread_mutex_init");
++      perror("initMutex():pthread_mutex_init");
+     }
+   return 0;
+ }
+--- aplus-fsf-4.22.1.orig/src/dap/sgnlcatch.c
++++ aplus-fsf-4.22.1/src/dap/sgnlcatch.c
+@@ -34,7 +34,7 @@
+ 
+   if ((n >= 1) && (n < NSIG)) {
+     struct sgnl *p = sgnls + n;
+-#if defined(HAVE_SVR4)  
++#if defined(HAVE_SIGACTION)  
+     struct sigaction *ovp;
+     struct sigaction vec;
+     ovp = (p->set == 0) ? &(p->orig) : (struct sigaction *) (0);
+--- aplus-fsf-4.22.1.orig/src/dap/sgnldefault.c
++++ aplus-fsf-4.22.1/src/dap/sgnldefault.c
+@@ -20,7 +20,7 @@
+ 
+   if ((n >= 1) && (n < NSIG)) {
+     struct sgnl *p = sgnls + n;
+-#if defined(HAVE_SVR4)
++#if defined(HAVE_SIGACTION)
+     struct sigaction *ovp;
+     struct sigaction vec;
+ 
+--- aplus-fsf-4.22.1.orig/src/dap/sgnlignore.c
++++ aplus-fsf-4.22.1/src/dap/sgnlignore.c
+@@ -20,7 +20,7 @@
+ 
+   if ((n >= 1) && (n < NSIG)) {
+     struct sgnl *p = sgnls + n;
+-#if defined(HAVE_SVR4)
++#if defined(HAVE_SIGACTION)
+     struct sigaction *ovp;
+     struct sigaction vec;
+ 
+--- aplus-fsf-4.22.1.orig/src/dap/sgnloriginal.c
++++ aplus-fsf-4.22.1/src/dap/sgnloriginal.c
+@@ -22,7 +22,7 @@
+     struct sgnl *p = sgnls + n;
+ 
+     if (p->set != 0) {
+-#if defined(HAVE_SVR4)
++#if defined(HAVE_SIGACTION)
+       struct sigaction *ovp = &(p->orig);
+ 
+       if (sigaction(n, ovp, (struct sigaction *) (0)) != 0) {
+--- aplus-fsf-4.22.1.orig/src/dap/sgnlproc.c
++++ aplus-fsf-4.22.1/src/dap/sgnlproc.c
+@@ -17,7 +17,7 @@
+ {
+   int n;
+   struct sgnl *p;
+-#if defined(HAVE_SVR4)
++#if defined(HAVE_SIGACTION)
+   sigset_t savemask;
+   struct sigaction act;
+ #else
+@@ -27,7 +27,7 @@
+ 
+   for (n = 1; n < NSIG; n++) {
+     if ((p = sgnls + n)->flag) {
+-#if defined(HAVE_SVR4)
++#if defined(HAVE_SIGACTION)
+       sigaction(n, NULL, &act);
+       savemask = act.sa_mask;
+       sigemptyset(&act.sa_mask);

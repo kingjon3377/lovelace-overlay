@@ -1,0 +1,22 @@
+--- aplus-fsf-4.22.1.orig/src/acore/s.+
++++ aplus-fsf-4.22.1/src/acore/s.+
+@@ -4206,6 +4206,8 @@
+ 	{
+ 	kûsys.readmat{f0};
+ 	if (()½k) kûsys.readmat{f1};
++	ã Remove comment lines.
++	kû(Ø'!'¨¡1Ù¡(' '¨¡<@1k)/¡<@1k)/k;
+ 	zû13Õ@1 k;
+ 	zûszÒz Ý ((z=TAB)/z)û' ' Ý zû,z Ý szûÒz;
+ 	zû((z=' ')É@1Û0)÷@0 1 z;
+@@ -5958,8 +5960,8 @@
+ 	`sâ'DEFAULT_COLOR:bDefaultPixelValue{}';
+ 	`sâ'DEFAULT_FONT:bDefaultFontValue{}';
+ 
+-	s.COLOR_FILEû'/usr/local/X11/lib/rgb.txt';
+-	s.COLOR_FILE1û'/usr/local/X11R5/lib/rgb.txt';
++	s.COLOR_FILEû'/etc/X11/rgb.txt';
++	s.COLOR_FILE1û'/usr/share/X11/rgb.txt';
+ 	
+ 	`sâ'COLOR_INFORMATION:color_information{COLOR_FILE;COLOR_FILE1}';
+ 	`sâ'COLOR_NAMES:0ØCOLOR_INFORMATION';

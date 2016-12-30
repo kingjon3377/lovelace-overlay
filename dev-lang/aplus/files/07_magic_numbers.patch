@@ -1,0 +1,22 @@
+--- aplus-fsf-4.22.1.orig/src/a/k.c
++++ aplus-fsf-4.22.1/src/a/k.c
+@@ -18,7 +18,9 @@
+ #include <a/fncdcls.h>
+ #include <a/fir.h>
+ #include <a/arthur.h>
+-I MY[2001];
++
++#define MYSIZE 30001
++I MY[MYSIZE];
+ CX Rx,Cx;
+ extern void *Glbrtn ;
+ extern I Xf;
+@@ -139,7 +141,7 @@
+ #else
+   aplusPageMask=getpagesize()-1;
+ #endif
+-  X=Y=XY=(K=MY)+2000;
++  X=Y=XY=(K=MY)+(MYSIZE-1);
+   *X=*K=0;
+   *++K=0;
+   symhti();
