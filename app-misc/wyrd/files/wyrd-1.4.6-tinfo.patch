@@ -1,0 +1,14 @@
+--- a/curses/configure.ac
++++ b/curses/configure.ac
+@@ -147,6 +147,11 @@
+ CPPFLAGS="$ORIG_CPPFLAGS"
+ LIBS="$ORIG_LIBS"
+ 
++# Determine whether the detected ncurses splits off libtinfo
++
++AC_SEARCH_LIBS([stdscr], [$CURSES_LIB_BASE tinfow tinfo],
++  [CURSES_LIB_BASE="$CURSES_LIB_BASE `expr $ac_res : '-l\(.*\)'`"],
++  AC_MSG_ERROR(could not find a library providing stdscr))
+ 
+ # Perform substitutions
+ 
