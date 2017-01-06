@@ -12,7 +12,7 @@ SRC_URI="http://members.tip.net.au/~dbell/programs/${P}.tgz"
 
 LICENSE="ips"
 SLOT="0"
-KEYWORDS="~amd64"
+KEYWORDS="amd64"
 IUSE=""
 
 DEPEND="x11-libs/libX11
