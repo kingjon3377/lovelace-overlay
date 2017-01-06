@@ -1,4 +1,4 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
@@ -7,16 +7,19 @@ EAPI=5
 inherit eutils multilib
 
 DESCRIPTION="Command Line Interpreter Generator"
-SRC_URI="http://wi-fizzle.com/clig/${P}.tar.gz"
-HOMEPAGE="http://wi-fizzle.com/clig/"
+SRC_URI="http://bsdforge.com/projects/source/devel/${PN}/${P}.tar.xz"
+HOMEPAGE="http://bsdforge.com/projects/devel/clig/"
 
 SLOT="0"
 LICENSE="GPL-2"
-KEYWORDS="amd64 x86"
+KEYWORDS="~amd64 ~x86"
 IUSE=""
 
-DEPEND="dev-lang/tcl:="
-RDEPEND="${DEPEND}"
+RDEPEND="dev-lang/tcl:="
+DEPEND="${RDEPEND}
+	app-arch/xz-utils"
+
+S="${WORKDIR}/${PN}"
 
 src_prepare() {
 	epatch "${FILESDIR}/clig_makefile_patch.patch"
