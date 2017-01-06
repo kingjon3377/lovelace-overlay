@@ -4,7 +4,7 @@
 
 EAPI=5
 
-inherit eutils
+inherit eutils autotools
 
 DESCRIPTION="Text-based front-end to Remind"
 HOMEPAGE="http://pessimization.com/software/wyrd/"
@@ -26,6 +26,7 @@ DEPEND="${RDEPEND}
 
 src_prepare() {
 	epatch "${FILESDIR}/${P}-tinfo.patch"
+	eautoreconf
 }
 
 src_configure() {
