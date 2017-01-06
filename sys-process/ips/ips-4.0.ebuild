@@ -1,4 +1,4 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
@@ -18,6 +18,12 @@ IUSE=""
 DEPEND="x11-libs/libX11
 	sys-libs/ncurses:0"
 RDEPEND="${DEPEND}"
+
+src_prepare() {
+	if has_version 'sys-libs/ncurses[tinfo]';then
+		sed -i -e 's@-lcurses @&-ltinfo @' Makefile || die
+	fi
+}
 
 src_compile() {
 	emake CC="$(tc-getCC)" CFLAGS="${CFLAGS}"
