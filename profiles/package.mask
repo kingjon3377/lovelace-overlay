@@ -36,9 +36,6 @@ app-text/cuneiform-qt
 # Changes the UI in a way I don't like
 =app-text/fbreader-0.99.5
 
-# Will not build, as it now requires QT 5.
->=dev-lang/basic256-1.0.0.0
-
 # Doesn't yet build, more effort is needed to see what patches are still needed
 # or will apply, and probably we'll need to download the 'brt' source tarball
 # too.
