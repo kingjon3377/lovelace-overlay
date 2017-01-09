@@ -1,4 +1,4 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
@@ -38,6 +38,7 @@ RDEPEND="x11-libs/libX11
 	dev-qt/qtgui:4
 	dev-qt/designer:4
 	dev-qt/qtsql:4
+	dev-qt/qthelp:4
 	"
 DEPEND="${RDEPEND}
 	>=sys-devel/gcc-4"
