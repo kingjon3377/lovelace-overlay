@@ -40,12 +40,11 @@ script:
     - ./../spinner.sh "overlint-cli ."
     # We'd like to use pkgcore-based checks, but the snakeoil library won't compile on pypy.
     # - bash travis-repo-checks-master/run-tests.bash
-before_install:
+install:
     - mkdir overlint-cli
     - cd overlint-cli
     - wget http://gentoo.osuosl.org/distfiles/overlint-0.5.3.tar.gz
     - tar xzf overlint-0.5.3.tar.gz
     - cd ..
     # - wget -O - "https://github.com/gentoo/travis-repo-checks/archive/master.tar.gz" | tar -xz
-# install:
     # - bash travis-repo-checks-master/prepare-tests.bash
