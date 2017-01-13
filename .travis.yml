@@ -32,7 +32,7 @@ script:
     - ./../spinner.sh "python ../portage-portage-${PORTAGE_VER}/repoman/bin/repoman full -d"
 # You can append own scripts after this line
     - mv overlint-cli ..
-    - cd ../portage-${PORTAGE_VER}
+    - cd ../portage-portage-${PORTAGE_VER}
     - python setup.py install || true
     - cd ../overlint-cli/overlint-0.5.3
     - python setup.py install
