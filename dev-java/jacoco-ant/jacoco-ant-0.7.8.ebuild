@@ -22,9 +22,9 @@ IUSE=""
 
 CDEPEND="dev-java/ant-core:0
 	dev-java/asm:4
-	dev-java/jacoco-core:0
-	dev-java/jacoco-agent:0
-	dev-java/jacoco-report:0"
+	>=dev-java/jacoco-core-${PV}:0
+	>=dev-java/jacoco-agent-${PV}:0
+	>=dev-java/jacoco-report-${PV}:0"
 
 RDEPEND=">=virtual/jre-1.6
 	${CDEPEND}"

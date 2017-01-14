@@ -21,7 +21,7 @@ KEYWORDS="~amd64 ~x86"
 IUSE=""
 
 CDEPEND="dev-java/asm:4
-	dev-java/jacoco-core:0"
+	>=dev-java/jacoco-core-${PV}:0"
 
 RDEPEND=">=virtual/jre-1.6
 	${CDEPEND}"
