@@ -44,17 +44,25 @@ src_prepare() {
 		org.jacoco.ant.test org.jacoco.build org.jacoco.core org.jacoco.core.test \
 		org.jacoco.doc org.jacoco.examples org.jacoco.examples.test LICENSE.md \
 		org.jacoco.report org.jacoco.report.test org.jacoco.tests pom.xml README.md \
-		org.jacoco.agent.test org.jacoco.agent.rt.test || die
+		org.jacoco.agent.test org.jacoco.agent.rt.test .travis .travis.yml \
+		.travis.sh .appveyor.yml .github || die
 }
 
 src_compile() {
 	cd org.jacoco.agent.rt || die
+	mkdir -p target/classes/META-INF || die
+	cat > target/classes/META-INF/MANIFEST.MF <<-EOF
+Manifest-Version: 1.0
+Implementation-Title: JaCoCo Java Agent
+Premain-Class: org.jacoco.agent.rt.internal.PreMain
+Implementation-Version: ${PV}
+	EOF
 	JAVA_JAR_FILENAME=jacocoagent.jar java-pkg-simple_src_compile
 	cd ../org.jacoco.agent || die
 	mkdir -p target/classes || die
 	mv ../org.jacoco.agent.rt/jacocoagent.jar target/classes || die
 	java-pkg-simple_src_compile
-	mv ${PN}.jar .. || die
+	mv ${PN}.jar "${S}" || die
 }
 
 src_install() {
