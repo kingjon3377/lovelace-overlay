@@ -1,8 +1,8 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-EAPI=5
+EAPI=6
 
 inherit bash-completion-r1 eutils autotools
 
@@ -12,7 +12,7 @@ SRC_URI="mirror://sourceforge/${PN}/${P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="amd64 x86"
+KEYWORDS="~amd64 ~x86"
 IUSE="+gtk nls"
 
 RDEPEND="gtk? ( dev-cpp/gtkmm:3.0 )"
@@ -21,9 +21,10 @@ DEPEND="${RDEPEND}
 	virtual/pkgconfig
 	nls? ( sys-devel/gettext )"
 
+PATCHES=( "${FILESDIR}/fix-double-destdir.patch" )
+
 src_prepare() {
-	default_src_prepare
-	epatch "${FILESDIR}/fix-double-destdir.patch"
+	default
 	eautoreconf
 }
 
@@ -35,8 +36,10 @@ src_configure() {
 
 src_install() {
 	emake DESTDIR="${D}" datadir=/usr/share install
+	prune_libtool_files
 	dodoc AUTHORS ChangeLog README doc/faq.txt doc/${PN}rc
-	dohtml doc/*.html doc/*.png
+	docinto html
+	dodoc doc/*.html doc/*.png
 	rm "${D}/usr/share/${PN}/"{${PN}rc,README,faq.txt,index.html,download.png,${PN}.png} || die
 	rmdir "${D}/usr/share/${PN}" || die
 	newbashcomp scripts/porg_bash_completion porg
