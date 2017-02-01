@@ -73,3 +73,6 @@ dev-java/jgit
 # Hard-depends on sci-libs/torch, which is now masked for removal in main tree
 media-plugins/imms
 
+# Depends on masked version of openssl
+=app-crypt/rsyncrypto-1.13
+
