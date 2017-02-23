@@ -1,4 +1,4 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
@@ -35,7 +35,7 @@ COMMON_DEPEND="
 	)
 	imageio? ( x11-libs/gdk-pixbuf:2 )
 	imageimlib?	( media-libs/imlib2 )
-	jit?	( >=sys-devel/llvm-3.1 )
+	jit?	( >=sys-devel/llvm-3.1:0 )
 	media?	( media-libs/gstreamer:0.10 )
 	mysql?	( >=virtual/mysql-5.0 )
 	mime?	( dev-libs/gmime:2.6 )
