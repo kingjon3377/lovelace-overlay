@@ -6,7 +6,7 @@ language: python
 python:
     - pypy
 env:
-    - PORTAGE_VER="2.3.3"
+    - PORTAGE_VER="2.3.4"
 before_install:
     - sudo apt-get -qq update
     - pip install lxml
@@ -24,27 +24,10 @@ before_script:
     - echo "portage::250:portage,travis" >> /etc/group
     - wget "https://www.gentoo.org/dtd/metadata.dtd" -O /usr/portage/distfiles/metadata.dtd
     - ln -s portage-portage-${PORTAGE_VER}/cnf/repos.conf /etc/portage/repos.conf
-    - ln -s /usr/portage/profiles/base/ /etc/portage/make.profile
+    - ln -s /usr/portage/profiles/default/linux/amd64/13.0 /etc/portage/make.profile
     - SIZE=$(stat -c %s .travis.yml.upstream)
     - if ! cmp -n $SIZE -s .travis.yml .travis.yml.upstream; then echo -e "\e[31m !!! .travis.yml outdated! Update available https://github.com/mrueg/repoman-travis \e[0m" > /tmp/update ; fi
     - cd travis-overlay
 script:
     - ./../spinner.sh "python ../portage-portage-${PORTAGE_VER}/repoman/bin/repoman full -d"
 # You can append own scripts after this line
-    - mv overlint-cli ..
-    - cd ../portage-portage-${PORTAGE_VER}
-    - python setup.py install || true
-    - cd ../overlint-cli/overlint-0.5.3
-    - python setup.py install
-    - cd ../../travis-overlay
-    - ./../spinner.sh "overlint-cli ."
-    # We'd like to use pkgcore-based checks, but the snakeoil library won't compile on pypy.
-    # - bash travis-repo-checks-master/run-tests.bash
-install:
-    - mkdir overlint-cli
-    - cd overlint-cli
-    - wget http://gentoo.osuosl.org/distfiles/overlint-0.5.3.tar.gz
-    - tar xzf overlint-0.5.3.tar.gz
-    - cd ..
-    # - wget -O - "https://github.com/gentoo/travis-repo-checks/archive/master.tar.gz" | tar -xz
-    # - bash travis-repo-checks-master/prepare-tests.bash
