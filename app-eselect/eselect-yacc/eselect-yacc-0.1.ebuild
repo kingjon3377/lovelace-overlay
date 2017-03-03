@@ -1,9 +1,9 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
 DESCRIPTION="A eselect module to handle yacc symlink"
-HOMEPAGE="www.gentoo.org"
+HOMEPAGE="https://www.gentoo.org"
 #SRC_URI="mirrors://gentoo/..."
 SRC_URI=""
 
