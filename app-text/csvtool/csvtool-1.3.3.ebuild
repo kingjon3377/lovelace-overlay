@@ -1,4 +1,4 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
@@ -20,6 +20,10 @@ RDEPEND="${DEPEND}"
 
 S="${WORKDIR}/csv-${PV}"
 #S="${WORKDIR}/csv-1.2.1"
+
+src_prepare() {
+	sed -i -e "s@/usr/local@${D}/usr@" setup.ml || die
+}
 
 src_compile() {
 	default_src_compile
