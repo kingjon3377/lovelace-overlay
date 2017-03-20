@@ -16,7 +16,7 @@ KEYWORDS="~amd64"
 IUSE=""
 
 RDEPEND="dev-perl/glib-perl
-	dev-perl/gtk2-perl
+	dev-perl/Gtk2
 	dev-perl/Locale-gettext
 	dev-perl/libintl-perl"
 DEPEND=""

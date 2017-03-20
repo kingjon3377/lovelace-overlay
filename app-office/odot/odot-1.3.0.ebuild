@@ -1,4 +1,4 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
@@ -13,7 +13,7 @@ SLOT="0"
 KEYWORDS="amd64"
 IUSE=""
 
-DEPEND="dev-perl/gtk2-perl
+DEPEND="dev-perl/Gtk2
 	dev-perl/DateTime
 	dev-perl/XML-Parser
 	dev-perl/DBI"

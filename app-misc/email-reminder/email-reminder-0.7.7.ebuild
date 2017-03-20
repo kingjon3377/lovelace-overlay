@@ -1,4 +1,4 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
@@ -16,7 +16,7 @@ KEYWORDS="amd64"
 IUSE=""
 
 DEPEND="dev-perl/XML-DOM
-	dev-perl/gtk2-perl
+	dev-perl/Gtk2
 	dev-perl/Date-Manip
 	dev-perl/Email-Valid
 	dev-perl/Authen-SASL
