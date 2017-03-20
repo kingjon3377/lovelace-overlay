@@ -1,0 +1,21 @@
+# ChangeLog for sys-apps/fileschanged
+# Copyright 1999-2013 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  13 Mar 2013; Julian Ospald <hasufell@gentoo.org> -fileschanged-0.6.5.ebuild:
+  remove old
+
+*fileschanged-0.6.5-r1 (12 Mar 2013)
+
+  12 Mar 2013; Patrick Lauer <patrick@gentoo.org> fileschanged-0.6.5.ebuild,
+  +fileschanged-0.6.5-r1.ebuild:
+  [sys-apps/fileschanged] Adding ~amd64 keyword, fixing bad cflags override
+
+  19 Jan 2009; Christian Ruppert (idl0r) <spooky85@gmail.com>
+  fileschanged-0.6.5.ebuild:
+  Add suggested RDEPEND=${DEPEND}, add die statements.
+
+  21 Jun 2006; Alexandru Toma (analoguedragon) <flash3001@yahoo.com>
+  ChangeLog:
+  New ebuild for bug #81622
+

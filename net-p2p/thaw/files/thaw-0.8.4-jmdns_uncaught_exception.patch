@@ -1,0 +1,26 @@
+diff -ru a/src/thaw/plugins/mDns/MDNSDiscovery.java b/src/thaw/plugins/mDns/MDNSDiscovery.java
+--- a/src/thaw/plugins/mDns/MDNSDiscovery.java	2017-03-20 12:48:48.738654436 -0400
++++ b/src/thaw/plugins/mDns/MDNSDiscovery.java	2017-03-20 12:51:25.577659455 -0400
+@@ -11,6 +11,7 @@
+ import javax.jmdns.ServiceEvent;
+ import javax.jmdns.ServiceInfo;
+ import javax.jmdns.ServiceListener;
++import java.io.IOException;
+ 
+ 
+ import thaw.plugins.MDns;
+@@ -93,6 +94,10 @@
+ 
+ 	public void stop() {
+ 		Logger.info(this, "Stopping JMDNS ...");
+-		jmdns.close();
++		try {
++			jmdns.close();
++		} catch (IOException except) {
++			Logger.error(this, "IOException closing JmDNS");
++		}
+ 	}
+ }
+diff -ru src.old/thaw/plugins/mDns/MDNSDiscovery.java src/thaw/plugins/mDns/MDNSDiscovery.java
+--- src.old/thaw/plugins/mDns/MDNSDiscovery.java	2017-03-20 12:54:54.530666141 -0400
++++ src/thaw/plugins/mDns/MDNSDiscovery.java	2017-03-20 12:54:56.615666208 -0400
