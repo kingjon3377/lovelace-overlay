@@ -61,7 +61,7 @@ class DwiggieComAdapter(BaseSiteAdapter):
             self.story.setMetadata('storyId',m.group('id'))
             logger.debug("storyId: (%s)"%self.story.getMetadata('storyId'))
             # normalized story URL.
-            self._setURL('http://www.' + self.getSiteDomain() + '/derby/'+self.story.getMetadata('storyId')+'.htm')
+            self._setURL('https://www.' + self.getSiteDomain() + '/derby/'+self.story.getMetadata('storyId')+'.htm')
         else:
             raise exceptions.InvalidStoryURL(url,
                                              self.getSiteDomain(),
@@ -84,11 +84,11 @@ class DwiggieComAdapter(BaseSiteAdapter):
         return ['www.dwiggie.com','dwiggie.com','thedwg.com','TheDWG.com']
 
     def getSiteExampleURLs(self):
-        return "http://"+self.getSiteDomain()+"/derby/name1b.htm"
+        return "https://"+self.getSiteDomain()+"/derby/name1b.htm"
 
     def getSiteURLPattern(self):
-        # http://www.dwiggie.com/derby/mari17b.htm
-        return re.escape("http://")+r"(www.)?(thedwg|TheDWG|dwiggie)\.com/derby/(?P<id>(old_\d{4}\/|old[a-z]\/)?[a-z]+\d+)(?P<part>[a-z]*)\.htm$"     
+        # https://www.dwiggie.com/derby/mari17b.htm
+        return r"https?://(www.)?(thedwg|TheDWG|dwiggie)\.com/derby/(?P<id>(old_\d{4}\/|old[a-z]\/)?[a-z]+\d+)(?P<part>[a-z]*)\.htm$"     
         
     def tryArchivePage(self, url):
     	
@@ -118,7 +118,7 @@ class DwiggieComAdapter(BaseSiteAdapter):
         
     def getItemFromArchivePage(self):
         
-        urls = ["http://www.dwiggie.com/toc/index.php?id=E&page=all&comp=n","http://www.dwiggie.com/toc/index.php?id=F&page=all&comp=n"]
+        urls = ["https://www.dwiggie.com/toc/index.php?id=E&page=all&comp=n","https://www.dwiggie.com/toc/index.php?id=F&page=all&comp=n"]
         for url in urls:
             a = self.tryArchivePage(url)
             if a != None:
@@ -133,7 +133,7 @@ class DwiggieComAdapter(BaseSiteAdapter):
         params = {}
         params['title_name'] = self.story.getMetadata('title')
         
-        searchUrl = "http://" + self.getSiteDomain() + "/toc/search.php"
+        searchUrl = "https://" + self.getSiteDomain() + "/toc/search.php"
     	
     	d = self._postUrl(searchUrl, params)
     	#print d
@@ -264,7 +264,7 @@ class DwiggieComAdapter(BaseSiteAdapter):
         ## Chapters (Sections in this case - don't know if we can subdivide them)
         
         # get the last Section from the archive page link 
-        #chapters = ["http://www.dwiggie.com"+t['href']]
+        #chapters = ["https://www.dwiggie.com"+t['href']]
 
         # get the section letter from the last page
         tempUrl=t['href']
@@ -272,6 +272,10 @@ class DwiggieComAdapter(BaseSiteAdapter):
             tempUrl = tempUrl.replace("http://thedwg.com/","/")
         elif "http://TheDWG.com/" in tempUrl:
             tempUrl = tempUrl.replace("http://TheDWG.com/","/")
+        elif "https://thedwg.com/" in tempUrl:
+            tempUrl = tempUrl.replace("https://thedwg.com/","/")
+        elif "https://TheDWG.com/" in tempUrl:
+            tempUrl = tempUrl.replace("https://TheDWG.com/","/")
         m = re.match("/derby/"+self.story.getMetadata('storyId')+"(?P<section>[a-z]?).htm$",tempUrl)
         inc = m.group('section')
         if inc == '':
@@ -280,7 +284,7 @@ class DwiggieComAdapter(BaseSiteAdapter):
                 
         # get the presumed list of section urls with 'lower' section letters
         sections = []
-        baseurl = "http://www.dwiggie.com/derby/"+self.story.getMetadata('storyId')
+        baseurl = "https://www.dwiggie.com/derby/"+self.story.getMetadata('storyId')
         extension = ".htm"
         ordend = ord(inc)
         ordbegin = ord('a')
