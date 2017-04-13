@@ -212,7 +212,10 @@ class DwiggieComAdapter(BaseSiteAdapter):
         # DateUpdated
         dUpdate = meta.find('i',text = re.compile('Last update'))
         du = dUpdate.replace('Last update','').replace('.','').strip()
-        self.story.setMetadata('dateUpdated', makeDate(du, self.dateformat))
+        try:
+            self.story.setMetadata('dateUpdated', makeDate(du, self.dateformat))
+        except ValueError:
+            self.story.setMetadata('dateUpdated', makeDate(du, "%m/%d/%Y"))
         compImg=meta.find('img',alt="Dot")
         if compImg != None:
             self.story.setMetadata('status', 'Completed')
