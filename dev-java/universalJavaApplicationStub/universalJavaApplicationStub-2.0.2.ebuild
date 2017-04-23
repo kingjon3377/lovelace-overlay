@@ -1,8 +1,8 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-EAPI=5
+EAPI=6
 
 DESCRIPTION="A shell script to make Mac .app bundles compatible with various Java versions"
 HOMEPAGE="https://github.com/tofi86/universalJavaApplicationStub"
@@ -16,6 +16,12 @@ IUSE=""
 
 RDEPEND=""
 DEPEND=""
+
+# Tests aren't usable right now.
+#src_test() {
+	#cd test
+	#./java-version-tester.sh
+#}
 
 src_install() {
 	insinto /usr/share/${PN}
