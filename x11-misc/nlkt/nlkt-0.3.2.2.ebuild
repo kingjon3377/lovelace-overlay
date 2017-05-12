@@ -1,4 +1,4 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 # I don't remember where I got this, if I didn't write it myself.
@@ -27,7 +27,7 @@ S="${WORKDIR}/${P}/src"
 
 src_prepare() {
 	sed -i -e 's:INCLUDEPATH += /usr/include/qwt:INCLUDEPATH += /usr/include/qwt6:' \
-		-e 's:LIBS += -lqwt:LIBS += -lqwt6:' nlkt.pro || die "sed failed"
+		-e "s:LIBS += -lqwt:LIBS += -lqwt6-qt4:" nlkt.pro || die "sed failed"
 }
 
 src_configure() {
