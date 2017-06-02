@@ -1,4 +1,4 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
@@ -27,7 +27,7 @@ DEPEND="${RDEPEND}"
 src_prepare() {
 #	edos2unix $(find . -type f -print) || die # a file has a space in it, so inline
 	find . -type f \( -name \*.png -o -exec sed -i 's/\r$//' -- {} + \) || die
-	cp "${FILESDIR}"/adapter_* "fanficfare/adapters/" || die
+	cp -n "${FILESDIR}"/adapter_* "fanficfare/adapters/" || die
 	sed -i -e '1s/^\xef\xbb\xbf//' fanficfare/translit.py || die
 	find . -name \*.py -exec sed -i \
 		-e 's/from \(\.\|\.\.\) \(import BeautifulSoup as bs\)/\2/' \
