@@ -33,7 +33,7 @@ src_prepare() {
 src_install() {
 	dobin build/${PN} ${PN}-config
 
-	insinto /usr/share/games/${PN} # apparently upstream default
+	insinto /usr/share/${PN}
 	doins -r data skins
 
 	dodoc ${DOCS} || die "dodoc failed"
