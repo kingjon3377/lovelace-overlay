@@ -17,6 +17,7 @@ IUSE=""
 RDEPEND="dev-games/clanlib:0.8[opengl,sdl]"
 DEPEND="${RDEPEND}
 	app-arch/zip
+	=dev-lang/python-2*
 	virtual/pkgconfig"
 
 PATCHES=( "${FILESDIR}/${P}-gentoo.patch" )
@@ -27,6 +28,7 @@ DOCS=( NEWS README TODO ChangeLog )
 
 src_prepare() {
 	default
+	sed -i -e 's@/bin/python@/bin/python2@' ${PN}-config || die
 	eautoreconf
 }
 
