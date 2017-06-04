@@ -19,7 +19,7 @@ IUSE=""
 
 DEPEND="dev-qt/qtcore:4
 	dev-qt/qtgui:4
-	x11-libs/qwt:6"
+	x11-libs/qwt:6[qt4]"
 RDEPEND="${DEPEND}
 	games-misc/fortune-mod"
 
