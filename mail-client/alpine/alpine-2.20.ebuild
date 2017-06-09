@@ -1,6 +1,5 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Id$
 
 EAPI=5
 
@@ -11,23 +10,22 @@ HOMEPAGE="http://www.washington.edu/alpine/ http://patches.freeiz.com/alpine/"
 SRC_URI="http://patches.freeiz.com/alpine/release/src/${P}.tar.xz"
 
 LICENSE="Apache-2.0"
-KEYWORDS="amd64"
 SLOT="0"
-IUSE="doc ipv6 kerberos ldap nls passfile smime spell ssl threads topal"
+KEYWORDS="amd64"
+IUSE="doc ipv6 kerberos ldap nls passfile smime spell ssl threads"
 
+# TODO: Depend on c-client built with USE=chappa?
 DEPEND="virtual/pam
-	>=net-libs/c-client-2007f-r4[topal=]
+	>=net-libs/c-client-2007f-r4
 	sys-libs/ncurses:0
 	>=dev-libs/openssl-1.0.1c
 	ldap? ( net-nds/openldap )
 	kerberos? ( app-crypt/mit-krb5 )
 	spell? ( app-text/aspell )
-	topal? ( >=net-mail/topal-72 )"
+"
 RDEPEND="${DEPEND}
 	app-misc/mime-types
 	!<=net-mail/uw-imap-2004g"
-
-REQUIRED_USE="smime? ( !topal ) topal? ( !smime )"
 
 src_prepare() {
 	eautoreconf
@@ -58,7 +56,7 @@ src_configure() {
 		$(use_with spell interactive-spellcheck /usr/bin/aspell) \
 		$(use_enable nls) \
 		$(use_with ipv6) \
-		$(use topal || use_with smime) \
+		$(use_with smime) \
 		${myconf}
 }
 
