@@ -9,7 +9,7 @@ SRC_URI=""
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="x86 amd64 alpha arm hppa ia64 mips ppc ppc64 s390 sh sparc ~sparc-fbsd ~x86-fbsd"
+KEYWORDS="x86 amd64 alpha arm hppa ia64 ~mips ppc ppc64 s390 sh sparc ~sparc-fbsd ~x86-fbsd"
 IUSE=""
 
 DEPEND=""
