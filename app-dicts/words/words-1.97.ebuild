@@ -1,4 +1,4 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
@@ -10,11 +10,11 @@ SRC_URI="http://archives.nd.edu/whitaker/wordsall.zip"
 
 LICENSE="words"
 SLOT="0"
-KEYWORDS="amd64"
+KEYWORDS="~amd64"
 IUSE=""
 
 RDEPEND="!app-dicts/words-bin"
-DEPEND="virtual/ada"
+DEPEND="virtual/gnat"
 
 S="${WORKDIR}"
 
