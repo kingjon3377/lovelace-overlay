@@ -6,8 +6,8 @@ EAPI=5
 inherit eutils flag-o-matic autotools multilib toolchain-funcs
 
 DESCRIPTION="alpine is an easy to use text-based based mail and news client"
-HOMEPAGE="http://www.washington.edu/alpine/ http://patches.freeiz.com/alpine/"
-SRC_URI="http://patches.freeiz.com/alpine/release/src/${P}.tar.lzma"
+HOMEPAGE="http://www.washington.edu/alpine/ http://alpine.freeiz.com/alpine/"
+SRC_URI="http://alpine.freeiz.com/alpine/release/src/${P}.tar.xz"
 
 LICENSE="Apache-2.0"
 SLOT="0"
@@ -18,7 +18,7 @@ IUSE="doc ipv6 kerberos ldap nls passfile smime spell ssl threads"
 DEPEND="virtual/pam
 	>=net-libs/c-client-2007f-r4
 	sys-libs/ncurses:0
-	>=dev-libs/openssl-1.0
+	>=dev-libs/openssl-1.0.1c
 	ldap? ( net-nds/openldap )
 	kerberos? ( app-crypt/mit-krb5 )
 	spell? ( app-text/aspell )
@@ -66,11 +66,10 @@ src_compile() {
 
 src_install() {
 	emake DESTDIR="${D}" install
-	doman doc/rpdump.1 doc/rpload.1
 	dodoc NOTICE README*
 
 	if use doc ; then
-		dodoc doc/brochure.txt doc/tech-notes.txt
+		dodoc doc/brochure.txt doc/mailcap.unx doc/mime.types
 
 		docinto html/tech-notes
 		dohtml -r doc/tech-notes/
