@@ -7,11 +7,16 @@ JAVA_PKG_IUSE="doc source"
 
 WANT_ANT_TASKS="ant-contrib ant-antlr ant-bndlib"
 
-inherit java-pkg-2 java-ant-2
+if test "${PV}" = 9999; then
+	inherit java-pkg-2 java-ant-2 git-r3
+else
+	inherit java-pkg-2 java-ant-2
+fi
 
 DESCRIPTION="Elegant, readable, highly typesafe JVM programming language"
 HOMEPAGE="https://ceylon-lang.org"
 SRC_URI="https://github.com/${PN}/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
+EGIT_REPO_URI="https://github.com/${PN}/${PN}.git"
 
 LICENSE="Apache-2.0 GPL-2-with-classpath-exception"
 SLOT="0"
