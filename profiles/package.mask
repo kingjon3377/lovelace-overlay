@@ -76,3 +76,6 @@ media-plugins/imms
 # Depends on masked version of openssl
 =app-crypt/rsyncrypto-1.13
 
+# Ebuild not finished
+dev-java/ceylon::lovelace
+
