@@ -77,5 +77,5 @@ media-plugins/imms
 =app-crypt/rsyncrypto-1.13
 
 # Ebuild not finished
-dev-java/ceylon::lovelace
+dev-java/ceylon
 
