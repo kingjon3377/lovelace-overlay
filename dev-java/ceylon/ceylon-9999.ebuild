@@ -36,9 +36,9 @@ COMMON_DEP="dev-java/ant-core:0
 	dev-java/stringtemplate:4"
 
 RDEPEND=">=virtual/jre-1.8
-  ${COMMON_DEP}"
+	${COMMON_DEP}"
 DEPEND=">=virtual/jdk-1.8
-  ${COMMON_DEP}"
+	${COMMON_DEP}"
 
 JAVA_ANT_REWRITE_CLASSPATH=true
 EANT_BUILD_TARGET="dist"
@@ -65,7 +65,7 @@ src_prepare() {
 }
 
 src_install() {
-  java-pkg_dojar "${PN}.jar"
-  use doc && java-pkg_dojavadoc build/javadoc
-  use source && java-pkg_dosrc src
+	java-pkg_dojar "${PN}.jar"
+	use doc && java-pkg_dojavadoc build/javadoc
+	use source && java-pkg_dosrc src
 }
