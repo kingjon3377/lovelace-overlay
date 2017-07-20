@@ -1,4 +1,4 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
@@ -15,7 +15,7 @@ SLOT="0"
 KEYWORDS="amd64"
 IUSE=""
 
-RDEPEND="sys-fs/fuse
+RDEPEND="sys-fs/fuse:0
 	net-libs/gnutls"
 DEPEND="${RDEPEND}
 	app-text/asciidoc
