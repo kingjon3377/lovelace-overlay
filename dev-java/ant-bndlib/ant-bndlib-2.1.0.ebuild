@@ -16,7 +16,11 @@ LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 
-CDEPEND="dev-java/bndlib:0"
+CDEPEND="dev-java/bndlib:0
+	dev-java/osgi-compendium:0
+	dev-java/osgi-core-api:0
+	dev-java/osgi-enterprise-api:0
+	dev-java/libg:0"
 
 # Tests appear broken and cause a circular dependency.
 # test? ( dev-java/bnd-junit:0 )
@@ -36,16 +40,14 @@ JAVA_ANT_REWRITE_CLASSPATH="true"
 # Tests appear broken and cause a circular dependency.
 RESTRICT="test"
 
-java_prepare() {
-	# Move the correct build.xml into place, needed for testing.
-	cp ../cnf/build.xml . || die
-
+src_prepare() {
 	# Remove bundled jar files.
 	find . -name '*.jar' -delete > /dev/null
 
 	if ! use test ; then
 		rm -rf src/aQute/bnd/test || die "Failed to remove tests."
 	fi
+	default
 }
 
 src_compile() {
