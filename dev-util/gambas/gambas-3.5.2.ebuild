@@ -57,7 +57,7 @@ COMMON_DEPEND="
 	openal? ( media-libs/alure )
 	opengl?	(
 		media-libs/mesa
-		|| ( x11-libs/libGLw x11-drivers/nvidia-drivers x11-drivers/ati-drivers )
+		|| ( x11-libs/libGLw x11-drivers/nvidia-drivers )
 		media-libs/glew:0
 		virtual/glu
 	)
