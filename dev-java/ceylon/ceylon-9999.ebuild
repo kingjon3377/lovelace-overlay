@@ -28,6 +28,7 @@ IUSE=""
 COMMON_DEP="dev-java/ant-core:0
 	dev-java/ant-contrib:0
 	dev-java/antlr:3.5
+	dev-java/ant-antlr:0
 	dev-java/hamcrest-core:1.3
 	dev-java/junit:4
 	dev-java/osgi-core-api:0
@@ -57,13 +58,26 @@ src_prepare() {
 		rm lib/"${jar}" || die
 	done
 	java-pkg_jar-from --into lib ant-core
+	sed -i -e 's@"/ceylon/lib/ant-1.8.2.jar"@"/ceylon/lib/ant.jar"@' compiler-java/.classpath \
+		compiler-js/.classpath || die
 	java-pkg_jar-from --into lib ant-contrib
+	sed -i -e 's@/ant-contrib-1.0b3.jar"@/ant-contrib.jar"@' dist/sdk-build.xml dist/osgi/build.xml \
+		dist/build.xml dist/ide-build.xml || die
 	java-pkg_jar-from --into lib antlr-3.5
+	java-pkg_jar-from --into lib ant-antlr
+	sed -i -e 's@\(<classpathentry kind="lib" path="/ceylon/lib/\)antlr-3.4-complete.jar\("/>\)@\1/antlr-runtime.jar\2\1antlr-tool.jar\2\1ant-antlr.jar\2@' compiler-js/.classpath typechecker/.classpath || die
+	#sed -i -e 's@/antlr-3.4-complete.jar"@/antlr-runtime.jar"@' compiler-js/.classpath \
+		#typechecker/.classpath || die
 	java-pkg_jar-from --into lib hamcrest-core-1.3
+	sed -i -e 's@/hamcrest-core-1.3.0.v201303031735.jar"@/hamcrest-core.jar"@' \
+		compiler-java/.classpath || die
 	java-pkg_jar-from --into lib junit-4
+	sed -i -e 's@/junit-4.11.0.jar"@/junit.jar"@' compiler-java/.classpath || die
 	java-pkg_jar-from --into lib osgi-core-api
+	sed -i -e 's@/org.osgi.core-4.3.1.jar"@/osgi-core-api.jar"@' dist/osgi/build.xml || die
 	java-pkg_jar-from --into lib bndlib
 	java-pkg_jar-from --into lib ant-bndlib
+	sed -i -e 's@/biz.aQute.bnd-2.3.0.jar"@/ant-bndlib.jar"@' dist/build.xml || die
 	java-pkg_jar-from --into lib stringtemplate-4
 	eapply_user
 }
