@@ -1,0 +1,7 @@
+The Debian Package sockstat
+---------------------------
+
+This is a reimplementation of the FreeBSD sockstat(1) command. Many
+additional features have been added.
+
+ -- William Pitcock <nenolod@sacredspiral.co.uk>  Sat, 31 May 2008 19:48:39 -0500

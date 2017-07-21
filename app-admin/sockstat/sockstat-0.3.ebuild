@@ -1,4 +1,4 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
@@ -19,15 +19,13 @@ DEPEND=""
 RDEPEND="${DEPEND}"
 
 src_prepare() {
-	cd "${WORKDIR}"
-	epatch "${FILESDIR}/sockstat_0.3-1.1.diff"
-	cd "${S}"
-	epatch debian/patches/*patch
+	epatch "${FILESDIR}/10_fix-CHAR-BIT-missing.patch" \
+		"${FILESDIR}/20_add-GCC-hardening.patch"
 }
 
 src_install() {
 	dodir /usr/bin
 	emake DESTDIR="${D}" install
 	doman ${PN}.1
-	dodoc debian/control debian/changelog debian/README
+	dodoc "${FILESDIR}/README.Debian"
 }
