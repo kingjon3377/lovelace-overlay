@@ -35,9 +35,9 @@ COMMON_DEP="dev-java/ant-core:0
 	dev-java/ant-bndlib:0
 	dev-java/stringtemplate:4"
 
-RDEPEND=">=virtual/jre-1.8
+RDEPEND=">=virtual/jre-1.7
 	${COMMON_DEP}"
-DEPEND=">=virtual/jdk-1.8
+DEPEND=">=virtual/jdk-1.7
 	${COMMON_DEP}"
 
 JAVA_ANT_REWRITE_CLASSPATH=true
