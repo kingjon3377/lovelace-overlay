@@ -40,10 +40,14 @@ RDEPEND=">=virtual/jre-1.7
 DEPEND=">=virtual/jdk-1.7
 	${COMMON_DEP}"
 
-JAVA_ANT_REWRITE_CLASSPATH=true
+#JAVA_ANT_REWRITE_CLASSPATH=true
 EANT_BUILD_TARGET="dist"
 EANT_DOC_TARGET=""
 EANT_GENTOO_CLASSPATH="antlr-3.5,hamcrest-core-1.3,osgi-core-api,ant-bndlib,stringtemplate-4"
+
+# Build file rewriting somehow breaks the build, even with classpath-injection off
+# But with that off, missing-from-classpath failures return ...
+#JAVA_PKG_BSFIX=off
 
 src_prepare() {
 	for jar in ant-1.8.2.jar ant-contrib-1.0b3.jar antlr-3.4-complete.jar \
