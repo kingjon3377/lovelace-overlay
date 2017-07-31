@@ -14,7 +14,7 @@ KEYWORDS="~amd64"
 IUSE=""
 
 RDEPEND="!app-dicts/words-bin"
-DEPEND="virtual/gnat"
+DEPEND="|| ( virtual/gnat dev-lang/gnat-gpl )"
 
 S="${WORKDIR}"
 
