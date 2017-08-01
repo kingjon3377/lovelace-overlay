@@ -1,6 +1,5 @@
 # Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Id$
 # I don't remember where I got this, if I didn't write it myself.
 # TODO: test, then submit if working.
 
