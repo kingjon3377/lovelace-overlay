@@ -34,7 +34,6 @@ RDEPEND="${DEPEND}
 	>=dev-java/slf4j-api-1.3.1
 	>=dev-java/sun-javamail-1.4
 	>=dev-java/jta-1.0.1
-	>=java-virtuals/jaf-1.1
 	|| (
 		virtual/jre:1.6
 		virtual/jre:1.7
