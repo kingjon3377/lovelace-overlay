@@ -4,7 +4,7 @@
 
 EAPI=5
 
-USE_RUBY="ruby21"
+USE_RUBY="ruby21 ruby22 ruby23 ruby24"
 
 inherit ruby-ng eutils fdo-mime
 
