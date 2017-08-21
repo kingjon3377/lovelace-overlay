@@ -79,3 +79,7 @@ media-plugins/imms
 # Ebuild not finished
 dev-java/ceylon
 
+# KDE4 is masked in the main tree
+kde-misc/gally
+kde-misc/lekhonee
+
