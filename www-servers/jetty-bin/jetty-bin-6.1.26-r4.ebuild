@@ -32,7 +32,7 @@ DEPEND="
 RDEPEND="${DEPEND}
 	anttasks? ( dev-java/ant )
 	>=dev-java/slf4j-api-1.3.1
-	>=dev-java/sun-javamail-1.4
+	>=dev-java/oracle-javamail-1.4
 	>=dev-java/jta-1.0.1
 	|| (
 		virtual/jre:1.6
@@ -117,7 +117,7 @@ org.mortbay.xml.XmlConfiguration.class
 \$(start.class).class
 \$(jetty.home)/etc/jetty.xml
 \$(jetty.home)/lib/*
-/usr/share/sun-javamail/lib/*
+/usr/share/oracle-javamail/lib/*
 /usr/share/ant/lib/*
 /usr/share/slf4j-api/lib/*
 /usr/share/jta/lib/*
