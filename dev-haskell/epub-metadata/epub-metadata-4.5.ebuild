@@ -18,10 +18,12 @@ KEYWORDS="~amd64 ~x86"
 IUSE=""
 
 RDEPEND=">=dev-haskell/hxt-9:=[profile?]
+		dev-haskell/utf8-string:=[profile?]
 		dev-haskell/mtl:=[profile?]
 		dev-haskell/regex-compat:=[profile?]
 		dev-haskell/zip-archive:=[profile?]
-		>=dev-lang/ghc-6.10.4:="
+		dev-haskell/regex-compat-tdfa:=[profile?]
+		>=dev-lang/ghc-8.0.1:="
 DEPEND="${RDEPEND}
 		test? ( dev-haskell/hunit
 		)
