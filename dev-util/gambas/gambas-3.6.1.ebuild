@@ -3,7 +3,7 @@
 
 EAPI=5
 
-inherit autotools eutils fdo-mime libtool multilib qt4-r2
+inherit autotools eutils fdo-mime libtool multilib
 
 DESCRIPTION="A free IDE based on a Basic interpreter with object extensions"
 HOMEPAGE="http://gambas.sourceforge.net/"
@@ -18,7 +18,7 @@ KEYWORDS="~amd64 ~x86"
 IUSE="
 	+bzip2 +cairo crypt +curl dbus +desktop examples gmp gsl +gtk httpd +imageio imageimlib \
 	jit +media mysql +mime +ncurses +net +opengl postgres odbc openssl openal +pcre +pdf \
-	+qt4 +sdl +sdlsound smtp +sqlite +svg +v4l +xml +zlib"
+	+sdl +sdlsound smtp +sqlite +svg +v4l +xml +zlib"
 
 REQUIRED_USE="gtk? ( cairo ) media? ( v4l ) mysql? ( zlib ) net? ( curl ) sdl? ( opengl ) xml? ( net ) net? ( mime )"
 
@@ -64,11 +64,6 @@ COMMON_DEPEND="
 	pcre?	( dev-libs/libpcre:3 )
 	pdf?	( app-text/poppler )
 	postgres?	( dev-db/postgresql:= )
-	qt4? (
-		dev-qt/qtwebkit:4
-		dev-qt/qtcore:4
-		dev-qt/qtopengl:4
-	)
 	sdl?	(
 		media-libs/sdl-image
 		media-libs/sdl-mixer
@@ -128,7 +123,6 @@ src_configure() {
 		$(use_enable xml) \
 		$(use_enable v4l) \
 		$(use_enable crypt) \
-		$(use_enable qt4) \
 		$(use_enable gtk) \
 		$(use_enable opengl) \
 		$(use_enable desktop) \
@@ -158,7 +152,7 @@ src_install() {
 	use jit && newdoc gb.jit/README gb.jit-README
 	use smtp && newdoc gb.net.smtp/README gb.net.smtp-README
 
-	if { use qt4 || use gtk; } ; then
+	if { use gtk; } ; then
 		insinto /usr/share/applications
 		doins app/desktop/gambas3.desktop
 
@@ -171,7 +165,7 @@ src_install() {
 }
 
 my_fdo_update() {
-	{ use qt4 || use gtk; } && fdo-mime_desktop_database_update
+	{ use gtk; } && fdo-mime_desktop_database_update
 	fdo-mime_mime_database_update
 }
 
