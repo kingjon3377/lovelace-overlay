@@ -83,7 +83,7 @@ RDEPEND="${COMMON_DEPEND}"
 
 S="${WORKDIR}/${PN}3-${PV}"
 
-PATCHES=( "${FILESDIR}/${P}-xdgutils.patch" )
+PATCHES=( "${FILESDIR}/${P}-xdgutils.patch" "${FILESDIR}/${P}-poppler-compat.patch" )
 
 src_prepare() {
 	default
