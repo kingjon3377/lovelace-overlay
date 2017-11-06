@@ -4,7 +4,7 @@
 EAPI=5
 
 DESCRIPTION="Boolean line manipulator utility program for set operations"
-HOMEPAGE="http://packages.debian.org/sid/blm"
+HOMEPAGE="https://packages.debian.org/sid/blm"
 SRC_URI="mirror://debian/pool/main/b/blm/${P/-/_}.orig.tar.gz"
 
 LICENSE="BSD"

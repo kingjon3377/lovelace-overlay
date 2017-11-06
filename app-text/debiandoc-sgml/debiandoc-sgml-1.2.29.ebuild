@@ -7,7 +7,7 @@ EAPI=5
 inherit perl-module
 
 DESCRIPTION="Debian SGML documentation tools"
-HOMEPAGE="http://packages.debian.org/source/sid/debiandoc-sgml"
+HOMEPAGE="https://packages.debian.org/source/sid/debiandoc-sgml"
 #SRC_URI="mirror://debian/pool/main/d/debiandoc-sgml/${PN}_${PV}.tar.gz"
 SRC_URI="mirror://debian/pool/main/d/debiandoc-sgml/${PN}_${PV}.orig.tar.gz"
 

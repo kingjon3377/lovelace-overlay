@@ -8,7 +8,7 @@ inherit games toolchain-funcs
 NMU_VER=nmu1
 
 DESCRIPTION="The GNU Bombing utility"
-HOMEPAGE="http://packages.debian.org/bombardier"
+HOMEPAGE="https://packages.debian.org/bombardier"
 SRC_URI="mirror://debian/pool/main/b/bombardier/${P/-/_}+${NMU_VER}.tar.gz"
 
 LICENSE="GPL-3"

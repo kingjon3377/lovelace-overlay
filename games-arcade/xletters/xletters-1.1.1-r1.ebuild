@@ -6,7 +6,7 @@ EAPI=5
 inherit games
 
 DESCRIPTION="Type falling words before they land"
-HOMEPAGE="http://packages.debian.org/xletters"
+HOMEPAGE="https://packages.debian.org/xletters"
 SRC_URI="mirror://debian/pool/main/x/${PN}/${PN}_${PV}.orig.tar.gz"
 
 LICENSE="GPL-2"

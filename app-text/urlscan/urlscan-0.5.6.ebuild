@@ -9,7 +9,7 @@ PYTHON_COMPAT=( python2_7 )
 inherit distutils-r1
 
 DESCRIPTION="Extract and browse the URLs contained in an email"
-HOMEPAGE="http://packages.debian.org/urlscan"
+HOMEPAGE="https://packages.debian.org/urlscan"
 SRC_URI="mirror://debian/pool/main/u/${PN}/${PN}_${PV}-0.1.tar.gz"
 
 LICENSE="GPL-2"

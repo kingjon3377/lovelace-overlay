@@ -6,7 +6,7 @@ EAPI=5
 inherit eutils toolchain-funcs autotools
 
 DESCRIPTION="A two-level morphology tool for natural language processing"
-HOMEPAGE="http://packages.debian.org/mmorph"
+HOMEPAGE="https://packages.debian.org/mmorph"
 SRC_URI="mirror://debian/pool/main/m/${PN}/${PN}_${PV}.orig.tar.gz"
 
 LICENSE="GPL-2"

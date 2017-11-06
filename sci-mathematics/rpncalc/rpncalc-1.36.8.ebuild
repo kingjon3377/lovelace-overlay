@@ -6,7 +6,7 @@ EAPI=5
 inherit toolchain-funcs
 
 DESCRIPTION="RPN calculator trying to emulate an HP28S"
-HOMEPAGE="http://packages.debian.org/rpncalc"
+HOMEPAGE="https://packages.debian.org/rpncalc"
 SRC_URI="mirror://debian/pool/main/r/${PN}/${PN}_${PV}.tar.gz"
 
 LICENSE="GPL-2"

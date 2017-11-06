@@ -6,7 +6,7 @@ EAPI=5
 inherit eutils toolchain-funcs
 
 DESCRIPTION="Parser for expressions concerning physical values"
-HOMEPAGE="http://packages.debian.org/sid/units-filter"
+HOMEPAGE="https://packages.debian.org/sid/units-filter"
 SRC_URI="mirror://debian/pool/main/u/${PN}/${P/r-/r_}.orig.tar.gz"
 
 LICENSE="GPL-2"

@@ -6,7 +6,7 @@ EAPI=5
 inherit toolchain-funcs
 
 DESCRIPTION="Unpacks .ARC and .ARK MS-DOS archives"
-HOMEPAGE="http://packages.debian.org/sid/nomarch"
+HOMEPAGE="https://packages.debian.org/sid/nomarch"
 SRC_URI="mirror://debian/pool/main/n/${PN}/${P/-/_}.orig.tar.gz"
 
 LICENSE="GPL-2"

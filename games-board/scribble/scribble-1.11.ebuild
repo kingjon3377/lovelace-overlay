@@ -6,7 +6,7 @@ EAPI=5
 inherit games
 
 DESCRIPTION="Popular crossword game, similar to Scrabble"
-HOMEPAGE="http://packages.debian.org/source/sid/scribble"
+HOMEPAGE="https://packages.debian.org/source/sid/scribble"
 SRC_URI="mirror://debian/pool/main/s/scribble/${PN}_${PV}-1.tar.gz"
 
 LICENSE="public-domain"

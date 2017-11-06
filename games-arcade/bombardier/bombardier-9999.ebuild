@@ -8,7 +8,7 @@ EGIT_REPO_URI="git://git.debian.org/collab-maint/bombardier.git"
 inherit games git-r3 toolchain-funcs
 
 DESCRIPTION="The GNU Bombing utility"
-HOMEPAGE="http://packages.debian.org/bombardier"
+HOMEPAGE="https://packages.debian.org/bombardier"
 SRC_URI=""
 
 LICENSE="GPL-3"

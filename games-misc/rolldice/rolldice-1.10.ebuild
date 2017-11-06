@@ -6,7 +6,7 @@ EAPI=5
 inherit games eutils toolchain-funcs
 
 DESCRIPTION="virtual dice roller"
-HOMEPAGE="http://packages.debian.org/rolldice"
+HOMEPAGE="https://packages.debian.org/rolldice"
 SRC_URI="mirror://debian/pool/main/r/${PN}/${P/-/_}.orig.tar.gz"
 
 LICENSE="GPL-2"

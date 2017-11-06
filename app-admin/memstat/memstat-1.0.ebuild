@@ -4,7 +4,7 @@
 EAPI=5
 
 DESCRIPTION="Identify what's using up virtual memory"
-HOMEPAGE="http://packages.debian.org/memstat"
+HOMEPAGE="https://packages.debian.org/memstat"
 SRC_URI="mirror://debian/pool/main/m/${PN}/${P/-/_}.tar.gz"
 
 LICENSE="GPL-2"

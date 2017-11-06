@@ -6,7 +6,7 @@ EAPI=5
 inherit eutils autotools
 
 DESCRIPTION="A GTK+ logbook editor"
-HOMEPAGE="http://packages.debian.org/source/sid/notebook"
+HOMEPAGE="https://packages.debian.org/source/sid/notebook"
 SRC_URI="mirror://debian/pool/main/n/notebook/notebook_0.2rel.orig.tar.gz"
 
 LICENSE="GPL-2"

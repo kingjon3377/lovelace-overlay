@@ -7,7 +7,7 @@ EGIT_REPO_URI="git://git.debian.org/git/collab-maint/buthead.git"
 inherit git-r3 toolchain-funcs
 
 DESCRIPTION="copy all but the first few lines"
-HOMEPAGE="http://packages.debian.org/unstable/buthead"
+HOMEPAGE="https://packages.debian.org/unstable/buthead"
 SRC_URI=""
 
 LICENSE="GPL-2"

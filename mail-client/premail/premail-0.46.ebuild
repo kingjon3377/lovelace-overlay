@@ -6,7 +6,7 @@ EAPI=5
 inherit eutils
 
 DESCRIPTION="An e-mail privacy package"
-HOMEPAGE="http://packages.debian.org/premail"
+HOMEPAGE="https://packages.debian.org/premail"
 SRC_URI="mirror://debian/pool/contrib/p/${PN}/${PN}_${PV}.orig.tar.gz"
 
 LICENSE="premail"

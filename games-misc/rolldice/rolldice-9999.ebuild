@@ -8,7 +8,7 @@ EGIT_REPO_URI=git://gitorious.org/debian-packages/rolldice.git
 inherit games git-r3 eutils toolchain-funcs
 
 DESCRIPTION="virtual dice roller"
-HOMEPAGE="http://packages.debian.org/rolldice"
+HOMEPAGE="https://packages.debian.org/rolldice"
 SRC_URI=""
 
 LICENSE="GPL-2"

@@ -6,7 +6,7 @@ EAPI=5
 inherit games toolchain-funcs
 
 DESCRIPTION="anagram generator"
-HOMEPAGE="http://packages.debian.org/wordplay"
+HOMEPAGE="https://packages.debian.org/wordplay"
 SRC_URI="mirror://debian/pool/main/w/${PN}/${PN}_${PV}.orig.tar.gz"
 
 LICENSE="wordplay"

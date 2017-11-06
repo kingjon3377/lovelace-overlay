@@ -6,7 +6,7 @@ EAPI=5
 inherit eutils
 
 DESCRIPTION="view detailed information about open connections"
-HOMEPAGE="http://packages.debian.org/unstable/main/sockstat"
+HOMEPAGE="https://packages.debian.org/unstable/main/sockstat"
 SRC_URI="mirror://debian/pool/main/s/${PN}/${P/-/_}.orig.tar.gz"
 
 LICENSE="BSD"

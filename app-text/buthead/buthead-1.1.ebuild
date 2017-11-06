@@ -6,7 +6,7 @@ EAPI=5
 inherit toolchain-funcs
 
 DESCRIPTION="copy all but the first few lines"
-HOMEPAGE="http://packages.debian.org/unstable/buthead"
+HOMEPAGE="https://packages.debian.org/unstable/buthead"
 SRC_URI="mirror://debian/pool/main/b/${PN}/${P/-/_}.orig.tar.gz"
 
 LICENSE="GPL-2"

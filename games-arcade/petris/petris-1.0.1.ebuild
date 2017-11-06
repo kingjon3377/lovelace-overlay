@@ -6,7 +6,7 @@ EAPI=5
 inherit games toolchain-funcs
 
 DESCRIPTION="Peter's Tetris"
-HOMEPAGE="http://packages.debian.org/src:petris"
+HOMEPAGE="https://packages.debian.org/src:petris"
 SRC_URI="mirror://debian/pool/main/p/petris/${PN}_${PV}.orig.tar.gz"
 
 LICENSE="public-domain"

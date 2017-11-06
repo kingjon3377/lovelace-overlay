@@ -6,7 +6,7 @@ EAPI=5
 inherit eutils toolchain-funcs
 
 DESCRIPTION="Utilities to save disk space"
-HOMEPAGE="http://packages.debian.org/sid/perforate http://perforate-linux.sourceforge.net/"
+HOMEPAGE="https://packages.debian.org/sid/perforate http://perforate-linux.sourceforge.net/"
 SRC_URI="mirror://debian/pool/main/p/${PN}/${P/-/_}.orig.tar.gz"
 
 LICENSE="GPL-2"

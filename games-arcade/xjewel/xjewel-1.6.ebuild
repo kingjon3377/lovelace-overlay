@@ -6,7 +6,7 @@ EAPI=5
 inherit games eutils toolchain-funcs
 
 DESCRIPTION="match colors on falling columns of blocks"
-HOMEPAGE="http://packages.debian.org/xjewel"
+HOMEPAGE="https://packages.debian.org/xjewel"
 SRC_URI="ftp://ftp.warwick.ac.uk/pub/x11/xjewel-1.6.tar.z"
 
 LICENSE="xjewel"

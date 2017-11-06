@@ -9,7 +9,7 @@ inherit distutils-r1
 MY_P=${PN}_${PV}
 
 DESCRIPTION="Python library for generating dictd dictionaries"
-HOMEPAGE="http://packages.debian.org/sid/python-dictdlib"
+HOMEPAGE="https://packages.debian.org/sid/python-dictdlib"
 SRC_URI="mirror://debian/pool/main/d/${PN}/${MY_P}.tar.gz"
 
 LICENSE="GPL-2"

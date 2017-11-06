@@ -6,7 +6,7 @@ EAPI=5
 inherit toolchain-funcs
 
 DESCRIPTION="Remove the markup tags from an HTML file"
-HOMEPAGE="http://packages.debian.org/unhtml"
+HOMEPAGE="https://packages.debian.org/unhtml"
 SRC_URI="mirror://debian/pool/main/u/${PN}/${P/-/_}.orig.tar.gz"
 
 LICENSE="GPL-2"
