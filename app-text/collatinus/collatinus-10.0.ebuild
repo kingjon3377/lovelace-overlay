@@ -7,7 +7,7 @@ inherit eutils qt4-r2
 
 DESCRIPTION="lemmatisation of latin text"
 #HOMEPAGE="http://www.collatinus.org"
-HOMEPAGE="http://github.com/Carreau/Collatinus"
+HOMEPAGE="https://github.com/Carreau/Collatinus"
 SRC_URI="mirror://debian/pool/main/c/${PN}/${P/-/_}.orig.tar.gz"
 
 LICENSE="GPL-3"

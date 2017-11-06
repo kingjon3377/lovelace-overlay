@@ -6,7 +6,7 @@ EAPI=5
 inherit eutils autotools
 
 DESCRIPTION="The GNU Image-Finding Tool"
-HOMEPAGE="http://www.gnu.org/software/gift/"
+HOMEPAGE="https://www.gnu.org/software/gift/"
 SRC_URI="mirror://gnu-alpha/${PN}/${P}.tar.gz"
 LICENSE="LGPL-2.1"
 

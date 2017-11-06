@@ -7,7 +7,7 @@ inherit multilib toolchain-funcs vcs-snapshot
 
 DESCRIPTION="fast and scalable online machine learning algorithm"
 HOMEPAGE="http://hunch.net/~vw/"
-SRC_URI="http://github.com/JohnLangford/vowpal_wabbit/tarball/${PV} -> ${P}.tar.gz"
+SRC_URI="https://github.com/JohnLangford/vowpal_wabbit/tarball/${PV} -> ${P}.tar.gz"
 
 LICENSE="BSD"
 SLOT="0"

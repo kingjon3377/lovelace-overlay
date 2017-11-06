@@ -7,7 +7,7 @@ EHG_REPO_URI="https://alioth.debian.org/anonscm/hg/latrine/"
 inherit toolchain-funcs mercurial autotools
 
 DESCRIPTION="curses-based LAnguage TRaINEr"
-HOMEPAGE="http://alioth.debian.org/projects/latrine/"
+HOMEPAGE="https://alioth.debian.org/projects/latrine/"
 SRC_URI=""
 
 LICENSE="GPL-3"

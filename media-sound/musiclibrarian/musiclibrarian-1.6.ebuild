@@ -9,7 +9,7 @@ PYTHON_COMPAT=( python2_7 )
 inherit distutils-r1
 
 DESCRIPTION="A simple GUI tool to organize collections of music"
-HOMEPAGE="http://alioth.debian.org/projects/musiclibrarian"
+HOMEPAGE="https://alioth.debian.org/projects/musiclibrarian"
 SRC_URI="mirror://ubuntu/pool/universe/m/${PN}/${P/-/_}.orig.tar.gz"
 
 LICENSE="GPL-3"

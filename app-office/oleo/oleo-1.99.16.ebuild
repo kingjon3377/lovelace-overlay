@@ -6,7 +6,7 @@ EAPI=5
 inherit eutils
 
 DESCRIPTION="GNU spreadsheet program"
-HOMEPAGE="http://www.gnu.org/software/oleo/"
+HOMEPAGE="https://www.gnu.org/software/oleo/"
 SRC_URI="http://ftp.gnu.org/pub/gnu/${PN}/${P}.tar.gz"
 
 LICENSE="GPL-3"

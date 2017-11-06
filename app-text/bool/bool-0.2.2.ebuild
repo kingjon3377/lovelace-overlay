@@ -6,7 +6,7 @@ EAPI=5
 inherit eutils flag-o-matic toolchain-funcs
 
 DESCRIPTION="Utility for matching boolean queries in text or html files"
-HOMEPAGE="http://www.gnu.org/software/bool/bool.html"
+HOMEPAGE="https://www.gnu.org/software/bool/bool.html"
 SRC_URI="mirror://gnu/${PN}/${P}.tar.xz"
 
 LICENSE="GPL-2"

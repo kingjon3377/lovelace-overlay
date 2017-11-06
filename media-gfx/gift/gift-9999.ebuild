@@ -9,7 +9,7 @@ ECVS_MODULE="gift"
 inherit eutils autotools cvs
 
 DESCRIPTION="The GNU Image-Finding Tool"
-HOMEPAGE="http://www.gnu.org/software/gift/"
+HOMEPAGE="https://www.gnu.org/software/gift/"
 SRC_URI=""
 LICENSE="LGPL-2.1"
 

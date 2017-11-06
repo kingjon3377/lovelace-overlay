@@ -7,7 +7,7 @@ inherit perl-app bash-completion-r1
 
 DESCRIPTION="command line issue tracker"
 HOMEPAGE="https://github.com/chilts/cil"
-SRC_URI="http://github.com/chilts/cil/archive/v0.07.00.tar.gz -> ${P}.tar.gz"
+SRC_URI="https://github.com/chilts/cil/archive/v0.07.00.tar.gz -> ${P}.tar.gz"
 #SRC_URI="mirror://github/chilts/${PN}/archive/v0.07.00.tar.gz -> ${P}.tar.gz"
 
 LICENSE="GPL-3"

@@ -8,7 +8,7 @@ EGIT_REPO_URI="git://git.debian.org/git/collab-maint/${PN}.git"
 inherit eutils git-r3 multilib
 
 DESCRIPTION="The Scheme->C compiler, R4RS compliant"
-HOMEPAGE="http://alioth.debian.org/projects/scheme2c/"
+HOMEPAGE="https://alioth.debian.org/projects/scheme2c/"
 SRC_URI=""
 
 LICENSE="MIT"

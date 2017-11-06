@@ -6,8 +6,8 @@ EAPI=5
 inherit eutils toolchain-funcs
 
 DESCRIPTION="curses-based LAnguage TRaINEr"
-HOMEPAGE="http://alioth.debian.org/projects/latrine/"
-SRC_URI="http://alioth.debian.org/frs/download.php/3085/${P}.tar.gz"
+HOMEPAGE="https://alioth.debian.org/projects/latrine/"
+SRC_URI="https://alioth.debian.org/frs/download.php/3085/${P}.tar.gz"
 
 LICENSE="GPL-3"
 SLOT="0"
