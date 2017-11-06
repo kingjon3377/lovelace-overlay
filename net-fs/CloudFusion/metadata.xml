@@ -2,8 +2,8 @@
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
 <use>
-	<flag name="google-storage">Enable access to Google Drive</flag>
-	<flag name="automate-captchas">Try to use <pkg>app-text/tesseract</pkg> to
-	  automatically decode CAPTCHAs</flag>
+  <flag name="google-storage">Enable access to Google Drive</flag>
+  <flag name="automate-captchas">Try to use <pkg>app-text/tesseract</pkg> to
+    automatically decode CAPTCHAs</flag>
 </use>
 </pkgmetadata>

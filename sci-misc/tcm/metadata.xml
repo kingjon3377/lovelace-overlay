@@ -14,15 +14,15 @@
 
    * Generic editors for generic diagrams, generic tables and generic trees.
    * Structured Analysis (SA) editors for entity-relationship diagrams, data
-	 and event flow diagrams, state transition diagrams, function refinement
-	 trees, transaction-use tables and function-entity type tables. 
+     and event flow diagrams, state transition diagrams, function refinement
+     trees, transaction-use tables and function-entity type tables. 
    * Unified Modeling Language (UML) editors for static structure diagrams,
-	 use-case diagrams, activity diagrams, state charts, message sequence
-	 diagrams, collaboration diagrams, component diagrams and deployment
-	 diagrams (only the first three UML and last two editors are functional at
-	 this moment). 
+     use-case diagrams, activity diagrams, state charts, message sequence
+     diagrams, collaboration diagrams, component diagrams and deployment
+     diagrams (only the first three UML and last two editors are functional at
+     this moment). 
    * Miscellaneous editors such as for JSD (process structure and network
-	 diagrams), recursive process graphs and transaction decomposition tables. 
+     diagrams), recursive process graphs and transaction decomposition tables. 
 
    TCM supports constraint checking for single documents (e.g. name duplication
    and cycles in is-a relationships). TCM distinguishes built-in constraints
