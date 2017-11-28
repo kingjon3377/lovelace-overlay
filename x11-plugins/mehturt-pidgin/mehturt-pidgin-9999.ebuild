@@ -35,5 +35,5 @@ src_compile() {
 src_install() {
 	dodir /usr/$(get_libdir)/purple-2
 	emake install DESTDIR="${D}"
-	dodoc README
+	dodoc README.md
 }
