@@ -27,7 +27,7 @@ IUSE=""
 RDEPEND="
 	dev-python/setuptools[${PYTHON_USEDEP}]
 	net-zope/zope-browser[${PYTHON_USEDEP}]
-	net-zope/zope-component[${PYTHON_USEDEP}]
+	dev-python/zope-component[${PYTHON_USEDEP}]
 	net-zope/zope-configuration[${PYTHON_USEDEP}]
 	net-zope/zope-contenttype[${PYTHON_USEDEP}]
 	dev-python/zope-event[${PYTHON_USEDEP}]

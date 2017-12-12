@@ -27,7 +27,7 @@ IUSE=""
 RDEPEND="
 	dev-python/pytz[${PYTHON_USEDEP}]
 	net-zope/zope-annotation[${PYTHON_USEDEP}]
-	net-zope/zope-component[${PYTHON_USEDEP}]
+	dev-python/zope-component[${PYTHON_USEDEP}]
 	net-zope/zope-datetime[${PYTHON_USEDEP}]
 	dev-python/zope-event[${PYTHON_USEDEP}]
 	net-zope/zope-i18nmessageid[${PYTHON_USEDEP}]

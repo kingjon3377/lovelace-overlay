@@ -26,7 +26,7 @@ IUSE=""
 # net-zope/namespaces-zope[zope,${PYTHON_USEDEP}]
 RDEPEND="
 	net-zope/zodb[${PYTHON_USEDEP}]
-	net-zope/zope-component[${PYTHON_USEDEP}]
+	dev-python/zope-component[${PYTHON_USEDEP}]
 	dev-python/zope-interface[${PYTHON_USEDEP}]
 	net-zope/zope-location[${PYTHON_USEDEP}]
 	net-zope/zope-proxy[${PYTHON_USEDEP}]"

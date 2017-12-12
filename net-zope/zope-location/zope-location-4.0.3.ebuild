@@ -24,7 +24,7 @@ IUSE="doc"
 
 # net-zope/namespaces-zope[zope,${PYTHON_USEDEP}]
 RDEPEND="
-	>=net-zope/zope-component-3.8[${PYTHON_USEDEP}]
+	>=dev-python/zope-component-3.8[${PYTHON_USEDEP}]
 	net-zope/zope-copy[${PYTHON_USEDEP}]
 	dev-python/zope-interface[${PYTHON_USEDEP}]
 	net-zope/zope-proxy[${PYTHON_USEDEP}]

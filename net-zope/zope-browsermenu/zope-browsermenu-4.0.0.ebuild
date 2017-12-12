@@ -26,7 +26,7 @@ IUSE=""
 # net-zope/namespaces-zope[zope,${PYTHON_USEDEP}]
 RDEPEND="
 	net-zope/zope-browser[${PYTHON_USEDEP}]
-	net-zope/zope-component[${PYTHON_USEDEP}]
+	dev-python/zope-component[${PYTHON_USEDEP}]
 	net-zope/zope-configuration[${PYTHON_USEDEP}]
 	net-zope/zope-i18nmessageid[${PYTHON_USEDEP}]
 	dev-python/zope-interface[${PYTHON_USEDEP}]

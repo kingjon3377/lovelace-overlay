@@ -25,7 +25,7 @@ IUSE=""
 RDEPEND="
 	dev-python/pytz[${PYTHON_USEDEP}]
 	dev-python/restrictedpython[${PYTHON_USEDEP}]
-	net-zope/zope-component[${PYTHON_USEDEP}]
+	dev-python/zope-component[${PYTHON_USEDEP}]
 	net-zope/zope-configuration[${PYTHON_USEDEP}]
 	net-zope/zope-exceptions[${PYTHON_USEDEP}]
 	net-zope/zope-i18nmessageid[${PYTHON_USEDEP}]
