@@ -32,7 +32,7 @@ RDEPEND="
 DEPEND="${RDEPEND}
 	dev-python/setuptools[${PYTHON_USEDEP}]
 	doc? ( dev-python/sphinx[${PYTHON_USEDEP}] )
-	test? ( net-zope/zope-testing[${PYTHON_USEDEP}] )"
+	test? ( dev-python/zope-testing[${PYTHON_USEDEP}] )"
 
 DOCS="CHANGES.rst README.rst"
 PYTHON_MODULES="${PN/.//}"

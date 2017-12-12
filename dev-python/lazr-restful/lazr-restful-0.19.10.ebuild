@@ -26,7 +26,7 @@ DEPEND="net-zope/grokcore-component[${PYTHON_USEDEP}]
 	dev-python/martian[${PYTHON_USEDEP}]
 	dev-python/van-testing[${PYTHON_USEDEP}]
 	net-zope/zope-app-pagetemplate[${PYTHON_USEDEP}]
-	net-zope/zope-configuration[${PYTHON_USEDEP}]
+	dev-python/zope-configuration[${PYTHON_USEDEP}]
 	net-zope/zope-pagetemplate[${PYTHON_USEDEP}]
 	net-zope/zope-security[${PYTHON_USEDEP}]
 	net-zope/zope-traversing[${PYTHON_USEDEP}]"

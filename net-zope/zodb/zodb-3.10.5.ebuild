@@ -29,7 +29,7 @@ RDEPEND="dev-python/manuel[${PYTHON_USEDEP}]
 	net-zope/zdaemon[${PYTHON_USEDEP}]
 	dev-python/zope-event[${PYTHON_USEDEP}]
 	dev-python/zope-interface[${PYTHON_USEDEP}]
-	net-zope/zope-testing[${PYTHON_USEDEP}]
+	dev-python/zope-testing[${PYTHON_USEDEP}]
 	!media-libs/FusionSound"
 DEPEND="${RDEPEND}
 	dev-python/setuptools[${PYTHON_USEDEP}]"

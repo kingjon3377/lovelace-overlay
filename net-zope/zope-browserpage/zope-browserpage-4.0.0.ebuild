@@ -27,7 +27,7 @@ IUSE=""
 RDEPEND="
 	net-zope/zope-browsermenu[${PYTHON_USEDEP}]
 	dev-python/zope-component[${PYTHON_USEDEP}]
-	net-zope/zope-configuration[${PYTHON_USEDEP}]
+	dev-python/zope-configuration[${PYTHON_USEDEP}]
 	dev-python/zope-interface[${PYTHON_USEDEP}]
 	net-zope/zope-pagetemplate[${PYTHON_USEDEP}]
 	net-zope/zope-publisher[${PYTHON_USEDEP}]

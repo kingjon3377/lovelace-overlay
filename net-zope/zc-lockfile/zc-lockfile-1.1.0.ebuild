@@ -31,7 +31,7 @@ RDEPEND=""
 DEPEND="${RDEPEND}
 	app-arch/unzip
 	dev-python/setuptools[${PYTHON_USEDEP}]
-	test? ( net-zope/zope-testing[${PYTHON_USEDEP}] )"
+	test? ( dev-python/zope-testing[${PYTHON_USEDEP}] )"
 
 DOCS="doc.txt CHANGES.txt src/zc/lockfile/README.txt"
 PYTHON_MODULES="${PN/-//}"

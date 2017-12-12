@@ -26,10 +26,10 @@ IUSE=""
 # net-zope/namespaces-grok
 RDEPEND=">=dev-python/martian-0.14[${PYTHON_USEDEP}]
 	dev-python/zope-component[${PYTHON_USEDEP}]
-	net-zope/zope-configuration[${PYTHON_USEDEP}]
+	dev-python/zope-configuration[${PYTHON_USEDEP}]
 	dev-python/zope-interface[${PYTHON_USEDEP}]
 	net-zope/zope-schema[${PYTHON_USEDEP}]
-	net-zope/zope-testing[${PYTHON_USEDEP}]"
+	dev-python/zope-testing[${PYTHON_USEDEP}]"
 DEPEND="${RDEPEND}
 	dev-python/setuptools[${PYTHON_USEDEP}]"
 
