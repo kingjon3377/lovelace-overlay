@@ -3,7 +3,7 @@
 
 EAPI=5
 
-inherit eutils libtool qt4-r2 fdo-mime autotools toolchain-funcs
+inherit eutils libtool qt4-r2 xdg-utils autotools toolchain-funcs
 
 DESCRIPTION="QT based cross-platform Subversion client, diff & merge tool."
 HOMEPAGE="http://subcommander.tigris.org/"
@@ -58,9 +58,9 @@ src_install() {
 }
 
 pkg_postinst() {
-	fdo-mime_desktop_database_update
+	xdg_desktop_database_update
 }
 
 pkg_postrm() {
-	fdo-mime_desktop_database_update
+	xdg_desktop_database_update
 }

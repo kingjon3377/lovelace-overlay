@@ -3,7 +3,7 @@
 
 EAPI=6
 
-inherit autotools eutils fdo-mime multilib libtool
+inherit autotools eutils xdg-utils multilib libtool
 
 DESCRIPTION="A free IDE based on a Basic interpreter with object extensions"
 HOMEPAGE="http://gambas.sourceforge.net/"
@@ -154,9 +154,9 @@ src_install() {
 	fi
 }
 
-my_fdo_update() {
-	{ use qt5 || use gtk; } && fdo-mime_desktop_database_update
-	fdo-mime_mime_database_update
+my_xdg_update() {
+	{ use qt5 || use gtk; } && xdg_desktop_database_update
+	xdg_mime_database_update
 }
 
 pkg_preinst() {
@@ -164,9 +164,9 @@ pkg_preinst() {
 }
 
 pkg_postinst() {
-	my_fdo_update
+	my_xdg_update
 }
 
 pkg_postrm() {
-	my_fdo_update
+	my_xdg_update
 }

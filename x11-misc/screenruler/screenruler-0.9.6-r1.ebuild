@@ -7,7 +7,7 @@ EAPI=5
 
 USE_RUBY="ruby21 ruby22 ruby23 ruby24"
 
-inherit ruby-ng eutils fdo-mime
+inherit ruby-ng eutils xdg-utils
 
 DESCRIPTION="Ruler measure objects on your screen"
 HOMEPAGE="http://gnomecoder.wordpress.com/screenruler/"
@@ -50,9 +50,9 @@ all_ruby_install() {
 }
 
 pkg_postinst() {
-	fdo-mime_desktop_database_update
+	xdg_desktop_database_update
 }
 
 pkg_postrm() {
-	fdo-mime_desktop_database_update
+	xdg_desktop_database_update
 }

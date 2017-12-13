@@ -3,8 +3,8 @@
 
 EAPI=5
 
-#inherit autotools flag-o-matic eutils toolchain-funcs fdo-mime
-inherit flag-o-matic eutils toolchain-funcs fdo-mime
+#inherit autotools flag-o-matic eutils toolchain-funcs xdg-utils
+inherit flag-o-matic eutils toolchain-funcs xdg-utils
 
 S="${WORKDIR}/sourcenavigator-NG${PV}"
 SN="/opt/sourcenav"
@@ -57,9 +57,9 @@ src_install() {
 }
 
 pkg_postinst() {
-	fdo-mime_desktop_database_update
+	xdg_desktop_database_update
 }
 
 pkg_postrm() {
-	fdo-mime_desktop_database_update
+	xdg_desktop_database_update
 }
