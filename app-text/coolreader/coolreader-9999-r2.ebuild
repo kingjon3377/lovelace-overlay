@@ -5,7 +5,7 @@ EAPI=5
 
 EGIT_REPO_URI="git://crengine.git.sourceforge.net/gitroot/crengine/crengine"
 
-inherit wxwidgets cmake-utils git-2
+inherit wxwidgets cmake-utils git-r3
 
 HYP_ARCH="AlReader2.Hyphen.zip"
 

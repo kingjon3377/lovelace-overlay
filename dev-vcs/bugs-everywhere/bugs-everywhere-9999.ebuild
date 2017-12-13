@@ -38,7 +38,7 @@ RESTRICT="test"
 
 src_unpack() {
 	if [[ ${PV} == "9999" ]] ; then
-		git-2_src_unpack
+		git-r3_src_unpack
 	else
 		unpack ${A}
 	fi
