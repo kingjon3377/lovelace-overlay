@@ -1,9 +1,9 @@
 # Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-inherit versionator autotools-utils
+inherit versionator
 
 DESCRIPTION="Pidgin plugin that provides several new sort options for the buddy list"
 HOMEPAGE="https://launchpad.net/pidgin-extended-blist-sort"
@@ -12,10 +12,14 @@ SRC_URI="https://launchpad.net/${PN}/trunk/$(get_version_component_range 1-2)/+d
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="static-libs"
+IUSE=""
 
 RDEPEND="net-im/pidgin[gtk]"
 DEPEND="${RDEPEND}
 	virtual/pkgconfig"
 
 DOCS=( AUTHORS ChangeLog README )
+
+src_configure() {
+	econf --disable-static
+}
