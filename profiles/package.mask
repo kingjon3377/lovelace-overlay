@@ -83,3 +83,6 @@ dev-java/ceylon
 kde-misc/gally
 kde-misc/lekhonee
 
+# Fails to build with GCC 6
+dev-java/jlint
+
