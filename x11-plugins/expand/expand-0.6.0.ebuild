@@ -1,9 +1,9 @@
 # Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-inherit autotools autotools-utils
+inherit autotools
 
 DESCRIPTION="Pidgin plugin to automatically expand shortlinks "
 HOMEPAGE="https://github.com/mikeage/expand"
@@ -19,5 +19,6 @@ DEPEND="${RDEPEND}
 		virtual/pkgconfig"
 
 src_prepare() {
+	default
 	eautoreconf
 }
