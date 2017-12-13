@@ -75,5 +75,5 @@ src_prepare() {
 
 src_install() {
 	default
-	dosym /usr/bin/FBReader /usr/bin/fbreader
+	dosym FBReader /usr/bin/fbreader
 }

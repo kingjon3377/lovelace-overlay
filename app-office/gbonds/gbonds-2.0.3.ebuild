@@ -47,7 +47,7 @@ src_configure() {
 src_install () {
 	gnome2_src_install
 	dodoc AUTHORS ChangeLog NEWS README
-	dosym /usr/share/gnome/help/gbonds/C /usr/share/doc/${PF}/html
+	dosym ../../gnome/help/gbonds/C /usr/share/doc/${PF}/html
 	cd ../debian
 	doman gbonds.1
 	dodir /usr/share/gbonds
