@@ -1,5 +1,6 @@
 # Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
+
 # TODO: Get improvements from version in Sunrise overlay.
 
 EAPI=5

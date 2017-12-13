@@ -1,5 +1,6 @@
 # Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
+
 # Bug #348280 -- tosubmit
 # FIXME: install properly under Python paths. The README explicitly supports
 # this.

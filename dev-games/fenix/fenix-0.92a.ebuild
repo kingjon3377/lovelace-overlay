@@ -1,5 +1,6 @@
 # Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
+
 # TODO: make sure this works, and fix it if it doesn't.
 
 EAPI=5
