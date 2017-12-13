@@ -5,7 +5,7 @@ EAPI=5
 
 AUTOTOOLS_IN_SOURCE_BUILD=true
 
-inherit games eutils autotools-utils
+inherit eutils autotools
 
 DESCRIPTION="A tetris clone with multiplayer support"
 HOMEPAGE="https://github.com/quadra-game/quadra"
@@ -25,10 +25,6 @@ RDEPEND="${DEPEND}"
 src_prepare() {
 	sed -i -e "/^datagamesdir:=/s:/games:/${PN}:" Makefile.am || die
 	eautoreconf
-}
-
-src_configure() {
-	egamesconf
 }
 
 src_install() {
