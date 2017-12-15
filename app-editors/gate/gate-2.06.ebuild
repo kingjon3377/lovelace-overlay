@@ -26,7 +26,7 @@ src_prepare() {
 }
 
 src_configure() {
-	CC=$(tc-getCC) CFLAGS="-pipe -Os -fno-pie" LD=$(tc-getLD) econf --with-aspell
+	CC=$(tc-getCC) LD=$(tc-getLD) econf --with-aspell
 	sed -i -e 's:/usr/share:${prefix}/share:' Makefile || die "sed failed"
 }
 
