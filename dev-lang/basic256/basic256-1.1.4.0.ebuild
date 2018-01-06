@@ -12,7 +12,7 @@ SRC_URI="mirror://sourceforge/kidbasic/${PN}/${P/-/_}.orig.tar.gz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE="linguas_en linguas_de linguas_es linguas_fr linguas_nl linguas_ru"
+IUSE="l10n_en l10n_de l10n_es l10n_fr l10n_nl l10n_ru"
 
 RDEPEND="dev-qt/qtcore:5
 	dev-qt/qtgui:5
@@ -39,12 +39,12 @@ src_configure() {
 src_install() {
 	doman debian/${PN}.1
 #	for lang in en de es fr nl ru;do
-#		use linguas_${lang} && dohtml -r help/${lang}
+#		use l10n_${lang} && dohtml -r help/${lang}
 #	done
 	# TODO: Don't install HTML help directly under /usr/share/${PN}/help, etc.
 	INSTALL_ROOT="${D}" default
 	insinto /usr/share/${PF}/html
 	for lang in en de es fr nl ru;do
-		use linguas_${lang} && doins -r wikihelp/help/${lang}
+		use l10n_${lang} && doins -r wikihelp/help/${lang}
 	done
 }

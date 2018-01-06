@@ -1,4 +1,4 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
@@ -17,7 +17,7 @@ IUSE="+latex"
 
 LANGS="ar ca cs de es fa fr it ja ko nl pl pt_BR ru sl tr zh_CN"
 for LNG in ${LANGS}; do
-	IUSE="${IUSE} linguas_${LNG}"
+	IUSE="${IUSE} l10n_${LNG}"
 done
 
 RDEPEND="dev-qt/designer:4
@@ -58,7 +58,7 @@ src_install() {
 	# install translations
 	insinto /usr/share/${PN}/
 	for LNG in ${LANGS}; do
-		if use linguas_${LNG}; then
+		if use l10n_${LNG}; then
 			doins trans/TeXworks_${LNG}.qm
 		fi
 	done

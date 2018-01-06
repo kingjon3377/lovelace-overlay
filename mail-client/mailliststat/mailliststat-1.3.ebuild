@@ -1,4 +1,4 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
@@ -12,7 +12,7 @@ SRC_URI="http://www.marki-online.net/MLS/mls-${PV}.tgz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE="nls linguas_de linguas_es linguas_fr linguas_it linguas_pt_BR linguas_sk linguas_sr"
+IUSE="nls l10n_de l10n_es l10n_fr l10n_it l10n_pt_BR l10n_sk l10n_sr"
 
 RDEPEND=""
 DEPEND="${RDEPEND}
@@ -26,7 +26,7 @@ src_prepare() {
 	rm mls_lang.h mls.1
 	for lang in de es fr it pt_BR sk sr
 	do
-		use linguas_${lang} && cp "${FILESDIR}/${lang}.po" po/
+		use l10n_${lang} && cp "${FILESDIR}/${lang}.po" po/
 	done
 	cp "${FILESDIR}/${PN}.pot" po/ || die
 	cp "${FILESDIR}/po-Makefile" po/Makefile || die

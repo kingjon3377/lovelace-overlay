@@ -1,4 +1,4 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
@@ -14,7 +14,7 @@ SRC_URI=""
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE="gnome-keyring +libnotify +dbus linguas_pt_BR"
+IUSE="gnome-keyring +libnotify +dbus l10n_pt_BR"
 
 RDEPEND="${PYTHON_DEPS}
 	dev-python/pygobject:2[${PYTHON_USEDEP}]
@@ -43,7 +43,7 @@ src_install() {
 	dodir /usr/bin
 	dosym ../../$(python_get_sitedir)/${PN}/lib/${PN}.py /usr/bin/${PN}
 	fperms +x $(python_get_sitedir)/${PN}/lib/${PN}.py
-	if use linguas_pt_BR; then
+	if use l10n_pt_BR; then
 		insinto /usr/share/locale/pt_BR/LC_MESSAGES/
 		doins locale/pt_BR/LC_MESSAGES/${PN}.mo
 	fi

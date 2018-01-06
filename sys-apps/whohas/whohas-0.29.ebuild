@@ -1,4 +1,4 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
@@ -10,7 +10,7 @@ SRC_URI="http://www.philippwesche.org/200811/whohas/${P}.tar.gz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE="linguas_de"
+IUSE="l10n_de"
 
 DEPEND="dev-perl/libwww-perl
 	dev-lang/perl[ithreads]"
@@ -20,7 +20,7 @@ RDEPEND="${DEPEND}
 src_install() {
 	dobin program/whohas
 	doman usr/share/man/man1/whohas.1
-	use linguas_de && doman usr/share/man/de/man1/whohas.1
+	use l10n_de && doman usr/share/man/de/man1/whohas.1
 	dodoc Changelog intro.txt
 	dohtml intro.html
 	docinto html_assets

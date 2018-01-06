@@ -1,6 +1,5 @@
-# Copyright 1999-2008 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/eclass/kde.eclass,v 1.223 2009/05/12 12:55:46 tampakrap Exp $
 
 # @ECLASS: kde.eclass
 # @MAINTAINER:
@@ -56,7 +55,7 @@ fi
 # override this default.
 if [[ -n ${USE_KEG_PACKAGING} && -n "${LANGS}${LANGS_DOC}" ]]; then
 	for lang in ${LANGS} ${LANGS_DOC}; do
-		IUSE="${IUSE} linguas_${lang}"
+		IUSE="${IUSE} l10n_${lang}"
 	done
 fi
 
@@ -150,7 +149,7 @@ kde_src_unpack() {
 # This function patches the sources. The patches need to be named
 # $PN-$PV-*{diff,patch}
 #
-# This function also handles the linguas if extragear-like packaging is enabled.
+# This function also handles the l10n if extragear-like packaging is enabled.
 # (See USE_KEG_PACKAGING)
 kde_src_prepare() {
 	debug-print-function $FUNCNAME "$@"
@@ -194,11 +193,11 @@ kde_src_prepare() {
 			einfo
 			einfo "Enabling all languages"
 		else
-			# we sanitise LINGUAS to avoid issues when a user specifies the same
-			# linguas twice. bug #215016.
-			local sanitised_linguas=$(echo "${LINGUAS}" | tr '[[:space:]]' '\n' | sort | uniq)
+			# we sanitise L10N to avoid issues when a user specifies the same
+			# l10n twice. bug #215016.
+			local sanitised_l10n=$(echo "${LINGUAS}" | tr '[[:space:]]' '\n' | sort | uniq)
 			if [[ -n ${LANGS} ]]; then
-				MAKE_PO=$(echo "${sanitised_linguas} ${LANGS}" | tr '[[:space:]]' '\n' | sort | uniq -d | tr '\n' ' ')
+				MAKE_PO=$(echo "${sanitised_l10n} ${LANGS}" | tr '[[:space:]]' '\n' | sort | uniq -d | tr '\n' ' ')
 				einfo "Enabling translations for: ${MAKE_PO}"
 				sed -i -e "s:^SUBDIRS[ \t]*=.*:SUBDIRS = ${MAKE_PO}:" "${KDE_S}/${KEG_PO_DIR:-po}/Makefile.am" \
 					|| die "sed for locale failed"
@@ -206,7 +205,7 @@ kde_src_prepare() {
 			fi
 
 			if [[ -n ${LANGS_DOC} ]]; then
-				MAKE_DOC=$(echo "${sanitised_linguas} ${LANGS_DOC}" | tr '[[:space:]]' '\n' | sort | uniq -d | tr '\n' ' ')
+				MAKE_DOC=$(echo "${sanitised_l10n} ${LANGS_DOC}" | tr '[[:space:]]' '\n' | sort | uniq -d | tr '\n' ' ')
 				einfo "Enabling documentation for: ${MAKE_DOC}"
 				[[ -n ${MAKE_DOC} ]] && [[ -n ${DOC_DIR_SUFFIX} ]] && MAKE_DOC=$(echo "${MAKE_DOC}" | tr '\n' ' ') && MAKE_DOC="${MAKE_DOC// /${DOC_DIR_SUFFIX} }"
 				sed -i -e "s:^SUBDIRS[ \t]*=.*:SUBDIRS = ${MAKE_DOC} ${PN}:" \

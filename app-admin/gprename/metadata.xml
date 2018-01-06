@@ -2,6 +2,6 @@
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
 <use>
-  <flag name='linguas_pl_BR'>Language support for pl_BR</flag>
+  <flag name='l10n_pl_BR'>Language support for pl_BR</flag>
 </use>
 </pkgmetadata>

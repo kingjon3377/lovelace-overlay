@@ -1,4 +1,4 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
@@ -15,7 +15,7 @@ KEYWORDS="~amd64"
 IUSE=""
 LANGS=( de ru )
 for lang in "${LANGS[@]}"; do
-	IUSE="${IUSE} linguas_${lang}"
+	IUSE="${IUSE} l10n_${lang}"
 done
 
 RDEPEND="x11-libs/wxGTK:2.8"
@@ -33,7 +33,7 @@ src_install() {
 	default
 	newicon artworks/icon.png ${PN}.png
 	for lang in "${LANGS[@]}"; do
-		if use linguas_${lang}; then
+		if use l10n_${lang}; then
 			insinto /usr/share/locale/${lang}/LC_MESSAGES
 			doins i18n/locale/${lang}/${PN}.mo
 		fi

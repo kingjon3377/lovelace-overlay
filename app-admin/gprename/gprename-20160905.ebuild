@@ -1,4 +1,4 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -25,7 +25,7 @@ DEPEND=""
 LANGS="ca de es et fr id it nl pl pt_BR pl_BR ru sv zh_CN"
 
 for lang in ${LANGS}; do
-	IUSE="${IUSE} linguas_${lang}"
+	IUSE="${IUSE} l10n_${lang}"
 done
 
 src_prepare() {
@@ -46,7 +46,7 @@ src_prepare() {
 	# lt.po doesn't actually exist
 	remove_lang lt
 	for lang in ${LANGS}; do
-		if ! use linguas_${lang}; then
+		if ! use l10n_${lang}; then
 			einfo "Removing language ${lang}"
 			remove_lang ${lang}
 		else

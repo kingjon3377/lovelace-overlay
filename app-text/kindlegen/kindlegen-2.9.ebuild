@@ -1,4 +1,4 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
@@ -32,7 +32,7 @@ src_prepare() {
 src_install() {
 	dobin "${PN}"
 	dohtml manual.html
-	# TODO: install non-English docs based on $LINGUAS
+	# TODO: install non-English docs based on $L10N
 	newdoc "docs/english/known issues.txt" known_issues.txt
 	newdoc docs/english/Readme.txt README
 	mv -i "docs/english/Release Notes.html" docs/english/Release_Notes.html

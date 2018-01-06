@@ -1,4 +1,4 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
@@ -14,7 +14,7 @@ manual_hu="2.0.4.0-1"
 LANGS_M="cs de en hu"
 
 DESCRIPTION="A 2D CAD package based upon Qt."
-# ugly hack, don't make en LINGUAS-controlled as we may need it as default
+# ugly hack, don't make en L10N-controlled as we may need it as default
 SRC_URI="https://github.com/${PN}/${PN}/archive/v${PV}.zip -> ${P}.zip"
 HOMEPAGE="http://www.ribbonsoft.com/en/qcad-downloads-trial https://github.com/qcad/qcad"
 
