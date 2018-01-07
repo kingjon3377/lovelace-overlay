@@ -3,5 +3,7 @@
 <pkgmetadata>
 <use>
   <flag name='l10n_pl_BR'>Language support for pl_BR</flag>
+  <flag name='l10n_pt_BR'>Language support for Brazilian Portuguese</flag>
+  <flag name='l10n_zh_CN'>Language support for Mainland Chinese</flag>
 </use>
 </pkgmetadata>
