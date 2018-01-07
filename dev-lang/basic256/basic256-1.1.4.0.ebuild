@@ -45,6 +45,6 @@ src_install() {
 	INSTALL_ROOT="${D}" default
 	insinto /usr/share/${PF}/html
 	for lang in en de es fr nl ru;do
-		use l10n_${lang} && doins -r wikihelp/help/${lang}
+		use l10n_${lang} && doins wikihelp/help/${lang}*
 	done
 }
