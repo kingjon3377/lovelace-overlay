@@ -1,4 +1,4 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -9,11 +9,11 @@ WANT_ANT_TASKS="ant-contrib ant-antlr ant-bndlib"
 
 if test "${PV}" = 9999; then
 	inherit java-pkg-2 java-ant-2 git-r3
-	EGIT_REPO_URI="https://github.com/${PN}/${PN}.git"
+	EGIT_REPO_URI="https://github.com/eclipse/${PN}.git"
 	SRC_URI=""
 else
 	inherit java-pkg-2 java-ant-2
-	SRC_URI="https://github.com/${PN}/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
+	SRC_URI="https://github.com/eclipse/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
 fi
 
 DESCRIPTION="Elegant, readable, highly typesafe JVM programming language"
