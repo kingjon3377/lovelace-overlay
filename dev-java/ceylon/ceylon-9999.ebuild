@@ -150,6 +150,8 @@ src_compile() {
 	use doc && eant -Duser.home="${T}" generate-spec generate-apidoc
 }
 
+# FIXME: Implement src_test()
+
 src_install() {
 	# FIXME: This appears to rebuild what was built in the compile phase
 	cd "${S}/dist"
