@@ -42,6 +42,9 @@ JAVA_ANT_REWRITE_CLASSPATH="true"
 RESTRICT="test"
 
 src_prepare() {
+	cd "${S}/.."
+	eapply "${FILESDIR}"/${P}-remove_jsr14.patch
+	cd "${S}"
 	# Remove bundled jar files.
 	find . -name '*.jar' -delete > /dev/null
 
