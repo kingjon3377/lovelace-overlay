@@ -171,6 +171,7 @@ src_install() {
 	doman dist/doc/man/man*/*.?
 	dodir /usr/bin
 	dosym ../share/${PN}/bin/${PN} /usr/bin/${PN}
+	fperms +x /usr/share/${PN}/bin/${PN}
 	dodoc dist/README.md
 	docinto examples
 	dodoc dist/contrib/scripts/ceylon-example
