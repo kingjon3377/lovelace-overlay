@@ -3,7 +3,7 @@
 
 EAPI=6
 
-JAVA_PKG_IUSE="doc source"
+JAVA_PKG_IUSE="doc"
 
 WANT_ANT_TASKS="ant-contrib ant-antlr ant-bndlib"
 
