@@ -14,8 +14,8 @@ SLOT="0"
 KEYWORDS="amd64"
 IUSE=""
 
-DEPEND=""
-RDEPEND="${DEPEND}"
+RDEPEND="sys-libs/zlib"
+DEPEND="${RDEPEND}"
 
 src_compile() {
 	emake CC=$(tc-getCC) CFLAGS="${CFLAGS}" LIBS="-lz ${LDFLAGS}"
