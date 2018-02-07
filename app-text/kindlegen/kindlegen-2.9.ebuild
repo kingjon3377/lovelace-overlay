@@ -12,7 +12,7 @@ SRC_URI="http://kindlegen.s3.amazonaws.com/${PN}_linux_2.6_i386_v$(replace_all_v
 LICENSE="kindlegen Info-ZIP IJG Apache-2.0 BSD MPL-1.1"
 SLOT="0"
 KEYWORDS="~x86 ~amd64"
-IUSE=""
+IUSE="l10n_zh l10n_nl l10n_fr l10n_de l10n_it l10n_ja l10n_es"
 
 DEPEND=""
 RDEPEND="${DEPEND}"
@@ -27,14 +27,43 @@ src_prepare() {
 	find . -name \*.html -name \*.txt | while read line; do
 		strip_bom "${line}"
 	done
+	for file in docs/*/*\ *;do
+		mv -i "${file}" "${file// /_}" || die
+	done
 }
 
 src_install() {
 	dobin "${PN}"
 	dohtml manual.html
-	# TODO: install non-English docs based on $L10N
-	newdoc "docs/english/known issues.txt" known_issues.txt
+	dodoc docs/english/known_issues.txt
 	newdoc docs/english/Readme.txt README
-	mv -i "docs/english/Release Notes.html" docs/english/Release_Notes.html
 	dohtml docs/english/Release_Notes.html
+	if use l10n_zh;then
+		docinto zh
+		dodoc docs/chinese/*
+	fi
+	if use l10n_nl;then
+		docinto nl
+		dodoc docs/dutch/*
+	fi
+	if use l10n_fr;then
+		docinto fr
+		dodoc docs/french/*
+	fi
+	if use l10n_de;then
+		docinto de
+		dodoc docs/german/*
+	fi
+	if use l10n_it;then
+		docinto it
+		dodoc docs/italian/*
+	fi
+	if use l10n_ja;then
+		docinto ja
+		dodoc docs/japanese/*
+	fi
+	if use l10n_es;then
+		docinto es
+		dodoc docs/spanish/*
+	fi
 }
