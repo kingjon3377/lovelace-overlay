@@ -1,13 +1,30 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
 
 inherit eutils versionator toolchain-funcs
 
-# FIXME: for versions with last part < 10 pad with zeroes
+# For versions with last part < 10, pad with zeroes:
 # e.g 4 => 4000, 5.1 => 5100, 5.2.7 => 5207.
-MY_PV=$(delete_all_version_separators)
+version_mangle() {
+	local count=$(get_version_component_count)
+	if test "${count}" -lt 2; then
+		echo ${PV}000
+		return
+	elif test "${count}" -lt 3; then
+		echo $(delete_all_version_separators)00
+		return
+	fi
+	local last=$(get_version_component_range 3)
+	if test "${last}" -lt 10 && test "${#last}" -eq 1; then
+		echo "$(delete_all_version_separators $(get_version_component_range 1-2))0${last}"
+	else
+		delete_all_version_separators
+	fi
+}
+
+MY_PV=$(version_mangle)
 
 DESCRIPTION="Speech analysis and synthesis"
 SRC_URI="http://www.fon.hum.uva.nl/praat/${PN}${MY_PV}_sources.tar.gz"
