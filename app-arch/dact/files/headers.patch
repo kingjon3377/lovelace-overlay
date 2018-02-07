@@ -1,5 +1,5 @@
---- dact_common.h.old	2010-11-27 18:44:10.000000000 -0500
-+++ dact_common.h	2010-11-27 18:43:30.000000000 -0500
+--- a/dact_common.h.old	2010-11-27 18:44:10.000000000 -0500
++++ b/dact_common.h	2010-11-27 18:43:30.000000000 -0500
 @@ -1,6 +1,12 @@
  #ifndef _DACT_COMMON_H
  #define _DACT_COMMON_H
