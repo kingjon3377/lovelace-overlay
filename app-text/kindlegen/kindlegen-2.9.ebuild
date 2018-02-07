@@ -1,7 +1,7 @@
 # Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 inherit versionator
 
@@ -30,14 +30,14 @@ src_prepare() {
 	for file in docs/*/*\ *;do
 		mv -i "${file}" "${file// /_}" || die
 	done
+	default
 }
 
 src_install() {
 	dobin "${PN}"
-	dohtml manual.html
-	dodoc docs/english/known_issues.txt
+	dodoc manual.html docs/english/known_issues.txt \
+		docs/english/Release_Notes.html
 	newdoc docs/english/Readme.txt README
-	dohtml docs/english/Release_Notes.html
 	if use l10n_zh;then
 		docinto zh
 		dodoc docs/chinese/*
