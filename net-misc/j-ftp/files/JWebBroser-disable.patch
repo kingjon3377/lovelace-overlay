@@ -1,0 +1,35 @@
+From: Markus Koschany <apo@debian.org>
+Date: Sat, 2 Apr 2016 19:23:46 +0200
+Subject: JWebBrowser disable
+
+Disable JWebBrowser because the dependency is not available in Debian.
+
+Forwarded: not-needed
+---
+ src/java/net/sf/jftp/gui/tasks/NativeHttpBrowser.java | 3 ---
+ 1 file changed, 3 deletions(-)
+
+diff --git a/src/java/net/sf/jftp/gui/tasks/NativeHttpBrowser.java b/src/java/net/sf/jftp/gui/tasks/NativeHttpBrowser.java
+index 7afc2a7..20c1d3a 100644
+--- a/src/java/net/sf/jftp/gui/tasks/NativeHttpBrowser.java
++++ b/src/java/net/sf/jftp/gui/tasks/NativeHttpBrowser.java
+@@ -35,7 +35,6 @@ import org.eclipse.swt.widgets.Display;
+ import org.eclipse.swt.widgets.Group;
+ import org.eclipse.swt.widgets.Shell;
+ 
+-import chrriis.dj.sweet.components.JWebBrowser;
+ 
+ public class NativeHttpBrowser extends Composite {
+ 
+@@ -46,8 +45,6 @@ public class NativeHttpBrowser extends Composite {
+ 	    webBrowserPanel.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+ 	    webBrowserPanel.setLayout(new FillLayout());
+ 	    
+-	    final JWebBrowser webBrowser = new JWebBrowser(webBrowserPanel);
+-	    webBrowser.navigate(url);
+ 	    
+ 	    webBrowserPanel.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+ 	  }
+-- 
+2.8.0.rc3
+

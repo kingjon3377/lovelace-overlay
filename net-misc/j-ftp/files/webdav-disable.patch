@@ -1,0 +1,170 @@
+From: Markus Koschany <apo@debian.org>
+Date: Sat, 2 Apr 2016 19:21:20 +0200
+Subject: webdav disable
+
+Disable webdav because the dependency is not available in Debian.
+
+Forwarded: not-needed
+---
+ src/java/net/sf/jftp/config/Settings.java      |  3 ---
+ src/java/net/sf/jftp/gui/base/AppMenuBar.java  | 20 --------------------
+ src/java/net/sf/jftp/gui/base/StatusPanel.java | 19 -------------------
+ 3 files changed, 42 deletions(-)
+
+diff --git a/src/java/net/sf/jftp/config/Settings.java b/src/java/net/sf/jftp/config/Settings.java
+index 74f86d2..d9eb242 100644
+--- a/src/java/net/sf/jftp/config/Settings.java
++++ b/src/java/net/sf/jftp/config/Settings.java
+@@ -193,7 +193,6 @@ public class Settings
+     public static String openImage;
+     public static String sftpImage;
+     public static String nfsImage;
+-    public static String webdavImage;  
+     public static String linkImage;
+     public static String typeImage;
+     public static String deleteImage; 
+@@ -625,7 +624,6 @@ public class Settings
+         	openImage = "images/org/javalobby/icons/16x16/World2.gif";
+         	sftpImage = "images/org/javalobby/icons/16x16/NewEnvelope.gif";
+         	nfsImage = "images/org/javalobby/icons/16x16/TrafficGreen.gif";
+-        	webdavImage = "images/org/javalobby/icons/16x16/DataStore.gif";
+         	linkImage = "images/org/javalobby/icons/16x16/Right.gif";
+         	typeImage = "images/org/javalobby/icons/20x20/Type.gif";
+         	clearImage = "images/org/javalobby/icons/16x16/Undo.gif";
+@@ -672,7 +670,6 @@ public class Settings
+         	openImage = "images/current/drive_web.png";
+         	sftpImage = "images/current/drive_link.png";
+         	nfsImage = "images/current/drive_network.png";
+-        	webdavImage = "images/current/house_go.png";  
+         	linkImage = "images/current/arrow_right.png";
+         	typeImage = "images/current/email_go.png";
+         	deleteImage = "images/current/control_stop.png"; 
+diff --git a/src/java/net/sf/jftp/gui/base/AppMenuBar.java b/src/java/net/sf/jftp/gui/base/AppMenuBar.java
+index aa7065a..94329a0 100644
+--- a/src/java/net/sf/jftp/gui/base/AppMenuBar.java
++++ b/src/java/net/sf/jftp/gui/base/AppMenuBar.java
+@@ -22,7 +22,6 @@ import net.sf.jftp.gui.hostchooser.HostChooser;
+ import net.sf.jftp.gui.hostchooser.NfsHostChooser;
+ import net.sf.jftp.gui.hostchooser.SftpHostChooser;
+ import net.sf.jftp.gui.hostchooser.SmbHostChooser;
+-import net.sf.jftp.gui.hostchooser.WebdavHostChooser;
+ import net.sf.jftp.gui.tasks.AddBookmarks;
+ import net.sf.jftp.gui.tasks.AdvancedOptions;
+ import net.sf.jftp.gui.tasks.BookmarkItem;
+@@ -86,13 +85,11 @@ public class AppMenuBar extends JMenuBar implements ActionListener
+     JMenuItem localSftpCon = new JMenuItem("Open SFTP Connection in Local Tab...");
+     JMenuItem localSmbCon = new JMenuItem("Open SMB/LAN Connection in Local Tab...");
+     JMenuItem localNfsCon = new JMenuItem("Open NFS Connection in Local Tab...");
+-    JMenuItem localWebdavCon = new JMenuItem("Open WebDAV Connection in Local Tab... (ALPHA)");
+     JMenuItem closeLocalCon = new JMenuItem("Close Active Connection in Local Tab");
+     JMenuItem ftpCon = new JMenuItem("Connect to FTP Server...");
+     JMenuItem sftpCon = new JMenuItem("Connect to SFTP Server...");
+     JMenuItem smbCon = new JMenuItem("Connect to SMB Server / Browse LAN...");
+     JMenuItem nfsCon = new JMenuItem("Connect to NFS Server...");
+-    JMenuItem webdavCon = new JMenuItem("Connect to WebDAV Server... (ALPHA)");
+     JMenuItem close = new JMenuItem("Disconnect and Connect to Filesystem");
+     JMenuItem exit = new JMenuItem("Exit");
+     JMenuItem readme = new JMenuItem("Show Readme...");
+@@ -187,7 +184,6 @@ public class AppMenuBar extends JMenuBar implements ActionListener
+         proxy.addActionListener(this);
+         stdback.addActionListener(this);
+         opts.addActionListener(this);
+-        webdavCon.addActionListener(this);
+         shell.addActionListener(this);
+         nl.addActionListener(this);
+ 
+@@ -195,7 +191,6 @@ public class AppMenuBar extends JMenuBar implements ActionListener
+         localSftpCon.addActionListener(this);
+         localSmbCon.addActionListener(this);
+         localNfsCon.addActionListener(this);
+-        localWebdavCon.addActionListener(this);
+         closeLocalCon.addActionListener(this);
+         add.addActionListener(this);
+         storePasswords.addActionListener(this);
+@@ -446,7 +441,6 @@ public class AppMenuBar extends JMenuBar implements ActionListener
+         file.add(sftpCon);
+         file.add(smbCon);
+         file.add(nfsCon);
+-        file.add(webdavCon);
+         file.addSeparator();
+         file.add(close);
+         file.addSeparator();
+@@ -564,12 +558,6 @@ public class AppMenuBar extends JMenuBar implements ActionListener
+ 	            AddBookmarks a = new AddBookmarks(JFtp.statusP.jftp);
+ 	            a.update();
+ 	        }
+-	        else if(e.getSource() == webdavCon)
+-	        {
+-	            WebdavHostChooser hc = new WebdavHostChooser();
+-	            hc.toFront();
+-	            hc.update();
+-	        }
+ 	        else if((e.getSource() == localFtpCon) && (!jftp.uiBlocked))
+ 	        {
+ 	            HostChooser hc = new HostChooser(null, true);
+@@ -602,14 +590,6 @@ public class AppMenuBar extends JMenuBar implements ActionListener
+ 	            //hc.setModal(true);
+ 	            hc.update();
+ 	        }
+-	        else if((e.getSource() == localWebdavCon) && (!jftp.uiBlocked))
+-	        {
+-	            WebdavHostChooser hc = new WebdavHostChooser(null, true);
+-	            hc.toFront();
+-	
+-	            //hc.setModal(true);
+-	            hc.update();
+-	        }
+ 	        else if(e.getSource() == closeLocalCon)
+ 	        {
+ 	            JFtp.statusP.jftp.closeCurrentLocalTab();
+diff --git a/src/java/net/sf/jftp/gui/base/StatusPanel.java b/src/java/net/sf/jftp/gui/base/StatusPanel.java
+index a3fab46..dd3902e 100644
+--- a/src/java/net/sf/jftp/gui/base/StatusPanel.java
++++ b/src/java/net/sf/jftp/gui/base/StatusPanel.java
+@@ -22,7 +22,6 @@ import net.sf.jftp.gui.hostchooser.HostChooser;
+ import net.sf.jftp.gui.hostchooser.NfsHostChooser;
+ import net.sf.jftp.gui.hostchooser.SftpHostChooser;
+ import net.sf.jftp.gui.hostchooser.SmbHostChooser;
+-import net.sf.jftp.gui.hostchooser.WebdavHostChooser;
+ import net.sf.jftp.gui.tasks.HttpBrowser;
+ import net.sf.jftp.gui.tasks.NativeHttpBrowser;
+ import net.sf.jftp.net.*;
+@@ -53,10 +52,6 @@ public class StatusPanel extends HPanel implements ActionListener
+                                                     this);
+     private HImageButton nfscon = new HImageButton(Settings.nfsImage, "nfscon",
+                                                    "Add NFS Connection...", this);
+-    private HImageButton webdavcon = new HImageButton(Settings.webdavImage,
+-                                                      "webdavcon",
+-                                                      "Add WebDAV Connection...",
+-                                                      this);
+     public HImageButton close = new HImageButton(Settings.closeImage, "close",
+                                                  "Close active tab...", this);
+     private HImageButton go = new HImageButton(Settings.refreshImage, "go",
+@@ -102,11 +97,6 @@ public class StatusPanel extends HPanel implements ActionListener
+         nfscon.setToolTipText("New NFS Connection...");
+         bar.add(new JLabel(" "));
+ 
+-        if(Settings.enableWebDav) bar.add(webdavcon);
+-        webdavcon.setSize(24, 24);
+-        webdavcon.setToolTipText("New WebDAV Connection...");
+-        bar.add(new JLabel("   "));
+-
+         bar.add(close);
+         close.setSize(24, 24);
+         close.setToolTipText("Close Active Remote tab...");
+@@ -186,15 +176,6 @@ public class StatusPanel extends HPanel implements ActionListener
+             //hc.setModal(true);
+             hc.update();
+         }
+-        else if(e.getActionCommand().equals("webdavcon"))
+-        {
+-            //jftp.safeDisconnect();
+-            WebdavHostChooser hc = new WebdavHostChooser();
+-            hc.toFront();
+-
+-            //hc.setModal(true);
+-            hc.update();
+-        }
+         else if(e.getActionCommand().equals("close"))
+         {
+             jftp.closeCurrentTab();
