@@ -1,4 +1,4 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
@@ -17,14 +17,16 @@ IUSE=""
 RDEPEND="sys-libs/zlib"
 DEPEND="${RDEPEND}"
 
+src_prepare() {
+	gunzip randtype.1.gz
+}
+
 src_compile() {
 	emake CC=$(tc-getCC) CFLAGS="${CFLAGS}" LIBS="-lz ${LDFLAGS}"
 }
 
 src_install() {
 	dobin randtype
-	# FIXME: This should probably go in src_prepare.
-	gunzip randtype.1.gz
 	doman randtype.1
 	dodoc BUGS ChangeLog
 }
