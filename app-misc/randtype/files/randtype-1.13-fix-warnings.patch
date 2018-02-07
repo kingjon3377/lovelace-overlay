@@ -1,0 +1,14 @@
+Only in randtype-1.13: randtype
+diff -ru randtype-1.13.old/randtype.c randtype-1.13/randtype.c
+--- randtype-1.13.old/randtype.c	2018-02-07 04:39:03.918000000 -0500
++++ randtype-1.13/randtype.c	2018-02-07 04:39:34.783000000 -0500
+@@ -331,7 +331,7 @@
+ int splitter(const char *filename, int kill)
+ {
+ #ifdef HAVE_ZLIB
+-    gzFile *fp = NULL;
++    gzFile fp = NULL;
+ #else
+     FILE *fp = NULL;
+ #endif
+Only in randtype-1.13: randtype.o
