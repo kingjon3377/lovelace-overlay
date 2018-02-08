@@ -150,16 +150,14 @@ src_prepare() {
 
 src_compile() {
 	cd "${S}/dist"
-	eant dist generate-tooldoc
+	eant install-all generate-tooldoc
 	use doc && eant -Duser.home="${T}" generate-spec generate-apidoc
 }
 
 # FIXME: Implement src_test()
 
 src_install() {
-	# FIXME: This appears to rebuild what was built in the compile phase
 	cd "${S}/dist"
-	eant install-all
 	dodir /usr/share/${PN}
 	dodir /usr/share/doc/${PF}/en
 	dosym ../doc/${PF} /usr/share/${PN}/doc
