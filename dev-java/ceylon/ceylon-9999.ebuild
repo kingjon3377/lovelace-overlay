@@ -5,7 +5,7 @@ EAPI=6
 
 JAVA_PKG_IUSE="doc"
 
-WANT_ANT_TASKS="ant-contrib ant-antlr ant-bndlib"
+WANT_ANT_TASKS="ant-contrib ant-antlr ant-bndlib ant-junit"
 
 if test "${PV}" = 9999; then
 	inherit java-pkg-2 java-ant-2 git-r3 bash-completion-r1
@@ -23,7 +23,7 @@ LICENSE="Apache-2.0 GPL-2-with-classpath-exception LGPL-2.1"
 SLOT="0"
 KEYWORDS=""
 
-IUSE=""
+IUSE="test"
 
 COMMON_DEP="dev-java/ant-core:0
 	dev-java/ant-contrib:0
@@ -41,6 +41,7 @@ COMMON_DEP="dev-java/ant-core:0
 RDEPEND=">=virtual/jre-1.7
 	${COMMON_DEP}"
 DEPEND=">=virtual/jdk-1.7
+	test? ( dev-java/ant-junit:0 )
 	${COMMON_DEP}"
 
 #JAVA_ANT_REWRITE_CLASSPATH=true
@@ -150,7 +151,9 @@ src_compile() {
 	use doc && eant -Duser.home="${T}" generate-spec generate-apidoc
 }
 
-# FIXME: Implement src_test()
+src_test() {
+	eant test
+}
 
 src_install() {
 	cd "${S}/dist"
