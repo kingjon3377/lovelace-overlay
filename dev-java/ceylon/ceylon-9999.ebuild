@@ -98,7 +98,7 @@ src_prepare() {
 	rm tool-provider/lib/junit-4.9b2.jar || die
 	java-pkg_jar-from --into tool-provider/lib junit-4
 	sed -i -e 's@lib/junit-4.9b2.jar@lib/junit.jar@' \
-		tool-provider/test-launcher/com/redhat/ceylon/compiler/java/runtime/launcher/ToolsTestRunner.java || die
+		tool-provider/test-launcher/org/eclipse/ceylon/compiler/java/runtime/launcher/ToolsTestRunner.java || die
 	rm typechecker/support/lib/jai_codec.jar typechecker/support/lib/jai_core.jar || die
 	java-pkg_jar-from --into typechecker/support/lib/ sun-jai-bin jai_codec.jar
 	java-pkg_jar-from --into typechecker/support/lib/ sun-jai-bin jai_core.jar
@@ -137,7 +137,7 @@ src_prepare() {
 	#   - avalon-framework-cvs-20020806.jar [will either the 4.1 or the 4.2 SLOT work for this?]
 	# - In $S/runtime/dist/repo:
 	#   - com/github/rjeschke/txtmark/0.13/com.github.rjeschke.txtmark-0.13.jar [not in Portage AFAICS]
-	#   - com/redhat/ceylon/aether/3.3.9/com.redhat.ceylon.aether-3.3.9.jar [not in Portage, of course]
+	#   - org/ceylon/ceylon/aether/3.3.9/org.ceylon.ceylon.aether-3.3.9.jar [not in Portage, of course]
 	#   - net/minidev/json-smart/1.3.1/net.minidev.json-smart-1.3.1.jar [not in Portage, AFAICS]
 	#   - org/tautua/markdownpapers/core/1.3.4/org.tautua.markdownpapers.core-1.3.4.jar [not in Portage, AFAICS]
 	#   - org/jboss/logmanager/2.0.3.Final/org.jboss.logmanager-2.0.3.Final.jar [in Portage as jboss-logmanager, but only at version 1.5.1]
