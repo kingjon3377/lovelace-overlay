@@ -13,17 +13,23 @@ KEYWORDS="~amd64"
 
 IUSE=""
 
-RDEPEND=""
+RDEPEND="virtual/jre:*
+	app-shells/bash:*"
 DEPEND=""
 
-# Tests aren't usable right now.
-#src_test() {
-	#cd test
-	#./java-version-tester.sh
-#}
+RESTRICT=test # tests have never worked, and don't actually test the code that is installed
+
+src_test() {
+	"${S}/test/java-version-tester.sh" | tee "${T}/test-output.txt"
+	if grep -q FAIL "${T}/test-output.txt"; then
+		eerror "Test failed:"
+		grep FAIL "${T}/test-output.txt"
+		die "Test failed"
+	fi
+}
 
 src_install() {
 	insinto /usr/share/${PN}
 	doins src/${PN}
-	dodoc CHANGELOG.md README.md
+	dodoc CHANGELOG.md README.md docs/*png
 }
