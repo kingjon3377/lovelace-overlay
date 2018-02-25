@@ -83,3 +83,6 @@ kde-misc/lekhonee
 # Fails to build with GCC 6
 dev-java/jlint
 
+# Depends on webkit-gtk:3, which is masked due to security issues
+app-text/ppub
+
