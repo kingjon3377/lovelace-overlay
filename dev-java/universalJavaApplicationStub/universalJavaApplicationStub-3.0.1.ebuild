@@ -13,8 +13,11 @@ KEYWORDS="~amd64"
 
 IUSE=""
 
-RDEPEND=""
+RDEPEND="virtual/jre:*
+	app-shells/bash:*"
 DEPEND=""
+
+RESTRICT=test # tests have never worked, and don't actually test the code that is installed
 
 src_test() {
 	"${S}/test/java-version-tester.sh" | tee "${T}/test-output.txt"
@@ -28,5 +31,5 @@ src_test() {
 src_install() {
 	insinto /usr/share/${PN}
 	doins src/${PN}
-	dodoc CHANGELOG.md README.md
+	dodoc CHANGELOG.md README.md docs/*png
 }
