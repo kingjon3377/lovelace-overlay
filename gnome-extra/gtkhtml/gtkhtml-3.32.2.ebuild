@@ -1,4 +1,4 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
@@ -18,7 +18,7 @@ IUSE=""
 RDEPEND="
 	>=dev-libs/glib-2.24:2
 	>=x11-libs/gtk+-2.20:2
-	>=x11-themes/gnome-icon-theme-2.22.0
+	virtual/freedesktop-icon-theme
 	>=gnome-base/orbit-2
 	>=app-text/enchant-1.1.7
 	gnome-base/gconf:2
