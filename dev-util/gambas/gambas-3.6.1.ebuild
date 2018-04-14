@@ -1,4 +1,4 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
@@ -43,7 +43,7 @@ COMMON_DEPEND="
 	)
 	imageio? ( x11-libs/gdk-pixbuf:2 )
 	imageimlib?	( media-libs/imlib2 )
-	jit?	( >=sys-devel/llvm-3.1:0 )
+	jit?	( >=sys-devel/llvm-3.1:= )
 	media?	(
 		media-libs/gstreamer:1.0
 		media-libs/gst-plugins-base:1.0
