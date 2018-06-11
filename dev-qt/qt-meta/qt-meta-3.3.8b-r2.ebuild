@@ -39,11 +39,7 @@ RDEPEND="
 	postgres? ( dev-db/postgresql )
 	xinerama? ( x11-libs/libXinerama )"
 DEPEND="${RDEPEND}
-	x11-proto/inputproto
-	x11-proto/xextproto
-	xinerama? ( x11-proto/xineramaproto )
-	immqt? ( x11-proto/xineramaproto )
-	immqt-bc? ( x11-proto/xineramaproto )"
+	x11-base/xorg-proto"
 PDEPEND="odbc? ( ~dev-db/qt-unixODBC-$PV )"
 
 S="${WORKDIR}/qt-x11-${SRCTYPE}-${PV}"
