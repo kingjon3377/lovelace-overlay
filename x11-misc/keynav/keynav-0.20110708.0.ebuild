@@ -9,7 +9,7 @@ inherit toolchain-funcs
 
 DESCRIPTION="Move the mouse pointer with few key strokes"
 HOMEPAGE="http://www.semicomplete.com/projects/keynav/"
-SRC_URI="https://semicomplete.googlecode.com/files/${P}.tar.gz"
+SRC_URI="https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/semicomplete/${P}.tar.gz"
 
 LICENSE="BSD"
 SLOT="0"
@@ -24,7 +24,7 @@ RDEPEND="
 	x11-libs/libXtst
 	x11-libs/libX11
 	x11-misc/xdotool"
-DEPEND="x11-proto/xproto
+DEPEND="x11-base/xorg-proto
 	${RDEPEND}"
 
 src_prepare() {

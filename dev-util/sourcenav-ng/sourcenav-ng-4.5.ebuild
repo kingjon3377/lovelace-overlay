@@ -25,7 +25,7 @@ RDEPEND="x11-libs/libX11
 	sys-libs/glibc"
 
 DEPEND="${RDEPEND}
-	x11-proto/xproto"
+	base/xorg-proto"
 
 src_configure() {
 	local conf="

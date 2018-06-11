@@ -66,8 +66,7 @@ DEPEND="sys-devel/make
 if [[ ${CATEGORY} != "kde-base" ]] || [[ ${CATEGORY} == "kde-base" &&  ${PV##*.} -lt 10 ]] ; then
 	DEPEND="${DEPEND}
 		x11-libs/libXt
-		x11-proto/xf86vidmodeproto
-		xinerama? ( x11-proto/xineramaproto )"
+		x11-base/xorg-proto"
 	RDEPEND="xinerama? ( x11-libs/libXinerama )"
 	IUSE="${IUSE} xinerama"
 else
