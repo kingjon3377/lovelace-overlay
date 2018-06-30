@@ -1,0 +1,38 @@
+Fixing a missing newline in collatinus.pro
+Index: collatinus-11/collatinus.pro
+===================================================================
+--- collatinus-11.orig/collatinus.pro
++++ collatinus-11/collatinus.pro
+@@ -13,8 +13,8 @@ QT += svg
+ 
+ CONFIG += release_binary
+ 
+-TRANSLATIONS    = collatinus_en.ts
+ TRANSLATIONS    = collatinus_fr.ts
++TRANSLATIONS    += collatinus_en.ts
+ 
+ unix:!macx:DESTDIR = bin
+ OBJECTS_DIR= obj/
+@@ -34,17 +34,18 @@ HEADERS += src/ch.h \
+            src/lemme.h \
+            src/lewis.h \
+            src/mainwindow.h \
+-		   src/maj.h \
+-           src/modele.h \
++	   src/maj.h \
++           src/modele.h
++
+ SOURCES += src/ch.cpp \
+            src/flexion.cpp \
+-		   src/frequences.cpp \
++	   src/frequences.cpp \
+            src/irregs.cpp \
+            src/lemmatiseur.cpp \
+            src/lemme.cpp \
+            src/lewis.cpp \
+            src/main.cpp \
+-		   src/maj.cpp \
++	   src/maj.cpp \
+            src/mainwindow.cpp \
+            src/modele.cpp \
+            src/scandeur.cpp

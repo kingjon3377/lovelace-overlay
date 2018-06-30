@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Collatinus — User’s Manual</title>
+<style>
+ html{font:1em/1.5 serif}
+ .title{text-align:center}
+ a:link{color:#527bbd}
+ pre{border:1pt solid #E0E7F3;background-color:#EFF3F9;padding:5pt;font-family:monospace;font-size:90%;overflow:auto}
+ div#table-of-contents ul{list-style-type:none}
+ table{border-collapse:collapse;border:3px solid #527bbd }
+ td,th{vertical-align:top;padding:4px}
+ th{text-align:left;border:1px solid #527bbd;border-bottom:2px solid #527bbd}
+ td{text-align:left;border:1px solid #527bbd}
+ td.right{text-align:right}
+</style>
+</head>
+
+<body>
+<h1 class="title">Collatinus — User’s Manual</h1>
+
+<p>Yves Ouvrard <code>&lt;<a href="mailto:yves.ouvrard@collatinus.org">yves.ouvrard@collatinus.org</a>&gt;</code></p>
+
+<table>
+<thead>
+<tr><th>Version History</th><th></th></tr>
+</thead>
+<tbody>
+<tr><td>April 2012</td><td>YO</td></tr>
+</tbody>
+</table>
+
+<p>Version 10</p>
+
+<div id="table-of-contents">
+<h2>Contents</h2>
+<ul>
+<li><a href="#sec-1">1. Introduction</a>
+<ul>
+<li><a href="#sec-1-1">1.1. Uninstalling</a></li>
+<li><a href="#sec-1-2">1.2. Compiling</a></li>
+</ul></li>
+<li><a href="#sec-2">2. Quick start</a></li>
+<li><a href="#sec-3">3. The Latin text</a>
+<ul>
+<li><a href="#sec-3-1">3.1. From a book</a></li>
+<li><a href="#sec-3-2">3.2. From a CD-ROM</a></li>
+<li><a href="#sec-3-3">3.3. From the internet</a></li>
+</ul></li>
+<li><a href="#sec-4">4. Lemmatizing</a></li>
+<li><a href="#sec-5">5. Inflection and other uses</a></li>
+<li><a href="#sec-6">6. The Gaffiot</a></li>
+<li><a href="#sec-7">7. The data</a>
+<ul>
+<li><a href="#sec-7-1">7.1. The first part of a lemmata file</a></li>
+<li><a href="#sec-7-2">7.2. The second part</a></li>
+<li><a href="#sec-7-3">7.3. The third and final part</a></li>
+</ul></li>
+<li><a href="#sec-8">8. Syntactic data</a>
+<ul>
+<li><a href="#sec-8-1">8.1. Abbreviations in the database</a></li>
+</ul></li>
+<li><a href="#sec-9">9. License</a></li>
+</ul>
+</div>
+
+<h2 id="sec-1">1. Introduction</h2>
+
+<p>Collatinus lemmatizes Latin texts: if you give a declined or
+conjugated form, Collatinus can find the word you should look up in a
+dictionary to learn its various meanings, how it’s translated into
+another language, and other information dictionaries provide.</p>
+
+<p>Version 9 added the ability to look for meanings words acquire in
+combination. A good example is the expression <i>nauis longa</i>, or
+its inflected forms <i>nauem longam</i>, <i>longae nauis</i>,
+etc. Collatinus 8 gave this:</p>
+
+<ul>
+<li><i>longus, a, um</i> : long</li>
+<li><i>nauis, is,</i> f. : ship</li>
+</ul>
+
+<p>But <i>nauis longa</i> means, not “long ship,” but “battleship,”
+and now Collatinus produces this analysis:</p>
+
+<ul>
+<li><i>nauis, is,</i> f. : ship</li>
+<li>¶ <i>nauis longa</i> : warship</li>
+<li><i>longus, a, um</i> : long</li>
+</ul>
+
+<p>Collatinus also performs morphological analysis; for example, if
+you ask it to analyze the form <i>legem</i>, it answers:</p>
+
+<pre>
+legem
+   lego, as, are: bequeath, will; entrust,
+         send as an envoy, choose as a deputy
+   lex, legis, f.: motion, bill, law, statute;
+         principle; condition
+         accusative feminine singular
+</pre>
+
+<p>Collatinus is useful especially for Latin teachers, enabling them
+quickly to prepare supplementary and unusual readings for their
+students, complete with lexical aids.  Students often use Collatinus
+to read Latin more easily when their vocabulary and familiarity with
+inflection are still weak.</p>
+
+<p>Obviously, Collatinus is of no use to good Latinists seeking only
+their own reading pleasure.</p>
+
+<h3 id="sec-1-1">1.1. Uninstalling</h3>
+
+<p>Find the directory in which Collatinus was installed, usually</p>
+
+<pre>
+C:\Program Files\collatinus\
+</pre>
+
+<p>and run the program <code>uninst.exe</code>.</p>
+
+<h3 id="sec-1-2">1.2. Compiling</h3>
+
+<p>Collatinus is free software, and anyone who agrees to place the
+resulting program under the same free license can modify and compile
+it. For more information, see the last section of this manual and the
+file <code>COPYING</code> included with this program.</p>
+
+<h2 id="sec-2">2. Quick start</h2>
+
+<p>If you want to try Collatinus without having to read the whole
+manual, here are the steps for basic usage:</p>
+
+<ol>
+<li>Start Collatinus,
+<ul>
+<li>on the command line
+<pre>$ collatinus</pre></li>
+<li>or by clicking on its icon</li>
+<li>or from your desktop menu.</li>
+</ul></li>
+<li>Click on the button <i>Onerare</i>, the second from the left.</li>
+<li>In the dialog which appears, choose a file and click on Open or
+OK.</li>
+<li>The Latin text should appear. Let your mouse pointer hover over a
+   word for a second to get its morphological analysis.</li>
+<li>Click on the button <i>Omnia lemmatizare</i>, the sixth from the
+left.</li>
+<li>The text’s vocabulary should appear.</li>
+<li>In the file menu (<i>Capsa</i>), choose <i>Scribere</i>. A dialog
+   offers to save your work. The format depends on the tab chosen at
+   the bottom of the window: text, html or LaTeX.</li>
+</ol>
+
+<h2 id="sec-3">3. The Latin text</h2>
+
+<p>Collatinus makes it easy to prepare little known Latin texts and to
+make them accessible by giving non-specialists the vocabulary they
+lack. But how to acquire the texts?</p>
+
+<h3 id="sec-3-1">3.1. From a book</h3>
+
+<p>Copying by hand takes a long time. One can make a digital image and
+use a program for optical character recognition, but that also takes
+considerable time and it’s not very reliable: it’s almost impossible
+for the proofreader to achieve perfect accuracy, and programs have
+trouble recognizing the type used in older books.</p>
+
+<h3 id="sec-3-2">3.2. From a CD-ROM</h3>
+
+<p>This is a costly but very interesting solution. I know of at least
+two publishers who offer the whole ancient corpus: PHI (Packard
+Humanities Institute) and Teubner. You can find their address through
+a search engine.</p>
+
+<h3 id="sec-3-3">3.3. From the internet</h3>
+
+<p>This approach is more and more fruitful. Enter the incipit of the
+work or the passage you want, surrounded by quotation marks, in a
+search engine. For example:</p>
+
+<pre>"is fuit in uultu uisae sine ueste Dianae"</pre>
+
+<p>After a few false starts, that should lead to the whole text of
+Ovid’s <i>Metamorphoses</i>. Note that I’ve used <i>uultu</i> rather
+than <i>vultu</i>. Each gives results, but you should think of both
+possibilities. Some sites, which you’ll soon come to know, specialize
+in publishing Latin. They are noted on Weblettres, among other places:
+<a href="http://www.weblettres.net/sommaire.php?entree=16&amp;rubrique=54">www.weblettres.net/sommaire.php?entree=16&amp;rubrique=54</a></p>
+
+<p>Then put the Latin text in Collatinus’ window. Of course, you’ll
+need to start Collatinus with the command</p>
+
+<pre>
+$ collatinus
+</pre>
+
+<p>You can copy and paste: in your browser, select the text and copy
+it (<code>Ctrl+C</code>); in Collatinus, click in the upper part and
+then paste (<code>Ctrl+V</code>). You can also save the text found on
+the internet or on a CD to your hard disk, and then load it
+with <i>Capsa</i>/<i>Onerare</i>.</p>
+
+<p>Once you have the text, you should re-read it often, modifying or
+correcting it.</p>
+
+<h2 id="sec-4">4. Lemmatizing</h2>
+
+<p>This can be done in two ways:</p>
+
+<ul>
+<li>By letting your mouse pointer hover over a Latin form.  A tooltip
+  appears, giving all lemmas from which that form can arise, with
+  complete morphological analyses.</li>
+<li>If you want to keep your work to save it or to print it, you must
+  first choose a format.  Collatinus offers three:
+<ol>
+<li>plain text, ready for formatting in a word processor;</li>
+<li>html, to be touched up in an HTML editor and put online;</li>
+<li>LaTeX, which you can touch up and compile for high quality
+     printing.  Many sites allow you to teach yourself LaTeX, which,
+     in my opinion, is a better solution than word processing.</li>
+</ol>
+</li>
+</ul>
+
+<p>To copy the lemmatization of a word into your work, just click on
+it.</p>
+
+<ul>
+<li>If you want to lemmatize the whole text in one go, click on the
+  button <i>Omnia lemmatizare</i>, or use the
+  menu <i>Lemmata</i>/<i>Omnia lemmatizare</i>. In that case, the
+  morphology isn’t added, but you can choose to sort the lemmas
+  alphabetically and even to make the inflected form precede each
+  lemma.</li>
+</ul>
+
+<p>Since Collatinus is not infallible, you are strongly advised to
+re-read and correct what it produces. Collatinus lists without
+hesitation interpretations any human reader would eliminate without
+even thinking: for example, forms of the lemma <i>sus, suis</i>, f.:
+pig, which are rare but homonymous with the ubiquitous
+possessive <i>suus, sua, suum</i>.</p>
+
+<p>At any time, you can erase the whole lower window with a button on
+the toolbar or an option under the <i>Editio</i> menu. You can also
+erase everything with the first button on the left.</p>
+
+<h2 id="sec-5">5. Inflection and other uses</h2>
+
+<p>The <i>Flexio</i> tab shows the inflection of a word you click
+on. This function is provided without guarantee; you should warn
+students that the resulting tables may be incorrect.  In particular,
+it displays the passive of verbs which have no passive and declines
+certain irregular words as if they were regular.</p>
+
+<p>Collatinus is often used for other purposes than preparing a text
+for printing and distribution to students. For that reason, we have
+made it possible for teachers to restrict functions which may tempt
+students to neglect study of declensions and conjugations or to give
+up on memorizing vocabulary.</p>
+
+<p>A fresh installation of Collatinus comes with all its functions
+enabled. You can restrict them from the
+menu <i>Lemmata</i>/<i>Magister</i>. For use on a network, it suffices
+to make the indices of Collatinus read-only for users whose possible
+misuse of the software you wish to prevent.</p>
+
+<p>The dialog which pops up lets you</p>
+
+<ul>
+<li>decide how unusual a word must be for students to receive help
+  (the most common words are grade 0, and the rarest grade 5);</li>
+<li>decide whether students will have access to the morphological
+  analysis which appears in tooltips when the mouse pointer hovers
+  over a word.</li>
+</ul>
+
+<p>Some pedagogical uses for Collatinus:</p>
+
+<ul>
+<li>It can serve as a reading aid: load the text, try to read it, and
+  when you have trouble let the mouse pointer hover over a word you
+  can’t figure out. Sometimes the opposite happens: Collatinus doesn’t
+  know a word which the reader does know. In that case, it should be
+  added to the lexicon.  I haven’t yet published the program I use to
+  edit the lexicon—it’s really not presentable—but I’ll do so as soon
+  as it’s less of an embarrassment.</li>
+<li>You can have students use it to make specific lists: all
+  third-declension nouns in a text, the lexical field of justice,
+  words related to <i>duco</i>, etc.</li>
+<li>Collatinus can provide material you can work up into lexical
+  statistics.</li>
+</ul>
+
+<h2 id="sec-6">6. The Gaffiot</h2>
+
+<p>Félix Gaffiot died in 1937. Seventy years later, in 2007, the first
+edition of his <i>Dictionnaire</i> fell into the public domain. Thanks
+to Gérard Jeanneau’s digitization, for which we are grateful, the
+whole of Gaffiot’s dictionary can be consulted from within Collatinus,
+either manually or automatically. For access to the Gaffiot, just
+click on the second tab, at the bottom of the application. Clicking on
+a word in the Latin text leads automatically to the corresponding
+entry in Gaffiot.  You may also look a word up manually in the search
+bar.</p>
+
+<h2 id="sec-7">7. The data</h2>
+
+<p>Collatinus’ data is in the files named <code>lemmata.??</code>. Version
+10 comes with six such files, each corresponding to a European
+language:</p>
+
+<ul>
+<li><code>lemmata.de</code> for German;</li>
+<li><code>lemmata.uk</code> for English;</li>
+<li><code>lemmata.ca</code> for Catalan;</li>
+<li><code>lemmata.es</code> for Spanish;</li>
+<li><code>lemmata.fr</code> for French;</li>
+<li><code>lemmata.gl</code> for Galician.</li>
+</ul>
+
+<p>The <i>Lemmata</i> menu lets you choose a target language; in the
+same menu, <i>Calepino</i> gives you all six simultaneously.</p>
+
+<h3 id="sec-7-1">7.1. The first part of a lemmata file</h3>
+
+<p>is the dictionary proper; its format is very simple:</p>
+
+<pre>canonical form|pattern number|perfect stems (separated by commas)|supine stems (comma)|text of the entry</pre>
+
+<p>example:</p>
+
+<pre>anteeo|23|anteii,anteiu|anteit|antĕĕo, is, ire, ii, itum : go/walk before/ahead…</pre>
+
+<p>For the pattern number, cf. word endings.</p>
+
+<p>The text of the entry gives the morphological data (genitive,
+gender, principal parts, translation). A <i>p</i> in the heading
+indicates that the word is always declined in the plural.  For nouns
+of the first and second declensions and verbs following the pattern
+of <i>amo</i>, the roots are automatically calculated, not listed.
+But irregularities may be noted:</p>
+
+<pre>
+do|17|ded|dat|das, dare, dedi, datum : give
+tenebrae|0|tenebr||arum, f. p. : darkness
+</pre>
+
+<h3 id="sec-7-2">7.2. The second part</h3>
+
+<p>must be preceded by the line</p>
+
+<pre>---desinentiae---</pre>
+
+<p>Here is the format for a word ending:</p>
+
+<pre>ending|case|gender|number|degree|person|tense|mood|voice|pattern|part number</pre>
+
+<p>Example:</p>
+
+<pre>ebimini|0|0|2|0|2|2|1|1|25|1</pre>
+
+<p>Here is what those numbers mean in the database:</p>
+
+<table>
+<thead>
+<tr><th class="right">no.</th><th>pattern</th><th>moods</th><th>case</th><th>tense</th><th>person</th><th>degree</th><th>voice</th></tr>
+</thead>
+<tbody>
+<tr><td class="right">0</td><td>uita</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+<tr><td class="right">1</td><td>amicus</td><td>indicative</td><td>nominative</td><td>present</td><td>first</td><td>positive</td><td>active</td></tr>
+<tr><td class="right">2</td><td>puer</td><td>subjunctive</td><td>vocative</td><td>future</td><td>second</td><td>comparative</td><td>passive</td></tr>
+<tr><td class="right">3</td><td>ager</td><td>imperative</td><td>accusative</td><td>imperfect</td><td>third</td><td>superlative</td><td></td></tr>
+<tr><td class="right">4</td><td>templum</td><td>infinitive</td><td>genitive</td><td>perfect</td><td></td><td></td><td></td></tr>
+<tr><td class="right">5</td><td>miles</td><td>participle</td><td>dative</td><td>future perfect</td><td></td><td></td><td></td></tr>
+<tr><td class="right">6</td><td>ciuis</td><td>gerund</td><td>ablative</td><td>pluperfect</td><td></td><td></td><td></td></tr>
+<tr><td class="right">7</td><td>corpus</td><td>verbal adj.</td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td class="right">8</td><td>mare</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td class="right">9</td><td>manus</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td class="right">10</td><td>res</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td class="right">11</td><td>bonus</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td class="right">12</td><td>miser</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td class="right">13</td><td>pulcher</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td class="right">14</td><td>fortis</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td class="right">15</td><td>uetus</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td class="right">16</td><td>acer</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td class="right">17</td><td>amo</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td class="right">18</td><td>moneo</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td class="right">19</td><td>lego</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td class="right">20</td><td>capio</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td class="right">21</td><td>audio</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td class="right">22</td><td>sum</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td class="right">23</td><td>eo</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td class="right">24</td><td>imitor</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td class="right">25</td><td>uereor</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td class="right">26</td><td>sequor</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td class="right">27</td><td>patior</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td class="right">28</td><td>potior</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td class="right">29</td><td>pronouns</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td class="right">30</td><td>invariable</td><td>s</td><td></td><td></td><td></td><td></td><td></td></tr>
+</tbody>
+</table>
+
+<h3 id="sec-7-3">7.3. The third and final part</h3>
+
+<p>is only for irregular forms. It must be preceded by the line</p>
+
+<pre>---irregulares---</pre>
+
+<p>Here is the format for an irregular form:</p>
+
+<pre>form|lemma|case|gender|number|degree|person|tense|mood|voice</pre>
+
+<p>Example:</p>
+
+<pre>deabus|dea|5|0|2|0|0|0|0|0</pre>
+
+<p>The numbers mean the same as for word endings.</p>
+
+<h2 id="sec-8">8. Syntactic data</h2>
+
+<p>Idioms are recorded in the file expressions.fr, whose format is like
+this, with the elements numbered from zero:</p>
+
+<pre>Latin idiom|translation|no. of the element triggering display|lemma.morph.agrees in.agrees with|another lemma.morph. etc.</pre>
+
+<p>Examples:</p>
+
+<pre>
+aduersi dentes|les dents de devant|0|dens...|aduersus.m.cn.0
+abrumpere uitam a ciuitate|rompre avec sa patrie|3|abrumpo.act..|uita.ac s..|a...|ciuitas.ab s..
+</pre>
+
+<p>In the first example, the idiom will be displayed
+when <i>dentes</i> is lemmatized. <i>Dens</i> can be in any case, and
+the adjective <i>aduersus</i> will agree in case and number (cn) with
+no. 0, that is, <i>dens</i>.</p>
+
+<p>In the second example, four forms are defined. The fields for
+morphology and agreement are left empty for the preposition
+<i>a</i>. The idiom will appear under <i>ciuitas</i>.</p>
+
+<h3 id="sec-8-1">8.1. Abbreviations in the database</h3>
+
+<table>
+<thead>
+<tr><th>datum</th><th>codes</th></tr>
+</thead>
+<tbody>
+<tr><td>case</td><td><code>n v ac g d ab</code></td></tr>
+<tr><td>number</td><td><code>n p</code></td></tr>
+<tr><td>gender</td><td><code>m f nt</code></td></tr>
+<tr><td>degree</td><td><code>comp sup</code></td></tr>
+<tr><td>person</td><td><code>1 2 3</code></td></tr>
+<tr><td>tense</td><td><code>pr fut impf pf fa pqp</code></td></tr>
+<tr><td>mood</td><td><code>ind subj imper inf part ger adjv</code></td></tr>
+<tr><td>voice</td><td><code>act pass</code></td></tr>
+</tbody>
+</table>
+
+<h2 id="sec-9">9. License</h2>
+
+<p>Collatinus is published under the GNU General Public License. The
+text of that license is included with and must always accompany the
+program. You should read it attentively and note that more and more
+programs and documents are released under its terms. In sum, the
+source code of Collatinus must be easily accessible, with no
+surcharge. In its original distribution, the source is given in the
+same archive as the binary. Any further work which uses all or part of
+Collatinus must be placed under the same license.</p>
+
+<p>I wanted Collatinus to be free so as to help the Latin language
+remain what it has been since antiquity: the symbol of a European and
+even world-wide culture, indispensable despite what is often said of
+it.</p>
+</body>
+</html>

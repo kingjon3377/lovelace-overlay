@@ -1,0 +1,241 @@
+Index: collatinus-11/src/lemmatiseur.cpp
+===================================================================
+--- collatinus-11.orig/src/lemmatiseur.cpp
++++ collatinus-11/src/lemmatiseur.cpp
+@@ -65,7 +65,7 @@ Lemmat::Lemmat (QObject *parent): QObjec
+ 	// contractions
+ 	ajContractions ();
+ 	// lecture des morphos
+-    QFile f (qApp->applicationDirPath () +"/data/morphos.la");
++    QFile f (QString("/usr/share/collatinus") +"/data/morphos.la");
+     f.open (QFile::ReadOnly);
+     QTextStream fl (&f);
+     while (!fl.atEnd ())
+@@ -88,7 +88,7 @@ Lemmat::Lemmat (QObject *parent): QObjec
+ void Lemmat::ajAssims ()
+ {
+ 	// peupler la QMap assims
+-	QFile fAssims (qApp->applicationDirPath () +"/data/assimilations.la");
++	QFile fAssims (QString("/usr/share/collatinus") +"/data/assimilations.la");
+     fAssims.open (QFile::ReadOnly);
+     QTextStream fla(&fAssims);
+     while (!fla.atEnd ())
+@@ -112,7 +112,7 @@ void Lemmat::ajAssims ()
+ void Lemmat::ajContractions ()
+ {
+ 	// peupler la QMap _contractions
+-	QFile fContractions (qApp->applicationDirPath () +"/data/contractions.la");
++	QFile fContractions (QString("/usr/share/collatinus") +"/data/contractions.la");
+     fContractions.open (QFile::ReadOnly);
+     QTextStream flc(&fContractions);
+     while (!flc.atEnd ())
+@@ -686,7 +686,7 @@ QStringList Lemmat::lemmes (MapLem lm)
+  */
+ void Lemmat::lisIrreguliers()
+ {
+-	QFile firr (qApp->applicationDirPath () +"/data/irregs.la");
++	QFile firr (QString("/usr/share/collatinus") +"/data/irregs.la");
+     firr.open (QFile::ReadOnly);
+     QTextStream fli(&firr);
+     while (!fli.atEnd ())
+@@ -714,7 +714,7 @@ void Lemmat::lisIrreguliers()
+  */
+ void Lemmat::lisLexique()
+ {
+-	QFile flem (qApp->applicationDirPath () +"/data/lemmes.la");
++	QFile flem (QString("/usr/share/collatinus") +"/data/lemmes.la");
+     flem.open (QFile::ReadOnly);
+     QTextStream fll (&flem);
+     while (!fll.atEnd ())
+@@ -735,7 +735,7 @@ void Lemmat::lisLexique()
+  */
+ void Lemmat::lisModeles()
+ {
+-	QFile fm (qApp->applicationDirPath () +"/data/modeles.la");
++	QFile fm (QString("/usr/share/collatinus") +"/data/modeles.la");
+     fm.open (QFile::ReadOnly);
+     QTextStream flm (&fm);
+ 	QStringList sl;
+@@ -768,7 +768,7 @@ void Lemmat::lisModeles()
+  */
+ void Lemmat::lisParPos()
+ {
+-    QFile fpp (qApp->applicationDirPath () +"/data/parpos.txt");
++    QFile fpp (QString("/usr/share/collatinus") +"/data/parpos.txt");
+     fpp.open (QFile::ReadOnly);
+     QTextStream flp (&fpp);
+     //fle.setCodec ("UTF-8");
+@@ -795,7 +795,7 @@ void Lemmat::lisParPos()
+  */
+ void Lemmat::lisTraductions()
+ {
+-	QString nrep = qApp->applicationDirPath()+"/data/";
++	QString nrep = QString("/usr/share/collatinus")+"/data/";
+ 	QDir rep = QDir(nrep, "lemmes.*");
+ 	QStringList ltr = rep.entryList();
+ 	ltr.removeOne("lemmes.la"); // n'est pas un fichier de traductions
+Index: collatinus-11/src/lewis.cpp
+===================================================================
+--- collatinus-11.orig/src/lewis.cpp
++++ collatinus-11/src/lewis.cpp
+@@ -19,6 +19,8 @@
+  * © Yves Ouvrard, 2009 - 2016    
+  */
+ 
++#include <QStandardPaths>
++
+ #include "lewis.h"
+ 
+ #include <QDebug>
+@@ -35,7 +37,9 @@
+ Dictionnaire::Dictionnaire (QString cfg, QObject *parent): QObject(parent)
+ {
+     QFileInfo fi(cfg);
+-    repertoire = qApp->applicationDirPath () + "/data/dicos/";
++    repertoire = QStandardPaths::locate(QStandardPaths::AppDataLocation,
++					"/data/dicos",
++					QStandardPaths::LocateDirectory)+"/";
+     // éviter de redéfinir partout le répertoire de travail.
+     n = fi.baseName ().section ('.', 0);
+     // lire le fichier de ressource cfg
+@@ -182,7 +186,7 @@ QString Dictionnaire::pageDjvu (int p)
+ 	    << sortie_ddjvu; 
+     QObject * parent = new QObject;
+ 	QProcess * proc = new QProcess (parent);
+-    proc->setWorkingDirectory(qApp->applicationDirPath ());
++    proc->setWorkingDirectory(QString("/usr/share/collatinus"));
+     QString pg;
+ #ifdef Q_OS_WIN32
+     QString ddjvu = "ddjvu.exe";
+@@ -553,10 +557,10 @@ bool andromeda (QString nf)
+     QFile fandr (nf);
+     if (!fandr.open (QFile::ReadOnly | QFile::Text))
+         return false;
+-    // QFile::copy (nf, qApp->applicationDirPath () + "/data/lewis.xml");
+-    QFile findex (qApp->applicationDirPath () + "/data/lewis.idx");
+-    // QFile::copy (nf, qApp->applicationDirPath () + "/data/ducange.xml");
+-    // QFile findex (qApp->applicationDirPath () + "/data/du.idx");
++    // QFile::copy (nf, QString("/usr/share/collatinus") + "/data/lewis.xml");
++    QFile findex (QString("/usr/share/collatinus") + "/data/lewis.idx");
++    // QFile::copy (nf, QString("/usr/share/collatinus") + "/data/ducange.xml");
++    // QFile findex (QString("/usr/share/collatinus") + "/data/du.idx");
+     if (!findex.open (QFile::WriteOnly | QFile::Text))
+         return false;
+     QString linea;
+Index: collatinus-11/src/mainwindow.cpp
+===================================================================
+--- collatinus-11.orig/src/mainwindow.cpp
++++ collatinus-11/src/mainwindow.cpp
+@@ -22,6 +22,8 @@
+ #include <QDebug>
+ #include <QPrinter>
+ #include <QPrintDialog>
++#include <QStandardPaths>
++#include <QDebug>
+ 
+ #include "flexion.h"
+ #include "mainwindow.h"
+@@ -789,7 +791,12 @@ void MainWindow::createDicos(bool prim)
+ 	if (prim) combo = comboGlossaria;
+ 	else combo = comboGlossariaW;
+     combo->clear ();
+-    QDir chDicos (qApp->applicationDirPath()+"/data/dicos");
++    QDir chDicos (QStandardPaths::locate(QStandardPaths::AppDataLocation,
++					 "/data/dicos",
++					 QStandardPaths::LocateDirectory));
++    qDebug() << QStandardPaths::locate(QStandardPaths::AppDataLocation,
++					 "/data/dicos",
++				     QStandardPaths::LocateDirectory);
+     QStringList lcfg = chDicos.entryList (QStringList () << "*.cfg");
+     ldic.clear();
+     foreach (QString fcfg, lcfg)
+@@ -1400,7 +1407,7 @@ void MainWindow::readSettings()
+ 	// dernier fichier chargé
+ 	settings.beginGroup("fichiers");
+ 	nfAb = settings.value ("nfAb").toString();
+-	if (!nfAb.isEmpty())
++	if (!nfAb.isEmpty() && QDir(nfAb).exists())
+ 	{
+ 		charger (nfAb);
+ 		nfAd = nfAb;
+@@ -1545,7 +1552,7 @@ void MainWindow::setLangue()
+ 	if (!langueI.isEmpty())
+ 	{
+ 		translator = new QTranslator(qApp);
+-		translator->load(qApp->applicationDirPath()+"/collatinus_"+langueI);
++		translator->load(QString("/usr/share/collatinus")+"/collatinus_"+langueI);
+ 		qApp->installTranslator(translator);
+ 	}
+ 	else langueI = "fr";
+Index: collatinus-11/src/maj.cpp
+===================================================================
+--- collatinus-11.orig/src/maj.cpp
++++ collatinus-11/src/maj.cpp
+@@ -7,6 +7,7 @@
+ # include <QMessageBox>
+ # include <QPushButton>
+ # include <QVBoxLayout>
++#include <QStandardPaths>
+ 
+ # include "maj.h"
+ 
+@@ -44,7 +45,9 @@ Maj::Maj (QDialog *parent): QDialog (par
+ 	label->setWordWrap(true);
+ 	label->setAlignment(Qt::AlignJustify);
+ 	// liste des paquets installés
+-    QDir chDicos (qApp->applicationDirPath()+"/data/dicos");
++    QDir chDicos (QStandardPaths::locate(QStandardPaths::AppDataLocation,
++					 "/data/dicos",
++					 QStandardPaths::LocateDirectory));
+     QStringList lcfg = chDicos.entryList (QStringList () << "*.cfg");
+ 	for (int i=0;i<lcfg.count();++i)
+ 		lcfg[i].remove(".cfg");
+@@ -75,7 +78,10 @@ void Maj::installe (QString nfcol)
+ 	// nom du paquet
+ 	QString nom = QFileInfo(nfcol).baseName();
+ 	// fichiers destination
+-    QString nf (qApp->applicationDirPath()+"/data/dicos/"+nom);
++	QString nf (QStandardPaths::locate(QStandardPaths::AppDataLocation,
++					   "/data/dicos",
++					   QStandardPaths::LocateDirectory)
++		    +"/"+nom);
+ 	QString nfcz  = nf+".cz"; //"Lewis_and_Short_1879-fev16.cz";
+ 	QString nfidx = nf+".idx";
+ 	QString nfcfg = nf+".cfg";
+Index: collatinus-11/src/main.cpp
+===================================================================
+--- collatinus-11.orig/src/main.cpp
++++ collatinus-11/src/main.cpp
+@@ -30,9 +30,24 @@
+  */
+ 
+ #include <QApplication>
++#include <QStandardPaths>
++#include <QDebug>
+ 
+ #include "mainwindow.h"
+ 
++void createPaths(void)
++{
++  // création de chemins utilisables pour enregistrer des données
++  // persistantes
++  QString chDic = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/data/dicos";
++  qDebug() << chDic;
++  if(!QDir(chDic).exists())
++    {
++        qDebug() << "Directory created!";
++        QDir().mkpath(chDic);
++    }
++}
++
+ /**
+  * \fn main (int argc, char *argv[])
+  * \brief fonction principale de l'application.
+@@ -40,6 +55,7 @@
+ int main (int argc, char *argv[])
+ {
+     QApplication app(argc, argv);
++    createPaths();
+     MainWindow mainWin;
+     mainWin.show();
+     return app.exec();
