@@ -83,3 +83,6 @@ dev-java/jlint
 # Depends on webkit-gtk:3, which is masked due to security issues
 app-text/ppub
 
+# Depends on now-masked Qt 4
+=app-text/biblememorizer-0.6.4
+
