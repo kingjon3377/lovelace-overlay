@@ -1,10 +1,10 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
 
 DISTUTILS_SINGLE_IMPL=true
-PYTHON_COMPAT=( python2_7 python3_{5,6} )
+PYTHON_COMPAT=( python3_6 ) # python2_7? python3_5
 inherit distutils-r1 eutils
 
 DESCRIPTION="Sophisticated flash-card tool also used for long-term memory research"
