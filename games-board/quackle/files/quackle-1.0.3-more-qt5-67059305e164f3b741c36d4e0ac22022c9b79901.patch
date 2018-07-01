@@ -1,0 +1,699 @@
+From 67059305e164f3b741c36d4e0ac22022c9b79901 Mon Sep 17 00:00:00 2001
+From: John Fultz <jfultz@wolfram.com>
+Date: Tue, 1 Aug 2017 23:20:55 -0500
+Subject: [PATCH] More Qt5 changes and cleanups.
+
+Now builds on Qt 5.9.1, and works on Mac, Windows, Linux.
+---
+ .gitignore                               |  8 ++++++++
+ README.MacOS                             |  4 ++--
+ README.Windows                           | 14 +++++++-------
+ README.md                                |  2 +-
+ installer.iss                            |  7 +++----
+ quacker/{quacker.plist => Quackle.plist} |  4 ++--
+ quacker/bagdisplay.cpp                   |  6 +-----
+ quacker/boarddisplay.cpp                 |  9 +--------
+ quacker/boardsetup.cpp                   |  4 +---
+ quacker/boardsetupdialog.cpp             | 11 +----------
+ quacker/brb.cpp                          |  4 +---
+ quacker/configdialog.cpp                 |  8 +-------
+ quacker/configpages.cpp                  |  9 +--------
+ quacker/customqsettings.h                |  2 +-
+ quacker/dashboard.cpp                    |  5 +----
+ quacker/geometry.cpp                     |  3 +--
+ quacker/graphicalboard.cpp               |  4 ++--
+ quacker/graphicalreporter.cpp            |  3 +--
+ quacker/history.cpp                      |  5 +----
+ quacker/letterbox.cpp                    | 11 +----------
+ quacker/lexicondialog.cpp                | 10 +---------
+ quacker/lister.cpp                       | 11 +----------
+ quacker/movebox.cpp                      |  7 +------
+ quacker/newgame.cpp                      | 10 +---------
+ quacker/noteeditor.cpp                   |  4 +---
+ quacker/oppothreadprogressbar.cpp        |  5 +----
+ quacker/quacker.cpp                      | 19 +------------------
+ quacker/rackdisplay.cpp                  |  6 +-----
+ quacker/settings.cpp                     | 18 ++++++------------
+ quacker/simviewer.cpp                    |  8 +-------
+ quackle.pro                              |  7 ++-----
+ quackleio/gcgio.cpp                      |  2 +-
+ quackleio/quackleio.pro                  |  7 ++-----
+ 33 files changed, 58 insertions(+), 179 deletions(-)
+ rename quacker/{quacker.plist => Quackle.plist} (89%)
+
+diff --git a/.gitignore b/.gitignore
+index 43da00920..bf5ab0013 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -1,5 +1,8 @@
+ .sconsign
+ .gitattributes
++.tags*
++.qmake.stash
++.vs
+ obj
+ Makefile
+ Makefile.Debug
+@@ -12,11 +15,16 @@ ChangeLog
+ *.sublime-workspace
+ *.xcodeproj
+ *.exe
++*.pdb
+ *.pfx
+ *.cer
+ *.dll
+ *.vcxproj*
+ *.*sdf
++*.aps
++*.suo
++*.db
++*.dmg
+ dawginput.raw
+ playabilities.raw
+ smaller.raw
+diff --git a/README.MacOS b/README.MacOS
+index 9a786545a..7ef67c88e 100644
+--- a/README.MacOS
++++ b/README.MacOS
+@@ -3,8 +3,8 @@ Requirements:
+ 
+ 1. Xcode (for the compiler and build tools)
+ 2. A version of Qt 5.  I use HomeBrew to grab the latest version,
+-   presently Qt 5.5.1. Installing in HomeBrew is as easy as
+-		brew install qt5
++   presently Qt 5.9.1. Installing in HomeBrew is as easy as
++		brew install qt
+ 
+ Building Quackle:
+ -----------------
+diff --git a/README.Windows b/README.Windows
+index 2bfe8f4da..48c8d24a3 100644
+--- a/README.Windows
++++ b/README.Windows
+@@ -5,10 +5,10 @@ Quackle was first ported to Windows by John Fultz, jfultz@wolfram.com, who
+ is also the original author of this ReadMe.
+ 
+ I maintain the Windows version so that it can be built with either
+-Visual C++ or the GNU-based MinGW compiler.  As of Quackle 1.0.1,
+-I use the mingw tools bundled with Qt 5.4 to build the release version.
+-The build ought to work with Visual C++ Express, as well, but I'm not
+-sure whether Microsoft disables useful optimizations in that version,
++Visual C++ or the GNU-based MinGW compiler.  As of Quackle 1.0.4,
++I use the Visual Studio tools bundled with Qt 5.9.1 to build the release
++version.  The build ought to work with Visual C++ Express, as well, but
++I'm not sure whether Microsoft disables useful optimizations in that version,
+ so I won't guarantee that you'll get nice and fast optimized binaries.
+ 
+ All build commands are run from Windows' regular command shell.  The
+@@ -17,14 +17,14 @@ tools are:
+ Free Tools Build:
+ ------------------------------------
+ MinGW
+-Qt 5.4
++Qt 5.9
+ git
+ cygwin (optional) - if you want to debug, you'll need gdb from cygwin.
+ 
+ Microsoft Tools Build:
+ ------------------------------------
+ Visual C++
+-Qt 5.4
++Qt 5.9
+ git
+ 
+ Installer build:
+@@ -77,7 +77,7 @@ working executable...
+ Additional things to know:
+ --------------------------
+ * To build the Quackle installer,
+-  + Copy QtCore5.dll and QtGui5.dll from Qt's bin/ directory into quackle\
++  + Copy Qt5Core.dll, Qt5Widgets.dll and Qt5Gui.dll from Qt's bin/ directory into quackle\
+   + If you're building with MinGW, copy mingwm10.dll, libstdc++-6.dll, and
+     libgcc_s_dw2-1.dll from MinGW's bin/ directory into quackle\
+   + From the Quackle directory, run the following...
+diff --git a/README.md b/README.md
+index 0132ecaad..ecd033795 100644
+--- a/README.md
++++ b/README.md
+@@ -9,7 +9,7 @@ See LICENSE in this directory.
+ 
+ Building Quackle:
+ -----------------
+-Quackle is built and tested with the latest release of Qt 5.5.
++Quackle is built and tested with the latest release of Qt 5.9.
+ See README.MacOS and README.Windows for platform-specific instructions.  Generally:
+ 
+ Clone the repo or download the tarball and untar.  Use qmake to build quackle.pro and quackleio/quackleio.pro:
+diff --git a/installer.iss b/installer.iss
+index 96a987fed..b28256ae1 100644
+--- a/installer.iss
++++ b/installer.iss
+@@ -23,10 +23,9 @@ Root: HKCR; Subkey: "QuackleGameFile\shell\open\command"; ValueType: string; Val
+ [Files]
+ Source: "quacker\release\Quackle.exe"; DestDir: "{app}"
+ Source: "LICENSE"; DestDir: "{app}"
+-Source: "QtCore4.dll"; DestDir: "{app}"
+-Source: "QtGui4.dll"; DestDir: "{app}"
+-Source: "msvcp120.dll"; DestDir: "{app}"
+-Source: "msvcr120.dll"; DestDir: "{app}"
++Source: "Qt5Core.dll"; DestDir: "{app}"
++Source: "Qt5Gui.dll"; DestDir: "{app}"
++Source: "Qt5Widgets.dll"; DestDir: "{app}"
+ 
+ Source: "data\themes\*"; DestDir: "{app}\data\themes"
+ Source: "data\alphabets\*"; DestDir: "{app}\data\alphabets"
+diff --git a/quacker/quacker.plist b/quacker/Quackle.plist
+similarity index 89%
+rename from quacker/quacker.plist
+rename to quacker/Quackle.plist
+index 3969d5419..c826b55e0 100644
+--- a/quacker/quacker.plist
++++ b/quacker/Quackle.plist
+@@ -3,7 +3,7 @@
+ <plist version="1.0">
+ <dict>
+ 	<key>CFBundleExecutable</key>
+-	<string>quacker</string>
++	<string>Quackle</string>
+ 	<key>CFBundleIconFile</key>
+ 	<string>quacker.icns</string>
+ 	<key>CFBundleIdentifier</key>
+@@ -21,6 +21,6 @@
+ 	<key>NSPrincipalClass</key>
+ 	<string>NSApplication</string>
+ 	<key>NSHumanReadableCopyright</key>
+-	<string>Copyright &copy; 2005-2016 by Jason Katz-Brown & John O'Laughlin</string>
++	<string>Copyright © 2005-2017 by Jason Katz-Brown &amp; John O'Laughlin</string>
+ </dict>
+ </plist>
+diff --git a/quacker/bagdisplay.cpp b/quacker/bagdisplay.cpp
+index da52732eb..9777c0653 100644
+--- a/quacker/bagdisplay.cpp
++++ b/quacker/bagdisplay.cpp
+@@ -18,11 +18,7 @@
+ 
+ #include <math.h>
+ 
+-#include <QtGui>
+-#include <QTextEdit>
+-#include <QLabel>
+-#include <QVBoxLayout>
+-#include <QScrollBar>
++#include <QtWidgets>
+ 
+ #include <bag.h>
+ #include <game.h>
+diff --git a/quacker/boarddisplay.cpp b/quacker/boarddisplay.cpp
+index d8b2a8dc0..fb6a3ba9d 100644
+--- a/quacker/boarddisplay.cpp
++++ b/quacker/boarddisplay.cpp
+@@ -16,14 +16,7 @@
+  *  along with this program. If not, see <http://www.gnu.org/licenses/>.
+  */
+ 
+-#include <QtGui>
+-#include <QTextEdit>
+-#include <QLineEdit>
+-#include <QVBoxLayout>
+-#include <QHBoxLayout>
+-#include <QPushButton>
+-#include <QLabel>
+-#include <QMessageBox>
++#include <QtWidgets>
+ 
+ #include <alphabetparameters.h>
+ #include <board.h>
+diff --git a/quacker/boardsetup.cpp b/quacker/boardsetup.cpp
+index bc641c3dc..995c644a2 100644
+--- a/quacker/boardsetup.cpp
++++ b/quacker/boardsetup.cpp
+@@ -19,9 +19,7 @@
+ #include <iostream>
+ #include <math.h>
+ 
+-#include <QtGui>
+-#include <QVBoxLayout>
+-#include <QLabel>
++#include <QtWidgets>
+ 
+ #include <game.h>
+ #include <move.h>
+diff --git a/quacker/boardsetupdialog.cpp b/quacker/boardsetupdialog.cpp
+index d9a5c0ce8..e1962fb6f 100644
+--- a/quacker/boardsetupdialog.cpp
++++ b/quacker/boardsetupdialog.cpp
+@@ -17,16 +17,7 @@
+  */
+ 
+ #include <sstream>
+-#include <QtGui>
+-#include <QCheckBox>
+-#include <QPushButton>
+-#include <QVBoxLayout>
+-#include <QHBoxLayout>
+-#include <QGroupBox>
+-#include <QLabel>
+-#include <QComboBox>
+-#include <QMessageBox>
+-#include <QLineEdit>
++#include <QtWidgets>
+ 
+ #include <boardparameters.h>
+ #include <board.h>
+diff --git a/quacker/brb.cpp b/quacker/brb.cpp
+index 8341dd673..6a42a48da 100644
+--- a/quacker/brb.cpp
++++ b/quacker/brb.cpp
+@@ -16,9 +16,7 @@
+  *  along with this program. If not, see <http://www.gnu.org/licenses/>.
+  */
+ 
+-#include <QtGui>
+-#include <QHBoxLayout>
+-#include <QVBoxLayout>
++#include <QtWidgets>
+ 
+ #include <game.h>
+ 
+diff --git a/quacker/configdialog.cpp b/quacker/configdialog.cpp
+index 4f871d9cb..509650ec9 100644
+--- a/quacker/configdialog.cpp
++++ b/quacker/configdialog.cpp
+@@ -16,13 +16,7 @@
+  *  along with this program. If not, see <http://www.gnu.org/licenses/>.
+  */
+ 
+-#include <QtGui>
+-#include <QHBoxLayout>
+-#include <QVBoxLayout>
+-#include <QListWidget>
+-#include <QStackedWidget>
+-#include <QCheckBox>
+-#include <QPushButton>
++#include <QtWidgets>
+ 
+ #include "configpages.h"
+ #include "configdialog.h"
+diff --git a/quacker/configpages.cpp b/quacker/configpages.cpp
+index a424c15dc..057109422 100644
+--- a/quacker/configpages.cpp
++++ b/quacker/configpages.cpp
+@@ -16,14 +16,7 @@
+  *  along with this program. If not, see <http://www.gnu.org/licenses/>.
+  */
+ 
+-#include <QtGui>
+-#include <QCheckBox>
+-#include <QGroupBox>
+-#include <QSpinBox>
+-#include <QComboBox>
+-#include <QLabel>
+-#include <QGridLayout>
+-#include <QVBoxLayout>
++#include <QtWidgets>
+ 
+ #include <uv.h>
+ 
+diff --git a/quacker/customqsettings.h b/quacker/customqsettings.h
+index 4501a593f..91312338e 100644
+--- a/quacker/customqsettings.h
++++ b/quacker/customqsettings.h
+@@ -23,7 +23,7 @@ class CustomQSettings : public QSettings
+ {
+ public:
+ 	CustomQSettings() :
+-#if defined(Q_WS_WIN)
++#if defined(Q_OS_WIN)
+ 		QSettings((QSysInfo::WindowsVersion & QSysInfo::WV_DOS_based) ? IniFormat : NativeFormat,
+ 			UserScope, tr("Quackle"))
+ #else
+diff --git a/quacker/dashboard.cpp b/quacker/dashboard.cpp
+index e1f45af81..c4fd429c8 100644
+--- a/quacker/dashboard.cpp
++++ b/quacker/dashboard.cpp
+@@ -16,10 +16,7 @@
+  *  along with this program. If not, see <http://www.gnu.org/licenses/>.
+  */
+ 
+-#include <QtGui>
+-#include <QVBoxLayout>
+-#include <QHBoxLayout>
+-#include <QLabel>
++#include <QtWidgets>
+ 
+ #include <game.h>
+ #include <quackleio/util.h>
+diff --git a/quacker/geometry.cpp b/quacker/geometry.cpp
+index db6bf6624..0a2a589fd 100644
+--- a/quacker/geometry.cpp
++++ b/quacker/geometry.cpp
+@@ -16,8 +16,7 @@
+  *  along with this program. If not, see <http://www.gnu.org/licenses/>.
+  */
+ 
+-#include <QtGui>
+-#include <QBoxLayout>
++#include <QtWidgets>
+ 
+ #include "geometry.h"
+ 
+diff --git a/quacker/graphicalboard.cpp b/quacker/graphicalboard.cpp
+index 37db68686..7bc3fa8c8 100644
+--- a/quacker/graphicalboard.cpp
++++ b/quacker/graphicalboard.cpp
+@@ -89,9 +89,9 @@ GraphicalBoardFrame::GraphicalBoardFrame(QWidget *parent)
+     setPalette(customPalette);
+ 
+     PixmapCacher::self()->tileFont = font();
+-#if defined(Q_WS_WIN)
++#if defined(Q_OS_WIN)
+     PixmapCacher::self()->tileFont.setFamily(QString("Arial"));
+-#endif // Q_WS_WIN
++#endif // Q_OS_WIN
+ 
+     //expandToSize(QSize(15 * 25, 15 * 25));
+ 
+diff --git a/quacker/graphicalreporter.cpp b/quacker/graphicalreporter.cpp
+index 39e74efd6..a1266414f 100644
+--- a/quacker/graphicalreporter.cpp
++++ b/quacker/graphicalreporter.cpp
+@@ -16,8 +16,7 @@
+  *  along with this program. If not, see <http://www.gnu.org/licenses/>.
+  */
+ 
+-#include <QtGui>
+-#include <QMessageBox>
++#include <QtWidgets>
+ 
+ #include <board.h>
+ #include <computerplayer.h>
+diff --git a/quacker/history.cpp b/quacker/history.cpp
+index 0ea2febaa..8794579c8 100644
+--- a/quacker/history.cpp
++++ b/quacker/history.cpp
+@@ -16,10 +16,7 @@
+  *  along with this program. If not, see <http://www.gnu.org/licenses/>.
+  */
+ 
+-#include <QtGui>
+-#include <QVBoxLayout>
+-#include <QTableWidget>
+-#include <QTableWidgetItem>
++#include <QtWidgets>
+ 
+ #include <game.h>
+ #include <quackleio/util.h>
+diff --git a/quacker/letterbox.cpp b/quacker/letterbox.cpp
+index 492f24df3..2f894676a 100644
+--- a/quacker/letterbox.cpp
++++ b/quacker/letterbox.cpp
+@@ -16,16 +16,7 @@
+  *  along with this program. If not, see <http://www.gnu.org/licenses/>.
+  */
+ 
+-#include <QtGui>
+-#include <QStatusBar>
+-#include <QAction>
+-#include <QMessageBox>
+-#include <QVBoxLayout>
+-#include <QLineEdit>
+-#include <QMenu>
+-#include <QMenuBar>
+-#include <QFileDialog>
+-#include <QInputDialog>
++#include <QtWidgets>
+ 
+ #include <quackleio/dictfactory.h>
+ #include <quackleio/util.h>
+diff --git a/quacker/lexicondialog.cpp b/quacker/lexicondialog.cpp
+index 1d06cb0d6..362aa4b53 100644
+--- a/quacker/lexicondialog.cpp
++++ b/quacker/lexicondialog.cpp
+@@ -17,15 +17,7 @@
+  */
+ 
+ #include <sstream>
+-#include <QtGui>
+-#include <QLineEdit>
+-#include <QComboBox>
+-#include <QPushButton>
+-#include <QFileDialog>
+-#include <QLabel>
+-#include <QHBoxLayout>
+-#include <QVBoxLayout>
+-#include <QGroupBox>
++#include <QtWidgets>
+ 
+ #include <datamanager.h>
+ #include <quackleio/util.h>
+diff --git a/quacker/lister.cpp b/quacker/lister.cpp
+index 316ac495c..30b0b4cfb 100644
+--- a/quacker/lister.cpp
++++ b/quacker/lister.cpp
+@@ -19,16 +19,7 @@
+ #include <iostream>
+ using namespace std;
+ 
+-#include <QtGui>
+-#include <QSpinBox>
+-#include <QLabel>
+-#include <QVBoxLayout>
+-#include <QLineEdit>
+-#include <QCheckBox>
+-#include <QListWidget>
+-#include <QPushButton>
+-#include <QFileDialog>
+-#include <QMessageBox>
++#include <QtWidgets>
+ 
+ #include <quackleio/dictfactory.h>
+ 
+diff --git a/quacker/movebox.cpp b/quacker/movebox.cpp
+index 1e403df82..44b88e0e5 100644
+--- a/quacker/movebox.cpp
++++ b/quacker/movebox.cpp
+@@ -18,12 +18,7 @@
+ 
+ #include <iostream>
+ 
+-#include <QtGui>
+-#include <QTreeWidget>
+-#include <QTreeWidgetItem>
+-#include <QPushButton>
+-#include <QVBoxLayout>
+-#include <QHBoxLayout>
++#include <QtWidgets>
+ 
+ #include <game.h>
+ #include <quackleio/util.h>
+diff --git a/quacker/newgame.cpp b/quacker/newgame.cpp
+index 6d038131a..7d3006e33 100644
+--- a/quacker/newgame.cpp
++++ b/quacker/newgame.cpp
+@@ -18,15 +18,7 @@
+ 
+ #include <iostream>
+ 
+-#include <QtGui>
+-#include <QTabWidget>
+-#include <QTreeWidget>
+-#include <QPushButton>
+-#include <QComboBox>
+-#include <QGroupBox>
+-#include <QVBoxLayout>
+-#include <QHBoxLayout>
+-#include <QLineEdit>
++#include <QtWidgets>
+ 
+ #include <computerplayer.h>
+ #include <datamanager.h>
+diff --git a/quacker/noteeditor.cpp b/quacker/noteeditor.cpp
+index 149b88a41..0246a6c12 100644
+--- a/quacker/noteeditor.cpp
++++ b/quacker/noteeditor.cpp
+@@ -16,9 +16,7 @@
+  *  along with this program. If not, see <http://www.gnu.org/licenses/>.
+  */
+ 
+-#include <QtGui>
+-#include <QVBoxLayout>
+-#include <QTextEdit>
++#include <QtWidgets>
+ 
+ #include <game.h>
+ #include <quackleio/util.h>
+diff --git a/quacker/oppothreadprogressbar.cpp b/quacker/oppothreadprogressbar.cpp
+index 632377041..6999c6337 100644
+--- a/quacker/oppothreadprogressbar.cpp
++++ b/quacker/oppothreadprogressbar.cpp
+@@ -16,10 +16,7 @@
+  *  along with this program. If not, see <http://www.gnu.org/licenses/>.
+  */
+ 
+-#include <QtGui>
+-#include <QProgressBar>
+-#include <QPushButton>
+-#include <QHBoxLayout>
++#include <QtWidgets>
+ 
+ #include "geometry.h"
+ #include "oppothreadprogressbar.h"
+diff --git a/quacker/quacker.cpp b/quacker/quacker.cpp
+index f7cc336e6..97f24b0f7 100644
+--- a/quacker/quacker.cpp
++++ b/quacker/quacker.cpp
+@@ -21,24 +21,7 @@
+ 
+ using namespace std;
+ 
+-#include <QtGui>
+-#include <QApplication>
+-#include <QMessageBox>
+-#include <QInputDialog>
+-#include <QStatusBar>
+-#include <QAction>
+-#include <QFileDialog>
+-#include <QCheckBox>
+-#include <QComboBox>
+-#include <QGroupBox>
+-#include <QMenuBar>
+-#include <QToolBar>
+-#include <QMenu>
+-#include <QSplitter>
+-#include <QVBoxLayout>
+-#include <QHBoxLayout>
+-#include <QLabel>
+-#include <QPushButton>
++#include <QtWidgets>
+ 
+ #include <game.h>
+ #include <boardparameters.h>
+diff --git a/quacker/rackdisplay.cpp b/quacker/rackdisplay.cpp
+index 086be1cd4..c8bd82ce4 100644
+--- a/quacker/rackdisplay.cpp
++++ b/quacker/rackdisplay.cpp
+@@ -18,11 +18,7 @@
+ 
+ #include <iostream>
+ 
+-#include <QtGui>
+-#include <QHBoxLayout>
+-#include <QLineEdit>
+-#include <QPushButton>
+-#include <QLabel>
++#include <QtWidgets>
+ 
+ #include <game.h>
+ #include <quackleio/util.h>
+diff --git a/quacker/settings.cpp b/quacker/settings.cpp
+index 5811edba8..7896f9012 100644
+--- a/quacker/settings.cpp
++++ b/quacker/settings.cpp
+@@ -21,17 +21,11 @@
+ #include <iostream>
+ #include <sstream>
+ 
+-#include <QtGui>
+-#include <QGridLayout>
+-#include <QComboBox>
+-#include <QMessageBox>
+-#include <QLabel>
+-#include <QPushButton>
+-#include <QStandardPaths>
+-
+-#ifdef Q_WS_MAC
++#include <QtWidgets>
++
++#ifdef Q_OS_MAC
+ #include <CoreFoundation/CoreFoundation.h>
+-#endif // Q_WS_MAC
++#endif // Q_OS_MAC
+ 
+ #include "alphabetparameters.h"
+ #include "board.h"
+@@ -64,7 +58,7 @@ Settings::Settings(QWidget *parent)
+ 	m_self = this;
+ 	QDir directory = QFileInfo(qApp->arguments().at(0)).absoluteDir();
+ 
+- #ifdef Q_WS_MAC
++ #ifdef Q_OS_MAC
+ 	if (CFBundleGetMainBundle())
+ 	{
+ 		 CFURLRef dataUrlRef = CFBundleCopyResourceURL(CFBundleGetMainBundle(), CFSTR("data"), NULL, NULL);
+@@ -83,7 +77,7 @@ Settings::Settings(QWidget *parent)
+ 			 CFRelease(macPath);
+ 		 }
+ 	}
+- #endif
++ #endif // Q_OS_MAC
+ 
+ 	if (QFile::exists("data"))
+ 		m_appDataDir = "data";
+diff --git a/quacker/simviewer.cpp b/quacker/simviewer.cpp
+index 14858b3bf..587b862fe 100644
+--- a/quacker/simviewer.cpp
++++ b/quacker/simviewer.cpp
+@@ -18,13 +18,7 @@
+ 
+ #include <iostream>
+ 
+-#include <QtGui>
+-#include <QTabWidget>
+-#include <QPushButton>
+-#include <QHBoxLayout>
+-#include <QVBoxLayout>
+-#include <QTextEdit>
+-#include <QMessageBox>
++#include <QtWidgets>
+ 
+ #include <quackleio/util.h>
+ 
+diff --git a/quackle.pro b/quackle.pro
+index 4bd40f430..2c9a0c395 100644
+--- a/quackle.pro
++++ b/quackle.pro
+@@ -34,10 +34,7 @@ SOURCES -= \
+ 	makedawg.cpp \
+ 	quackletest.cpp
+ 
+-macx-g++ {
+-    QMAKE_CXXFLAGS += -fpermissive
+-}
+-
+-macx-xcode {
++macx {
+ 	CONFIG += x86	
++  QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.8
+ }
+diff --git a/quackleio/gcgio.cpp b/quackleio/gcgio.cpp
+index b60d57c04..76360ac15 100644
+--- a/quackleio/gcgio.cpp
++++ b/quackleio/gcgio.cpp
+@@ -132,7 +132,7 @@ Quackle::Game *GCGIO::read(QTextStream &stream, int flags)
+ 			else if (line.startsWith("#character-encoding"))
+ 			{
+ 				QString encoding{line.right(line.length() - 20).trimmed()};
+-				stream.setCodec(QTextCodec::codecForName(encoding.toAscii()));
++				stream.setCodec(QTextCodec::codecForName(encoding.toLatin1()));
+ 			}
+ 		}
+ 		else if (line.startsWith(">"))
+diff --git a/quackleio/quackleio.pro b/quackleio/quackleio.pro
+index 9cff93c34..bd46a01d5 100644
+--- a/quackleio/quackleio.pro
++++ b/quackleio/quackleio.pro
+@@ -28,12 +28,9 @@ HEADERS += *.h
+ 
+ SOURCES += *.cpp
+ 
+-macx-g++ {
+-    QMAKE_CXXFLAGS += -fpermissive
+-}
+-
+-macx-xcode {
++macx {
+ 	CONFIG += x86	
++  QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.8
+ }
+ 
+ unix:!macx {

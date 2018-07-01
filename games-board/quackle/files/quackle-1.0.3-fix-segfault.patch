@@ -1,0 +1,12 @@
+diff -ru quackle-1.0.3.old/quackleio/froggetopt.cpp quackle-1.0.3/quackleio/froggetopt.cpp
+--- quackle-1.0.3.old/quackleio/froggetopt.cpp	2018-07-01 15:54:44.823645336 -0400
++++ quackle-1.0.3/quackleio/froggetopt.cpp	2018-07-01 15:55:47.141866251 -0400
+@@ -425,7 +425,7 @@
+ 			extraLoop = false;
+ 	}
+ 
+-	if ( numReqArgs > 0 && reqArg.stringValue->isNull() ) {
++	if ( numReqArgs > 0 && (!reqArg.stringValue || reqArg.stringValue->isNull() )) {
+ 		qWarning( "Lacking required argument" );
+ 		return false;
+ 	}
