@@ -1,0 +1,189 @@
+diff --git a/Examples/Nouveau.es b/Examples/Nouveau.es
+--- a/Examples/Nouveau.es
++++ b/Examples/Nouveau.es
+@@ -1,6 +1,5 @@
+ #define shrink s 0.996
+ 
+-set seed 9
+ // Camera settings. Place these before first rule call.
+ set translation [-2.66914 -1.23905 -20]
+ set rotation [0.707436 -0.702911 -0.0738339 0.542177 0.472696 0.694696 -0.453408 -0.531484 0.715504]
+diff --git a/StructureSynth/GUI/TemplateExportDialog.cpp b/StructureSynth/GUI/TemplateExportDialog.cpp
+--- a/StructureSynth/GUI/TemplateExportDialog.cpp
++++ b/StructureSynth/GUI/TemplateExportDialog.cpp
+@@ -899,33 +899,33 @@
+ 
+ 		void TemplateExportDialog::retranslateUi()
+ 		{
+-			setWindowTitle(QApplication::translate("Dialog", "Template Export", 0, QApplication::UnicodeUTF8));
+-			label->setText(QApplication::translate("Dialog", "Template:", 0, QApplication::UnicodeUTF8));
+-			templatePathButton->setText(QApplication::translate("Dialog", "Template Path...", 0, QApplication::UnicodeUTF8));
+-			descriptionLabel->setText(QApplication::translate("Dialog", "Description", 0, QApplication::UnicodeUTF8));
++            setWindowTitle(QApplication::translate("Dialog", "Template Export", 0));
++            label->setText(QApplication::translate("Dialog", "Template:", 0));
++            templatePathButton->setText(QApplication::translate("Dialog", "Template Path...", 0));
++            descriptionLabel->setText(QApplication::translate("Dialog", "Description", 0));
+ 			descriptionTextBrowser->setHtml(QApplication::translate("Dialog", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+ 				"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+ 				"p, li { white-space: pre-wrap; }\n"
+ 				"</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
+-				"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">This template was created by ....</span></p></body></html>", 0, QApplication::UnicodeUTF8));
+-			primitivesLabel->setText(QApplication::translate("Dialog", "Primitives in Template", 0, QApplication::UnicodeUTF8));
+-			templateOutputGroupBox->setTitle(QApplication::translate("Dialog", "Template Output", 0, QApplication::UnicodeUTF8));
+-			fileRadioButton->setText(QApplication::translate("Dialog", "File:", 0, QApplication::UnicodeUTF8));
+-			filePushButton->setText(QApplication::translate("Dialog", "File...", 0, QApplication::UnicodeUTF8));
+-			//uniqueCheckBox->setText(QApplication::translate("Dialog", "Add unique ID to filename", 0, QApplication::UnicodeUTF8));
+-			clipboardRadioButton->setText(QApplication::translate("Dialog", "Clipboard", 0, QApplication::UnicodeUTF8));
+-			postProcessingGroupBox->setTitle(QApplication::translate("Dialog", "Post Processing", 0, QApplication::UnicodeUTF8));
+-			runAfterCheckBox->setText(QApplication::translate("Dialog", "Run the following command after export:", 0, QApplication::UnicodeUTF8));
+-			afterCommandLineEdit->setText(QApplication::translate("Dialog", "", 0, QApplication::UnicodeUTF8));
+-			tabWidget->setTabText(tabWidget->indexOf(settingstab), QApplication::translate("Dialog", "Settings", 0, QApplication::UnicodeUTF8));
+-			label_4->setText(QApplication::translate("Dialog", "Width:", 0, QApplication::UnicodeUTF8));
+-			label_5->setText(QApplication::translate("Dialog", "Height:", 0, QApplication::UnicodeUTF8));
+-			lockAspectRatioCheckBox->setText(QApplication::translate("Dialog", "Lock aspect ratio (Current = 1.23)", 0, QApplication::UnicodeUTF8));
+-			modifyTemplateLabel->setText(QApplication::translate("Dialog", "Modify template before applying", 0, QApplication::UnicodeUTF8));
+-			saveModificationsButton->setText(QApplication::translate("Dialog", "Save Modifications", 0, QApplication::UnicodeUTF8));
+-			undoButton->setText(QApplication::translate("Dialog", "Revert (Undo Changed)", 0, QApplication::UnicodeUTF8));
+-			modifyOutputCheckBox->setText(QApplication::translate("Dialog", "Modify output before saving (spawns edit window when pressing OK)", 0, QApplication::UnicodeUTF8));
+-			tabWidget->setTabText(tabWidget->indexOf(advancedTab), QApplication::translate("Dialog", "Modify", 0, QApplication::UnicodeUTF8));
++                "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">This template was created by ....</span></p></body></html>", 0));
++            primitivesLabel->setText(QApplication::translate("Dialog", "Primitives in Template", 0));
++            templateOutputGroupBox->setTitle(QApplication::translate("Dialog", "Template Output", 0));
++            fileRadioButton->setText(QApplication::translate("Dialog", "File:", 0));
++            filePushButton->setText(QApplication::translate("Dialog", "File...", 0));
++            //uniqueCheckBox->setText(QApplication::translate("Dialog", "Add unique ID to filename", 0));
++            clipboardRadioButton->setText(QApplication::translate("Dialog", "Clipboard", 0));
++            postProcessingGroupBox->setTitle(QApplication::translate("Dialog", "Post Processing", 0));
++            runAfterCheckBox->setText(QApplication::translate("Dialog", "Run the following command after export:", 0));
++            afterCommandLineEdit->setText(QApplication::translate("Dialog", "", 0));
++            tabWidget->setTabText(tabWidget->indexOf(settingstab), QApplication::translate("Dialog", "Settings", 0));
++            label_4->setText(QApplication::translate("Dialog", "Width:", 0));
++            label_5->setText(QApplication::translate("Dialog", "Height:", 0));
++            lockAspectRatioCheckBox->setText(QApplication::translate("Dialog", "Lock aspect ratio (Current = 1.23)", 0));
++            modifyTemplateLabel->setText(QApplication::translate("Dialog", "Modify template before applying", 0));
++            saveModificationsButton->setText(QApplication::translate("Dialog", "Save Modifications", 0));
++            undoButton->setText(QApplication::translate("Dialog", "Revert (Undo Changed)", 0));
++            modifyOutputCheckBox->setText(QApplication::translate("Dialog", "Modify output before saving (spawns edit window when pressing OK)", 0));
++            tabWidget->setTabText(tabWidget->indexOf(advancedTab), QApplication::translate("Dialog", "Modify", 0));
+ 
+ 		} // retranslateUi
+ 
+diff --git a/StructureSynth/GUI/TemplateExportDialog.h b/StructureSynth/GUI/TemplateExportDialog.h
+--- a/StructureSynth/GUI/TemplateExportDialog.h
++++ b/StructureSynth/GUI/TemplateExportDialog.h
+@@ -3,29 +3,29 @@
+ #include <QString>
+ #include <QVector>
+ #include <QtCore/QVariant>
+-#include <QtGui/QAction>
+-#include <QtGui/QApplication>
+-#include <QtGui/QButtonGroup>
+-#include <QtGui/QCheckBox>
+-#include <QtGui/QComboBox>
+-#include <QtGui/QDialog>
+-#include <QtGui/QDialogButtonBox>
+-#include <QtGui/QFrame>
+-#include <QtGui/QGroupBox>
+-#include <QtGui/QHBoxLayout>
+-#include <QtGui/QHeaderView>
+-#include <QtGui/QLabel>
+-#include <QtGui/QLineEdit>
+-#include <QtGui/QPushButton>
+-#include <QtGui/QRadioButton>
+-#include <QtGui/QSpacerItem>
+-#include <QtGui/QSpinBox>
+-#include <QtGui/QTabWidget>
+-#include <QtGui/QTableWidget>
+-#include <QtGui/QTextBrowser>
+-#include <QtGui/QTextEdit>
+-#include <QtGui/QVBoxLayout>
+-#include <QtGui/QWidget>
++#include <QAction>
++#include <QApplication>
++#include <QButtonGroup>
++#include <QCheckBox>
++#include <QComboBox>
++#include <QDialog>
++#include <QDialogButtonBox>
++#include <QFrame>
++#include <QGroupBox>
++#include <QHBoxLayout>
++#include <QHeaderView>
++#include <QLabel>
++#include <QLineEdit>
++#include <QPushButton>
++#include <QRadioButton>
++#include <QSpacerItem>
++#include <QSpinBox>
++#include <QTabWidget>
++#include <QTableWidget>
++#include <QTextBrowser>
++#include <QTextEdit>
++#include <QVBoxLayout>
++#include <QWidget>
+ 
+ #include "../Model/Rendering/TemplateRenderer.h"
+ 
+diff --git a/StructureSynth/Model/Rendering/ObjRenderer.cpp b/StructureSynth/Model/Rendering/ObjRenderer.cpp
+--- a/StructureSynth/Model/Rendering/ObjRenderer.cpp
++++ b/StructureSynth/Model/Rendering/ObjRenderer.cpp
+@@ -84,7 +84,7 @@
+ 				*/
+ 				void CreateUnitSphere(int dt,int dp, ObjGroup& motherGroup, Matrix4f m)
+ 				{
+-					float DTOR = 3.1415/180.0;
++                    float DTOR = 3.1415f/180.0f;
+ 					double dtheta = 180.0/dt;
+ 					double dphi = 360.0/dp;
+ 					ObjGroup group;
+diff --git a/SyntopiaCore/GLEngine/Raytracer/RayTracer.cpp b/SyntopiaCore/GLEngine/Raytracer/RayTracer.cpp
+--- a/SyntopiaCore/GLEngine/Raytracer/RayTracer.cpp
++++ b/SyntopiaCore/GLEngine/Raytracer/RayTracer.cpp
+@@ -6,6 +6,7 @@
+ #include "SyntopiaCore/Math/Vector3.h"
+ #include "SyntopiaCore/Logging/Logging.h"
+ #include "SyntopiaCore/Misc/MiniParser.h"
++#include "glut.h"
+ 
+ using namespace SyntopiaCore::Math;
+ using namespace SyntopiaCore::Misc;
+diff --git a/SyntopiaCore/GLEngine/Raytracer/Sampler.cpp b/SyntopiaCore/GLEngine/Raytracer/Sampler.cpp
+--- a/SyntopiaCore/GLEngine/Raytracer/Sampler.cpp
++++ b/SyntopiaCore/GLEngine/Raytracer/Sampler.cpp
+@@ -40,7 +40,7 @@
+ 						angle = 6.0f + sx/r;
+ 					}
+ 				}
+-				angle *= 3.1415 / 4.f;
++                angle *= 3.1415f / 4.f;
+ 				return Vector3f(r * cosf(angle),r * sinf(angle),0);
+ 			}
+ 
+diff --git a/SyntopiaCore/GLEngine/Sphere.h b/SyntopiaCore/GLEngine/Sphere.h
+--- a/SyntopiaCore/GLEngine/Sphere.h
++++ b/SyntopiaCore/GLEngine/Sphere.h
+@@ -2,6 +2,7 @@
+ 
+ #include "SyntopiaCore/Math/Vector3.h"
+ #include "Object3D.h"
++#include "glut.h"
+ 
+ namespace SyntopiaCore {
+ 	namespace GLEngine {	
+@@ -22,7 +23,7 @@
+ 		private:
+ 			SyntopiaCore::Math::Vector3f center;
+ 			float radius;
+-			GLUquadric* myQuad;    
++            GLUquadric* myQuad;
+ 			static int displayListIndex;
+ 		};
+ 
+diff --git a/changelog.txt b/changelog.txt
+--- a/changelog.txt
++++ b/changelog.txt
+@@ -1,3 +1,4 @@
++Test commit
+  
+ Changelog for Structure Synth:
+ 

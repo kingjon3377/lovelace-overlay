@@ -1,0 +1,12 @@
+diff -ru "Structure Synth Source Code.old/SyntopiaCore/GLEngine/Raytracer/VoxelStepper.cpp" "Structure Synth Source Code/SyntopiaCore/GLEngine/Raytracer/VoxelStepper.cpp"
+--- "Structure Synth Source Code.old/SyntopiaCore/GLEngine/Raytracer/VoxelStepper.cpp"	2018-07-01 20:04:22.049404247 -0400
++++ "Structure Synth Source Code/SyntopiaCore/GLEngine/Raytracer/VoxelStepper.cpp"	2018-07-01 20:06:10.825044365 -0400
+@@ -122,7 +122,7 @@
+ 						currentT = p;
+ 
+ 						// We do not intersect grid.
+-						if (!found) return false;
++						if (!found) return nullptr;
+ 				}
+ 
+ 				stepX = (dir.x() > 0) ? 1 : -1;
