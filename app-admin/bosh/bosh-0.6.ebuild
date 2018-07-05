@@ -1,9 +1,7 @@
 # Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
-
-inherit toolchain-funcs
+EAPI=6
 
 DESCRIPTION="browse output of processes"
 HOMEPAGE="http://bosh.sourceforge.net/"
@@ -17,7 +15,4 @@ IUSE=""
 DEPEND="sys-libs/ncurses:0"
 RDEPEND="${DEPEND}"
 
-src_install() {
-	emake DESTDIR="${D}" install
-	dodoc AUTHORS ChangeLog NEWS README TODO
-}
+DOCS=( AUTHORS ChangeLog NEWS README TODO )
