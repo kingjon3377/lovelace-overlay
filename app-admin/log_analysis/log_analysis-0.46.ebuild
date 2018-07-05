@@ -1,4 +1,4 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
@@ -6,8 +6,8 @@ EAPI=5
 inherit eutils
 
 DESCRIPTION="Analyze system logs to find problems"
-HOMEPAGE="http://userpages.umbc.edu/~mabzug1/log_analysis.html"
-SRC_URI="http://userpages.umbc.edu/~mabzug1/${P}.tar.gz"
+HOMEPAGE="http://frakir.org/~morty/lue/log_analysis.html"
+SRC_URI="http://frakir.org/~morty/lue/${P}.tar.gz"
 
 LICENSE="GPL-3"
 SLOT="0"
