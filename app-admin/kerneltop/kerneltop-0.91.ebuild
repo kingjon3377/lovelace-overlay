@@ -1,9 +1,9 @@
 # Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-inherit toolchain-funcs eutils
+inherit toolchain-funcs
 
 DESCRIPTION="shows linux kernel function usage in a style like top"
 HOMEPAGE="http://www.infradead.org/~rdunlap/src"
@@ -18,8 +18,9 @@ DEPEND=""
 RDEPEND="${DEPEND}"
 
 src_prepare() {
-	epatch "${FILESDIR}"/*.patch
+	eapply "${FILESDIR}"/*.patch
 	gunzip ${PN}.1.gz
+	default
 }
 
 src_compile() {
