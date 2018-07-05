@@ -1,7 +1,7 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 DESCRIPTION="Identify what's using up virtual memory"
 HOMEPAGE="https://packages.debian.org/memstat"
@@ -20,11 +20,13 @@ S="${WORKDIR}/${PN}tool"
 src_prepare() {
 	sed -i -e "s:^CFLAGS =.*:CFLAGS = ${CFLAGS} ${LDFLAGS}:" \
 		-e 's/-p -s -o/-p    -o/' Makefile || die "sed failed"
+	default
 }
+
+DOCS=( ${PN}-tutorial.txt debian/copyright )
 
 src_install() {
 	dodir /usr/bin /etc
-	emake DESTDIR="${D}" install
 	doman ${PN}.1
-	dodoc ${PN}-tutorial.txt debian/copyright
+	default
 }
