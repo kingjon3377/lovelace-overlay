@@ -1,0 +1,37 @@
+Description: don't print username if it does not exist
+Author: Thorsten Alteholz <debian@alteholz.de>
+Index: sockstat-0.3/sockstat.c
+===================================================================
+--- sockstat-0.3.orig/sockstat.c	2018-07-03 14:35:53.858312856 +0200
++++ sockstat-0.3/sockstat.c	2018-07-03 14:39:36.950306168 +0200
+@@ -240,16 +240,23 @@
+ 	char *sbuf, *sbuf2;
+ 	struct passwd *pwd;
+ 
+-	pwd = getpwuid(record->uid);
+-	pwd->pw_name[8] = '\0';
+-
+ 	sbuf = conn_to_string(record->local_addr, record->local_port);
+ 	sbuf2 = conn_to_string(record->remote_addr, record->remote_port);
+ 
+-	printf("%-8s %-20s %-8u %-6s %-25s %-25s %s\n",
+-		pwd->pw_name, pname, pid, protocol_to_string(record->protocol), 
+-		sbuf, sbuf2, 
+-		states[record->status - 1]);
++	pwd = getpwuid(record->uid);
++	if (pwd == NULL) {
++		/* we have an unknow user, so don't print it */
++		printf("%-8s %-20s %-8u %-6s %-25s %-25s %s\n",
++			"N/A", pname, pid, protocol_to_string(record->protocol),
++			sbuf, sbuf2,
++			states[record->status - 1]);
++	} else {
++		pwd->pw_name[8] = '\0';
++		printf("%-8s %-20s %-8u %-6s %-25s %-25s %s\n",
++			pwd->pw_name, pname, pid, protocol_to_string(record->protocol),
++			sbuf, sbuf2,
++			states[record->status - 1]);
++	}
+ 
+ 	free(sbuf);
+ 	free(sbuf2);

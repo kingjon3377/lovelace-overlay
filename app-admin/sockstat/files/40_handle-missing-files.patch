@@ -1,0 +1,36 @@
+Description: be more verbose about missing files
+Author: Thorsten Alteholz <debian@alteholz.de>
+Index: sockstat-0.3/sockstat.c
+===================================================================
+--- sockstat-0.3.orig/sockstat.c	2018-07-03 13:59:34.000000000 +0200
++++ sockstat-0.3/sockstat.c	2018-07-03 14:30:38.466322310 +0200
+@@ -340,6 +340,12 @@
+ 	}
+ }
+ 
++void handle_missing_file(char *filename)
++{
++	fprintf(stderr, "can not open file %s, program will be aborted\n", filename);
++	abort();
++}
++
+ int main(int argc, char *argv[])
+ {
+ 	struct passwd *pwd;
+@@ -393,13 +399,13 @@
+ 		}
+ 
+ 	if ((tcp = fopen("/proc/net/tcp", "r")) == NULL)
+-		abort();
++		handle_missing_file("/proc/net/tcp");
+ 
+ 	if ((udp = fopen("/proc/net/udp", "r")) == NULL)
+-		abort();
++		handle_missing_file("/proc/net/udp");
+ 
+ 	if ((raw = fopen("/proc/net/raw", "r")) == NULL)
+-		abort();
++		handle_missing_file("/proc/net/raw");
+ 
+ 	if ((proc = opendir("/proc")) == NULL)
+ 		abort();
