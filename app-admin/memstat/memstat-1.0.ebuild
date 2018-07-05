@@ -3,6 +3,8 @@
 
 EAPI=6
 
+inherit toolchain-funcs
+
 DESCRIPTION="Identify what's using up virtual memory"
 HOMEPAGE="https://packages.debian.org/memstat"
 SRC_URI="mirror://debian/pool/main/m/${PN}/${P/-/_}.tar.gz"
@@ -20,6 +22,7 @@ S="${WORKDIR}/${PN}tool"
 src_prepare() {
 	sed -i -e "s:^CFLAGS =.*:CFLAGS = ${CFLAGS} ${LDFLAGS}:" \
 		-e 's/-p -s -o/-p    -o/' Makefile || die "sed failed"
+	tc-export CC
 	default
 }
 
