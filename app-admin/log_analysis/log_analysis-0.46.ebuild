@@ -1,7 +1,7 @@
 # Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 inherit eutils
 
@@ -18,12 +18,9 @@ DEPEND="dev-lang/perl
 	dev-lang/tk:="
 RDEPEND="${DEPEND}"
 
-src_prepare() {
-	epatch "${FILESDIR}/separate_rules.patch" \
-		"${FILESDIR}/${P}-pod2man.patch"
-}
+PATCHES=(
+	"${FILESDIR}/separate_rules.patch"
+	"${FILESDIR}/${P}-pod2man.patch"
+)
 
-src_install() {
-	emake DESTDIR="${D}" install
-	dodoc NEWS README TODO README.long
-}
+DOCS=( NEWS README TODO README.long )
