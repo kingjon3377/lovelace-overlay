@@ -1,9 +1,9 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-inherit eutils toolchain-funcs
+inherit toolchain-funcs
 
 DESCRIPTION="Utilities to save disk space"
 HOMEPAGE="https://packages.debian.org/sid/perforate http://perforate-linux.sourceforge.net/"
@@ -17,14 +17,11 @@ IUSE=""
 DEPEND=""
 RDEPEND="${DEPEND}"
 
-src_unpack() {
-	default_src_unpack
-	cd "${WORKDIR}" && mv -i ${PN}-1.1 ${P} || die "fixing dir name failed"
-}
+S="${WORKDIR}/${PN}-1.1"
 
-src_prepare() {
-	epatch "${FILESDIR}"/perforate_1.2-5.diff
-}
+PATCHES=(
+	"${FILESDIR}"/perforate_1.2-5.diff
+)
 
 src_compile() {
 	emake CC=$(tc-getCC) CFLAGS="${CFLAGS}"
