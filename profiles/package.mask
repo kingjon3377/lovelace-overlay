@@ -6,11 +6,7 @@
 ~app-text/latrine-9999
 ~dev-lang/c-repl-9999
 ~dev-util/gtkparasite-9999
-~dev-vcs/bzr-cvsps-import-9999
 ~dev-vcs/bugs-everywhere-9999
-~dev-vcs/bzr-email-9999
-~dev-vcs/bzr-pqm-9999
-~dev-vcs/bzr-upload-9999
 ~app-text/udo-9999
 ~games-arcade/bombardier-9999
 ~games-misc/rolldice-9999
