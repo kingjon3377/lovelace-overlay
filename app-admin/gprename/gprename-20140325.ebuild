@@ -1,7 +1,7 @@
 # Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 inherit eutils
 
@@ -29,6 +29,7 @@ for lang in ${LANGS}; do
 done
 
 src_prepare() {
+	default
 	sed -i \
 		-e 's/install: uninstall build/install:/' \
 			Makefile || die "sed failed"
