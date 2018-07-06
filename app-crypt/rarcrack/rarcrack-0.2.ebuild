@@ -1,9 +1,9 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-inherit eutils toolchain-funcs
+inherit toolchain-funcs
 
 DESCRIPTION="Password recovery for 7zip, rar and zip archives"
 HOMEPAGE="http://rarcrack.sourceforge.net"
@@ -27,8 +27,13 @@ DEPEND="${CDEPEND}
 		app-arch/p7zip
 	)"
 
+PATCHES=(
+	"${FILESDIR}/rarcrack-cflags.patch"
+	"${FILESDIR}/rarcrack-mime.patch"
+)
+
 src_prepare() {
-	epatch "${FILESDIR}"/*
+	default
 	sed -i -e 's:install -s:install:' -e 's:LICENSE ::' Makefile \
 		-e 's/=/?=/' || die "sed failed"
 }
