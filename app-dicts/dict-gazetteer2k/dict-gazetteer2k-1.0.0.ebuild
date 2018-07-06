@@ -45,7 +45,7 @@ src_compile() {
 }
 
 src_install() {
-	insinto /usr/share/dict
+	insinto /usr/share/dictd
 	for file in places counties zips;do
 		doins gazetteer2k-${file}.dict.dz gazetteer2k-${file}.index
 	done
