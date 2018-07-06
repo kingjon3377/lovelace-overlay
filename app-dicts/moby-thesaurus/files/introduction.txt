@@ -1,0 +1,18 @@
+Title:  Moby Thesaurus II
+
+Author:  Grady Ward, grady@gradyward.com
+
+Edition: 1.0
+
+Moby (tm) Thesaurus II Documentation Notes
+
+This documentation, the software and/or database are:
+
+Public Domain material by grant from the author, January, 2001.
+
+Moby Thesaurus is the largest and most comprehensive thesaurus data
+source in English available for commercial use.  This second edition
+has been thoroughly revised adding more than 5,000 root words (to
+total more than 30,000) with an additional _million_ synonyms and
+related terms (to total more than 2.5 _million_ synonyms and related
+terms).
