@@ -1,7 +1,7 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 PYTHON_COMPAT=( python{2_5,2_6,2_7} )
 inherit eutils python-single-r1 multilib
@@ -26,22 +26,18 @@ DEPEND="${RDEPEND}
 	dev-python/dictclient[${PYTHON_USEDEP}]
 	${PYTHON_DEPS}"
 
-#pkg_setup() {
-#	python_pkg_setup
-#}
-
-src_unpack() {
-	default
-	cd "${WORKDIR}"
-	mv "${P}.orig" "${P}"
-}
+S="${WORKDIR}/${P}.orig"
 
 src_prepare() {
 	cp "${FILESDIR}/"*.py . || die
+	default
+}
+
+pkg_setup() {
+	python-single-r1_pkg_setup
 }
 
 src_compile() {
-	python_export PYTHON
 	"${PYTHON}" zipswriter.py || die
 	"${PYTHON}" placeswriter.py || die
 	"${PYTHON}" countieswriter.py || die
