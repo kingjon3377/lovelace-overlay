@@ -4,7 +4,7 @@
 EAPI=6
 
 PYTHON_COMPAT=( python{2_5,2_6,2_7} )
-inherit eutils python-single-r1 multilib
+inherit python-single-r1
 
 DESCRIPTION="Gazetteer from the 2000 census"
 HOMEPAGE="http://www.census.gov/geo/www/gazetteer/places2k.html"
@@ -45,7 +45,7 @@ src_compile() {
 }
 
 src_install() {
-	insinto /usr/$(get_libdir)/dict
+	insinto /usr/share/dict
 	for file in places counties zips;do
 		doins gazetteer2k-${file}.dict.dz gazetteer2k-${file}.index
 	done
