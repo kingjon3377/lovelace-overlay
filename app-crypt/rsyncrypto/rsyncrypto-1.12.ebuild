@@ -1,7 +1,7 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 DESCRIPTION="rsync friendly encryption"
 HOMEPAGE="http://rsyncrypto.lingnu.com"
@@ -16,7 +16,3 @@ DEPEND="dev-libs/openssl:0
 	dev-libs/argtable"
 RDEPEND="${DEPEND}
 	|| ( app-arch/gzip[rsyncable] >=app-arch/gzip-1.7 )"
-
-src_install() {
-	emake DESTDIR="${D}" install
-}
