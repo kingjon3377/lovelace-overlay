@@ -1,7 +1,7 @@
 # Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 EANT_GENTOO_CLASSPATH="xerces-2 xalan junit"
 
@@ -24,9 +24,14 @@ IUSE="doc source"
 
 S="${WORKDIR}/${PN}-0.3"
 
+PATCHES=(
+	"${FILESDIR}/internal-api.patch"
+	"${FILESDIR}/incompatible-type.patch"
+)
+
 src_prepare() {
 	java-ant_rewrite-classpath
-	epatch "${FILESDIR}/internal-api.patch" "${FILESDIR}/incompatible-type.patch"
+	default
 }
 
 src_compile() {
