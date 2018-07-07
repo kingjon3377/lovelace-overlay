@@ -1,9 +1,9 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-inherit perl-app
+inherit perl-module
 
 DESCRIPTION="Send event reminders by email"
 HOMEPAGE="https://launchpad.net/email-reminder"
@@ -23,7 +23,6 @@ DEPEND="dev-perl/XML-DOM
 RDEPEND="${DEPEND}"
 
 src_prepare() {
-	default_src_prepare
 	cat > email-reminder.cron << EOF
 #!/bin/sh
 COLLECT_SCRIPT=/usr/sbin/collect-reminders
@@ -37,6 +36,7 @@ if [ -x "$COLLECT_SCRIPT" -a -x "$SEND_SCRIPT" ]; then
 	su - email-reminder -c $SEND_SCRIPT
 fi
 EOF
+	default
 }
 
 src_install() {
