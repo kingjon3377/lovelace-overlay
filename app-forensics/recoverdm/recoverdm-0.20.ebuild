@@ -1,13 +1,13 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 inherit toolchain-funcs
 
 DESCRIPTION="recover files/disks with damaged sectors"
-HOMEPAGE="http://www.vanheusden.com/recoverdm/"
-SRC_URI="http://www.vanheusden.com/recoverdm/${P}.tgz"
+HOMEPAGE="https://www.vanheusden.com/recoverdm/"
+SRC_URI="https://www.vanheusden.com/recoverdm/${P}.tgz"
 
 LICENSE="GPL-2"
 SLOT="0"
@@ -19,6 +19,7 @@ RDEPEND="${DEPEND}"
 
 src_prepare() {
 	sed -i -e 's:-O2:$(USER_CFLAGS):' Makefile || die "sed failed"
+	default
 }
 
 src_compile() {
