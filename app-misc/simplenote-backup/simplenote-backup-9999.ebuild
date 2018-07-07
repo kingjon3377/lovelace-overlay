@@ -1,7 +1,7 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 PYTHON_COMPAT=( python2_7 )
 
@@ -23,9 +23,9 @@ DEPEND=""
 
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
-src_prepare() {
-	epatch "${FILESDIR}/add_shebang.patch"
-}
+PATCHES=(
+	"${FILESDIR}/add_shebang.patch"
+)
 
 src_compile() {
 	# Do nothing; the Makefile runs the script
