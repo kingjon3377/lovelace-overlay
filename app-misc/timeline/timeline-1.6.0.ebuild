@@ -1,7 +1,7 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 PYTHON_COMPAT=( python2_{6,7} )
 
@@ -30,13 +30,11 @@ DEPEND="${RDEPEND}
 	)"
 
 src_test() {
-	VIRTUALX_COMMAND="${PYTHON} test/execute-specs.py"
-	virtualmake
+	virtx "${PYTHON}" test/execute-specs.py
 }
 
 src_install() {
 	insinto $(python_get_sitedir)/${PN}
-	dodir $(python_get_sitedir)/${PN}
 	doins -r source/timelinelib/ icons/
 	doins source/${PN}.py
 	python_fix_shebang "${D}"/$(python_get_sitedir)/${PN}/${PN}.py
