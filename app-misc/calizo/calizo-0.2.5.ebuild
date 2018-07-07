@@ -1,7 +1,7 @@
 # Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 inherit autotools eutils
 
@@ -25,6 +25,7 @@ DEPEND="${DEPEND}
 S="${WORKDIR}/${PN}"
 
 src_prepare() {
+	default
 	eautoreconf
 	gunzip ubuntu_installer/debian/usr/share/man/man1/${PN}.1.gz
 }
