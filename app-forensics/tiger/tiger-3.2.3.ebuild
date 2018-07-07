@@ -1,13 +1,13 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 inherit toolchain-funcs
 
 DESCRIPTION="Report system security vulnerabilities"
-HOMEPAGE="http://www.nongnu.org/tiger/"
-SRC_URI="http://download.savannah.gnu.org/releases/${PN}/${P}.tar.gz"
+HOMEPAGE="https://www.nongnu.org/tiger/"
+SRC_URI="https://download.savannah.gnu.org/releases/${PN}/${P}.tar.gz"
 
 LICENSE="GPL-3"
 SLOT="0"
@@ -19,6 +19,7 @@ RDEPEND="${DEPEND}"
 
 src_prepare() {
 	sed -i -e 's:^>:test -f:' util/genmsgidx || die
+	default
 }
 
 src_configure() {
