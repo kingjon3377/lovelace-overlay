@@ -1,13 +1,13 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 inherit toolchain-funcs
 
 DESCRIPTION="Adds redundancy files to archives for data recovery"
 HOMEPAGE="http://www.cleaton.net/ras/"
-SRC_URI="http://www.ibiblio.org/pub/Linux/utils/file/${P}.tar.gz"
+SRC_URI="https://www.ibiblio.org/pub/Linux/utils/file/${P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
@@ -17,11 +17,9 @@ IUSE=""
 DEPEND=""
 RDEPEND="${DEPEND}"
 
-src_configure() {
-	CC=$(tc-getCC) CFLAGS="${CFLAGS}" LDFLAGS="${LDFLAGS}" econf
-}
+DOCS=( README NEWS )
 
-src_install() {
-	emake DESTDIR="${D}" install
-	dodoc README NEWS
+src_prepare() {
+	default
+	tc-export CC
 }
