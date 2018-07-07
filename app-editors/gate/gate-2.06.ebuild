@@ -1,7 +1,7 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 inherit eutils toolchain-funcs
 
@@ -17,10 +17,12 @@ IUSE=""
 DEPEND="app-text/aspell"
 RDEPEND="${DEPEND}"
 
+PATCHES=( "${FILESDIR}/term.c.patch" )
+
 src_prepare() {
+	default
 	sed -i -e 's/getline/gate_getline/' gate.h line.c main.c spel.c subs.c || \
 		die "sed failed"
-	epatch "${FILESDIR}/term.c.patch"
 	sed -i -e 's/Termcap too big.  %d/Termcap too big.  %ld/' term.c || \
 		die "sed failed"
 }
@@ -28,10 +30,6 @@ src_prepare() {
 src_configure() {
 	CC=$(tc-getCC) LD=$(tc-getLD) econf --with-aspell
 	sed -i -e 's:/usr/share:${prefix}/share:' Makefile || die "sed failed"
-}
-
-src_compile() {
-	emake
 }
 
 src_install() {
