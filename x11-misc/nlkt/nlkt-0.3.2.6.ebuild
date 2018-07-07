@@ -15,12 +15,13 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""
 
-DEPEND="dev-qt/qtcore:5
+COMMON_DEPEND="dev-qt/qtcore:5
 	dev-qt/qtgui:5
 	dev-qt/qtwidgets:5
-	dev-qt/linguist-tools:5
 	x11-libs/qwt:6[qt5(+)]"
-RDEPEND="${DEPEND}
+DEPEND="${COMMON_DEPEND}
+	dev-qt/linguist-tools:5"
+RDEPEND="${COMMON_DEPEND}
 	games-misc/fortune-mod"
 
 src_prepare() {
