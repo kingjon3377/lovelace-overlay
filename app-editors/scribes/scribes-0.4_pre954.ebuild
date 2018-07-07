@@ -1,13 +1,14 @@
 # Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 GCONF_DEBUG=no
+GNOME2_EAUTORECONF=yes
 
 PYTHON_COMPAT=( python{2_5,2_6,2_7} )
 
-inherit autotools eutils gnome2 python-single-r1 versionator
+inherit gnome2 python-single-r1 versionator
 
 DESCRIPTION="a text editor that is simple, slim and sleek, yet powerful."
 HOMEPAGE="http://scribes.sourceforge.net"
@@ -38,17 +39,17 @@ DEPEND="${RDEPEND}
 	dev-util/intltool
 	sys-devel/gettext"
 
-DOCS="AUTHORS ChangeLog CONTRIBUTORS NEWS README TODO TRANSLATORS"
+DOCS=( AUTHORS ChangeLog CONTRIBUTORS NEWS README TODO TRANSLATORS )
 
 pkg_setup() {
 	python-single-r1_pkg_setup
 	G2CONF="--disable-scrollkeeper"
 }
 
+PATCHES=( "${FILESDIR}"/${PN}-$(get_version_component_range 1-2)-sandbox.patch )
+
 src_prepare() {
-	epatch "${FILESDIR}"/${PN}-$(get_version_component_range 1-2)-sandbox.patch
 	sed -i -e '/^[ 	][ 	]*python -OO compile.py[ 	]*$/d' Makefile.am || die
-	eautoreconf
 
 	ln -nfs $(type -P true) py-compile || die
 	python_fix_shebang .

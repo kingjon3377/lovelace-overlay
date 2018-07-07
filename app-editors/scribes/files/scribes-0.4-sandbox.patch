@@ -1,7 +1,7 @@
 http://bugs.gentoo.org/296891
 
---- SCRIBES/Makefile.am
-+++ SCRIBES/Makefile.am
+--- a/SCRIBES/Makefile.am
++++ b/SCRIBES/Makefile.am
 @@ -15,11 +15,6 @@
  	rm -f $(python_files) $(python_files).tmp
  	$(edit) $(python_in_files) > $(python_files).tmp
