@@ -1,7 +1,7 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 DESCRIPTION="Sleep until a given date with subsecond resolution"
 HOMEPAGE="http://vztech.com.br/public/utils/sleepenh/"
@@ -16,7 +16,3 @@ S=${WORKDIR}/${PN}-1.2
 
 DEPEND=""
 RDEPEND="${DEPEND}"
-
-src_install() {
-	emake DESTDIR="${D}" install
-}
