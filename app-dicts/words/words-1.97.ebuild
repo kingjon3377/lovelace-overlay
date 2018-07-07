@@ -1,7 +1,7 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 DESCRIPTION="Latin--English dictionary."
 HOMEPAGE="http://archives.nd.edu/whitaker/words.htm"
@@ -55,8 +55,7 @@ src_install() {
 	insinto /usr/share/${PN}
 	doins DICTFILE.GEN UNIQUES.LAT STEMFILE.GEN INFLECTS.SEC INDXFILE.GEN \
 		ADDONS.LAT EWDSFILE.GEN
-	dohtml wordsdoc.htm
 	dobin "${FILESDIR}/latin"
 	fperms 755 /usr/libexec/${PN}/${PN}
-	dodoc HOWTO.txt "${FILESDIR}/README"
+	dodoc HOWTO.txt "${FILESDIR}/README" wordsdoc.htm
 }
