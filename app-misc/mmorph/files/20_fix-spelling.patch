@@ -1,0 +1,16 @@
+Description: fix a spelling error in final binary.
+Author: Joao Eriberto Mota Filho <eriberto@debian.org>
+Last-Update: 2017-10-02
+Index: mmorph-2.3.4.2/database.c
+===================================================================
+--- mmorph-2.3.4.2.orig/database.c
++++ mmorph-2.3.4.2/database.c
+@@ -43,7 +43,7 @@ extern int  flock();
+ 
+ #define CHECK_RECORD_SIZE(size,incr,max) \
+ 	    if (((size) += (incr)) > (max)) \
+-		fatal_error("error in database: inconsistant record");
++		fatal_error("error in database: inconsistent record");
+ 
+ 
+ extern DB  *dbopen();

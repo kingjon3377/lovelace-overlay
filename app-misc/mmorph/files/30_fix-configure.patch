@@ -1,0 +1,16 @@
+Description: fix a command not found when running configure.
+Author: Joao Eriberto Mota Filho <eriberto@debian.org>
+Last-Update: 2017-10-02
+Index: mmorph-2.3.4.2/configure.in
+===================================================================
+--- mmorph-2.3.4.2.orig/configure.in
++++ mmorph-2.3.4.2/configure.in
+@@ -17,7 +17,7 @@ dnl AC_CHECK_PROG(GCC, gcc, gcc)
+ dnl AC_CHECK_PROG(CC, cc, cc, GCC)
+ AC_PROG_MAKE_SET
+ AC_PATH_PROG(BOURNESHELL, sh)
+-AC_CHECK_LIB(c, xdr_void, LIBS="$LIBS" , AC_CHECK_LIB(nsl, xdr_void))
++AC_CHECK_LIB(c, xdr_void, LIBS="$LIBS" , [AC_CHECK_LIB(nsl, xdr_void)])
+ 
+ dnl should check that flex is installed
+ dnl AC_PROG_LEX

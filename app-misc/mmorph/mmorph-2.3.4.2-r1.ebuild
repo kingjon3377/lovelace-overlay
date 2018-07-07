@@ -1,12 +1,12 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 inherit eutils toolchain-funcs autotools
 
 DESCRIPTION="A two-level morphology tool for natural language processing"
-HOMEPAGE="https://packages.debian.org/mmorph"
+HOMEPAGE="https://www.issco.unige.ch/en/research/projects/MULTEXT.html https://packages.debian.org/mmorph"
 SRC_URI="mirror://debian/pool/main/m/${PN}/${PN}_${PV}.orig.tar.gz"
 
 LICENSE="GPL-2"
@@ -18,20 +18,23 @@ RDEPEND="sys-libs/db:="
 DEPEND="${RDEPEND}
 	sys-devel/flex"
 
-src_prepare() {
-	cd "${WORKDIR}" && mv -i ${P}.orig ${P} || die "renaming source dir failed"
-	epatch "${FILESDIR}/mmorph_2.3.4.2-12.diff"
-	cd "${S}"
-	epatch "${FILESDIR}"/errlist.patch
-	eautoreconf
-}
+S="${WORKDIR}/${P}.orig"
 
-src_configure() {
-	default_src_configure CC=$(tc-getCC)
+PATCHES=(
+	"${FILESDIR}/10_old-changes.patch"
+	"${FILESDIR}/20_fix-spelling.patch"
+	"${FILESDIR}/30_fix-configure.patch"
+	"${FILESDIR}/40_add-GCC-hardening.patch"
+)
+
+src_prepare() {
+	default
+	eautoreconf
+	tc-export CC
 }
 
 src_compile() {
-	default_src_compile CC=$(tc-getCC) CFLAGS="${CFLAGS}"
+	default_src_compile CFLAGS="${CFLAGS}"
 }
 
 src_install() {

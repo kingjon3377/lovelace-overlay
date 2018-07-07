@@ -1,0 +1,25 @@
+Description: add GCC hardening to final binary.
+Author: Joao Eriberto Mota Filho <eriberto@debian.org>
+Last-Update: 2017-10-02
+Index: mmorph-2.3.4.2/Makefile.in
+===================================================================
+--- mmorph-2.3.4.2.orig/Makefile.in
++++ mmorph-2.3.4.2/Makefile.in
+@@ -68,7 +68,7 @@ CC=@CC@
+ # On Alpha: to allow enough room for optimizing
+ # CFLAGS=-O1000
+ # CFLAGS=-pg -g -DDEBUG
+-CFLAGS=-O
++#CFLAGS=-O
+ 
+ INCLUDES= config.h user.h symbols.h unify.h bitmap.h chain.h mymalloc.h \
+ 	 combine.h database.h spell.h output.h tfs.h crc32file.h \
+@@ -125,7 +125,7 @@ spell.o: spell.c $(INCLUDES)
+ 
+ 
+ $(PROGRAM): $(OBJS)
+-	$(CC) $(CFLAGS)  $(CPPFLAGS) -o $@ $(OBJS) $(LDLIBS)
++	$(CC) $(CFLAGS) $(CPPFLAGS) $(LDFLAGS) -o $@ $(OBJS) $(LDLIBS)
+ 
+ clean:
+ 	rm -f *.o tokenize.c y.tab.h y.tab.c tokenstr.h y.output \

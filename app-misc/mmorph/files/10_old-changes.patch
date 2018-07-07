@@ -1,6 +1,12 @@
+Description: avoid direct changes in upstream source code.
+             This commit has old changes, before DebSrc 3.0.
+Author: Joao Eriberto Mota Filho <eriberto@debian.org>
+Last-Update: 2017-10-01
+Index: mmorph-2.3.4.2/Makefile
+===================================================================
 --- mmorph-2.3.4.2.orig/Makefile
 +++ mmorph-2.3.4.2/Makefile
-@@ -69,7 +69,7 @@
+@@ -69,7 +69,7 @@ CC=gcc
  # On Alpha: to allow enough room for optimizing
  # CFLAGS=-O1000
  # CFLAGS=-pg -g -DDEBUG
@@ -9,6 +15,8 @@
  
  INCLUDES= config.h user.h symbols.h unify.h bitmap.h chain.h mymalloc.h \
  	 combine.h database.h spell.h output.h tfs.h crc32file.h \
+Index: mmorph-2.3.4.2/bitmap.h
+===================================================================
 --- mmorph-2.3.4.2.orig/bitmap.h
 +++ mmorph-2.3.4.2/bitmap.h
 @@ -10,6 +10,10 @@
@@ -22,9 +30,11 @@
  #define WORD_TYPE	unsigned long
  #define WORD_SIZE	BITS(WORD_TYPE)
  #define MODULO_MASK	(WORD_SIZE-1)
+Index: mmorph-2.3.4.2/configure
+===================================================================
 --- mmorph-2.3.4.2.orig/configure
 +++ mmorph-2.3.4.2/configure
-@@ -470,7 +470,7 @@
+@@ -470,7 +470,7 @@ else
      if test -f $ac_dir/$ac_word; then
        ac_cv_prog_YACC="yacc"
        break
@@ -33,6 +43,8 @@
    done
    IFS="$ac_save_ifs"
    test -z "$ac_cv_prog_YACC" && ac_cv_prog_YACC="BISON"
+Index: mmorph-2.3.4.2/database.c
+===================================================================
 --- mmorph-2.3.4.2.orig/database.c
 +++ mmorph-2.3.4.2/database.c
 @@ -27,7 +27,7 @@
@@ -44,9 +56,65 @@
  #include <fcntl.h>
  #include <netinet/in.h>
  #include "mymalloc.h"
+@@ -224,7 +224,7 @@ int         tfs_index;
+ 	print_string(logfile, surface_lex);
+ 	fatal_error("error while reading database (errno=%d=%s)",
+ 		    error,
+-		    (error < sys_nerr ? sys_errlist[error] : "?"));
++		    strerror(error));
+     }
+     if (db_status > 0) {	/* new lex */
+ 	db_record_size = 0;
+@@ -253,7 +253,7 @@ int         tfs_index;
+ 	print_string(logfile, surface_lex);
+ 	fatal_error("\" error while writing database (errno=%d=%s)",
+ 		    error,
+-		    (error < sys_nerr ? sys_errlist[error] : "?"));
++		    strerror(error));
+     }
+ }
+ 
+@@ -290,7 +290,7 @@ DBT        *record;
+ 	print_string(logfile, surface_lex);
+ 	fatal_error("\" error while reading database (errno=%d=%s)",
+ 		    error,
+-		    (error < sys_nerr ? sys_errlist[error] : "?"));
++		    strerror(error));
+ 
+     }
+     if (db_status > 0) {
+@@ -444,7 +444,7 @@ db_forms_close()
+ #endif
+     if ((db_forms->close) (db_forms) < 0)
+ 	fatal_error("cannot close database (errno=%d=%s)", errno,
+-		    (errno < sys_nerr ? sys_errlist[errno] : "?"));
++		    strerror(errno));
+ }
+ 
+ /*
+@@ -456,7 +456,7 @@ db_forms_complete()
+ {
+     if ((db_forms->sync) (db_forms, 0) < 0)
+ 	fatal_error("cannot flush database (errno=%d=%s)", errno,
+-		    (errno < sys_nerr ? sys_errlist[errno] : "?"));
++		    strerror(errno));
+ #ifdef FLOCK
+     if (flock((db_forms->fd) (db_forms), LOCK_SH | LOCK_NB) < 0)
+ 	fatal_error("cannot change lock on database (errno=%d)",
+@@ -501,7 +501,7 @@ db_forms_dump()
+     }
+     if (db_status < 0)
+ 	fatal_error("error while reading next key in database (errno=%d=%s)",
+-		    errno, (errno < sys_nerr ? sys_errlist[errno] : "?"));
++		    errno, strerror(errno));
+     if (debug & DEBUG_STAT) {
+ 	max_key += 2 * sizeof(record.size);
+ 	size = sizeof(record.size) * key_card;
+Index: mmorph-2.3.4.2/main.c
+===================================================================
 --- mmorph-2.3.4.2.orig/main.c
 +++ mmorph-2.3.4.2/main.c
-@@ -157,7 +157,7 @@
+@@ -157,7 +157,7 @@ print_usage()
  	      "");
  }
  
@@ -55,6 +123,26 @@
  main(argc, argv)
  int         argc;
  char       *argv[];
+@@ -347,7 +347,7 @@ char       *argv[];
+ 	    if (stat(gram_file_name, &file_stat) < 0)
+ 		fatal_error("cannot access file \"%s\" (errno=%d=%s)",
+ 			    gram_file_name, errno,
+-			    (errno < sys_nerr ? sys_errlist[errno] : "?"));
++			    strerror(errno));
+ #ifdef COMMENTED_OUT
+ 	    time_t      gram_file_mtime;
+ 
+@@ -356,7 +356,7 @@ char       *argv[];
+ 	    if (stat(db_file_name, &file_stat) < 0)
+ 		fatal_error("cannot access file \"%s\" (errno=%d=%s)",
+ 			    db_file_name, errno,
+-			    (errno < sys_nerr ? sys_errlist[errno] : "?"));
++			    strerror(errno));
+ 	    if (gram_file_mtime > file_stat.st_mtime)
+ 		fatal_error("database file \"%s\" %s%s\"%s\": %s",
+ 			    db_file_name,
+Index: mmorph-2.3.4.2/mmorph.1
+===================================================================
 --- mmorph-2.3.4.2.orig/mmorph.1
 +++ mmorph-2.3.4.2/mmorph.1
 @@ -1,9 +1,9 @@
@@ -69,7 +157,7 @@
  
  .SH NAME
  mmorph \- MULTEXT morphology tool
-@@ -159,7 +159,7 @@
+@@ -159,7 +159,7 @@ dump database:
  
  .SH DESCRIPTION
  .LP
@@ -78,7 +166,7 @@
  option,
  .B mmorph
  operates in lookup mode:  it will open an existing database called
-@@ -167,7 +167,7 @@
+@@ -167,7 +167,7 @@ operates in lookup mode:  it will open a
  corresponding to words) in the input.
  .LP
  To create the database from the lexical entries specified in "morphfile",
@@ -87,7 +175,7 @@
  exist.  When the database is complete it will lookup the segments in the
  input. If used ineractively (input and output is a terminal), a prompt
  is printed when the program expects the user to type a segment string.
-@@ -175,18 +175,18 @@
+@@ -175,18 +175,18 @@ No prompting occurs in record/field mode
  .LP
  To test the rule applications on the lexical entries specified in
  \fImorphfile\fP, without creating a database and without looking up
@@ -109,7 +197,7 @@
  match the desired results.  In the Lexicon section specify the lexical
  items you want to test.  When running all rules will be applied
  (recursively) to the lexical items, if the rule is a goal, then the result
-@@ -198,7 +198,7 @@
+@@ -198,7 +198,7 @@ in separate files and reference these fi
  where they should occur in the main input file.
  .LP
  If you are using an existing description and want to test only new lexical
@@ -118,7 +206,7 @@
  entries in \fIaddfile\fP.
  .SH OPTIONS
  .TP
-@@ -223,7 +223,7 @@
+@@ -223,7 +223,7 @@ or backslash "\e".
  Create a new database for lookup.  The name of the created file is the name
  of \fImorphfile\fP (\fB\-m\fP option) with suffix \fB.db\fP.  It should not
  exist; if it exists the user should remove it manually before running
@@ -127,7 +215,7 @@
  overwriting a database that might have taken a long time to create).
  .TP
  \fB\-d\fP \fIdebug_map\fP
-@@ -237,11 +237,11 @@
+@@ -237,11 +237,11 @@ corresponds to an option.
  	2	2	0x2	debug yacc parsing
  	3	4	0x4	debug rule combination
  	4	8	0x8	debug spelling application
@@ -142,7 +230,7 @@
  .TP
  \fB\-E\fP
  In record/field mode, extends the morphology annotations if they already
-@@ -342,7 +342,7 @@
+@@ -342,7 +342,7 @@ While developping a morphology descripti
  syntax errors quickly after each modification before running it "for real".
  .TP
  \fB\-z\fP
@@ -151,7 +239,7 @@
  .TP
  \fIinfile\fP
  file containing the segments to lookup, one per line. Defaults to the standard
-@@ -383,7 +383,7 @@
+@@ -383,7 +383,7 @@ Here is a summary of the common usage of
  .ft B
  .nf
  
@@ -160,7 +248,7 @@
  .fi
  .RE
  .ft R
-@@ -393,7 +393,7 @@
+@@ -393,7 +393,7 @@ No database is created, no words are loo
  .ft B
  .nf
  
@@ -169,7 +257,7 @@
  .fi
  .RE
  .ft R
-@@ -405,7 +405,7 @@
+@@ -405,7 +405,7 @@ in the new database.
  .ft B
  .nf
  
@@ -178,7 +266,7 @@
  .fi
  .RE
  .ft R
-@@ -416,7 +416,7 @@
+@@ -416,7 +416,7 @@ existing database (mmorphfile.db and mor
  .ft B
  .nf
  
@@ -187,6 +275,8 @@
  .fi
  .RE
  .ft R
+Index: mmorph-2.3.4.2/mmorph.5
+===================================================================
 --- mmorph-2.3.4.2.orig/mmorph.5
 +++ mmorph-2.3.4.2/mmorph.5
 @@ -1,4 +1,4 @@
@@ -195,9 +285,11 @@
  .\" mmorph, MULTEXT morphology tool
  .\" Version 2.3, October 1995
  .\" Copyright (c) 1994,1995 ISSCO/SUISSETRA, Geneva, Switzerland
+Index: mmorph-2.3.4.2/mymalloc.c
+===================================================================
 --- mmorph-2.3.4.2.orig/mymalloc.c
 +++ mmorph-2.3.4.2/mymalloc.c
-@@ -10,6 +10,7 @@
+@@ -10,12 +10,11 @@
      convenient wrappers around memory allocation functions
  */
  
@@ -205,9 +297,35 @@
  #ifndef  MALLOC_FUNC_CHECK
  #include <malloc.h>
  #include <errno.h>
+ #include "mymalloc.h"
+-extern int  sys_nerr;
+-extern char *sys_errlist[];
+ 
+ /* extern char *strdup();*/
+ 
+Index: mmorph-2.3.4.2/mymalloc.h
+===================================================================
 --- mmorph-2.3.4.2.orig/mymalloc.h
 +++ mmorph-2.3.4.2/mymalloc.h
-@@ -87,6 +87,8 @@
+@@ -63,7 +63,7 @@
+     free(ptr); \
+     if (errno != 0) \
+ 	fatal_error("program bug: cannot free pointer (errno=%d=%s)", \
+-		    errno, (errno < sys_nerr ? sys_errlist[errno] : "?")); \
++		    errno, strerror(errno)); \
+ }
+ #else
+ #define my_free(ptr) \
+@@ -73,7 +73,7 @@
+     errno = 0;	/* clear error */ \
+     if (free(ptr) != 1) \
+ 	fatal_error("program bug: cannot free pointer (errno=%d)", \
+-		    errno, (errno < sys_nerr ? sys_errlist[errno] : "?")); \
++		    errno, strerror(errno));			   \
+ }
+ 
+ #endif	/* defined(STDC_HEADERS) || defined(__GNUC__) || lint */
+@@ -87,6 +87,8 @@ extern void my_strdup();
  
  #endif	/* MALLOC_FUNC_CHECK */
  
@@ -216,6 +334,8 @@
  #define MY_MALLOC(var,type) \
      my_malloc((T_PTR *) &(var), (size_t) sizeof (type))
  
+Index: mmorph-2.3.4.2/output.c
+===================================================================
 --- mmorph-2.3.4.2.orig/output.c
 +++ mmorph-2.3.4.2/output.c
 @@ -8,7 +8,7 @@
@@ -227,7 +347,7 @@
  #include <ctype.h>
  #include "user.h"
  #include "output.h"
-@@ -23,15 +23,12 @@
+@@ -23,15 +23,12 @@ char       *prompt = PROMPT;
  
  /*VARARGS*/
  void
@@ -245,7 +365,7 @@
      (void) fflush(outfile);
      if (parsing) {
  	if (fprintf(logfile,
-@@ -56,15 +53,12 @@
+@@ -56,15 +53,12 @@ va_dcl
  
  /*VARARGS*/
  void
@@ -263,7 +383,7 @@
      (void) fflush(outfile);
      if (fprintf(logfile, "Warning: ") == EOF)
  	EXIT(3);
-@@ -77,15 +71,12 @@
+@@ -77,15 +71,12 @@ va_dcl
  
  /*VARARGS*/
  void
@@ -281,7 +401,7 @@
      if (vfprintf(outfile, format, ap) == EOF)
  	EXIT(3);
      va_end(ap);
-@@ -99,15 +90,12 @@
+@@ -99,15 +90,12 @@ flush_out()
  
  /*VARARGS*/
  void
@@ -299,7 +419,7 @@
      if (vfprintf(logfile, format, ap) == EOF)
  	EXIT(3);
      va_end(ap);
-@@ -115,17 +103,12 @@
+@@ -115,17 +103,12 @@ va_dcl
  
  /*VARARGS*/
  void
@@ -319,9 +439,20 @@
      if (vfprintf(file, format, ap) == EOF)
  	EXIT(3);
      va_end(ap);
+@@ -176,7 +159,7 @@ t_letter    letter;
+     if (status == EOF)
+ 	if (file != logfile)
+ 	    fatal_error("error while writing in a file (errno=%d=%s)",
+-		      errno, (errno < sys_nerr ? sys_errlist[errno] : "?"));
++		      errno, strerror(errno));
+ 	else	/* cannot print error message to log */
+ 	    EXIT(3);
+ }
+Index: mmorph-2.3.4.2/output.h
+===================================================================
 --- mmorph-2.3.4.2.orig/output.h
 +++ mmorph-2.3.4.2/output.h
-@@ -17,12 +17,12 @@
+@@ -17,12 +17,12 @@ extern FILE *logfile;
  extern FILE *rejectfile;
  extern char *prompt;
  
@@ -339,6 +470,39 @@
  extern void print_string();
  extern void print_string_l();
  extern void print_letter();
+Index: mmorph-2.3.4.2/tfs.c
+===================================================================
+--- mmorph-2.3.4.2.orig/tfs.c
++++ mmorph-2.3.4.2/tfs.c
+@@ -248,7 +248,7 @@ t_db_operation db_operation;
+     if ((tfs_file = fopen(tfs_file_name, open_mode)) == NULL)
+ 	fatal_error("cannot open tfs file \"%s\" (errno=%d=%s)",
+ 		    tfs_file_name, errno,
+-		    (errno < sys_nerr ? sys_errlist[errno] : "?"));
++		    strerror(errno));
+ }
+ 
+ 
+@@ -318,7 +318,7 @@ unsigned char crc_hash[];
+ 	if (fseek(tfs_file, 0L, 0) == -1)
+ 	    fatal_error("cannot rewind file \"%s\" (errno=%d=%s)",
+ 			tfs_file_name, errno,
+-			(errno < sys_nerr ? sys_errlist[errno] : "?"));
++			strerror(errno));
+     if (saved_tfs_table(TRUE, crc_hash) != 0)
+ 	fatal_error("could not save tfs table in file \"%s\"",
+ 		    tfs_file_name);
+@@ -326,7 +326,7 @@ unsigned char crc_hash[];
+     if (fclose(tfs_file) == EOF)
+ 	fatal_error("cannot close tfs file \"%s\" (errno=%d=%s)",
+ 		    tfs_file_name, errno,
+-		    (errno < sys_nerr ? sys_errlist[errno] : "?"));
++		    strerror(errno));
+ }
+ 
+ void
+Index: mmorph-2.3.4.2/tokenize.l
+===================================================================
 --- mmorph-2.3.4.2.orig/tokenize.l
 +++ mmorph-2.3.4.2/tokenize.l
 @@ -19,7 +19,7 @@
@@ -350,6 +514,8 @@
  int	linepos = 0;
  static char	buf_str[MAXSTRLNG];
  static char   *pbuf_str;
+Index: mmorph-2.3.4.2/tokenstr.sed
+===================================================================
 --- mmorph-2.3.4.2.orig/tokenstr.sed
 +++ mmorph-2.3.4.2/tokenstr.sed
 @@ -1,6 +1,7 @@
@@ -361,15 +527,17 @@
  static char *token[] = {
  s/[	 ][	 ]*/ /g
  /^# *define /b token
-@@ -14,4 +15,4 @@
+@@ -14,4 +15,4 @@ $i\
  \    ""\
  \    };
  $g
 -$s/.*/#define LASTTOKEN &/p
 +#$s/.*/#define LASTTOKEN &/p
+Index: mmorph-2.3.4.2/user.h
+===================================================================
 --- mmorph-2.3.4.2.orig/user.h
 +++ mmorph-2.3.4.2/user.h
-@@ -10,13 +10,17 @@
+@@ -10,14 +10,11 @@
  #if defined(STDC_HEADERS) && ! MALLOC_FUNC_CHECK
  #include <stdlib.h>	/* ANSI & POSIX types */
  #endif
@@ -378,18 +546,19 @@
  #include <stdio.h>
  #include <errno.h>
  
- 
- /* because they may not be declared in errno.h: */
- extern int  sys_nerr;
-+#if 0  /* this breaks in Debian */
- extern char *sys_errlist[];
-+#endif
- 
+-
+-/* because they may not be declared in errno.h: */
+-extern int  sys_nerr;
+-extern char *sys_errlist[];
+-
  #ifndef FALSE
  #define FALSE   (0)
+ #endif
+Index: mmorph-2.3.4.2/user.y
+===================================================================
 --- mmorph-2.3.4.2.orig/user.y
 +++ mmorph-2.3.4.2/user.y
-@@ -250,6 +250,7 @@
+@@ -250,6 +250,7 @@ ProjSep	: BAR
  	    current_type->project_card= current_type->card;
  	    crc32file_add(&crc, (unsigned char) '|');
  	}
@@ -397,7 +566,7 @@
  
  TypeNew	: DNAME 
  	{
-@@ -452,6 +453,7 @@
+@@ -452,6 +453,7 @@ ValSetSpec : ValSet
  		fatal_error("value set complement for \"%s\" is empty",
  			    current_attribute->name);
  	}
@@ -405,7 +574,7 @@
  
  ValSet	: NOTEQUAL ValDisj
  	{
-@@ -519,6 +521,7 @@
+@@ -519,6 +521,7 @@ Affix	:   AffixString Tfs
  	    $$=$2;
  	    variable_allowed = TRUE; /* useful only for prefix */
  	}
@@ -413,7 +582,7 @@
  
  AttDefPLUS	: AttDefPLUS AttDef
  	{
-@@ -892,6 +895,7 @@
+@@ -892,6 +895,7 @@ LexNew	: LSTRING
  	    /* save string */
  	    current_string = $1;
  	}
