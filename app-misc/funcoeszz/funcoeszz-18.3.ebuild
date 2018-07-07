@@ -9,7 +9,7 @@ SRC_URI="http://${PN}.net/download/${P}.sh"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="amd64"
+KEYWORDS="~amd64"
 IUSE=""
 
 RDEPEND="www-client/lynx"
@@ -26,4 +26,9 @@ src_unpack() {
 src_install() {
 	newbin ${A} ${PN}
 	doman "${FILESDIR}/funcoeszz.1"
+}
+
+pkg_postinst() {
+	einfo "To include funcoeszz in your shell, run:"
+	einfo "funcoeszz zzzz --bashrc"
 }
