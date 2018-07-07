@@ -1,11 +1,11 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 DESCRIPTION="List files except those specified"
-HOMEPAGE="http://docstore.mik.ua/orelly/unix/upt/ch15_09.htm"
-SRC_URI="http://www.macs.hw.ac.uk/~hwloidl/docs/UnixPowerTools/example_files/split/${PN}"
+HOMEPAGE="https://docstore.mik.ua/orelly/unix/upt/ch15_09.htm"
+SRC_URI="https://www.macs.hw.ac.uk/~hwloidl/docs/UnixPowerTools/example_files/split/${PN}"
 
 LICENSE="freedist" # apparently---no license is given in _Unix Power Tools_
 SLOT="0"
