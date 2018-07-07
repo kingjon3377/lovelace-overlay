@@ -1,4 +1,4 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
@@ -12,7 +12,7 @@ LICENSE="GPL-2"
 KEYWORDS="x86 amd64"
 DESCRIPTION="Java based map editor for roleplaying games"
 SRC_URI="mirror://sourceforge/${PN}/${P}.tgz"
-HOMEPAGE="http://mapcraft.sourceforge.net"
+HOMEPAGE="https://mapcraft.glendale.org.uk/"
 COMMON_DEPEND="dev-java/xerces:2
 	dev-java/xalan
 	dev-java/junit:0"
