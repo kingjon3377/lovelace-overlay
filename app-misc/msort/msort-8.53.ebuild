@@ -1,9 +1,7 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
-
-inherit libtool eutils
+EAPI=6
 
 DESCRIPTION="Unicode enabled sorting utility"
 HOMEPAGE="http://billposer.org/Software/msort.html"
@@ -21,15 +19,13 @@ DEPEND="
 	dev-libs/icu"
 RDEPEND=""
 
+DOCS=( README NEWS ChangeLog AUTHORS )
+
 src_prepare() {
 	sed -i -e 's:-licutu:-licutu -licuuc:' Makefile.in || die
+	default
 }
 
 src_configure() {
 	econf --disable-utf8proc --disable-uninum
-}
-
-src_install() {
-	emake DESTDIR="${D}" install
-	dodoc README NEWS ChangeLog AUTHORS
 }
