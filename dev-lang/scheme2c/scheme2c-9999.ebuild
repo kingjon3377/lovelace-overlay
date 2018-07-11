@@ -5,7 +5,7 @@ EAPI=5
 
 EGIT_REPO_URI="https://salsa.debian.org/debian/${PN}.git"
 
-inherit eutils git-r3 multilib
+inherit eutils git-r3 multilib toolchain-funcs
 
 DESCRIPTION="The Scheme->C compiler, R4RS compliant"
 HOMEPAGE="https://salsa.debian.org/debian/scheme2c"
@@ -21,6 +21,11 @@ DEPEND="dev-libs/libsigsegv
 	   X? ( x11-libs/libX11 )"
 RDEPEND="${DEPEND}"
 
+src_prepare() {
+	epatch "${FILESDIR}/0001-doc-pdflatex.patch" "${FILESDIR}/0002-drop-gcc-arch-native-opt.patch"
+	default
+}
+
 # FIXME: Convert to real multilib
 my_compile() {
 	pushd "${S}/${1}" > /dev/null
@@ -28,12 +33,12 @@ my_compile() {
 	# guarantee that everything will always get built
 	touch scrt/*.c scsc/*.c
 
-	emake -j1 all
+	emake -j1 all USER_CFLAGS="${CFLAGS}" "CC=$(tc-getCC)"
 
 	if use X; then
-		emake -C cdecl
-		emake -C xlib -B sizeof.cdecl
-		emake -C xlib all
+		emake -C cdecl USER_CFLAGS="${CFLAGS}" "CC=$(tc-getCC)"
+		emake -C xlib -B sizeof.cdecl USER_CFLAGS="${CFLAGS}" "CC=$(tc-getCC)"
+		emake -C xlib all USER_CFLAGS="${CFLAGS}" "CC=$(tc-getCC)"
 	fi
 	popd > /dev/null
 }
@@ -43,15 +48,15 @@ src_compile() {
 		emake -C doc/ embedded.pdf index.pdf intro.pdf smithnotes.pdf
 
 	if use x86; then
-		emake forLINUX
+		emake forLINUX USER_CFLAGS="${CFLAGS}" "CC=$(tc-getCC)"
 		my_compile LINUX
 	elif use amd64; then
 #		if use multilib; then
 #			emake forLINUX || die "Failed to set up Linux build"
 #			my_compile LINUX
 #		fi
-		emake forAMD64
-		my_compile AMD64
+		emake forAMD64 USER_CFLAGS="${CFLAGS}" "CC=$(tc-getCC)"
+		my_compile AMD64 USER_CFLAGS="${CFLAGS}" "CC=$(tc-getCC)"
 	else
 		die "Unimplemented architecture"
 	fi
