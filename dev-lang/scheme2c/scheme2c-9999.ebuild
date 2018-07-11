@@ -1,14 +1,14 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
 
-EGIT_REPO_URI="git://git.debian.org/git/collab-maint/${PN}.git"
+EGIT_REPO_URI="https://salsa.debian.org/debian/${PN}.git"
 
 inherit eutils git-r3 multilib
 
 DESCRIPTION="The Scheme->C compiler, R4RS compliant"
-HOMEPAGE="https://alioth.debian.org/projects/scheme2c/"
+HOMEPAGE="https://salsa.debian.org/debian/scheme2c"
 SRC_URI=""
 
 LICENSE="MIT"
