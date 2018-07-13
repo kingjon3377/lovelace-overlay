@@ -1,7 +1,7 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 DESCRIPTION="Fault tolerant search utilities"
 HOMEPAGE="http://linuxfocus.org/~guido/#whichman"
@@ -15,7 +15,6 @@ IUSE=""
 DEPEND=""
 RDEPEND="${DEPEND}"
 
-src_install() {
-	emake DESTDIR="${D}" install
-	dodoc README
-}
+DOCS=( README )
+
+# TODO: Prevent pre-stripping of binaries
