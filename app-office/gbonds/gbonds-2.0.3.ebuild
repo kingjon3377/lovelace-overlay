@@ -1,9 +1,9 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 # Copyright 2002 Paul Thompson
 
-EAPI=5
+EAPI=6
 
 inherit gnome2 eutils
 
@@ -35,8 +35,9 @@ RDEPEND="${DEPEND}"
 
 src_prepare() {
 	for patch in $(cat "${WORKDIR}/debian/patches/series"); do
-		epatch "${WORKDIR}/debian/patches/${patch}"
+		eapply "${WORKDIR}/debian/patches/${patch}"
 	done
+	default
 }
 
 src_configure() {
@@ -49,9 +50,8 @@ src_install () {
 	gnome2_src_install
 	dodoc AUTHORS ChangeLog NEWS README
 	dosym ../../gnome/help/gbonds/C /usr/share/doc/${PF}/html
-	cd ../debian
-	doman gbonds.1
+	doman ../debian/${PN}.1
 	dodir /usr/share/gbonds
 	insinto /usr/share/gbonds
-	doins sb*.asc
+	doins ../debian/sb*.asc
 }
