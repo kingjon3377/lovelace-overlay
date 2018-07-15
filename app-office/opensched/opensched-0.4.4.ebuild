@@ -1,9 +1,9 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-inherit eutils toolchain-funcs
+inherit toolchain-funcs
 
 DESCRIPTION="tool for project management"
 HOMEPAGE="http://opensched.sourceforge.net/"
@@ -14,14 +14,20 @@ SLOT="0"
 KEYWORDS="amd64"
 IUSE=""
 
-DEPEND="dev-texlive/texlive-latexextra"
+DEPEND="dev-texlive/texlive-latexextra
+	app-text/psutils"
 RDEPEND="${DEPEND}"
 
-src_prepare() {
-	cd "${WORKDIR}" && epatch "${FILESDIR}/opensched_0.4.4-6.diff"
-	cd "${S}" && epatch debian/patches/*patch "${FILESDIR}/samples.patch"
-	default_src_prepare
-}
+PATCHES=(
+	# TODO: split up the Debian patch
+	# TODO: see if Debian has added any more patches since
+	"${FILESDIR}/opensched_0.4.4-6.diff"
+	debian/patches/01-sched.cc.dpatch
+	debian/patches/02-opensched.1.in.dpatch
+	debian/patches/03-gcc43_fix.dpatch
+	debian/patches/04-manpage-typos.dpatch
+	"${FILESDIR}/samples.patch"
+)
 
 src_compile() {
 	emake CC=$(tc-getCC) CFLAGS="${CFLAGS}" CXX=$(tc-getCXX) CXXFLAGS="${CXXFLAGS}" LDFLAGS="${LDFLAGS}"
@@ -31,12 +37,6 @@ src_install() {
 	emake DESTDIR="${D}" install
 	dodoc AUTHORS ChangeLog ChangeLog.0 NEWS README TODO USAGE
 	docinto gui
-	dodoc gui/README
-	dohtml gui/*html
-	docinto examples/sample
-	dohtml examples/sample/*
-	dodoc examples/sample/*.sched examples/sample/*.tex examples/sample/*.pdf
-	docinto examples/toffee
-	dohtml examples/toffee/*
-	dodoc examples/toffee/*.sched examples/toffee/*.tex examples/toffee/*.pdf examples/toffee/*.xml
+	dodoc gui/README gui/*html
+	dodoc -r examples/sample examples/toffee
 }
