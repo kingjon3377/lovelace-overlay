@@ -1,9 +1,9 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-inherit eutils
+inherit desktop
 
 DESCRIPTION="GNU spreadsheet program"
 HOMEPAGE="https://www.gnu.org/software/oleo/"
@@ -25,10 +25,13 @@ RDEPEND="${DEPEND}"
 
 REQUIRED_USE="motif? ( X )"
 
-src_prepare() {
-	epatch "${FILESDIR}/oleo_1.99.16-10ubuntu1.diff" "${FILESDIR}/destdir.patch" \
-		"${FILESDIR}/label.patch" "${FILESDIR}/update-cat-id-tbl.patch" "${FILESDIR}/oleorc_docs.patch"
-}
+PATCHES=(
+	"${FILESDIR}/oleo_1.99.16-10ubuntu1.diff"
+	"${FILESDIR}/destdir.patch" 
+	"${FILESDIR}/label.patch"
+	"${FILESDIR}/update-cat-id-tbl.patch"
+	"${FILESDIR}/oleorc_docs.patch"
+)
 
 src_configure() {
 	local myconf
@@ -40,18 +43,29 @@ src_configure() {
 		myconf="--without-x"
 	fi
 	default_src_configure ${myconf}
+	sed -i -e 's:prefix = /usr:prefix = $(DESTDIR)/usr:' po/Makefile || die "hack to avoid sandbox violation failed"
 }
 
 src_compile() {
 	default_src_compile CC=$(tc-getCC) "CFLAGS=${CFLAGS}" LDFLAGS="${LDFLAGS}"
 }
 
+DOCS=(
+	AUTHORS
+	FAQ
+	NEWS
+	THANKS
+	TODO
+	"${FILESDIR}/debian-changelog"
+	"${FILESDIR}/ChangeLog"
+	"${FILESDIR}/debian-TODO"
+)
+
 src_install() {
-	sed -i -e 's:prefix = /usr:prefix = $(DESTDIR)/usr:' po/Makefile || die "hack to avoid sandbox violation failed"
-	emake DESTDIR="${D}" install
+	default
 	doman "${FILESDIR}/${PN}.1"
-	dodoc AUTHORS FAQ NEWS README* THANKS TODO "${FILESDIR}/debian-changelog" "${FILESDIR}/ChangeLog" "${FILESDIR}/debian-TODO"
-	docinto examples && dodoc examples/*
+	dodoc README*
+	dodoc -r examples
 	domenu "${FILESDIR}/${PN}.desktop"
 	rm -r "${D}"/usr/Oleo || die "fixing mis-installed docs failed"
 }
