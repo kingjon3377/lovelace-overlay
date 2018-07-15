@@ -1,6 +1,6 @@
 diff -ru src.old/console_error.cc src/console_error.cc
---- src.old/console_error.cc	2010-11-24 00:09:52.000000000 -0500
-+++ src/console_error.cc	2010-11-24 00:10:01.000000000 -0500
+--- a/src/console_error.cc	2010-11-24 00:09:52.000000000 -0500
++++ b/src/console_error.cc	2010-11-24 00:10:01.000000000 -0500
 @@ -26,7 +26,7 @@
  #include "messenger.h"
  #include "project.h"
@@ -19,10 +19,9 @@ diff -ru src.old/console_error.cc src/console_error.cc
  {
    va_list args;
  
-Only in src: cost.o
 diff -ru src.old/day.cc src/day.cc
---- src.old/day.cc	2010-11-24 00:09:52.000000000 -0500
-+++ src/day.cc	2010-11-24 00:10:01.000000000 -0500
+--- a/src/day.cc	2010-11-24 00:09:52.000000000 -0500
++++ b/src/day.cc	2010-11-24 00:10:01.000000000 -0500
 @@ -95,19 +95,19 @@
  	return this->std::vector<DAYNAME>::at(i);
  }
@@ -47,8 +46,8 @@ diff -ru src.old/day.cc src/day.cc
  	"Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"
  };
 diff -ru src.old/day.h src/day.h
---- src.old/day.h	2010-11-24 00:09:52.000000000 -0500
-+++ src/day.h	2010-11-24 00:10:01.000000000 -0500
+--- a/src/day.h	2010-11-24 00:09:52.000000000 -0500
++++ b/src/day.h	2010-11-24 00:10:01.000000000 -0500
 @@ -60,11 +60,11 @@
  	DAYNAME &at(int i);
  }; 
@@ -65,8 +64,8 @@ diff -ru src.old/day.h src/day.h
  int Wday(time_t t);
  int Mday(time_t t);
 diff -ru src.old/.deps/cost.Po src/.deps/cost.Po
---- src.old/loadfile.cc	2010-11-24 00:09:52.000000000 -0500
-+++ src/loadfile.cc	2010-11-24 00:10:01.000000000 -0500
+--- a/src/loadfile.cc	2010-11-24 00:09:52.000000000 -0500
++++ b/src/loadfile.cc	2010-11-24 00:10:01.000000000 -0500
 @@ -231,7 +231,7 @@
  }
  
@@ -76,13 +75,9 @@ diff -ru src.old/.deps/cost.Po src/.deps/cost.Po
  {
  
      if ( FindResource(id) != NULL )
-Files src.old/loadfile.o and src/loadfile.o differ
-Only in src: messenger.o
-Only in src: milestone.o
-Only in src: MonthlyReporter.o
 diff -ru src.old/namedid.cc src/namedid.cc
---- src.old/namedid.cc	2010-11-24 00:09:52.000000000 -0500
-+++ src/namedid.cc	2010-11-24 00:10:01.000000000 -0500
+--- a/src/namedid.cc	2010-11-24 00:09:52.000000000 -0500
++++ b/src/namedid.cc	2010-11-24 00:10:01.000000000 -0500
 @@ -22,7 +22,7 @@
  
  #include "namedid.h"
@@ -93,8 +88,8 @@ diff -ru src.old/namedid.cc src/namedid.cc
  {
      setId(id);
 diff -ru src.old/namedid.h src/namedid.h
---- src.old/namedid.h	2010-11-24 00:09:52.000000000 -0500
-+++ src/namedid.h	2010-11-24 00:10:01.000000000 -0500
+--- a/src/namedid.h	2010-11-24 00:09:52.000000000 -0500
++++ b/src/namedid.h	2010-11-24 00:10:01.000000000 -0500
 @@ -24,7 +24,7 @@
  class NAMED_ID
  {
@@ -104,17 +99,9 @@ diff -ru src.old/namedid.h src/namedid.h
  
    const char * id() const { return mId; };
    void setId(const char *);
-Only in src: namedid.o
-Only in src: network.o
-Only in src: opensched
-Only in src: openschedException.o
-Only in src: parseline.o
-Only in src: PeriodicReporter.o
-Files src.old/print.o and src/print.o differ
-Only in src: projectExceptions.o
 diff -ru src.old/projectFile.cc src/projectFile.cc
---- src.old/projectFile.cc	2010-11-24 00:09:52.000000000 -0500
-+++ src/projectFile.cc	2010-11-24 00:10:01.000000000 -0500
+--- a/src/projectFile.cc	2010-11-24 00:09:52.000000000 -0500
++++ b/src/projectFile.cc	2010-11-24 00:10:01.000000000 -0500
 @@ -51,7 +51,7 @@
      va_end(args);
  }
@@ -125,8 +112,8 @@ diff -ru src.old/projectFile.cc src/projectFile.cc
    va_list args;
  
 diff -ru src.old/projectFile.h src/projectFile.h
---- src.old/projectFile.h	2010-11-24 00:09:52.000000000 -0500
-+++ src/projectFile.h	2010-11-24 00:10:01.000000000 -0500
+--- a/src/projectFile.h	2010-11-24 00:09:52.000000000 -0500
++++ b/src/projectFile.h	2010-11-24 00:10:01.000000000 -0500
 @@ -21,7 +21,7 @@
  
      void Error(const char *fmt, ...);
@@ -136,10 +123,9 @@ diff -ru src.old/projectFile.h src/projectFile.h
  
      int ParseLine(char *linebuf, char ***pwords);
      void Vacation(char *resid, char *d1name, char *d2name);
-Only in src: projectFile.o
 diff -ru src.old/project.h src/project.h
---- src.old/project.h	2010-11-24 00:09:52.000000000 -0500
-+++ src/project.h	2010-11-24 00:10:01.000000000 -0500
+--- a/src/project.h	2010-11-24 00:09:52.000000000 -0500
++++ b/src/project.h	2010-11-24 00:10:01.000000000 -0500
 @@ -63,7 +63,7 @@
  
      int ResListPosition(const char *id);	// for qsort
@@ -160,10 +146,9 @@ diff -ru src.old/project.h src/project.h
  
      vector<ITEM *> mItems;
  
-Only in src: reporter.o
 diff -ru src.old/resource.cc src/resource.cc
---- src.old/resource.cc	2010-11-24 00:09:52.000000000 -0500
-+++ src/resource.cc	2010-11-24 00:10:01.000000000 -0500
+--- a/src/resource.cc	2010-11-24 00:09:52.000000000 -0500
++++ b/src/resource.cc	2010-11-24 00:10:01.000000000 -0500
 @@ -24,7 +24,7 @@
  #include "resource.h"
  #include "projectExceptions.h"
@@ -174,8 +159,8 @@ diff -ru src.old/resource.cc src/resource.cc
  {
      mEfficiency = 1.0;
 diff -ru src.old/resource.h src/resource.h
---- src.old/resource.h	2010-11-24 00:09:52.000000000 -0500
-+++ src/resource.h	2010-11-24 00:10:01.000000000 -0500
+--- a/src/resource.h	2010-11-24 00:09:52.000000000 -0500
++++ b/src/resource.h	2010-11-24 00:10:01.000000000 -0500
 @@ -30,7 +30,7 @@
  
      typedef vector<RESOURCE *> PTRLIST;
@@ -185,15 +170,9 @@ diff -ru src.old/resource.h src/resource.h
  
      double efficiency() { return mEfficiency; };
      void setEfficiency(double e);
-Only in src: resource.o
-Only in src: sched.o
-Only in src: task.o
-Only in src: timeblock.o
-Only in src: vacation.o
-Only in src: WeeklyReporter.o
 diff -ru src.old/reporter.cc src/reporter.cc
---- src.old/reporter.cc	2010-11-24 00:12:59.000000000 -0500
-+++ src/reporter.cc	2010-11-24 00:14:07.000000000 -0500
+--- a/src/reporter.cc	2010-11-24 00:12:59.000000000 -0500
++++ b/src/reporter.cc	2010-11-24 00:14:07.000000000 -0500
 @@ -40,7 +40,7 @@
  };
  
@@ -204,8 +183,8 @@ diff -ru src.old/reporter.cc src/reporter.cc
      va_list args;
  
 diff -ru src.old/reporter.h src/reporter.h
---- src.old/reporter.h	2010-11-24 00:12:59.000000000 -0500
-+++ src/reporter.h	2010-11-24 00:14:07.000000000 -0500
+--- a/src/reporter.h	2010-11-24 00:12:59.000000000 -0500
++++ b/src/reporter.h	2010-11-24 00:14:07.000000000 -0500
 @@ -100,7 +100,7 @@
  			 REPORTTYPE rep_type);
      int IsMonth(Project *project, int dayNo, char *name);
@@ -215,10 +194,9 @@ diff -ru src.old/reporter.h src/reporter.h
      static void Error(const char *fmt, ...);
      static void Warning(char *fmt, ...);
      void CloseOutputFile(FILE *f);
-Only in src.old: .deps
 diff -ru src.old/task.cc src/task.cc
---- src.old/task.cc	2010-11-24 00:14:40.000000000 -0500
-+++ src/task.cc	2010-11-24 00:18:07.000000000 -0500
+--- a/src/task.cc	2010-11-24 00:14:40.000000000 -0500
++++ b/src/task.cc	2010-11-24 00:18:07.000000000 -0500
 @@ -22,7 +22,7 @@
  #include "task.h"
  #include "projectExceptions.h"
@@ -229,8 +207,8 @@ diff -ru src.old/task.cc src/task.cc
  {
      mDesc = NULL;
 diff -ru src.old/task.h src/task.h
---- src.old/task.h	2010-11-24 00:14:40.000000000 -0500
-+++ src/task.h	2010-11-24 00:18:13.000000000 -0500
+--- a/src/task.h	2010-11-24 00:14:40.000000000 -0500
++++ b/src/task.h	2010-11-24 00:18:13.000000000 -0500
 @@ -41,7 +41,7 @@
  
      typedef vector<TASK *> PTRLIST;

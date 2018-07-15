@@ -1,7 +1,7 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 inherit toolchain-funcs eutils
 
@@ -14,15 +14,23 @@ SLOT="0"
 KEYWORDS="amd64"
 IUSE=""
 
-DEPEND=""
-RDEPEND="${DEPEND}"
+RDEPEND=""
+DEPEND="${DEPEND}
+	dev-texlive/texlive-latexextra
+	app-text/psutils"
 
 S="${WORKDIR}/${PN}.${PV}"
 
+PATCHES=(
+	"${FILESDIR}/stringheader.patch"
+	"${FILESDIR}/stdheader.patch"
+	"${FILESDIR}/constchar.patch"
+	"${FILESDIR}/samples.patch"
+)
+
 src_prepare() {
-	epatch "${FILESDIR}/stringheader.patch" "${FILESDIR}/stdheader.patch"
 	sed -i -e 's:Error(char \*:Error(const char *:' src/*cc src/*h || die "sed failed"
-	epatch "${FILESDIR}/constchar.patch" "${FILESDIR}/samples.patch"
+	default
 }
 
 src_configure() {
@@ -31,8 +39,4 @@ src_configure() {
 
 src_compile() {
 	default_src_compile CC=$(tc-getCC) CFLAGS="${CFLAGS}"
-}
-
-src_install() {
-	emake DESTDIR="${D}" install
 }

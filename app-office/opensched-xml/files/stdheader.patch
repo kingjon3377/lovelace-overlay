@@ -1,5 +1,5 @@
---- src/main.cc.old	2010-11-23 23:37:54.000000000 -0500
-+++ src/main.cc	2010-11-23 23:38:57.000000000 -0500
+--- a/src/main.cc	2010-11-23 23:37:54.000000000 -0500
++++ b/src/main.cc	2010-11-23 23:38:57.000000000 -0500
 @@ -23,6 +23,7 @@
  #include <cstdio>
  #include <list>
@@ -8,8 +8,8 @@
  
  using namespace std;
  
---- src/loadfile.cc.old	2010-11-23 23:41:40.000000000 -0500
-+++ src/loadfile.cc	2010-11-23 23:42:11.000000000 -0500
+--- a/src/loadfile.cc	2010-11-23 23:41:40.000000000 -0500
++++ b/src/loadfile.cc	2010-11-23 23:42:11.000000000 -0500
 @@ -18,6 +18,7 @@
  
  #include <iostream>
@@ -18,8 +18,8 @@
  
  #ifdef HAVE_CONFIG_H
  #include <config.h>
---- src/slippage.cc.old	2010-11-23 23:45:13.000000000 -0500
-+++ src/slippage.cc	2010-11-23 23:45:26.000000000 -0500
+--- a/src/slippage.cc	2010-11-23 23:45:13.000000000 -0500
++++ b/src/slippage.cc	2010-11-23 23:45:26.000000000 -0500
 @@ -19,6 +19,8 @@
  #include <config.h>
  #endif
@@ -29,8 +29,8 @@
  using namespace std;
  
  #include "project.h"
---- src/network.cc.old	2010-11-23 23:49:34.000000000 -0500
-+++ src/network.cc	2010-11-23 23:49:46.000000000 -0500
+--- a/src/network.cc	2010-11-23 23:49:34.000000000 -0500
++++ b/src/network.cc	2010-11-23 23:49:46.000000000 -0500
 @@ -19,6 +19,8 @@
  #include <config.h>
  #endif
@@ -40,8 +40,8 @@
  using namespace std;
  
  #include "project.h"
---- src/parseline.cc.old	2010-11-23 23:50:39.000000000 -0500
-+++ src/parseline.cc	2010-11-23 23:50:51.000000000 -0500
+--- a/src/parseline.cc	2010-11-23 23:50:39.000000000 -0500
++++ b/src/parseline.cc	2010-11-23 23:50:51.000000000 -0500
 @@ -19,6 +19,8 @@
  #include <config.h>
  #endif
