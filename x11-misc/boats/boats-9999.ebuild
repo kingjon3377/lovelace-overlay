@@ -1,16 +1,16 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 # I wrote this; if it works, submit.
 
-EAPI=5
+EAPI=5 # EAPI 6 bans qt4-r2 eclass
 
-EGIT_REPO_URI="git://git.berlios.de/boats"
+EGIT_REPO_URI="https://git.code.sf.net/p/boats/code"
 inherit qt4-r2 git-r3 eutils
 
 DESCRIPTION="a race scenario drawing tool"
-HOMEPAGE="http://boats.berlios.de"
-SRC_URI=""
+HOMEPAGE="http://boats.sourceforge.net/"
+SRC_URI="" # TODO: package a released version, if they upgrade to Qt5
 
 LICENSE="GPL-3"
 SLOT="0"
@@ -21,10 +21,6 @@ DEPEND="media-libs/giflib
 	dev-qt/qtcore:4
 	dev-qt/qtgui:4"
 RDEPEND="${DEPEND}"
-
-src_compile() {
-	emake
-}
 
 src_install() {
 	dobin ${PN}
