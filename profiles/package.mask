@@ -82,3 +82,6 @@ dev-java/jlint
 # Depends on masked-for-removal wxGTK:2.8, and won't compile against 3.0
 =app-misc/calizo-0.2.5
 
+# Depends on masked-for-removal libgnomeprintui
+=sci-visualization/terraform-0.9.5
+
