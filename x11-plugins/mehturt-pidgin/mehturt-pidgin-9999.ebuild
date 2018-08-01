@@ -1,7 +1,7 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 inherit git-r3 multilib toolchain-funcs
 
@@ -20,6 +20,8 @@ DEPEND="net-im/pidgin
 	dev-libs/glib:2"
 RDEPEND="${DEPEND}"
 
+DOCS=( README.md )
+
 src_prepare() {
 	sed -i \
 		-e '/^CC=/d' \
@@ -29,11 +31,10 @@ src_prepare() {
 }
 
 src_compile() {
-	CC="$(tc-getCC)" CFLAGS="${CFLAGS} ${LDFLAGS}"
+	CC="$(tc-getCC)" CFLAGS="${CFLAGS} ${LDFLAGS}" default_src_compile
 }
 
 src_install() {
 	dodir /usr/$(get_libdir)/purple-2
-	emake install DESTDIR="${D}"
-	dodoc README.md
+	default
 }
