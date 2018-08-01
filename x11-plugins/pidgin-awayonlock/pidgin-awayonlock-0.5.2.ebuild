@@ -8,8 +8,8 @@ inherit cmake-utils
 MY_PN="${PN#pidgin-}"
 
 DESCRIPTION="Change your status when the screensaver gets activated"
-HOMEPAGE="http://costela.net/projects/awayonlock"
-SRC_URI="http://costela.net/files/${MY_PN}-${PV}.tar.gz"
+HOMEPAGE="https://costela.net/projects/awayonlock"
+SRC_URI="https://costela.net/files/${MY_PN}-${PV}.tar.gz"
 
 LICENSE="GPL-3"
 SLOT="0"
