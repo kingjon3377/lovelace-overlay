@@ -19,7 +19,7 @@ KEYWORDS="~amd64"
 IUSE=""
 
 RDEPEND="dev-python/markdown[${PYTHON_USEDEP}]
-	dev-python/wxpython:2.8[${PYTHON_USEDEP}]
+	dev-python/wxpython:3.0[${PYTHON_USEDEP}]
 	dev-python/pysvg"
 #	dev-python/pysvg[${PYTHON_USEDEP}]"
 DEPEND="${RDEPEND}
