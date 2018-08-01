@@ -79,3 +79,6 @@ dev-java/jlint
 # Depends on now-masked Qt 4
 =app-text/biblememorizer-0.6.4
 
+# Depends on masked-for-removal wxGTK:2.8, and won't compile against 3.0
+=app-misc/calizo-0.2.5
+
