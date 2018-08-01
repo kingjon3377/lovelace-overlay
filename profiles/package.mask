@@ -85,3 +85,7 @@ dev-java/jlint
 # Depends on masked-for-removal libgnomeprintui
 =sci-visualization/terraform-0.9.5
 
+# Depends on masked-for-removal wxGTK:2.8, and fails to compile (though looks
+# like a stricter-compiler issue, not a wxGTK-compatibility issue)
+=sci-mathematics/graphthing-1.3.2
+
