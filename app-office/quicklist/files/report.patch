@@ -1,6 +1,6 @@
 diff -ru src.old/report.c src/report.c
---- src.old/report.c	2010-11-24 15:16:15.000000000 -0500
-+++ src/report.c	2010-11-24 15:22:06.000000000 -0500
+--- a/src/report.c	2010-11-24 15:16:15.000000000 -0500
++++ b/src/report.c	2010-11-24 15:22:06.000000000 -0500
 @@ -330,7 +330,7 @@
  		gnome_print_setrgbcolor (context, .0, .0, .0);
  		gnome_print_moveto      (context, x + (width - tw)/2, y - gnome_font_get_ascender (font));

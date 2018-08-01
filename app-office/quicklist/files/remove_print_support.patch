@@ -1,6 +1,6 @@
 diff -ru src.old/menus.c src/menus.c
---- src.old/menus.c	2015-12-22 23:23:44.631524429 -0500
-+++ src/menus.c	2015-12-22 23:24:40.652526222 -0500
+--- a/src/menus.c	2015-12-22 23:23:44.631524429 -0500
++++ b/src/menus.c	2015-12-22 23:24:40.652526222 -0500
 @@ -79,11 +79,6 @@
  		_("Import data for this list"), G_CALLBACK (file_import)},
  	{"ExportFileAction", GTK_STOCK_CONVERT, _("_Export ..."), "",
@@ -14,8 +14,8 @@ diff -ru src.old/menus.c src/menus.c
  			"<control>Q", _("Quit the QuickList application"),
  		G_CALLBACK (exit_action)},
 diff -ru src.old/report.c src/report.c
---- src.old/report.c	2015-12-22 23:23:44.631524429 -0500
-+++ src/report.c	2015-12-22 23:24:22.865525653 -0500
+--- a/src/report.c	2015-12-22 23:23:44.631524429 -0500
++++ b/src/report.c	2015-12-22 23:24:22.865525653 -0500
 @@ -336,57 +336,6 @@
  	page_num++;
  }
@@ -75,8 +75,8 @@ diff -ru src.old/report.c src/report.c
  
  /* Sets current column and current field. */
 diff -ru src.old/report.h src/report.h
---- src.old/report.h	2015-12-22 23:23:44.632524429 -0500
-+++ src/report.h	2015-12-22 23:24:27.065525787 -0500
+--- a/src/report.h	2015-12-22 23:23:44.632524429 -0500
++++ b/src/report.h	2015-12-22 23:24:27.065525787 -0500
 @@ -43,7 +43,5 @@
  void report_col_right (GtkAction * w, gpointer data);
  void report_totals_group (GtkAction * w, gpointer data);
