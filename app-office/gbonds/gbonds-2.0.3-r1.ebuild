@@ -7,9 +7,9 @@ EAPI=6
 
 inherit gnome2 autotools
 
-# This may be a little fragile; I was able to make it import savings bond wizard
-# format, read and write its own xml format, and download treasury databases. I
-# also could crash it.
+# This may be a little fragile; I (original ebuild author) was able to make it
+# import savings bond wizard format, read and write its own xml format, and
+# download treasury databases. I also could crash it.
 
 DESCRIPTION="A GNOME US savings bonds inventory program."
 HOMEPAGE="http://www.snaught.com/gbonds"
@@ -25,7 +25,6 @@ KEYWORDS="~x86 ~amd64"
 # the libraries the program is linked against. Some may be redundant.
 RDEPEND="x11-libs/gtk+:2
 		dev-libs/libxml2:2
-		gnome-base/libgnomeprintui:2.2
 		gnome-base/gnome-vfs:2
 		nls? ( sys-devel/gettext )
 		x11-base/xorg-x11
