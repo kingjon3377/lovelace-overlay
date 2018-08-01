@@ -1,7 +1,7 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 inherit toolchain-funcs autotools eutils
 
@@ -25,7 +25,6 @@ src_prepare() {
 DOCS=( AUTHORS ChangeLog NEWS README )
 
 src_install() {
-	emake DESTDIR="${D}" install
-	dodoc "${DOCS[@]}"
+	default
 	prune_libtool_files --modules
 }
