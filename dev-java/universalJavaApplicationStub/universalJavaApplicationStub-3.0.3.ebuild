@@ -21,11 +21,12 @@ RESTRICT=test # tests have never worked, and don't actually test the code that i
 
 src_test() {
 	"${S}/test/java-version-tester.sh" | tee "${T}/test-output.txt"
-	if grep -q FAIL "${T}/test-output.txt"; then
+	if grep -q FAILED "${T}/test-output.txt"; then
 		eerror "Test failed:"
 		grep FAIL "${T}/test-output.txt"
 		die "Test failed"
 	fi
+	# TODO: Run shellcheck, as the Travis config does?
 }
 
 src_install() {
