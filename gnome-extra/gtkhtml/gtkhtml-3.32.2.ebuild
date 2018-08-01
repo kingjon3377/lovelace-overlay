@@ -3,6 +3,7 @@
 
 EAPI=5
 GCONF_DEBUG="no"
+GNOME2_EAUTORECONF="yes"
 GNOME_TARBALL_SUFFIX="bz2"
 
 inherit eutils gnome2
@@ -41,6 +42,7 @@ pkg_setup() {
 src_prepare() {
 	# Fix build with recent glib, bug #436462
 	epatch "${FILESDIR}/${P}-g_thread_init.patch"
+	sed -i '/gnome-icon-theme/d' configure.ac || die
 	gnome2_src_prepare
 }
 
