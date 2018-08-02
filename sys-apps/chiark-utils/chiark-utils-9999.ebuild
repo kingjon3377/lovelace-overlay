@@ -1,12 +1,12 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 inherit git-r3
 
 DESCRIPTION="Useful utils from chiark.greenend.org.uk"
-HOMEPAGE="http://www.chiark.greenend.org.uk"
+HOMEPAGE="https://www.chiark.greenend.org.uk"
 SRC_URI=""
 
 EGIT_REPO_URI="git://git.chiark.greenend.org.uk/~ian/chiark-utils.git"
@@ -30,7 +30,7 @@ src_install() {
 				varlib="${D}/var/lib" mandir="${D}/usr/share/man" \
 				install install-docs install-examples
 	done
-	dodoc debian/changelog
 	dodir /usr/share/doc/${PF}
 	mv "${D}"/usr/share/doc/* "${D}"/usr/share/doc/${PF}
+	dodoc debian/changelog
 }
