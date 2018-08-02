@@ -12,7 +12,7 @@ EGIT_REPO_URI="https://github.com/arthurdejong/webcheck.git"
 inherit git-r3 distutils-r1
 
 DESCRIPTION="website link and structure checker"
-HOMEPAGE="http://arthurdejong.org/webcheck/"
+HOMEPAGE="https://arthurdejong.org/webcheck/"
 SRC_URI=""
 
 LICENSE="GPL-2"

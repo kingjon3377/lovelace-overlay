@@ -3,11 +3,11 @@
 
 # Bug #348280 -- tosubmit
 
-EAPI=5
+EAPI=6
 
 DESCRIPTION="website link and structure checker"
-HOMEPAGE="http://arthurdejong.org/webcheck/"
-SRC_URI="http://arthurdejong.org/${PN}/${P}.tar.gz"
+HOMEPAGE="https://arthurdejong.org/webcheck/"
+SRC_URI="https://arthurdejong.org/${PN}/${P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
