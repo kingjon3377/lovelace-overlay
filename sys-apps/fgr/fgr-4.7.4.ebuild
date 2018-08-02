@@ -1,7 +1,8 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
+
 DESCRIPTION="Fgr Command Find Tool"
 HOMEPAGE="http://xffm.sourceforge.net/fgr.html"
 SRC_URI="mirror://sourceforge/xffm/${PV}/${PN}/${P}.tar.bz2"
@@ -17,7 +18,4 @@ DEPEND=">=dev-libs/glib-2.6.0"
 RDEPEND="${DEPEND}
 	!x11-misc/rodent"
 
-src_install() {
-	emake DESTDIR="${D}" install
-	dodoc AUTHORS ChangeLog NEWS README TODO
-}
+DOCS=( AUTHORS ChangeLog NEWS README TODO )
