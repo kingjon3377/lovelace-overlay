@@ -1,7 +1,7 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI=6
 
 DESCRIPTION="Utility that reports when files have been altered"
 HOMEPAGE="http://fileschanged.sourceforge.net/"
@@ -15,19 +15,20 @@ IUSE="nls"
 DEPEND="virtual/fam"
 RDEPEND="${DEPEND}"
 
+DOCS=( ChangeLog README TODO AUTHORS )
+
+src_prepare() {
+	sed -i -e 's@-Werror@@' src/Makefile.in || die
+	sed -i -e 's;pkgdatadir = $(datadir)/@PACKAGE@;pkgdatadir = $(datadir)/doc/@PACKAGE@-'"${PVR}"';' \
+		Makefile.in || die
+	default
+}
+
 src_configure() {
 	econf $(use_enable nls)
 }
 
-src_compile() {
-	# silly cflags need to be corrected
-	sed -i -e 's/-Werror//' src/Makefile || die
-	emake
-}
-
 src_install() {
-	emake DESTDIR="${D}" install
-	dodoc ChangeLog README TODO
-	# make install installs the doc files in wrong directory.
-	rm -rf "${D}"/usr/share/${PN}
+	default
+	rm -f "${D}/usr/share/doc/${PF}/INSTALL"*
 }
