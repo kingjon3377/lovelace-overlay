@@ -3,6 +3,8 @@
 
 EAPI=6
 
+inherit toolchain-funcs
+
 DESCRIPTION="Simple utility to limit a process's absolute execution time"
 HOMEPAGE="https://devel.ringlet.net/sysutils/timelimit/"
 SRC_URI="https://devel.ringlet.net/files/sys/${PN}/${P}.tar.gz"
