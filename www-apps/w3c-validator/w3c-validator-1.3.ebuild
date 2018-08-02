@@ -1,15 +1,13 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 inherit multilib
 
 DESCRIPTION="w3c-validator is a mark-up validator"
-HOMEPAGE="http://validator.w3.org/source/"
-
-SRC_URI="( http://validator.w3.org/dist/validator-${PV/\./_}.tar.gz )
-		( http://validator.w3.org/dist/sgml-lib-${PV/\./_}.tar.gz )"
+HOMEPAGE="https://validator.w3.org/source/"
+SRC_URI="https://github.com/w3c/markup-validator/archive/validator-${PV/\./_}-release.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
@@ -49,7 +47,7 @@ RDEPEND="${DEPEND}"
 # Options:
 # g-cpan -g Encode-JIS2K HTML-Tidy
 
-S="${WORKDIR}/validator-${PV}"
+S="${WORKDIR}/markup-validator-validator-${PV/\./_}-release"
 
 # Previous version didn't *have* tests, but this one errors out for some reason.
 RESTRICT="test"
