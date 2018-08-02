@@ -1,13 +1,13 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 inherit toolchain-funcs
 
 DESCRIPTION="Intelligent ps"
-HOMEPAGE="http://www.tip.net.au/~dbell/"
-SRC_URI="http://members.tip.net.au/~dbell/programs/${P}.tgz"
+HOMEPAGE="https://www.tip.net.au/~dbell/"
+SRC_URI="https://members.tip.net.au/~dbell/programs/${P}.tgz"
 
 LICENSE="ips"
 SLOT="0"
