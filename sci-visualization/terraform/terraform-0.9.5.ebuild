@@ -1,9 +1,9 @@
 # Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-inherit eutils
+inherit desktop
 
 DESCRIPTION="open source interactive height field generation and manipulation program"
 HOMEPAGE="http://code.google.com/p/terraform"
@@ -28,8 +28,10 @@ DEPEND="x11-libs/gtk+:2
 	"
 RDEPEND="${DEPEND}"
 
+PATCHES=( "${FILESDIR}/${PV}-desktop-links.patch" )
+
 src_prepare() {
-	epatch "${FILESDIR}/${PV}-desktop-links.patch"
+	default
 	sed -i -e \
 		"s:datadir = @prefix@/doc/terraform:datadir = @datarootdir@/doc/${PF}:"\
 		docs/Makefile.in || die "sed failed"
