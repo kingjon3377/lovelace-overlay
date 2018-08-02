@@ -1,13 +1,13 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 inherit eutils multilib
 
 DESCRIPTION="Command Line Interpreter Generator"
-SRC_URI="http://bsdforge.com/projects/source/devel/${PN}/${P}.tar.xz"
-HOMEPAGE="http://bsdforge.com/projects/devel/clig/"
+SRC_URI="https://bsdforge.com/projects/source/devel/${PN}/${P}.tar.xz"
+HOMEPAGE="https://bsdforge.com/projects/devel/clig/"
 
 SLOT="0"
 LICENSE="GPL-2"
@@ -20,8 +20,10 @@ DEPEND="${RDEPEND}
 
 S="${WORKDIR}/${PN}"
 
+PATCHES=( "${FILESDIR}/clig_makefile_patch.patch" )
+
 src_prepare() {
-	epatch "${FILESDIR}/clig_makefile_patch.patch"
+	default
 	sed -i -e 's:)/man:)/share/man:g' -e "s:/lib/:/$(get_libdir)/:" makefile \
 			|| die "sed failed"
 }
