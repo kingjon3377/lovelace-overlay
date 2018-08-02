@@ -1,10 +1,10 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 DESCRIPTION="Tool to manage license text in source files"
-HOMEPAGE="http://cristal.inria.fr/~simonet/soft/"
+HOMEPAGE="https://www.normalesup.org/~simonet/soft/"
 SRC_URI="http://www.normalesup.org/~simonet/soft/${PN}/${P}.tar.gz"
 
 LICENSE="GPL-2"
