@@ -1,11 +1,11 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 DESCRIPTION="Simple utility to limit a process's absolute execution time"
-HOMEPAGE="http://devel.ringlet.net/sysutils/timelimit/"
-SRC_URI="http://devel.ringlet.net/sysutils/timelimit/${P}.tar.gz"
+HOMEPAGE="https://devel.ringlet.net/sysutils/timelimit/"
+SRC_URI="https://devel.ringlet.net/files/sys/${PN}/${P}.tar.gz"
 
 LICENSE="BSD-2"
 SLOT="0"
