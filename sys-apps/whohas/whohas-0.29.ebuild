@@ -1,7 +1,7 @@
 # Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 DESCRIPTION="query multiple distributions' package archives"
 HOMEPAGE="http://www.philippwesche.org/200811/whohas/intro.html"
@@ -21,8 +21,6 @@ src_install() {
 	dobin program/whohas
 	doman usr/share/man/man1/whohas.1
 	use l10n_de && doman usr/share/man/de/man1/whohas.1
-	dodoc Changelog intro.txt
-	dohtml intro.html
-	docinto html_assets
-	dohtml html_assets/*
+	dodoc Changelog intro.txt intro.html
+	dodoc -r html_assets
 }
