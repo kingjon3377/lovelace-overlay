@@ -1,7 +1,7 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 inherit toolchain-funcs
 
@@ -20,6 +20,7 @@ RDEPEND="${DEPEND}"
 
 src_prepare() {
 	sed -i -e "s@^CC = .*@CC=$(tc-getCC)@" -e "s@^CFLAGS = .*@CFLAGS=${CFLAGS}@" Makefile || die
+	default
 }
 
 src_test() {
