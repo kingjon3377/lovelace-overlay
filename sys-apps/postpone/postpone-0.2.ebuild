@@ -1,14 +1,14 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 inherit toolchain-funcs
 
 DESCRIPTION="schedules commands to be executed later"
-HOMEPAGE="http://www.df7cb.de/projects/postpone/"
-#SRC_URI="http://www.df7cb.de/projects/${PN}/packages/${P/-/_}.tar.gz"
-SRC_URI="http://ftp.debian.org/debian/pool/main/p/${PN}/${P/-/_}.tar.gz"
+HOMEPAGE="https://www.df7cb.de/projects/postpone/"
+#SRC_URI="https://www.df7cb.de/projects/${PN}/packages/${P/-/_}.tar.gz"
+SRC_URI="mirror://debian/pool/main/p/${PN}/${P/-/_}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
