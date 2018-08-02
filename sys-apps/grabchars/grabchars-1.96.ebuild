@@ -1,7 +1,7 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 inherit rpm eutils
 
@@ -17,13 +17,7 @@ IUSE=""
 
 RDEPEND=""
 DEPEND="${DEPEND}
-	app-arch/sharutils
 	app-shells/tcsh"
-
-#src_prepare() {
-#	cp "${FILESDIR}/Makefile" "${S}/Makefile" || die
-#	epatch "${FILESDIR}/headers.patch" "${FILESDIR}/warnings.patch"
-#}
 
 src_compile() {
 	tc-export CC
