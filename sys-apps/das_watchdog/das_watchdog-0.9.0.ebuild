@@ -1,9 +1,10 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 inherit toolchain-funcs
+
 RESTRICT="mirror"
 DESCRIPTION="watchdog to ensure a realtime process won't hang the machine"
 HOMEPAGE="http://www.notam02.no/arkiv/src/"
@@ -22,6 +23,7 @@ src_prepare() {
 	#fix makefile
 	sed -i -e 's@gcc@$(CC) $(CFLAGS)@g' -e	's@\@sh.*@@g' \
 		-e 's@^[[:blank:]]*which.*@@g'  Makefile
+	default
 }
 
 src_compile() {
