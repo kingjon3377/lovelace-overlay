@@ -1,13 +1,13 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 inherit toolchain-funcs versionator
 
 DESCRIPTION="An unsupervised Bayesian classification system"
-HOMEPAGE="http://ti.arc.nasa.gov/tech/rse/synthesis-projects-applications/autoclass/autoclass-c/"
-SRC_URI="http://ti.arc.nasa.gov/m/project/autoclass/$(replace_all_version_separators - "${P}").tar.gz"
+HOMEPAGE="https://ti.arc.nasa.gov/tech/rse/synthesis-projects-applications/autoclass/autoclass-c/"
+SRC_URI="https://ti.arc.nasa.gov/m/project/autoclass/$(replace_all_version_separators - "${P}").tar.gz"
 LICENSE="freedist"
 SLOT="0"
 KEYWORDS="~x86 amd64"
@@ -30,8 +30,7 @@ src_compile() {
 src_install() {
 	dobin ${PN}
 	dodoc doc/*
-	docinto sample
-	dodoc sample/*
+	dodoc -r sample
 	insinto /usr/share/${PN}
 	doins -r data
 }
