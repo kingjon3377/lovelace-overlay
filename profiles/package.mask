@@ -15,8 +15,6 @@
 ~sci-mathematics/geogebra-3.2.44.0
 ~sys-apps/chiark-utils-9999
 ~sys-apps/fidefrag-9999
-~sys-fs/fusecompress-9999
-~sys-fs/fusecompress-2.6
 ~x11-misc/boats-9999
 ~app-text/markdown-pp-9999
 
