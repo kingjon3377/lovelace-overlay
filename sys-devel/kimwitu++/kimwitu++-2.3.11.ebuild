@@ -1,13 +1,11 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
-
-inherit eutils
+EAPI=6
 
 DESCRIPTION="A (syntax-)tree-handling tool (term processor)"
-HOMEPAGE="http://www2.informatik.hu-berlin.de/sam/kimwitu++"
-SRC_URI="http://www2.informatik.hu-berlin.de/sam/${PN}/${P}.tar.gz"
+HOMEPAGE="https://www2.informatik.hu-berlin.de/sam/kimwitu++"
+SRC_URI="https://www2.informatik.hu-berlin.de/sam/${PN}/${P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
@@ -19,8 +17,13 @@ DEPEND="${RDEPEND}
 	doc? ( media-gfx/transfig
 	dev-texlive/texlive-langgerman )"
 
+PATCHES=(
+	"${FILESDIR}/strlen.patch"
+	"${FILESDIR}/docs.patch"
+)
+
 src_prepare() {
-	epatch "${FILESDIR}/strlen.patch" "${FILESDIR}/docs.patch"
+	default
 	sed -i -e 's:/usr/share/sgml/docbook/stylesheet/xsl/nwalsh/xhtml/docbook.xsl:/usr/share/sgml/docbook/xsl-stylesheets/xhtml/docbook.xsl:g' \
 		doc/formatters/docbook2html.sh || die "sed failed"
 	sed -i -e 's:/usr/share/sgml/docbook/dtd/xml/4.1.2/docbookx.dtd:/usr/share/sgml/docbook/xml-dtd-4.1.2/docbookx.dtd:g' \
