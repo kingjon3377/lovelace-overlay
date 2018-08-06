@@ -1,7 +1,7 @@
 # Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 LANGS="cs da de el en es et fr hu it nl no pa pl ru sk tr"
 inherit eutils qmake-utils
@@ -44,6 +44,10 @@ DEPEND="${RDEPEND}
 	>=sys-devel/gcc-4"
 
 src_prepare() {
+	# FIXME: Figure out dynamically which Qt 5.x version we're building
+	# against, and which 5.x.y is the latest version listed, and set the
+	# build up properly, instead of specifying the "current" one at
+	# ebuild-revision time.
 	if has_version '>=dev-qt/qtscript-5.9.6' && ! test -d src/3rdparty/qt-labs-qtscriptgenerator-5.9.6;then
 		local fname=qt-labs-qtscriptgenerator
 		mkdir -p src/3rdparty/${fname}-5.9.6 || die
