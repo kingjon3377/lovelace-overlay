@@ -1,7 +1,7 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 DESCRIPTION="evaluate the statistical distribution of dice rolls"
 HOMEPAGE="http://www.semistable.com/dicelab/"
@@ -15,6 +15,8 @@ IUSE=""
 DEPEND="dev-util/treecc"
 RDEPEND=""
 
+DOCS=( AUTHORS ChangeLog NEWS README docs/dicelab_manual.pdf )
+
 src_prepare() {
 	sed -i -e 's: -ll::' configure Makefile* || die "sed failed"
 	sed -i -e 's:\$test$:$test || exit $?:' test/runtests || die "tests sed failed"
@@ -22,9 +24,4 @@ src_prepare() {
 
 src_test() {
 	cd test && ./runtests || die "tests failed"
-}
-
-src_install() {
-	emake DESTDIR="${D}" install
-	dodoc AUTHORS ChangeLog NEWS README docs/dicelab_manual.pdf
 }
