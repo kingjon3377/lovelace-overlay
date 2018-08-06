@@ -48,9 +48,6 @@ media-gfx/luxblend
 # At least one (possibly just test) dependency isn't in the main tree
 dev-ruby/polytexnic
 
-# Creating man page fails
-=sci-misc/vowpal_wabbit-7.7
-
 # Patches no longer apply; I don't want to spend the time to investigate now, and reinvestigate the softcover fork's git repo
 =dev-tex/tralics-2.15.2
 
