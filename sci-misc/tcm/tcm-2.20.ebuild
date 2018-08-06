@@ -1,9 +1,9 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-inherit multilib toolchain-funcs eutils
+inherit multilib toolchain-funcs desktop
 
 DESCRIPTION="Toolkit for Conceptual Modeling"
 HOMEPAGE="http://wwwhome.cs.utwente.nl/~tcm/"
@@ -18,35 +18,32 @@ IUSE=""
 DEPEND="x11-libs/motif:0"
 RDEPEND="${DEPEND}"
 
-src_unpack() {
-	default
-	cd "${WORKDIR}"
-	mv -i "tcm-2.20+TSQD.orig" "${P}"
-}
+S="${WORKDIR}/${P}+TSQD.orig"
+
+PATCHES=(
+	"${FILESDIR}/01_makefile.dpatch"
+	"${FILESDIR}/02_export_png.dpatch"
+	"${FILESDIR}/02_export_png_2.dpatch"
+	"${FILESDIR}/12_quote_system_call.dpatch"
+	"${FILESDIR}/13_fix_flex_compile.dpatch"
+	"${FILESDIR}/15_fix_gcc_4.0.dpatch"
+	"${FILESDIR}/16_gv_preview.dpatch"
+	"${FILESDIR}/20_fix_doc.dpatch"
+	"${FILESDIR}/30_amd64_null.dpatch"
+	"${FILESDIR}/30_amd64_null_2.dpatch"
+	"${FILESDIR}/30_amd64_null_3.dpatch"
+	"${FILESDIR}/30_amd64_null_4.dpatch"
+	"${FILESDIR}/30_amd64_null_5.dpatch"
+	"${FILESDIR}/31_gcc_4_1.dpatch"
+	"${FILESDIR}/warnings.patch"
+)
+# TODO: Look into recent Ubuntu patch additions
 
 src_prepare() {
 	find . -name Makefile -exec sed -i -e '/DO NOT DELETE THIS LINE/q' {} + || die
 	mkdir debian
 	cp "${FILESDIR}/Config.tmpl" debian
-	while read patch;do
-		epatch "${FILESDIR}/${patch}.dpatch"
-	done <<-EOF
-01_makefile
-02_export_png
-02_export_png_2
-12_quote_system_call
-13_fix_flex_compile
-15_fix_gcc_4.0
-16_gv_preview
-20_fix_doc
-30_amd64_null
-30_amd64_null_2
-30_amd64_null_3
-30_amd64_null_4
-30_amd64_null_5
-31_gcc_4_1
-	EOF
-	epatch "${FILESDIR}/warnings.patch"
+	default
 	cp -f "${FILESDIR}/Config.tmpl_gentoo" src/Config.tmpl
 #	sed -i -e 's/^libs: staticlibs$/libs: semidynamiclibs/' src/Makefile.gcc
 	sed -i -e 's:^extern int errno;$:#include <errno.h>:' src/gl/text2ps.c
@@ -63,7 +60,7 @@ src_configure() {
 	export TCM_COMPILE_DIR="${S}"
 	export TCM_INSTALL_DIR=/usr
 	export "TCM_INSTALL_LIB=/usr/$(get_libdir)/tcm"
-	export "CONFIG_INSTALL=/etc/tcm"
+	export "CONFIG_INSTALL=/etc/${PN}"
 	export "TCM_INSTALL_DOC=/usr/share/doc/${PF}"
 	export "TCM_INSTALL_SHARE=/usr/share/tcm"
 	export "TCM_INSTALL_MAN=/usr/share/man"
@@ -75,49 +72,44 @@ src_compile() {
 	export TCM_COMPILE_DIR="${S}"
 	export TCM_INSTALL_DIR=/usr
 	export TCM_INSTALL_LIB=/usr/$(get_libdir)
-	export CONFIG_INSTALL=/etc/tcm
+	export CONFIG_INSTALL=/etc/${PN}
 	export TCM_INSTALL_DOC=/usr/share/doc/${PF}
-	export TCM_INSTALL_SHARE=/usr/share/tcm
+	export TCM_INSTALL_SHARE=/usr/share/${PN}
 	export TCM_INSTALL_MAN=/usr/share/man
 	export HELP_DIR=${TCM_INSTALL_DOC}/help
-	USER_CFLAGS="${CFLAGS} -fPIC"
-	USER_CFLAGS="${USER_CFLAGS} -DCONFIG_INSTALL=\"${CONFIG_INSTALL}\""
-	USER_CFLAGS="${USER_CFLAGS} -DTCM_INSTALL_DIR=\"${TCM_INSTALL_DIR}\""
-	USER_CFLAGS="${USER_CFLAGS} -DTCM_INSTALL_LIB=\"${TCM_INSTALL_LIB}\""
-	USER_CFLAGS="${USER_CFLAGS} -DTCM_INSTALL_SHARE=\"${TCM_INSTALL_SHARE}}\""
-	USER_CFLAGS="${USER_CFLAGS} -DCONFIG_FILE=\"tcm.conf\""
-	USER_CFLAGS="${USER_CFLAGS} -DHELP_DIR=\"${HELP_DIR}\""
+	USER_CFLAGS="${CFLAGS} -fPIC -DCONFIG_INSTALL=\"/etc/${PN}\" -DTCM_INSTALL_DIR=\"/usr\""
+	USER_CFLAGS="${USER_CFLAGS} -DTCM_INSTALL_LIB=\"/usr/$(get_libdir)\""
+	USER_CFLAGS="${USER_CFLAGS} -DTCM_INSTALL_SHARE=\"/usr/share/${PN}\""
+	USER_CFLAGS="${USER_CFLAGS} -DCONFIG_FILE=\"${PN}.conf\""
+	USER_CFLAGS="${USER_CFLAGS} -DHELP_DIR=\"/usr/share/doc/${PF}/help\""
 	USER_CFLAGS="${USER_CFLAGS} -DCOLOR_FILE=\"colorrgb.txt\""
 	USER_CFLAGS="${USER_CFLAGS} -DBANNER_FILE=\"banner.ps\""
 	emake -j1 TCM_INSTALL_DIR=/usr USER_CFLAGS="${USER_CFLAGS}" Cc=$(tc-getCC) \
-			TCM_COMPILER=$(tc-getCC) CC=$(tc-getCXX) CONFIG_INSTALL=/etc/tcm \
-			TCM_INSTALL_DOC=${TCM_INSTALL_DOC} \
-			TCM_INSTALL_MAN=${TCM_INSTALL_MAN} \
-			TCM_INSTALL_SHARE=${TCM_INSTALL_SHARE} execs
+			TCM_COMPILER=$(tc-getCC) CC=$(tc-getCXX) CONFIG_INSTALL=/etc/${PN} \
+			TCM_INSTALL_DOC=/usr/share/doc/${PF} TCM_INSTALL_MAN=/usr/share/man \
+			TCM_INSTALL_SHARE=/usr/share/${PN} execs
 }
 
 src_install() {
 	export TCM_COMPILE_DIR="${S}"
 	export TCM_INSTALL_DIR=/usr
 	export TCM_INSTALL_LIB=/usr/$(get_libdir)
-	export CONFIG_INSTALL=/etc/tcm
+	export CONFIG_INSTALL=/etc/${PN}
 	export TCM_INSTALL_DOC=/usr/share/doc/${PF}
-	export TCM_INSTALL_SHARE=/usr/share/tcm
+	export TCM_INSTALL_SHARE=/usr/share/${PN}
 	export TCM_INSTALL_MAN=/usr/share/man
-	export HELP_DIR=${TCM_INSTALL_DOC}/help
-	dodoc README CHANGELOG FILEMAP tcm.lsm
+	export HELP_DIR=/usr/share/doc/${PF}/help
+	dodoc README CHANGELOG FILEMAP ${PN}.lsm
 	dodir "/usr/share/doc/${PF}/usersguide"
-	emake TCM_INSTALL_DIR="${D}/${TCM_INSTALL_DIR}" \
-			CONFIG_INSTALL="${D}/${CONFIG_INSTALL}" \
-			TCM_INSTALL_DOC="${D}/${TCM_INSTALL_DOC}" \
-			TCM_INSTALL_SHARE="${D}/${TCM_INSTALL_SHARE}" \
-			TCM_INSTALL_MAN="${D}/${TCM_INSTALL_MAN}" \
-			install
+	emake TCM_INSTALL_DIR="${D}/usr" CONFIG_INSTALL="${D}/etc/${PN}" \
+			TCM_INSTALL_DOC="${D}/usr/share/doc/${PF}" \
+			TCM_INSTALL_SHARE="${D}/usr/share/${PN}" \
+			TCM_INSTALL_MAN="${D}/usr/share/man" install
 	rm "${D}"/usr/*
-	rm "${D}/${TCM_INSTALL_MAN}/windex"
+	rm "${D}/usr/share/man/windex"
 	[ "${TCM_INSTALL_MAN}" = /usr/man ] || rm -r "${D}/usr/man"
-	find "${D}/${CONFIG_INSTALL}" -type f -exec chmod -x \{\} +
-	mv "${D}/usr/share/tcm/help" "${D}/usr/share/doc/${PF}/help"
+	find "${D}/etc/${PN}" -type f -exec chmod -x \{\} +
+	mv "${D}/usr/share/${PN}/help" "${D}/usr/share/doc/${PF}/help"
 #	doman man/man1/*
 #	for dir in bin lib src doc;do
 #		emake -C ${dir} "TCM_INSTALL_DOC=${D}/usr/share/doc/${PF}" \
@@ -128,13 +120,13 @@ src_install() {
 #				"TCM_INSTALL_DIR=${D}/usr" CHMOD=chmod install
 #	done
 	make_tcm_menu() {
-		exe=$1
-		title=$2
-		cat=$3
-		if [ -z $cat ]; then
-			$cat="Applications/Graphics"
+		exe="$1"
+		title="$2"
+		cat="$3"
+		if [ -z "$cat" ]; then
+			cat="Applications/Graphics"
 		else
-			$cat="Applications/Graphics/${cat}"
+			cat="Applications/Graphics/${cat}"
 		fi
 		make_desktop_entry "${exe}" "${title}" "" "${cat}"
 	}

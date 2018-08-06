@@ -1,6 +1,6 @@
-diff -ru src.old//gl/text2ps.c src/gl/text2ps.c
---- src.old//gl/text2ps.c	2012-02-19 20:10:01.000000000 -0500
-+++ src/gl/text2ps.c	2012-02-19 20:10:44.000000000 -0500
+diff -ru a/src/gl/text2ps.c b/src/gl/text2ps.c
+--- a/src/gl/text2ps.c	2012-02-19 20:10:01.000000000 -0500
++++ b/src/gl/text2ps.c	2012-02-19 20:10:44.000000000 -0500
 @@ -1,4 +1,5 @@
  #include <stdio.h>
 +#include <stdlib.h>
@@ -20,9 +20,9 @@ diff -ru src.old//gl/text2ps.c src/gl/text2ps.c
  #if !defined(__CYGWIN__)
  #include <errno.h>
  #endif
-diff -ru src.old//sd/bv/adsmcoutputparse.h src/sd/bv/adsmcoutputparse.h
---- src.old//sd/bv/adsmcoutputparse.h	2012-02-19 20:10:01.000000000 -0500
-+++ src/sd/bv/adsmcoutputparse.h	2012-02-19 20:10:06.000000000 -0500
+diff -ru a/src/sd/bv/adsmcoutputparse.h b/src/sd/bv/adsmcoutputparse.h
+--- a/src/sd/bv/adsmcoutputparse.h	2012-02-19 20:10:01.000000000 -0500
++++ b/src/sd/bv/adsmcoutputparse.h	2012-02-19 20:10:06.000000000 -0500
 @@ -2,6 +2,7 @@
  #define _MCOUTPUTPARSE_H
  

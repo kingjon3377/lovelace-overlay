@@ -42,7 +42,7 @@ SYSFLAGS        = -DLINUX
 
 # OSF/Motif 2.1 (dynamic linked)
 # MOTIF_HOME = /local/opt/motif21
-# LDLIBS = -lXp -lXm
+# LDLIBS = -lXm
 
 # OSF/Motif 2.1 (static linked)
 # MOTIF_HOME = /local/opt/motif21
@@ -50,11 +50,11 @@ SYSFLAGS        = -DLINUX
 
 # OpenMotif 2.1 (dynamic linked)
 MOTIF_HOME = $(XWIN_HOME)
-LDLIBS = -lXm -lXp
+LDLIBS = -lXm
 
 # OpenMotif 2.1 (static linked)
 # MOTIF_HOME  = $(XWIN_HOME)
-# LDLIBS = $(MOTIF_LIB)/libXm.a -lXp
+# LDLIBS = $(MOTIF_LIB)/libXm.a
 
 
 # The other libraries (don't change these)
