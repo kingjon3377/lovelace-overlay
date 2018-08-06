@@ -1,7 +1,7 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 inherit versionator
 
@@ -25,6 +25,8 @@ SRC_URI="architecture? ( $(create_uri Architecture) )
 
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
+# TODO: There are a few more now, but the old ones still have their old dates.
+# Should we "version bump," split the package, or what?
 IUSE="+architecture +electronics +gis +hydraulics +circuits +mechanics +misc +processing +nounproject"
 REQUIRED_USE="|| ( architecture electronics gis hydraulics circuits mechanics misc processing nounproject )"
 
