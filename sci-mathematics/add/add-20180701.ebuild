@@ -1,11 +1,11 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 DESCRIPTION="fixed-point calculator operating as a full-screen editor (tapecalc in Debian)"
-HOMEPAGE="http://invisible-island.net/add/add.html"
-SRC_URI="http://invisible-island.net/datafiles/release/${PN}.tar.gz -> ${P}.tar.gz"
+HOMEPAGE="https://invisible-island.net/add/add.html"
+SRC_URI="ftp://ftp.invisible-island.net/add/${P}.tgz"
 
 LICENSE="MIT"
 SLOT="0"
@@ -15,13 +15,9 @@ IUSE=""
 DEPEND="sys-libs/ncurses:0"
 RDEPEND="${DEPEND}"
 
+DOCS=( CHANGES README ${PN}.txt ${PN}.html )
+
 src_compile() {
 	default_src_compile
 	emake docs
-}
-
-src_install() {
-	emake DESTDIR="${D}" install
-	dodoc CHANGES README ${PN}.txt
-	dohtml ${PN}.html
 }
