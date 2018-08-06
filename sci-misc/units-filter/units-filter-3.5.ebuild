@@ -1,7 +1,7 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 inherit eutils toolchain-funcs
 
@@ -19,17 +19,18 @@ DEPEND="${RDEPEND}
 	sys-devel/bison
 	sys-devel/flex"
 
-src_unpack() {
-	default_src_unpack
-	mv -i "${WORKDIR}/${P}.orig" "${WORKDIR}/${P}" || die "fixing directory failed"
-}
+S="${WORKDIR}/${P}.orig"
+
+PATCHES=( "${FILESDIR}/debian-changes-${PV}-2.patch" )
+
+DOCS=( LISEZMOI README )
 
 src_prepare() {
 	sed -i -e 's:grep -q Debian /etc/issue:true:' src/Makefile || die "fixing Makefile failed"
 	sed -i -e 's:/usr/share/xml/docbook/stylesheet/nwalsh/manpages/docbook.xsl:/usr/share/sgml/docbook/xsl-stylesheets/manpages/docbook.xsl:g' \
 		-e 's:/usr/share/sgml/docbook/stylesheet/xsl/nwalsh/manpages/docbook.xsl:/usr/share/sgml/docbook/xsl-stylesheets/manpages/docbook.xsl:g' \
 		manpage.xml Makefile || die "Fixing XSL reference failed"
-	epatch "${FILESDIR}/debian-changes-3.5-2.patch"
+	default
 	emake -C src clean
 }
 
@@ -38,9 +39,4 @@ src_compile() {
 		CXXFLAGS="${CXXFLAGS}" -C src
 	emake CC=$(tc-getCC) CXX=$(tc-getCXX) CFLAGS="${CFLAGS}" \
 		CXXFLAGS="${CXXFLAGS}"
-}
-
-src_install() {
-	emake DESTDIR="${D}" install
-	dodoc LISEZMOI README
 }
