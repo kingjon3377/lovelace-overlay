@@ -18,9 +18,6 @@
 ~x11-misc/boats-9999
 ~app-text/markdown-pp-9999
 
-# Cuneiform is masked, so mask the GUI that depends on it
-app-text/cuneiform-qt
-
 # Depends on p.masked dev-java/itext:5 (bug #475552)
 =games-simulation/openrocket-12.03
 
@@ -70,9 +67,6 @@ kde-misc/lekhonee
 
 # Fails to build with GCC 6
 dev-java/jlint
-
-# Depends on now-masked Qt 4
-=app-text/biblememorizer-0.6.4
 
 # Depends on masked-for-removal wxGTK:2.8, and won't compile against 3.0
 =app-misc/calizo-0.2.5
