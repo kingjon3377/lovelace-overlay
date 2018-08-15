@@ -3,10 +3,10 @@
 
 # I wrote this; if it works, submit.
 
-EAPI=5 # EAPI 6 bans qt4-r2 eclass
+EAPI=6
 
 EGIT_REPO_URI="https://git.code.sf.net/p/boats/code"
-inherit qt4-r2 git-r3 eutils
+inherit qmake-utils git-r3 desktop
 
 DESCRIPTION="a race scenario drawing tool"
 HOMEPAGE="http://boats.sourceforge.net/"
@@ -18,8 +18,8 @@ KEYWORDS="~amd64"
 IUSE=""
 
 DEPEND="media-libs/giflib
-	dev-qt/qtcore:4
-	dev-qt/qtgui:4"
+	dev-qt/qtcore:5
+	dev-qt/qtgui:5"
 RDEPEND="${DEPEND}"
 
 src_install() {
