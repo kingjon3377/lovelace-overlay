@@ -1,13 +1,13 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
+
+DIST_AUTHOR="AGENT"
 
 inherit perl-module
 
 DESCRIPTION="Simple DOM parser for Makefiles"
-HOMEPAGE="http://search.cpan.org/search?query=Makefile-DOM&mode=dist"
-SRC_URI="mirror://cpan/authors/id/A/AG/AGENT/${P}.tar.gz"
 
 IUSE=""
 
