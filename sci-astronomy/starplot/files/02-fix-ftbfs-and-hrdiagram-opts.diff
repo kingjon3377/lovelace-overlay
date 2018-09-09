@@ -1,18 +1,11 @@
-#! /bin/sh /usr/share/dpatch/dpatch-run
-## 02-fix-ftbfs-and-hrdiagram-opts.dpatch by Kamal Mostafa <kamal@whence.com>
-##
-## DP: Fixes:
-## DP:  - FTBFS - must call set_*_item() accessors, not set_item() template
-## DP:  - Make HR Diagram window Options menu correctly reflect the state of
-## DP:    the main window opts for Labels and Diameters on HR window startup.
-##
-## License: This patch is licensed under terms of GPL2, or (at your option)
-## any later version.
+# Description: Fix the 'fail to build from source' problem.
+# Author: Francisco Manuel Garcia Claramonte <francisco@debian.org>
+# Last-Update: 26-06-2012
 
-@DPATCH@
-=== modified file 'src/gui/hrdiagram.cc'
---- a/src/gui/hrdiagram.cc	2008-05-17 11:52:11 +0000
-+++ b/src/gui/hrdiagram.cc	2010-01-07 18:17:30 +0000
+Index: starplot-0.95.5/src/gui/hrdiagram.cc
+===================================================================
+--- starplot-0.95.5.orig/src/gui/hrdiagram.cc	2008-04-10 21:14:00.000000000 +0200
++++ starplot-0.95.5/src/gui/hrdiagram.cc	2012-06-26 21:16:14.000000000 +0200
 @@ -29,7 +29,7 @@
  /* Functions to make sure the HR Diagram window stays updated */
  
@@ -50,16 +43,14 @@
    }
  
    if (menubar) {
-
-=== modified file 'src/gui/menuops.cc'
---- a/src/gui/menuops.cc	2008-05-17 11:52:11 +0000
-+++ b/src/gui/menuops.cc	2010-01-07 18:08:32 +0000
-@@ -303,12 +303,12 @@
- 
- void set_label_item(star_label_t l, bool redraw)
+Index: starplot-0.95.5/src/gui/menuops.cc
+===================================================================
+--- starplot-0.95.5.orig/src/gui/menuops.cc	2008-04-11 20:46:31.000000000 +0200
++++ starplot-0.95.5/src/gui/menuops.cc	2012-06-26 21:19:21.000000000 +0200
+@@ -305,10 +305,12 @@
  {
--  if (globals::chart_rules.StarLabels == l) return;
--
+   if (globals::chart_rules.StarLabels == l) return;
+ 
 -  if (globals::program_hr_viewer) {
 +  if (globals::program_hr_window) {
      set_item(&globals::chart_rules.StarLabels, l,
@@ -70,26 +61,24 @@
    set_item(&globals::chart_rules.StarLabels, l,
  	   options_label_widgets[l], redraw);
  }
-@@ -320,12 +320,12 @@
- 
- void set_diameter_item(star_diameter_t d, bool redraw)
+@@ -322,10 +324,12 @@
  {
--  if (globals::chart_rules.StarDiameters == d) return;
--
+   if (globals::chart_rules.StarDiameters == d) return;
+ 
 -  if (globals::program_hr_viewer) {
 +  if (globals::program_hr_window) {
      set_item(&globals::chart_rules.StarDiameters, d,
  	     hr_options_diameter_widgets[d], false);
    }
-+
++  
 +  if (globals::chart_rules.StarDiameters == d) return;
    set_item(&globals::chart_rules.StarDiameters, d,
  	   options_diameter_widgets[d], redraw);
  }
-
-=== modified file 'src/gui/starplot.h'
---- a/src/gui/starplot.h	2008-05-17 11:52:11 +0000
-+++ b/src/gui/starplot.h	2010-01-07 18:01:36 +0000
+Index: starplot-0.95.5/src/gui/starplot.h
+===================================================================
+--- starplot-0.95.5.orig/src/gui/starplot.h	2008-04-10 21:13:07.000000000 +0200
++++ starplot-0.95.5/src/gui/starplot.h	2012-06-26 21:20:31.000000000 +0200
 @@ -134,6 +134,7 @@
    extern GTKViewer    *program_viewer;      // The GTKViewer used by StarPlot
    extern GtkWidget    *program_canvas;      // The GTK_DRAWING_AREA used
@@ -98,4 +87,3 @@
    extern GTKViewer    *program_hr_viewer;   // HR Diagram GTKViewer
    extern GtkWidget    *program_hr_canvas;   // HR Diagram GTK_DRAWING_AREA  
    extern GdkPixbuf    *program_icon;	    // used by the window manager
-

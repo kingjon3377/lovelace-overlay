@@ -1,0 +1,16 @@
+# Description: Added Comment parameter.
+# Author: Francisco Manuel Garcia Claramonte <francisco@debian.org>
+# Last-Update: 26-06-2012
+
+Index: starplot-0.95.5/starplot.desktop
+===================================================================
+--- starplot-0.95.5.orig/starplot.desktop	2008-03-05 00:05:42.000000000 +0100
++++ starplot-0.95.5/starplot.desktop	2012-06-26 21:10:59.000000000 +0200
+@@ -2,6 +2,7 @@
+ Version=1.0
+ Name=StarPlot Star Chart Viewer
+ GenericName=Star Chart Viewer
++Comment=View detailed star charts in 3D
+ Comment[en]=View detailed star charts in 3D
+ Comment[es]=Vista detallada de gráficos de estrellas en 3D
+ Type=Application

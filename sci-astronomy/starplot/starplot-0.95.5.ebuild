@@ -1,7 +1,7 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 inherit eutils
 
@@ -18,18 +18,21 @@ DEPEND="x11-libs/gtk+:2
 		dev-cpp/gtkmm:2.4"
 RDEPEND="${DEPEND}"
 
-src_prepare() {
-	epatch "${FILESDIR}"/*.dpatch
-}
+PATCHES=(
+	"${FILESDIR}/01-starplot_desktop_file.diff"
+	"${FILESDIR}/02-fix-ftbfs-and-hrdiagram-opts.diff"
+	"${FILESDIR}/03-fix-ftbfs-convert.diff"
+	"${FILESDIR}/04-fix-ftbfs-strings.diff"
+	"${FILESDIR}/05-startup-crash.diff"
+)
 
 src_install () {
 	emake DESTDIR="${D}" install
-	mv -i "${D}/usr/share/doc/${PN}" "${D}/usr/share/doc/${P}" || die "renaming doc dir failed"
 	dodir /usr/share/pixmaps
 	insinto /usr/share/pixmaps
 	doins src/gui/*.xpm
-	dohtml -r doc/html
 	dodoc ChangeLog AUTHORS NEWS NLS-TEAM README TODO "${FILESDIR}/README.source"
+	dodoc -r doc/html
 	dodir /usr/$(get_libdir)/stardata
 	insinto /usr/$(get_libdir)/stardata
 	newins "${FILESDIR}/${PN}.sh" ${PN}

@@ -1,0 +1,17 @@
+Description: Fix FTBFS: error: 'starstrings' has not been declared
+ src/classes/strings.h did not get included because its header guard
+ _STRINGS_H conflicted with /usr/include/strings.h.
+Author: Juhani Numminen <juhaninumminen0@gmail.com>
+Bug-Debian: https://bugs.debian.org/887769
+Last-Update: 2018-01-24
+
+--- a/src/classes/strings.h
++++ b/src/classes/strings.h
+@@ -1,5 +1,5 @@
+-#ifndef _STRINGS_H
+-#define _STRINGS_H
++#ifndef _STARPLOT_STRINGS_H
++#define _STARPLOT_STRINGS_H
+ 
+ #include "../../lib/compat.h"
+ #include "cxx_macros.h"
