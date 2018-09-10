@@ -1,0 +1,30 @@
+From 6a9900c05220e720548499a8a7b44b3a45ec182c Mon Sep 17 00:00:00 2001
+From: Jari Aalto <jari.aalto@cante.net>
+Date: Sat, 9 Apr 2011 17:02:56 +0300
+Subject: [PATCH] primes.c: Correct call to memset()
+Organization: Private
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+
+Signed-off-by: Jari Aalto <jari.aalto@cante.net>
+---
+ primes.c |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/primes.c b/primes.c
+index 8a98ec4..89c7013 100644
+--- a/primes.c
++++ b/primes.c
+@@ -80,7 +80,7 @@ _ifile_nextprime (unsigned n)
+ 
+       assert (sieve);
+ 
+-      memset (sieve, (end - start) * sizeof (*sieve), 0);
++      memset (sieve, 0, (end - start) * sizeof (*sieve));
+ 
+       /* Make the sieve indexed by prime number, rather than
+ 	 distance-from-start-to-the-prime-number.  When we're done,
+-- 
+1.7.4.1
+
