@@ -1,14 +1,14 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 inherit eutils toolchain-funcs
 
 DESCRIPTION="verify electronic mail addresses"
 HOMEPAGE="http://www.sepp.ee.ethz.ch/sepp/vrfy-990522-to.html"
-SRC_URI="mirror://debian/pool/main/v/${PN}/${PN}_${PV}.orig.tar.gz
-	mirror://debian/pool/main/v/${PN}/${PN}_${PV}-6.debian.tar.gz"
+SRC_URI="mirror://debian/pool/main/${PN:0:1}/${PN}/${PN}_${PV}.orig.tar.gz
+	mirror://debian/pool/main/${PN:0:1}/${PN}/${PN}_${PV}-10.debian.tar.xz"
 
 LICENSE="BSD"
 SLOT="0"
@@ -24,8 +24,18 @@ src_unpack() {
 	mv -i debian "${P}" || die "moving debian dir into source dir failed"
 }
 
+PATCHES=(
+	"${S}/debian/patches/00-Makefile.patch"
+	"${S}/debian/patches/10-port.h.patch"
+	"${S}/debian/patches/15-vrfy.h--include.patch"
+	"${S}/debian/patches/20-mxrr.c--libresolv.patch"
+	"${S}/debian/patches/21-main.c--dash-in-mail.patch"
+	"${S}/debian/patches/22-stat.c.patch"
+	"${S}/debian/patches/50-vrfy.1.patch"
+)
+
 src_prepare() {
-	epatch debian/patches/*patch
+	default
 	sed -i -e 's:staff:root:g' Makefile || die "sed failed"
 }
 
