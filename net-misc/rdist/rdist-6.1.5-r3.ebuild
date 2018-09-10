@@ -1,13 +1,11 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
-
-inherit eutils
+EAPI=6
 
 DESCRIPTION="Remote software distribution system"
-HOMEPAGE="http://www.magnicomp.com/rdist/rdist.shtml"
-SRC_URI="http://www.magnicomp.com/download/rdist/${P}.tar.gz"
+HOMEPAGE="https://www.magnicomp.com/products/rdist/rdist.shtml"
+SRC_URI="https://www.magnicomp.com/download/rdist/${P}.tar.gz"
 
 LICENSE="BSD"
 SLOT="1"
@@ -16,6 +14,8 @@ IUSE="+crypt"
 
 DEPEND="sys-devel/bison"
 RDEPEND="crypt? ( virtual/ssh )"
+
+PATCHES=( "${FILESDIR}/${P}-mkstemp.patch" )
 
 src_prepare() {
 	# Change the following #define (10 Mar 2004 agriffis)
@@ -35,8 +35,7 @@ src_prepare() {
 	# remove yacc-isms eshewed by modern bisons
 	sed -i -e '/^%type/ s/,//g' -e 's/= {/{/g' src/gram.y || die "fixup of gram.y failed"
 
-	# use mkstemp(3) instead of mktemp(3)
-	epatch "${FILESDIR}/${P}-mkstemp.patch"
+	default
 }
 
 src_compile() {
