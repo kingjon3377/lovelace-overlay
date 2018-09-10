@@ -1,7 +1,7 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 inherit toolchain-funcs
 
@@ -18,6 +18,7 @@ DEPEND=""
 RDEPEND="${DEPEND}"
 
 src_configure() {
+	# Doesn't understand --prefix, so can't use econf
 	CC=$(tc-getCC) CFLAGS="${CFLAGS}" LDFLAGS="${LDFLAGS}" ./configure || die "configure failed"
 }
 
