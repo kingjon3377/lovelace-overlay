@@ -15,5 +15,5 @@ LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="amd64 ~x86"
 
-RDEPEND="net-fs/samba[python,${PYTHON_USEDEP}]
+RDEPEND="net-fs/samba[${PYTHON_USEDEP}]
 	dev-python/pygtk[${PYTHON_USEDEP}]"
