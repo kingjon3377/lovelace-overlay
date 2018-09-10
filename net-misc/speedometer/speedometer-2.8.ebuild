@@ -1,7 +1,11 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
+
+PYTHON_COMPAT=( python2_7 )
+
+inherit distutils-r1
 
 DESCRIPTION="measure and display the rate of data across a network connection"
 HOMEPAGE="http://excess.org/speedometer"
@@ -12,9 +16,5 @@ SLOT="0"
 KEYWORDS="amd64"
 IUSE=""
 
-DEPEND="dev-python/urwid"
+DEPEND="dev-python/urwid[${PYTHON_USEDEP}]"
 RDEPEND="${DEPEND}"
-
-src_install() {
-	newbin ${PN}.py ${PN}
-}
