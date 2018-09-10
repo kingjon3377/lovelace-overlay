@@ -17,9 +17,9 @@ MY_P="${PN}-${MY_PV}"
 DEBIAN_DIFF_FILE="${PN}_${MY_PV}-${MY_PL}.diff"
 
 DESCRIPTION="A lightweight userspace bandwidth shaper"
-HOMEPAGE="http://www.monkey.org/~marius/trickle"
-SRC_URI="http://www.monkey.org/~marius/${PN}/${MY_P}.tar.gz
-	http://ftp.debian.org/debian/pool/main/${PN:0:1}/${PN}/${DEBIAN_DIFF_FILE}.gz"
+HOMEPAGE="https://monkey.org/~marius/pages/trickle"
+SRC_URI="https://www.monkey.org/~marius/${PN}/${MY_P}.tar.gz
+	mirror://debian/pool/main/${PN:0:1}/${PN}/${DEBIAN_DIFF_FILE}.gz"
 RESTRICT="mirror"
 LICENSE="BSD"
 SLOT="0"
