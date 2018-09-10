@@ -1,7 +1,7 @@
 # Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 inherit java-pkg-2 java-ant-2
 
@@ -35,6 +35,11 @@ RDEPEND="${COMMON_DEPEND}
 
 S="${WORKDIR}/${PN}"
 
+PATCHES=(
+	"${FILESDIR}/JWebBroser-disable.patch"
+	"${FILESDIR}/webdav-disable.patch"
+)
+
 src_prepare() {
 	eant clean
 	rm -r lib/*
@@ -47,7 +52,7 @@ src_prepare() {
 		src/java/net/sf/jftp/gui/base/dir/MaterializedTableModel.java.fixed || die
 	mv -f src/java/net/sf/jftp/gui/base/dir/MaterializedTableModel.java.fixed \
 		src/java/net/sf/jftp/gui/base/dir/MaterializedTableModel.java || die
-	epatch "${FILESDIR}"/*.patch
+	default
 	rm src/java/net/sf/jftp/net/wrappers/WebdavConnection.java \
 		src/java/net/sf/jftp/gui/hostchooser/WebdavHostChooser.java || die
 }
