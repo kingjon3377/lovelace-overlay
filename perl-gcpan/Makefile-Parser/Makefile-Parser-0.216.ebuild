@@ -1,19 +1,19 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
+
+DIST_AUTHOR="AGENT"
 
 inherit perl-module
 
 DESCRIPTION="A simple parser for Makefiles"
-HOMEPAGE="http://search.cpan.org/search?query=Makefile-Parser&mode=dist"
-SRC_URI="mirror://cpan/authors/id/A/AG/AGENT/${P}.tar.gz"
 
 IUSE=""
 
 SLOT="0"
 LICENSE="|| ( Artistic GPL-2 )"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS="amd64 x86"
 
 DEPEND="dev-perl/Class-Accessor
 	>=dev-perl/Class-Trigger-0.14
@@ -24,4 +24,7 @@ DEPEND="dev-perl/Class-Accessor
 	dev-lang/perl:="
 RDEPEND="${DEPEND}"
 
-#SRC_TEST="do"
+PATCHES=(
+	"${FILESDIR}/0001-make-4.0-compatibility.patch"
+	"${FILESDIR}/0002-make-4.0-fbe6e4b7f3550d0e2eaed17af0e4a21c7e7a2555.patch"
+)

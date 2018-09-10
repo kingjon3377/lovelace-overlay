@@ -1,0 +1,25 @@
+From 097521aae7b4e8d719e9535077905236aefa0f96 Mon Sep 17 00:00:00 2001
+From: Niko Tyni <ntyni@debian.org>
+Date: Sun, 7 Sep 2014 15:37:58 +0300
+Subject: [PATCH] make 4.0 compatibility
+
+---
+ lib/Makefile/Parser/GmakeDB.pm | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/lib/Makefile/Parser/GmakeDB.pm b/lib/Makefile/Parser/GmakeDB.pm
+index 0e876e0..a221490 100644
+--- a/lib/Makefile/Parser/GmakeDB.pm
++++ b/lib/Makefile/Parser/GmakeDB.pm
+@@ -154,7 +154,7 @@ sub parse ($$) {
+                 undef $var_origin;
+             }
+         }
+-        elsif ($elem =~ /^#\s+(automatic|makefile|default|environment|command line)/) {
++        elsif ($elem =~ /^#\s+(automatic|makefile|default|environment|command line|'override' directive)/) {
+             $var_origin = $1;
+             $var_origin = 'file' if $var_origin eq 'makefile';
+             $next_var_lineno = $elem->lineno + 1;
+-- 
+2.1.0
+
