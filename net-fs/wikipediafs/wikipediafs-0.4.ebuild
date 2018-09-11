@@ -1,7 +1,7 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 PYTHON_COMPAT=( python2_{6,7} )
 
@@ -16,12 +16,3 @@ SLOT="0"
 IUSE=""
 
 RDEPEND="dev-python/fuse-python[${PYTHON_USEDEP}]"
-
-src_compile() {
-	distutils-r1_src_compile
-}
-
-src_install() {
-	distutils-r1_src_install
-	cp -r example "${D}/usr/share/doc/${PF}/"
-}
