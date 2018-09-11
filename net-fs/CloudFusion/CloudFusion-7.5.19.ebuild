@@ -1,14 +1,14 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 PYTHON_COMPAT=( python2_7 )
 
 inherit distutils-r1
 
 DESCRIPTION="FUSE access to various cloud-file-storage services"
-HOMEPAGE="http://joe42.github.com/CloudFusion/"
+HOMEPAGE="https://joe42.github.com/CloudFusion/"
 SRC_URI="https://github.com/joe42/${PN}/archive/v.${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="GPL-3"
@@ -22,7 +22,7 @@ RDEPEND="${PYTHON_DEPS}
 			virtual/libffi
 		)
 		automate-captchas? (
-			dev-python/pycurl
+			dev-python/pycurl[${PYTHON_USEDEP}]
 			dev-libs/libxml2[python,${PYTHON_USEDEP}]
 			dev-python/pillow[${PYTHON_USEDEP}]
 			app-text/tesseract
