@@ -1,11 +1,12 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 DESCRIPTION="program to optimize your music for your mp3-player"
-HOMEPAGE="http://packages.ubuntu.com/natty/a2mp3"
-SRC_URI="mirror://ubuntu/pool/universe/a/${PN}/${P/-/_}-0ubuntu5.tar.gz"
+HOMEPAGE="https://packages.ubuntu.com/natty/a2mp3"
+SRC_URI="mirror://ubuntu/pool/universe/${PN:0:1}/${PN}/${P/-/_}.orig.tar.gz"
+#	mirror://ubuntu/pool/universe/${PN:0:1}/${PN}/${P/-/_}-0ubuntu6.debian.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
@@ -25,7 +26,7 @@ src_compile() {
 
 src_install() {
 	if use doc; then
-		emake DESTDIR="${D}" usrdoc="${D}/usr/share/doc/${P}" install
+		emake DESTDIR="${D}" usrdoc="${D}/usr/share/doc/${PF}" install
 	else
 		dobin ${PN}
 	fi
