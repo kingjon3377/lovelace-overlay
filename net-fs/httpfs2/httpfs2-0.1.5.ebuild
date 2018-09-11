@@ -1,12 +1,10 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
-
-inherit eutils
+EAPI=6
 
 DESCRIPTION="Access Web sites as a FUSE filesystem"
-HOMEPAGE="http://sourceforge.net/projects/httpfs"
+HOMEPAGE="https://sourceforge.net/projects/httpfs"
 SRC_URI="mirror://sourceforge/httpfs/${PN}/${P}.tar.gz"
 
 LICENSE="GPL-2"
@@ -20,9 +18,7 @@ DEPEND="${RDEPEND}
 	app-text/asciidoc
 	virtual/pkgconfig"
 
-src_prepare() {
-	epatch "${FILESDIR}/remove_debianisms.patch"
-}
+PATCHES=("${FILESDIR}/remove_debianisms.patch" )
 
 src_compile() {
 	default
