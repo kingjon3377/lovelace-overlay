@@ -1,4 +1,4 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 # Copyright 2011 Joseph Lehner
@@ -27,12 +27,16 @@ KEYWORDS="~amd64"
 IUSE=""
 
 DEPEND=">=dev-libs/libevent-1.4.13
-	>=dev-libs/libbsd-0.2.0"
+	>=dev-libs/libbsd-0.2.0
+	net-libs/libtirpc"
 RDEPEND="${DEPEND}"
 
 S="${WORKDIR}/${MY_P}"
 
-PATCHES=( "${WORKDIR}/${DEBIAN_DIFF_FILE}" )
+PATCHES=(
+	"${WORKDIR}/${DEBIAN_DIFF_FILE}"
+	"${FILESDIR}/trickle-1.07_p10-tirpc.patch"
+)
 
 src_prepare() {
 	default

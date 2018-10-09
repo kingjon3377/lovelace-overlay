@@ -1,0 +1,18 @@
+--- a/Makefile.am	2018-10-09 17:08:39.332802460 -0400
++++ b/Makefile.am	2018-10-09 17:10:50.086167818 -0400
+@@ -24,12 +24,12 @@
+ 
+ trickled_SOURCES = trickled.c atomicio.c print.c bwstat.c client.c conf.c \
+                    util.c cleanup.c getopt.c xdr.c
+-trickled_LDADD = @EVENTLIB@ -lbsd
++trickled_LDADD = @EVENTLIB@ -lbsd -ltirpc
+ 
+ tricklectl_SOURCES = tricklectl.c trickledu.c atomicio.c xdr.c
+-tricklectl_LDADD = @ERRO@  -lbsd
++tricklectl_LDADD = @ERRO@  -lbsd -ltirpc
+ 
+-AM_CFLAGS = -Wall -Icompat @EVENTINC@
++AM_CFLAGS = -Wall -Icompat -I/usr/include/tirpc @EVENTINC@
+ 
+ overloaddir = $(libdir)
+ #overload_DATA = libtrickle.so
