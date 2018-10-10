@@ -25,6 +25,7 @@ src_prepare() {
 		-e "s@^CXXFLAGS=.*@CXXFLAGS=${CXXFLAGS}@" \
 		-e 's@^LIBS=.*@& $(LDFLAGS)@' \
 		Makefile || die
+	default
 }
 
 src_install() {
