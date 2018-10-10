@@ -1,8 +1,8 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-EGIT_REPO_URI="git://git.debian.org/git/collab-maint/buthead.git"
+EGIT_REPO_URI="https://salsa.debian.org/debian/buthead.git"
 
 inherit git-r3 toolchain-funcs
 

@@ -1,9 +1,9 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
 
-EGIT_REPO_URI=git://gitorious.org/debian-packages/rolldice.git
+EGIT_REPO_URI=https://gitorious.org/debian-packages/rolldice.git
 
 inherit games git-r3 eutils toolchain-funcs
 

@@ -1,8 +1,9 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
 
+# As of 2018-10-09, https://git.madduck.net certificate had expired
 EGIT_REPO_URI="git://git.madduck.net/madduck/pub/code/mailplate.git"
 
 inherit git-r3

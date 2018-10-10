@@ -1,4 +1,4 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
@@ -13,7 +13,7 @@ inherit eutils distutils-r1
 if [[ ${PV} == "9999" ]] ; then
 	inherit git-r3
 	EGIT_BRANCH="master"
-	EGIT_REPO_URI="git://gitorious.org/be/be.git"
+	EGIT_REPO_URI="https://gitorious.org/be/be.git"
 	SRC_URI=""
 else
 	SRC_URI="http://bugseverywhere.org/releases/be-${PV}.tar.gz"
