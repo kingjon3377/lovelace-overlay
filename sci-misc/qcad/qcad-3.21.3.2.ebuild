@@ -4,7 +4,7 @@
 EAPI=6
 
 LANGS="cs da de el en es et fr hu it nl no pa pl ru sk tr"
-inherit eutils qmake-utils
+inherit eutils qmake-utils versionator
 
 manual_cs="2.0.4.0-1"
 manual_de="2.1.0.0-1"
@@ -44,12 +44,17 @@ DEPEND="${RDEPEND}
 	>=sys-devel/gcc-4"
 
 src_prepare() {
-	if has_version '>=dev-qt/qtscript-5.7.1' && ! test -d src/3rdparty/qt-labs-qtscriptgenerator-5.7.1;then
+	local qt_version=$(best_version dev-qt/qtscript:5 | sed 's@dev-qt/qtscript-@@')
+	if ! test -d src/3rdparty/qt-labs-qtscriptgenerator-${qt_version}; then
 		local fname=qt-labs-qtscriptgenerator
-		mkdir -p src/3rdparty/${fname}-5.7.1 || die
-		cp src/3rdparty/${fname}-5.7.0/${fname}-5.7.0.pro \
-			src/3rdparty/${fname}-5.7.1/${fname}-5.7.1.pro || die
+		same_slot_version=$(ls -d src/3rdparty/${fname}-$(get_version_component_range 1-2 ${qt_version})* | \
+							tail -n 1 | sed "s@src/3rdparty/${fname}-@@")
+		test -n "${same_slot_version}" || die "No QtScript bindings in the same SLOT as ${qt_version}"
+		mkdir -p src/3rdparty/${fname}-${qt_version} || die
+		cp "src/3rdparty/${fname}-${same_slot_version}/${fname}-${same_slot_version}.pro" \
+			"src/3rdparty/${fname}-${qt_version}/${fname}-${qt_version}.pro" || die
 	fi
+	default
 }
 
 src_configure() {
