@@ -1,12 +1,12 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
 
 #EGIT_REPO_URI="git://neugierig.org/c-repl.git"
-#EGIT_REPO_URI="git://github.com/martine/c-repl.git"
-#EGIT_REPO_URI="git://github.com/mpereira/c-repl.git"
-EGIT_REPO_URI="git://github.com/berdario/c-repl.git"
+#EGIT_REPO_URI="https://github.com/martine/c-repl.git"
+#EGIT_REPO_URI="https://github.com/mpereira/c-repl.git"
+EGIT_REPO_URI="https://github.com/berdario/c-repl.git"
 CABAL_FEATURES="bin"
 inherit eutils haskell-cabal git-r3
 
