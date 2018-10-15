@@ -3,7 +3,7 @@
 
 EAPI=6
 
-inherit toolchain-funcs autotools eutils
+inherit toolchain-funcs autotools ltprune
 
 DESCRIPTION="Pidgin plugin to play typewriter sounds when buddies are typing"
 HOMEPAGE="https://github.com/ragb/purple-typewriter"
@@ -18,6 +18,7 @@ DEPEND="net-im/pidgin" # TODO: what USE flags?
 RDEPEND="${DEPEND}"
 
 src_prepare() {
+	default
 	tc-export CC
 	eautoreconf
 }
@@ -26,5 +27,5 @@ DOCS=( AUTHORS ChangeLog NEWS README )
 
 src_install() {
 	default
-	prune_libtool_files --modules
+	prune_libtool_files --modules # TODO: Just use 'find', per the eclass
 }
