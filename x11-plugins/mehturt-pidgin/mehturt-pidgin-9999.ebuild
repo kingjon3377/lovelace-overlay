@@ -17,7 +17,8 @@ KEYWORDS="~amd64"
 IUSE=""
 
 DEPEND="net-im/pidgin
-	dev-libs/glib:2"
+	dev-libs/glib:2
+	net-libs/libnsl"
 RDEPEND="${DEPEND}"
 
 DOCS=( README.md )
