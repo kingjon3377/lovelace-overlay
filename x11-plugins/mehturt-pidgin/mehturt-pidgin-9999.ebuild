@@ -23,6 +23,7 @@ RDEPEND="${DEPEND}"
 DOCS=( README.md )
 
 src_prepare() {
+	default
 	sed -i \
 		-e '/^CC=/d' \
 		-e 's/^CFLAGS=/CFLAGS+=/' \
