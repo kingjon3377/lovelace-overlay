@@ -22,6 +22,7 @@ src_prepare() {
 	if has_version 'sys-libs/ncurses:0[tinfo]';then
 		sed -i -e 's@-lcurses @&-ltinfo @' Makefile || die
 	fi
+	default
 }
 
 src_compile() {
