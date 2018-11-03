@@ -1,10 +1,10 @@
 # Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
-PYTHON_COMPAT=( python2_7 )
+EAPI=6
+PYTHON_COMPAT=( python2_7 python3_6 )
 
-inherit eutils distutils-r1
+inherit distutils-r1
 
 DESCRIPTION="Download fanfiction from various sites in ebook form"
 HOMEPAGE="https://github.com/jimmxinu/fanficfare"
@@ -24,6 +24,11 @@ DEPEND="${RDEPEND}"
 
 # TODO: Add USE flag for calibre plugin and web-service
 
+PATCHES=(
+	"${FILESDIR}/dwiggie-fff-3.patch"
+	"${FILESDIR}/${PN}-2.2.20-system-config.patch"
+)
+
 src_prepare() {
 #	edos2unix $(find . -type f -print) || die # a file has a space in it, so inline
 	find . -type f \( -name \*.png -o -exec sed -i 's/\r$//' -- {} + \) || die
@@ -34,8 +39,6 @@ src_prepare() {
 		-e 's/from \(\.\|\.\.\) \(import BeautifulSoup\)/\2/' \
 		-e 's/from \.\.BeautifulSoup import/from BeautifulSoup import/' \
 		{} + || die
-	epatch "${FILESDIR}/dwiggie-fff.patch"
-	epatch "${FILESDIR}/${PN}-2.2.20-system-config.patch"
 	distutils-r1_src_prepare
 }
 

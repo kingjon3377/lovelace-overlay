@@ -1,5 +1,5 @@
---- fanficfare/cli.py.old	2015-10-02 14:44:52.463307390 -0400
-+++ fanficfare/cli.py	2015-10-02 14:45:44.170660959 -0400
+--- a/fanficfare/cli.py.old	2015-10-02 14:44:52.463307390 -0400
++++ b/fanficfare/cli.py	2015-10-02 14:45:44.170660959 -0400
 @@ -216,6 +216,7 @@
      else:
          # don't need to check existance for our selves.
