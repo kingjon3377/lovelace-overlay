@@ -25,3 +25,10 @@ src_prepare() {
 
 	default
 }
+
+src_install() {
+	dodir /usr/bin /usr/share/man/man{1,8}
+	emake BIN_GROUP=root BIN_DIR="${D}/usr/bin" MAN_GROUP=root \
+		MAN_1_DIR="${D}/usr/share/man/man1" MAN_8_DIR="${D}/usr/share/man/man8" \
+		install install.man
+}
