@@ -1,0 +1,31 @@
+diff -ru rdist-7.0.0-alpha10/src.old/GNUmakefile.in rdist-7.0.0-alpha10/src/GNUmakefile.in
+--- rdist-7.0.0-alpha10/src.old/GNUmakefile.in	2018-11-07 18:48:45.036298263 -0500
++++ rdist-7.0.0-alpha10/src/GNUmakefile.in	2018-11-07 18:49:14.234299197 -0500
+@@ -94,7 +94,7 @@
+ distclean: clean
+ 	rm -f GNUmakefile $(DEPEND_FILES)
+ 
+-install: install.files install.sbin
++install: install.files
+ 
+ install.files:
+ 	@$(MKDIRHIER) $(BIN_DIR)
+@@ -104,18 +104,6 @@
+ 	$(INSTALL) -o ${BIN_OWNER} -g $(BIN_GROUP) -m ${RDISTD_MODE} \
+ 		$(SERVER_BIN) $(SBIN_DIR)/$(SERVER)
+ 
+-#
+-# If we're installing in /usr, then make sure we don't leave any
+-# old versions of rdistd lying around.
+-#
+-install.sbin:
+-	@if [ "${prefix}" = "/usr" -a -f /usr/sbin/rdistd ]; then \
+-		rdistd=$(SBIN_DIR)/$(SERVER); \
+-		echo "Linking /usr/sbin/rdistd -> $$rdistd"; \
+-		rm -f /usr/sbin/rdistd; \
+-		ln -s $$rdistd /usr/sbin/rdistd; \
+-	fi
+-
+ 
+ install.man:
+ 

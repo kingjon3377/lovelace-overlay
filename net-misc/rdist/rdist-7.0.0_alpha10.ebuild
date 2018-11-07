@@ -17,6 +17,8 @@ RDEPEND="crypt? ( virtual/ssh )"
 
 S="${WORKDIR}/${P/_/-}"
 
+PATCHES=( "${FILESDIR}/${P}-sandbox.patch" )
+
 src_prepare() {
 	# remove yacc-isms eschewed by modern bisons
 	sed -i -e '/^%type/ s/,//g' -e 's/= {/{/g' src/gram.y || die "fixup of gram.y failed"
@@ -30,5 +32,6 @@ src_install() {
 	dodir /usr/bin /usr/share/man/man{1,8}
 	emake BIN_GROUP=root BIN_DIR="${D}/usr/bin" MAN_GROUP=root \
 		MAN_1_DIR="${D}/usr/share/man/man1" MAN_8_DIR="${D}/usr/share/man/man8" \
-		install install.man
+		SBIN_DIR="${D}/usr/sbin" \
+		install
 }
