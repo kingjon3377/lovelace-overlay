@@ -1,4 +1,4 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
@@ -14,8 +14,8 @@ PYTHON_COMPAT=( python2_{6,7} )
 inherit distutils-r1
 
 DESCRIPTION="a LOGO-like tool for teaching programming"
-HOMEPAGE="http://wiki.sugarlabs.org/go/Activities/Turtle_Art"
-SRC_URI="http://download.sugarlabs.org/sources/sucrose/fructose/TurtleArt/${MY_P}.tar.bz2"
+HOMEPAGE="https://wiki.sugarlabs.org/go/Activities/Turtle_Art"
+SRC_URI="https://download.sugarlabs.org/sources/sucrose/fructose/TurtleArt/${MY_P}.tar.bz2"
 
 LICENSE="BSD-1"
 SLOT="0"
