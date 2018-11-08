@@ -11,5 +11,6 @@
     <flag name="sdlsound">Enable sound support via <pkg>media-libs/sdl-sound</pkg></flag>
     <flag name="httpd">Enable HTTP server component</flag>
     <flag name="openssl">Enable SSL support via <pkg>dev-libs/openssl</pkg></flag>
+	<flag name="gtk3">Enable <pkg>x11-libs/gtk+</pkg>:3 support</flag>
   </use>
 </pkgmetadata>

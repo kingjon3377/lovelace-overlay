@@ -1,9 +1,9 @@
 # Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-inherit autotools eutils xdg-utils libtool multilib
+inherit autotools eutils xdg-utils multilib libtool
 
 DESCRIPTION="A free IDE based on a Basic interpreter with object extensions"
 HOMEPAGE="http://gambas.sourceforge.net/"
@@ -11,19 +11,26 @@ HOMEPAGE="http://gambas.sourceforge.net/"
 SLOT="3"
 MY_PN="${PN}${SLOT}"
 MY_P="${MY_PN}-${PV}"
-SRC_URI="mirror://sourceforge/${PN}/${MY_P}.tar.bz2"
+SRC_URI="https://gitlab.com/${PN}/${PN}/-/archive/${PV}/${P}.tar.bz2"
 LICENSE="GPL-2"
 
 KEYWORDS="~amd64 ~x86"
-IUSE="
-	+bzip2 +cairo crypt +curl dbus +desktop examples gmp gsl +gtk httpd +imageio imageimlib \
-	jit +media mysql +mime +ncurses +net +opengl postgres odbc openssl openal +pcre +pdf \
-	+sdl +sdlsound smtp +sqlite +svg +v4l +xml +zlib"
+DEF_ON_FLAGS=( bzip2 cairo curl desktop gtk3 imageio media mime ncurses net
+				opengl pcre pdf qt5 sdl sdlsound sqlite svg v4l xml zlib )
+DEF_OFF_FLAGS=( crypt dbus examples gmp gsl gtk httpd imageimlib jit mysql
+				postgres odbc openssl openal smtp )
+for flag in "${DEF_ON_FLAGS[@]}";do
+	IUSE+=" +${flag}"
+done
+for flag in "${DEF_OFF_FLAGS[@]}";do
+	IUSE+=" ${flag}"
+done
 
-REQUIRED_USE="gtk? ( cairo ) media? ( v4l ) mysql? ( zlib ) net? ( curl ) sdl? ( opengl ) xml? ( net ) net? ( mime )"
+REQUIRED_USE="gtk3? ( cairo ) gtk? ( cairo ) media? ( v4l ) mysql? ( zlib ) net? ( curl ) sdl? ( opengl ) xml? ( net ) net? ( mime )"
 
 # libcrypt.so is part of glibc
 # gtk? ( x11-libs/gtk+:2[cups] )
+# TODO: check gtk3, other, deps
 COMMON_DEPEND="
 	bzip2?	( app-arch/bzip2 )
 	cairo?	( x11-libs/cairo )
@@ -38,8 +45,13 @@ COMMON_DEPEND="
 	gsl?	( sci-libs/gsl )
 	gtk?	(
 		x11-libs/gtk+:2
+		x11-libs/cairo
 		svg? ( gnome-base/librsvg:2 )
 		x11-libs/gtkglext
+	)
+	gtk3? (
+		x11-libs/gtk+:3
+		x11-libs/cairo
 	)
 	imageio? ( x11-libs/gdk-pixbuf:2 )
 	imageimlib?	( media-libs/imlib2 )
@@ -50,8 +62,12 @@ COMMON_DEPEND="
 		media-plugins/gst-plugins-xvideo
 	)
 	mysql?	( >=virtual/mysql-5.0 )
-	mime?	( dev-libs/gmime:2.6 )
+	mime? ( || (
+		dev-libs/gmime:3.0
+		dev-libs/gmime:2.6
+	) )
 	ncurses? ( sys-libs/ncurses:0 )
+	net? ( >=net-misc/curl-7.13 )
 	odbc?	( dev-db/unixODBC )
 	openal? ( media-libs/alure )
 	opengl?	(
@@ -64,9 +80,15 @@ COMMON_DEPEND="
 	pcre?	( dev-libs/libpcre:3 )
 	pdf?	( app-text/poppler )
 	postgres?	( dev-db/postgresql:= )
+	qt5? (
+		dev-qt/qtgui:5
+		dev-qt/qtwebkit:5
+		dev-qt/qtcore:5
+		dev-qt/qtopengl:5
+	)
 	sdl?	(
-		media-libs/sdl-image
-		media-libs/sdl-mixer
+		>=media-libs/sdl-image-1.2.6-r1
+		>=media-libs/sdl-mixer-1.2.7
 		media-libs/sdl-ttf
 	)
 	sdlsound?	( media-libs/sdl-sound )
@@ -94,14 +116,28 @@ DEPEND="${COMMON_DEPEND}
 
 RDEPEND="${COMMON_DEPEND}"
 
-S="${WORKDIR}/${MY_P}"
+PATCHES=(
+	# "${FILESDIR}/${P}-xdgutils.patch"
+	"${FILESDIR}/${PN}-3.10.0-xdgutils.patch"
+)
 
 src_prepare() {
-	epatch "${FILESDIR}/${P}-xdgutils.patch"
-	sed -i -e 's:^\(gb_image_la_CFLAGS = -I\$(top_srcdir)/share \)\(\$(AM_CFLAGS)\)$:\1-lm \2:' \
-		main/lib/image/Makefile.am || die
-	elibtoolize
+	default
+	sed -i -e 's@scrdir@srcdir@' */Makefile.am || die
 	eautoreconf
+	for dir in "${S}"/gb.*;do
+		if ! test -d "${dir}"; then
+			einfo "${dir} is not a directory, skipping eautoreconf"
+			continue
+		elif test -f "${dir}/.elibtoolized"; then
+			einfo "eautoreconf already ran in ${dir}, skipping"
+			continue
+		else
+			cd "${dir}" || die "Failed to enter ${dir}"
+			eautoreconf
+			cd "${S}" || die "Failed to return to \$S"
+		fi
+	done
 }
 
 src_configure() {
@@ -111,6 +147,7 @@ src_configure() {
 		$(use_enable mysql) \
 		$(use_enable odbc) \
 		$(use_enable postgres postgresql) \
+		--disable-sqlite2 \
 		$(use_enable sqlite sqlite3) \
 		$(use_enable net) \
 		$(use_enable curl) \
@@ -123,7 +160,10 @@ src_configure() {
 		$(use_enable xml) \
 		$(use_enable v4l) \
 		$(use_enable crypt) \
+		--disable-qt4 \
+		$(use_enable qt5) \
 		$(use_enable gtk) \
+		$(use_enable gtk3) \
 		$(use_enable opengl) \
 		$(use_enable desktop) \
 		$(use_enable pdf) \
@@ -152,7 +192,7 @@ src_install() {
 	use jit && newdoc gb.jit/README gb.jit-README
 	use smtp && newdoc gb.net.smtp/README gb.net.smtp-README
 
-	if { use gtk; } ; then
+	if { use qt5 || use gtk || use gtk3; } ; then
 		insinto /usr/share/applications
 		doins app/desktop/gambas3.desktop
 
@@ -165,7 +205,7 @@ src_install() {
 }
 
 my_xdg_update() {
-	{ use gtk; } && xdg_desktop_database_update
+	{ use qt5 || use gtk || use gtk3; } && xdg_desktop_database_update
 	xdg_mime_database_update
 }
 

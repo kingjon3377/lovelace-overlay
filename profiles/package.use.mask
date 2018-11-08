@@ -1,0 +1,3 @@
+# For some reason failing to find a header in a directory that is explicitly added to the include path
+=dev-util/gambas-3.11.4 qt5
+
