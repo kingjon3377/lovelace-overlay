@@ -26,6 +26,7 @@ src_prepare() {
 	sed -i -e "s,^CC =  gcc$,CC = $(tc-getCC)," \
 		-e "s,^CFLAGS = -O2 -W -Wall -I/usr/local/include -L/usr/local/lib,CFLAGS = ${CFLAGS}," \
 		Makefile || die
+	default
 }
 
 src_install() {
