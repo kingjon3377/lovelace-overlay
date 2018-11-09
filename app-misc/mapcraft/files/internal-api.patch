@@ -1,6 +1,6 @@
-diff -ru src.old//editor/MapImage.java src/editor/MapImage.java
---- src.old//editor/MapImage.java	2012-02-14 02:00:00.000000000 -0500
-+++ src/editor/MapImage.java	2012-02-14 02:03:08.000000000 -0500
+diff -ru a/src/editor/MapImage.java b/src/editor/MapImage.java
+--- a/src/editor/MapImage.java	2012-02-14 02:00:00.000000000 -0500
++++ b/src/editor/MapImage.java	2012-02-14 02:03:08.000000000 -0500
 @@ -17,7 +17,7 @@
  import java.io.*;
  import java.util.*;

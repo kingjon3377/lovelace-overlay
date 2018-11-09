@@ -1,6 +1,6 @@
-diff -ru src.old//editor/ThingDialog.java src/editor/ThingDialog.java
---- src.old//editor/ThingDialog.java	2012-02-14 02:08:48.000000000 -0500
-+++ src/editor/ThingDialog.java	2012-02-14 02:09:19.000000000 -0500
+diff -ru a/src/editor/ThingDialog.java b/src/editor/ThingDialog.java
+--- a/src/editor/ThingDialog.java	2012-02-14 02:08:48.000000000 -0500
++++ b/src/editor/ThingDialog.java	2012-02-14 02:09:19.000000000 -0500
 @@ -156,7 +156,7 @@
       * Get the selected terrain type for this thing.
       */
