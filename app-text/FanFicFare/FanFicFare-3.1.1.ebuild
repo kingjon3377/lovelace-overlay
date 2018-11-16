@@ -53,7 +53,9 @@ python_install_all() {
 }
 
 python_test() {
+	local expected="Not Place_ but People-ao3_257191.epub"
 	cd "${T}"
+	rm -f "${expected}"
 	"${PYTHON}" "${S}/fanficfare/cli.py" http://archiveofourown.org/works/257191 || die
-	test -f "Not Place_ but People-ao3_257191.epub" || die "Expected downloaded ebook not present"
+	test -f "${expected}" || die "Expected downloaded ebook not present"
 }
