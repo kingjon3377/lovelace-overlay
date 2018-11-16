@@ -7,6 +7,7 @@
     <flag name="desktop">Enable desktop module</flag>
     <flag name="imageimlib">Enable image IO via <pkg>media-libs/imlib2</pkg></flag>
     <flag name="media">Enable multimedia support via <pkg>media-libs/gstreamer</pkg></flag>
+	<flag name="mime">Build MIME module</flag>
     <flag name="net">Enable networking support via <pkg>net-misc/curl</pkg></flag>
     <flag name="sdlsound">Enable sound support via <pkg>media-libs/sdl-sound</pkg></flag>
     <flag name="httpd">Enable HTTP server component</flag>
