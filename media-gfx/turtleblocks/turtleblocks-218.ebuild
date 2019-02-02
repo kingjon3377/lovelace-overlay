@@ -1,7 +1,7 @@
 # Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 MY_PN=TurtleBlocks
 
@@ -19,21 +19,21 @@ SRC_URI="https://download.sugarlabs.org/sources/sucrose/fructose/TurtleArt/${MY_
 
 LICENSE="BSD-1"
 SLOT="0"
-KEYWORDS="amd64"
+KEYWORDS="~amd64"
 IUSE=""
 
 DEPEND="x11-libs/gtk+:2
-	dev-python/gconf-python:2
-	dev-python/pygobject:2
-	dev-python/gst-python:0.10
-	dev-python/pygtk:2
-	dev-python/pycurl"
+	dev-python/gconf-python:2[${PYTHON_USEDEP}]
+	dev-python/pygobject:2[${PYTHON_USEDEP}]
+	dev-python/gst-python:1.0[${PYTHON_USEDEP}]
+	dev-python/pygtk:2[${PYTHON_USEDEP}]
+	dev-python/pycurl[${PYTHON_USEDEP}]"
 RDEPEND="${DEPEND}"
 
 S="${WORKDIR}/${MY_P}"
 
 python_prepare_all() {
-	sed -i -e 's/turtleart/turtleblocks/' setup.py
+	sed -i -e 's@in path@in os.listdir(path)@' setup.py || die
 	distutils-r1_python_prepare_all
 }
 
