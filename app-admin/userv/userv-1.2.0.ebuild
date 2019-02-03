@@ -1,4 +1,4 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 # FIXME: This package was split and its version numbers reset around 2006, see
@@ -9,7 +9,7 @@ EAPI=6
 inherit toolchain-funcs
 
 DESCRIPTION="Program call across trust boundaries"
-HOMEPAGE="http://www.chiark.greenend.org.uk/~ian/userv/"
+HOMEPAGE="https://www.chiark.greenend.org.uk/~ian/userv/"
 SRC_URI="ftp://ftp.chiark.greenend.org.uk/users/ian/${PN}/${P}.tar.gz"
 
 LICENSE="GPL-2"
