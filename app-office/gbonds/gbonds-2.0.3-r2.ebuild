@@ -1,4 +1,4 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 # Copyright 2002 Paul Thompson
@@ -12,24 +12,24 @@ inherit gnome2 autotools
 # download treasury databases. I also could crash it.
 
 DESCRIPTION="A GNOME US savings bonds inventory program."
-HOMEPAGE="http://www.snaught.com/gbonds"
+HOMEPAGE="http://gbonds.sourceforge.net"
 SRC_URI="mirror://sourceforge/${PN}/${P}.tar.gz
-	mirror://debian/pool/main/g/${PN}/${PN}_${PV}-11.debian.tar.xz"
+	mirror://debian/pool/main/g/${PN}/${PN}_${PV}-12.debian.tar.xz"
 
 LICENSE="GPL-2"
 SLOT="0"
 IUSE="nls"
 KEYWORDS="~x86 ~amd64"
 
-# Some of these are pulled from the home page claims, the rest are ripped from
-# the libraries the program is linked against. Some may be redundant.
-RDEPEND="x11-libs/gtk+:2
+# Libraries the Debian package depends on.
+RDEPEND="x11-libs/gtk+:3
 		dev-libs/libxml2:2
-		gnome-base/gnome-vfs:2
+		gnome-base/gconf:2
+		x11-libs/cairo:0
 		nls? ( sys-devel/gettext )
-		x11-base/xorg-x11
-		gnome-base/libgnomeui
-		gnome-base/libbonobo"
+		x11-libs/gdk-pixbuf:2
+		dev-libs/glib:2
+		x11-libs/pango:0"
 DEPEND="${RDEPEND}
 	app-arch/xz-utils"
 
