@@ -1,23 +1,23 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 # TODO: Get improvements from version in Sunrise overlay.
 
-EAPI=5
+EAPI=6
 
 inherit perl-module multilib
 
 DESCRIPTION="Debian SGML documentation tools"
 HOMEPAGE="https://packages.debian.org/source/sid/debiandoc-sgml"
-#SRC_URI="mirror://debian/pool/main/d/debiandoc-sgml/${PN}_${PV}.tar.gz"
-SRC_URI="mirror://debian/pool/main/d/debiandoc-sgml/${PN}_${PV}.orig.tar.gz"
+SRC_URI="mirror://debian/pool/main/d/${PN}/${PN}_${PV}.orig.tar.xz
+	mirror://debian/pool/main/d/${PN}/${PN}_${PV}-2.debian.tar.xz"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="amd64"
+KEYWORDS="~amd64"
 IUSE="+latex"
 
-DEPEND="dev-perl/HTML-Parser
+COMMON_DEPEND="dev-perl/HTML-Parser
 	virtual/perl-I18N-LangTags
 	dev-perl/Roman
 	dev-perl/SGMLSpm
@@ -25,10 +25,13 @@ DEPEND="dev-perl/HTML-Parser
 	dev-perl/URI
 	app-text/sgml-common
 	app-text/openjade"
-RDEPEND="${DEPEND}
+DEPEND="${COMMON_DEPEND}
+	app-arch/xz-utils"
+RDEPEND="${COMMON_DEPEND}
 	latex? ( dev-texlive/texlive-latexextra )"
 
 src_prepare() {
+	mv "${WORKDIR}/debian" "${S}/debian" || die
 	default_src_prepare
 	sed -i -e 's,^prefix		:= /usr/local$,prefix		:= /usr,' \
 		-e 's,^man_dir		:= $(prefix)/man$,man_dir		:= $(DESTDIR)$(prefix)/man,' \
