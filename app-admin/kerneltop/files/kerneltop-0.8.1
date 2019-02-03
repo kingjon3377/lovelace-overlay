@@ -1,0 +1,132 @@
+.\" 
+.TH "KERNELTOP" "1" "May 2004" "" ""
+.SH "NAME"
+kerneltop \- shows kernel function usage in an interactive style like 'top'
+
+.SH "SYNOPSIS"
+\fBkerneltop\fR
+[
+\fIoptions\fR
+]
+
+.SH "VERSION"
+This manpage documents version 0.8 of the program.
+
+.SH "DESCRIPTION"
+.LP 
+The \fBkerneltop\fR command uses the 
+\fB/proc/profile\fR and the kernel system map to print ascii data on standard output, updated once a second. The output is organized in three columns: the first is the address of the function, the second is the name of the C function in the kernel, and the third number of clock ticks the function has taken. The output is filled with blanks to ease readability, and can either be sorted by the number of ticks per function (the default), or the address of the function.
+.SH "OPTIONS"
+.LP 
+Available command line options:
+
+.TP 
+\fB\-m\fR \fImapfile\fR
+Specify a mapfile, which by default is
+\fB/boot/System.map\fR, or \fB/boot/System.map\-`uname \-r`\fR if /boot/System.map doesn't exist. You should specify the map file on the command\-line if your current kernel isn't the last one you compiled, or `uname \-r` does not refer to the correct suffix for the current System.map file. If the name of the map file ends with `.gz' it is decompressed on the fly.
+
+.TP 
+\fB\-p\fR \fIprofile\fR
+Specify a different profiling buffer, which by default is
+\fB/proc/profile\fR.
+This should only be necessary if the proc filesystem is mounted somewhere other than /proc.
+
+.TP 
+\fB\-l\fR \fIlines\fR
+Lines. Number of lines to print on the display. Default is \fB20\fR and the maximum is \fB100\fR.
+
+.TP 
+\fB\-s\fR \fIseconds\fR
+Sleep time between each pass in seconds. Default is \fB1\fR second.
+
+.TP 
+\fB\-t\fR \fIticks\fR
+Lower threshold number of ticks to print. Default is \fB1\fR tick.
+
+.TP 
+\fB\-u\fR
+Unsorted output. Default is sorted (by ticks). Note that unsorted output is actually sorted by address.
+
+.TP 
+\fB\-V\fR
+Version. This makes \fBkerneltop\fR print its version number and exit.
+.SH "EXAMPLES"
+Display 46 lines of output (useful for 50 line terminals):
+.nf 
+   kerneltop \-l 46
+
+.fi 
+Show only proceses that use 5 ticks or more:
+.nf 
+   kerneltop \-t 5
+
+.fi 
+Show unsorted output by default:
+.nf 
+   kerneltop \-u
+
+.fi 
+.SH "INTERACTIVE Commands"
+There are a number of interactive commands available in kerneltop. The effect of these commands is documented above under \fBOPTIONS\fR.
+
+\ \<\fBh\fR\> or <\fB?\fR>: \fIHelp\fR
+
+This is simply a list of available commands for the interactive mode.
+
+\ \<\fBl\fR\>: \fILines\fR
+
+Set number of console lines to use for display
+
+\ \<\fBs\fR\>: \fISeconds\fR
+
+Set number of seconds between sample periods
+
+\ \<\fBt\fR\>: \fIThreshold\fR
+
+Set lower threshold for number of ticks required to be printed
+
+\ \<\fBq\fR\>: \fIQuit\fR
+
+Leaves the program
+
+\ \<\fBu\fR\>: \fIUnsorted/Sorted\fR
+
+Toggles between unsorted and sorted display (sorted by ticks)
+.SH "BUGS"
+.LP 
+.B kerneltop
+works with a 2.6.x or newer kernel. Do not expect previous kernels to work, but they might. YMMV.
+
+.LP 
+This program only works with ELF kernels. The change for a.out kernels
+is trivial, and left as an exercise to the a.out user.
+
+.LP 
+To enable profiling, the kernel must be rebooted, because no profiling module
+is available, and it wouldn't be easy to build. To enable profiling,
+you can specify "profile=1" on the kernel commandline.
+
+.LP 
+See
+.BR Documentation/basic_profiling.txt
+, which can be found in the Linux kernel source tree for your kernel for more information.
+
+.LP 
+Profiling is disabled when interrupts are inhibited. This means that many
+profiling ticks happen when interrupts are re\-enabled. Watch out for
+misleading information.
+
+.LP Send bug reports to:
+.B Randy Dunlap <rddunlap@osdl.org>
+.SH "FILES"
+.nf 
+/proc/profile              A binary snapshot of the profiling buffer.
+/boot/System.map           The symbol table for the kernel.
+/usr/src/linux/*           The program being profiled :\-)
+.fi 
+
+.SH "AUTHOR"
+This program is written by Randy Dunlap <rddunlap@osdl.org>, and is largely based on readprofile by Alessandro Rubini <rubini@ipvvis.unipv.it>.
+.SH "SEE ALSO"
+.BR readprofile(1),
+.BR top(1)

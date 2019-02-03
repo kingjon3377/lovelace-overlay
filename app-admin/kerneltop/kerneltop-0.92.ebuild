@@ -11,24 +11,18 @@ SRC_URI="https://www.infradead.org/~rdunlap/src/${P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="amd64"
+KEYWORDS="~amd64"
 IUSE=""
 
 DEPEND=""
 RDEPEND="${DEPEND}"
 
-src_prepare() {
-	eapply "${FILESDIR}"/*.patch
-	gunzip ${PN}.1.gz
-	default
-}
-
 src_compile() {
-	emake CC=$(tc-getCC) "CCFLAGS=${CFLAGS}" DEBUG=y all
+	emake CC=$(tc-getCC) "CCFLAGS=${CFLAGS} ${CPPFLAGS} ${LDFLAGS}" DEBUG=y all
 }
 
 src_install() {
 	dobin ${PN}
-	doman ${PN}.1
+	newman "${FILESDIR}/${PN}-0.8.1" "${PN}.1"
 	dodoc "${FILESDIR}/README.Debian"
 }
