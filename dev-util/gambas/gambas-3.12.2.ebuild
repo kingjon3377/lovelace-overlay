@@ -11,41 +11,72 @@ HOMEPAGE="http://gambas.sourceforge.net/"
 SLOT="3"
 MY_PN="${PN}${SLOT}"
 MY_P="${MY_PN}-${PV}"
-SRC_URI="mirror://sourceforge/${PN}/${MY_P}.tar.bz2"
+SRC_URI="https://gitlab.com/${PN}/${PN}/-/archive/${PV}/${P}.tar.bz2"
 LICENSE="GPL-2"
 
 KEYWORDS="~amd64 ~x86"
-IUSE="
-	+bzip2 cairo crypt +curl dbus desktop +examples gsl +gtk +imageio imageimlib \
-	jit +media mysql mime +ncurses net +opengl postgres odbc +pcre +pdf \
-	+qt5 +sdl +sdlsound smtp +sqlite +svg v4l +xml +zlib"
-# doc
+DEF_ON_FLAGS=( bzip2 cairo curl desktop gtk3 imageio media mime ncurses net
+				opengl pcre pdf qt5 sdl sdlsound sqlite svg v4l xml zlib )
+DEF_OFF_FLAGS=( crypt dbus examples gmp gsl gtk httpd imageimlib jit mysql
+				postgres odbc openssl openal smtp )
+for flag in "${DEF_ON_FLAGS[@]}";do
+	IUSE+=" +${flag}"
+done
+for flag in "${DEF_OFF_FLAGS[@]}";do
+	IUSE+=" ${flag}"
+done
 
+REQUIRED_USE="gtk3? ( cairo ) gtk? ( cairo ) media? ( v4l ) mysql? ( zlib ) net? ( curl ) sdl? ( opengl ) xml? ( net ) net? ( mime )"
+
+# libcrypt.so is part of glibc
+# gtk? ( x11-libs/gtk+:2[cups] )
+# TODO: check gtk3, other, deps
 COMMON_DEPEND="
 	bzip2?	( app-arch/bzip2 )
 	cairo?	( x11-libs/cairo )
 	curl?	( net-misc/curl )
-	desktop?	( x11-libs/libXtst )
+	dbus?	( sys-apps/dbus )
+	desktop?	(
+		x11-libs/libXtst
+		x11-misc/xdg-utils
+		gnome-base/gnome-keyring
+	)
+	gmp?	( dev-libs/gmp:0 )
 	gsl?	( sci-libs/gsl )
 	gtk?	(
 		x11-libs/gtk+:2
 		x11-libs/cairo
 		svg? ( gnome-base/librsvg:2 )
+		x11-libs/gtkglext
+	)
+	gtk3? (
+		x11-libs/gtk+:3
+		x11-libs/cairo
 	)
 	imageio? ( x11-libs/gdk-pixbuf:2 )
 	imageimlib?	( media-libs/imlib2 )
 	jit?	( >=sys-devel/llvm-3.1:= )
-	media?	( media-libs/gstreamer:0.10 )
+	media?	(
+		media-libs/gstreamer:1.0
+		media-libs/gst-plugins-base:1.0
+		media-plugins/gst-plugins-xvideo
+	)
 	mysql?	( >=virtual/mysql-5.0 )
-	mime?	( dev-libs/gmime:2.6 )
+	mime? ( || (
+		dev-libs/gmime:3.0
+		dev-libs/gmime:2.6
+	) )
 	ncurses? ( sys-libs/ncurses:0 )
 	net? ( >=net-misc/curl-7.13 )
 	odbc?	( dev-db/unixODBC )
+	openal? ( media-libs/alure )
 	opengl?	(
 		media-libs/mesa
+		|| ( x11-libs/libGLw x11-drivers/nvidia-drivers )
 		media-libs/glew:0
 		virtual/glu
 	)
+	openssl?	( dev-libs/openssl:0 )
 	pcre?	( dev-libs/libpcre:3 )
 	pdf?	( app-text/poppler )
 	postgres?	( dev-db/postgresql:= )
@@ -58,12 +89,14 @@ COMMON_DEPEND="
 	sdl?	(
 		>=media-libs/sdl-image-1.2.6-r1
 		>=media-libs/sdl-mixer-1.2.7
+		media-libs/sdl-ttf
 	)
-	sqlite?	( dev-db/sqlite:3 )
 	sdlsound?	( media-libs/sdl-sound )
 	smtp?	( dev-libs/glib:2 )
+	sqlite?	( dev-db/sqlite:3 )
 	svg?	( gnome-base/librsvg )
 	v4l?	(
+		media-tv/v4l-utils
 		media-libs/libpng:0
 		virtual/jpeg:0
 	)
@@ -72,6 +105,8 @@ COMMON_DEPEND="
 		dev-libs/libxslt
 	)
 	zlib?	( sys-libs/zlib )
+	x11-libs/libSM
+	x11-libs/libXcursor
 	virtual/libffi
 "
 
@@ -81,13 +116,27 @@ DEPEND="${COMMON_DEPEND}
 
 RDEPEND="${COMMON_DEPEND}"
 
-S="${WORKDIR}/${PN}3-${PV}"
-
-PATCHES=( "${FILESDIR}/${P}-xdgutils.patch" "${FILESDIR}/${P}-poppler-compat.patch" )
+PATCHES=(
+	"${FILESDIR}/${P}-xdgutils.patch"
+)
 
 src_prepare() {
 	default
+	sed -i -e 's@scrdir@srcdir@' */Makefile.am || die
 	eautoreconf
+	for dir in "${S}"/gb.*;do
+		if ! test -d "${dir}"; then
+			einfo "${dir} is not a directory, skipping eautoreconf"
+			continue
+		elif test -f "${dir}/.elibtoolized"; then
+			einfo "eautoreconf already ran in ${dir}, skipping"
+			continue
+		else
+			cd "${dir}" || die "Failed to enter ${dir}"
+			eautoreconf
+			cd "${S}" || die "Failed to return to \$S"
+		fi
+	done
 }
 
 src_configure() {
@@ -97,6 +146,7 @@ src_configure() {
 		$(use_enable mysql) \
 		$(use_enable odbc) \
 		$(use_enable postgres postgresql) \
+		--disable-sqlite2 \
 		$(use_enable sqlite sqlite3) \
 		$(use_enable net) \
 		$(use_enable curl) \
@@ -109,8 +159,10 @@ src_configure() {
 		$(use_enable xml) \
 		$(use_enable v4l) \
 		$(use_enable crypt) \
+		--disable-qt4 \
 		$(use_enable qt5) \
 		$(use_enable gtk) \
+		$(use_enable gtk3) \
 		$(use_enable opengl) \
 		$(use_enable desktop) \
 		$(use_enable pdf) \
@@ -119,20 +171,21 @@ src_configure() {
 		$(use_enable imageimlib) \
 		$(use_enable dbus) \
 		$(use_enable gsl) \
+		$(use_enable gmp) \
 		$(use_enable ncurses) \
 		$(use_enable media) \
-		$(use_enable jit)
+		$(use_enable jit) \
+		$(use_enable httpd) \
+		$(use_enable openssl) \
+		$(use_enable openal)
+	# TODO: Report broken qtwebkit pkg-config file this works around
+	sed -i -e 's@-I/usr/include/qt5/Qt5WebKit@-I/usr/include/qt5/QtWebKit@g' gb.qt5/src/webkit/Makefile || die
 }
 
-#src_compile() {
-#	emake LIBTOOLFLAGS="--quiet"
-#}
-
 src_install() {
-	DESTDIR="${D}" make install
+	DESTDIR="${D}" emake -j1 install # Sometimes fails with "file exists" errors.
 
-	svn log > ChangeLog
-	dodoc AUTHORS ChangeLog README
+	dodoc AUTHORS README TODO
 	use net && newdoc gb.net/src/doc/README gb.net-README
 	use net && newdoc gb.net/src/doc/changes.txt gb.net-ChangeLog
 	use pcre && newdoc gb.pcre/src/README gb.pcre-README
@@ -140,14 +193,12 @@ src_install() {
 	use jit && newdoc gb.jit/README gb.jit-README
 	use smtp && newdoc gb.net.smtp/README gb.net.smtp-README
 
-	if { use qt5 || use gtk; } ; then
+	if { use qt5 || use gtk || use gtk3; } ; then
 		insinto /usr/share/applications
 		doins app/desktop/gambas3.desktop
-		insinto /usr/share/icons/hicolor/128x128/apps
-		newins app/src/${PN}3/img/logo/logo.png gambas3.png
 
-		insinto /usr/share/icons/hicolor/64x64/mimetypes
-		doins app/mime/*.png main/mime/*.png
+		newicon -s 128 app/src/${MY_PN}/img/logo/logo.png gambas3.png
+		doicon -s 64 -c mimetypes app/mime/*.png main/mime/*.png
 
 		insinto /usr/share/mime/application
 		doins app/mime/*.xml main/mime/*.xml
@@ -155,12 +206,8 @@ src_install() {
 }
 
 my_xdg_update() {
-	{ use qt5 || use gtk; } && xdg_desktop_database_update
+	{ use qt5 || use gtk || use gtk3; } && xdg_desktop_database_update
 	xdg_mime_database_update
-}
-
-pkg_preinst() {
-	libtool --finish "${D}/usr/lib64/gambas3" || die "finish failed"
 }
 
 pkg_postinst() {
