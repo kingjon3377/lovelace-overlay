@@ -1,0 +1,21 @@
+diff -ru sleepenh-1.7.old/Makefile sleepenh-1.7/Makefile
+--- sleepenh-1.7.old/Makefile	2019-02-03 13:15:04.166374040 -0500
++++ sleepenh-1.7/Makefile	2019-02-03 13:16:14.835374040 -0500
+@@ -6,7 +6,7 @@
+ CC = gcc
+ CFLAGS = -std=gnu11 -Wall -Wextra -O2 $(EXTRA_CFLAGS)
+ 
+-targets := sleepenh sleepenh.1.gz
++targets := sleepenh
+ 
+ all: $(targets)
+ 
+@@ -23,7 +23,7 @@
+ 
+ install: $(targets)
+ 	install -D -m 0755 -o root -g root sleepenh ${DESTDIR}/usr/bin/sleepenh
+-	install -D -m 0644 -o root -g root sleepenh.1.gz ${DESTDIR}/usr/share/man/man1/sleepenh.1.gz
++	install -D -m 0644 -o root -g root sleepenh.1 ${DESTDIR}/usr/share/man/man1/sleepenh.1
+ 
+ define vcsversion
+ '$(shell git describe --dirty | sed -e 's,^\(.*\)/\([^/]\+\),\2/\1,;s,^.*$$,\"&\",')'

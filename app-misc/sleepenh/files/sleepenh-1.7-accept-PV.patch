@@ -1,0 +1,12 @@
+diff -ru sleepenh-1.7.old/Makefile sleepenh-1.7/Makefile
+--- sleepenh-1.7.old/Makefile	2019-02-03 13:18:19.120374040 -0500
++++ sleepenh-1.7/Makefile	2019-02-03 13:18:39.795374040 -0500
+@@ -16,7 +16,7 @@
+ 	rm -f $(.clean)
+ endif
+ 
+-sleepenh: CFLAGS += -DVCSVERSION=$(call vcsversion)
++sleepenh: CFLAGS += -DVCSVERSION=\"$(PV)\"
+ 
+ %.1.gz: %.1
+ 	gzip -9 < $< > $@
