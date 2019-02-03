@@ -4,8 +4,8 @@
 EAPI=5
 
 DESCRIPTION="Boolean line manipulator utility program for set operations"
-HOMEPAGE="https://packages.debian.org/sid/blm"
-SRC_URI="mirror://debian/pool/main/b/blm/${P/-/_}.orig.tar.gz"
+HOMEPAGE="https://complearn.org/download.html"
+SRC_URI="https://complearn.org/downloads/${P}.tar.gz"
 
 LICENSE="BSD"
 SLOT="0"
