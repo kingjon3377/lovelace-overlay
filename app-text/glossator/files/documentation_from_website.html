@@ -1,0 +1,123 @@
+<!-- Downloaded from http://www.geocities.com/mfp_99/glossator.html -->
+<HTML>
+<HEAD>
+<TITLE>Glossator - a program to help readers of Latin</TITLE>
+</HEAD>
+<BODY>
+
+<H1>Glossator</H1>
+<P>Glossator is a program to make it easier to read Latin.  From top
+to bottom, the interface consists of a menu bar, a main text window,
+and a gloss window.  The menu bar lets you load a file into the main
+text window, copy, cut, and paste.  The main text window holds the
+text with which you're working and lets you edit it.  When your mouse
+passes over a word in the main text window, Glossator automatically
+looks it up and displays possible forms (an example of a form is "verb
+indicative active present 3rd person singular") and a brief definition
+or definitions in the gloss window.</P>
+
+<P>Glossator is written in <A
+HREF="http://www.scriptics.com/products/tcltk/">Tcl/Tk</A>, a
+cross-platform scripting language with a GUI toolkit.  It uses some
+data files from <A
+HREF="http://users.erols.com/whitaker/words.htm">Whitaker's Words</A>,
+a dictionary program with a large vocabulary and a command line
+interface.  No code from this program is used.  As a result, Glossator
+doesn't handle some of the hard cases which Words does (prefixes,
+suffixes, syncopated forms, roman numerals, etc.).  The reason for
+this is that I wrote this as a small project and didn't want to deal
+with integrating Ada and Tcl/Tk (especially since I don't know Ada).
+The parsing may become more complete in the future.</P>
+
+<P>The glossator source files (<CODE>glossator.tcl</CODE> and
+<CODE>words.tcl</CODE>) are placed in the public domain, so you can
+use them for whatever you want.  The data files are part of Words, and
+are being redistributed by permission.  Glossator comes with no
+warrantee or guarantee of any sort.</P>
+
+<H2>Installation</H2>
+<OL>
+<LI>Install <A
+HREF="http://tcl.activestate.com/software/tcltk/downloadnow83.html">Tcl/Tk
+8.3</A> unless you already have a compatible version (8.2 or later) installed.
+<LI>Download Glossator 0.1 <A HREF="gloss01.zip">gloss01.zip</A>
+(about 750KB, unpacks to about 4MB) and unpack the zip file in the
+directory where you'd like to keep Glossator.
+<LI>On Windows, double-click <CODE>glossator</CODE> to start the
+program.  I suppose you do the same thing on a Mac, although I've
+never run a Tcl program on a Mac.  On Unix, run <CODE>wish
+glossator.tcl</CODE>.
+<LI>If you want a more convenient way to start Glossator on Windows,
+you can drag the glossator icon to the desktop with the <EM>right</EM>
+mouse button and select &quot;Create Shortcut(s) Here&quot;.  If you
+want to put it in the Start menu, open the Start menu by
+right-clicking on the Start button and picking Open or Explore from
+the pop-up menu, navigate to the part of the Start menu where you want
+to put Glossator and create a shortcut as described above.  Don't drag
+it with the left mouse button and don't select Copy or Move after
+dragging with the right mouse button--doing any of those will
+break Glossator.
+</OL>
+
+<H2>Support</H2>
+<P>I am a programmer, not a Latin scholar:  I cannot answer your
+questions about Latin.  I am also a busy programmer, and don't have
+much time to answer technical questions, but I'll try.  See the bottom
+of this page for my e-mail address.</P>
+
+<H3>Known problems</H3>
+<UL>
+<LI>When a file is loaded into the main window, the scrollbar is not
+set up correctly, so it doesn't correctly indicate the proportion of
+the text which is visible.  As soon as the main window is scrolled,
+the scrollbar functions correctly.
+<LI>Too much information is produced for qui/cui in the gloss window.
+There are a lot of entries in the dictionary.
+</UL>
+<H2>Related Links</H2>
+<MENU>
+<LI>Dictionaries
+<MENU>
+<LI><A HREF="http://users.erols.com/whitaker/words.htm">Whitaker's
+Words</A> - command line interface
+<LI><A HREF="http://www.tertullian.org/rpearse/quicklatin/">Quick
+Latin</A> - MS Windows Latin translation assistant based on Whitaker's
+Words.
+<LI>The Perseus Project has a nice web interface to the <A
+HREF="http://www.perseus.tufts.edu/cgi-bin/resolveform?lang=Latin">Lewis
+and Short</A> dictionary.
+<LI>Notre Dame's <A
+HREF="http://www.nd.edu/~archives/latgramm.htm">Latin Dictionary and
+Grammar Aid</A> page has links to all of the useful web Latin
+dictionaries I know of.
+</MENU>
+<LI>Sources of Latin texts
+<MENU>
+<LI><A HREF="http://patriot.net/~lillard/cp/">Classics Page at Ad
+Fontes Academy</A>
+<MENU>
+<LI><A HREF="http://patriot.net/~lillard/cp/christian.html">Christian
+Latin texts at Ad Fontes Academy</A>
+</MENU>
+<LI><A
+HREF="http://www.perseus.tufts.edu/Texts/latin_TOC.html">Project
+Perseus Latin texts</A>
+<LI><A
+HREF="http://www.fh-augsburg.de/~harsch/a_index.html">Bibliotheca
+Augustana</A>
+<LI><A
+HREF="gopher://ftp.std.com/11/obi/book/Religion/Vulgate">Vulgate from
+Online Books Initiative</A>
+</MENU>
+</MENU>
+ 
+<HR>
+<P><A HREF="index.html">Home</A></P>
+<ADDRESS>
+You can construct my e-mail address by putting mfp, an at sign, and
+hotpop.com together.  I don't state it here explicitly because I don't
+want spam bots to find it.
+</ADDRESS>
+<P>Last updated 11 February 2000</P>
+</BODY>
+</HTML>
