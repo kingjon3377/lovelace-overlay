@@ -1,0 +1,18 @@
+Description: FHS compliant paths by default
+ Configure default file locations compliant with Filesystem Hierarchy
+ Standard and Debian Python Policy section 9.1.1.
+Forwarded: not-needed
+Author: Jeremy Stanley <fungi@yuggoth.org>
+Last-Update: 2012-06-24
+Index: weather-2.0/weatherrc
+===================================================================
+--- weather-2.0.orig/weatherrc	2012-06-24 19:13:09.000000000 +0000
++++ weather-2.0/weatherrc	2012-06-24 19:13:28.000000000 +0000
+@@ -6,5 +6,5 @@
+ 
+ [default]
+ description = default settings
+-#cachedir = ~/.weather
+-#setpath = .:~/.weather:/var/lib/weather-util:/usr/share/weather-util
++cachedir = ~/.weather
++setpath = .:~/.weather:/var/lib/weather-util:/usr/share/weather-util
