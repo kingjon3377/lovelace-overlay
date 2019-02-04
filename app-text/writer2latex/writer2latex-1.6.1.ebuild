@@ -1,42 +1,41 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 OFFICE_EXTENSIONS=("writer2latex.oxt" "xhtml-config-sample.oxt" "writer2xhtml.oxt")
 
-inherit eutils latex-package java-pkg-2 java-ant-2 multilib office-ext-r1
+inherit eutils latex-package java-pkg-2 java-ant-2 office-ext-r1
 
 IS_SOURCE=true
 
 MY_PV=${PV//./}
 MY_PV=${MY_PV/_/}
 
-REV=172
+REV=385
 
-if [[ -n ${IS_SOURCE} ]]
-then
+if [[ -n ${IS_SOURCE} ]];then
 	MY_P=${PN}${MY_PV}source
 else
 	MY_P=${PN}${MY_PV}
 fi
 
-DESCRIPTION="Writer2Latex (w2l) - converter from OpenDocument .odt format"
+DESCRIPTION="Converter from OpenDocument .odt format to LaTeX"
 HOMEPAGE="http://writer2latex.sourceforge.net"
 #SRC_URI="mirror://sourceforge/${PN}/${MY_P}.zip"
-SRC_URI="http://sourceforge.net/code-snapshots/svn/w/wr/writer2latex/code/${PN}-code-${REV}-tags-${PV}.zip"
+SRC_URI="https://sourceforge.net/code-snapshots/svn/w/wr/writer2latex/code/${PN}-code-r${REV}-tags-${PV}.zip"
 
 SLOT="0"
 LICENSE="GPL-2"
-KEYWORDS="~x86 ~amd64"
+KEYWORDS="~amd64 ~x86"
 IUSE="doc examples"
 
-DEPEND=">=virtual/jdk-1.5
+DEPEND=">=virtual/jdk-1.8
 	virtual/latex-base"
-RDEPEND=">=virtual/jre-1.5"
+RDEPEND=">=virtual/jre-1.8"
 
 #S=${WORKDIR}/${PN}10
-S=${WORKDIR}/${PN}-code-${REV}-tags-${PV}
+S=${WORKDIR}/${PN}-code-r${REV}-tags-${PV}
 if [[ -n ${IS_SOURCE} ]]
 then
 	S_DISTRO=${S}/source/distro
@@ -56,6 +55,8 @@ src_prepare(){
 	sed -i -e "s:W2LPATH=.*:W2LPATH=/usr/$(get_libdir)/${PN}:" ${S_DISTRO}/w2l || die "Sed failed"
 	sed -i -e "/URE_CLASSES/s:/usr/share/java:/usr/$(get_libdir)/libreoffice/program/classes/:" \
 		-e "/OFFICE_CLASSES/s:/usr/share/java:/usr/$(get_libdir)/libreoffice/program/classes/:" build.xml || die
+	# TODO: Unbundle libraries
+	default
 }
 
 src_install() {
@@ -63,9 +64,6 @@ src_install() {
 	java-pkg_dojar "${S_TARGETLIB}/${PN}.jar"
 
 	dobin ${S_DISTRO}/w2l
-
-	insinto /usr/$(get_libdir)/${PN}
-	doins ${S_DISTRO}/xslt/*.xsl
 
 	cd ${S_DISTRO}/latex
 	latex-package_src_install
