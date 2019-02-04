@@ -1,7 +1,7 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 GCONF_DEBUG="no"
 GNOME2_LA_PUNT="yes"
 
@@ -16,16 +16,17 @@ KEYWORDS="~amd64"
 IUSE="static-libs"
 
 RDEPEND="
-	>=dev-cpp/glibmm-2.14.2:2
-	>=dev-cpp/gtkmm-2.91.3:3.0
-	>=x11-libs/goocanvas-2.0.1:2.0
+	dev-cpp/glibmm:2
+	dev-cpp/gtkmm:3.0
+	x11-libs/goocanvas:2.0
 "
 DEPEND="${RDEPEND}
 	virtual/pkgconfig
 "
 
+DOCS=( AUTHORS ChangeLog NEWS README TODO )
+
 src_configure() {
-	DOCS="AUTHORS ChangeLog NEWS README TODO"
 	G2CONF="${G2CONF} $(use_enable static-libs static)"
 	gnome2_src_configure
 }
