@@ -1,0 +1,15 @@
+Author: David Carlos <ddavidcarlos1392@gmail.com>
+Description: Removes COPYING file  from debian package,
+once copyright file already have license infos
+
+--- a/setup.py
++++ b/setup.py
+@@ -12,7 +12,7 @@
+       packages=['urlscan'],
+       scripts=['bin/urlscan'],
+       package_data={'urlscan': ['assets/*']},
+-      data_files=[('share/doc/urlscan', ['README.rst', 'COPYING']),
++      data_files=[('share/doc/urlscan', ['README.rst']),
+                   ('share/man/man1', ['urlscan.1'])],
+       license="GPLv2",
+       install_requires=["urwid>=1.2.1"]
