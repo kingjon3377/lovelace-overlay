@@ -62,9 +62,6 @@ media-plugins/imms
 kde-misc/gally
 kde-misc/lekhonee
 
-# Fails to build with GCC 6
-dev-java/jlint
-
 # Depends on masked-for-removal libgnomeprintui
 =sci-visualization/terraform-0.9.5
 
