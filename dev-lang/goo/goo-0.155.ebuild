@@ -1,13 +1,13 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
 
-inherit eutils
+inherit eutils versionator
 
 DESCRIPTION="Generic Object Orientator"
-HOMEPAGE="http://www.googoogaga.org"
-SRC_URI="http://people.csail.mit.edu/jrb/goo/goo-0_155-any-dev.tar.gz"
+HOMEPAGE="https://people.csail.mit.edu/jrb/goo/"
+SRC_URI="https://people.csail.mit.edu/jrb/${PN}/${PN}-$(replace_all_version_separators _)-any-dev.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
