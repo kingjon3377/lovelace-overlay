@@ -1,4 +1,4 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
@@ -9,7 +9,7 @@ PYTHON_COMPAT=( python2_7 )
 inherit distutils-r1
 
 DESCRIPTION="A wrapper generator to generate C++ mapping Java classes"
-HOMEPAGE="http://www.scilab.org/giws/"
+HOMEPAGE="https://github.com/opencollab/giws"
 SRC_URI="http://forge.scilab.org/index.php/p/${PN}/downloads/get/${P}.tar.gz"
 
 LICENSE="CeCILL-2"
