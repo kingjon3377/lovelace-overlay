@@ -37,9 +37,6 @@ media-gfx/luxrender
 # Depends on it
 media-gfx/luxblend
 
-# At least one (possibly just test) dependency isn't in the main tree
-dev-ruby/polytexnic
-
 # Patches no longer apply; I don't want to spend the time to investigate now, and reinvestigate the softcover fork's git repo
 =dev-tex/tralics-2.15.2
 
