@@ -32,11 +32,6 @@
 # too.
 =dev-lang/sdlbasic-2012.12.15
 
-# Bundles Tk, dev-tcltk/tix, and probably TCL in their entirety. Mask until
-# this, and other issues (e.g. bootstrapped using *ancient* and broken
-# autotools), is fixed.
-dev-util/sourcenav-ng
-
 # Packaging known to be vastly incomplete.
 media-gfx/luxrender
 # Depends on it
