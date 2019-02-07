@@ -1,12 +1,14 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
 
+inherit versionator
+
 DESCRIPTION="Framework for analysis of source codes written in C"
 HOMEPAGE="http://frama-c.com"
-NAME="Phosphorus"
-SRC_URI="http://frama-c.com/download/${PN/-c/-c-$NAME}-${PV/_/-}.tar.gz"
+NAME="Chlorine"
+SRC_URI="http://frama-c.com/download/${PN/-c/-c-$NAME}-$(get_version_component_range 2-).tar.gz"
 
 LICENSE="LGPL-2"
 SLOT="0"
@@ -28,7 +30,7 @@ DEPEND="
 	)"
 RDEPEND="${DEPEND}"
 
-S="${WORKDIR}/${PN/-c/-c-$NAME}-${PV/_/-}"
+S="${WORKDIR}/${PN/-c/-c-$NAME}-$(get_version_component_range 2-)"
 
 src_prepare(){
 	touch config_file || die
