@@ -1,0 +1,8 @@
+diff -ru work.old/processtoken.h work/processtoken.h
+--- work.old/processtoken.h	2019-02-06 21:08:16.446374040 -0500
++++ work/processtoken.h	2019-02-06 21:08:59.875374040 -0500
+@@ -7,3 +7,4 @@
+ extern void collect_warnings_from_stack(int from);
+ extern void process_token(void);
+ extern void print_stack(const char *where);
++extern void collect_messages_from_stack(int from);
