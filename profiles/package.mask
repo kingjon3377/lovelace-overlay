@@ -29,11 +29,6 @@
 # too.
 =dev-lang/sdlbasic-2012.12.15
 
-# Packaging known to be vastly incomplete.
-media-gfx/luxrender
-# Depends on it
-media-gfx/luxblend
-
 # Not complete due to missing deps (org.eclipse.jetty, which is *not* www-servers/jetty!)
 dev-java/jgit
 
