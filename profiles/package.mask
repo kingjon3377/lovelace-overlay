@@ -36,9 +36,6 @@ dev-java/jgit
 kde-misc/gally
 kde-misc/lekhonee
 
-# Depends on masked-for-removal libgnomeprintui
-=sci-visualization/terraform-0.9.5
-
 # Fails to build using either the Puma or the Clang frontend.
 =dev-cpp/aspectc++-2.2
 
