@@ -32,9 +32,6 @@
 # Not complete due to missing deps (org.eclipse.jetty, which is *not* www-servers/jetty!)
 dev-java/jgit
 
-# Hard-depends on sci-libs/torch, which is now masked for removal in main tree
-media-plugins/imms
-
 # KDE4 is masked in the main tree
 kde-misc/gally
 kde-misc/lekhonee
