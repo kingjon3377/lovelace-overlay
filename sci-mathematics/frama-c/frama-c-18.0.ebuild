@@ -3,12 +3,10 @@
 
 EAPI=6
 
-inherit versionator
-
 DESCRIPTION="Framework for analysis of source codes written in C"
 HOMEPAGE="http://frama-c.com"
-NAME="Phosphorus"
-SRC_URI="http://frama-c.com/download/${PN/-c/-c-$NAME}-$(get_version_component_range 2-).tar.gz"
+NAME="Argon"
+SRC_URI="http://frama-c.com/download/${P}-${NAME}.tar.gz"
 
 LICENSE="LGPL-2"
 SLOT="0"
@@ -30,13 +28,7 @@ DEPEND="
 	)"
 RDEPEND="${DEPEND}"
 
-S="${WORKDIR}/${PN/-c/-c-$NAME}-$(get_version_component_range 2-)"
-
-src_prepare(){
-	touch config_file || die
-	rm -f ocamlgraph.tar.gz || die
-	default
-}
+S="${WORKDIR}/${P}-${NAME}"
 
 src_configure(){
 	if use gtk; then
