@@ -37,9 +37,6 @@ media-gfx/luxrender
 # Depends on it
 media-gfx/luxblend
 
-# Patches no longer apply; I don't want to spend the time to investigate now, and reinvestigate the softcover fork's git repo
-=dev-tex/tralics-2.15.2
-
 # Not complete due to missing deps (org.eclipse.jetty, which is *not* www-servers/jetty!)
 dev-java/jgit
 
