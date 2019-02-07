@@ -1,9 +1,7 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
-
-inherit games
+EAPI=6
 
 DESCRIPTION="the war game of the century"
 HOMEPAGE="http://www.catb.org/~esr/vms-empire/"
@@ -17,8 +15,4 @@ IUSE=""
 DEPEND=""
 RDEPEND="${DEPEND}"
 
-src_install() {
-	dogamesbin vms-empire
-	newman empire.6 vms-empire.6
-	dodoc BUGS NEWS README
-}
+DOCS=( BUGS NEWS README HACKING )
