@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
-<pkgmetadata>
- <longdescription>rCalc is a scientific calculator for the GNOME desktop
-   environment. It aims to occupy the middle ground between simple
-   `point-and-click' calculators and full featured mathematical packages, and
-   hopefully take some of the best of both worlds.</longdescription>
-</pkgmetadata>
