@@ -58,3 +58,6 @@ kde-misc/lekhonee
 # Fails to build using either the Puma or the Clang frontend.
 =dev-cpp/aspectc++-2.2
 
+# Depends on hard-masked app-text/enchant-2*
+=gnome-extra/lifeograph-1.5.1.1
+
