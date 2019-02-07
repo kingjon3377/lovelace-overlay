@@ -3,7 +3,7 @@
 
 EAPI=6
 
-inherit toolchain-funcs
+inherit toolchain-funcs autotools
 
 DESCRIPTION="Yet Another BASIC interpreter"
 HOMEPAGE="http://www.yabasic.de"
@@ -14,14 +14,19 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE="test"
 
-# Fails 3 tests, marcIhm/yabasic#22
-RESTRICT=test
-
 RDEPEND="sys-libs/ncurses:0
 	x11-libs/libX11
 	x11-libs/libICE"
 DEPEND="${DEPEND}
 	test? ( app-misc/tmux )"
+
+src_prepare() {
+	# See marcIhm/yabasic#22
+	sed -i -e 's@^AUTOMAKE_OPTIONS =.*@& serial-tests@' Makefile.am || die
+	sed -i -e 's@$OUT@"&"@' -e 's@-ne@!=@' tests/silent.sh || die
+	default
+	eautoreconf
+}
 
 src_configure() {
 	tc-export CC
