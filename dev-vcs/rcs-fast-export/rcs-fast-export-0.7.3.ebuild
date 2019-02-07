@@ -1,26 +1,23 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-USE_RUBY="ruby21"
+USE_RUBY="ruby23 ruby24 ruby25 ruby26"
 
-inherit git-r3 ruby-ng
+inherit ruby-ng
 
 DESCRIPTION="fast-export from RCS to be imported into git"
 HOMEPAGE="https://github.com/Oblomov/rcs-fast-export"
-SRC_URI=""
-EGIT_REPO_URI="https://github.com/Oblomov/rcs-fast-export.git"
+SRC_URI="https://github.com/Oblomov/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="freedist" # No license stated, see https://github.com/Oblomov/rcs-fast-export/issues/2
 SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""
 
-all_ruby_unpack() {
-	git-r3_src_unpack
-	cd "${WORKDIR}"
-	mv "${P}" all
+each_ruby_prepare() {
+	sed -i -e "s@RFE_VERSION=\"git\"@RFE_VERSION=\"${PV}\"@" ${PN}.rb || die
 }
 
 each_ruby_install() {
