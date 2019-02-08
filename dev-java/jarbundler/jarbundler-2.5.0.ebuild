@@ -1,7 +1,7 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 JAVA_PKG_IUSE="doc source"
 
@@ -24,8 +24,9 @@ DEPEND="${COMMON_DEP}
 RDEPEND="${COMMON_DEP}
 	>=virtual/jre-1.6"
 
-java_prepare() {
+src_prepare() {
 	find -name '*.jar' -delete || die
+	default
 }
 
 JAVA_ANT_REWRITE_CLASSPATH="yes"
