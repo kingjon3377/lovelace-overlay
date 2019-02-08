@@ -1,4 +1,4 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -13,7 +13,7 @@ SRC_URI="http://bhepple.freeshell.org/gjots/${P}.tgz"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~x86 ~amd64"
+KEYWORDS="~amd64 ~x86"
 IUSE="l10n_en l10n_fr l10n_no l10n_nb l10n_ru l10n_it l10n_cs"
 
 DEPEND="gnome-base/libglade:2.0[${PYTHON_USEDEP}]

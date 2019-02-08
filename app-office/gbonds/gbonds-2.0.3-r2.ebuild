@@ -19,7 +19,7 @@ SRC_URI="mirror://sourceforge/${PN}/${P}.tar.gz
 LICENSE="GPL-2"
 SLOT="0"
 IUSE="nls"
-KEYWORDS="~x86 ~amd64"
+KEYWORDS="~amd64 ~x86"
 
 # Libraries the Debian package depends on.
 RDEPEND="x11-libs/gtk+:3

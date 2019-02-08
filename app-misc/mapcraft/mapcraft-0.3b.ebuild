@@ -9,7 +9,7 @@ inherit java-pkg-2 java-ant-2 eutils
 
 SLOT="0"
 LICENSE="GPL-2"
-KEYWORDS="x86 amd64"
+KEYWORDS="amd64 x86"
 DESCRIPTION="Java based map editor for roleplaying games"
 SRC_URI="mirror://sourceforge/${PN}/${P}.tgz"
 HOMEPAGE="https://mapcraft.glendale.org.uk/"

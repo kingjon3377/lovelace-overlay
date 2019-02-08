@@ -13,7 +13,7 @@ SRC_URI="mirror://sourceforge/${PN}/${PN}/${PV}/${P}.tgz"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~x86 ~amd64"
+KEYWORDS="~amd64 ~x86"
 IUSE="l10n_en l10n_fr l10n_no l10n_nb l10n_ru l10n_it l10n_cs"
 
 DEPEND="dev-python/pygobject:3[${PYTHON_USEDEP}]
