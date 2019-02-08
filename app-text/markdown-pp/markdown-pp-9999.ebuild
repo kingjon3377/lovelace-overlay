@@ -1,7 +1,7 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 # Its setup.py claims it's Python 3 compatible, but it appears not to be.
 # PYTHON_COMPAT=( python2_7 python3_{2,3} )
