@@ -1,10 +1,10 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 # From bug #145270 . Had been in Sunrise, but dev incorrectly claimed it's in
 # CPAN.
 
-EAPI=5
+EAPI=6
 
 MY_P=${PN/m/M}_${PV}
 
