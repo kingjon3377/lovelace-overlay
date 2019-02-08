@@ -18,7 +18,7 @@ RDEPEND="dev-games/physfs
 	media-libs/sdl-image
 	media-libs/sdl-mixer
 	media-libs/sdl-ttf
-	dev-libs/libutfcpp"
+	dev-libs/utfcpp"
 DEPEND="${RDEPEND}
 	dev-libs/boost"
 
