@@ -29,7 +29,7 @@ src_configure() {
 }
 
 src_compile() {
-	emake "CC=$(tc-getCC)" -j1
+	emake "CC=$(tc-getCC)"
 }
 
 src_install() {
