@@ -1,7 +1,7 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 PYTHON_COMPAT=( python2_7 )
 
@@ -26,6 +26,7 @@ RDEPEND="${DEPEND}"
 src_prepare() {
 	# version isn't in release tarball for some reason
 	echo "${PV}" > "${S}/RELEASE-VERSION" || die
+	default
 }
 
 src_install() {
