@@ -15,6 +15,8 @@ IUSE=""
 DEPEND=""
 RDEPEND="app-admin/eselect"
 
+S="${WORKDIR}"
+
 src_install() {
 	insinto /usr/share/eselect/modules
 	doins "${FILESDIR}"/yacc.eselect || die
