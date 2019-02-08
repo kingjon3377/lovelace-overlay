@@ -1,7 +1,7 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 inherit eutils
 
@@ -17,9 +17,7 @@ IUSE=""
 DEPEND="dev-lang/perl"
 RDEPEND="${DEPEND}"
 
-src_prepare() {
-	epatch "${FILESDIR}"/aft_5.097-1.diff
-}
+PATCHES=( "${FILESDIR}"/aft_5.097-1.diff )
 
 src_install() {
 	emake DESTDIR="${D}" install
@@ -30,7 +28,7 @@ src_install() {
 	newdoc "${FILESDIR}/${PN}rc.vim" ${PN}rc
 	newdoc "${FILESDIR}/README.vim" README
 	newdoc "${FILESDIR}/no${PN}rc.vim" no${PN}rc
-	dodoc syntax-demo.aft ${PN}.vim
+	dodoc "${FILESDIR}/syntax-demo.aft" "${FILESDIR}/${PN}.vim"
 	doman "${FILESDIR}/${PN}.1"
 	ewarn "This package installs Perl modules in a nonstandard location."
 }
