@@ -1,5 +1,5 @@
---- usr/share/ecub/ecub.desktop.old	2013-01-09 13:08:59.000000000 -0500
-+++ usr/share/ecub/ecub.desktop	2013-01-09 13:11:48.000000000 -0500
+--- a/usr/share/ecub/ecub.desktop	2013-01-09 13:08:59.000000000 -0500
++++ b/usr/share/ecub/ecub.desktop	2013-01-09 13:11:48.000000000 -0500
 @@ -1,16 +1,14 @@
  [Desktop Entry]
 -Encoding=UTF-8
