@@ -1,7 +1,7 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 DESCRIPTION="Keep Track of Time worked on Projects"
 HOMEPAGE="http://www.truxton.com/~trux/software/"
@@ -21,7 +21,7 @@ src_compile() {
 
 src_install() {
 #	chmod a+x worklog
-	dobin worklog
-	doman worklog.1
-	dodoc projects README TODO worklog.lsm
+	dobin ${PN}
+	doman ${PN}.1
+	dodoc projects README TODO ${PN}.lsm
 }
