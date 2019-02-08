@@ -1,9 +1,9 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-inherit eutils toolchain-funcs linux-info
+inherit toolchain-funcs linux-info
 
 MY_PV="20050425"
 MY_P="${PN}-gentoo-${MY_PV}"
@@ -23,7 +23,7 @@ CONFIG_CHECK="BINFMT_MISC"
 ERROR_BINFMT_MISC="
 You need to have 'Kernel support for MISC binaries'
 turned on in your kernel config. It can be either
-compile in or as a module.
+compiled in or as a module.
 "
 
 src_compile() {
