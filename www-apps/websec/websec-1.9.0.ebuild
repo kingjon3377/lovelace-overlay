@@ -1,4 +1,4 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -8,7 +8,7 @@ HOMEPAGE="http://baruch.ev-en.org/proj/websec/"
 SRC_URI="https://savannah.nongnu.org/download/${PN}/${P}.tar.gz"
 LICENSE="GPL-2"
 IUSE=""
-KEYWORDS="~x86 amd64"
+KEYWORDS="amd64 ~x86"
 SLOT="0"
 
 RDEPEND="dev-perl/libwww-perl"

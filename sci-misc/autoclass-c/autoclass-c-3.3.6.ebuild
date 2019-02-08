@@ -1,4 +1,4 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -10,7 +10,7 @@ HOMEPAGE="https://ti.arc.nasa.gov/tech/rse/synthesis-projects-applications/autoc
 SRC_URI="https://ti.arc.nasa.gov/m/project/autoclass/$(replace_all_version_separators - "${P}").tar.gz"
 LICENSE="freedist"
 SLOT="0"
-KEYWORDS="~x86 amd64"
+KEYWORDS="amd64 ~x86"
 IUSE=""
 DEPEND="app-shells/tcsh"
 RDEPEND="${DEPEND}"

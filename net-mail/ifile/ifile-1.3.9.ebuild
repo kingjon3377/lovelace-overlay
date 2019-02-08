@@ -1,4 +1,4 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -11,7 +11,7 @@ SRC_URI="mirror://debian/pool/main/${PN:0:1}/${PN}/${PN}_${PV}.orig.tar.gz"
 LICENSE="GPL-2"
 SLOT="0"
 IUSE=""
-KEYWORDS="~x86 amd64"
+KEYWORDS="amd64 ~x86"
 
 RESTRICT=test # "test suite" tests that 'make install' works properly ...
 

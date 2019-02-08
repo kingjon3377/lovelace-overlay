@@ -21,7 +21,7 @@ SRC_URI="mirror://sourceforge/${MY_PN}/${PN}_core_source_${MY_PV}.tar.gz
 LICENSE="public-domain"
 SLOT="0"
 
-KEYWORDS="~x86 ~amd64"
+KEYWORDS="~amd64 ~x86"
 IUSE="+doc test"
 
 RDEPEND="sys-libs/ncurses:0"

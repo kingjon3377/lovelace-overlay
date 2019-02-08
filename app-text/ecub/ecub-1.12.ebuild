@@ -1,4 +1,4 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
@@ -12,7 +12,7 @@ amd64? ( http://www.anthemion.co.uk/ecub/${PN}_${PV}-1_amd64.deb )"
 
 LICENSE="eCub"
 SLOT="0"
-KEYWORDS="x86 amd64"
+KEYWORDS="amd64 x86"
 IUSE=""
 
 DEPEND=""

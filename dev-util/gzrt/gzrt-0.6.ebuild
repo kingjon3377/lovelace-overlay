@@ -1,4 +1,4 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
@@ -9,7 +9,7 @@ SRC_URI="http://www.urbanophile.com/arenn/coding/gzrt/${P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="x86 amd64"
+KEYWORDS="amd64 x86"
 IUSE=""
 
 RDEPEND="sys-libs/zlib"

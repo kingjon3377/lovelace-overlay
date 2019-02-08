@@ -1,4 +1,4 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
@@ -7,7 +7,7 @@ DESCRIPTION="Converts one or more Mbox format mailbox files in a directory to Ma
 HOMEPAGE="http://batleth.sapienti-sat.org/projects/mb2md/"
 SRC_URI="http://batleth.sapienti-sat.org/projects/${PN}/${P}.pl.gz"
 LICENSE="public-domain"
-KEYWORDS="x86 amd64"
+KEYWORDS="amd64 x86"
 SLOT="0"
 
 DEPEND="dev-perl/TimeDate"

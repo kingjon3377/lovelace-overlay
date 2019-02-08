@@ -1,4 +1,4 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -11,7 +11,7 @@ SRC_URI="http://kindlegen.s3.amazonaws.com/${PN}_linux_2.6_i386_v$(replace_all_v
 
 LICENSE="kindlegen Info-ZIP IJG Apache-2.0 BSD MPL-1.1"
 SLOT="0"
-KEYWORDS="~x86 ~amd64"
+KEYWORDS="~amd64 ~x86"
 IUSE="l10n_zh l10n_nl l10n_fr l10n_de l10n_it l10n_ja l10n_es"
 
 DEPEND=""
