@@ -1,7 +1,7 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 JAVA_PKG_WANT_SOURCE=1.5
 JAVA_PKG_WANT_TARGET=1.5
 
@@ -24,8 +24,9 @@ NICE="nice-${PV}.orig"
 S="${WORKDIR}/${NICE}"
 #RESTRICT="test"
 
+PATCHES=( "${FILESDIR}/${P}.patch" )
+
 src_prepare() {
-	epatch "${FILESDIR}/${P}.patch"
 	cp bin/nicec bin/nicec-gentoo
 	sed -i -e 's/NICEC_JAR=.*/NICEC_JAR=$(java-config -p nice)/' bin/nicec-gentoo || die "sed failed"
 	mkdir -p classes classes.old stdlib.old src.old
@@ -61,5 +62,5 @@ src_install() {
 	dosym nicedoc /usr/bin/niceunit
 	java-pkg_dojar share/java/nice.jar
 	doman man/*.1
-	dohtml man/nicec.html
+	dodoc man/nicec.html
 }
