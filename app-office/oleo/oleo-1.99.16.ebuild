@@ -27,7 +27,7 @@ REQUIRED_USE="motif? ( X )"
 
 PATCHES=(
 	"${FILESDIR}/oleo_1.99.16-10ubuntu1.diff"
-	"${FILESDIR}/destdir.patch" 
+	"${FILESDIR}/destdir.patch"
 	"${FILESDIR}/label.patch"
 	"${FILESDIR}/update-cat-id-tbl.patch"
 	"${FILESDIR}/oleorc_docs.patch"
