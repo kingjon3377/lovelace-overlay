@@ -1,7 +1,7 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 inherit eutils autotools
 
@@ -23,8 +23,10 @@ DEPEND="${RDEPEND}
 	>=dev-lang/ocaml-3.08
 "
 
+PATCHES=( "${FILESDIR}/${P}-tinfo.patch" )
+
 src_prepare() {
-	epatch "${FILESDIR}/${P}-tinfo.patch"
+	default
 	eautoreconf
 }
 
@@ -36,6 +38,5 @@ src_configure() {
 src_install() {
 	export STRIP_MASK="/usr/bin/wyrd"
 	emake DESTDIR="${D}" install
-	dodoc ChangeLog
-	dohtml doc/manual.html
+	dodoc ChangeLog doc/manual.html
 }
