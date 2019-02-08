@@ -1,11 +1,11 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 # From Gentoo bug #132018
 
-EAPI=5
+EAPI=6
 
-inherit eutils versionator elisp-common autotools virtualx
+inherit desktop versionator elisp-common autotools virtualx
 
 MY_PV=$(replace_version_separator 2 '-' ${PV})
 MY_P=${PN}-fsf-${MY_PV}
@@ -45,13 +45,25 @@ pkg_setup() {
 	done
 }
 
+PATCHES=(
+	"${FILESDIR}/00constness.patch"
+	"${FILESDIR}/01_link.patch"
+	"${FILESDIR}/03_el.patch"
+	"${FILESDIR}/04_from_ubuntu.patch"
+	"${FILESDIR}/04_makefile.in.patch"
+	"${FILESDIR}/06_pthread.patch"
+	"${FILESDIR}/07_magic_numbers.patch"
+	"${FILESDIR}/08_cxs.patch"
+	"${FILESDIR}/09_shadowed.patch"
+)
+
 src_prepare() {
-	epatch "${FILESDIR}"/*patch
+	default
 	eautoreconf
 }
 
 src_configure() {
-	default_src_configure
+	default
 	find . -name Makefile -exec sed -i -e 's:-L -lX11:-lX11:' {} + || die
 }
 
@@ -68,20 +80,19 @@ src_compile () {
 src_test() {
 	src/main/aplus ./src/acore/fsftest.+ || die
 
-	export VIRTUALX_COMMAND=src/main/aplus
-	virtualmake src/acore/apter.+
+	virtx src/main/aplus src/acore/apter.+ || die
 }
 
 src_install () {
 	emake install \
-	    DESTDIR="${D}" \
-	    contribdir=/usr/share/doc/${PF}/contrib \
-	    scriptsdir=/usr/share/doc/${PF}/scripts \
-	    appdefaultsdir=/etc/X11/app-defaults \
-	    a_includedir=/usr/include/aplus \
-	    TrueTypedir=/usr/share/fonts/truetype/public/aplus \
-	    fonts_pcfdir=/usr/share/fonts/pcf/public/aplus \
-	    fonts_bdfdir=/usr/share/fonts/pcf/public/aplus
+		DESTDIR="${D}" \
+		contribdir=/usr/share/doc/${PF}/contrib \
+		scriptsdir=/usr/share/doc/${PF}/scripts \
+		appdefaultsdir=/etc/X11/app-defaults \
+		a_includedir=/usr/include/aplus \
+		TrueTypedir=/usr/share/fonts/truetype/public/aplus \
+		fonts_pcfdir=/usr/share/fonts/pcf/public/aplus \
+		fonts_bdfdir=/usr/share/fonts/pcf/public/aplus
 
 #	    idapdir=/usr/$(get_libdir)/aplus \
 #	    fsftestdir=/usr/$(get_libdir)/aplus \
