@@ -1,13 +1,13 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 inherit findlib
 
 DESCRIPTION="a handy command line tool for handling CSV files"
 HOMEPAGE="http://forge.ocamlcore.org/projects/csv/"
-SRC_URI="http://forge.ocamlcore.org/frs/download.php/420/csv-${PV}.tar.gz"
+SRC_URI="http://forge.ocamlcore.org/frs/download.php/1376/csv-${PV}.tar.gz"
 
 LICENSE="LGPL-2.1"
 SLOT="0"
@@ -22,6 +22,7 @@ S="${WORKDIR}/csv-${PV}"
 
 src_prepare() {
 	sed -i -e "s@/usr/local@${D}/usr@" setup.ml || die
+	default
 }
 
 src_compile() {
