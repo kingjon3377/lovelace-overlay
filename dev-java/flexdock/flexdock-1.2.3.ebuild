@@ -1,7 +1,7 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 JAVA_PKG_IUSE="doc source"
 
 inherit java-pkg-2 java-ant-2
@@ -25,8 +25,10 @@ DEPEND=">=virtual/jdk-1.5
 
 EANT_DOC_TARGET="doc"
 
-java_prepare() {
-	epatch "${FILESDIR}"/${PN}-1.1.1-nodemo.patch
+PATCHES=( "${FILESDIR}"/${PN}-1.1.1-nodemo.patch )
+
+src_prepare() {
+	default
 
 	#some cleanups
 	find . -name '*.so' -exec rm -v {} \;|| die
