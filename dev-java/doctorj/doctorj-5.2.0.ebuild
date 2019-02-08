@@ -12,7 +12,7 @@ inherit java-pkg-2 java-ant-2
 DESCRIPTION="A tool to analyze Java code"
 #HOMEPAGE="http://www.incava.org/projects/java/doctorj/"
 #SRC_URI="http://www.incava.org/files/${P}.tar.gz"
-HOMEPAGE="https://github.com/jpace/doctorj http://sourceforge.net/projects/doctorj"
+HOMEPAGE="https://github.com/jpace/doctorj https://sourceforge.net/projects/doctorj"
 SRC_URI="https://github.com/jpace/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="LGPL-2.1"
