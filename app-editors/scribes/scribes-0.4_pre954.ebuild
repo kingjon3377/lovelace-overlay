@@ -1,4 +1,4 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -8,7 +8,7 @@ GNOME2_EAUTORECONF=yes
 
 PYTHON_COMPAT=( python{2_5,2_6,2_7} )
 
-inherit gnome2 python-single-r1 versionator
+inherit gnome2 python-single-r1 eapi7-ver
 
 DESCRIPTION="a text editor that is simple, slim and sleek, yet powerful."
 HOMEPAGE="http://scribes.sourceforge.net"
@@ -46,7 +46,7 @@ pkg_setup() {
 	G2CONF="--disable-scrollkeeper"
 }
 
-PATCHES=( "${FILESDIR}"/${PN}-$(get_version_component_range 1-2)-sandbox.patch )
+PATCHES=( "${FILESDIR}"/${PN}-$(ver_cut 1-2)-sandbox.patch )
 
 src_prepare() {
 	sed -i -e '/^[ 	][ 	]*python -OO compile.py[ 	]*$/d' Makefile.am || die
