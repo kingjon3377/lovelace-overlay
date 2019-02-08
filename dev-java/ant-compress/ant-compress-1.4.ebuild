@@ -1,7 +1,7 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 JAVA_PKG_IUSE="doc source"
 
@@ -45,10 +45,11 @@ EOF
 	[[ $? != 0 ]] && die "Removing taskdefs failed"
 }
 
-java_prepare() {
+src_prepare() {
 	find . -name "*.jar" -print -delete || die
 
 	rewrite_build_xml
+	default
 }
 
 JAVA_ANT_REWRITE_CLASSPATH="true"
