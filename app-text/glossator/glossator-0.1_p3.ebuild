@@ -1,13 +1,13 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 MY_PV=${PV/_p/-0ubuntu1~ppa}
 
 DESCRIPTION="Latin dictionary"
 HOMEPAGE="https://launchpad.net/~chameleondave/+archive/ppa"
-SRC_URI="http://ppa.launchpad.net/chameleondave/ppa/ubuntu/pool/main/g/${PN}/${PN}_${MY_PV}.tar.gz"
+SRC_URI="https://ppa.launchpad.net/chameleondave/ppa/ubuntu/pool/main/g/${PN}/${PN}_${MY_PV}.tar.gz"
 
 LICENSE="public-domain"
 SLOT="0"
@@ -25,6 +25,5 @@ src_install() {
 	doins ${PN}/*tcl ${PN}/*GEN ${PN}/INFLECTS
 	fperms +x /usr/share/${PN}/${PN}.tcl
 	dosym ../share/${PN}/${PN}.tcl /usr/bin/${PN}
-	dohtml ${PN}/documentation_from_website.html
-	dodoc AUTHORS README
+	dodoc ${PN}/documentation_from_website.html AUTHORS README
 }
