@@ -1,7 +1,7 @@
 Index: fxi/src/strings.c
 ===================================================================
---- fxi/src/strings.c	2007-08-28 14:38:49.000000000 +0200
-+++ fxi/src/strings.c	2007-08-28 14:40:00.000000000 +0200
+--- a/fxi/src/strings.c	2007-08-28 14:38:49.000000000 +0200
++++ b/fxi/src/strings.c	2007-08-28 14:40:00.000000000 +0200
 @@ -45,6 +45,12 @@
  #include <assert.h>
  #endif
@@ -113,8 +113,8 @@ Index: fxi/src/strings.c
      }
      // Incremento espacio
      string_alloc (1024) ;
--    gr_con_printf ("[STRING] Â¬12*PANICÂ¬7 Too many strings, allocating more space") ;
-+    gr_con_printf (_("[STRING] Â¬12*PANICÂ¬7 Too many strings, allocating more space")) ;
+-    gr_con_printf ("[STRING] ¬12*PANIC¬7 Too many strings, allocating more space") ;
++    gr_con_printf (_("[STRING] ¬12*PANIC¬7 Too many strings, allocating more space")) ;
  
      // Devuelvo el string_count + 1, ya que ahora tengo 1024 mas que antes
      return string_count++ ;

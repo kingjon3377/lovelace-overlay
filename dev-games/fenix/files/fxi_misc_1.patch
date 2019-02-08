@@ -1,7 +1,7 @@
 Index: fxi/src/g_font.c
 ===================================================================
---- fxi/src/g_font.c	2007-08-28 14:39:56.000000000 +0200
-+++ fxi/src/g_font.c	2007-08-28 14:41:13.000000000 +0200
+--- a/fxi/src/g_font.c	2007-08-28 14:39:56.000000000 +0200
++++ b/fxi/src/g_font.c	2007-08-28 14:41:13.000000000 +0200
 @@ -159,8 +159,7 @@
  		for (y = 0 ; y < height ; y++, ptr += bitmap->pitch)
  			memcpy (ptr, charptr + linesize*y, linesize);
@@ -274,8 +274,8 @@ Index: fxi/src/g_font.c
  }
 Index: fxi/src/g_fpg.c
 ===================================================================
---- fxi/src/g_fpg.c	2007-08-28 14:39:56.000000000 +0200
-+++ fxi/src/g_fpg.c	2007-08-28 14:41:13.000000000 +0200
+--- a/fxi/src/g_fpg.c	2007-08-28 14:39:56.000000000 +0200
++++ b/fxi/src/g_fpg.c	2007-08-28 14:41:13.000000000 +0200
 @@ -128,8 +128,7 @@
  
  GRLIB * grlib_get (int libid)
@@ -329,7 +329,7 @@ Index: fxi/src/g_fpg.c
  	while (!file_eof(fp))
  	{
 @@ -387,7 +371,11 @@
- 		/* Cabecera del grÃ¡fico */
+ 		/* Cabecera del gráfico */
  
  		gr = bitmap_new (chunk.code, chunk.width, chunk.height, bpp, 1);
 -		if (!gr) return 0 ;
@@ -395,8 +395,8 @@ Index: fxi/src/g_fpg.c
  
 Index: fxi/src/g_main.c
 ===================================================================
---- fxi/src/g_main.c	2007-08-28 14:39:56.000000000 +0200
-+++ fxi/src/g_main.c	2007-08-28 14:41:13.000000000 +0200
+--- a/fxi/src/g_main.c	2007-08-28 14:39:56.000000000 +0200
++++ b/fxi/src/g_main.c	2007-08-28 14:41:13.000000000 +0200
 @@ -111,7 +111,7 @@
  
  static int sdl_equiv[SDLK_LAST+1] ;
@@ -745,8 +745,8 @@ Index: fxi/src/g_main.c
  
  }
  
--/* FUnciÃ³n de inicializaciÃ³n de la librerÃ­a grÃ¡fica */
-+/* FunciÃ³n de inicializaciÃ³n de la librerÃ­a grÃ¡fica */
+-/* FUnción de inicialización de la librería gráfica */
++/* Función de inicialización de la librería gráfica */
  
  static int screen_locked = 0 ;
  
@@ -938,8 +938,8 @@ Index: fxi/src/g_main.c
      }
 Index: fxi/src/g_maps.c
 ===================================================================
---- fxi/src/g_maps.c	2007-08-28 14:39:56.000000000 +0200
-+++ fxi/src/g_maps.c	2007-08-28 14:41:13.000000000 +0200
+--- a/fxi/src/g_maps.c	2007-08-28 14:39:56.000000000 +0200
++++ b/fxi/src/g_maps.c	2007-08-28 14:41:13.000000000 +0200
 @@ -128,6 +128,8 @@
  	gr->prev             = NULL;
  	gr->current_keyframe = -1;

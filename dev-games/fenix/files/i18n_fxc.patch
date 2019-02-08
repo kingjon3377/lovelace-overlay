@@ -3,8 +3,8 @@
 
 Index: fxc/src/c_data.c
 ===================================================================
---- fxc/src/c_data.c	2007-08-28 14:38:52.000000000 +0200
-+++ fxc/src/c_data.c	2007-08-28 14:39:50.000000000 +0200
+--- a/fxc/src/c_data.c	2007-08-28 14:38:52.000000000 +0200
++++ b/fxc/src/c_data.c	2007-08-28 14:39:50.000000000 +0200
 @@ -33,6 +33,14 @@
  #include <string.h>
  #include <stdlib.h>
@@ -31,8 +31,8 @@ Index: fxc/src/c_data.c
              varspace_init (members) ;
 Index: fxc/src/c_main.c
 ===================================================================
---- fxc/src/c_main.c	2007-08-28 14:38:52.000000000 +0200
-+++ fxc/src/c_main.c	2007-08-28 14:45:44.000000000 +0200
+--- a/fxc/src/c_main.c	2007-08-28 14:38:52.000000000 +0200
++++ b/fxc/src/c_main.c	2007-08-28 14:45:44.000000000 +0200
 @@ -36,6 +36,14 @@
  
  #include <fnx_loadlib.h>
@@ -112,8 +112,8 @@ Index: fxc/src/c_main.c
      }
 Index: fxc/src/codeblock.c
 ===================================================================
---- fxc/src/codeblock.c	2007-08-28 14:38:52.000000000 +0200
-+++ fxc/src/codeblock.c	2007-08-28 14:39:51.000000000 +0200
+--- a/fxc/src/codeblock.c	2007-08-28 14:38:52.000000000 +0200
++++ b/fxc/src/codeblock.c	2007-08-28 14:39:51.000000000 +0200
 @@ -32,6 +32,14 @@
  #include <assert.h>
  #endif
@@ -169,15 +169,15 @@ Index: fxc/src/codeblock.c
  
  	if (MN_PARAMS(code) == 0 && param)
  	{
--		printf ("Aviso: mnemónico 0x%02X no recibe parámetros\n", code) ;
+-		printf ("Aviso: mnem�nico 0x%02X no recibe par�metros\n", code) ;
 +		fprintf (stderr, _("Warning: mnemonic 0x%02X does not receive parameters\n"), code) ;
  	}
  
  	if (c->current > 0)
 Index: fxc/src/constants.c
 ===================================================================
---- fxc/src/constants.c	2007-08-28 14:38:52.000000000 +0200
-+++ fxc/src/constants.c	2007-08-28 14:39:51.000000000 +0200
+--- a/fxc/src/constants.c	2007-08-28 14:38:52.000000000 +0200
++++ b/fxc/src/constants.c	2007-08-28 14:39:51.000000000 +0200
 @@ -26,6 +26,14 @@
  #include <stdio.h>
  #include <stdlib.h>
@@ -215,8 +215,8 @@ Index: fxc/src/constants.c
  }
 Index: fxc/src/dcbw.c
 ===================================================================
---- fxc/src/dcbw.c	2007-08-28 14:38:52.000000000 +0200
-+++ fxc/src/dcbw.c	2007-08-28 14:44:29.000000000 +0200
+--- a/fxc/src/dcbw.c	2007-08-28 14:38:52.000000000 +0200
++++ b/fxc/src/dcbw.c	2007-08-28 14:44:29.000000000 +0200
 @@ -33,6 +33,14 @@
  #include <stdio.h>
  #include <string.h>
@@ -276,7 +276,7 @@ Index: fxc/src/dcbw.c
  	}
 @@ -514,27 +522,27 @@
  
- 	/* 6. Mostrar estadísticas */
+ 	/* 6. Mostrar estad�sticas */
  
 -	printf ("\nFichero %s grabado (%ld bytes):\n\n", filename, offset) ;
 -	printf ("          Procesos:   %8d procesos\n", dcb.data.NProcs) ;
@@ -321,8 +321,8 @@ Index: fxc/src/dcbw.c
  }
 Index: fxc/src/identifier.c
 ===================================================================
---- fxc/src/identifier.c	2007-08-28 14:38:52.000000000 +0200
-+++ fxc/src/identifier.c	2007-08-28 14:39:51.000000000 +0200
+--- a/fxc/src/identifier.c	2007-08-28 14:38:52.000000000 +0200
++++ b/fxc/src/identifier.c	2007-08-28 14:39:51.000000000 +0200
 @@ -32,6 +32,15 @@
  #else
  #include <assert.h>
@@ -376,8 +376,8 @@ Index: fxc/src/identifier.c
  	w->line = line_count ; // Save First appearance
 Index: fxc/src/main.c
 ===================================================================
---- fxc/src/main.c	2007-08-28 14:38:53.000000000 +0200
-+++ fxc/src/main.c	2007-08-28 14:46:13.000000000 +0200
+--- a/fxc/src/main.c	2007-08-28 14:38:53.000000000 +0200
++++ b/fxc/src/main.c	2007-08-28 14:46:13.000000000 +0200
 @@ -38,6 +38,14 @@
  	#include "Shlwapi.h"
  #endif
@@ -432,7 +432,7 @@ Index: fxc/src/main.c
  	char stubname[256] = "";
  	int i, j ;
  
--	printf (FXC_VERSION " - Copyright (C) 1999 JosÃ© Luis CebriÃ¡n PagÃ¼e\n") ;
+-	printf (FXC_VERSION " - Copyright (C) 1999 José Luis Cebrián Pagüe\n") ;
 -	printf ("Fenix comes with ABSOLUTELY NO WARRANTY; see COPYING for details\n\n") ;
 +#ifdef USE_GETTEXT
 +	setlocale (LC_MESSAGES, "");
@@ -498,8 +498,8 @@ Index: fxc/src/main.c
  			}
 Index: fxc/src/messages.c
 ===================================================================
---- fxc/src/messages.c	2007-08-28 14:38:53.000000000 +0200
-+++ fxc/src/messages.c	2007-08-28 14:39:52.000000000 +0200
+--- a/fxc/src/messages.c	2007-08-28 14:38:53.000000000 +0200
++++ b/fxc/src/messages.c	2007-08-28 14:39:52.000000000 +0200
 @@ -24,16 +24,22 @@
   *
   */
@@ -675,8 +675,8 @@ Index: fxc/src/messages.c
 +*/
 Index: fxc/src/procedure.c
 ===================================================================
---- fxc/src/procedure.c	2007-08-28 14:38:53.000000000 +0200
-+++ fxc/src/procedure.c	2007-08-28 14:39:52.000000000 +0200
+--- a/fxc/src/procedure.c	2007-08-28 14:38:53.000000000 +0200
++++ b/fxc/src/procedure.c	2007-08-28 14:39:52.000000000 +0200
 @@ -33,6 +33,14 @@
  #include <assert.h>
  #endif
@@ -712,8 +712,8 @@ Index: fxc/src/procedure.c
      }
 Index: fxc/src/segment.c
 ===================================================================
---- fxc/src/segment.c	2007-08-28 14:38:53.000000000 +0200
-+++ fxc/src/segment.c	2007-08-28 14:39:52.000000000 +0200
+--- a/fxc/src/segment.c	2007-08-28 14:38:53.000000000 +0200
++++ b/fxc/src/segment.c	2007-08-28 14:39:52.000000000 +0200
 @@ -28,6 +28,14 @@
  #include <stdlib.h>
  #include <string.h>
@@ -742,8 +742,8 @@ Index: fxc/src/segment.c
  void segment_copy(segment *s, int base_offset, int total_length) 
 Index: fxc/src/strings.c
 ===================================================================
---- fxc/src/strings.c	2007-08-28 14:38:53.000000000 +0200
-+++ fxc/src/strings.c	2007-08-28 14:39:52.000000000 +0200
+--- a/fxc/src/strings.c	2007-08-28 14:38:53.000000000 +0200
++++ b/fxc/src/strings.c	2007-08-28 14:39:52.000000000 +0200
 @@ -33,6 +33,14 @@
  #include <assert.h>
  #endif
@@ -800,8 +800,8 @@ Index: fxc/src/strings.c
  	}
 Index: fxc/src/token.c
 ===================================================================
---- fxc/src/token.c	2007-08-28 14:38:53.000000000 +0200
-+++ fxc/src/token.c	2007-08-28 14:39:52.000000000 +0200
+--- a/fxc/src/token.c	2007-08-28 14:38:53.000000000 +0200
++++ b/fxc/src/token.c	2007-08-28 14:39:52.000000000 +0200
 @@ -29,6 +29,14 @@
  #include <string.h>
  #include <stdlib.h>
@@ -860,8 +860,8 @@ Index: fxc/src/token.c
  
 Index: fxc/src/varspace.c
 ===================================================================
---- fxc/src/varspace.c	2007-08-28 14:38:53.000000000 +0200
-+++ fxc/src/varspace.c	2007-08-28 14:39:52.000000000 +0200
+--- a/fxc/src/varspace.c	2007-08-28 14:38:53.000000000 +0200
++++ b/fxc/src/varspace.c	2007-08-28 14:39:52.000000000 +0200
 @@ -28,6 +28,14 @@
  #include <stdlib.h>
  #include <string.h>

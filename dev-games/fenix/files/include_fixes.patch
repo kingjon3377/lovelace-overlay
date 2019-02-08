@@ -2,8 +2,8 @@
 # See: #485062
 
 diff -ur fxi/inc/g_pal.h fxi/inc/g_pal.h
---- fxi/inc/g_pal.h	2008-06-07 22:06:44.000000000 +0100
-+++ fxi/inc/g_pal.h	2008-06-07 22:06:44.000000000 +0100
+--- a/fxi/inc/g_pal.h	2008-06-07 22:06:44.000000000 +0100
++++ b/fxi/inc/g_pal.h	2008-06-07 22:06:44.000000000 +0100
 @@ -30,5 +30,6 @@
  int pal_get (PALETTE * spal, int color, int num, Uint8 * pal);
  int pal_set (PALETTE * spal, int color, int num, Uint8 * pal);
@@ -12,8 +12,8 @@ diff -ur fxi/inc/g_pal.h fxi/inc/g_pal.h
  
  #endif
 diff -ur fxi/inc/grlib.h fxi/inc/grlib.h
---- fxi/inc/grlib.h	2008-06-07 22:13:05.000000000 +0100
-+++ fxi/inc/grlib.h	2008-06-07 22:13:05.000000000 +0100
+--- a/fxi/inc/grlib.h	2008-06-07 22:13:05.000000000 +0100
++++ b/fxi/inc/grlib.h	2008-06-07 22:13:05.000000000 +0100
 @@ -143,6 +143,7 @@
  
  extern void pal_destroy(PALETTE * pal);
@@ -31,8 +31,8 @@ diff -ur fxi/inc/grlib.h fxi/inc/grlib.h
  extern int  gr_get_pixel (GRAPH * dest, int x, int y) ;
  
 diff -ur fxi/src/fgc.c fxi/src/fgc.c
---- fxi/src/fgc.c	2008-06-07 22:34:42.000000000 +0100
-+++ fxi/src/fgc.c	2008-06-07 22:34:42.000000000 +0100
+--- a/fxi/src/fgc.c	2008-06-07 22:34:42.000000000 +0100
++++ b/fxi/src/fgc.c	2008-06-07 22:34:42.000000000 +0100
 @@ -49,6 +49,7 @@
  #include "fxi.h"
  #include "fbm.h"
@@ -42,8 +42,8 @@ diff -ur fxi/src/fgc.c fxi/src/fgc.c
  const char * fgc_error = "";
 
 diff -ur fxi/src/g_fpg.c fxi/src/g_fpg.c
---- fxi/src/g_fpg.c	2008-06-07 22:29:46.000000000 +0100
-+++ fxi/src/g_fpg.c	2008-06-07 22:29:46.000000000 +0100
+--- a/fxi/src/g_fpg.c	2008-06-07 22:29:46.000000000 +0100
++++ b/fxi/src/g_fpg.c	2008-06-07 22:29:46.000000000 +0100
 @@ -46,6 +46,7 @@
  #endif
  

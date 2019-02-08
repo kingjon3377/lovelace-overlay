@@ -1,7 +1,7 @@
 Index: fxi/src/i_main.c
 ===================================================================
---- fxi/src/i_main.c	2007-08-28 14:38:49.000000000 +0200
-+++ fxi/src/i_main.c	2007-08-28 14:44:31.000000000 +0200
+--- a/fxi/src/i_main.c	2007-08-28 14:38:49.000000000 +0200
++++ b/fxi/src/i_main.c	2007-08-28 14:44:31.000000000 +0200
 @@ -39,6 +39,13 @@
  
  #include <string.h>
@@ -29,7 +29,7 @@ Index: fxi/src/i_main.c
  
              case MN_SYSCALL:
                  p = sysproc_get (ptr[1]) ;
--                if (!p) gr_error ("Error: Funci√≥n del sistema desconocida\n") ;
+-                if (!p) gr_error ("Error: FunciÛn del sistema desconocida\n") ;
 +                if (!p) gr_error (_("Error: unknown system function\n")) ;
                  stack_ptr -= p->params ;
                  *stack_ptr = (*p->func) (r, stack_ptr) ;
@@ -279,8 +279,8 @@ Index: fxi/src/i_main.c
  
 Index: fxi/src/img_pcx.c
 ===================================================================
---- fxi/src/img_pcx.c	2007-08-28 14:38:49.000000000 +0200
-+++ fxi/src/img_pcx.c	2007-08-28 14:44:31.000000000 +0200
+--- a/fxi/src/img_pcx.c	2007-08-28 14:38:49.000000000 +0200
++++ b/fxi/src/img_pcx.c	2007-08-28 14:44:31.000000000 +0200
 @@ -45,6 +45,13 @@
  #include <string.h>
  #include <stdlib.h>
@@ -333,8 +333,8 @@ Index: fxi/src/img_pcx.c
  	bitmap->modified = 1 ;
 Index: fxi/src/img_png.c
 ===================================================================
---- fxi/src/img_png.c	2007-08-28 14:38:49.000000000 +0200
-+++ fxi/src/img_png.c	2007-08-28 14:44:32.000000000 +0200
+--- a/fxi/src/img_png.c	2007-08-28 14:38:49.000000000 +0200
++++ b/fxi/src/img_png.c	2007-08-28 14:44:32.000000000 +0200
 @@ -45,6 +45,13 @@
  #include <string.h>
  #include <stdlib.h>
@@ -350,7 +350,7 @@ Index: fxi/src/img_png.c
  #include "fxi.h"
  
 @@ -82,15 +89,15 @@
-     /* Abre el fichero y se asegura de que screen est√° inicializada */
+     /* Abre el fichero y se asegura de que screen est· inicializada */
  
      png = file_open (filename, "rb") ;
 -    if (!png) gr_error ("No existe %s\n", filename) ;
@@ -388,8 +388,8 @@ Index: fxi/src/img_png.c
                  png_get_PLTE (png_ptr, info_ptr, &png_palette, &n) ;
 Index: fxi/src/i_saveload.c
 ===================================================================
---- fxi/src/i_saveload.c	2007-08-28 14:38:49.000000000 +0200
-+++ fxi/src/i_saveload.c	2007-08-28 14:39:59.000000000 +0200
+--- a/fxi/src/i_saveload.c	2007-08-28 14:38:49.000000000 +0200
++++ b/fxi/src/i_saveload.c	2007-08-28 14:39:59.000000000 +0200
 @@ -43,6 +43,13 @@
  #include <math.h>
  #include <time.h>
@@ -433,8 +433,8 @@ Index: fxi/src/i_saveload.c
  		break;
 Index: fxi/src/main.c
 ===================================================================
---- fxi/src/main.c	2007-08-28 14:38:49.000000000 +0200
-+++ fxi/src/main.c	2007-08-28 14:46:17.000000000 +0200
+--- a/fxi/src/main.c	2007-08-28 14:38:49.000000000 +0200
++++ b/fxi/src/main.c	2007-08-28 14:46:17.000000000 +0200
 @@ -47,6 +47,14 @@
  #include <string.h>
  #include <time.h>
@@ -513,8 +513,8 @@ Index: fxi/src/main.c
  			}
 Index: fxi/src/sound.c
 ===================================================================
---- fxi/src/sound.c	2007-08-28 14:38:49.000000000 +0200
-+++ fxi/src/sound.c	2007-08-28 14:40:00.000000000 +0200
+--- a/fxi/src/sound.c	2007-08-28 14:38:49.000000000 +0200
++++ b/fxi/src/sound.c	2007-08-28 14:40:00.000000000 +0200
 @@ -40,6 +40,13 @@
  #include <stdlib.h>
  #include <string.h>

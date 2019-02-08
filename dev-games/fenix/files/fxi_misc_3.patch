@@ -1,8 +1,8 @@
 
 Index: fxi/src/i_debug.c
 ===================================================================
---- fxi/src/i_debug.c	2007-08-28 14:39:58.000000000 +0200
-+++ fxi/src/i_debug.c	2007-08-28 14:41:14.000000000 +0200
+--- a/fxi/src/i_debug.c	2007-08-28 14:39:58.000000000 +0200
++++ b/fxi/src/i_debug.c	2007-08-28 14:41:14.000000000 +0200
 @@ -155,7 +155,7 @@
      { "STR2FLOAT", MN_STR2FLOAT, 1 },
      { "FLOAT2STR", MN_FLOAT2STR, 1 },
@@ -32,8 +32,8 @@ Index: fxi/src/i_debug.c
              line[0] = 0 ;
 Index: fxi/src/i_func.c
 ===================================================================
---- fxi/src/i_func.c	2007-08-28 14:41:05.000000000 +0200
-+++ fxi/src/i_func.c	2007-08-28 14:41:15.000000000 +0200
+--- a/fxi/src/i_func.c	2007-08-28 14:41:05.000000000 +0200
++++ b/fxi/src/i_func.c	2007-08-28 14:41:15.000000000 +0200
 @@ -173,10 +173,10 @@
  
  static int fxi_rand (INSTANCE * my, int * params)
@@ -518,8 +518,8 @@ Index: fxi/src/i_func.c
      GLODWORD(FILE_SIZE)      = s.st_size;
 Index: fxi/src/i_main.c
 ===================================================================
---- fxi/src/i_main.c	2007-08-28 14:39:59.000000000 +0200
-+++ fxi/src/i_main.c	2007-08-28 14:41:15.000000000 +0200
+--- a/fxi/src/i_main.c	2007-08-28 14:39:59.000000000 +0200
++++ b/fxi/src/i_main.c	2007-08-28 14:41:15.000000000 +0200
 @@ -182,7 +182,7 @@
  	return result;
  }
@@ -606,7 +606,7 @@ Index: fxi/src/i_main.c
  
 +            if (must_exit) break ;
 +
-             /* Si no se ejecut√≥ nada: Dibujar, actualizar variables, etc. */
+             /* Si no se ejecutÛ nada: Dibujar, actualizar variables, etc. */
  
              if (!i_count && !force_debug)
 @@ -290,8 +288,7 @@
@@ -899,7 +899,7 @@ Index: fxi/src/i_main.c
 -                break ;
 +                break ; */
  
-             /* Operaciones matem√°ticas  en coma floatante */
+             /* Operaciones matem·ticas  en coma floatante */
  
 @@ -1098,121 +1117,101 @@
              /* Operaciones a nivel de bit */
@@ -1211,8 +1211,8 @@ Index: fxi/src/i_main.c
  }
 Index: fxi/src/img_pcx.c
 ===================================================================
---- fxi/src/img_pcx.c	2007-08-28 14:39:59.000000000 +0200
-+++ fxi/src/img_pcx.c	2007-08-28 14:41:16.000000000 +0200
+--- a/fxi/src/img_pcx.c	2007-08-28 14:39:59.000000000 +0200
++++ b/fxi/src/img_pcx.c	2007-08-28 14:41:16.000000000 +0200
 @@ -81,6 +81,10 @@
  	Uint8	Filler[54];
  } PCXheader ;
@@ -1270,8 +1270,8 @@ Index: fxi/src/img_pcx.c
  	}
 Index: fxi/src/img_png.c
 ===================================================================
---- fxi/src/img_png.c	2007-08-28 14:39:59.000000000 +0200
-+++ fxi/src/img_png.c	2007-08-28 14:41:16.000000000 +0200
+--- a/fxi/src/img_png.c	2007-08-28 14:39:59.000000000 +0200
++++ b/fxi/src/img_png.c	2007-08-28 14:41:16.000000000 +0200
 @@ -144,35 +144,41 @@
      /* Recupera el fichero, convirtiendo a 16 bits si es preciso */
  
@@ -1491,10 +1491,10 @@ Index: fxi/src/img_png.c
                             ((*orig & 0x001f) << 19)|
 Index: fxi/src/instance.c
 ===================================================================
---- fxi/src/instance.c	2007-08-28 14:38:27.000000000 +0200
-+++ fxi/src/instance.c	2007-08-28 14:41:16.000000000 +0200
+--- a/fxi/src/instance.c	2007-08-28 14:38:27.000000000 +0200
++++ b/fxi/src/instance.c	2007-08-28 14:41:16.000000000 +0200
 @@ -53,12 +53,12 @@
- /* destrucci√≥n, duplicado, etc.                                           */
+ /* destrucciÛn, duplicado, etc.                                           */
  /* ---------------------------------------------------------------------- */
  
 -INSTANCE * first_instance = 0 ;

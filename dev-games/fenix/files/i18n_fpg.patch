@@ -3,8 +3,8 @@
 
 Index: fpg/fpg.c
 ===================================================================
---- fpg/fpg.c	2007-08-28 14:38:39.000000000 +0200
-+++ fpg/fpg.c	2007-08-28 14:40:02.000000000 +0200
+--- a/fpg/fpg.c	2007-08-28 14:38:39.000000000 +0200
++++ b/fpg/fpg.c	2007-08-28 14:40:02.000000000 +0200
 @@ -24,6 +24,14 @@
  #ifndef WIN32
  #include <unistd.h>
@@ -21,7 +21,7 @@ Index: fpg/fpg.c
  #include <png.h>
  
 @@ -168,15 +176,15 @@
- 	/* Abre el fichero y se asegura de que screen est√° inicializada */
+ 	/* Abre el fichero y se asegura de que screen est· inicializada */
  
  	png = fopen (filename, "rb") ;
 -	if (!png) fatal_error ("No existe %s\n", filename) ;
@@ -115,7 +115,7 @@ Index: fpg/fpg.c
  	else if (strcmp (header, "fpg\x1A\x0D\x0A") != 0 &&
  	    strcmp (header, "fnt\x1A\x0D\x0A") != 0 &&
  	    strcmp (header, "pal\x1A\x0D\x0A") != 0)
--		fatal_error ("%s: no es un fichero de paleta v√°lido", filename) ;
+-		fatal_error ("%s: no es un fichero de paleta v·lido", filename) ;
 +		fatal_error (_("'%s': not a valid palette file"), filename) ;
  
  	gzread (file, here, PALETTE_SIZE) ;
@@ -156,14 +156,14 @@ Index: fpg/fpg.c
  				if (is_16bits && maps[n_maps]->depth == 8)
  					map_8to16 (maps[n_maps]) ;
  				if (!is_16bits && maps[n_maps]->depth == 16)
--					fatal_error ("Error: intento de a√±adir un gr√°fico de 16 bits a un FPG de 8\n") ;
+-					fatal_error ("Error: intento de aÒadir un gr·fico de 16 bits a un FPG de 8\n") ;
 +					fatal_error (_("Error: trying to add a 16 bit graphic to an 8 bit FPG file\n")) ;
  				n_maps++ ;
  			}
  		}
  		*nfile = n_files ;
  		if (n_maps == 0 && action == AC_ADD)
--			printf ("Aviso: el fichero FPG se crear√° vac√≠o\n") ;
+-			printf ("Aviso: el fichero FPG se crear· vacÌo\n") ;
 +			printf (_("Warning: FPG file will be created empty\n")) ;
  	}
  
@@ -217,7 +217,7 @@ Index: fpg/fpg.c
  
  		if (map.code < 0 || map.code >= 1000)
  		{
--			fatal_error ("Aviso: c√≥digo %d err√≥neo\n", map.code) ;
+-			fatal_error ("Aviso: cÛdigo %d errÛneo\n", map.code) ;
 +			fatal_error (_("Warning: wrong code %d\n"), map.code) ;
  			map.code = 0 ;
  		}
@@ -315,7 +315,7 @@ Index: fpg/fpg.c
  			}
  			len = map.width * map.height * bitmap->frames * (is_16bits ? 2:1) ;
  			gzwrite (ofile, bitmap->data, len) ;
--			printf ("  %03d: %-32s A√ëADIDO\n", map.code, map.name) ;
+-			printf ("  %03d: %-32s A—ADIDO\n", map.code, map.name) ;
 +			printf (_("  %03d: %-32s ADDED\n"), map.code, map.name) ;
  		}
  		*nfile = n_files ;
@@ -324,24 +324,24 @@ Index: fpg/fpg.c
  
  void help ()
  {
--	printf ("FPG Utility - Copyright (C) 1999 Jos√© Luis Cebri√°n Pag√ºe\n"
+-	printf ("FPG Utility - Copyright (C) 1999 JosÈ Luis Cebri·n Pag¸e\n"
 -		"This utility comes with ABSOLUTELY NO WARRANTY; fpg -h for details\n\n") ;
 +	printf (_("FPG Utility - Copyright (C) 1999 Jose Luis Cebrian Pague\n"
 +		"This utility comes with ABSOLUTELY NO WARRANTY; fpg -h for details\n\n")) ;
  
--	printf ("Uso: fpg [opcion] fichero [gr√°fico ...]\n"
+-	printf ("Uso: fpg [opcion] fichero [gr·fico ...]\n"
 +	printf (_("Usage: fpg [option] filename.fpg [image ...]\n"
  		"\n"
--		"    -l      Describe el FPG (opci√≥n por defecto): -v m√°s extenso\n"
--		"    -n      Crea un nuevo FPG, opcionalmente a√±adiendo MAPs\n"
--		"    -o      Crea un nuevo FPG de 8 bits, opcionalmente a√±adiendo MAPs\n"
--		"    -d      Elimina los gr√°ficos indicados del FPG\n"
+-		"    -l      Describe el FPG (opciÛn por defecto): -v m·s extenso\n"
+-		"    -n      Crea un nuevo FPG, opcionalmente aÒadiendo MAPs\n"
+-		"    -o      Crea un nuevo FPG de 8 bits, opcionalmente aÒadiendo MAPs\n"
+-		"    -d      Elimina los gr·ficos indicados del FPG\n"
 -		"    -p      Extrae la paleta (.PAL) del fichero\n"
--		"    -e      Extrae gr√°ficos (.MAP) del FPG y los borra del mismo\n"
--		"    -x      Extrae gr√°ficos (.MAP) del FPG\n"
--		"    -a      A√±ade  gr√°ficos (.MAP) al FPG\n"
+-		"    -e      Extrae gr·ficos (.MAP) del FPG y los borra del mismo\n"
+-		"    -x      Extrae gr·ficos (.MAP) del FPG\n"
+-		"    -a      AÒade  gr·ficos (.MAP) al FPG\n"
 -		"    -c      Convierte el .FPG a 16 bits\n"
--		"    -#      Nivel de compresi√≥n (0 a 9)\n"
+-		"    -#      Nivel de compresiÛn (0 a 9)\n"
 +		"    -l      Describe the FPG file (default option): -v more verbose\n"
 +		"    -n      Create a new FPG file, optionally adding MAP (graphic) files\n"
 +		"    -o      Create a new 8-bit FPG file, optionally adding MAP (graphic) files\n"
@@ -353,9 +353,9 @@ Index: fpg/fpg.c
 +		"    -c      Convert the .FPG to 16 bits\n"
 +		"    -#      Level of compression (0 to 9)\n"
  		"\n"
--		"Las opciones -x y -e admiten indicar los gr√°ficos mediante su c√≥digo.\n"
--		"Se pueden utilizar rangos a-b y varios gr√°ficos separados por comas.\n"
--		"Las opciones -p y -l admiten m√∫ltiples ficheros fpg\n\n") ;
+-		"Las opciones -x y -e admiten indicar los gr·ficos mediante su cÛdigo.\n"
+-		"Se pueden utilizar rangos a-b y varios gr·ficos separados por comas.\n"
+-		"Las opciones -p y -l admiten m˙ltiples ficheros fpg\n\n") ;
 +		"Options -x and -e can select the graphics by their code.\n"
 +		"Ranges in the form a\-b can be used, as well as comma\-separated graphics references.\n"
 +		"Options -p and -l admit multiple FPG files\n\n")) ;
@@ -398,7 +398,7 @@ Index: fpg/fpg.c
  						help() ;
  						return -1 ;
  					default:
--						fatal_error ("Error: opci√≥n -%c no reconocida\n", *ptr) ;
+-						fatal_error ("Error: opciÛn -%c no reconocida\n", *ptr) ;
 +						fatal_error (_("Error: unknown option -%c\n"), *ptr) ;
  				}
  				ptr++ ;
@@ -416,7 +416,7 @@ Index: fpg/fpg.c
  				fpg_process (files[i], &i) ;
  				break ;
  			default:
--				fatal_error ("Error: Acci√≥n no disponible\n") ;
+-				fatal_error ("Error: AcciÛn no disponible\n") ;
 +				fatal_error (_("Error: action not available\n")) ;
  		}
  	}

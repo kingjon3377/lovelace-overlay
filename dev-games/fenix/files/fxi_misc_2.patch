@@ -1,7 +1,7 @@
 Index: fxi/src/g_mode7.c
 ===================================================================
---- fxi/src/g_mode7.c	2007-08-28 14:38:26.000000000 +0200
-+++ fxi/src/g_mode7.c	2007-08-28 14:41:14.000000000 +0200
+--- a/fxi/src/g_mode7.c	2007-08-28 14:38:26.000000000 +0200
++++ b/fxi/src/g_mode7.c	2007-08-28 14:41:14.000000000 +0200
 @@ -71,8 +71,7 @@
  
  void gr_mode7_bbox (int n, REGION * r)
@@ -24,7 +24,7 @@ Index: fxi/src/g_mode7.c
 +        lines[y].right_bmp_x = fdiv(fmul((point_x - camera_x), -camera_z), (point_z - camera_z)) + camera_x ;
 +        lines[y].right_bmp_y = fdiv(fmul((point_y - camera_y), -camera_z), (point_z - camera_z)) + camera_y ;
  
-         /* Averigua el incremento necesario para cada paso de la lÃ­nea */
+         /* Averigua el incremento necesario para cada paso de la línea */
  
 @@ -275,27 +271,21 @@
      if (outdoor)
@@ -82,8 +82,8 @@ Index: fxi/src/g_mode7.c
      /* Crea una lista ordenada de instancias a dibujar */
 Index: fxi/src/g_pal.c
 ===================================================================
---- fxi/src/g_pal.c	2007-08-28 14:39:57.000000000 +0200
-+++ fxi/src/g_pal.c	2007-08-28 14:41:14.000000000 +0200
+--- a/fxi/src/g_pal.c	2007-08-28 14:39:57.000000000 +0200
++++ b/fxi/src/g_pal.c	2007-08-28 14:41:14.000000000 +0200
 @@ -54,10 +54,15 @@
  
  extern GRAPH * gr_read_png (const char * filename) ;
@@ -588,8 +588,8 @@ Index: fxi/src/g_pal.c
  void gr_set_rgb (int color, int r, int g, int b)
 Index: fxi/src/g_scroll.c
 ===================================================================
---- fxi/src/g_scroll.c	2007-08-28 14:39:57.000000000 +0200
-+++ fxi/src/g_scroll.c	2007-08-28 14:41:14.000000000 +0200
+--- a/fxi/src/g_scroll.c	2007-08-28 14:39:57.000000000 +0200
++++ b/fxi/src/g_scroll.c	2007-08-28 14:41:14.000000000 +0200
 @@ -36,9 +36,6 @@
  
  #include "fxi.h"
@@ -602,8 +602,8 @@ Index: fxi/src/g_scroll.c
  #define GRAPH_VWRAP 2
 Index: fxi/src/g_texts.c
 ===================================================================
---- fxi/src/g_texts.c	2007-08-28 14:39:57.000000000 +0200
-+++ fxi/src/g_texts.c	2007-08-28 14:41:14.000000000 +0200
+--- a/fxi/src/g_texts.c	2007-08-28 14:39:57.000000000 +0200
++++ b/fxi/src/g_texts.c	2007-08-28 14:41:14.000000000 +0200
 @@ -84,8 +84,7 @@
  {
        char *p1, *p2;

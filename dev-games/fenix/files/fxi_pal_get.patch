@@ -2,8 +2,8 @@
 # Licensed under the GPL, see /usr/share/common-licenses/GPL
 # See http://bugs.debian.org/437735
 
---- fxi/inc/g_pal.h~	2007-10-08 15:54:16.000000000 -0600
-+++ fxi/inc/g_pal.h	2007-10-08 16:00:04.000000000 -0600
+--- a/fxi/inc/g_pal.h	2007-10-08 15:54:16.000000000 -0600
++++ b/fxi/inc/g_pal.h	2007-10-08 16:00:04.000000000 -0600
 @@ -27,6 +27,7 @@
  #ifndef __G_PAL_H
  #define __G_PAL_H

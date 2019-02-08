@@ -3,8 +3,8 @@
 
 Index: fxi/src/dcbr.c
 ===================================================================
---- fxi/src/dcbr.c	2007-08-28 14:38:47.000000000 +0200
-+++ fxi/src/dcbr.c	2007-08-28 14:46:00.000000000 +0200
+--- a/fxi/src/dcbr.c	2007-08-28 14:38:47.000000000 +0200
++++ b/fxi/src/dcbr.c	2007-08-28 14:46:00.000000000 +0200
 @@ -45,6 +45,14 @@
  #else
  #include <direct.h>
@@ -31,8 +31,8 @@ Index: fxi/src/dcbr.c
  }
 Index: fxi/src/fbm.c
 ===================================================================
---- fxi/src/fbm.c	2007-08-28 14:38:47.000000000 +0200
-+++ fxi/src/fbm.c	2007-08-28 14:44:30.000000000 +0200
+--- a/fxi/src/fbm.c	2007-08-28 14:38:47.000000000 +0200
++++ b/fxi/src/fbm.c	2007-08-28 14:44:30.000000000 +0200
 @@ -34,6 +34,13 @@
  #include <string.h>
  #include <stdlib.h>
@@ -60,13 +60,13 @@ Index: fxi/src/fbm.c
  
  		if (strcmp (file_header.magic, FBM_MAGIC) != 0)
  		{
--			fbm_error = "El fichero no es un FBM v谩lido";
+-			fbm_error = "El fichero no es un FBM v醠ido";
 +			fbm_error = _("Not a valid FBM file");
  			return NULL;
  		}
  		if ((file_header.version & 0xFF00) != 0x0100)
  		{
--			fbm_error = "El fichero FBM es de una versi贸n posterior incompatible";
+-			fbm_error = "El fichero FBM es de una versi髇 posterior incompatible";
 +			fbm_error = _("FBM file is from a later incompatible version");
  			return NULL;
  		}
@@ -108,7 +108,7 @@ Index: fxi/src/fbm.c
  		graph = bitmap_new (header.code, header.width, header.height, file_header.depth, header.max_frame+1);
  		if (graph == NULL)
  		{
--			fbm_error = "Error al crear el gr谩fico en memoria";
+-			fbm_error = "Error al crear el gr醘ico en memoria";
 +			fbm_error = _("Error creating graphic in memory");
  			error = 1;
  		}
@@ -250,8 +250,8 @@ Index: fxi/src/fbm.c
  	}
 Index: fxi/src/fgc.c
 ===================================================================
---- fxi/src/fgc.c	2007-08-28 14:38:47.000000000 +0200
-+++ fxi/src/fgc.c	2007-08-28 14:44:30.000000000 +0200
+--- a/fxi/src/fgc.c	2007-08-28 14:38:47.000000000 +0200
++++ b/fxi/src/fgc.c	2007-08-28 14:44:30.000000000 +0200
 @@ -39,6 +39,13 @@
  #include <assert.h>
  #endif
@@ -321,7 +321,7 @@ Index: fxi/src/fgc.c
  	lib = grlib_get(id);
  	if (lib == NULL || !lib->maps)
  	{
--		fgc_error = "N煤mero de librer铆a incorrecta";
+-		fgc_error = "N鷐ero de librer韆 incorrecta";
 +		fgc_error = _("Incorrect library number");
  		return 0;
  	}
@@ -330,7 +330,7 @@ Index: fxi/src/fgc.c
  		}
  		if (header.depth != lib->maps[i]->depth)
  		{
--			fgc_error = "La librer铆a contiene mapas de diferente profundidad";
+-			fgc_error = "La librer韆 contiene mapas de diferente profundidad";
 +			fgc_error = _("Library contains maps of different depth");
  			return 0;
  		}
@@ -381,8 +381,8 @@ Index: fxi/src/fgc.c
  			return -1;
 Index: fxi/src/fnc_exports.c
 ===================================================================
---- fxi/src/fnc_exports.c	2007-08-28 14:38:47.000000000 +0200
-+++ fxi/src/fnc_exports.c	2007-08-28 14:44:30.000000000 +0200
+--- a/fxi/src/fnc_exports.c	2007-08-28 14:38:47.000000000 +0200
++++ b/fxi/src/fnc_exports.c	2007-08-28 14:44:30.000000000 +0200
 @@ -35,6 +35,13 @@
  
  #include <stdlib.h>
@@ -432,8 +432,8 @@ Index: fxi/src/fnc_exports.c
  
 Index: fxi/src/fpl.c
 ===================================================================
---- fxi/src/fpl.c	2007-08-28 14:38:47.000000000 +0200
-+++ fxi/src/fpl.c	2007-08-28 14:44:30.000000000 +0200
+--- a/fxi/src/fpl.c	2007-08-28 14:38:47.000000000 +0200
++++ b/fxi/src/fpl.c	2007-08-28 14:44:30.000000000 +0200
 @@ -34,6 +34,13 @@
  #include <string.h>
  #include <stdlib.h>
@@ -458,7 +458,7 @@ Index: fxi/src/fpl.c
  	}
  
      if (strncmp(header.magic, FPL_MAGIC, strlen(FPL_MAGIC)) == 0) {
--		fpl_error = "Fichero FPL inv谩lido" ;
+-		fpl_error = "Fichero FPL inv醠ido" ;
 +		fpl_error = _("Invalid FPL file") ;
  		return 0 ;
      }
@@ -467,13 +467,13 @@ Index: fxi/src/fpl.c
  	ARRANGE_DWORD(&file_header.version);
  
  	if (!FPL_VALID_DEPTH(header.depth)) {
--		fpl_error = "Profundidad de color no v谩lida en el fichero FPL" ;
+-		fpl_error = "Profundidad de color no v醠ida en el fichero FPL" ;
 +		fpl_error = _("Invalid colour depth in the FPL file") ;
  		return 0 ;
  	}
  
  	if ((header.version & 0xFF00) != 0x0100) {
--		fpl_error = "El fichero FPL es de una versi贸n posterior incompatible";
+-		fpl_error = "El fichero FPL es de una versi髇 posterior incompatible";
 +		fpl_error = _("FPL belongs to a later incompatible version");
  		return 0;
  	}
@@ -522,8 +522,8 @@ Index: fxi/src/fpl.c
  
 Index: fxi/src/f_sort.c
 ===================================================================
---- fxi/src/f_sort.c	2007-08-28 14:38:47.000000000 +0200
-+++ fxi/src/f_sort.c	2007-08-28 14:39:55.000000000 +0200
+--- a/fxi/src/f_sort.c	2007-08-28 14:38:47.000000000 +0200
++++ b/fxi/src/f_sort.c	2007-08-28 14:39:55.000000000 +0200
 @@ -32,6 +32,13 @@
  #include <stdlib.h>
  #include <string.h>
@@ -551,7 +551,7 @@ Index: fxi/src/f_sort.c
  			}
  			if (maxvar == NULL)
  			{
--				gr_con_printf ("Estructura vac铆a");
+-				gr_con_printf ("Estructura vac韆");
 +				gr_con_printf (_("Empty structure"));
  				return 0;
  			}
@@ -569,7 +569,7 @@ Index: fxi/src/f_sort.c
  			compare = compare_float;
  			break;
  		default:
--			gr_con_printf ("Tipo de dato usado como clave de ordenaci贸n inv谩lido");
+-			gr_con_printf ("Tipo de dato usado como clave de ordenaci髇 inv醠ido");
 +			gr_con_printf (_("Invalid data type used as sorting key"));
  			return 0;
  	}
@@ -578,19 +578,19 @@ Index: fxi/src/f_sort.c
  
  	if (type->BaseType[0] != TYPE_ARRAY)
  	{
--		gr_con_printf ("S贸lo se permite ordenar un array de estructuras o valores");
+-		gr_con_printf ("S髄o se permite ordenar un array de estructuras o valores");
 +		gr_con_printf (_("Only arrays of structures or values can be sorted"));
  		return 0;
  	}
  	if (vars > 1)
  	{
--		gr_con_printf ("Intento de ordenar una estructura con un s贸lo elemento");
+-		gr_con_printf ("Intento de ordenar una estructura con un s髄o elemento");
 +		gr_con_printf (_("Trying to sort a structure with just one element"));
  		return 0;
  	}
  	if (type->Count[0] < 2)
  	{
--		gr_con_printf ("Intento de ordenar un array con un s贸lo elemento");
+-		gr_con_printf ("Intento de ordenar un array con un s髄o elemento");
 +		gr_con_printf (_("Trying to sort an array with just one element"));
  		return 0;
  	}
@@ -599,19 +599,19 @@ Index: fxi/src/f_sort.c
  
  	if (type->BaseType[0] != TYPE_ARRAY)
  	{
--		gr_con_printf ("S贸lo se permite ordenar un array de estructuras o valores");
+-		gr_con_printf ("S髄o se permite ordenar un array de estructuras o valores");
 +		gr_con_printf (_("Only arrays of structures or values can be sorted"));
  		return 0;
  	}
  	if (vars > 1)
  	{
--		gr_con_printf ("Intento de ordenar una estructura con un s贸lo elemento");
+-		gr_con_printf ("Intento de ordenar una estructura con un s髄o elemento");
 +		gr_con_printf (_("Trying to sort a structure with just one element"));
  		return 0;
  	}
  	if (type->Count[0] < 2)
  	{
--		gr_con_printf ("Intento de ordenar un array con un s贸lo elemento");
+-		gr_con_printf ("Intento de ordenar un array con un s髄o elemento");
 +		gr_con_printf (_("Trying to sort an array with just one element"));
  		return 0;
  	}
@@ -629,7 +629,7 @@ Index: fxi/src/f_sort.c
  	}
  	if (vars > 1)
  	{
--		gr_con_printf ("Intento de ordenar una estructura con un s贸lo elemento");
+-		gr_con_printf ("Intento de ordenar una estructura con un s髄o elemento");
 +		gr_con_printf (_("Trying to sort a structure with just one element"));
  		return 0;
  	}
@@ -638,7 +638,7 @@ Index: fxi/src/f_sort.c
  	}
  	if (vars > 1)
  	{
--		gr_con_printf ("Intento de ordenar una estructura con un s贸lo elemento");
+-		gr_con_printf ("Intento de ordenar una estructura con un s髄o elemento");
 +		gr_con_printf (_("Trying to sort a structure with just one element"));
  		return 0;
  	}

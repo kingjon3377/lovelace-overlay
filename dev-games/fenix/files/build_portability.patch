@@ -4,8 +4,8 @@
 
 Index: configure
 ===================================================================
---- configure	2008-06-07 01:19:20.000000000 +0200
-+++ configure	2008-06-07 01:19:39.000000000 +0200
+--- a/configure	2008-06-07 01:19:20.000000000 +0200
++++ b/configure	2008-06-07 01:19:39.000000000 +0200
 @@ -1621,7 +1621,7 @@
  
  
@@ -17,8 +17,8 @@ Index: configure
  	            COMMON_CFLAGS="-Wall -DTARGET_LinuxPPC -DTARGET_Linux"
 Index: configure.in
 ===================================================================
---- configure.in	2008-06-07 01:18:44.000000000 +0200
-+++ configure.in	2008-06-07 01:19:15.000000000 +0200
+--- a/configure.in	2008-06-07 01:18:44.000000000 +0200
++++ b/configure.in	2008-06-07 01:19:15.000000000 +0200
 @@ -40,7 +40,7 @@
  
  dnl Aqui es donde se chequeara el SO, pero solo hay una opcion xD

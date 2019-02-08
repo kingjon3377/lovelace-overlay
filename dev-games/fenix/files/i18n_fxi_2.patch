@@ -1,7 +1,7 @@
 Index: fxi/src/g_fpg.c
 ===================================================================
---- fxi/src/g_fpg.c	2007-08-28 14:38:48.000000000 +0200
-+++ fxi/src/g_fpg.c	2007-08-28 14:44:31.000000000 +0200
+--- a/fxi/src/g_fpg.c	2007-08-28 14:38:48.000000000 +0200
++++ b/fxi/src/g_fpg.c	2007-08-28 14:44:31.000000000 +0200
 @@ -38,6 +38,13 @@
  #include <windows.h>
  #endif
@@ -48,8 +48,8 @@ Index: fxi/src/g_fpg.c
  	}
 Index: fxi/src/g_main.c
 ===================================================================
---- fxi/src/g_main.c	2007-08-28 14:38:48.000000000 +0200
-+++ fxi/src/g_main.c	2007-08-28 14:44:31.000000000 +0200
+--- a/fxi/src/g_main.c	2007-08-28 14:38:48.000000000 +0200
++++ b/fxi/src/g_main.c	2007-08-28 14:44:31.000000000 +0200
 @@ -47,6 +47,13 @@
  #include <assert.h>
  #endif
@@ -131,8 +131,8 @@ Index: fxi/src/g_main.c
  
 Index: fxi/src/g_maps.c
 ===================================================================
---- fxi/src/g_maps.c	2007-08-28 14:38:48.000000000 +0200
-+++ fxi/src/g_maps.c	2007-08-28 14:44:31.000000000 +0200
+--- a/fxi/src/g_maps.c	2007-08-28 14:38:48.000000000 +0200
++++ b/fxi/src/g_maps.c	2007-08-28 14:44:31.000000000 +0200
 @@ -41,6 +41,13 @@
  #include <string.h>
  #include <stdlib.h>
@@ -185,8 +185,8 @@ Index: fxi/src/g_maps.c
  
 Index: fxi/src/g_pal.c
 ===================================================================
---- fxi/src/g_pal.c	2007-08-28 14:38:48.000000000 +0200
-+++ fxi/src/g_pal.c	2007-08-28 14:44:31.000000000 +0200
+--- a/fxi/src/g_pal.c	2007-08-28 14:38:48.000000000 +0200
++++ b/fxi/src/g_pal.c	2007-08-28 14:44:31.000000000 +0200
 @@ -40,6 +40,13 @@
  #include <string.h>
  #include <stdlib.h>
@@ -223,7 +223,7 @@ Index: fxi/src/g_pal.c
                  palette_changed = 1 ;
                  r = 1 ;
              } else {
--                fgc_error = "Fichero FGC no contiene informaciÃ³n de paleta";
+-                fgc_error = "Fichero FGC no contiene información de paleta";
 +                fgc_error = _("FGC file does not contain information about the colour palette");
                  file_close(fp);
                  return -1;
@@ -266,8 +266,8 @@ Index: fxi/src/g_pal.c
  
 Index: fxi/src/g_profiler.c
 ===================================================================
---- fxi/src/g_profiler.c	2007-08-28 14:38:48.000000000 +0200
-+++ fxi/src/g_profiler.c	2007-08-28 14:39:57.000000000 +0200
+--- a/fxi/src/g_profiler.c	2007-08-28 14:38:48.000000000 +0200
++++ b/fxi/src/g_profiler.c	2007-08-28 14:39:57.000000000 +0200
 @@ -42,6 +42,13 @@
  #include <math.h>
  #include <limits.h>
@@ -302,8 +302,8 @@ Index: fxi/src/g_profiler.c
  
 Index: fxi/src/g_scroll.c
 ===================================================================
---- fxi/src/g_scroll.c	2007-08-28 14:38:48.000000000 +0200
-+++ fxi/src/g_scroll.c	2007-08-28 14:44:31.000000000 +0200
+--- a/fxi/src/g_scroll.c	2007-08-28 14:38:48.000000000 +0200
++++ b/fxi/src/g_scroll.c	2007-08-28 14:44:31.000000000 +0200
 @@ -27,6 +27,13 @@
  #include <stdio.h>
  #include <stdlib.h>
@@ -332,8 +332,8 @@ Index: fxi/src/g_scroll.c
  
 Index: fxi/src/g_texts.c
 ===================================================================
---- fxi/src/g_texts.c	2007-08-28 14:38:48.000000000 +0200
-+++ fxi/src/g_texts.c	2007-08-28 14:44:31.000000000 +0200
+--- a/fxi/src/g_texts.c	2007-08-28 14:38:48.000000000 +0200
++++ b/fxi/src/g_texts.c	2007-08-28 14:44:31.000000000 +0200
 @@ -43,6 +43,13 @@
  #include <stdlib.h>
  #include <string.h>
@@ -404,8 +404,8 @@ Index: fxi/src/g_texts.c
  
 Index: fxi/src/i_copy.c
 ===================================================================
---- fxi/src/i_copy.c	2007-08-28 14:38:48.000000000 +0200
-+++ fxi/src/i_copy.c	2007-08-28 14:39:58.000000000 +0200
+--- a/fxi/src/i_copy.c	2007-08-28 14:38:48.000000000 +0200
++++ b/fxi/src/i_copy.c	2007-08-28 14:39:58.000000000 +0200
 @@ -43,6 +43,13 @@
  #include <math.h>
  #include <time.h>
@@ -431,8 +431,8 @@ Index: fxi/src/i_copy.c
  		break;
 Index: fxi/src/i_debug.c
 ===================================================================
---- fxi/src/i_debug.c	2007-08-28 14:38:48.000000000 +0200
-+++ fxi/src/i_debug.c	2007-08-28 14:44:31.000000000 +0200
+--- a/fxi/src/i_debug.c	2007-08-28 14:38:48.000000000 +0200
++++ b/fxi/src/i_debug.c	2007-08-28 14:44:31.000000000 +0200
 @@ -35,6 +35,13 @@
  
  #include <string.h>
@@ -458,8 +458,8 @@ Index: fxi/src/i_debug.c
          else
 Index: fxi/src/i_func.c
 ===================================================================
---- fxi/src/i_func.c	2007-08-28 14:38:48.000000000 +0200
-+++ fxi/src/i_func.c	2007-08-28 14:45:44.000000000 +0200
+--- a/fxi/src/i_func.c	2007-08-28 14:38:48.000000000 +0200
++++ b/fxi/src/i_func.c	2007-08-28 14:45:44.000000000 +0200
 @@ -125,6 +125,13 @@
  
  #include <fnx_loadlib.h>
@@ -478,7 +478,7 @@ Index: fxi/src/i_func.c
                      break ;
  
                  default:
--                    gr_error ("Tipo de seÃ±al desconocida") ;
+-                    gr_error ("Tipo de señal desconocida") ;
 +                    gr_error (_("Unknown signal type")) ;
              }
  
@@ -487,7 +487,7 @@ Index: fxi/src/i_func.c
  fxi_set_mode (INSTANCE * my, int * params)
  {
      if (params[0] < 3200200 || params[0] > 16001400)
--        gr_error ("Modo grÃ¡fico no soportado") ;
+-        gr_error ("Modo gráfico no soportado") ;
 +        gr_error (_("Unsupported graphic mode")) ;
  
      gr_init(params[0]/10000, params[0]%10000) ;
@@ -496,7 +496,7 @@ Index: fxi/src/i_func.c
  fxi_set_mode_2 (INSTANCE * my, int * params)
  {
      if (params[0]>1600 || params[1]>1400)
--        gr_error ("Modo grÃ¡fico no soportado") ;
+-        gr_error ("Modo gráfico no soportado") ;
 +        gr_error (_("Unsupported graphic mode")) ;
  
      gr_init(params[0], params[1]) ;
@@ -505,7 +505,7 @@ Index: fxi/src/i_func.c
  {
  
      if (params[0]>1600 || params[1]>1400)
--        gr_error ("Modo grÃ¡fico no soportado");
+-        gr_error ("Modo gráfico no soportado");
 +        gr_error (_("Unsupported graphic mode"));
  
      GLODWORD(GRAPH_MODE) = ((GLODWORD(GRAPH_MODE) & 0xFF) | params[2]);
@@ -514,7 +514,7 @@ Index: fxi/src/i_func.c
  {
  
      if (params[0]>1600 || params[1]>1400)
--        gr_error ("Modo grÃ¡fico no soportado");
+-        gr_error ("Modo gráfico no soportado");
 +        gr_error (_("Unsupported graphic mode"));
  
      GLODWORD(GRAPH_MODE) = (params[2] | params[3]);
@@ -523,7 +523,7 @@ Index: fxi/src/i_func.c
      if (!map) return -1 ;
      if (map->depth != 8)
      {
--        gr_error ("Intento de usar convert_palette con un grÃ¡fico de 16 bits") ;
+-        gr_error ("Intento de usar convert_palette con un gráfico de 16 bits") ;
 +        gr_error (_("Trying to use convert_palette with a 16 bit graphic")) ;
          return 0;
      }
@@ -541,8 +541,8 @@ Index: fxi/src/i_func.c
      GRAPH * dest = bitmap_get (params[0], params[1]) ;
      GRAPH * orig = bitmap_get (params[0], params[2]) ;
  
--    if (!dest) gr_error ("map_put: mapa de destino no vÃ¡lido") ;
--    if (!orig) gr_error ("map_put: mapa de origen no vÃ¡lido") ;
+-    if (!dest) gr_error ("map_put: mapa de destino no válido") ;
+-    if (!orig) gr_error ("map_put: mapa de origen no válido") ;
 +    if (!dest) gr_error (_("map_put: Invalid destination map")) ;
 +    if (!orig) gr_error (_("map_put: Invalid source map")) ;
  
@@ -588,7 +588,7 @@ Index: fxi/src/i_func.c
              t = TEXT_INT;
              break;
          default:
--            gr_error ("No es un tipo de dato vÃ¡lido");
+-            gr_error ("No es un tipo de dato válido");
 +            gr_error (_("Not a valid data type"));
              break ;
      }
@@ -629,7 +629,7 @@ Index: fxi/src/i_func.c
      if (!map) return 0;
  
      if (map->depth != 16) {
--        gr_con_printf ("Intento de usar filter con un grÃ¡fico de 8 bits") ;
+-        gr_con_printf ("Intento de usar filter con un gráfico de 8 bits") ;
 +        gr_con_printf (_("Trying to use filter with an 8 bit graphic")) ;
          return 0;
      }
@@ -638,7 +638,7 @@ Index: fxi/src/i_func.c
      if (!map) return 0;
  
      if (map->depth != 16) {
--        gr_con_printf ("Intento de usar blur con un grÃ¡fico de 8 bits") ;
+-        gr_con_printf ("Intento de usar blur con un gráfico de 8 bits") ;
 +        gr_con_printf (_("Trying to use blur with an 8 bit graphic")) ;
          return 0;
      }
@@ -647,7 +647,7 @@ Index: fxi/src/i_func.c
      if (!map) return -1 ;
  
      if (map->depth != 16) {
--        gr_con_printf ("Intento de usar grayscale con un grÃ¡fico de 8 bits") ;
+-        gr_con_printf ("Intento de usar grayscale con un gráfico de 8 bits") ;
 +        gr_con_printf (_("Trying to use grayscale with an 8 bit graphic")) ;
          return -1 ;
      }
@@ -656,7 +656,7 @@ Index: fxi/src/i_func.c
  
      if (!map) return -1 ;
      if (map->depth != 16)
--        gr_error ("Intento de usar rgbscale con un grÃ¡fico de 8 bits") ;
+-        gr_error ("Intento de usar rgbscale con un gráfico de 8 bits") ;
 +        gr_error (_("Trying to use rgbscale with an 8 bit graphic")) ;
  
      for(i=0;i<map->height;i++)
@@ -683,7 +683,7 @@ Index: fxi/src/i_func.c
  
      if (graph == NULL)
      {
--        gr_error("Intento de grabar un grÃ¡fico inexistente\n(LibrarÃ­a %d, grÃ¡fico %d)", params[0], params[1]);
+-        gr_error("Intento de grabar un gráfico inexistente\n(Libraría %d, gráfico %d)", params[0], params[1]);
 +        gr_error(_("Trying to save an unexistant graphic (library %d, graphic %d)"), params[0], params[1]);
      }
      else

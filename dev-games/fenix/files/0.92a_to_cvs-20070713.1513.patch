@@ -1,7 +1,7 @@
 Index: include/offsets.h
 ===================================================================
---- include/offsets.h	2007-08-28 14:38:27.000000000 +0200
-+++ include/offsets.h	2007-08-28 14:41:17.000000000 +0200
+--- a/include/offsets.h	2007-08-28 14:38:27.000000000 +0200
++++ b/include/offsets.h	2007-08-28 14:41:17.000000000 +0200
 @@ -160,28 +160,30 @@
  #define COORDY       	4*24
  #define COORDZ       	4*25
@@ -60,8 +60,8 @@ Index: include/offsets.h
 +#define SAVED_PRIORITY  4*53
 Index: include/pslang.h
 ===================================================================
---- include/pslang.h	2007-08-28 14:38:27.000000000 +0200
-+++ include/pslang.h	2007-08-28 14:41:17.000000000 +0200
+--- a/include/pslang.h	2007-08-28 14:38:27.000000000 +0200
++++ b/include/pslang.h	2007-08-28 14:41:17.000000000 +0200
 @@ -236,7 +236,7 @@
  /* Funciones de cadena (2) */
  
@@ -73,14 +73,14 @@ Index: include/pslang.h
  #define MN_STR2CHR              (0x79| MN_1_PARAMS)
 Index: include/sysprocs.h
 ===================================================================
---- include/sysprocs.h	2007-08-28 14:38:27.000000000 +0200
-+++ include/sysprocs.h	2007-08-28 14:41:17.000000000 +0200
+--- a/include/sysprocs.h	2007-08-28 14:38:27.000000000 +0200
++++ b/include/sysprocs.h	2007-08-28 14:41:17.000000000 +0200
 @@ -97,7 +97,6 @@
      { 0x5A, "JOY_BUTTONS"           , "I"     , TYPE_DWORD  , 1 , SYSMACRO(fxi_joy_buttons_specific) },
      { 0x5B, "JOY_AXES"              , "I"     , TYPE_DWORD  , 1 , SYSMACRO(fxi_joy_axes_specific) },
  
 -
-     /* InicializaciÃ³n y carga */
+     /* Inicialización y carga */
      { 0x60, "SET_MODE"              , "I"     , TYPE_DWORD  , 1 , SYSMACRO(fxi_set_mode) },
      { 0x61, "SET_FPS"               , "II"    , TYPE_DWORD  , 2 , SYSMACRO(fxi_set_fps) },
 @@ -107,6 +106,8 @@

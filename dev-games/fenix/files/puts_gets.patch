@@ -3,8 +3,8 @@
 
 Index: common/files.c
 ===================================================================
---- common/files.c	2007-08-28 14:40:08.000000000 +0200
-+++ common/files.c	2007-08-28 14:41:08.000000000 +0200
+--- a/common/files.c	2007-08-28 14:40:08.000000000 +0200
++++ b/common/files.c	2007-08-28 14:41:08.000000000 +0200
 @@ -120,7 +120,7 @@
  
  /* Guarda una cadena "cuoteada" al disco */
@@ -89,8 +89,8 @@ Index: common/files.c
  int file_writeSint8 (file * fp, Sint8 * buffer)
 Index: include/files.h
 ===================================================================
---- include/files.h	2007-08-28 14:38:27.000000000 +0200
-+++ include/files.h	2007-08-28 14:41:16.000000000 +0200
+--- a/include/files.h	2007-08-28 14:38:27.000000000 +0200
++++ b/include/files.h	2007-08-28 14:41:16.000000000 +0200
 @@ -51,6 +51,8 @@
  extern int    file_writeUint16 (file * fp, Uint16 * buffer) ;
  extern int    file_writeSint32 (file * fp, Sint32 * buffer) ;
@@ -102,8 +102,8 @@ Index: include/files.h
  extern int    file_size        (file * fp) ;
 Index: include/fxdll.h
 ===================================================================
---- include/fxdll.h	2007-08-28 14:41:04.000000000 +0200
-+++ include/fxdll.h	2007-08-28 14:41:17.000000000 +0200
+--- a/include/fxdll.h	2007-08-28 14:41:04.000000000 +0200
++++ b/include/fxdll.h	2007-08-28 14:41:17.000000000 +0200
 @@ -136,6 +136,8 @@
  FXEXTERN int    (*_file_write      )(file * fp, const void * buffer, int len) ;
  FXEXTERN int    (*_file_gets       )(file * fp, char * buffer, int len) ;
@@ -124,8 +124,8 @@ Index: include/fxdll.h
  #define file_pos		(*_file_pos)
  #define file_seek		(*_file_seek)
 @@ -407,7 +412,8 @@
- FXEXTERN int          * _fade_on ;               /* Â¿Hay un fade activo?                  */
- FXEXTERN int          * _fade_step ;             /* Si lo hay, posiciÃ³n (0=off)           */
+ FXEXTERN int          * _fade_on ;               /* ¿Hay un fade activo?                  */
+ FXEXTERN int          * _fade_step ;             /* Si lo hay, posición (0=off)           */
  
 -FXEXTERN int   (*_gr_read_pal           )(file * file) ;
 +FXEXTERN PALETTE *  (*_gr_read_pal           )(file * file) ;

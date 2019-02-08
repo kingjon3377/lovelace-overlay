@@ -1,7 +1,7 @@
 Index: fxi/src/g_blit.c
 ===================================================================
---- fxi/src/g_blit.c	2007-08-28 14:38:47.000000000 +0200
-+++ fxi/src/g_blit.c	2007-08-28 14:44:30.000000000 +0200
+--- a/fxi/src/g_blit.c	2007-08-28 14:38:47.000000000 +0200
++++ b/fxi/src/g_blit.c	2007-08-28 14:44:30.000000000 +0200
 @@ -44,6 +44,13 @@
  
  #include "fmath.h"
@@ -36,8 +36,8 @@ Index: fxi/src/g_blit.c
  
 Index: fxi/src/g_console.c
 ===================================================================
---- fxi/src/g_console.c	2007-08-28 14:38:47.000000000 +0200
-+++ fxi/src/g_console.c	2007-08-28 14:44:30.000000000 +0200
+--- a/fxi/src/g_console.c	2007-08-28 14:38:47.000000000 +0200
++++ b/fxi/src/g_console.c	2007-08-28 14:44:30.000000000 +0200
 @@ -35,6 +35,13 @@
  #include <string.h>
  #include <ctype.h>
@@ -58,9 +58,9 @@ Index: fxi/src/g_console.c
  
 -#define HELPTXT \
 +#define HELPTXT _( \
-             "Â¬02Process InfoÂ¬07\n"                                          \
-             "Â¬04INSTANCES      Â¬07  List all running processes\n"           \
-             "Â¬04GLOBALS        Â¬07  Show global vars with values\n"         \
+             "¬02Process Info¬07\n"                                          \
+             "¬04INSTANCES      ¬07  List all running processes\n"           \
+             "¬04GLOBALS        ¬07  Show global vars with values\n"         \
 @@ -85,7 +92,7 @@
              "\n"                                                            \
              "You can evaluate free expressions in the console,\n"           \
@@ -309,8 +309,8 @@ Index: fxi/src/g_console.c
              for (n = 0 ; n < procdef_count; n++) {
                  if (procs[n].breakpoint) {
                      if (!f) {
--                        gr_con_printf("Â¬02Process type breakpointsÂ¬07\n");
-+                        gr_con_printf(_("Â¬02Process type breakpointsÂ¬07\n"));
+-                        gr_con_printf("¬02Process type breakpoints¬07\n");
++                        gr_con_printf(_("¬02Process type breakpoints¬07\n"));
                          f = 1;
                      }
                      gr_con_printf("%s\n", procs[n].name);
@@ -318,8 +318,8 @@ Index: fxi/src/g_console.c
              for (i = first_instance ; i ; i = i->next) {
                  if (i->breakpoint) {
                      if (!f) {
--                            gr_con_printf("Â¬02Process breakpointsÂ¬07\n");
-+                            gr_con_printf(_("Â¬02Process breakpointsÂ¬07\n"));
+-                            gr_con_printf("¬02Process breakpoints¬07\n");
++                            gr_con_printf(_("¬02Process breakpoints¬07\n"));
                          f = 1;
                      }
                      gr_con_printf("%d\n", LOCDWORD(i, PROCESS_ID));
@@ -395,8 +395,8 @@ Index: fxi/src/g_console.c
              }
 Index: fxi/src/g_conversion.c
 ===================================================================
---- fxi/src/g_conversion.c	2007-08-28 14:38:47.000000000 +0200
-+++ fxi/src/g_conversion.c	2007-08-28 14:44:30.000000000 +0200
+--- a/fxi/src/g_conversion.c	2007-08-28 14:38:47.000000000 +0200
++++ b/fxi/src/g_conversion.c	2007-08-28 14:44:30.000000000 +0200
 @@ -34,6 +34,13 @@
  
  #include <stdlib.h>
@@ -422,8 +422,8 @@ Index: fxi/src/g_conversion.c
  
 Index: fxi/src/g_draw.c
 ===================================================================
---- fxi/src/g_draw.c	2007-08-28 14:38:47.000000000 +0200
-+++ fxi/src/g_draw.c	2007-08-28 14:44:31.000000000 +0200
+--- a/fxi/src/g_draw.c	2007-08-28 14:38:47.000000000 +0200
++++ b/fxi/src/g_draw.c	2007-08-28 14:44:31.000000000 +0200
 @@ -34,6 +34,13 @@
  #include <math.h>
  #include <stdlib.h>
@@ -467,8 +467,8 @@ Index: fxi/src/g_draw.c
      if (dest == background && !color)
 Index: fxi/src/g_font.c
 ===================================================================
---- fxi/src/g_font.c	2007-08-28 14:38:48.000000000 +0200
-+++ fxi/src/g_font.c	2007-08-28 14:44:31.000000000 +0200
+--- a/fxi/src/g_font.c	2007-08-28 14:38:48.000000000 +0200
++++ b/fxi/src/g_font.c	2007-08-28 14:44:31.000000000 +0200
 @@ -40,6 +40,13 @@
  #include <stdlib.h>
  #include <string.h>

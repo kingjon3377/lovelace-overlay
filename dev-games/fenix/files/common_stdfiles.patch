@@ -3,8 +3,8 @@
 
 Index: include/files_st.h
 ===================================================================
---- include/files_st.h	2007-08-28 14:38:36.000000000 +0200
-+++ include/files_st.h	2007-08-28 14:40:08.000000000 +0200
+--- a/include/files_st.h	2007-08-28 14:38:36.000000000 +0200
++++ b/include/files_st.h	2007-08-28 14:40:08.000000000 +0200
 @@ -39,6 +39,7 @@
  #define F_XFILE  1
  #define F_FILE   2
@@ -15,8 +15,8 @@ Index: include/files_st.h
  
 Index: common/files.c
 ===================================================================
---- common/files.c	2007-08-28 14:38:36.000000000 +0200
-+++ common/files.c	2007-08-28 14:44:28.000000000 +0200
+--- a/common/files.c	2007-08-28 14:38:36.000000000 +0200
++++ b/common/files.c	2007-08-28 14:44:28.000000000 +0200
 @@ -460,6 +460,31 @@
  	memset (f, 0, sizeof(file)) ;
  	strncpy (f->name, filename, MAX_PATH);

@@ -2,8 +2,8 @@
 # See: #485061
 
 diff -ur fxi/src/strings.c fxi/src/strings.c
---- fxi/src/strings.c	2008-06-07 21:34:32.000000000 +0100
-+++ fxi/src/strings.c	2008-06-07 21:39:15.000000000 +0100
+--- a/fxi/src/strings.c	2008-06-07 21:34:32.000000000 +0100
++++ b/fxi/src/strings.c	2008-06-07 21:39:15.000000000 +0100
 @@ -108,9 +108,9 @@
      string_used = 0 ;
  
