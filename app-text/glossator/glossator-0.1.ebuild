@@ -3,11 +3,11 @@
 
 EAPI=6
 
-inherit versionator
+inherit eapi7-ver
 
 DESCRIPTION="Latin dictionary"
 HOMEPAGE="https://www.geocities.ws/mfp_99/glossator.html"
-SRC_URI="https://www.geocities.ws/mfp_99/gloss$(replace_all_version_separators '').zip"
+SRC_URI="https://www.geocities.ws/mfp_99/gloss$(ver_rs 1- '').zip"
 
 LICENSE="public-domain"
 SLOT="0"
