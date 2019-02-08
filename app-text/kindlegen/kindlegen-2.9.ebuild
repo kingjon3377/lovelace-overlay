@@ -33,37 +33,23 @@ src_prepare() {
 	default
 }
 
+langdoc() {
+	if use "l10n_${1}";then
+		docinto "${1}"
+		dodoc docs/"${2}"/*
+	fi
+}
+
 src_install() {
 	dobin "${PN}"
 	dodoc manual.html docs/english/known_issues.txt \
 		docs/english/Release_Notes.html
 	newdoc docs/english/Readme.txt README
-	if use l10n_zh;then
-		docinto zh
-		dodoc docs/chinese/*
-	fi
-	if use l10n_nl;then
-		docinto nl
-		dodoc docs/dutch/*
-	fi
-	if use l10n_fr;then
-		docinto fr
-		dodoc docs/french/*
-	fi
-	if use l10n_de;then
-		docinto de
-		dodoc docs/german/*
-	fi
-	if use l10n_it;then
-		docinto it
-		dodoc docs/italian/*
-	fi
-	if use l10n_ja;then
-		docinto ja
-		dodoc docs/japanese/*
-	fi
-	if use l10n_es;then
-		docinto es
-		dodoc docs/spanish/*
-	fi
+	langdoc zh chinese
+	langdoc nl dutch
+	langdoc fr french
+	langdoc de german
+	langdoc it italian
+	langdoc ja japanese
+	langdoc es spanish
 }
