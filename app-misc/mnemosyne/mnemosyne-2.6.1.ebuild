@@ -4,7 +4,7 @@
 EAPI=6
 
 DISTUTILS_SINGLE_IMPL=true
-PYTHON_COMPAT=( python3_{6,7} ) # python2_7? python3_5
+PYTHON_COMPAT=( python3_6 ) # python2_7? python3_5 python3_7
 inherit distutils-r1 eutils
 
 DESCRIPTION="Sophisticated flash-card tool also used for long-term memory research"
