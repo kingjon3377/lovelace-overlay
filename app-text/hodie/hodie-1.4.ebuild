@@ -1,7 +1,7 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 inherit eutils toolchain-funcs
 
@@ -17,16 +17,17 @@ IUSE=""
 DEPEND=""
 RDEPEND="${DEPEND}"
 
-src_prepare() {
-	epatch "${FILESDIR}/makefile.patch"
-}
+PATCHES=(
+	"${FILESDIR}/makefile.patch"
+)
 
 src_compile() {
 	emake CC=$(tc-getCC) CFLAGS="${CFLAGS} ${LDFLAGS}"
 }
 
+DOCS=( BUGS CHANGELOG CREDITS DISTRIBUTORS hodie.spec README TODO )
+
 src_install() {
 	dodir /usr/bin /usr/share/doc/${P} /usr/share/man/man1
-	emake DESTDIR="${D}" install
-	dodoc BUGS CHANGELOG CREDITS DISTRIBUTORS hodie.spec README TODO
+	default
 }
