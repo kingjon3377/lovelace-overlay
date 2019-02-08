@@ -1,4 +1,4 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 # Zrajm C Akfohg <zrajm@klingonska.org>
@@ -22,7 +22,7 @@ DEPEND="${RDEPEND}
 
 SLOT="0"
 LICENSE="public-domain GPL-2"
-KEYWORDS="~x86 ~amd64"
+KEYWORDS="~amd64 ~x86"
 
 IUSE=""
 
