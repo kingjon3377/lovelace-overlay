@@ -1,12 +1,12 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 # It's possible it supports Python 3, but I don't know.
 PYTHON_COMPAT=( python2_7 )
 
-inherit python-single-r1 eutils
+inherit python-single-r1 desktop
 
 DESCRIPTION="Novel writing assistance software"
 HOMEPAGE="http://launchpad.net/kabikaboo"
