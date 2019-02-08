@@ -1,6 +1,6 @@
-diff -ru src.old/expr.c src/expr.c
---- src.old/expr.c	2011-01-08 16:58:31.000000000 -0500
-+++ src/expr.c	2011-01-08 18:26:24.000000000 -0500
+diff -ru a/src/expr.c b/src/expr.c
+--- a/src/expr.c	2011-01-08 16:58:31.000000000 -0500
++++ b/src/expr.c	2011-01-08 18:26:24.000000000 -0500
 @@ -516,7 +516,7 @@
      {
        if ((*num)++)
@@ -10,9 +10,9 @@ diff -ru src.old/expr.c src/expr.c
      }
  }
  
-diff -ru src.old/mem.c src/mem.c
---- src.old/mem.c	2011-01-08 18:31:16.000000000 -0500
-+++ src/mem.c	2011-01-08 18:32:14.000000000 -0500
+diff -ru a/src/mem.c b/src/mem.c
+--- a/src/mem.c	2011-01-08 18:31:16.000000000 -0500
++++ b/src/mem.c	2011-01-08 18:32:14.000000000 -0500
 @@ -110,7 +110,7 @@
        mem->lim = (char *) block + new_size;
      }

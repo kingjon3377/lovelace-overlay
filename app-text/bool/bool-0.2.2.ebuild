@@ -1,9 +1,9 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-inherit eutils flag-o-matic toolchain-funcs
+inherit toolchain-funcs
 
 DESCRIPTION="Utility for matching boolean queries in text or html files"
 HOMEPAGE="https://www.gnu.org/software/bool/bool.html"
@@ -20,10 +20,11 @@ RDEPEND=""
 DEPEND="${RDEPEND}
 	app-arch/xz-utils"
 
-src_prepare() {
-	default_src_prepare
-	epatch "${FILESDIR}"/*patch
-}
+PATCHES=(
+	"${FILESDIR}/bool-0.2.2-fix-segfault.patch"
+	"${FILESDIR}/long.patch"
+	"${FILESDIR}/man_typo.patch"
+)
 
 src_install() {
 	dobin src/bool
