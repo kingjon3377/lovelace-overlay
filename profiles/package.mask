@@ -1,18 +1,12 @@
 # Live ebuilds; repoman objects to leaving them unmasked
-~app-crypt/jetring-9999
 ~app-forensics/simhash-9999
 ~app-shells/grml-shlib-9999
 ~app-text/buthead-9999
-~app-text/latrine-9999
 ~dev-lang/c-repl-9999
 ~dev-util/gtkparasite-9999
-~dev-vcs/bugs-everywhere-9999
-~app-text/udo-9999
 ~games-arcade/bombardier-9999
 ~games-misc/rolldice-9999
-~mail-filter/mailplate-9999
 ~media-gfx/gift-9999
-~sci-mathematics/geogebra-3.2.44.0
 ~sys-apps/chiark-utils-9999
 ~sys-apps/fidefrag-9999
 ~x11-misc/boats-9999
@@ -21,20 +15,10 @@
 # Not yet working
 =dev-util/pmd-5.1.3
 
-# Changes the UI in a way I don't like
-=app-text/fbreader-0.99.5
-
 # Doesn't yet build, more effort is needed to see what patches are still needed
 # or will apply, and probably we'll need to download the 'brt' source tarball
 # too.
 =dev-lang/sdlbasic-2012.12.15
-
-# Not complete due to missing deps (org.eclipse.jetty, which is *not* www-servers/jetty!)
-dev-java/jgit
-
-# KDE4 is masked in the main tree
-kde-misc/gally
-kde-misc/lekhonee
 
 # Fails to build using either the Puma or the Clang frontend.
 =dev-cpp/aspectc++-2.2
