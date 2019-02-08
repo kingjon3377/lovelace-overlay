@@ -1,7 +1,7 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 DESCRIPTION="Extracts information from Java class files"
 HOMEPAGE="http://jclassinfo.sourceforge.net"
@@ -17,7 +17,3 @@ COMMON_DEP=""
 
 RDEPEND=""
 DEPEND=""
-
-src_install() {
-	emake "DESTDIR=${D}" install
-}
