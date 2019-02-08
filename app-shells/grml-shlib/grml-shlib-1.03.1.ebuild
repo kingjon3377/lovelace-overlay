@@ -1,7 +1,7 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 DESCRIPTION="Generic shell library used in grml scripts"
 HOMEPAGE="http://grml.org"
@@ -25,6 +25,7 @@ src_prepare() {
 	sed -i -e 's:/usr/share/xml/docbook/stylesheet/nwalsh/manpages/docbook.xsl:/usr/share/sgml/docbook/xsl-stylesheets/manpages/docbook.xsl:g' \
 		-e 's:usrdoc = $(usr)/share/doc/$(name_):'"&-${PV}:" \
 		Makefile || die "sed failed"
+	default
 }
 
 src_compile() {
