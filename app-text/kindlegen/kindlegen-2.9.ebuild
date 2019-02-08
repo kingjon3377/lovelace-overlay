@@ -3,11 +3,11 @@
 
 EAPI=6
 
-inherit versionator
+inherit eapi7-ver
 
 DESCRIPTION="Amazon's ebook converter to the Kindle format"
 HOMEPAGE="https://www.amazon.com/gp/feature.html?docId=1000765211"
-SRC_URI="http://kindlegen.s3.amazonaws.com/${PN}_linux_2.6_i386_v$(replace_all_version_separators '_').tar.gz"
+SRC_URI="http://kindlegen.s3.amazonaws.com/${PN}_linux_2.6_i386_v$(ver_rs 1- '_').tar.gz"
 
 LICENSE="kindlegen Info-ZIP IJG Apache-2.0 BSD MPL-1.1"
 SLOT="0"
