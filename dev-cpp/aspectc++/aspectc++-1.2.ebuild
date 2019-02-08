@@ -1,7 +1,7 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 inherit eutils toolchain-funcs
 
@@ -25,11 +25,10 @@ IUSE=""
 
 S="${WORKDIR}/${PN}"
 
-src_prepare() {
+PATCHES=(
 	# allow parallel makes in all subdirectories
-	ls Puma/tools/Makefile || die "file to be patched is missing"
-	epatch "${FILESDIR}"/Makefile-jobserver.diff
-}
+	"${FILESDIR}/Makefile-jobserver.diff"
+)
 
 src_compile() {
 	unset ROOT
@@ -53,12 +52,12 @@ src_install() {
 		AspectC++/doc/NoE_ShortSurvey/ac++lang-survey.pdf \
 		AspectC++/doc/ProgrammingGuide/ProgrammingGuide.lyx \
 		AspectC++/doc/QuickRef/ac++quickref.pdf \
-		Ag++/doc/Ag++Manual/Ag++Manual.pdf Puma/doc/UsersManual/UsersManual.pdf
-	dohtml Puma/doc/lemon/lemon.html
+		Ag++/doc/Ag++Manual/Ag++Manual.pdf Puma/doc/UsersManual/UsersManual.pdf \
+		Puma/doc/lemon/lemon.html
 
 	ewarn "Should convert the Programming Guide to a destination format,"
 	ewarn "and perhaps the others to more useful formats than PDF."
 	ewarn
 	ewarn "We may be missing some docs that were added in 1.2."
-	cp -r AspectC++/examples "${D}/usr/share/doc/${PF}/"
+	dodoc -r AspectC++/examples
 }
