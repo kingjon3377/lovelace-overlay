@@ -8,7 +8,7 @@ EAPI=6
 inherit eutils
 
 DESCRIPTION="development environment for making 2D games"
-HOMEPAGE="http://sourceforge.net/projects/fenix"
+HOMEPAGE="https://sourceforge.net/projects/fenix"
 SRC_URI="mirror://sourceforge/${PN}/Fenix/${PV}/${PN}092a-src-release.tgz"
 #SRC_URI="mirror://debian/pool/main/f/fenix/fenix_0.92a.dfsg1.orig.tar.gz"
 
