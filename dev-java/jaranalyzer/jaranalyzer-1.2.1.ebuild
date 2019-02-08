@@ -1,7 +1,7 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 JAVA_PKG_IUSE="doc source test"
 
 inherit java-pkg-2 java-ant-2
@@ -26,7 +26,8 @@ DEPEND=">=virtual/jdk-1.4
 
 S="${WORKDIR}"
 
-java_prepare() {
+src_prepare() {
+	default
 	einfo "Removing shipped class files and jar archieves:"
 	find . -name \*.class -delete -print || die
 	find . -name \*.jar -delete -print || die
