@@ -1,7 +1,7 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 inherit eutils toolchain-funcs flag-o-matic versionator
 
@@ -33,20 +33,21 @@ src_prepare() {
 		debian || die
 	for file in makefiles fonts 64bit fix_example ldflags datadir \
 			bison_code x-www-browser quickhelp; do
-		epatch "${FILESDIR}/${file}.patch"
+		eapply "${FILESDIR}/${file}.patch"
 	done
 	chmod -x src/sdlBasic/share/sdlBasic/*.*
-	epatch "${FILESDIR}"/warnings.patch
+	eapply "${FILESDIR}"/warnings.patch
 	sed -i -e 's:-Wl,-rpath, ::g' src/sdlBasic/src/sdlBrt/makefile \
 		src/sdlBasic/src/sdlBrt/BASengine/makefile \
 		src/sdlBasic/src/sdlBrt/SDLengine/makefile \
 		src/sdlBasic/src/sdlBrt/unzip/makefile || die "fixing security hole failed"
-	epatch "${FILESDIR}"/nostrip.patch
+	eapply "${FILESDIR}"/nostrip.patch
+	eapply_user
 }
 
 src_compile() {
 	DESTBIN=/usr/bin
-	DESTDOC=/usr/share/doc/${P}
+	DESTDOC=/usr/share/doc/${PF}
 	DESTDATA=/usr/share/${PN}
 	DESTPLUGINS=${DESTDATA}/plugins
 	ORIGSRC=${S}/src/sdlBasic/src
@@ -76,7 +77,7 @@ src_compile() {
 
 src_install() {
 	DESTBIN=/usr/bin
-	DESTDOC=/usr/share/doc/${P}
+	DESTDOC=/usr/share/doc/${PF}
 	DESTDATA=/usr/share/${PN}
 	DESTPLUGINS=${DESTDATA}/plugins
 	ORIGSRC=${S}/src/sdlBasic/src
@@ -88,7 +89,8 @@ src_install() {
 		PLUGIN_PATH=\"${DESTPLUGINS}\" stripped=no"
 	emake -C ${ORIGSRC}/sdlBasic/gtk ${XFLAGS} install DESTDIR="${D}"
 	emake -C ${ORIGSRC}/sdlBrt ${XFLAGS} install DESTDIR="${D}"
-	dohtml -r -A .txt ${ORIGDATA}/../doc/sdlBasic/english/*
+	docinto html
+	dodoc -r ${ORIGDATA}/../doc/sdlBasic/english/*
 	dodir ${DESTDATA}
 	insinto ${DESTDATA}
 	doins ${ORIGDATA}/*.*
