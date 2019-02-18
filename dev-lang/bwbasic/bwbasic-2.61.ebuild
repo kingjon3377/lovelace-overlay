@@ -1,7 +1,7 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 inherit toolchain-funcs eutils
 
@@ -19,9 +19,15 @@ RDEPEND=""
 
 S="${WORKDIR}"
 
+PATCHES=(
+	"${FILESDIR}/bwbasic_2.20pl2-9.diff"
+	"${FILESDIR}/renum.patch"
+	"${FILESDIR}/redefines.patch"
+)
+
 src_prepare() {
 	edos2unix $(find . -type f)
-	epatch "${FILESDIR}/bwbasic_2.20pl2-9.diff" "${FILESDIR}/renum.patch" "${FILESDIR}/redefines.patch"
+	default
 	chmod +x configure
 }
 
