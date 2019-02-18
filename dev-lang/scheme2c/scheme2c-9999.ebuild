@@ -1,7 +1,7 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 EGIT_REPO_URI="https://salsa.debian.org/debian/${PN}.git"
 
@@ -17,30 +17,27 @@ KEYWORDS="" #only x32 and amd64 are tested and supported
 IUSE="X +doc"
 
 DEPEND="dev-libs/libsigsegv
-	   doc? ( app-text/ghostscript-gpl )
-	   X? ( x11-libs/libX11 )"
+		doc? ( app-text/ghostscript-gpl )
+		X? ( x11-libs/libX11 )"
 RDEPEND="${DEPEND}"
 
-src_prepare() {
-	epatch "${FILESDIR}/0001-doc-pdflatex.patch" "${FILESDIR}/0002-drop-gcc-arch-native-opt.patch"
-	default
-}
+PATCHES=(
+	"${FILESDIR}/0001-doc-pdflatex.patch" "${FILESDIR}/0002-drop-gcc-arch-native-opt.patch"
+)
 
 # FIXME: Convert to real multilib
 my_compile() {
-	pushd "${S}/${1}" > /dev/null
 	# Due to insanity in the build system we have to touch these to
 	# guarantee that everything will always get built
-	touch scrt/*.c scsc/*.c
+	touch "${1}/scrt"/*.c "${1}/scsc"/*.c
 
-	emake -j1 all USER_CFLAGS="${CFLAGS}" "CC=$(tc-getCC)"
+	emake -C "${1}" -j1 all USER_CFLAGS="${CFLAGS}" "CC=$(tc-getCC)"
 
 	if use X; then
-		emake -C cdecl USER_CFLAGS="${CFLAGS}" "CC=$(tc-getCC)"
-		emake -C xlib -B sizeof.cdecl USER_CFLAGS="${CFLAGS}" "CC=$(tc-getCC)"
-		emake -C xlib all USER_CFLAGS="${CFLAGS}" "CC=$(tc-getCC)"
+		emake -C "${1}/cdecl" USER_CFLAGS="${CFLAGS}" "CC=$(tc-getCC)"
+		emake -C "${1}/xlib" -B sizeof.cdecl USER_CFLAGS="${CFLAGS}" "CC=$(tc-getCC)"
+		emake -C "${1}/xlib" all USER_CFLAGS="${CFLAGS}" "CC=$(tc-getCC)"
 	fi
-	popd > /dev/null
 }
 
 src_compile() {
@@ -63,14 +60,12 @@ src_compile() {
 }
 
 my_install() {
-	pushd "${S}/${1}" > /dev/null
 	insinto /usr/$(get_libdir)/${PN}
 
 	# Only a small subset of files from scrt is required
-	doins scrt/libs2c.a scrt/predef.sc scrt/objects.h scrt/options.h
+	doins "${1}/scrt/libs2c.a" "${1}/scrt/predef.sc" "${1}/scrt/objects.h" "${1}/scrt/options.h"
 
-	use X && doins xlib/scxl.a
-	popd > /dev/null
+	use X && doins "${1}/xlib/scxl.a"
 }
 
 src_install() {
@@ -102,7 +97,6 @@ src_install() {
 	dodoc CHANGES README
 
 	sed -i -e "s:.*sccomp:sccomp:g" \
-		-e "s:-LIBDIR.*t:-LIBDIR /usr/$(get_libdir)/scheme2c/ \
-			   -I/usr/$(get_libdir)/scheme2c/:g" \
+		-e "s:-LIBDIR.*t:-LIBDIR /usr/$(get_libdir)/scheme2c/ -I/usr/$(get_libdir)/scheme2c/:g" \
 		-e "s:-scmh 40:-scmh 1000 -sch 10:g" "${D}/usr/bin/s2cc" || die
 }
