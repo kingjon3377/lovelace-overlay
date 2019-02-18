@@ -1,7 +1,7 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 inherit toolchain-funcs
 
@@ -44,6 +44,7 @@ src_prepare() {
 	sed -i -e 's/$(CC) $(LDFLAGS) $< $(LDLIBS) -o $@/$(CC) $< $(LDLIBS) -o $@ $(LDFLAGS)/' GNUmakefile || die
 	sed -i -e 's;$(CC) $(LDFLAGS) webspl_common.o spl_modules/mod_cgi.o $< $(patsubst -lspl,$(SPL_OBJS),$(LDLIBS)) -o $@;$(CC) $< webspl_common.o spl_modules/mod_cgi.o $(patsubst -lspl,$(SPL_OBJS),$(LDLIBS)) -o $@ $(LDFLAGS);' GNUmakefile || die
 	sed -i -e 's;$(CC) $(LDFLAGS) webspl_common.o httpsrv.o spl_modules/mod_cgi.o $< $(patsubst -lspl,$(SPL_OBJS),$(LDLIBS)) -o $@;$(CC) $< webspl_common.o httpsrv.o spl_modules/mod_cgi.o $(patsubst -lspl,$(SPL_OBJS),$(LDLIBS)) -o $@ $(LDFLAGS);' GNUmakefile || die
+	default
 }
 
 src_compile() {
@@ -57,20 +58,24 @@ src_compile() {
 src_install() {
 	emake DESTDIR="${D}" prefix=/usr install
 	dodoc README* vgsuppress.txt
-	use doc && dohtml spldoc/*html
-	use doc && dodoc manual.tex
-	docinto spldoc
-	use doc && dodoc spldoc/*txt
+	if use doc; then
+		dodoc manual.tex
+		docinto html
+		dodoc spldoc/*html
+		docinto spldoc
+		dodoc spldoc/*txt
+	fi
 	use vim-syntax && insinto /usr/share/vim/vimfiles/syntax && \
 		doins syntax-spl.vim syntax-spltpl.vim
 }
 
 pkg_postinst() {
-	use vim-syntax && \
-		einfo "If syntax highlighting for SPL is not automatically enabled," && \
-		einfo "the source says to add the following lines to your .vimrc :" && \
-		einfo && \
-		einfo 'au BufRead,BufNewFile *.spl,*.webspl set filetype=spl' && \
-		einfo 'au BufRead,BufNewFile *.spltpl set filetype=spltpl' && \
+	if use vim-syntax; then
+		einfo "If syntax highlighting for SPL is not automatically enabled,"
+		einfo "the source says to add the following lines to your .vimrc :"
 		einfo
+		einfo 'au BufRead,BufNewFile *.spl,*.webspl set filetype=spl'
+		einfo 'au BufRead,BufNewFile *.spltpl set filetype=spltpl'
+		einfo
+	fi
 }
