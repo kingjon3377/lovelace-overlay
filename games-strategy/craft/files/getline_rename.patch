@@ -1,6 +1,6 @@
 diff -ru ./dial.h ./dial.h
---- ./dial.h	2015-12-24 01:11:04.511158375 -0500
-+++ ./dial.h	2015-12-24 01:12:03.001427146 -0500
+--- a/dial.h	2015-12-24 01:11:04.511158375 -0500
++++ b/dial.h	2015-12-24 01:12:03.001427146 -0500
 @@ -35,7 +35,7 @@
  
       int  val_dx;
@@ -11,8 +11,8 @@ diff -ru ./dial.h ./dial.h
       button  *down;
       button  *up2;
 diff -ru ./dial.hc ./dial.hc
---- ./dial.hc	1997-02-21 06:50:13.000000000 -0500
-+++ ./dial.hc	2015-12-24 01:12:07.723368113 -0500
+--- a/dial.hc	1997-02-21 06:50:13.000000000 -0500
++++ b/dial.hc	2015-12-24 01:12:07.723368113 -0500
 @@ -58,7 +58,7 @@
       }.
  
@@ -23,8 +23,8 @@ diff -ru ./dial.hc ./dial.hc
                               val_dx, val_dy); 
        up   = new button (w, "/dial.up", 
 diff -ru ./file_selector.h ./file_selector.h
---- ./file_selector.h	2015-12-24 01:11:04.513158350 -0500
-+++ ./file_selector.h	2015-12-24 01:12:14.910278265 -0500
+--- a/file_selector.h	2015-12-24 01:11:04.513158350 -0500
++++ b/file_selector.h	2015-12-24 01:12:14.910278265 -0500
 @@ -16,8 +16,8 @@
     win      *w;
  
@@ -37,8 +37,8 @@ diff -ru ./file_selector.h ./file_selector.h
     int      num_files;
     char     file_list [max_selector_cases][128];
 diff -ru ./file_selector.hc ./file_selector.hc
---- ./file_selector.hc	2015-12-24 01:11:04.652156612 -0500
-+++ ./file_selector.hc	2015-12-24 01:12:32.161062600 -0500
+--- a/file_selector.hc	2015-12-24 01:11:04.652156612 -0500
++++ b/file_selector.hc	2015-12-24 01:12:32.161062600 -0500
 @@ -60,10 +60,10 @@
       }.
  
@@ -66,8 +66,8 @@ diff -ru ./file_selector.hc ./file_selector.hc
                                   true);
       }.
 diff -ru ./getline.h ./getline.h
---- ./getline.h	2015-12-24 01:11:04.514158337 -0500
-+++ ./getline.h	2015-12-24 01:12:43.885916019 -0500
+--- a/getline.h	2015-12-24 01:11:04.514158337 -0500
++++ b/getline.h	2015-12-24 01:12:43.885916019 -0500
 @@ -6,7 +6,7 @@
  #include "buttons.h"
  #include "bool.h"
@@ -96,8 +96,8 @@ diff -ru ./getline.h ./getline.h
     bool on               ();
     void check_activation ();
 diff -ru ./getline.hc ./getline.hc
---- ./getline.hc	1997-02-21 06:50:14.000000000 -0500
-+++ ./getline.hc	2015-12-24 01:13:09.483596004 -0500
+--- a/getline.hc	1997-02-21 06:50:14.000000000 -0500
++++ b/getline.hc	2015-12-24 01:13:09.483596004 -0500
 @@ -4,7 +4,7 @@
  
  #define hist_button_name         "/hist.open"
@@ -184,8 +184,8 @@ diff -ru ./getline.hc ./getline.hc
  
     eval ();
 diff -ru ./hcraft/edit/.windefaults.params ./hcraft/edit/.windefaults.params
---- ./hcraft/edit/.windefaults.params	1997-02-21 06:50:22.000000000 -0500
-+++ ./hcraft/edit/.windefaults.params	2015-12-24 01:14:37.643493854 -0500
+--- a/hcraft/edit/.windefaults.params	1997-02-21 06:50:22.000000000 -0500
++++ b/hcraft/edit/.windefaults.params	2015-12-24 01:14:37.643493854 -0500
 @@ -31,11 +31,11 @@
  scroller_background      gray80
  scroller_foreground      black
@@ -211,8 +211,8 @@ diff -ru ./hcraft/edit/.windefaults.params ./hcraft/edit/.windefaults.params
 \ No newline at end of file
 +//
 diff -ru ./hcraft/edit/.windefaults.params~ ./hcraft/edit/.windefaults.params~
---- ./hcraft/edit/.windefaults.params~	1997-02-21 06:50:22.000000000 -0500
-+++ ./hcraft/edit/.windefaults.params~	2015-12-24 01:14:26.077638447 -0500
+--- a/hcraft/edit/.windefaults.params~	1997-02-21 06:50:22.000000000 -0500
++++ b/hcraft/edit/.windefaults.params~	2015-12-24 01:14:26.077638447 -0500
 @@ -31,11 +31,11 @@
  scroller_background      gray80
  scroller_foreground      black
@@ -238,8 +238,8 @@ diff -ru ./hcraft/edit/.windefaults.params~ ./hcraft/edit/.windefaults.params~
 \ No newline at end of file
 +//
 diff -ru ./hcraft/.windefaults.params ./hcraft/.windefaults.params
---- ./hcraft/.windefaults.params	1997-02-21 06:51:05.000000000 -0500
-+++ ./hcraft/.windefaults.params	2015-12-24 01:14:19.500720670 -0500
+--- a/hcraft/.windefaults.params	1997-02-21 06:51:05.000000000 -0500
++++ b/hcraft/.windefaults.params	2015-12-24 01:14:19.500720670 -0500
 @@ -31,11 +31,11 @@
  scroller_background      gray80
  scroller_foreground      black
@@ -265,8 +265,8 @@ diff -ru ./hcraft/.windefaults.params ./hcraft/.windefaults.params
 \ No newline at end of file
 +//
 diff -ru ./hcraft/.windefaults.params~ ./hcraft/.windefaults.params~
---- ./hcraft/.windefaults.params~	1997-02-21 06:50:19.000000000 -0500
-+++ ./hcraft/.windefaults.params~	2015-12-24 01:14:13.199799442 -0500
+--- a/hcraft/.windefaults.params~	1997-02-21 06:50:19.000000000 -0500
++++ b/hcraft/.windefaults.params~	2015-12-24 01:14:13.199799442 -0500
 @@ -31,11 +31,11 @@
  scroller_background      gray80
  scroller_foreground      black
@@ -292,8 +292,8 @@ diff -ru ./hcraft/.windefaults.params~ ./hcraft/.windefaults.params~
 \ No newline at end of file
 +//
 diff -ru ./masks.hc ./masks.hc
---- ./masks.hc	1997-02-21 06:52:06.000000000 -0500
-+++ ./masks.hc	2015-12-24 01:14:53.793291954 -0500
+--- a/masks.hc	1997-02-21 06:52:06.000000000 -0500
++++ b/masks.hc	2015-12-24 01:14:53.793291954 -0500
 @@ -330,7 +330,7 @@
                 bool with_history)
   
@@ -313,8 +313,8 @@ diff -ru ./masks.hc ./masks.hc
       }.
  
 diff -ru ./option_menu.hc ./option_menu.hc
---- ./option_menu.hc	2015-12-24 01:11:04.520158262 -0500
-+++ ./option_menu.hc	2015-12-24 01:15:07.901115581 -0500
+--- a/option_menu.hc	2015-12-24 01:11:04.520158262 -0500
++++ b/option_menu.hc	2015-12-24 01:15:07.901115581 -0500
 @@ -185,7 +185,7 @@
    {dial    *d_is_self;
     dial    *d_is_suny;
@@ -356,8 +356,8 @@ diff -ru ./option_menu.hc ./option_menu.hc
  
  .  finish
 diff -ru ./player.h ./player.h
---- ./player.h	2015-12-24 01:11:04.522158237 -0500
-+++ ./player.h	2015-12-24 01:15:10.946077514 -0500
+--- a/player.h	2015-12-24 01:11:04.522158237 -0500
++++ b/player.h	2015-12-24 01:15:10.946077514 -0500
 @@ -24,7 +24,7 @@
  
     color_trans *ct [max_players];
@@ -368,8 +368,8 @@ diff -ru ./player.h ./player.h
     int    wdx;
     int    wdy;
 diff -ru ./player.hc ./player.hc
---- ./player.hc	2015-12-24 01:11:04.747155424 -0500
-+++ ./player.hc	2015-12-24 01:15:13.870040960 -0500
+--- a/player.hc	2015-12-24 01:11:04.747155424 -0500
++++ b/player.hc	2015-12-24 01:15:13.870040960 -0500
 @@ -68,7 +68,7 @@
  .  open_w_msg
       {w_msg = new win     (w_craft, "msg", host, 0,

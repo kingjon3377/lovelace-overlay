@@ -1,6 +1,6 @@
 diff -ru ./object_handler.hc ./object_handler.hc
---- ./object_handler.hc	1997-06-10 02:03:44.000000000 -0400
-+++ ./object_handler.hc	2015-12-23 23:01:37.782255848 -0500
+--- a/object_handler.hc	1997-06-10 02:03:44.000000000 -0400
++++ b/object_handler.hc	2015-12-23 23:01:37.782255848 -0500
 @@ -9321,7 +9321,7 @@
    }
  
@@ -11,8 +11,8 @@ diff -ru ./object_handler.hc ./object_handler.hc
    }
  
 diff -ru ./player.hc ./player.hc
---- ./player.hc	1997-03-06 10:53:58.000000000 -0500
-+++ ./player.hc	2015-12-23 23:26:10.041850070 -0500
+--- a/player.hc	1997-03-06 10:53:58.000000000 -0500
++++ b/player.hc	2015-12-23 23:26:10.041850070 -0500
 @@ -2113,7 +2113,7 @@
    {return (ly * pic_dy);
    }
@@ -56,8 +56,8 @@ diff -ru ./player.hc ./player.hc
        perform_show;
  
 diff -ru ./cmap.hc ./cmap.hc
---- ./cmap.hc	2015-12-24 01:17:38.719230096 -0500
-+++ ./cmap.hc	2015-12-24 01:19:27.856865687 -0500
+--- a/cmap.hc	2015-12-24 01:17:38.719230096 -0500
++++ b/cmap.hc	2015-12-24 01:19:27.856865687 -0500
 @@ -2,7 +2,7 @@
  #include "cmap.h"
  #include "xbm.h"
@@ -68,8 +68,8 @@ diff -ru ./cmap.hc ./cmap.hc
     is_mask        = false;
     is_loaded      = false;
 diff -ru ./compress.hc ./compress.hc
---- ./compress.hc	2015-12-24 01:21:04.771654086 -0500
-+++ ./compress.hc	2015-12-24 01:23:41.882689928 -0500
+--- a/compress.hc	2015-12-24 01:21:04.771654086 -0500
++++ b/compress.hc	2015-12-24 01:23:41.882689928 -0500
 @@ -25,7 +25,7 @@
    {
    }
@@ -80,8 +80,8 @@ diff -ru ./compress.hc ./compress.hc
  
     sprintf (r, "%s%04d.%s", name, snr, postfix);
 diff -ru ./table.hc ./table.hc
---- ./table.hc	2015-12-24 01:24:30.256085177 -0500
-+++ ./table.hc	2015-12-24 01:28:24.452157323 -0500
+--- a/table.hc	2015-12-24 01:24:30.256085177 -0500
++++ b/table.hc	2015-12-24 01:28:24.452157323 -0500
 @@ -66,7 +66,7 @@
        delete (lru_queue);
    }
@@ -101,8 +101,8 @@ diff -ru ./table.hc ./table.hc
  
     get_col_no;
 diff -ru ./win.hc ./win.hc
---- ./win.hc	2015-12-24 01:28:53.106799091 -0500
-+++ ./win.hc	2015-12-24 01:34:33.178547609 -0500
+--- a/win.hc	2015-12-24 01:28:53.106799091 -0500
++++ b/win.hc	2015-12-24 01:34:33.178547609 -0500
 @@ -263,8 +263,8 @@
  /* CLASS win (funktions)                                                */
  /*----------------------------------------------------------------------*/
@@ -180,8 +180,8 @@ diff -ru ./win.hc ./win.hc
        perform_write;
  
 diff -ru ./dial.hc ./dial.hc
---- ./dial.hc	2015-12-24 01:37:27.657366323 -0500
-+++ ./dial.hc	2015-12-24 01:40:00.378457047 -0500
+--- a/dial.hc	2015-12-24 01:37:27.657366323 -0500
++++ b/dial.hc	2015-12-24 01:40:00.378457047 -0500
 @@ -16,7 +16,7 @@
  #define val_dy    20
  
@@ -201,8 +201,8 @@ diff -ru ./dial.hc ./dial.hc
              int  p_x,
              int  p_y,
 diff -ru ./menu.hc ./menu.hc
---- ./menu.hc	1997-02-21 06:52:07.000000000 -0500
-+++ ./menu.hc	2015-12-24 01:44:39.309969923 -0500
+--- a/menu.hc	1997-02-21 06:52:07.000000000 -0500
++++ b/menu.hc	2015-12-24 01:44:39.309969923 -0500
 @@ -27,10 +27,10 @@
    {
    }
@@ -226,8 +226,8 @@ diff -ru ./menu.hc ./menu.hc
          return false;
     else read_cmd;
 diff -ru ./paramreader.hc ./paramreader.hc
---- ./paramreader.hc	2015-12-24 01:45:55.521017154 -0500
-+++ ./paramreader.hc	2015-12-24 01:48:35.242020367 -0500
+--- a/paramreader.hc	2015-12-24 01:45:55.521017154 -0500
++++ b/paramreader.hc	2015-12-24 01:48:35.242020367 -0500
 @@ -88,7 +88,7 @@
    
    }
@@ -265,8 +265,8 @@ diff -ru ./paramreader.hc ./paramreader.hc
    }
  
 diff -ru ./buttons.hc ./buttons.hc
---- ./buttons.hc	1997-02-21 06:48:23.000000000 -0500
-+++ ./buttons.hc	2015-12-24 01:53:45.297144144 -0500
+--- a/buttons.hc	1997-02-21 06:48:23.000000000 -0500
++++ b/buttons.hc	2015-12-24 01:53:45.297144144 -0500
 @@ -12,7 +12,7 @@
  #include "win.h"
  
@@ -292,8 +292,8 @@ diff -ru ./buttons.hc ./buttons.hc
     if   (is_icon)
          write_icon
 diff -ru ./scroller.hc ./scroller.hc
---- ./scroller.hc	1997-02-21 06:52:19.000000000 -0500
-+++ ./scroller.hc	2015-12-24 01:56:41.909936181 -0500
+--- a/scroller.hc	1997-02-21 06:52:19.000000000 -0500
++++ b/scroller.hc	2015-12-24 01:56:41.909936181 -0500
 @@ -4,7 +4,7 @@
  #define bar_button_size 14
  #define bar_size        16
@@ -304,8 +304,8 @@ diff -ru ./scroller.hc ./scroller.hc
                      int  v_x,
                      int  v_y,
 diff -ru ./selector.hc ./selector.hc
---- ./selector.hc	1997-02-21 06:52:20.000000000 -0500
-+++ ./selector.hc	2015-12-24 01:58:48.153357921 -0500
+--- a/selector.hc	1997-02-21 06:52:20.000000000 -0500
++++ b/selector.hc	2015-12-24 01:58:48.153357921 -0500
 @@ -10,7 +10,7 @@
  #define selector_marked_case_color    yellow 
  #define selector_unmarked_case_color  black
@@ -316,8 +316,8 @@ diff -ru ./selector.hc ./selector.hc
                      int  v_num_cases,
                      char v_case_string [max_selector_cases][128],
 diff -ru ./cmap_selector.hc ./cmap_selector.hc
---- ./cmap_selector.hc	2015-12-24 01:59:29.882836230 -0500
-+++ ./cmap_selector.hc	2015-12-24 02:02:35.861511177 -0500
+--- a/cmap_selector.hc	2015-12-24 01:59:29.882836230 -0500
++++ b/cmap_selector.hc	2015-12-24 02:02:35.861511177 -0500
 @@ -11,7 +11,7 @@
  #define cmap_selector_marked_case_color    yellow 
  #define cmap_selector_unmarked_case_color  black
@@ -332,8 +332,8 @@ Only in ./: dial.h.orig
 Only in ./: file_selector.hc.orig
 Only in ./: file_selector.h.orig
 diff -ru ./getline.hc ./getline.hc
---- ./getline.hc	2015-12-24 02:13:46.320129291 -0500
-+++ ./getline.hc	2015-12-24 02:14:57.383240880 -0500
+--- a/getline.hc	2015-12-24 02:13:46.320129291 -0500
++++ b/getline.hc	2015-12-24 02:14:57.383240880 -0500
 @@ -4,7 +4,7 @@
  
  #define hist_button_name         "/hist.open"
@@ -346,8 +346,8 @@ diff -ru ./getline.hc ./getline.hc
 Only in ./: getline.hc.orig
 Only in ./: getline.h.orig
 diff -ru ./file_selector.hc ./file_selector.hc
---- ./file_selector.hc	2015-12-24 02:17:50.071081985 -0500
-+++ ./file_selector.hc	2015-12-24 02:21:33.626287160 -0500
+--- a/file_selector.hc	2015-12-24 02:17:50.071081985 -0500
++++ b/file_selector.hc	2015-12-24 02:21:33.626287160 -0500
 @@ -23,10 +23,10 @@
  #define pattern_dx  292
  #define pattern_dy  20
@@ -377,8 +377,8 @@ diff -ru ./file_selector.hc ./file_selector.hc
  
    {store_params;
 diff -ru ./errorhandling.hc ./errorhandling.hc
---- ./errorhandling.hc	1997-02-21 06:50:14.000000000 -0500
-+++ ./errorhandling.hc	2015-12-24 02:28:09.605336741 -0500
+--- a/errorhandling.hc	1997-02-21 06:50:14.000000000 -0500
++++ b/errorhandling.hc	2015-12-24 02:28:09.605336741 -0500
 @@ -11,35 +11,35 @@
  #include "paramreader.h"
  
@@ -430,8 +430,8 @@ diff -ru ./errorhandling.hc ./errorhandling.hc
    {printf              ("ERROR (%d) : %s : %s : %s : %s : %s\n",
                          error_no,
 diff -ru ./xfile.hc ./xfile.hc
---- ./xfile.hc	1997-03-20 03:29:16.000000000 -0500
-+++ ./xfile.hc	2015-12-24 02:32:05.299390159 -0500
+--- a/xfile.hc	1997-03-20 03:29:16.000000000 -0500
++++ b/xfile.hc	2015-12-24 02:32:05.299390159 -0500
 @@ -60,7 +60,7 @@
  
    }
@@ -451,8 +451,8 @@ diff -ru ./xfile.hc ./xfile.hc
  
     strcpy (r, name);
 diff -ru ./xstring.hc ./xstring.hc
---- ./xstring.hc	1997-03-19 09:21:04.000000000 -0500
-+++ ./xstring.hc	2015-12-24 02:33:05.038643316 -0500
+--- a/xstring.hc	1997-03-19 09:21:04.000000000 -0500
++++ b/xstring.hc	2015-12-24 02:33:05.038643316 -0500
 @@ -130,7 +130,7 @@
  
    }
@@ -472,8 +472,8 @@ diff -ru ./xstring.hc ./xstring.hc
     static char *result;
  
 diff -ru ./cmap_selector.hc ./cmap_selector.hc
---- ./cmap_selector.hc	2015-12-24 02:33:34.332277095 -0500
-+++ ./cmap_selector.hc	2015-12-24 02:42:16.247752254 -0500
+--- a/cmap_selector.hc	2015-12-24 02:33:34.332277095 -0500
++++ b/cmap_selector.hc	2015-12-24 02:42:16.247752254 -0500
 @@ -290,7 +290,7 @@
    }
  
@@ -484,8 +484,8 @@ diff -ru ./cmap_selector.hc ./cmap_selector.hc
     char cases [max_cmap_selector_cases][128];
     bool quit;
 diff -ru ./masks.hc ./masks.hc
---- ./masks.hc	2015-12-24 02:33:34.442275720 -0500
-+++ ./masks.hc	2015-12-24 02:40:18.006230476 -0500
+--- a/masks.hc	2015-12-24 02:33:34.442275720 -0500
++++ b/masks.hc	2015-12-24 02:40:18.006230476 -0500
 @@ -67,11 +67,11 @@
     w->line      (x1, y2, x1, y1);
    }
@@ -524,8 +524,8 @@ diff -ru ./masks.hc ./masks.hc
     button *ok;
     int    dx;
 diff -ru ./win.hc ./win.hc
---- ./win.hc	2015-12-24 02:33:34.326277170 -0500
-+++ ./win.hc	2015-12-24 02:43:42.724671144 -0500
+--- a/win.hc	2015-12-24 02:33:34.326277170 -0500
++++ b/win.hc	2015-12-24 02:43:42.724671144 -0500
 @@ -125,31 +125,31 @@
  
    }
@@ -564,8 +564,8 @@ diff -ru ./win.hc ./win.hc
  
     init_default_handler ();
 diff -ru ./xfile.hc ./xfile.hc
---- ./xfile.hc	2015-12-24 02:33:34.335277058 -0500
-+++ ./xfile.hc	2015-12-24 02:41:04.174653292 -0500
+--- a/xfile.hc	2015-12-24 02:33:34.335277058 -0500
++++ b/xfile.hc	2015-12-24 02:41:04.174653292 -0500
 @@ -29,7 +29,7 @@
  /* General functions                                                    */
  /*----------------------------------------------------------------------*/
@@ -576,8 +576,8 @@ diff -ru ./xfile.hc ./xfile.hc
     bool is_error;
  
 diff -ru ./cmap_selector.h ./cmap_selector.h
---- ./cmap_selector.h	2015-12-24 02:44:52.142803297 -0500
-+++ ./cmap_selector.h	2015-12-24 02:49:05.768632538 -0500
+--- a/cmap_selector.h	2015-12-24 02:44:52.142803297 -0500
++++ b/cmap_selector.h	2015-12-24 02:49:05.768632538 -0500
 @@ -65,7 +65,7 @@
  
    }; 
@@ -588,8 +588,8 @@ diff -ru ./cmap_selector.h ./cmap_selector.h
                      int  &num_files,
                      char file_list [max_cmap_selector_cases][128]);
 diff -ru ./cmap_selector.hc ./cmap_selector.hc
---- ./cmap_selector.hc	2015-12-24 02:58:05.272887807 -0500
-+++ ./cmap_selector.hc	2015-12-24 03:02:53.059289982 -0500
+--- a/cmap_selector.hc	2015-12-24 02:58:05.272887807 -0500
++++ b/cmap_selector.hc	2015-12-24 03:02:53.059289982 -0500
 @@ -339,7 +339,7 @@
    }
  
@@ -600,8 +600,8 @@ diff -ru ./cmap_selector.hc ./cmap_selector.hc
                      char file_list [max_cmap_selector_cases][128])
  
 diff -ru ./masks.hc ./masks.hc
---- ./masks.hc	2015-12-24 02:58:05.384886407 -0500
-+++ ./masks.hc	2015-12-24 03:01:00.310699533 -0500
+--- a/masks.hc	2015-12-24 02:58:05.384886407 -0500
++++ b/masks.hc	2015-12-24 03:01:00.310699533 -0500
 @@ -262,11 +262,11 @@
  
    }
@@ -626,8 +626,8 @@ diff -ru ./masks.hc ./masks.hc
     tell_message;
  
 diff -ru ./win.hc ./win.hc
---- ./win.hc	2015-12-24 02:58:05.274887782 -0500
-+++ ./win.hc	2015-12-24 03:01:54.620020573 -0500
+--- a/win.hc	2015-12-24 02:58:05.274887782 -0500
++++ b/win.hc	2015-12-24 03:01:54.620020573 -0500
 @@ -42,7 +42,7 @@
  /* ROUTINES text size information (deklarations)                        */
  /*----------------------------------------------------------------------*/
@@ -638,8 +638,8 @@ diff -ru ./win.hc ./win.hc
     Display     *display;
  
 diff -ru ./xfile.hc ./xfile.hc
---- ./xfile.hc	2015-12-24 02:58:05.275887769 -0500
-+++ ./xfile.hc	2015-12-24 03:03:42.743668842 -0500
+--- a/xfile.hc	2015-12-24 02:58:05.275887769 -0500
++++ b/xfile.hc	2015-12-24 03:03:42.743668842 -0500
 @@ -124,7 +124,7 @@
    }
  */

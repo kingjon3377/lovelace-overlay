@@ -1,9 +1,9 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-inherit games eutils
+inherit eutils
 
 DESCRIPTION="Warcraft 2-like multi-player real-time strategy game"
 HOMEPAGE="http://sourceforge.net/projects/craft-vikings/"
@@ -24,16 +24,23 @@ RDEPEND=""
 S="${WORKDIR}"
 
 src_unpack() {
-	unpack craftcc35.tar.Z
-	use doc && {
+	unpack ${PN}cc${PV}.tar.Z
+	if use doc; then
 		mkdir doc
 		cd doc
 		unpack craftdoc.tar.Z
-	}
+	fi
 }
+
+PATCHES=(
+	"${FILESDIR}"/craft-install.patch
+	"${FILESDIR}"/fscanf-void.patch
+	"${FILESDIR}/object_handler.patch"
+	"${FILESDIR}/getline_rename.patch"
+)
+
 src_prepare() {
-	epatch "${FILESDIR}"/craft-install.patch "${FILESDIR}"/fscanf-void.patch \
-		"${FILESDIR}/object_handler.patch" "${FILESDIR}/getline_rename.patch"
+	default
 	for a in field.hc cmap_edit.hc; do
 		echo >> "${WORKDIR}/${a}"
 	done
@@ -44,10 +51,9 @@ src_compile() {
 }
 
 src_install() {
-	dogamesbin craft
-	use doc && {
-		dohtml doc/*html
-		docinto pic
-		dodoc doc/pic/*
-	}
+	dobin ${PN}
+	if use doc; then
+		dodoc doc/*html
+		dodoc -r doc/pic
+	fi
 }
