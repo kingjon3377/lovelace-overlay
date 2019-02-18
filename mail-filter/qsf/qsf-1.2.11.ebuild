@@ -1,7 +1,7 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 DESCRIPTION="Quick Spam Filter"
 HOMEPAGE="http://www.ivarch.com/programs/qsf/"
@@ -19,8 +19,7 @@ RDEPEND="${DEPEND}"
 
 src_install() {
 	emake DESTDIR="${D}" install
-	dodoc doc/lsm doc/NEWS doc/PACKAGE doc/postfix-howto doc/TODO doc/quickref.txt
-	dohtml doc/index.html
-	docinto extra
-	dodoc extra/*
+	dodoc doc/lsm doc/NEWS doc/PACKAGE doc/postfix-howto doc/TODO doc/quickref.txt \
+		doc/index.html
+	dodoc -r extra
 }
