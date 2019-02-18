@@ -1,9 +1,7 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
-
-#inherit eutils flag-o-matic autotools
+EAPI=6
 
 DESCRIPTION="A Tool for Building Expert Systems"
 HOMEPAGE="http://clipsrules.sourceforge.net/"
@@ -49,7 +47,6 @@ src_compile() {
 }
 
 src_install() {
-	exeinto /usr/bin
-	doexe clips
-	use X && doexe xclips/xclips
+	dobin clips
+	use X && dobin xclips/xclips
 }
