@@ -1,7 +1,7 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 inherit toolchain-funcs eutils
 
@@ -28,6 +28,5 @@ src_install() {
 	doman "${FILESDIR}/brandy.1"
 	rm docs/COPYING
 	dodoc docs/*
-	docinto examples
-	dodoc examples/*
+	dodoc -r examples
 }
