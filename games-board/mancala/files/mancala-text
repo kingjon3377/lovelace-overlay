@@ -9,7 +9,7 @@
 
 echo "Rules are in file /usr/share/doc/REPLACEME/RULES under Gentoo."
 echo ""
-GAMESDIR/mancala 0 4
+/usr/bin/mancala 0 4
 echo ""
 printf "Finished - press ENTER  "
 read RUBBISH

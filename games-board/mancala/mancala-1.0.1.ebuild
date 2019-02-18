@@ -1,9 +1,7 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
-
-inherit games
+EAPI=6
 
 DESCRIPTION="Implementation of the simple board game called Mancala"
 HOMEPAGE="http://shh.thathost.com/pub-unix/#Mancala"
@@ -18,17 +16,16 @@ DEPEND="x11-libs/libX11
 	x11-libs/xforms"
 RDEPEND="${DEPEND}"
 
-src_prepare() {
-	cd "${WORKDIR}"
-	epatch "${FILESDIR}/mancala_1.0.1-3.diff"
-}
+PATCHES=(
+	"${FILESDIR}/mancala_1.0.1-3.diff"
+)
 
 src_compile() {
 	emake CC=$(tc-getCC) XLIBDIR= OPTIM="${CFLAGS}" LDOPT="-L. ${LDFLAGS}"
 }
 
 src_install() {
-	dogamesbin mancala xmancala debian/mancala-text
+	dobin mancala xmancala debian/mancala-text
 	dodoc README RULES mancala-1.0.1.lsm
 	doman debian/mancala.6
 }
