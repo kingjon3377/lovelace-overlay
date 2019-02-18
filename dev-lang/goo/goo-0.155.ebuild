@@ -1,7 +1,7 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 inherit eutils versionator
 
@@ -20,9 +20,9 @@ RDEPEND="${DEPEND}"
 
 S=${WORKDIR}/goo-0_155-any-dev
 
-src_prepare() {
-	epatch "${FILESDIR}/goo_0.155-7.patch"
-}
+PATCHES=(
+	"${FILESDIR}/goo_0.155-7.patch"
+)
 
 src_install() {
 	emake prefix="${D}/usr" datadir="${D}/usr/share" install
