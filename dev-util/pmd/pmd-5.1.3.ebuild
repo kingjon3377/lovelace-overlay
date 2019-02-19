@@ -1,7 +1,7 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 JAVA_PKG_IUSE="doc source test"
 inherit java-pkg-2 java-ant-2
 
@@ -67,9 +67,11 @@ src_install() {
 	java-pkg_dolauncher ${PN} --main net.sourceforge.pmd.PMD --java_args "-Xmx512m" \
 		-pre "${FILESDIR}"/${P}-launcher-pre-commands
 	java-pkg_dolauncher ${PN}-designer --main net.sourceforge.pmd.util.designer.Designer
-	cp -r rulesets "${D}"/usr/share/${PN}
-	mkdir "${D}"/usr/share/${PN}/etc
-	cp -r etc/xslt "${D}"/usr/share/${PN}/etc/
+	insinto /usr/share/${PN}
+	doins -r rulesets
+	dodir /usr/share/${PN}/etc
+	insinto /usr/share/${PN}/etc
+	doins -r etc/xslt
 
 	use doc && java-pkg_dojavadoc docs/api
 	use source && java-pkg_dosrc src/net
