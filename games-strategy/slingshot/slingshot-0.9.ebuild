@@ -1,14 +1,14 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 SUPPORT_PYTHON_ABIS="1"
 RESTRICT_PYTHON_ABIS="3.*"
 
 DISTUTILS_SINGLE_IMPL=true
 PYTHON_COMPAT=( python2_7 )
-inherit games distutils-r1
+inherit distutils-r1
 
 DESCRIPTION="simple 2D shooting strategy game set in space, with gravity"
 HOMEPAGE="http://slingshot.wikispot.org/"
