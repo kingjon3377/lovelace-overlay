@@ -1,9 +1,9 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-inherit games toolchain-funcs
+inherit toolchain-funcs
 
 DESCRIPTION="Peter's Tetris"
 HOMEPAGE="https://packages.debian.org/src:petris"
@@ -18,8 +18,10 @@ DEPEND="sys-libs/ncurses:0
 	dev-libs/boost"
 RDEPEND="${DEPEND}"
 
+PATCHES=( "${FILESDIR}/petris_1.0.1-8.diff" )
+
 src_prepare() {
-	epatch "${FILESDIR}/petris_1.0.1-8.diff"
+	default
 	sed -i -e 's:gcc:$(CC):' Makefile || die "sed failed"
 }
 
@@ -28,13 +30,11 @@ src_compile() {
 }
 
 src_install() {
-	dogamesbin petris
+	dobin petris
 	doman petris.6
 	dodoc CHANGELOG README
-	# TODO: replace /var/games constant in config.h and here with the equivalent
-	# variable from games.eclass
 	dodir /var/games
 	touch "${D}/var/games/petris.scores"
-	fowners "${GAMES_USER}:${GAMES_GROUP}" /var/games/petris.scores
+	fowners "games:games" /var/games/petris.scores
 	fperms 0664 /var/games/petris.scores
 }
