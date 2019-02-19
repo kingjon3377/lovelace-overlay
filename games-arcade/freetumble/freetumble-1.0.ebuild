@@ -1,9 +1,9 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-inherit games toolchain-funcs scons-utils
+inherit toolchain-funcs scons-utils
 
 MY_PN=FreeTumble
 
@@ -34,19 +34,20 @@ src_compile() {
 }
 
 src_install() {
-	insinto "${GAMES_DATADIR}/${PN}"
+	insinto "/usr/share/${PN}"
 	doins -r data
+	# TODO: Binary should probably go in /usr/libexec
 	doins ${MY_PN}
-	fperms +x "${GAMES_DATADIR}/${PN}/${MY_PN}"
-	fowners :${GAMES_GROUP} "${GAMES_DATADIR}/${PN}/data/scores.dat" \
-		"${GAMES_DATADIR}/${PN}/data/game.ini"
-	fperms g+w "${GAMES_DATADIR}/${PN}/data/scores.dat" \
-		"${GAMES_DATADIR}/${PN}/data/game.ini"
+	fperms +x "/usr/share/${PN}/${MY_PN}"
+	fowners :games "/usr/share/${PN}/data/scores.dat" \
+		"/usr/share/${PN}/data/game.ini"
+	fperms g+w "/usr/share/${PN}/data/scores.dat" \
+		"/usr/share/${PN}/data/game.ini"
 	cat > "${T}/wrapper.sh" <<-EOF
 #!/bin/sh
-cd "${GAMES_DATADIR}/${PN}"
+cd "/usr/share/${PN}"
 ./${MY_PN}
 EOF
-	newgamesbin "${T}/wrapper.sh" ${PN}
+	newbin "${T}/wrapper.sh" ${PN}
 	dodoc README
 }
