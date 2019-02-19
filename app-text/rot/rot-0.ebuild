@@ -1,9 +1,9 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-inherit eutils toolchain-funcs
+inherit toolchain-funcs
 
 SRC_URI_BASE="ftp://ftp.informatik.uni-stuttgart.de/pub/archive/comp.sources/misc"
 DESCRIPTION="Transpose text, making rows columns and vice versa"
@@ -26,9 +26,11 @@ src_unpack() {
 	unshar -d "${P}" *.shar || die
 }
 
+PATCHES=( "${FILESDIR}/fix_segfaults_etc.patch" )
+
 src_prepare() {
 	sed -i -e 's@cc@$(CC)@' Makefile || die
-	epatch "${FILESDIR}/fix_segfaults_etc.patch"
+	default
 }
 
 src_compile() {
