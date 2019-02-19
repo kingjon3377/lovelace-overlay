@@ -1,9 +1,9 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-inherit games scons-utils toolchain-funcs
+inherit scons-utils toolchain-funcs
 
 DESCRIPTION="a puzzle game inspired by Tetris"
 HOMEPAGE="http://blockattack.sf.net"
@@ -21,20 +21,21 @@ RDEPEND="dev-games/physfs
 DEPEND="${RDEPEND}"
 
 src_prepare() {
-	cd "${WORKDIR}" && epatch "${FILESDIR}/blockattack_1.3.1-4.diff"
+	eapply "${FILESDIR}/blockattack_1.3.1-4.diff"
 	cd "${S}"
 	mv ../${PN}-1.4.1/debian .&&rmdir ../${PN}-1.4.1 || die
 	rm debian/patches/desktop_file.diff debian/patches/fix_scons.diff \
 		debian/patches/fix_spelling.diff debian/patches/replay_init.diff \
 		debian/patches/scons_args.diff
 	edos2unix debian/patches/gcc44.diff
-	epatch debian/patches/*diff
+	eapply debian/patches/*diff
 	cp "${FILESDIR}/${PN}.6" man
 	cp "${FILESDIR}/${PN}.desktop" .
 	sed -i -e 's:res/testPuzzles:puzzles/testPuzzles:' \
 		-e 's:res/puzzle.levels:puzzles/puzzle.levels:' Game/SConscript \
 		|| die "sed failed"
 	sed -i -e 's:blockattack.6.gz:blockattack.6:' man/SConscript || die "sed failed"
+	eapply_user
 }
 
 src_configure() {
@@ -42,8 +43,8 @@ src_configure() {
 		CC="$(tc-getCC)"
 		CXX="$(tc-getCXX)"
 		prefix=/usr
-		sharedir=${GAMES_DATADIR}/${PN}
-		bindir=${GAMES_BINDIR}
+		sharedir=/usr/share/${PN}
+		bindir=/usr/bin
 		mandir=/usr/share/man
 		destdir="${D}"
 	)
