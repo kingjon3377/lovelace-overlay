@@ -1,9 +1,9 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-inherit eutils toolchain-funcs
+inherit toolchain-funcs
 
 DESCRIPTION="Finds similarities between files"
 HOMEPAGE="http://dickgrune.com/Programs/similarity_tester/"
@@ -19,9 +19,7 @@ RDEPEND=""
 
 S="${WORKDIR}"
 
-src_prepare() {
-	epatch "${FILESDIR}"/${P}-fix-configuration.patch
-}
+PATCHES=( "${FILESDIR}"/${P}-fix-configuration.patch )
 
 src_compile() {
 	emake DESTDIR="${D}" USER_CC="$(tc-getCC)" USER_CFLAGS="${CFLAGS}" LDFLAGS="${LDFLAGS}" binaries
