@@ -1,11 +1,11 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 EGIT_REPO_URI=https://gitorious.org/debian-packages/rolldice.git
 
-inherit games git-r3 eutils toolchain-funcs
+inherit git-r3 eutils toolchain-funcs
 
 DESCRIPTION="virtual dice roller"
 HOMEPAGE="https://packages.debian.org/rolldice"
@@ -20,15 +20,13 @@ DEPEND=""
 RDEPEND="${DEPEND}"
 
 src_prepare() {
-	epatch debian/patches/*diff
-	sed -i -e "s:/usr/games$:${GAMES_BINDIR}:" Makefile || die
+	eapply debian/patches/*diff
+	sed -i -e "s:/usr/games$:/usr/bin:" Makefile || die
+	eapply_user
 }
 
 src_compile() {
 	emake CC="$(tc-getCC) ${CFLAGS} ${LDFLAGS}"
 }
 
-src_install() {
-	emake DESTDIR="${D}" install
-	dodoc README Changelog CREDITS
-}
+DOCS=( README Changelog CREDITS )

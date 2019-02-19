@@ -1,9 +1,9 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-inherit games eutils toolchain-funcs
+inherit eutils toolchain-funcs
 
 DESCRIPTION="virtual dice roller"
 HOMEPAGE="https://packages.debian.org/rolldice"
@@ -19,16 +19,17 @@ RDEPEND="${DEPEND}"
 
 S="${WORKDIR}/${P}.orig"
 
+PATCHES=(
+	"${FILESDIR}/01_remove_strip.diff"
+	"${FILESDIR}/debian-changes-1.10-5.diff"
+)
 src_prepare() {
-	epatch "${FILESDIR}"/*diff
-	sed -i -e "s:/usr/games$:${GAMES_BINDIR}:" Makefile || die
+	default
+	sed -i -e "s:/usr/games$:/usr/bin:" Makefile || die
 }
 
 src_compile() {
 	emake CC="$(tc-getCC) ${CFLAGS} ${LDFLAGS}"
 }
 
-src_install() {
-	emake DESTDIR="${D}" install
-	dodoc README Changelog CREDITS
-}
+DOCS=( README Changelog CREDITS )
