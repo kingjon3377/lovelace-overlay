@@ -1,11 +1,11 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 EGIT_REPO_URI="https://github.com/chipx86/gtkparasite"
 
-inherit git-r3 autotools eutils
+inherit git-r3 autotools
 
 DESCRIPTION="GTK+ debugging and development tool"
 HOMEPAGE="https://chipx86.github.io/gtkparasite/"
@@ -18,17 +18,12 @@ IUSE=""
 DEPEND=""
 RDEPEND="${DEPEND}"
 
+PATCHES=(  "${FILESDIR}/gtkparasite_0+git20090907-1.diff" )
+
 src_prepare() {
 	# bootstrap build system
 	eautoreconf
-	mkdir debian
-	epatch "${FILESDIR}/gtkparasite_0+git20090907-1.diff"
-	[[ -d ${P} ]] || einfo "patch worked like we wanted it to"
-	[[ -d ${P} ]] && mv -i "${P}"/debian/* debian && rmdir --parents ${P}/debian || die "fixing bad patching job failed"
-	default_src_prepare
+	default
 }
 
-src_install() {
-	emake DESTDIR="${D}" install
-	dodoc debian/README.Debian
-}
+DOCS=( debian/README.Debian )
