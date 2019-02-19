@@ -1,9 +1,11 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-inherit perl-app bash-completion-r1
+GENTOO_DEPEND_ON_PERL=noslotop
+
+inherit perl-module bash-completion-r1
 
 DESCRIPTION="command line issue tracker"
 HOMEPAGE="https://github.com/chilts/cil"
