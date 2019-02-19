@@ -1,7 +1,7 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 ECVS_SERVER="cvs.sv.gnu.org:/sources/gift"
 ECVS_MODULE="gift"
@@ -31,13 +31,16 @@ GIFT_INIT="gnu-gift"
 
 S="${WORKDIR}/${PN}"
 
+PATCHES=(
+#	${FILESDIR}/${PN}-0.1.14-noDoc.patch # should be conditional on '!use doc'
+	"${FILESDIR}/${PN}-0.1.14-ps_params.patch"
+#	${FILESDIR}/${PN}-0.1.14-patch-tid.patch
+#	${FILESDIR}/${PN}-0.1.14-extra_qualif.patch
+)
+
 src_prepare() {
-#	use doc || epatch ${FILESDIR}/${PN}-0.1.14-noDoc.patch
-#	epatch ${FILESDIR}/${PN}-0.1.14-noDoc.patch || die "nodoc patch failed"
+	default
 #	rmdir Doc
-	epatch "${FILESDIR}/${PN}-0.1.14-ps_params.patch"
-#	epatch ${FILESDIR}/${PN}-0.1.14-patch-tid.patch
-#	epatch ${FILESDIR}/${PN}-0.1.14-extra_qualif.patch
 
 	eautoreconf
 }

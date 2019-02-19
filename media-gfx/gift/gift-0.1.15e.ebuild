@@ -1,9 +1,9 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-inherit eutils autotools
+inherit autotools
 
 DESCRIPTION="The GNU Image-Finding Tool"
 HOMEPAGE="https://www.gnu.org/software/gift/"
@@ -27,13 +27,16 @@ GIFT_USER="gift"
 GIFT_HOME="/home/${GIFT_USER}/"
 GIFT_INIT="gnu-gift"
 
+PATCHES=(
+	"${FILESDIR}/${PN}-0.1.14-noDoc.patch" # originally conditional on '!use doc'
+	"${FILESDIR}/${PN}-0.1.14-ps_params.patch"
+#	"${FILESDIR}/${PN}-0.1.14-patch-tid.patch"
+#	"${FILESDIR}/${PN}-0.1.14-extra_qualif.patch"
+)
+
 src_prepare() {
-#	use doc || epatch "${FILESDIR}/${PN}-0.1.14-noDoc.patch"
-	epatch "${FILESDIR}/${PN}-0.1.14-noDoc.patch"
+	default
 	rmdir Doc
-	epatch "${FILESDIR}/${PN}-0.1.14-ps_params.patch"
-#	epatch "${FILESDIR}/${PN}-0.1.14-patch-tid.patch"
-#	epatch "${FILESDIR}/${PN}-0.1.14-extra_qualif.patch"
 
 	eautoreconf
 }
