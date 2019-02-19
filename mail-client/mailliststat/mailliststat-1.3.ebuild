@@ -1,7 +1,7 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 inherit toolchain-funcs eutils
 
@@ -20,9 +20,19 @@ DEPEND="${RDEPEND}
 
 S="${WORKDIR}/mls-${PV}"
 
+PATCHES=(
+	"${FILESDIR}/mailliststat_1.3-5.diff"
+	"${FILESDIR}/10_rename.patch"
+	"${FILESDIR}/20_po4a.patch"
+	"${FILESDIR}/30_gettext.patch"
+	"${FILESDIR}/40_user-agent.patch"
+	"${FILESDIR}/50_iconv.patch"
+	"${FILESDIR}/60_lowercase-email.patch"
+	"${FILESDIR}/70_nostrip.patch"
+)
+
 src_prepare() {
-	epatch "${FILESDIR}/mailliststat_1.3-5.diff"
-	epatch "${FILESDIR}/*patch"
+	default
 	rm mls_lang.h mls.1
 	for lang in de es fr it pt_BR sk sr
 	do
@@ -48,7 +58,5 @@ src_compile() {
 src_install() {
 	emake DESTDIR="${D}" install
 	dodoc HISTORY.mls.txt README.txt "${FILESDIR}"/README.Debian
-	dohtml html/*
-	docinto examples
-	dodoc examples/*
+	dodoc -r html examples
 }
