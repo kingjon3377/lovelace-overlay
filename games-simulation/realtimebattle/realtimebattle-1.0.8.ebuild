@@ -1,9 +1,9 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-inherit eutils
+inherit desktop eutils
 
 MY_P1E="RealTimeBattle-${PV}-Ext"
 MY_P1S="RealTimeBattle-${PV}-Std"
@@ -34,9 +34,10 @@ src_unpack() {
 src_prepare() {
 	edos2unix team-framework/bots/cobra/cobra_clientspecificrepository.h
 	sed -i -e "s@$(echo -e '\037')@~@g" Documentation/RealTimeBattle.info || die
-	epatch "${FILESDIR}/realtimebattle_1.0.8-10.diff"
+	eapply "${FILESDIR}/realtimebattle_1.0.8-10.diff"
 	sed -i -e "s@~@$(echo -e '\037')@g" Documentation/RealTimeBattle.info || die
-	epatch "${FILESDIR}/missing_headers.patch"
+	eapply "${FILESDIR}/missing_headers.patch"
+	eapply_user
 }
 
 src_configure() {
