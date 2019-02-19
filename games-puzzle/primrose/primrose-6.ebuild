@@ -1,9 +1,9 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-inherit eutils games
+inherit eutils
 
 DESCRIPTION="compelling tile-placement puzzle game"
 HOMEPAGE="http://primrose.sourceforge.net/"
@@ -21,6 +21,8 @@ DEPEND="${RDEPEND}
 
 S="${WORKDIR}/${PN/p/P}_v${PV}_UnixSource"
 
+PATCHES=( "${FILESDIR}/paths.patch" )
+
 src_prepare() {
 	rm tilePlacementGames/game1/build/win32/*.dll || \
 		die "removing unused Windows binaries failed"
@@ -28,7 +30,7 @@ src_prepare() {
 		rm minorGems/graphics/openGL/tga.* minorGems/graphics/openGL/texture.* \
 			|| die "Removing unused non-free graphics etc. failed"
 	mkdir -p 256x256 128x128 64x64 32x32 || die "creating temporary dirs failed"
-	epatch "${FILESDIR}/paths.patch"
+	default
 }
 
 src_configure() {
@@ -46,12 +48,12 @@ src_compile() {
 	convert 32x32/primrose.png 32x32/primrose.xpm
 	emake -C "${S}/tilePlacementGames/game1/gameSource" \
 		PLATFORM_LINK_FLAGS="-lGL -lSDL -lpthread ${LDFLAGS}" \
-		PLATFORM_COMPILE_FLAGS="${CFLAGS} -DETCDIR=\\\"${EPREFIX}/etc/primrose\\\" -DDATADIR=\\\"${EPREFIX}/${GAMES_DATADIR=}/primrose/\\\""
+		PLATFORM_COMPILE_FLAGS="${CFLAGS} -DETCDIR=\\\"${EPREFIX}/etc/primrose\\\" -DDATADIR=\\\"${EPREFIX}/usr/share/primrose/\\\""
 }
 
 src_install() {
-	newgamesbin tilePlacementGames/game1/gameSource/Primrose ${PN}
-	insinto "${GAMES_DATADIR}/${PN}"
+	newbin tilePlacementGames/game1/gameSource/Primrose ${PN}
+	insinto /usr/share/${PN}
 	doins -r tilePlacementGames/game1/gameSource/graphics
 	insinto /usr/share/applications
 	doins "${FILESDIR}/${PN}.desktop"
