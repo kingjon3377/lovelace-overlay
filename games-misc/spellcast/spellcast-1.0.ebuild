@@ -1,9 +1,9 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-inherit games multilib
+inherit multilib
 
 DESCRIPTION="The classic hand-waving multi-player X game of spellcasting:"
 HOMEPAGE="http://www.eblong.com/zarf/spellcast.html"
@@ -23,13 +23,14 @@ S="${WORKDIR}/${PN}"
 src_install() {
 	dodir "${GAMES_BINDIR}"
 	dodir /usr/share/man/man6
-	dodir /usr/games/$(get_libdir)/${PN}
+	dodir /usr/$(get_libdir)/${PN}
 	emake DESTDIR="${D}" DESTMAN="${D}"/usr/share/man/man6 \
-		DESTBIN="${D}"${GAMES_BINDIR} DESTLIB="${D}"$(games_get_libdir)/${PN} install
+		DESTBIN="${D}"/usr/bin DESTLIB="${D}"$(get_libdir)/${PN} install
 	dodoc README
 	if use doc; then
-		cd ../${PN}-doc-1.5 || die "cd failed"
-		dohtml spellcaster.html spellcast.html/*
 		dodoc debian/README.debian
+		cd ../${PN}-doc-1.5 || die "cd failed"
+		docinto html
+		dodoc -r spellcaster.html spellcast.html/*
 	fi
 }
