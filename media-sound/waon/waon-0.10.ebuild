@@ -1,9 +1,9 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-inherit toolchain-funcs eutils
+inherit toolchain-funcs
 
 DESCRIPTION="A Wave-to-Notes transcriber"
 HOMEPAGE="http://waon.sourceforge.net/"
@@ -23,9 +23,7 @@ DEPEND="sci-libs/fftw:3.0
 	x11-libs/pango"
 RDEPEND="${DEPEND}"
 
-src_prepare() {
-	epatch "${FILESDIR}/cflags.patch"
-}
+PATCHES=( "${FILESDIR}/cflags.patch" )
 
 src_compile() {
 	emake CC=$(tc-getCC) USER_CFLAGS="${CFLAGS}" LDFLAGS="${LDFLAGS}"
