@@ -1,13 +1,13 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-inherit toolchain-funcs eutils
+inherit toolchain-funcs
 
 DESCRIPTION="Extract out pre-defined slices of an ASCII file"
 HOMEPAGE="ftp://ftp.ossp.org/pkg/tool/slice/"
-SRC_URI="ftp://ftp.ossp.org/pkg/tool/${PN}/${P}.tar.gz"
+SRC_URI="https://www.mirrorservice.org/sites/ftp.ossp.org/pkg/tool/${PN}/${P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
@@ -18,8 +18,9 @@ DEPEND="dev-perl/Bit-Vector"
 RDEPEND="${DEPEND}"
 
 src_prepare() {
-	cd "${WORKDIR}" && epatch "${FILESDIR}"/slice_1.3.8-10.diff
-	cd "${S}" && epatch debian/patches/*.diff
+	eapply "${FILESDIR}"/slice_1.3.8-10.diff
+	eapply debian/patches/*.diff
+	eapply_user
 }
 
 src_configure() {
