@@ -1,9 +1,7 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
-
-inherit eutils
+EAPI=6
 
 DESCRIPTION="WordPerfect 5.x documents to whatever converter"
 HOMEPAGE="ftp://ftp.penguin.cz/pub/users/mhi/wp2x"
@@ -22,8 +20,9 @@ RESTRICT="test"
 S="${WORKDIR}/${P}-mhi"
 
 src_prepare() {
-	cd "${WORKDIR}" && epatch "${FILESDIR}/wp2x_2.5-mhi-9.diff"
-	cd "${S}" && epatch debian/patches/*patch
+	eapply "${FILESDIR}/wp2x_2.5-mhi-9.diff"
+	eapply debian/patches/*patch
+	eapply_user
 }
 
 src_compile() {
