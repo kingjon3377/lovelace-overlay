@@ -1,9 +1,7 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
-
-inherit games
+EAPI=6
 
 DESCRIPTION="the war game of the century"
 HOMEPAGE="http://www.catb.org/~esr/vms-empire/"
@@ -18,7 +16,8 @@ DEPEND=""
 RDEPEND="${DEPEND}"
 
 src_prepare() {
-	sed -i -e '/^install/s/uninstall//' -e "s@/usr/bin@${GAMES_BINDIR}@" Makefile || die
+	sed -i -e '/^install/s/uninstall//' Makefile || die
+	default
 }
 
 src_install() {
