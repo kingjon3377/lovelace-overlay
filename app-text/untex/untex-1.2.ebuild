@@ -1,7 +1,7 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 inherit eutils toolchain-funcs
 
@@ -24,8 +24,15 @@ RDEPEND="${DEPEND}"
 
 S="${WORKDIR}"
 
+PATCHES=(
+	"${FILESDIR}/10-fopen-fix.patch"
+	"${FILESDIR}/20-untex.man.patch"
+	"${FILESDIR}/30-gcc-include.patch"
+	"${FILESDIR}/40-format-string.patch"
+)
+
 src_prepare() {
-	epatch "${FILESDIR}"/*.patch
+	default
 	sed -i -e 's:^BINDIR=.*:BINDIR=$(DESTDIR)/usr/bin:' \
 		-e 's:^MANDIR=.*:MANDIR=$(DESTDIR)/usr/share/man/man$(MANEXT):' \
 		-e '/^CFLAGS=.*/d' Makefile || die
