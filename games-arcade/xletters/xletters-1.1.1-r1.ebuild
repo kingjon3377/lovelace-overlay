@@ -1,7 +1,7 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 inherit games
 
@@ -23,16 +23,17 @@ DEPEND=" || ( net-analyzer/netcat >=net-analyzer/netcat6-1.0-r2 )
 	x11-libs/libXt"
 RDEPEND="${DEPEND}"
 
+PATCHES=( "${FILESDIR}"/xletters_1.1.1-4.1.diff )
+
 src_prepare() {
-	cd "${WORKDIR}"
-	epatch "${FILESDIR}"/xletters_1.1.1-4.1.diff
+	default
 	sed -i -e 's:/var/local/games/lib/xletters:/var/games/xletters:' "${S}"/Makefile.in || die
 }
 
 src_install() {
 	emake DESTDIR="${D}" install
 	dodir /var/games
-	fperms 664 "/var/games/xletters/scores"
-	fperms g+s "/usr/games/bin/xletters"
+	fperms 664 "/var/games/${PN}/scores"
+	fperms g+s "/usr/bin/${PN}"
 	dodoc README
 }
