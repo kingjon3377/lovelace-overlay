@@ -1,7 +1,7 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 DESCRIPTION="Recognizes top-posted e-mail and usenet replies"
 HOMEPAGE="http://www.toastfreeware.priv.at/"
@@ -20,6 +20,6 @@ src_install() {
 	dodoc AUTHORS ChangeLog NEWS README examples/procmailrc.example
 	insinto /etc
 	doins examples/fullquottelrc
-	dohtml doc_user/html/*
-	use doc && docinto api && dohtml doc_programmer/html/*
+	dodoc -r doc_user/html
+	use doc && docinto api && dodoc -r doc_programmer/html/*
 }
