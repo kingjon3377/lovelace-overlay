@@ -1,9 +1,7 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
-
-inherit games
+EAPI=6
 
 DESCRIPTION="not just another tetris clone"
 HOMEPAGE="http://www.reloco.com.ar/xemeraldia/"
@@ -23,12 +21,12 @@ src_prepare() {
 }
 
 src_install() {
-	emake DESTDIR="${D}" gamesdir="${GAMES_BINDIR}" \
+	emake DESTDIR="${D}" gamesdir="/usr/bin" \
 		appsdir="/usr/share/applications" pixmapsdir="/usr/share/pixmaps" install
 	doman "${FILESDIR}"/${PN}.6x
 	dodoc NEWS README TODO ChangeLog
-	dodir "${GAMES_STATEDIR}"
-	touch "${D}/${GAMES_STATEDIR}/${PN}.scores"
-	fowners "${GAMES_OWNER}:${GAMES_GROUP}" "/${GAMES_STATEDIR}/${PN}.scores"
-	fperms 664 "/${GAMES_STATEDIR}/${PN}.scores"
+	dodir "/var/games"
+	touch "${D}/var/games/${PN}.scores"
+	fowners "games:games" "/var/games/${PN}.scores"
+	fperms 664 "/var/games/${PN}.scores"
 }
