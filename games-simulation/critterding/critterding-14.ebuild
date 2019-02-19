@@ -1,9 +1,9 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-inherit cmake-utils games
+inherit cmake-utils
 
 DESCRIPTION="AI evolution simulation"
 HOMEPAGE="http://critterding.sourceforge.net"
@@ -25,23 +25,15 @@ S="${WORKDIR}/${PN}-beta${PV}"
 	#eautoreconf
 #}
 
-src_configure() {
-	local mycmakeargs=(
-		-DCMAKE_INSTALL_PREFIX="${GAMES_PREFIX}"
-	)
-
-	cmake-utils_src_configure
-}
-
 src_compile() {
 	cmake-utils_src_compile
 }
 
+DOCS=( AUTHORS Changelog README )
+
 src_install() {
 	cmake-utils_src_install
-	dodir "${GAMES_DATADIR}/${PN}/profiles"
-	insinto "${GAMES_DATADIR}/${PN}/profiles"
+	dodir "/usr/share/${PN}/profiles"
+	insinto "/usr/share/${PN}/profiles"
 	doins profiles/race
-	dodoc AUTHORS Changelog README
-	prepgamesdirs
 }
