@@ -1,7 +1,7 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 inherit java-pkg-2 java-pkg-simple
 
@@ -21,7 +21,7 @@ RDEPEND=">=virtual/jre-1.3:*"
 S="${WORKDIR}"
 
 src_prepare() {
-	default_src_prepare
+	default
 	sed -i -e 's@src\.@rphelper.@' ${PN}/abxmldoc/*.java || die
 	mkdir -p target/META-INF
 	cat > target/META-INF/MANIFEST.MF <<-EOF
@@ -35,5 +35,5 @@ EOF
 src_install() {
 	java-pkg-simple_src_install
 	java-pkg_dolauncher
-	dohtml ${PN}/ui/help.html
+	dodoc ${PN}/ui/help.html
 }
