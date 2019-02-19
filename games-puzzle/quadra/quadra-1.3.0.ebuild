@@ -1,7 +1,7 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 AUTOTOOLS_IN_SOURCE_BUILD=true
 
@@ -24,12 +24,14 @@ RDEPEND="${DEPEND}"
 
 src_prepare() {
 	sed -i -e "/^datagamesdir:=/s:/games:/${PN}:" Makefile.am || die
+	default
 	eautoreconf
 }
 
+DOCS=( NEWS.md )
+
 src_install() {
 	default
-	dodoc NEWS.md
 	# TODO: install demos?
 	make_desktop_entry ${PN} Quadra
 }
