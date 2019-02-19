@@ -1,7 +1,7 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 inherit multilib
 
@@ -21,14 +21,14 @@ RDEPEND="${DEPEND}"
 
 src_prepare() {
 	sed -i -e "s:/lib/:/$(get_libdir)/:g" Makefile || die "sed failed"
+	default
 }
 
 src_install() {
 	dodir "/usr/bin" "/etc" "/usr/share/man/man1"
 	emake DESTDIR="${D}" install
-	mv -i documents/"BogoSec TAMULUG.sxi" documents/BogoSec_TAMULUG.sxi
-	dodoc README documents/Bogosec_design.doc documents/BogoSec_TAMULUG.sxi
-	dohtml documents/whitepaper/*
+	newdoc documents/"BogoSec TAMULUG.sxi" BogoSec_TAMULUG.sxi
+	dodoc README documents/Bogosec_design.doc documents/whitepaper/*
 }
 
 pkg_postinst() {
