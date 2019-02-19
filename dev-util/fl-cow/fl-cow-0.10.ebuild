@@ -1,7 +1,7 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 DESCRIPTION="copy-on-write utility"
 HOMEPAGE="http://www.xmailserver.org/flcow.html"
@@ -21,8 +21,4 @@ src_test() {
 	./flcow-test.sh || ewarn "tests failed, probably a sandbox problem"
 }
 
-src_install() {
-	emake DESTDIR="${D}" install
-	dodoc AUTHORS ChangeLog NEWS README
-	dohtml docs/flcow.html
-}
+DOCS=( AUTHORS ChangeLog NEWS README docs/flcow.html )
