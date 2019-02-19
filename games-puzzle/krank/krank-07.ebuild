@@ -1,9 +1,7 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
-
-inherit games
+EAPI=6
 
 DESCRIPTION="is a game of dexterity where you match stones together"
 HOMEPAGE="http://krank.sourceforge.net/"
@@ -19,22 +17,13 @@ RDEPEND="dev-python/pygame
 RDEPEND=""
 
 src_prepare() {
-	sed -i 's:KRANKPATH=`dirname $0`:KRANKPATH=/usr/share/games/krank:' ${PN} \
+	sed -i 's:KRANKPATH=`dirname $0`:KRANKPATH=/usr/share/krank:' ${PN} \
 		|| die "sed failed"
 }
 
 src_install() {
-	insinto /usr/share/games/${PN}/art
-	doins -r art/*
-	insinto /usr/share/games/${PN}/fonts
-	doins -r fonts/*
-	insinto /usr/share/games/${PN}/levels
-	doins -r levels/*
-	insinto /usr/share/games/${PN}/sounds
-	doins -r sounds/*
-	insinto /usr/share/games/${PN}/src
-	doins -r src/*
-	dogamesbin ${PN}
-	dohtml -r html/*
-	dodoc CHANGELOG.txt README
+	insinto /usr/share/${PN}
+	doins -r art fonts levels sounds src
+	dobin ${PN}
+	dodoc -r html CHANGELOG.txt README
 }
