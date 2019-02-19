@@ -3,8 +3,6 @@
 
 EAPI=6
 
-inherit games
-
 DESCRIPTION="Type falling words before they land"
 HOMEPAGE="https://packages.debian.org/xletters"
 SRC_URI="mirror://debian/pool/main/x/${PN}/${PN}_${PV}.orig.tar.gz"
