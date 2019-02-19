@@ -1,11 +1,11 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 EGIT_REPO_URI="git://git.debian.org/collab-maint/bombardier.git"
 
-inherit games git-r3 toolchain-funcs
+inherit git-r3 toolchain-funcs
 
 DESCRIPTION="The GNU Bombing utility"
 HOMEPAGE="https://packages.debian.org/bombardier"
@@ -20,7 +20,7 @@ DEPEND="sys-libs/ncurses:0"
 RDEPEND="${DEPEND}"
 
 src_prepare() {
-	sed -i -e 's:/usr/games:/usr/games/bin:' Makefile || die "sed failed"
+	sed -i -e 's:/usr/games:/usr/bin:' Makefile || die "sed failed"
 }
 
 src_compile() {

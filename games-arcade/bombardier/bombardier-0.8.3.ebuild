@@ -1,9 +1,9 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-inherit games toolchain-funcs
+inherit toolchain-funcs
 
 NMU_VER=nmu1
 
@@ -22,8 +22,7 @@ RDEPEND="${DEPEND}"
 S="${WORKDIR}/${P}+${NMU_VER}"
 
 src_prepare() {
-	sed -i -e "s:/var/games:${GAMES_STATEDIR}:" hof.c || die "sed failed"
-	sed -i -e 's:/usr/games:/usr/games/bin:' Makefile || die "sed failed"
+	sed -i -e 's:/usr/games:/usr/bin:' Makefile || die "sed failed"
 }
 
 src_compile() {
@@ -32,8 +31,8 @@ src_compile() {
 
 src_install() {
 	emake DESTDIR="${D}" install
-	dodir "${GAMES_STATEDIR}/${PN}"
-	touch "${D}/${GAMES_STATEDIR}/${PN}/bdscore"
-	fowners ${GAMES_USER}:${GAMES_GROUP} "/${GAMES_STATEDIR}/${PN}/bdscore"
-	fperms 0664 "/${GAMES_STATEDIR}/${PN}/bdscore"
+	dodir "/var/games/${PN}"
+	touch "${D}/var/games/${PN}/bdscore"
+	fowners games:games "/var/games/${PN}/bdscore"
+	fperms 0664 "/var/games/${PN}/bdscore"
 }
