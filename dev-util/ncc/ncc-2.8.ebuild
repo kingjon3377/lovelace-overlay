@@ -1,7 +1,7 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 inherit toolchain-funcs
 
@@ -17,12 +17,9 @@ IUSE=""
 DEPEND=""
 RDEPEND="${DEPEND}"
 
-#src_prepare() {
-#	epatch "${FILESDIR}"/${P}-flags.patch
-#}
+#PATCHES=( "${FILESDIR}"/${P}-flags.patch )
 
 src_compile() {
-#	emake CC="$(tc-getCXX)" LCFLAGS="${CFLAGS}"
 	emake \
 			-C nccnav \
 			CC="$(tc-getCXX)" \
