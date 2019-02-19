@@ -1,9 +1,9 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-inherit eutils autotools
+inherit autotools
 
 DESCRIPTION="C++ meta object runtime analyse and archiving"
 HOMEPAGE="http://libgenerics.sourceforge.net/"
@@ -17,17 +17,13 @@ RDEPEND="dev-libs/libxml2"
 DEPEND="${RDEPEND}
 	virtual/pkgconfig"
 
-DOCS="AUTHORS ChangeLog NEWS README"
+DOCS=( AUTHORS ChangeLog NEWS README )
 
 src_prepare() {
+	default
 	eautoreconf
 }
 
 src_configure() {
 	econf $(use_enable doc)
-}
-
-src_install() {
-	emake DESTDIR="${D}" install
-	dodoc ${DOCS}
 }
