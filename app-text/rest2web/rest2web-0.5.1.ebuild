@@ -1,7 +1,7 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 PYTHON_COMPAT=( python2_7 )
 inherit python-r1 multilib
@@ -37,5 +37,6 @@ each_install() {
 src_install() {
 	python_foreach_impl each_install
 	newman r2w.man r2w.1
-	dohtml -r docs_html/*
+	docinto html
+	dodoc -r docs_html/*
 }
