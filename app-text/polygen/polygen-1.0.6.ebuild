@@ -1,7 +1,7 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 inherit eutils
 
@@ -23,11 +23,12 @@ DEPEND="${COMMON_DEPEND}
 
 #S="${WORKDIR}/${P}"
 
-src_prepare() {
-	epatch "${FILESDIR}/01-dont-regenerate-existing-ofiles.diff" \
-		"${FILESDIR}/03-makefile.diff" "${FILESDIR}/04-create-mode.diff" \
-		"${FILESDIR}/05-8bit-strings.diff"
-}
+PATCHES=(
+	"${FILESDIR}/01-dont-regenerate-existing-ofiles.diff"
+	"${FILESDIR}/03-makefile.diff"
+	"${FILESDIR}/04-create-mode.diff"
+	"${FILESDIR}/05-8bit-strings.diff"
+)
 
 src_compile() {
 	emake -C src
