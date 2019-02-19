@@ -1,9 +1,9 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-inherit games java-pkg-2 java-pkg-simple git-r3
+inherit java-pkg-2 java-pkg-simple git-r3
 
 DESCRIPTION="Infinite Mario levels adapting to player skill"
 HOMEPAGE="https://github.com/bnoordhuis/Infinite-Adaptive-Mario"
@@ -28,6 +28,7 @@ src_prepare() {
 Manifest-Version: 1.0
 Main-Class: dk.itu.mario.engine.PlayCustomized
 EOF
+	default
 }
 
 src_install() {
