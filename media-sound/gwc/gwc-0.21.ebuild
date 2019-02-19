@@ -1,9 +1,9 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-inherit eutils gnome2 toolchain-funcs
+inherit gnome2 toolchain-funcs
 
 DESCRIPTION="Audio file denoiser"
 HOMEPAGE="http://gwc.sourceforge.net/"
@@ -22,9 +22,12 @@ RDEPEND="${DEPEND}"
 
 S="${WORKDIR}/${P}-11"
 
+PATCHES=(
+	"${FILESDIR}/gwc_0.21.05-1.2.diff"
+	 "${FILESDIR}/destdir.patch"
+)
+
 src_prepare() {
-	cd "${WORKDIR}" && epatch "${FILESDIR}/gwc_0.21.05-1.2.diff"
-	cd "${S}" && epatch "${FILESDIR}/destdir.patch"
 	gnome2_src_prepare
 }
 
