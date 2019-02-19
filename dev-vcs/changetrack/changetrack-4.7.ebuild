@@ -1,7 +1,7 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 DESCRIPTION="monitor changes to (configuration) files"
 HOMEPAGE="http://changetrack.sourceforge.net"
@@ -18,7 +18,7 @@ RDEPEND="${DEPEND}"
 S="${WORKDIR}/${PN}"
 
 src_compile() {
-	: # Do nothing ... but we don't want to repeat tests, whcih are the first item in the Makefile.
+	: # Do nothing ... but we don't want to repeat tests, which are the first item in the Makefile.
 }
 
 src_test() {
