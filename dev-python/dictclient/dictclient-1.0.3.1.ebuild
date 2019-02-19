@@ -1,7 +1,7 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 PYTHON_COMPAT=( python{2_5,2_6,2_7} )
 inherit distutils-r1
@@ -22,6 +22,5 @@ S="${WORKDIR}/${PN}-1.0.3"
 
 src_install() {
 	distutils-r1_src_install
-	dodoc dictclient.txt
-	dohtml dictclient.html
+	dodoc ${PN}.txt ${PN}.html
 }
