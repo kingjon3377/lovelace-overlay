@@ -6,7 +6,7 @@ EAPI=6
 inherit toolchain-funcs eutils
 
 DESCRIPTION="BBC BASIC V interpreter"
-HOMEPAGE="http://sourceforge.net/projects/brandy"
+HOMEPAGE="https://sourceforge.net/projects/brandy"
 SRC_URI="mirror://sourceforge/${PN}/${PN}/${P}/${P}.tar.gz"
 
 LICENSE="GPL-2"

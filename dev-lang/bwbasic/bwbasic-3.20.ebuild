@@ -6,7 +6,7 @@ EAPI=6
 inherit toolchain-funcs eutils
 
 DESCRIPTION="Bywater BASIC Interpreter"
-HOMEPAGE="http://sourceforge.net/projects/bwbasic/"
+HOMEPAGE="https://sourceforge.net/projects/bwbasic/"
 SRC_URI="mirror://sourceforge/${PN}/${PN}/version%20${PV}/${P}.zip"
 
 LICENSE="GPL-3"

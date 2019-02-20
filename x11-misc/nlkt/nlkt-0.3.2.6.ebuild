@@ -6,8 +6,7 @@ EAPI=6
 inherit cmake-utils
 
 DESCRIPTION="non-linear keyboard trainer"
-HOMEPAGE="http://sf.net/projects/nlkt"
-#SRC_URI="mirror://sourceforge/${PN}/${PN}/${PV}/${PN}-src_${PV}.tar.gz"
+HOMEPAGE="https://sourceforge.net/projects/nlkt"
 SRC_URI="mirror://debian/pool/main/n/${PN}/${PN}_${PV}.orig.tar.gz"
 
 LICENSE="GPL-2"

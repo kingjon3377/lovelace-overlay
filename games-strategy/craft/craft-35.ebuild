@@ -6,7 +6,7 @@ EAPI=6
 inherit eutils
 
 DESCRIPTION="Warcraft 2-like multi-player real-time strategy game"
-HOMEPAGE="http://sourceforge.net/projects/craft-vikings/"
+HOMEPAGE="https://sourceforge.net/projects/craft-vikings/"
 #HOMEPAGE="http://ftp.knoppix.nl/sunsite/games/strategy/"
 SRC_URI="mirror://sourceforge/${PN}-vikings/${PN}-vikings/${PN}-3.5/${PN}cc${PV}.tar.Z
 		doc? ( mirror://sourceforge/${PN}-vikings/${PN}-vikings/${PN}-3.5/${PN}doc.tar.Z )"
