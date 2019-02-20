@@ -1,10 +1,10 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
 
 LANGS="cs da de el en es et fr hu it nl no pa pl ru sk tr"
-inherit eutils qmake-utils versionator
+inherit eutils qmake-utils eapi7-ver
 
 manual_cs="2.0.4.0-1"
 manual_de="2.1.0.0-1"
@@ -47,7 +47,7 @@ src_prepare() {
 	local qt_version=$(best_version dev-qt/qtscript:5 | sed 's@dev-qt/qtscript-@@')
 	if ! test -d src/3rdparty/qt-labs-qtscriptgenerator-${qt_version}; then
 		local fname=qt-labs-qtscriptgenerator
-		same_slot_version=$(ls -d src/3rdparty/${fname}-$(get_version_component_range 1-2 ${qt_version})* | \
+		same_slot_version=$(ls -d src/3rdparty/${fname}-$(ver_cut 1-2 ${qt_version})* | \
 							tail -n 1 | sed "s@src/3rdparty/${fname}-@@")
 		test -n "${same_slot_version}" || die "No QtScript bindings in the same SLOT as ${qt_version}"
 		mkdir -p src/3rdparty/${fname}-${qt_version} || die
