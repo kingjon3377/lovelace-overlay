@@ -3,24 +3,23 @@
 
 EAPI=6
 
-inherit eutils versionator toolchain-funcs
+inherit eutils eapi7-ver toolchain-funcs
 
 # For versions with last part < 10, pad with zeroes:
 # e.g 4 => 4000, 5.1 => 5100, 5.2.7 => 5207.
 version_mangle() {
-	local count=$(get_version_component_count)
-	if test "${count}" -lt 2; then
+	if test -z "$(ver_cut 2)" && test -z "$(ver_cut 3)"; then
 		echo ${PV}000
 		return
-	elif test "${count}" -lt 3; then
-		echo $(delete_all_version_separators)00
+	elif test -z "$(ver_cut 3)"; then
+		echo $(ver_rs 1- '')00
 		return
 	fi
-	local last=$(get_version_component_range 3)
+	local last=$(ver_cut 3)
 	if test "${last}" -lt 10 && test "${#last}" -eq 1; then
-		echo "$(delete_all_version_separators $(get_version_component_range 1-2))0${last}"
+		ver_rs 1-2 '' 3 0
 	else
-		delete_all_version_separators
+		ver_rs 1- ''
 	fi
 }
 
