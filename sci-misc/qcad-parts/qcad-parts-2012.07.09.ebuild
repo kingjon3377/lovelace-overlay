@@ -3,13 +3,13 @@
 
 EAPI=6
 
-inherit versionator
+inherit eapi7-ver
 
 DESCRIPTION="Collection of CAD files that can be used from the library browser of QCad"
 LICENSE="GPL-2"
 HOMEPAGE="http://www.ribbonsoft.com/en/qcad-add-ons"
 URI_BASE="http://www.ribbonsoft.com/archives/partlibrary/"
-URI_DATE=$(replace_all_version_separators -)
+URI_DATE=$(ver_rs 1- -)
 create_uri() {
 	echo "${URI_BASE}${1}-${URI_DATE}.zip"
 }
