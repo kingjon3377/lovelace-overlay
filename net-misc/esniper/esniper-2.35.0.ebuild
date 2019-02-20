@@ -3,9 +3,9 @@
 
 EAPI=6
 
-inherit versionator
+inherit eapi7-ver
 
-MY_P=${PN}-$(replace_all_version_separators '-')
+MY_P=${PN}-$(ver_rs 1- '-')
 DESCRIPTION="A simple, lightweight tool for sniping ebay auctions"
 HOMEPAGE="http://esniper.sourceforge.net/"
 SRC_URI="mirror://sourceforge/${PN}/${MY_P}.tgz"
