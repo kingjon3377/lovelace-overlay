@@ -1,9 +1,9 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
 
-inherit toolchain-funcs autotools ltprune
+inherit toolchain-funcs autotools
 
 DESCRIPTION="Pidgin plugin to play typewriter sounds when buddies are typing"
 HOMEPAGE="https://github.com/ragb/purple-typewriter"
@@ -27,5 +27,5 @@ DOCS=( AUTHORS ChangeLog NEWS README )
 
 src_install() {
 	default
-	prune_libtool_files --modules # TODO: Just use 'find', per the eclass
+	find "${D}" -name '*.la' -delete || die
 }
