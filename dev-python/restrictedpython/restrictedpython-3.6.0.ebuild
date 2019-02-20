@@ -15,7 +15,7 @@ MY_PN="RestrictedPython"
 MY_P="${MY_PN}-${PV}"
 
 DESCRIPTION="A restricted execution environment for Python, e.g. for running untrusted code"
-HOMEPAGE="http://pypi.python.org/pypi/RestrictedPython"
+HOMEPAGE="https://pypi.python.org/pypi/RestrictedPython"
 SRC_URI="mirror://pypi/${MY_PN:0:1}/${MY_PN}/${MY_P}.zip"
 
 LICENSE="ZPL"
