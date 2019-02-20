@@ -3,7 +3,7 @@
 
 EAPI=6
 
-inherit toolchain-funcs versionator
+inherit toolchain-funcs eapi7-ver
 
 MY_PN=Box2D
 
@@ -33,7 +33,7 @@ src_prepare() {
 
 src_configure() {
 	premake4 gmake || die
-	sed -i -e "s@^ *ALL_LDFLAGS *+=@& -Wl,-soname,lib${MY_PN}.so.$(get_major_version)@" \
+	sed -i -e "s@^ *ALL_LDFLAGS *+=@& -Wl,-soname,lib${MY_PN}.so.$(ver_cut 1)@" \
 		Build/gmake/${MY_PN}.make || die
 }
 
@@ -52,8 +52,8 @@ src_compile() {
 
 src_install() {
 	newlib.so "Build/gmake/bin/Debug/lib${MY_PN}.so" "lib${MY_PN}.so.${PV}"
-	dosym "lib${MY_PN}.so.${PV}" "/usr/$(get_libdir)/lib${MY_PN}.so.$(get_major_version)"
-	dosym "lib${MY_PN}.so.$(get_major_version)" "/usr/$(get_libdir)/lib${MY_PN}.so"
+	dosym "lib${MY_PN}.so.${PV}" "/usr/$(get_libdir)/lib${MY_PN}.so.$(ver_cut 1)"
+	dosym "lib${MY_PN}.so.$(ver_cut 1)" "/usr/$(get_libdir)/lib${MY_PN}.so"
 	insinto /usr/$(get_libdir)/pkgconfig
 	doins "${PN}.pc"
 	dodoc Readme.txt Documentation/manual.docx Changes.txt
