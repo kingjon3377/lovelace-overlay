@@ -3,11 +3,11 @@
 
 EAPI=6
 
-inherit eutils versionator
+inherit eutils eapi7-ver
 
 DESCRIPTION="Generic Object Orientator"
 HOMEPAGE="https://people.csail.mit.edu/jrb/goo/"
-SRC_URI="https://people.csail.mit.edu/jrb/${PN}/${PN}-$(replace_all_version_separators _)-any-dev.tar.gz"
+SRC_URI="https://people.csail.mit.edu/jrb/${PN}/${PN}-$(ver_rs 1- _)-any-dev.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
