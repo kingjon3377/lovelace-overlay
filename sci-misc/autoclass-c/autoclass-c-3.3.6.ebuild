@@ -3,11 +3,11 @@
 
 EAPI=6
 
-inherit toolchain-funcs versionator
+inherit toolchain-funcs eapi7-ver
 
 DESCRIPTION="An unsupervised Bayesian classification system"
 HOMEPAGE="https://ti.arc.nasa.gov/tech/rse/synthesis-projects-applications/autoclass/autoclass-c/"
-SRC_URI="https://ti.arc.nasa.gov/m/project/autoclass/$(replace_all_version_separators - "${P}").tar.gz"
+SRC_URI="https://ti.arc.nasa.gov/m/project/autoclass/${PN}-$(ver_rs 1- -).tar.gz"
 LICENSE="freedist"
 SLOT="0"
 KEYWORDS="amd64 ~x86"
