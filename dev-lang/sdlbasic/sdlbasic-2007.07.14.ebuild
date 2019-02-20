@@ -3,11 +3,11 @@
 
 EAPI=6
 
-inherit eutils toolchain-funcs flag-o-matic versionator
+inherit eutils toolchain-funcs flag-o-matic eapi7-ver
 
 DESCRIPTION="BASIC interpreter for game development"
 HOMEPAGE="http://sdlbasic.altervista.org/main/index.php"
-SRC_URI="mirror://sourceforge/${PN}/source/${delete_all_version_separators}/${PN/b/B}-src-${PV}.tgz"
+SRC_URI="mirror://sourceforge/${PN}/source/$(ver_rs 1- '')/${PN/b/B}-src-${PV}.tgz"
 
 LICENSE="LGPL-2.1"
 SLOT="0"
