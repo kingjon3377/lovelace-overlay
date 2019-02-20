@@ -3,7 +3,7 @@
 
 EAPI=6
 
-inherit eutils toolchain-funcs versionator
+inherit eutils toolchain-funcs eapi7-ver
 
 DESCRIPTION="Calculate planet and star positions"
 HOMEPAGE="http://www.moshier.net/"
@@ -18,7 +18,7 @@ RDEPEND=""
 DEPEND="${RDEPEND}
 	app-arch/unzip"
 
-S="${WORKDIR}/aa-$(replace_all_version_separators "")"
+S="${WORKDIR}/aa-$(ver_rs 1- '')"
 
 # TODO: Update to current Debian patch version
 PATCHES=( "${FILESDIR}/astronomical-almanac_5.6-3.diff" )
