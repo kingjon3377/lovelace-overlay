@@ -5,10 +5,9 @@
 
 EAPI=6
 
-inherit desktop versionator elisp-common autotools virtualx
+inherit desktop eapi7-ver elisp-common autotools virtualx
 
-MY_PV=$(replace_version_separator 2 '-' ${PV})
-MY_P=${PN}-fsf-${MY_PV}
+MY_P=${PN}-fsf-$(ver_rs 2 '-')
 
 PATCH_V=-5
 
