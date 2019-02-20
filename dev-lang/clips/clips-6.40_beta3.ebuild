@@ -3,12 +3,12 @@
 
 EAPI=6
 
-inherit versionator toolchain-funcs
+inherit eapi7-ver toolchain-funcs
 
 DESCRIPTION="A Tool for Building Expert Systems"
 HOMEPAGE="http://clipsrules.sourceforge.net/"
 
-MY_PV="$(delete_all_version_separators "$(get_version_component_range 1-2)")"
+MY_PV="$(ver_rs 1- '' "$(ver_cut 1-2)")"
 MY_PN="${PN}rules"
 MY_PN2="${PN}_core_source"
 
