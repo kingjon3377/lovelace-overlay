@@ -3,7 +3,7 @@
 
 EAPI=6
 
-inherit versionator toolchain-funcs
+inherit toolchain-funcs
 
 DESCRIPTION="Compiler and run-time for the AFNIX programming language"
 HOMEPAGE="http://www.afnix.org/"
