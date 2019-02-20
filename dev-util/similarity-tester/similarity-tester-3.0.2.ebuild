@@ -3,11 +3,11 @@
 
 EAPI=6
 
-inherit eutils toolchain-funcs versionator
+inherit eutils toolchain-funcs eapi7-ver
 
 DESCRIPTION="Finds similarities between files"
 HOMEPAGE="https://dickgrune.com/Programs/similarity_tester/"
-SRC_URI="https://dickgrune.com/Programs/similarity_tester/sim_$(replace_all_version_separators _).zip"
+SRC_URI="https://dickgrune.com/Programs/similarity_tester/sim_$(ver_rs 1- _).zip"
 
 LICENSE="BSD"
 SLOT="0"
