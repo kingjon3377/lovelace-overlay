@@ -59,7 +59,6 @@ COMMON_DEPEND="
 	media?	(
 		media-libs/gstreamer:1.0
 		media-libs/gst-plugins-base:1.0
-		media-plugins/gst-plugins-xvideo
 	)
 	mysql?	( >=virtual/mysql-5.0 )
 	mime? ( || (
