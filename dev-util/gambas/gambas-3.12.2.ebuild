@@ -206,7 +206,7 @@ src_install() {
 
 my_xdg_update() {
 	{ use qt5 || use gtk || use gtk3; } && xdg_desktop_database_update
-	xdg_mime_database_update
+	xdg_mimeinfo_database_update
 }
 
 pkg_postinst() {
