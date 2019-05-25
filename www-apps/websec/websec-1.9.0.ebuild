@@ -1,7 +1,7 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 DESCRIPTION="A Web Secretary monitoring web pages for changes"
 HOMEPAGE="http://baruch.ev-en.org/proj/websec/"
