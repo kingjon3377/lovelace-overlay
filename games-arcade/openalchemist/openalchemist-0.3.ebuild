@@ -1,7 +1,7 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 inherit autotools eutils
 
@@ -14,11 +14,12 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
 
-RDEPEND="dev-games/clanlib:0.8[opengl,sdl]"
-DEPEND="${RDEPEND}
-	app-arch/zip
+RDEPEND="dev-games/clanlib:0.8[opengl,sdl]
+	=dev-lang/python-2*"
+BDEPEND="app-arch/zip
 	=dev-lang/python-2*
 	virtual/pkgconfig"
+DEPEND="${RDEPEND}"
 
 PATCHES=( "${FILESDIR}/${P}-gentoo.patch" )
 
