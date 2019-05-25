@@ -1,7 +1,7 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 DESCRIPTION="Type falling words before they land"
 HOMEPAGE="https://packages.debian.org/xletters"
@@ -12,6 +12,8 @@ SLOT="0"
 KEYWORDS="amd64"
 IUSE=""
 
+# netcat is used at runtime in xletters-duel and presumably detected at
+# build-time; it is not used *in* the build.
 DEPEND="net-analyzer/netcat
 	x11-libs/libICE
 	x11-libs/libSM
