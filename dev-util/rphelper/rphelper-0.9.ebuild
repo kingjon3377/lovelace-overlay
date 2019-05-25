@@ -1,7 +1,7 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 inherit java-pkg-2 java-pkg-simple
 
@@ -14,7 +14,7 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""
 
-DEPEND=">=virtual/jdk-1.3
+BDEPEND=">=virtual/jdk-1.3
 	app-arch/unzip"
 RDEPEND=">=virtual/jre-1.3:*"
 
