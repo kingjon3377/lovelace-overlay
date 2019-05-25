@@ -1,9 +1,11 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
-inherit scons-utils toolchain-funcs
+PYTHON_COMPAT=( python2_7 python3_{5,6} )
+
+inherit python-any-r1 scons-utils toolchain-funcs
 
 DESCRIPTION="a puzzle game inspired by Tetris"
 HOMEPAGE="http://blockattack.sf.net"
