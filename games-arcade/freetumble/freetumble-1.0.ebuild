@@ -1,9 +1,11 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
-inherit toolchain-funcs scons-utils
+PYTHON_COMPAT=( python2_7 python3_{5,6} )
+
+inherit python-any-r1 toolchain-funcs scons-utils eutils
 
 MY_PN=FreeTumble
 
@@ -43,11 +45,6 @@ src_install() {
 		"/usr/share/${PN}/data/game.ini"
 	fperms g+w "/usr/share/${PN}/data/scores.dat" \
 		"/usr/share/${PN}/data/game.ini"
-	cat > "${T}/wrapper.sh" <<-EOF
-#!/bin/sh
-cd "/usr/share/${PN}"
-./${MY_PN}
-EOF
-	newbin "${T}/wrapper.sh" ${PN}
+	make_wrapper ${PN} "${MY_PN}" /usr/share/${PN}
 	dodoc README
 }
