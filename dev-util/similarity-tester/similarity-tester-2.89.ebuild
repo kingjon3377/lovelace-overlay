@@ -1,20 +1,21 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 inherit toolchain-funcs
 
 DESCRIPTION="Finds similarities between files"
-HOMEPAGE="http://dickgrune.com/Programs/similarity_tester/"
-SRC_URI="http://dickgrune.com/Programs/similarity_tester/sim_${PV/./_}.zip"
+HOMEPAGE="https://dickgrune.com/Programs/similarity_tester/"
+SRC_URI="https://dickgrune.com/Programs/similarity_tester/sim_${PV/./_}.zip"
 
 LICENSE="BSD"
 SLOT="0"
 
 KEYWORDS="~amd64 ~x86"
 IUSE=""
-DEPEND="sys-devel/flex"
+BDEPEND="sys-devel/flex
+	app-arch/unzip"
 RDEPEND=""
 
 S="${WORKDIR}"

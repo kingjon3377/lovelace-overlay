@@ -1,9 +1,9 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
-inherit eutils toolchain-funcs eapi7-ver
+inherit eutils toolchain-funcs
 
 DESCRIPTION="Finds similarities between files"
 HOMEPAGE="https://dickgrune.com/Programs/similarity_tester/"
@@ -14,7 +14,7 @@ SLOT="0"
 
 KEYWORDS="~amd64 ~x86"
 IUSE=""
-DEPEND="sys-devel/flex
+BDEPEND="sys-devel/flex
 	app-arch/unzip"
 RDEPEND=""
 
