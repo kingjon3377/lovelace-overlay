@@ -11,28 +11,27 @@ SRC_URI="ftp://metalab.unc.edu/pub/Linux/devel/compiler-tools/${P}.tar.Z"
 
 LICENSE="public-domain"
 SLOT="0"
-KEYWORDS="alpha amd64 arm ~arm64 hppa ~ia64 ~mips ~ppc ppc64 ~s390 ~sh ~sparc ~x86"
-IUSE=""
+KEYWORDS="alpha amd64 arm arm64 hppa ia64 ~mips ppc ppc64 s390 sh sparc x86"
 
 DEPEND="app-eselect/eselect-yacc"
 RDEPEND=""
 
 PATCHES=(
-	# mkstemp patch from byacc ebuild
-	"${FILESDIR}"/${P}-mkstemp.patch
+	# mkstemp patch from byacc ebuild.
+	"${FILESDIR}/${P}-mkstemp.patch"
 
 	# The following patch fixes yacc to run correctly on ia64 (and
-	# other 64-bit arches).  See bug 46233
-	"${FILESDIR}"/${P}-ia64.patch
+	# other 64-bit arches). See bug 46233.
+	"${FILESDIR}/${P}-ia64.patch"
 
-	# avoid stack access error, bug 232005
-	"${FILESDIR}"/${P}-CVE-2008-3196.patch
+	# Avoid stack access error. See bug 232005.
+	"${FILESDIR}/${P}-CVE-2008-3196.patch"
 )
 
 src_prepare() {
 	default
 
-	# Use our CFLAGS and LDFLAGS
+	# Use our CFLAGS and LDFLAGS.
 	sed -i -e 's: -O : $(CFLAGS) $(LDFLAGS) :' Makefile || die 'sed failed'
 }
 
