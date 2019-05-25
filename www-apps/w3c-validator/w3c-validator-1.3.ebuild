@@ -1,7 +1,7 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 inherit multilib
 
@@ -17,7 +17,7 @@ KEYWORDS="~amd64"
 
 IUSE="jis2k +htmltidy"
 
-DEPEND=">=app-text/opensp-1.5.2
+RDEPEND=">=app-text/opensp-1.5.2
 	dev-perl/Config-General
 	virtual/perl-Encode
 	dev-perl/Encode-HanExtra
@@ -34,7 +34,8 @@ DEPEND=">=app-text/opensp-1.5.2
 	dev-perl/Test-Exception
 	jis2k? ( dev-perl/Encode-JIS2K )
 	htmltidy? ( perl-gcpan/HTML-Tidy )"
-RDEPEND="${DEPEND}"
+DEPEND="${RDEPEND}"
+BDEPEND="dev-lang/perl"
 
 # Seems to work w/out the following:
 # perl-core/CGI or virtual/perl-CGI
