@@ -47,7 +47,4 @@ src_install() {
 	einfo
 	einfo "As a consequence, for most polygen invocations you should now use"
 	einfo "polyrun instead of polygen."
-	einfo
-	einfo "Example grammars can be found at"
-	einfo "http://people.debian.org/~enrico/polygen-debian"
 }
