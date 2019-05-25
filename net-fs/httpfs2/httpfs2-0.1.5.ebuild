@@ -1,7 +1,7 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 DESCRIPTION="Access Web sites as a FUSE filesystem"
 HOMEPAGE="https://sourceforge.net/projects/httpfs"
@@ -14,8 +14,8 @@ IUSE=""
 
 RDEPEND="sys-fs/fuse:0
 	net-libs/gnutls"
-DEPEND="${RDEPEND}
-	app-text/asciidoc
+DEPEND="${RDEPEND}"
+BDEPEND="app-text/asciidoc
 	virtual/pkgconfig"
 
 PATCHES=("${FILESDIR}/remove_debianisms.patch" )
