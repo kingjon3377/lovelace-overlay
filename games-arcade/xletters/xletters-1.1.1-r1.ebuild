@@ -12,7 +12,7 @@ SLOT="0"
 KEYWORDS="amd64"
 IUSE=""
 
-DEPEND=" || ( net-analyzer/netcat >=net-analyzer/netcat6-1.0-r2 )
+DEPEND="net-analyzer/netcat
 	x11-libs/libICE
 	x11-libs/libSM
 	x11-libs/libX11
