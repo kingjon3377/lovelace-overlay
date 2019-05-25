@@ -1,23 +1,24 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 inherit multilib
 
 DESCRIPTION="Source Code Security Quality Metric"
-HOMEPAGE="http://launchpad.net/bogosec"
-SRC_URI="http://launchpad.net/${PN}/trunk/${PV}/+download/${PN}_${PV}.orig.tar.gz"
+HOMEPAGE="https://launchpad.net/bogosec"
+SRC_URI="https://launchpad.net/${PN}/trunk/${PV}/+download/${PN}_${PV}.orig.tar.gz"
 
 LICENSE="EPL-1.0"
 SLOT="0"
 KEYWORDS="amd64"
 IUSE=""
 
-DEPEND="|| ( dev-util/flawfinder dev-util/rats )
-	dev-lang/perl"
+DEPEND="|| ( dev-util/flawfinder dev-util/rats )"
+BDEPEND="dev-lang/perl"
 
-RDEPEND="${DEPEND}"
+RDEPEND="${DEPEND}
+	dev-lang/perl"
 
 src_prepare() {
 	sed -i -e "s:/lib/:/$(get_libdir)/:g" Makefile || die "sed failed"
