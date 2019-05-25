@@ -1,11 +1,11 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 DESCRIPTION="Quick Spam Filter"
-HOMEPAGE="http://www.ivarch.com/programs/qsf/"
-SRC_URI="http://www.ivarch.com/programs/sources/${P}.tar.bz2"
+HOMEPAGE="https://www.ivarch.com/programs/qsf/"
+SRC_URI="https://www.ivarch.com/programs/sources/${P}.tar.bz2"
 
 LICENSE="Artistic-2"
 SLOT="0"
