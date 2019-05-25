@@ -1,7 +1,7 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 DESCRIPTION="gzip recovery toolkit"
 HOMEPAGE="http://www.urbanophile.com/arenn/coding/gzrt/gzrt.html"
@@ -13,7 +13,7 @@ KEYWORDS="amd64 x86"
 IUSE=""
 
 RDEPEND="sys-libs/zlib"
-DEPEND=""
+DEPEND="${RDEPEND}"
 
 src_prepare() {
 	sed -i -e 's:\(^CFLAGS.*$\):\1 -lz:' Makefile || die "sed failed"
