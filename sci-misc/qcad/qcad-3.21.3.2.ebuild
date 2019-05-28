@@ -1,10 +1,10 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 LANGS="cs da de el en es et fr hu it nl no pa pl ru sk tr"
-inherit eutils qmake-utils eapi7-ver
+inherit eutils qmake-utils
 
 manual_cs="2.0.4.0-1"
 manual_de="2.1.0.0-1"
@@ -16,7 +16,7 @@ LANGS_M="cs de en hu"
 DESCRIPTION="A 2D CAD package based upon Qt."
 # ugly hack, don't make en L10N-controlled as we may need it as default
 SRC_URI="https://github.com/${PN}/${PN}/archive/v${PV}.zip -> ${P}.zip"
-HOMEPAGE="http://www.ribbonsoft.com/en/qcad-downloads-trial https://github.com/qcad/qcad"
+HOMEPAGE="https://www.ribbonsoft.com/en/qcad-downloads-trial https://github.com/qcad/qcad"
 
 LICENSE="GPL-3 public-domain CC-BY-3.0 GPL-2+ LGPL-2.1 BSD-2"
 SLOT="0"
@@ -40,8 +40,8 @@ RDEPEND="x11-libs/libX11
 	dev-qt/qthelp:5
 	dev-qt/qtscript:5[scripttools]
 	"
-DEPEND="${RDEPEND}
-	>=sys-devel/gcc-4"
+DEPEND="${RDEPEND}"
+BDEPEND=">=sys-devel/gcc-4"
 
 src_prepare() {
 	local qt_version=$(best_version dev-qt/qtscript:5 | sed 's@dev-qt/qtscript-@@')
