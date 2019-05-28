@@ -1,9 +1,9 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
-inherit toolchain-funcs eapi7-ver
+inherit toolchain-funcs
 
 DESCRIPTION="An unsupervised Bayesian classification system"
 HOMEPAGE="https://ti.arc.nasa.gov/tech/rse/synthesis-projects-applications/autoclass/autoclass-c/"
@@ -12,8 +12,8 @@ LICENSE="freedist"
 SLOT="0"
 KEYWORDS="amd64 ~x86"
 IUSE=""
-DEPEND="app-shells/tcsh"
-RDEPEND="${DEPEND}"
+RDEPEND="app-shells/tcsh"
+BDEPEND="app-shells/tcsh"
 
 #RDEPEND=""
 
