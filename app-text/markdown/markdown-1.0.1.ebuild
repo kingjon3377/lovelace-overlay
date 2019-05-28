@@ -4,7 +4,7 @@
 # From bug #145270 . Had been in Sunrise, but dev incorrectly claimed it's in
 # CPAN.
 
-EAPI=6
+EAPI=7
 
 MY_P=${PN/m/M}_${PV}
 
