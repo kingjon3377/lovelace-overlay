@@ -1,7 +1,7 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 inherit toolchain-funcs
 
@@ -17,8 +17,8 @@ IUSE=""
 RESTRICT="primaryuri"
 
 RDEPEND=""
-DEPEND="${RDEPEND}
-	app-arch/xz-utils"
+DEPEND="${RDEPEND}"
+BDEPEND="app-arch/xz-utils"
 
 PATCHES=(
 	"${FILESDIR}/bool-0.2.2-fix-segfault.patch"
