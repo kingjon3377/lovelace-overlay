@@ -1,7 +1,7 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 DESCRIPTION="a program to can validate HTML, and modify it to be more clean and standard"
 HOMEPAGE="http://www.tidyp.com/"
@@ -18,5 +18,6 @@ RDEPEND="${DEPEND}"
 RESTRICT="test"
 
 src_install() {
+	# TODO: Isn't this basically default_src_install?
 	emake DESTDIR="${D}" install
 }
