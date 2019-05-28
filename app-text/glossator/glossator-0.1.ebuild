@@ -1,9 +1,7 @@
 # Copyright 2019 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
-
-inherit eapi7-ver
+EAPI=7
 
 DESCRIPTION="Latin dictionary"
 HOMEPAGE="https://www.geocities.ws/mfp_99/glossator.html"
@@ -16,7 +14,7 @@ IUSE=""
 
 RDEPEND="dev-lang/tcl
 	dev-lang/tk"
-DEPEND="app-arch/unzip"
+BDEPEND="app-arch/unzip"
 
 S="${WORKDIR}"
 
