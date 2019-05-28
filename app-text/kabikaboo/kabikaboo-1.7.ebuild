@@ -1,7 +1,7 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 # It's possible it supports Python 3, but I don't know.
 PYTHON_COMPAT=( python2_7 )
