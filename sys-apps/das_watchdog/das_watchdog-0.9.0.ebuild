@@ -1,4 +1,4 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -15,9 +15,9 @@ SLOT="0"
 KEYWORDS="amd64 x86"
 IUSE=""
 
-DEPEND=">=gnome-base/libgtop-2.0
+DEPEND="gnome-base/libgtop:2=
 		|| ( x11-base/xorg-x11 x11-apps/xmessage )"
-RDEPEND=""
+RDEPEND="${DEPEND}"
 
 src_prepare() {
 	#fix makefile
