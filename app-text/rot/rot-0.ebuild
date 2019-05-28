@@ -1,7 +1,7 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 inherit toolchain-funcs
 
@@ -16,8 +16,8 @@ KEYWORDS="~amd64"
 IUSE=""
 
 RDEPEND=""
-DEPEND="${DEPEND}
-	app-arch/sharutils"
+DEPEND="${RDEPEND}"
+BDEPEND="app-arch/sharutils"
 
 src_unpack() {
 	unpack ${A}
