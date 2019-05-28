@@ -1,7 +1,7 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 DESCRIPTION="WordPerfect 5.x documents to whatever converter"
 HOMEPAGE="ftp://ftp.penguin.cz/pub/users/mhi/wp2x"
