@@ -1,7 +1,7 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 inherit multilib toolchain-funcs autotools
 
@@ -16,8 +16,8 @@ IUSE="examples"
 
 RDEPEND="dev-libs/boost
 	sys-libs/zlib"
-DEPEND="${RDEPEND}
-	sys-apps/help2man"
+DEPEND="${RDEPEND}"
+BDEPEND="sys-apps/help2man"
 
 src_prepare() {
 	#sed -i -e 's:/usr/local/bin:$(DESTDIR)/usr/bin:' Makefile cluster/Makefile \
