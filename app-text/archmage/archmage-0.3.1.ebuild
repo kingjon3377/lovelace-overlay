@@ -1,7 +1,7 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 PYTHON_COMPAT=( python2_7 )
 
@@ -9,7 +9,7 @@ inherit distutils-r1
 
 DESCRIPTION="Extensible reader/decompiler of files in CHM format"
 HOMEPAGE="http://archmage.sourceforge.net"
-SRC_URI="https://github.com/dottedmag/archmage/archive/0.3.1.tar.gz -> ${P}.tar.gz"
+SRC_URI="https://github.com/dottedmag/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
