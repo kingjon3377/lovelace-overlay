@@ -1,7 +1,7 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 PYTHON_COMPAT=( python2_7 python3_6 )
 
 inherit distutils-r1
@@ -9,7 +9,6 @@ inherit distutils-r1
 DESCRIPTION="Download fanfiction from various sites in ebook form"
 HOMEPAGE="https://github.com/jimmxinu/fanficfare"
 SRC_URI="https://github.com/JimmXinu/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
-#SRC_URI="http://fanficdownloader.googlecode.com/hg/fanficdownloader.zip -> ${P}.zip"
 
 LICENSE="Apache-2.0"
 SLOT="0"
