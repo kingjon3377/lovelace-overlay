@@ -1,7 +1,7 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 inherit eutils toolchain-funcs
 
@@ -15,8 +15,8 @@ KEYWORDS="~amd64"
 IUSE=""
 
 RDEPEND="app-text/recode"
-DEPEND="${RDEPEND}
-	app-arch/xz-utils
+DEPEND="${RDEPEND}"
+BDEPEND="app-arch/xz-utils
 	sys-devel/bison
 	sys-devel/flex"
 
