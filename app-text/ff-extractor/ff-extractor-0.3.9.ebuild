@@ -1,7 +1,7 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 DESCRIPTION="Tool for parsing flat and CSV files and converting them to different formats"
 HOMEPAGE="http://ff-extractor.sourceforge.net/"
@@ -17,6 +17,7 @@ RDEPEND="${DEPEND}"
 
 S="${WORKDIR}/ffe-${PV}"
 
+# TODO: Can we shorten this to DOCS=() and use default src_install?
 src_install() {
 	emake DESTDIR="${D}" install
 	dodoc AUTHORS ChangeLog NEWS README
