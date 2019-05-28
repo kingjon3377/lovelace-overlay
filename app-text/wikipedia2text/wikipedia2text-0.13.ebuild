@@ -1,7 +1,7 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 DESCRIPTION="displays Wikipedia articles on the command line"
 HOMEPAGE="https://github.com/chrisbra/wikipedia2text"
