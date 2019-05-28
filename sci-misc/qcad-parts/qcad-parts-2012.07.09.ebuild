@@ -1,14 +1,12 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
-
-inherit eapi7-ver
+EAPI=7
 
 DESCRIPTION="Collection of CAD files that can be used from the library browser of QCad"
 LICENSE="GPL-2"
-HOMEPAGE="http://www.ribbonsoft.com/en/qcad-add-ons"
-URI_BASE="http://www.ribbonsoft.com/archives/partlibrary/"
+HOMEPAGE="https://www.ribbonsoft.com/en/qcad-add-ons"
+URI_BASE="https://www.ribbonsoft.com/archives/partlibrary/"
 URI_DATE=$(ver_rs 1- -)
 create_uri() {
 	echo "${URI_BASE}${1}-${URI_DATE}.zip"
