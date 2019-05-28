@@ -1,8 +1,9 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
+# TODO: Is eutils really needed?
 inherit eutils
 
 DESCRIPTION="Random phrases generator based on defined grammar files."
@@ -18,8 +19,8 @@ IUSE="+grm"
 COMMON_DEPEND="dev-lang/ocaml"
 RDEPEND="${COMMON_DEPEND}"
 #	grm? ( app-text/polygen-grm )"
-DEPEND="${COMMON_DEPEND}
-	app-arch/unzip"
+DEPEND="${COMMON_DEPEND}"
+BDEPEND="app-arch/unzip"
 
 #S="${WORKDIR}/${P}"
 
