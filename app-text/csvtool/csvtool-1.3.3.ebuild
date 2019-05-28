@@ -1,7 +1,7 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 inherit findlib
 
@@ -16,6 +16,7 @@ IUSE=""
 
 DEPEND="dev-lang/ocaml"
 RDEPEND="${DEPEND}"
+BDEPEND="dev-lang/ocaml"
 
 S="${WORKDIR}/csv-${PV}"
 #S="${WORKDIR}/csv-1.2.1"
