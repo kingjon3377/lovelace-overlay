@@ -1,9 +1,7 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
-
-inherit eapi7-ver
+EAPI=7
 
 DESCRIPTION="Amazon's ebook converter to the Kindle format"
 HOMEPAGE="https://www.amazon.com/gp/feature.html?docId=1000765211"
@@ -24,7 +22,7 @@ strip_bom() {
 }
 
 src_prepare() {
-	find . -name \*.html -name \*.txt | while read line; do
+	find . \( -name \*.html -o -name \*.txt \) -print0 | while read -r -d $'\0' line; do
 		strip_bom "${line}"
 	done
 	for file in docs/*/*\ *;do
