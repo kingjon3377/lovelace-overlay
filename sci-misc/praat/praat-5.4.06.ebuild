@@ -1,9 +1,9 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
-inherit eutils eapi7-ver toolchain-funcs
+inherit eutils toolchain-funcs
 
 # For versions with last part < 10, pad with zeroes:
 # e.g 4 => 4000, 5.1 => 5100, 5.2.7 => 5207.
