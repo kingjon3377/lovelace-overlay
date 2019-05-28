@@ -1,7 +1,7 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 inherit qmake-utils
 
@@ -23,9 +23,8 @@ RDEPEND="dev-qt/qtcore:5
 	x11-libs/libdrm
 	dev-qt/qtprintsupport:5
 	dev-qt/qtwidgets:5"
-DEPEND="
-	${RDEPEND}
-	dev-qt/qtchooser
+DEPEND="${RDEPEND}"
+BDEPEND="dev-qt/qtchooser
 	app-arch/xz-utils
 	media-gfx/inkscape
 	dev-tex/tex4ht
