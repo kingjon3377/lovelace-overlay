@@ -4,7 +4,7 @@
 # FIXME: This package was split and its version numbers reset around 2006, see
 # upstream website
 
-EAPI=6
+EAPI=7
 
 inherit toolchain-funcs
 
@@ -17,6 +17,7 @@ SLOT="0"
 KEYWORDS="amd64"
 IUSE="doc"
 
+# TODO: Should this go in BDEPEND instead?
 DEPEND="doc? ( app-text/debiandoc-sgml[latex] )"
 RDEPEND=""
 
