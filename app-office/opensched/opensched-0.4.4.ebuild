@@ -1,7 +1,7 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 inherit toolchain-funcs
 
@@ -33,6 +33,7 @@ src_compile() {
 	emake CC=$(tc-getCC) CFLAGS="${CFLAGS}" CXX=$(tc-getCXX) CXXFLAGS="${CXXFLAGS}" LDFLAGS="${LDFLAGS}"
 }
 
+# TODO: Delegate to default_src_install
 src_install() {
 	emake DESTDIR="${D}" install
 	dodoc AUTHORS ChangeLog ChangeLog.0 NEWS README TODO USAGE
