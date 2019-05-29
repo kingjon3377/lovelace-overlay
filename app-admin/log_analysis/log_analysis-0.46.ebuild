@@ -1,8 +1,9 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
+# TODO: Is eutils really still needed?
 inherit eutils
 
 DESCRIPTION="Analyze system logs to find problems"
@@ -14,6 +15,7 @@ SLOT="0"
 KEYWORDS="amd64"
 IUSE=""
 
+# TODO: What's needed in BDEPEND?
 DEPEND="dev-lang/perl
 	dev-lang/tk:="
 RDEPEND="${DEPEND}"
