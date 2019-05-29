@@ -1,9 +1,7 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
-
-inherit eapi7-ver
+EAPI=7
 
 MY_P=${PN}-$(ver_rs 1- '-')
 DESCRIPTION="A simple, lightweight tool for sniping ebay auctions"
@@ -28,7 +26,7 @@ src_install() {
 }
 
 pkg_postinst() {
-	einfo
-	einfo "Please find a sample config at /usr/share/doc/${P}/sample_config.txt.bz2"
-	einfo
+	echo
+	einfo "Please find a sample config at /usr/share/doc/${PF}/sample_config.txt.bz2"
+	echo
 }
