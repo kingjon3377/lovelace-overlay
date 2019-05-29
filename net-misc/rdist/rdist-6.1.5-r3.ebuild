@@ -1,7 +1,7 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 DESCRIPTION="Remote software distribution system"
 HOMEPAGE="https://www.magnicomp.com/products/rdist/rdist.shtml"
@@ -12,7 +12,7 @@ SLOT="1"
 KEYWORDS="amd64 x86"
 IUSE="+crypt"
 
-DEPEND="sys-devel/bison"
+BDEPEND="sys-devel/bison"
 RDEPEND="crypt? ( virtual/ssh )"
 
 PATCHES=( "${FILESDIR}/${P}-mkstemp.patch" )
