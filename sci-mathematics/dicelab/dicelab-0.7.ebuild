@@ -1,7 +1,7 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 DESCRIPTION="evaluate the statistical distribution of dice rolls"
 HOMEPAGE="http://www.semistable.com/dicelab/"
@@ -12,7 +12,7 @@ SLOT="0"
 KEYWORDS="amd64"
 IUSE=""
 
-DEPEND="dev-util/treecc"
+BDEPEND="dev-util/treecc"
 RDEPEND=""
 
 DOCS=( AUTHORS ChangeLog NEWS README docs/dicelab_manual.pdf )
