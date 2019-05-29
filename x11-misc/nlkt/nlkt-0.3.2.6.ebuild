@@ -1,7 +1,7 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 inherit cmake-utils
 
@@ -18,6 +18,7 @@ COMMON_DEPEND="dev-qt/qtcore:5
 	dev-qt/qtgui:5
 	dev-qt/qtwidgets:5
 	x11-libs/qwt:6[qt5(+)]"
+# TODO: should linguist-tools be BDEPEND instead?
 DEPEND="${COMMON_DEPEND}
 	dev-qt/linguist-tools:5"
 RDEPEND="${COMMON_DEPEND}
