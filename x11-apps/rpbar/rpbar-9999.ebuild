@@ -1,7 +1,7 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 inherit git-r3 toolchain-funcs
 
@@ -31,6 +31,7 @@ src_prepare() {
 src_install() {
 	dobin ${PN} ${PN}send
 	dodoc README.md
+	# TODO: Convert this to a file in ${FILESDIR}
 	cat > "${T}/ratpoisonrc.sample" <<-EOF
 # tell ratpoison to ignore rpbar
 unmanage rpbar
