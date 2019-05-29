@@ -1,8 +1,9 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
+# TODO: Do we really need eutils anymore?
 inherit toolchain-funcs eutils
 
 DESCRIPTION="tool for project management (experimental XML version)"
