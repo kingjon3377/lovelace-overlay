@@ -1,7 +1,7 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 DESCRIPTION="Lightweight curses spreadsheet based on GNU oleo"
 HOMEPAGE="https://github.com/blippy/neoleo"
@@ -13,8 +13,8 @@ KEYWORDS="~amd64 ~x86"
 IUSE=""
 
 RDEPEND="sys-libs/ncurses:0"
-DEPEND="${RDEPEND}
-	sys-devel/bison
+DEPEND="${RDEPEND}"
+BDEPEND="sys-devel/bison
 	sys-devel/flex
 	virtual/pkgconfig"
 
