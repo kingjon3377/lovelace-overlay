@@ -1,7 +1,7 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 ECVS_SERVER="cvs.sv.gnu.org:/sources/gift"
 ECVS_MODULE="gift"
