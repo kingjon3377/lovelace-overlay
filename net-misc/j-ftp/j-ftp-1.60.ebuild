@@ -1,7 +1,7 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 inherit java-pkg-2 java-ant-2
 
@@ -28,8 +28,8 @@ COMMON_DEPEND="dev-java/kunststoff:0
 	dev-java/swt:4.2
 	dev-java/miglayout:0
 	dev-java/commons-httpclient:3"
-DEPEND="${COMMON_DEPEND}
-	>=virtual/jdk-1.6"
+DEPEND="${COMMON_DEPEND}"
+BDEPEND=">=virtual/jdk-1.6"
 RDEPEND="${COMMON_DEPEND}
 	>=virtual/jre-1.6"
 
@@ -60,6 +60,7 @@ src_prepare() {
 src_install() {
 	java-pkg_dojar build/jars/jftp.jar
 	newbin "${FILESDIR}/jftp.run" ${PN}
+	# TODO: Doesn't desktop.eclass provide more concise idioms for desktop files and icons?
 	insinto /usr/share/applications
 	doins "${FILESDIR}/jftp.desktop"
 	insinto /usr/share/pixmaps
