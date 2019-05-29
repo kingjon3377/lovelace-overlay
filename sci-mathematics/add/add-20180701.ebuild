@@ -1,11 +1,11 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 DESCRIPTION="fixed-point calculator operating as a full-screen editor (tapecalc in Debian)"
 HOMEPAGE="https://invisible-island.net/add/add.html"
-SRC_URI="ftp://ftp.invisible-island.net/add/${P}.tgz"
+SRC_URI="ftp://ftp.invisible-island.net/${PN}/${P}.tgz"
 
 LICENSE="MIT"
 SLOT="0"
