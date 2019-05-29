@@ -1,7 +1,7 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 DESCRIPTION="Recognizes top-posted e-mail and usenet replies"
 HOMEPAGE="http://www.toastfreeware.priv.at/"
@@ -15,6 +15,7 @@ IUSE="+doc"
 DEPEND=""
 RDEPEND="${DEPEND}"
 
+# TODO: Convert first couple of lines to DOCS=() default_src_install
 src_install() {
 	emake DESTDIR="${D}" install
 	dodoc AUTHORS ChangeLog NEWS README examples/procmailrc.example
