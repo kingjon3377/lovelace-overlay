@@ -1,7 +1,7 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 inherit multilib
 
@@ -37,4 +37,5 @@ src_install() {
 	dobin ft
 	newdoc README-fronttalk README
 	ewarn "This just installs the client program; I'd like to make ebuilds for the server-side stuff and the rest of Backtalk."
+	# TODO: Make such ebuilds
 }
