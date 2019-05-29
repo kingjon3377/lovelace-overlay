@@ -1,9 +1,9 @@
 # Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
-inherit eutils qmake-utils
+inherit desktop qmake-utils
 
 DESCRIPTION="Crossword game AI and analysis tool that also plays Scrabble"
 HOMEPAGE="https://people.csail.mit.edu/jasonkb/quackle/ https://github.com/quackle/quackle"
