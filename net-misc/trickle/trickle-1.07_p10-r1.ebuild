@@ -1,11 +1,12 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 # Copyright 2011 Joseph Lehner
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
+# TODO: Do we really still need eutils?
 inherit eutils autotools
 
 # Version without the _p suffix
@@ -46,6 +47,7 @@ src_prepare() {
 src_install() {
 	default
 	doman debian/tricklectl.8
+	# TODO: Use DOCS=() instead of manual dodoc
 	dodoc debian/changelog
 	insinto /etc
 	doins trickled.conf
