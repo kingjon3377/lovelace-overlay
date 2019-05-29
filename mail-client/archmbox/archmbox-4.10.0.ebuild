@@ -1,7 +1,7 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 DESCRIPTION="a simple email archiver"
 HOMEPAGE="http://adc-archmbox.sourceforge.net/"
@@ -13,6 +13,7 @@ KEYWORDS="amd64"
 IUSE=""
 
 DEPEND="dev-lang/perl"
+BDEPEND="dev-lang/perl"
 RDEPEND="${DEPEND}"
 
 DOCS=( AUTHORS ChangeLog NEWS README THANKS TODO )
