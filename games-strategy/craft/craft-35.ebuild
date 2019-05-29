@@ -1,13 +1,15 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
+# TODO: Do we really still need eutils?
 inherit eutils
 
 DESCRIPTION="Warcraft 2-like multi-player real-time strategy game"
 HOMEPAGE="https://sourceforge.net/projects/craft-vikings/"
 #HOMEPAGE="http://ftp.knoppix.nl/sunsite/games/strategy/"
+# TODO: Convert to PV=3.5 and use version-separator replacement to remove them for the filenames
 SRC_URI="mirror://sourceforge/${PN}-vikings/${PN}-vikings/${PN}-3.5/${PN}cc${PV}.tar.Z
 		doc? ( mirror://sourceforge/${PN}-vikings/${PN}-vikings/${PN}-3.5/${PN}doc.tar.Z )"
 #SRC_URI="http://ftp.knoppix.nl/sunsite/games/strategy/craftcc35.tar.Z
