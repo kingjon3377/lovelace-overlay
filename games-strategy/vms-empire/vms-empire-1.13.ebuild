@@ -1,7 +1,7 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 DESCRIPTION="the war game of the century"
 HOMEPAGE="http://www.catb.org/~esr/vms-empire/"
@@ -20,6 +20,7 @@ src_prepare() {
 	default
 }
 
+# TODO: Convert to DOCS=() default_src_install
 src_install() {
 	emake DESTDIR="${D}" install
 	dodoc BUGS NEWS README HACKING
