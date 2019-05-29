@@ -3,7 +3,7 @@
 
 # Copyright owners: Arfrever Frehtes Taifersar Arahesis
 
-EAPI=6
+EAPI=7
 PYTHON_MULTIPLE_ABIS="1"
 PYTHON_RESTRICTED_ABIS="3.* *-jython"
 
@@ -23,8 +23,8 @@ SLOT="0"
 KEYWORDS="amd64 x86"
 IUSE="test"
 
-DEPEND="app-arch/unzip
-	dev-python/setuptools[${PYTHON_USEDEP}]
+BDEPEND="app-arch/unzip"
+DEPEND="dev-python/setuptools[${PYTHON_USEDEP}]
 	test? ( dev-python/nose[${PYTHON_USEDEP}] )"
 RDEPEND=""
 
