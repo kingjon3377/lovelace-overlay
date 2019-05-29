@@ -1,9 +1,9 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 # From sunrise. TODO: add my changes to bug #294727. With changes from betagarden overlay.
 
-EAPI=6
+EAPI=7
 
 inherit toolchain-funcs
 
