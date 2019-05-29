@@ -1,9 +1,10 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
-inherit eutils eapi7-ver
+# TODO: Do we really still need eutils?
+inherit eutils
 
 DESCRIPTION="Generic Object Orientator"
 HOMEPAGE="https://people.csail.mit.edu/jrb/goo/"
