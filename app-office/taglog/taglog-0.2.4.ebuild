@@ -1,7 +1,7 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 DESCRIPTION="Personal time management system"
 HOMEPAGE="http://www.paladin.demon.co.uk/tag-types/taglog/"
@@ -12,6 +12,7 @@ SLOT="0"
 KEYWORDS="amd64"
 IUSE=""
 
+BDEPEND="dev-lang/tcl"
 DEPEND="dev-lang/tk:="
 RDEPEND="${DEPEND}"
 
