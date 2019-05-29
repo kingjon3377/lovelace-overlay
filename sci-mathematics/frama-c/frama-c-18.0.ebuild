@@ -1,7 +1,7 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 DESCRIPTION="Framework for analysis of source codes written in C"
 HOMEPAGE="http://frama-c.com"
@@ -27,6 +27,7 @@ DEPEND="
 		>=dev-ml/lablgtk-2.14[sourceview,gnomecanvas,ocamlopt?]
 	)"
 RDEPEND="${DEPEND}"
+BDEPEND=">=dev-lang/ocaml-4.02.3[ocamlopt?]"
 
 S="${WORKDIR}/${P}-${NAME}"
 
