@@ -1,7 +1,7 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 DESCRIPTION="GNOME tool to find strings in a set of files"
 HOMEPAGE="http://sarrazip.com/dev/sagasu.html"
@@ -12,9 +12,10 @@ SLOT="0"
 KEYWORDS="amd64"
 IUSE=""
 
-DEPEND="gnome-base/libgnomeui
+DEPEND="gnome-base/libgnomeui"
+BDEPEND="dev-lang/perl"
+RDEPEND="${DEPEND}
 	dev-lang/perl"
-RDEPEND="${DEPEND}"
 
 PATCHES=( "${FILESDIR}/use-main-glib-h.patch" )
 
