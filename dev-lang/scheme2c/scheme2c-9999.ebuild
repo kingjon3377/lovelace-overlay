@@ -1,10 +1,11 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 EGIT_REPO_URI="https://salsa.debian.org/debian/${PN}.git"
 
+# TODO: Do we really still need eutils?
 inherit eutils git-r3 multilib toolchain-funcs
 
 DESCRIPTION="The Scheme->C compiler, R4RS compliant"
@@ -17,8 +18,8 @@ KEYWORDS="" #only x32 and amd64 are tested and supported
 IUSE="X +doc"
 
 DEPEND="dev-libs/libsigsegv
-		doc? ( app-text/ghostscript-gpl )
 		X? ( x11-libs/libX11 )"
+BDEPEND="doc? ( app-text/ghostscript-gpl )"
 RDEPEND="${DEPEND}"
 
 PATCHES=(
