@@ -1,9 +1,9 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
-inherit eapi7-ver toolchain-funcs
+inherit toolchain-funcs
 
 DESCRIPTION="A Tool for Building Expert Systems"
 HOMEPAGE="http://clipsrules.sourceforge.net/"
