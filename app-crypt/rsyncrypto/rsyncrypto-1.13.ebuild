@@ -1,7 +1,7 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 DESCRIPTION="rsync friendly encryption"
 HOMEPAGE="http://rsyncrypto.lingnu.com"
@@ -17,6 +17,7 @@ DEPEND=">=dev-libs/openssl-1.1.0:0
 RDEPEND="${DEPEND}
 	|| ( app-arch/gzip[rsyncable] >=app-arch/gzip-1.7 )"
 
+# TODO: Isn't this basically default_src_install?
 src_install() {
 	emake DESTDIR="${D}" install
 }
