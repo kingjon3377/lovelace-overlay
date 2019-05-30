@@ -1,7 +1,7 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 JAVA_PKG_IUSE="doc source test"
 
 inherit java-pkg-2 java-ant-2
@@ -19,9 +19,9 @@ COMMON_DEP="dev-java/ant-core:0
 	dev-java/bcel:0"
 RDEPEND=">=virtual/jre-1.4
 	${COMMON_DEP}"
-DEPEND=">=virtual/jdk-1.4
-	app-arch/unzip:0
-	test? ( dev-java/junit:4 dev-java/ant-junit4:0 )
+BDEPEND=">=virtual/jdk-1.4
+	app-arch/unzip:0"
+DEPEND="test? ( dev-java/junit:4 dev-java/ant-junit4:0 )
 	${COMMON_DEP}"
 
 S="${WORKDIR}"
