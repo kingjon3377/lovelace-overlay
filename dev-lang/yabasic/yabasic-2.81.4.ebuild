@@ -1,7 +1,7 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 inherit toolchain-funcs autotools
 
@@ -17,7 +17,7 @@ IUSE="test"
 RDEPEND="sys-libs/ncurses:0
 	x11-libs/libX11
 	x11-libs/libICE"
-DEPEND="${DEPEND}
+DEPEND="${RDEPEND}
 	test? ( app-misc/tmux )"
 
 src_prepare() {
