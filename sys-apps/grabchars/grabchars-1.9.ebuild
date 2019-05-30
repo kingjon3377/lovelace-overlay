@@ -1,9 +1,7 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
-
-inherit eutils
+EAPI=7
 
 SRC_URI_BASE="ftp://ftp.informatik.uni-stuttgart.de/pub/archive/comp.sources/misc"
 DESCRIPTION="Utility to read characters from the console"
@@ -28,9 +26,11 @@ src_unpack() {
 	unshar -d "${P}" *.shar || die
 }
 
+PATCHES=( "${FILESDIR}/headers.patch" "${FILESDIR}/warnings.patch" )
+
 src_prepare() {
 	cp "${FILESDIR}/Makefile" "${S}/Makefile" || die
-	epatch "${FILESDIR}/headers.patch" "${FILESDIR}/warnings.patch"
+	default
 }
 
 src_compile() {

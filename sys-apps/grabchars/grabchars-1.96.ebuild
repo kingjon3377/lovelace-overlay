@@ -1,8 +1,9 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
+# TODO: Do we really need eutils anymore?
 inherit rpm eutils
 
 SRC_URI_BASE="ftp://ftp.informatik.uni-stuttgart.de/pub/archive/comp.sources/misc"
@@ -16,8 +17,8 @@ KEYWORDS="amd64"
 IUSE=""
 
 RDEPEND=""
-DEPEND="${DEPEND}
-	app-shells/tcsh"
+DEPEND="${RDEPEND}"
+BDEPEND="app-shells/tcsh"
 
 src_compile() {
 	tc-export CC
