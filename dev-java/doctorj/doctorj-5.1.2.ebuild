@@ -1,7 +1,7 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 JAVA_PKG_IUSE="doc source"
 
@@ -23,9 +23,9 @@ COMMON_DEP=""
 
 RDEPEND=">=virtual/jre-1.4
 	${COMMON_DEP}"
-DEPEND=">=virtual/jdk-1.4
-	app-arch/unzip
-	${COMMON_DEP}"
+BDEPEND=">=virtual/jdk-1.4
+	app-arch/unzip"
+DEPEND="${COMMON_DEP}"
 
 EANT_BUILD_TARGET=""
 EANT_DOC_TARGET=""
