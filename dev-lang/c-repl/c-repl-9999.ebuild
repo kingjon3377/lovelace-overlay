@@ -1,7 +1,7 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 #EGIT_REPO_URI="git://neugierig.org/c-repl.git"
 #EGIT_REPO_URI="https://github.com/martine/c-repl.git"
@@ -28,6 +28,7 @@ DEPEND=">=dev-lang/ghc-6.8:=
 	dev-haskell/readline:=
 	dev-haskell/c2hs:="
 RDEPEND="${DEPEND}"
+BDEPEND=">=dev-lang/ghc-6.8:="
 
 #src_prepare() {
 #	sed -i -e 's:hexpat == 0.19.6:hexpat >= 0.19.6:' c-repl.cabal || die "sed failed"
