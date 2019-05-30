@@ -1,7 +1,7 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 DESCRIPTION="Spell Checker Oriented Word Lists"
 HOMEPAGE="http://wordlist.sourceforge.net/"
@@ -20,6 +20,7 @@ src_compile() {
 }
 
 src_install() {
+	# TODO: Do we really need 'dodir', or does 'insinto' / 'doins' create dirs as needed?
 	dodir /usr/share/dict/${PN}
 	insinto /usr/share/dict/${PN}
 	doins final/*
