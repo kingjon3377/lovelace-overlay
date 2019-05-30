@@ -1,7 +1,7 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 JAVA_PKG_WANT_SOURCE=1.5
 JAVA_PKG_WANT_TARGET=1.5
 
@@ -18,8 +18,8 @@ IUSE=""
 RDEPEND=">=virtual/jre-1.5:*
 		sys-apps/groff
 		>=dev-java/javacc-3.2"
-DEPEND=">=virtual/jdk-1.5
-		${RDEPEND}"
+BDEPEND=">=virtual/jdk-1.5"
+DEPEND="${RDEPEND}"
 NICE="nice-${PV}.orig"
 S="${WORKDIR}/${NICE}"
 #RESTRICT="test"
