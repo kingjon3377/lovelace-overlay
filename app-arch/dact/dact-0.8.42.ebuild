@@ -1,7 +1,7 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 DESCRIPTION="Multi-algorithm compression"
 HOMEPAGE="http://www.rkeene.org/oss/dact"
@@ -27,6 +27,7 @@ PATCHES=(
 	"${FILESDIR}/30-DESTDIR.patch"
 )
 
+# TODO: Convert to DOCS=() default_src_install
 src_install() {
 	emake DESTDIR="${D}" install
 	dodoc Docs/*.txt AUTHORS ChangeLog README rget.txt TODO*
