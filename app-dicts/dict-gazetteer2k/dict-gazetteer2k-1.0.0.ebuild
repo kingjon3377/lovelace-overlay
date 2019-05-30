@@ -1,9 +1,10 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 PYTHON_COMPAT=( python{2_5,2_6,2_7} )
+# TODO: Should probably be python-any-r1
 inherit python-single-r1
 
 DESCRIPTION="Gazetteer from the 2000 census"
