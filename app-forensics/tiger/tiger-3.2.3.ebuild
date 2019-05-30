@@ -1,7 +1,7 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 inherit toolchain-funcs
 
@@ -36,6 +36,7 @@ src_install() {
 	dodir /usr/share/man/man8
 	dodir /etc/tiger
 	dodir /usr/sbin
+	# TODO: replace next line with 'default'?
 	emake DESTDIR="${D}" install
 }
 
