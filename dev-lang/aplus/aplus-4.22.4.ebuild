@@ -3,9 +3,10 @@
 
 # From Gentoo bug #132018
 
-EAPI=6
+EAPI=7
 
-inherit desktop eapi7-ver elisp-common autotools virtualx
+# TODO: use font.eclass?
+inherit desktop elisp-common autotools virtualx
 
 MY_P=${PN}-fsf-$(ver_rs 2 '-')
 
