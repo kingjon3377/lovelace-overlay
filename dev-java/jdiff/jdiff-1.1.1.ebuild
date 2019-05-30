@@ -1,7 +1,7 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 inherit eutils java-pkg-2 java-ant-2
 
@@ -18,8 +18,8 @@ HOMEPAGE="http://www.jdiff.org/"
 CDEPEND=">=dev-java/xerces-2.8
 		dev-java/gnu-classpath[gjdoc]"
 
-DEPEND=">=virtual/jdk-1.4
-	${CDEPEND}"
+BDEPEND=">=virtual/jdk-1.4"
+DEPEND="${CDEPEND}"
 
 RDEPEND=">=virtual/jre-1.4
 	dev-java/ant-core
