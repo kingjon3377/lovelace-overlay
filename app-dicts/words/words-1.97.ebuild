@@ -1,7 +1,7 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 DESCRIPTION="Latin--English dictionary."
 HOMEPAGE="http://archives.nd.edu/whitaker/words.htm"
@@ -48,6 +48,7 @@ src_compile() {
 }
 
 src_install() {
+	# TODO: Do we really need to dodir before insinto/doins?
 	dodir /usr/libexec/${PN}
 	insinto /usr/libexec/${PN}
 	doins ${PN}
@@ -55,6 +56,7 @@ src_install() {
 	insinto /usr/share/${PN}
 	doins DICTFILE.GEN UNIQUES.LAT STEMFILE.GEN INFLECTS.SEC INDXFILE.GEN \
 		ADDONS.LAT EWDSFILE.GEN
+	# TODO: Use make_wrapper from eutils instead of having the wrapper premade in FILESDIR
 	dobin "${FILESDIR}/latin"
 	fperms 755 /usr/libexec/${PN}/${PN}
 	dodoc HOWTO.txt "${FILESDIR}/README" wordsdoc.htm
