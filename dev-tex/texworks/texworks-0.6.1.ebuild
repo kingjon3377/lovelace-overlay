@@ -1,7 +1,7 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 PYTHON_COMPAT=( python2_7 )
 inherit multilib python-single-r1 cmake-utils xdg-utils
@@ -29,8 +29,8 @@ RDEPEND="
 	lua? ( dev-lang/lua:0 )
 	python? ( ${PYTHON_DEPS} )
 "
-DEPEND="${RDEPEND}
-	virtual/pkgconfig"
+DEPEND="${RDEPEND}"
+BDEPEND="virtual/pkgconfig"
 
 S=${WORKDIR}/${PN}-release-${PV}
 
