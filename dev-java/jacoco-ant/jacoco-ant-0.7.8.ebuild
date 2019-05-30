@@ -1,7 +1,7 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 JAVA_PKG_IUSE="doc source"
 
@@ -27,9 +27,9 @@ CDEPEND="dev-java/ant-core:0
 
 RDEPEND=">=virtual/jre-1.6
 	${CDEPEND}"
-DEPEND=">=virtual/jdk-1.6
-	app-arch/unzip
-	${CDEPEND}"
+BDEPEND=">=virtual/jdk-1.6
+	app-arch/unzip"
+DEPEND="${CDEPEND}"
 
 JAVA_GENTOO_CLASSPATH="
 	ant-core
