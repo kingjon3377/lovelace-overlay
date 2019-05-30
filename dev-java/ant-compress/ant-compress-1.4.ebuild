@@ -1,7 +1,7 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 JAVA_PKG_IUSE="doc source"
 
@@ -20,8 +20,8 @@ IUSE=""
 RDEPEND=">=virtual/jre-1.5:*
 	dev-java/commons-compress:0
 	>=dev-java/ant-core-1.7.0:0"
-DEPEND=">=virtual/jdk-1.5
-	${RDEPEND}"
+BDEPEND=">=virtual/jdk-1.5"
+DEPEND="${RDEPEND}"
 
 EANT_BUILD_TARGET="antlib"
 EANT_DOC_TARGET="javadoc"
