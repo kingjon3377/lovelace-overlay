@@ -1,7 +1,7 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 JAVA_PKG_IUSE="doc source"
 
@@ -19,8 +19,8 @@ IUSE=""
 COMMON_DEP="
 	>=dev-java/ant-core-1.7:0
 	>=dev-java/xerces-2.8.1:2"
-DEPEND="${COMMON_DEP}
-	>=virtual/jdk-1.6"
+DEPEND="${COMMON_DEP}"
+BDEPEND=">=virtual/jdk-1.6"
 RDEPEND="${COMMON_DEP}
 	>=virtual/jre-1.6"
 
