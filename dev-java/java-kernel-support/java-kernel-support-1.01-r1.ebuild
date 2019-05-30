@@ -1,10 +1,11 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 inherit toolchain-funcs linux-info
 
+# TODO: Make this actual-PV
 MY_PV="20050425"
 MY_P="${PN}-gentoo-${MY_PV}"
 DESCRIPTION="Java(tm) Binary Kernel Support for Linux"
