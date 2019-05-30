@@ -1,7 +1,7 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 DESCRIPTION="desk calculator language"
 HOMEPAGE="https://nickle.org"
@@ -12,7 +12,7 @@ SLOT="0"
 KEYWORDS="amd64"
 IUSE=""
 
-# TODO: Add tools (something jade?) used in build to DEPEND
+# TODO: Add tools (something jade?) used in build to BDEPEND
 DEPEND=""
 RDEPEND="${DEPEND}"
 
