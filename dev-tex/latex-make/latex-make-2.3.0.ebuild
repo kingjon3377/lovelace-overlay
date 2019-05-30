@@ -1,7 +1,7 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 inherit texlive-common
 
@@ -19,8 +19,8 @@ CDEPEND="dev-texlive/texlive-langfrench"
 RDEPEND="${CDEPEND}
 	sys-devel/make
 	virtual/latex-base"
-DEPEND="${CDEPEND}
-	app-arch/unzip"
+DEPEND="${CDEPEND}"
+BDEPEND="app-arch/unzip"
 
 src_unpack() {
 	default
