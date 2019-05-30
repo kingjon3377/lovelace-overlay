@@ -1,9 +1,11 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 # Bug #348280 -- tosubmit
 
-EAPI=6
+# TODO: Convert to python-r1 eclass (family)?
+
+EAPI=7
 
 DESCRIPTION="website link and structure checker"
 HOMEPAGE="https://arthurdejong.org/webcheck/"
