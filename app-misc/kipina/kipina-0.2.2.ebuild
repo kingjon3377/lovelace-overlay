@@ -1,7 +1,7 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 DESCRIPTION="training program to log physical activities of athletes"
 HOMEPAGE="http://kipina.sourceforge.net"
@@ -18,6 +18,7 @@ DEPEND="dev-libs/libxml2
 	x11-libs/gtk+:2"
 RDEPEND="${DEPEND}"
 
+# TODO: Condense using default_src_install
 src_install() {
 	emake DESTDIR="${D}" install
 	emake -C doc/reference DESTDIR="${D}" install
