@@ -1,12 +1,13 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 inherit multilib
 
 DESCRIPTION="stellar data set from the Yale Bright Star Catalog"
 HOMEPAGE="http://starplot.org/datafiles.html"
+# TODO: Clearly PV should be 0.95 ...
 SRC_URI="http://starplot.org/data/${P/-/}-0.95.tar.gz"
 
 LICENSE="stars"
