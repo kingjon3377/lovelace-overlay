@@ -1,8 +1,9 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
+# TODO: Do we really still need eutils?
 inherit desktop eutils
 
 MY_P1E="RealTimeBattle-${PV}-Ext"
@@ -46,15 +47,15 @@ src_configure() {
 
 src_install(){
 	# TODO: fix the makefile to make all this unnecessary
-	dodir "${GAMES_DATADIR}" "${GAMES_BINDIR}"
-	dosym "../${GAMES_BINDIR#/usr/}" /usr/bin
-	dosym "../../${GAMES_DATADIR#/usr/}/RealTimeBattle" /usr/games/RealTimeBattle
+	dodir /usr/share/games /usr/games/bin
+	dosym "../share/games" /usr/bin
+	dosym "../../share/games/RealTimeBattle" /usr/games/RealTimeBattle
 	dodir /usr/share/doc/${PF}
 	dosym ../../../share/doc/${PF} \
-		"${GAMES_DATADIR}/RealTimeBattle/Documentation"
+		"/usr/share/games/RealTimeBattle/Documentation"
 	emake DESTDIR="${D}" install
 	rm -f "${D}/usr/bin"
-	rm -f "${D}/${GAMES_DATADIR}/RealTimeBattle/Documentation"
+	rm -f "${D}/usr/share/games/RealTimeBattle/Documentation"
 	use doc || rm -Rf "${D}/usr/share/doc/${PF}"
 	rm -f "${D}/usr/games/RealTimeBattle"
 	rm "${D}//usr/share/locale/locale.alias"
