@@ -1,7 +1,7 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 DESCRIPTION="Pushover is a fun puzzle game originally published by Ocean in 1992."
 HOMEPAGE="http://pushover.sourceforge.net/"
@@ -18,3 +18,4 @@ DEPEND="dev-lang/lua:0
 	media-libs/sdl-mixer
 	media-libs/sdl-ttf"
 RDEPEND="${DEPEND}"
+BDEPEND="dev-lang/lua:0"
