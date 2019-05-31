@@ -1,7 +1,7 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 inherit autotools
 
@@ -14,8 +14,8 @@ KEYWORDS="amd64 ~x86"
 IUSE="+doc"
 
 RDEPEND="dev-libs/libxml2"
-DEPEND="${RDEPEND}
-	virtual/pkgconfig"
+DEPEND="${RDEPEND}"
+BDEPEND="virtual/pkgconfig"
 
 DOCS=( AUTHORS ChangeLog NEWS README )
 
