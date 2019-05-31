@@ -1,12 +1,14 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
-inherit eutils toolchain-funcs eapi7-ver
+# TODO: Do we really still need eutils?
+inherit eutils toolchain-funcs
 
 DESCRIPTION="Calculate planet and star positions"
 HOMEPAGE="http://www.moshier.net/"
+# TODO: Use $PV in SRC_URI, just removing the version separator
 SRC_URI="http://www.moshier.net/aa-56.zip"
 
 LICENSE="GPL-2"
@@ -15,8 +17,8 @@ KEYWORDS="amd64"
 IUSE=""
 
 RDEPEND=""
-DEPEND="${RDEPEND}
-	app-arch/unzip"
+DEPEND="${RDEPEND}"
+BDEPEND="app-arch/unzip"
 
 S="${WORKDIR}/aa-$(ver_rs 1- '')"
 
