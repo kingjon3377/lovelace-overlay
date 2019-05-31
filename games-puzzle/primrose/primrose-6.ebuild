@@ -1,9 +1,9 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
-inherit eutils
+inherit desktop
 
 DESCRIPTION="compelling tile-placement puzzle game"
 HOMEPAGE="http://primrose.sourceforge.net/"
@@ -16,8 +16,8 @@ IUSE=""
 
 RDEPEND="media-libs/libsdl
 	virtual/opengl"
-DEPEND="${RDEPEND}
-	media-gfx/imagemagick"
+DEPEND="${RDEPEND}"
+BDEPEND="media-gfx/imagemagick"
 
 S="${WORKDIR}/${PN/p/P}_v${PV}_UnixSource"
 
