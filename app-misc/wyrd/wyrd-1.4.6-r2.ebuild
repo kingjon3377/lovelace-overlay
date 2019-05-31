@@ -1,8 +1,9 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
+# TODO: Do we really still need eutils?
 inherit eutils autotools
 
 DESCRIPTION="Text-based front-end to Remind"
@@ -19,9 +20,8 @@ RDEPEND="
 	>=app-misc/remind-03.01
 	dev-ml/camlp4:=
 "
-DEPEND="${RDEPEND}
-	>=dev-lang/ocaml-3.08
-"
+DEPEND="${RDEPEND}"
+BDEPEND=">=dev-lang/ocaml-3.08"
 
 PATCHES=( "${FILESDIR}/${P}-tinfo.patch" )
 
