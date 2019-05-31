@@ -1,9 +1,9 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
-inherit toolchain-funcs eapi7-ver
+inherit toolchain-funcs
 
 MY_PN=Box2D
 
@@ -17,8 +17,8 @@ KEYWORDS="~amd64 ~x86"
 IUSE="+doc"
 
 RDEPEND="media-libs/freeglut"
-DEPEND="${RDEPEND}
-	>=dev-util/premake-4.4_beta5:4
+DEPEND="${RDEPEND}"
+BDEPEND=">=dev-util/premake-4.4_beta5:4
 	doc? ( app-doc/doxygen )"
 
 # The package includes a test suite, but it's *graphical* programs for manual
