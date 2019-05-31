@@ -1,11 +1,11 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 WANT_ANT_TASKS="ant-junit"
 
-inherit java-pkg-2 java-ant-2
+inherit java-pkg-2 java-ant-2 desktop
 
 MY_P=OpenRocket-${PV}
 
@@ -24,8 +24,8 @@ CDEPEND="dev-java/itext:5
 	dev-java/miglayout"
 RDEPEND="${CDEPEND}
 	>=virtual/jre-1.5"
-DEPEND="${CDEPEND}
-	>=virtual/jdk-1.5"
+DEPEND="${CDEPEND}"
+BDEPEND=">=virtual/jdk-1.5"
 
 S="${WORKDIR}/${MY_P}"
 
