@@ -1,7 +1,7 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 EANT_GENTOO_CLASSPATH="xerces-2 xalan junit"
 
@@ -18,8 +18,8 @@ COMMON_DEPEND="dev-java/xerces:2
 	dev-java/junit:0"
 RDEPEND=">=virtual/jre-1.4
 	${COMMON_DEPEND}"
-DEPEND=">=virtual/jdk-1.4
-	${COMMON_DEPEND}"
+BDEPEND=">=virtual/jdk-1.4"
+DEPEND="${COMMON_DEPEND}"
 IUSE="doc source"
 
 S="${WORKDIR}/${PN}-0.3"
