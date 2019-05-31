@@ -1,7 +1,7 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 DESCRIPTION="A super-simple Gtk+ based personal to-do list manager"
 SRC_URI="https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/${PN}/${P}.tar.gz"
@@ -17,8 +17,8 @@ RDEPEND="x11-libs/gtk+:2
 	spell? ( app-text/gtkspell:2 )
 	dev-libs/libunique:1"
 
-DEPEND="${RDEPEND}
-	dev-util/gtk-builder-convert
+DEPEND="${RDEPEND}"
+BDEPEND="dev-util/gtk-builder-convert
 	virtual/pkgconfig"
 
 DOCS=( README ChangeLog )
