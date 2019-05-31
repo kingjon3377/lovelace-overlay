@@ -1,7 +1,7 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 inherit cmake-utils
 
@@ -16,8 +16,8 @@ IUSE=""
 
 RDEPEND="media-libs/freetype:2
 	media-libs/libsdl"
-DEPEND="${RDEPEND}
-	>=sys-devel/gcc-4.2"
+DEPEND="${RDEPEND}"
+BDEPEND=">=sys-devel/gcc-4.2"
 
 S="${WORKDIR}/${PN}-beta${PV}"
 
