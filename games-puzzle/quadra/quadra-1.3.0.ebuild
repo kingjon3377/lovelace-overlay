@@ -1,11 +1,11 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 AUTOTOOLS_IN_SOURCE_BUILD=true
 
-inherit eutils autotools
+inherit desktop autotools
 
 DESCRIPTION="A tetris clone with multiplayer support"
 HOMEPAGE="https://github.com/quadra-game/quadra"
