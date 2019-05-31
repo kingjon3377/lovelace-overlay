@@ -1,7 +1,7 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 DESCRIPTION="simple text-based todo manager"
 HOMEPAGE="http://w2do.blackened.cz/"
@@ -14,6 +14,7 @@ IUSE=""
 
 DEPEND="dev-lang/perl"
 RDEPEND="${DEPEND}"
+BDEPEND="dev-lang/perl"
 
 src_install() {
 	emake prefix="${D}"/usr install
