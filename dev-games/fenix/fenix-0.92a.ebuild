@@ -3,8 +3,9 @@
 
 # TODO: make sure this works, and fix it if it doesn't.
 
-EAPI=6
+EAPI=7
 
+# TODO: Do we really still need eutils?
 inherit eutils
 
 DESCRIPTION="development environment for making 2D games"
@@ -88,9 +89,9 @@ src_install() {
 	emake DESTDIR="${D}" install
 	doman "${FILESDIR}/"*.1 || die "installing man pages failed"
 	pushd "${D}/usr/bin" >/dev/null
-	dodir "${GAMES_BINDIR}"
+	dodir "/usr/games/bin"
 	for a in *; do
-		mv "${a}" ../../${GAMES_BINDIR}/"${PN}-${a}"
+		mv "${a}" ../games/bin/"${PN}-${a}"
 	done
 	popd > /dev/null
 	use nls && emake -C debian/i18n install INSTALLPREFIX="${D}/usr/share/locale"
