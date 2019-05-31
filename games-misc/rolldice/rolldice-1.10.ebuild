@@ -1,8 +1,9 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
+# TODO: Do we really still need eutils?
 inherit eutils toolchain-funcs
 
 DESCRIPTION="virtual dice roller"
