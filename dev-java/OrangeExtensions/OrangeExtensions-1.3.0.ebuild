@@ -8,7 +8,7 @@ JAVA_PKG_IUSE="doc source"
 inherit java-pkg-2 java-pkg-simple
 
 DESCRIPTION="Stubs for the Apple Java Extensions"
-HOMEPAGE="http://ymasory.github.com/OrangeExtensions/"
+HOMEPAGE="https://ymasory.github.io/OrangeExtensions/"
 SRC_URI="https://github.com/ymasory/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="BSD"
