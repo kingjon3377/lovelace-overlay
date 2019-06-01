@@ -2,7 +2,6 @@
 ~app-forensics/simhash-9999
 ~app-shells/grml-shlib-9999
 ~app-text/buthead-9999
-~dev-lang/c-repl-9999
 ~dev-util/gtkparasite-9999
 ~games-arcade/bombardier-9999
 ~games-misc/rolldice-9999
