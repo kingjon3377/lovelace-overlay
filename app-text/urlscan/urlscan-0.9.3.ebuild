@@ -9,7 +9,7 @@ inherit distutils-r1
 
 DESCRIPTION="Extract and browse the URLs contained in an email"
 HOMEPAGE="https://github.com/firecat53/urlscan https://packages.debian.org/urlscan"
-SRC_URI="mirror://debian/pool/main/u/${PN}/${PN}_${PV}.orig.tar.gz"
+SRC_URI="https://github.com/firecat53/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
