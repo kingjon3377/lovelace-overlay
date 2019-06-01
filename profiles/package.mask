@@ -26,3 +26,11 @@
 # Depends on hard-masked app-text/enchant-2*
 =gnome-extra/lifeograph-1.5.1.1
 
+# Running (e.g. tests) against current-stable Perl (2019-05-31) gives errors.
+# Since upstream has not made any new release in years, "masked for removal."
+<=perl-gcpan/Makefile-DOM-0.008
+# Reverse dependencies, which will be removed at the same time and most likely
+# need their own new versions upstream to work with recent Perl versions
+<=perl-gcpan/Makefile-Parser-0.216
+<=perl-gcpan/Makefile-GraphViz-0.21
+
