@@ -1,7 +1,7 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 inherit cmake-utils
 
@@ -19,7 +19,7 @@ IUSE=""
 RDEPEND=">=net-im/pidgin-2.4.0
 	sys-libs/glibc
 	dev-libs/dbus-glib"
-DEPEND="${DEPEND}
-	virtual/pkgconfig"
+DEPEND="${DEPEND}"
+BDEPEND="virtual/pkgconfig"
 
 S="${WORKDIR}/${MY_PN}-${PV}"
