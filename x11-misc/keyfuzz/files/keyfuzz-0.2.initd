@@ -1,0 +1,28 @@
+#!/sbin/openrc-run
+# Copyright 2019 Gentoo Authors
+# Distributed under the terms of the GNU General Public License v2
+
+name="keyfuzz"
+description="scancode/keycode translation table setup"
+
+depend() {
+	after keymaps
+}
+
+start() {
+	cd /etc/keyfuzz
+	ebegin "Loading input layer scancode tables"
+	none=1
+	for E in event? ; do
+		if test -r "$E" ; then
+			/usr/sbin/keyfuzz -s -d "$E" < "$E"
+			einfo "$E "
+			none=0
+		fi
+	done
+	if test "${none}" -eq 1; then
+		ewarn "keyfuzz not configured"
+	else
+		eend
+	fi
+}
