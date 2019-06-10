@@ -21,7 +21,7 @@ BDEPEND="doc? (
 	dev-util/gengetopt"
 
 src_configure() {
-	default --with-initdir=no $(use_enable doc lynx) $(use_enable doc xmltoman)
+	econf --with-initdir=no $(use_enable doc lynx) $(use_enable doc xmltoman)
 }
 
 src_install() {
