@@ -11,9 +11,6 @@
 ~x11-misc/boats-9999
 ~app-text/markdown-pp-9999
 
-# Not yet working
-=dev-util/pmd-5.1.3
-
 # Doesn't yet build, more effort is needed to see what patches are still needed
 # or will apply, and probably we'll need to download the 'brt' source tarball
 # too.
