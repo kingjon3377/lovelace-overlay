@@ -1,0 +1,71 @@
+diff --git a/gb.pdf/src/CPdfDocument.cpp b/gb.pdf/src/CPdfDocument.cpp
+index 03b94ac46aa2acc79e7b7609873e38c90f02949b..198846690c52ae7732e69da027090283ecf47584 100644
+--- a/gb.pdf/src/CPdfDocument.cpp
++++ b/gb.pdf/src/CPdfDocument.cpp
+@@ -273,7 +273,11 @@ static uint32_t aux_get_page_from_action(void *_object, const_LinkAction *act)
+ 	if (dest->isPageRef() )
+ 	{
+ 		pref= dest->getPageRef();
++#if POPPLER_VERSION_0_76
++		return THIS->doc->findPage(pref);
++#else
+ 		return THIS->doc->findPage(pref.num, pref.gen);
++#endif
+ 	}
+ 	else
+ 		return dest->getPageNum();
+@@ -740,7 +744,7 @@ BEGIN_PROPERTY(PDFINDEX_has_children)
+ 
+ 	OutlineItem *item = CPDF_index_get(THIS->currindex);
+ 
+-	GB.ReturnBoolean(item->getKids() && item->getKids()->getLength());
++	GB.ReturnBoolean(item->getKids() && CPDF_list_count(item->getKids()));
+ 
+ END_PROPERTY
+ 
+@@ -807,7 +811,7 @@ BEGIN_METHOD_VOID(PDFINDEX_child)
+ 
+ 	OutlineItem *item = CPDF_index_get(THIS->currindex);
+ 
+-	if (!item->hasKids() || item->getKids()->getLength() == 0) { GB.ReturnBoolean(true); return; }
++	if (!item->hasKids() || CPDF_list_count(item->getKids()) == 0) { GB.ReturnBoolean(true); return; }
+ 
+ 	if (THIS->pindex)
+ 	{
+diff --git a/gb.pdf/src/CPdfDocument.h b/gb.pdf/src/CPdfDocument.h
+index cd794011e67b4e650ea92de7ef575941281127a9..702f6f0eb6e581ffc3d81e7b0ac972420d51e989 100644
+--- a/gb.pdf/src/CPdfDocument.h
++++ b/gb.pdf/src/CPdfDocument.h
+@@ -40,7 +40,7 @@
+ #if POPPLER_VERSION_0_76
+ #define const_LinkAction const LinkAction
+ #define const_LinkDest const LinkDest
+-#define const_GooList std::vector<OutlineItem*>
++#define const_GooList const std::vector<OutlineItem*>
+ #define GooList std::vector<OutlineItem*>
+ #define const_GooString const GooString
+ #elif POPPLER_VERSION_0_64
+@@ -77,16 +77,19 @@ extern GB_DESC PdfModeDesc[];
+ 
+ #if POPPLER_VERSION_0_76
+ 
+-#define CPDF_index_get(_i) (THIS->index->at(_i))
+-#define CPDF_index_count() (THIS->index->size())
++#define CPDF_list_get(_list, _i) ((_list)->at(_i))
++#define CPDF_list_count(_list) ((_list)->size())
+ 
+ #else
+ 
+-#define CPDF_index_get(_i) ((OutlineItem *)(THIS->index->get(_i)))
+-#define CPDF_index_count() (THIS->index->getLength())
++#define CPDF_list_get(_list, _i) ((OutlineItem *)(_list)->get(_i))
++#define CPDF_list_count(_list) ((_list)->getLength())
+ 
+ #endif
+ 
++#define CPDF_index_get(_i) CPDF_list_get(THIS->index, _i)
++#define CPDF_index_count() CPDF_list_count(THIS->index)
++
+ 
+ typedef
+ 	struct {

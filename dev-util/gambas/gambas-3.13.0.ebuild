@@ -117,7 +117,10 @@ RDEPEND="${COMMON_DEPEND}"
 
 PATCHES=(
 	# "${FILESDIR}/${P}-xdgutils.patch"
-	"${FILESDIR}/${PN}-3.10.0-xdgutils.patch"
+	"${FILESDIR}/${PN}-3.12.2-xdgutils.patch"
+	"${FILESDIR}/${PN}-3.12.2-poppler-compat_1.patch"
+	"${FILESDIR}/${PN}-3.12.2-poppler-compat_2.patch"
+	"${FILESDIR}/${PN}-3.12.2-poppler-compat_3.patch"
 )
 
 src_prepare() {

@@ -1,0 +1,42 @@
+diff --git a/gb.pdf/configure.ac b/gb.pdf/configure.ac
+index b7d888bb4a9bee273cadde584894ce4c1bf9e2db..22bb90d1e2f392379b62196cb1e6e8ce48f31a9e 100644
+--- a/gb.pdf/configure.ac
++++ b/gb.pdf/configure.ac
+@@ -37,6 +37,8 @@ if test "$have_poppler" = "yes"; then
+   AC_DEFINE_UNQUOTED(POPPLER_VERSION_0_71, $((1-$?)), Poppler version >= 0.71)
+   pkg-config --atleast-version=0.72.0 poppler
+   AC_DEFINE_UNQUOTED(POPPLER_VERSION_0_72, $((1-$?)), Poppler version >= 0.72)
++  pkg-config --atleast-version=0.76.0 poppler
++  AC_DEFINE_UNQUOTED(POPPLER_VERSION_0_76, $((1-$?)), Poppler version >= 0.76)
+ fi
+ 
+ AC_OUTPUT( \
+diff --git a/gb.pdf/src/CPdfDocument.cpp b/gb.pdf/src/CPdfDocument.cpp
+index 0610a65d8b851ae9a4fc4d54d207974613a018b3..f52d9c2a0db24e87fcd54f9580d805c0c345c945 100644
+--- a/gb.pdf/src/CPdfDocument.cpp
++++ b/gb.pdf/src/CPdfDocument.cpp
+@@ -40,7 +40,7 @@
+ #include <TextOutputDev.h>
+ #include <SplashOutputDev.h>
+ #include <splash/SplashBitmap.h>
+-#include <goo/GooList.h>
++
+ #include <Outline.h>
+ #include <Link.h>
+ #include <Gfx.h>
+diff --git a/gb.pdf/src/CPdfDocument.h b/gb.pdf/src/CPdfDocument.h
+index fa80d47a9b1111afc4c1fb57346c93e64acc7527..6aa73343b1342f4f65008742975a0ba8fe2fd86f 100644
+--- a/gb.pdf/src/CPdfDocument.h
++++ b/gb.pdf/src/CPdfDocument.h
+@@ -29,7 +29,11 @@
+ #include <PDFDoc.h>
+ #include <SplashOutputDev.h>
+ #include <Page.h>
++#if POPPLER_VERSION_0_76
++#include <vector>
++#else
+ #include <goo/GooList.h>
++#endif
+ #include <stdint.h>
+ 
+ #if POPPLER_VERSION_0_64

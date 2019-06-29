@@ -116,6 +116,9 @@ RDEPEND="${COMMON_DEPEND}"
 
 PATCHES=(
 	"${FILESDIR}/${P}-xdgutils.patch"
+	"${FILESDIR}/${P}-poppler-compat_1.patch"
+	"${FILESDIR}/${P}-poppler-compat_2.patch"
+	"${FILESDIR}/${P}-poppler-compat_3.patch"
 )
 
 src_prepare() {
