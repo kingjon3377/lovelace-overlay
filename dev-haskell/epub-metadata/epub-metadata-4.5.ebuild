@@ -35,6 +35,7 @@ src_prepare() {
 		sed -i testsuite/Archive.hs \
 			-e 's/Data.Binary.Get.runGet at position 138: Did not find end of central directory signature/Did not find end of central directory signature. Failed reading at byte position 138/' || die
 	fi
+	default
 }
 
 src_install() {
