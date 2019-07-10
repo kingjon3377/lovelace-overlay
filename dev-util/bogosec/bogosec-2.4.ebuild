@@ -29,7 +29,7 @@ src_install() {
 	dodir "/usr/bin" "/etc" "/usr/share/man/man1"
 	emake DESTDIR="${D}" install
 	newdoc documents/"BogoSec TAMULUG.sxi" BogoSec_TAMULUG.sxi
-	dodoc README documents/Bogosec_design.doc documents/whitepaper/*
+	dodoc -r README documents/Bogosec_design.doc documents/whitepaper/*
 }
 
 pkg_postinst() {
