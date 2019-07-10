@@ -1,6 +1,6 @@
-diff -ru src.old/MSTypes/MSFloat.C src/MSTypes/MSFloat.C
---- src.old/MSTypes/MSFloat.C	2010-12-27 20:30:08.000000000 -0500
-+++ src/MSTypes/MSFloat.C	2010-12-27 20:31:46.000000000 -0500
+diff -ru a/src/MSTypes/MSFloat.C b/src/MSTypes/MSFloat.C
+--- a/src/MSTypes/MSFloat.C	2010-12-27 20:30:08.000000000 -0500
++++ b/src/MSTypes/MSFloat.C	2010-12-27 20:31:46.000000000 -0500
 @@ -11,9 +11,10 @@
  #else
  #include <iostream.h>
@@ -46,9 +46,9 @@ diff -ru src.old/MSTypes/MSFloat.C src/MSTypes/MSFloat.C
     { return (MSError::IntTooBig); }
    strcpy(buf,pString_);
    
-diff -ru src.old/MSTypes/MSUtil.C src/MSTypes/MSUtil.C
---- src.old/MSTypes/MSUtil.C	2010-12-27 21:47:43.000000000 -0500
-+++ src/MSTypes/MSUtil.C	2010-12-27 21:48:22.000000000 -0500
+diff -ru a/src/MSTypes/MSUtil.C b/src/MSTypes/MSUtil.C
+--- a/src.old/MSTypes/MSUtil.C	2010-12-27 21:47:43.000000000 -0500
++++ b/src/MSTypes/MSUtil.C	2010-12-27 21:48:22.000000000 -0500
 @@ -25,7 +25,7 @@
  void MSUtil::comma(const char *fromBuffer_,char *toBuffer_,int size_)
  {
