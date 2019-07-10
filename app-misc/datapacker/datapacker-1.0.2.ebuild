@@ -24,7 +24,8 @@ DEPEND="${RDEPEND}
 		>=dev-haskell/missingh-1.0.1:=
 		dev-haskell/mtl:=
 		>=dev-lang/ghc-6.10.1:="
-BDEPEND=">=dev-lang/ghc-6.10.1"
+BDEPEND=">=dev-lang/ghc-6.10.1
+	app-text/docbook-sgml-utils"
 
 S="${WORKDIR}/${PN}-debian-${PV}"
 
