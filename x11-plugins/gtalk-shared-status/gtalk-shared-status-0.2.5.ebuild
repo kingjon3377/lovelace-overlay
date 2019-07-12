@@ -8,7 +8,7 @@ inherit eutils
 
 DESCRIPTION="libpurple plugin implementing Google Talk's 'shared status' feature"
 HOMEPAGE="http://www.siorarina.net/gtalk-shared-status/"
-SRC_URI="http://www.siorarina.net/gss/src/autotools/${P}.tar.gz"
+SRC_URI="http://www.siorarina.net/heap/gss/src/autotools/${P}.tar.gz"
 
 LICENSE="GPL-2+"
 SLOT="0"
