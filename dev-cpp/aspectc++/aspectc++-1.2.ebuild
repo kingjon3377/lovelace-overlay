@@ -10,8 +10,8 @@ MY_VERSION=${PV/_}
 MY_P=ac-woven-${MY_VERSION}
 
 DESCRIPTION="AspectC++ is an AOP extension to C++"
-SRC_URI="ftp://akut.aspectc.org/releases/${MY_VERSION}/${MY_P}.tar.gz"
-HOMEPAGE="http://www.aspectc.org/"
+SRC_URI="https://www.aspectc.org/releases/${MY_VERSION}/${MY_P}.tar.gz"
+HOMEPAGE="https://www.aspectc.org/"
 RDEPEND="dev-libs/libxml2"
 DEPEND="${RDEPEND}
 	app-office/lyx"
