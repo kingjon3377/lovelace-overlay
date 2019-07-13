@@ -1,6 +1,6 @@
-diff -ru Puma.old/tools/lemon/lemon.c Puma/tools/lemon/lemon.c
---- Puma.old/tools/lemon/lemon.c	2010-12-09 03:18:27.000000000 -0500
-+++ Puma/tools/lemon/lemon.c	2010-12-09 03:19:49.000000000 -0500
+diff -ru a/Puma/tools/lemon/lemon.c b/Puma/tools/lemon/lemon.c
+--- a/Puma/tools/lemon/lemon.c	2010-12-09 03:18:27.000000000 -0500
++++ b/Puma/tools/lemon/lemon.c	2010-12-09 03:19:49.000000000 -0500
 @@ -32,13 +32,8 @@
  #include <stdarg.h>
  #include <string.h>
