@@ -140,10 +140,12 @@ src_install () {
 
 pkg_postinst () {
 	use emacs && elisp-site-regen
-	chkfontpath -q -a /usr/share/fonts/pcf/public/aplus
+	# Remove once we inherit from font.eclass (it doesn't support EAPI 7)
+	fc-cache -fs
 }
 
 pkg_postrm () {
 	use emacs && elisp-site-regen
-	chkfontpath -r /usr/share/fonts/pcf/public/aplus
+	# Remove once we inherit from font.eclass (it doesn't support EAPI 7)
+	fc-cache -fs
 }
