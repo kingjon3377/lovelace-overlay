@@ -1,2 +1,0 @@
-#!/bin/sh
-exec java -jar /usr/share/j-ftp/lib/jftp.jar "$@"
