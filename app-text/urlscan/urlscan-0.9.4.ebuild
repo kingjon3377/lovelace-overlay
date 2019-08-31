@@ -19,8 +19,6 @@ IUSE=""
 RDEPEND="dev-python/urwid[${PYTHON_USEDEP}]"
 DEPEND="${RDEPEND}"
 
-PATCHES=( "${FILESDIR}/${P}-skip-COPYING.patch" )
-
 src_prepare() {
 	default
 	sed -i -e "s@share/doc/urlscan@share/doc/${PF}@" setup.py || die
