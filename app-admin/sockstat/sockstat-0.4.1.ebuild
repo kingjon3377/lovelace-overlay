@@ -6,8 +6,8 @@ EAPI=7
 inherit toolchain-funcs
 
 DESCRIPTION="view detailed information about open connections"
-HOMEPAGE="https://packages.debian.org/unstable/main/sockstat"
-SRC_URI="mirror://debian/pool/main/s/${PN}/${P/-/_}.orig.tar.gz"
+HOMEPAGE="https://github.com/alteholz/sockstat https://packages.debian.org/unstable/main/sockstat"
+SRC_URI="https://github.com/alteholz/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="BSD"
 SLOT="0"
@@ -16,14 +16,6 @@ IUSE=""
 
 DEPEND=""
 RDEPEND="${DEPEND}"
-
-PATCHES=(
-	"${FILESDIR}/10_fix-CHAR-BIT-missing.patch"
-	"${FILESDIR}/20_add-GCC-hardening.patch"
-	"${FILESDIR}/30_cross.patch"
-	"${FILESDIR}/40_handle-missing-files.patch"
-	"${FILESDIR}/50_handle-unknown-user.patch"
-)
 
 DOCS=( "${FILESDIR}/README.Debian" )
 
