@@ -16,7 +16,7 @@ KEYWORDS="amd64 x86 ~ppc-macos ~x64-macos ~x86-solaris"
 IUSE="test"
 
 RDEPEND="
-	>=dev-vcs/mercurial-1.4[${PYTHON_USEDEP}]
+	>=dev-vcs/mercurial-3.7[${PYTHON_USEDEP}]
 	|| (
 		>=dev-python/subvertpy-0.7.4[${PYTHON_USEDEP}]
 		>=dev-vcs/subversion-1.5[python] )
