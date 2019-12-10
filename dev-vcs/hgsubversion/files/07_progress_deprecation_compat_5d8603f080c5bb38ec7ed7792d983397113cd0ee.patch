@@ -1,0 +1,147 @@
+# HG changeset patch
+# User Pulkit Goyal <pulkit@yandex-team.ru>
+# Date 1549302999 -10800
+# Node ID 5d8603f080c5bb38ec7ed7792d983397113cd0ee
+# Parent  6f5b296c01dde197abe393c0415fb98e25c62ba9
+compathacks: add compat code for ui.makeprogress() deprecation
+
+ui.makeprogress() is deprecated and will be dropped in 5.1. This patch adds
+compat code for that. The compat code is plain copy of compat code available in
+evolve extension.
+
+diff --git a/hgsubversion/compathacks.py b/hgsubversion/compathacks.py
+--- a/hgsubversion/compathacks.py
++++ b/hgsubversion/compathacks.py
+@@ -3,7 +3,19 @@
+ import errno
+ import sys
+ 
+-from mercurial import util
++from mercurial import ui as uimod, util
++
++# ui.makeprogress will be dropped after hg-5.1
++if util.safehasattr(uimod.ui, 'makeprogress'):
++    def progress(ui, topic, pos, item="", unit="", total=None):
++        progress = ui.makeprogress(topic, unit, total)
++        if pos is not None:
++            progress.update(pos, item=item)
++        else:
++            progress.complete()
++else:
++    def progress(ui, topic, pos, item="", unit="", total=None):
++        ui.progress(topic, pos, item="", unit="", total=None)
+ 
+ def pickle_load(f):
+     import cPickle as pickle
+diff --git a/hgsubversion/svncommands.py b/hgsubversion/svncommands.py
+--- a/hgsubversion/svncommands.py
++++ b/hgsubversion/svncommands.py
+@@ -108,7 +108,7 @@
+     # of the repository instead. During this traversal, we find all converted
+     # changesets that close a branch, and store their first parent
+     for ctx in util.get_contexts(repo, startrev):
+-        ui.progress('prepare', ctx.rev() - startrev, total=numrevs)
++        compathacks.progress(ui, 'prepare', ctx.rev() - startrev, total=numrevs)
+ 
+         convinfo = util.getsvnrev(ctx, None)
+         if not convinfo:
+@@ -132,11 +132,11 @@
+             else:
+                 closed.add(parentctx.rev())
+ 
+-    ui.progress('prepare', None, total=numrevs)
++    compathacks.progress(ui, 'prepare', None, total=numrevs)
+ 
+     revmapbuf = []
+     for ctx in util.get_contexts(repo, startrev):
+-        ui.progress('rebuild', ctx.rev() - startrev, total=numrevs)
++        compathacks.progress(ui, 'rebuild', ctx.rev() - startrev, total=numrevs)
+ 
+         convinfo = util.getsvnrev(ctx, None)
+         if not convinfo:
+@@ -267,7 +267,7 @@
+                                   revision)
+ 
+     revmap.batchset(revmapbuf, youngest)
+-    ui.progress('rebuild', None, total=numrevs)
++    compathacks.progress(ui, 'rebuild', None, total=numrevs)
+ 
+     # save off branch info
+     util.dump(branchinfo, meta.branch_info_file)
+diff --git a/hgsubversion/verify.py b/hgsubversion/verify.py
+--- a/hgsubversion/verify.py
++++ b/hgsubversion/verify.py
+@@ -4,6 +4,7 @@
+ from mercurial import error
+ from mercurial import worker
+ 
++import compathacks
+ import svnwrap
+ import svnrepo
+ import util
+@@ -94,7 +95,7 @@
+         w = worker.worker(repo.ui, perarg, verifydata, (), tuple(svndata))
+         i = 0
+         for _, t in w:
+-            ui.progress('verify', i, total=len(hgfiles))
++            compathacks.progress(ui, 'verify', i, total=len(hgfiles))
+             i += 1
+             fn, ok = t.split('\0', 2)
+             if not bool(ok):
+@@ -110,7 +111,7 @@
+                 ui.write('missing file: %s\n' % f)
+             result = 1
+ 
+-        ui.progress('verify', None, total=len(hgfiles))
++        compathacks.progress(ui, 'verify', None, total=len(hgfiles))
+ 
+     else:
+         class VerifyEditor(svnwrap.Editor):
+@@ -152,7 +153,7 @@
+                     self.props = None
+ 
+                 self.seen += 1
+-                self.ui.progress('verify', self.seen, total=self.total)
++                compathacks.progress(self.ui, 'verify', self.seen, total=self.total)
+ 
+             def open_file(self, path, base_revnum):
+                 raise NotImplementedError()
+@@ -211,7 +212,7 @@
+                 raise NotImplementedError()
+ 
+             def check(self):
+-                self.ui.progress('verify', None, total=self.total)
++                compathacks.progress(self.ui, 'verify', None, total=self.total)
+ 
+                 for f in self.unexpected:
+                     self.ui.write('unexpected file: %s\n' % f)
+diff --git a/hgsubversion/wrappers.py b/hgsubversion/wrappers.py
+--- a/hgsubversion/wrappers.py
++++ b/hgsubversion/wrappers.py
+@@ -27,6 +27,7 @@
+     logcmdutil = None
+ from mercurial import scmutil
+ 
++import compathacks
+ import replay
+ import pushmod
+ import stupid as stupidmod
+@@ -502,7 +503,8 @@
+                             w = hgutil.termwidth()
+                         bits = (r.revnum, r.author, msg)
+                         ui.status(('[r%d] %s: %s' % bits)[:w] + '\n')
+-                        ui.progress('pull', r.revnum - start, total=total)
++                        compathacks.progress(ui, 'pull', r.revnum - start,
++                                             total=total)
+ 
+                         meta.save_tbdelta(tbdelta)
+                         close = pullfuns[have_replay](ui, meta, svn, r, tbdelta,
+@@ -539,7 +541,7 @@
+             lock.release()
+     finally:
+         if total is not None:
+-            ui.progress('pull', None, total=total)
++            compathacks.progress(ui, 'pull', None, total=total)
+         util.swap_out_encoding(old_encoding)
+ 
+     if lastpulled is not None:

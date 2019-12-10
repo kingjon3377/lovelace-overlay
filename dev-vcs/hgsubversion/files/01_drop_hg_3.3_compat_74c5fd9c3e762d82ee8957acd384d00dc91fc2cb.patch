@@ -1,0 +1,65 @@
+# HG changeset patch
+# User Pulkit Goyal <pulkit@yandex-team.ru>
+# Date 1542125759 -10800
+# Node ID 74c5fd9c3e762d82ee8957acd384d00dc91fc2cb
+# Parent  41c6b3e39a0301c22abdf7acc8c5db49ec507110
+hgsubversion: drop some compat code for hg < 3.3
+
+hg 3.3 is very old and also not supported by current hgsubversion. So let's drop
+some compat code.
+
+diff --git a/hgsubversion/__init__.py b/hgsubversion/__init__.py
+--- a/hgsubversion/__init__.py
++++ b/hgsubversion/__init__.py
+@@ -21,12 +21,7 @@
+ import os
+ 
+ from mercurial import commands
+-try:
+-    from mercurial import exchange
+-    exchange.push  # existed in first iteration of this file
+-except ImportError:
+-    # We only *use* the exchange module in hg 3.2+, so this is safe
+-    pass
++from mercurial import exchange
+ from mercurial import error as hgerror
+ from mercurial import extensions
+ from mercurial import help
+@@ -157,12 +152,8 @@
+     except:
+         pass
+ 
+-    if not hgutil.safehasattr(localrepo.localrepository, 'push'):
+-        # Mercurial >= 3.2
+-        extensions.wrapfunction(exchange, 'push', wrappers.exchangepush)
+-    if not hgutil.safehasattr(localrepo.localrepository, 'pull'):
+-        # Mercurial >= 3.2
+-        extensions.wrapfunction(exchange, 'pull', wrappers.exchangepull)
++    extensions.wrapfunction(exchange, 'push', wrappers.exchangepush)
++    extensions.wrapfunction(exchange, 'pull', wrappers.exchangepull)
+ 
+     helpdir = os.path.join(os.path.dirname(__file__), 'help')
+ 
+diff --git a/hgsubversion/svnrepo.py b/hgsubversion/svnrepo.py
+--- a/hgsubversion/svnrepo.py
++++ b/hgsubversion/svnrepo.py
+@@ -100,19 +100,6 @@
+                 self.pushkey('phases', self[hash].hex(), str(phases.draft), str(phases.public))
+             return hash
+ 
+-        if hgutil.safehasattr(localrepo.localrepository, 'push'):
+-            # Mercurial < 3.2
+-            # TODO use newbranch to allow branch creation in Subversion?
+-            @remotesvn
+-            def push(self, remote, force=False, revs=None, newbranch=None):
+-                return wrappers.push(self, remote, force, revs)
+-
+-        if hgutil.safehasattr(localrepo.localrepository, 'pull'):
+-            # Mercurial < 3.2
+-            @remotesvn
+-            def pull(self, remote, heads=[], force=False):
+-                return wrappers.pull(self, remote, heads, force)
+-
+         @remotesvn
+         def findoutgoing(self, remote, base=None, heads=None, force=False):
+             return wrappers.findoutgoing(self, remote, heads, force)

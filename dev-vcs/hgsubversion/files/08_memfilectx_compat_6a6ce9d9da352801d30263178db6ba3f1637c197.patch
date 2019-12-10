@@ -1,0 +1,39 @@
+# HG changeset patch
+# User Pulkit Goyal <pulkit@yandex-team.ru>
+# Date 1555680519 -10800
+# Node ID 6a6ce9d9da352801d30263178db6ba3f1637c197
+# Parent  5d8603f080c5bb38ec7ed7792d983397113cd0ee
+compathacks: make memfilectx construction compatible with hg5.0
+
+'copied' in memfilectx was renamed to 'copysource' in 550a172a603b9ed in core
+mercurial.
+
+diff --git a/hgsubversion/compathacks.py b/hgsubversion/compathacks.py
+--- a/hgsubversion/compathacks.py
++++ b/hgsubversion/compathacks.py
+@@ -26,6 +26,7 @@
+     """Return a memfilectx
+ 
+     Works around API change by 8a0cac20a1ad (first in 4.5).
++    and also API change by 550a172a603b9e (first in 5.0)
+     """
+     from mercurial import context
+     try:
+@@ -33,8 +34,15 @@
+                                   islink=islink, isexec=isexec, copied=copied,
+                                   changectx=memctx)
+     except TypeError:
+-        return context.memfilectx(repo=repo, path=path, data=data,
+-                                  islink=islink, isexec=isexec, copied=copied)
++        try:
++            return context.memfilectx(repo=repo, path=path, data=data,
++                                      islink=islink, isexec=isexec,
++                                      copied=copied)
++        except TypeError:
++            return context.memfilectx(repo=repo, changectx=memctx,
++                                      path=path, data=data,
++                                      islink=islink, isexec=isexec,
++                                      copysource=copied)
+ 
+ def filectxfn_deleted(memctx, path):
+     """

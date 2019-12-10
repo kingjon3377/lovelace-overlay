@@ -1,0 +1,126 @@
+# HG changeset patch
+# User Pulkit Goyal <pulkit@yandex-team.ru>
+# Date 1543316891 -10800
+# Node ID 7bb6562feb85c1cc628b18171d50695b43abb6f8
+# Parent  394007c5efea9c6bcd6483243432832883e32a3a
+compathacks: drop branchset() which is compat code for hg<2.9
+
+diff --git a/hgsubversion/compathacks.py b/hgsubversion/compathacks.py
+--- a/hgsubversion/compathacks.py
++++ b/hgsubversion/compathacks.py
+@@ -5,16 +5,6 @@
+ 
+ from mercurial import util
+ 
+-def branchset(repo):
+-    """Return the set of branches present in a repo.
+-
+-    Works around branchtags() vanishing between 2.8 and 2.9.
+-    """
+-    try:
+-        return set(repo.branchmap())
+-    except AttributeError:
+-        return set(repo.branchtags())
+-
+ def pickle_load(f):
+     import cPickle as pickle
+     f.seek(0)
+diff --git a/hgsubversion/replay.py b/hgsubversion/replay.py
+--- a/hgsubversion/replay.py
++++ b/hgsubversion/replay.py
+@@ -140,7 +140,7 @@
+             tag = meta.get_path_tag(meta.remotename(branch))
+             if (tag and tag not in meta.tags
+                 and branch not in meta.branches
+-                and branch not in compathacks.branchset(meta.repo)
++                and branch not in meta.repo.branchmap()
+                 and not files):
+                 continue
+ 
+diff --git a/hgsubversion/stupid.py b/hgsubversion/stupid.py
+--- a/hgsubversion/stupid.py
++++ b/hgsubversion/stupid.py
+@@ -759,7 +759,7 @@
+             # svnmeta.committag(), we can skip the whole branch for now
+             if (tag and tag not in meta.tags and
+                 b not in meta.branches
+-                and b not in compathacks.branchset(meta.repo)
++                and b not in meta.repo.branchmap()
+                 and not files_touched):
+                 continue
+ 
+diff --git a/tests/test_fetch_branches.py b/tests/test_fetch_branches.py
+--- a/tests/test_fetch_branches.py
++++ b/tests/test_fetch_branches.py
+@@ -100,7 +100,7 @@
+                           'unorderedbranch.svndump', 'NaN')
+         repo = self._load_fixture_and_fetch_with_anchor(
+             'unorderedbranch.svndump', '4')
+-        self.assertTrue('c' not in compathacks.branchset(repo))
++        self.assertTrue('c' not in set(repo.branchmap()))
+ 
+     def test_branches_weird_moves(self):
+         repo = self._load_fixture_and_fetch('renamedproject.svndump',
+diff --git a/tests/test_single_dir_clone.py b/tests/test_single_dir_clone.py
+--- a/tests/test_single_dir_clone.py
++++ b/tests/test_single_dir_clone.py
+@@ -21,7 +21,7 @@
+         repo = self._load_fixture_and_fetch('branch_from_tag.svndump',
+                                             layout='single',
+                                             subdir='')
+-        self.assertEqual(compathacks.branchset(repo),
++        self.assertEqual(set(repo.branchmap()),
+                          set(['default']))
+         self.assertEqual(sorted(repo['tip'].manifest().keys()),
+                          ['branches/branch_from_tag/alpha',
+@@ -36,7 +36,7 @@
+     def test_auto_detect_single(self):
+         repo = self._load_fixture_and_fetch('branch_from_tag.svndump',
+                                             layout='auto')
+-        self.assertEqual(compathacks.branchset(repo),
++        self.assertEqual(set(repo.branchmap()),
+                          set(['default', 'branch_from_tag']))
+         oldmanifest = test_util.filtermanifest(revsymbol(repo, 'default').manifest().keys())
+         # remove standard layout
+@@ -45,7 +45,7 @@
+         repo = self._load_fixture_and_fetch('branch_from_tag.svndump',
+                                             layout='auto',
+                                             subdir='trunk')
+-        self.assertEqual(compathacks.branchset(repo), set(['default', ]))
++        self.assertEqual(set(repo.branchmap()), set(['default', ]))
+         self.assertEqual(revsymbol(repo, 'default').manifest().keys(), oldmanifest)
+ 
+     def test_clone_subdir_is_file_prefix(self):
+@@ -53,7 +53,7 @@
+         repo = self._load_fixture_and_fetch(FIXTURE,
+                                             layout='single',
+                                             subdir=test_util.subdir[FIXTURE])
+-        self.assertEqual(compathacks.branchset(repo), set(['default']))
++        self.assertEqual(set(repo.branchmap()), set(['default']))
+         self.assertEqual(repo['tip'].manifest().keys(), ['flaf.txt'])
+ 
+     def test_externals_single(self):
+diff --git a/tests/test_single_dir_push.py b/tests/test_single_dir_push.py
+--- a/tests/test_single_dir_push.py
++++ b/tests/test_single_dir_push.py
+@@ -163,7 +163,7 @@
+         self.pushrevisions()
+         repo = self.repo # repo is outdated after the rebase happens, refresh
+         self.assertTrue('foo' in test_util.svnls(repo_path, ''))
+-        self.assertEqual(compathacks.branchset(repo), set(['default']))
++        self.assertEqual(set(repo.branchmap()), set(['default']))
+         # Have to cross to another branch head, so hg.update doesn't work
+         commands.update(self.ui(),
+                         self.repo,
+diff --git a/tests/test_tags.py b/tests/test_tags.py
+--- a/tests/test_tags.py
++++ b/tests/test_tags.py
+@@ -51,7 +51,7 @@
+ 
+     def test_branch_from_tag(self):
+         repo = self._load_fixture_and_fetch('branch_from_tag.svndump')
+-        self.assert_('branch_from_tag' in compathacks.branchset(repo))
++        self.assert_('branch_from_tag' in repo.branchmap())
+         self.assertEqual(repo[1], revsymbol(repo, 'tag_r3'))
+         self.assertEqual(revsymbol(repo, 'branch_from_tag').parents()[0],
+                          revsymbol(repo, 'copied_tag'))

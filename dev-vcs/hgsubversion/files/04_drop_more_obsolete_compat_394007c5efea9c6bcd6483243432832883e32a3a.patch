@@ -1,0 +1,52 @@
+# HG changeset patch
+# User Pulkit Goyal <pulkit@yandex-team.ru>
+# Date 1543316648 -10800
+# Node ID 394007c5efea9c6bcd6483243432832883e32a3a
+# Parent  b06be581569214a07a2f309ee3287a0c5e6c5793
+hgsubversion: drop some more code which is for compat with hg<1.6
+
+diff --git a/hgsubversion/__init__.py b/hgsubversion/__init__.py
+--- a/hgsubversion/__init__.py
++++ b/hgsubversion/__init__.py
+@@ -47,6 +47,7 @@
+         'svn.ra',
+     }
+ 
++from mercurial import discovery
+ from mercurial import revset
+ from mercurial import subrepo
+ 
+@@ -101,26 +102,13 @@
+     ]),
+ }
+ 
+-try:
+-    from mercurial import discovery
+-    def findcommonoutgoing(orig, *args, **opts):
+-        capable = getattr(args[1], 'capable', lambda x: False)
+-        if capable('subversion'):
+-            return wrappers.findcommonoutgoing(*args, **opts)
+-        else:
+-            return orig(*args, **opts)
+-    extensions.wrapfunction(discovery, 'findcommonoutgoing', findcommonoutgoing)
+-except AttributeError:
+-    # only need the discovery variant of this code when we drop hg < 1.6
+-    def findoutgoing(orig, *args, **opts):
+-        capable = getattr(args[1], 'capable', lambda x: False)
+-        if capable('subversion'):
+-            return wrappers.findoutgoing(*args, **opts)
+-        else:
+-            return orig(*args, **opts)
+-    extensions.wrapfunction(discovery, 'findoutgoing', findoutgoing)
+-except ImportError:
+-    pass
++def findcommonoutgoing(orig, *args, **opts):
++    capable = getattr(args[1], 'capable', lambda x: False)
++    if capable('subversion'):
++        return wrappers.findcommonoutgoing(*args, **opts)
++    else:
++        return orig(*args, **opts)
++extensions.wrapfunction(discovery, 'findcommonoutgoing', findcommonoutgoing)
+ 
+ def extsetup(ui):
+     """insert command wrappers for a bunch of commands"""
