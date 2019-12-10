@@ -33,3 +33,6 @@
 # Depends on masked-for-removal pysvg
 app-misc/timeline
 
+# Depends on masked-for-removal pyao
+media-sound/musiclibrarian
+
