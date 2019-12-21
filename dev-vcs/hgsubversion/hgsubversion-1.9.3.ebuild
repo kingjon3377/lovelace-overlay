@@ -25,7 +25,7 @@ DEPEND="dev-python/setuptools[${PYTHON_USEDEP}]
 	test? ( dev-python/nose[${PYTHON_USEDEP}] )
 "
 
-FILES=(
+PATCHES=(
 	"${FILESDIR}/01_drop_hg_3.3_compat_74c5fd9c3e762d82ee8957acd384d00dc91fc2cb.patch"
 	"${FILESDIR}/02_support_treemanifest_04a24a13960ff1545a49707541e748de191304dd.patch"
 	"${FILESDIR}/03_update_README_b06be581569214a07a2f309ee3287a0c5e6c5793.patch"
