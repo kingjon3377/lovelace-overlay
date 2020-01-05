@@ -18,9 +18,14 @@ BDEPEND="sys-devel/bison
 	sys-devel/flex
 	virtual/pkgconfig"
 
-PATCHES=(
-	"${FILESDIR}/neoleo-7.0.0-fix-tests.patch"
-)
+src_prepare() {
+	default
+	sed -i -e 's@ -Wfatal-errors@@' -e 's@ -Werror@@' src/Makefile.in || die
+}
+
+src_test() {
+	TZ=UTC default
+}
 
 src_install() {
 	emake DESTDIR="${D}" generaldir="/usr/share/doc/${PF}" \
