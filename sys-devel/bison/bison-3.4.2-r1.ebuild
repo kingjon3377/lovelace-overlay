@@ -1,18 +1,22 @@
 # Copyright 1999-2019 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI=7
 
 inherit flag-o-matic
+
+PATCHES="${PN}-3.4.2-patches-01.tar.xz"
 
 DESCRIPTION="A general-purpose (yacc-compatible) parser generator"
 HOMEPAGE="https://www.gnu.org/software/bison/"
 SRC_URI="mirror://gnu/${PN}/${P}.tar.xz
-	https://dev.gentoo.org/~whissi/dist/bison/${P}-patches-1.0.tar.xz"
+	mirror://gentoo/${PATCHES}
+	https://dev.gentoo.org/~whissi/dist/bison/${PATCHES}
+	https://dev.gentoo.org/~polynomial-c/dist/bison/${PATCHES}"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~alpha amd64 arm arm64 hppa ia64 m68k ~mips ppc ppc64 s390 sh sparc x86 ~ppc-aix ~x64-cygwin ~amd64-linux ~x86-linux ~ppc-macos ~x64-macos ~x86-macos ~m68k-mint ~sparc-solaris ~sparc64-solaris ~x64-solaris ~x86-solaris"
+KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~m68k ~mips ~ppc ~ppc64 ~riscv ~s390 ~sh ~sparc ~x86 ~ppc-aix ~x64-cygwin ~amd64-linux ~x86-linux ~ppc-macos ~x64-macos ~x86-macos ~m68k-mint ~sparc-solaris ~sparc64-solaris ~x64-solaris ~x86-solaris"
 IUSE="examples nls static test"
 RESTRICT="!test? ( test )"
 
@@ -24,11 +28,11 @@ DEPEND="${RDEPEND}
 	nls? ( sys-devel/gettext )
 	test? ( dev-lang/perl )"
 
-DOCS=( AUTHORS ChangeLog-2012 NEWS README THANKS TODO ) # ChangeLog-1998 PACKAGING README-alpha README-release
+DOCS=( AUTHORS ChangeLog NEWS README THANKS TODO ) # ChangeLog-2012 ChangeLog-1998 PACKAGING README-alpha README-release
 
 PATCHES=(
-	"${WORKDIR}"/patches/${P}-optional-perl.patch #538300
-	"${WORKDIR}"/patches/${P}-avoid_autoreconf.patch
+	"${WORKDIR}"/patches/${PN}-3.1-optional-perl.patch #538300
+	"${WORKDIR}"/patches/${PN}-3.4.2-avoid_autoreconf.patch
 )
 
 src_prepare() {
@@ -65,20 +69,17 @@ src_install() {
 	default
 
 	# This one is installed by dev-util/yacc
-	mv "${ED%/}"/usr/bin/yacc{,.bison} || die
-	mv "${ED%/}"/usr/share/man/man1/yacc{,.bison}.1 || die
+	mv "${ED}"/usr/bin/yacc{,.bison} || die
+	mv "${ED}"/usr/share/man/man1/yacc{,.bison}.1 || die
 
 	# We do not need liby.a
-	rm -r "${ED%/}"/usr/lib* || die
-
-	# Move to documentation directory and leave compressing for EAPI>=4
-	mv "${ED%/}"/usr/share/${PN}/README "${ED%/}"/usr/share/doc/${PF}/README.data
+	rm -r "${ED}"/usr/lib* || die
 }
 
 pkg_postinst() {
-	"${ROOT}"/usr/bin/eselect yacc update
+	"${EROOT}"/usr/bin/eselect yacc update
 }
 
 pkg_postrm() {
-	"${ROOT}"/usr/bin/eselect yacc update
+	"${EROOT}"/usr/bin/eselect yacc update
 }
