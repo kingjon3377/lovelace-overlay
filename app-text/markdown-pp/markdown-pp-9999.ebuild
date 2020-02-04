@@ -1,11 +1,11 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
 # Its setup.py claims it's Python 3 compatible, but it appears not to be.
-# PYTHON_COMPAT=( python2_7 python3_{2,3} )
-PYTHON_COMPAT=( python2_7 )
+PYTHON_COMPAT=( python3_{6,7} )
+# PYTHON_COMPAT=( python2_7 )
 
 inherit git-r3 distutils-r1
 
