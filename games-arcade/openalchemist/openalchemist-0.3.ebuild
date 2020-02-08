@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit autotools eutils
+inherit autotools desktop
 
 DESCRIPTION="NaturalChimie clone written with clanlib"
 HOMEPAGE="http://www.openalchemist.com/"
