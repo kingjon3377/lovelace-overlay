@@ -1,4 +1,4 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 # From sunrise. TODO: add my changes to bug #294727. With changes from betagarden overlay.
@@ -8,7 +8,7 @@ EAPI=7
 inherit toolchain-funcs
 
 DESCRIPTION="Move the mouse pointer with few key strokes"
-HOMEPAGE="http://www.semicomplete.com/projects/keynav/"
+HOMEPAGE="https://www.semicomplete.com/projects/keynav/"
 SRC_URI="https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/semicomplete/${P}.tar.gz"
 
 LICENSE="BSD"
