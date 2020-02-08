@@ -1,4 +1,4 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 # Copyright 2011 Joseph Lehner
@@ -18,7 +18,7 @@ MY_P="${PN}-${MY_PV}"
 DEBIAN_DIFF_FILE="${PN}_${MY_PV}-${MY_PL}.diff"
 
 DESCRIPTION="A lightweight userspace bandwidth shaper"
-HOMEPAGE="https://monkey.org/~marius/pages/trickle"
+HOMEPAGE="https://monkey.org/~marius/pages/trickle https://github.com/mariusae/trickle"
 SRC_URI="https://www.monkey.org/~marius/${PN}/${MY_P}.tar.gz
 	mirror://debian/pool/main/${PN:0:1}/${PN}/${DEBIAN_DIFF_FILE}.gz"
 RESTRICT="mirror"
