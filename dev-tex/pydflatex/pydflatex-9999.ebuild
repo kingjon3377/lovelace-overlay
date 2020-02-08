@@ -1,9 +1,9 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
-PYTHON_COMPAT=( python2_7 )
+PYTHON_COMPAT=( python3_6 )
 EGIT_REPO_URI="https://github.com/olivierverdier/pydflatex.git"
 
 inherit git-r3 distutils-r1
@@ -17,5 +17,8 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""
 
-DEPEND="dev-python/python-termstyle[${PYTHON_USEDEP}]"
+DEPEND="dev-python/blessings[${PYTHON_USEDEP}]
+	dev-python/python-termstyle[${PYTHON_USEDEP}]"
 RDEPEND="${DEPEND}"
+
+distutils_enable_tests unittest
