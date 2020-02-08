@@ -8,7 +8,6 @@
 ~media-gfx/gift-9999
 ~sys-apps/chiark-utils-9999
 ~sys-apps/fidefrag-9999
-~x11-misc/boats-9999
 ~app-text/markdown-pp-9999
 
 # Doesn't yet build, more effort is needed to see what patches are still needed
