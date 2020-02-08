@@ -1,12 +1,12 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
 DESCRIPTION="Framework for analysis of source codes written in C"
-HOMEPAGE="http://frama-c.com"
-NAME="Chlorine"
-SRC_URI="http://frama-c.com/download/${PN/-c/-c-$NAME}-$(ver_cut 2-).tar.gz"
+HOMEPAGE="https://frama-c.com"
+NAME="Calcium"
+SRC_URI="https://frama-c.com/download/${P}-${NAME}.tar.gz"
 
 LICENSE="LGPL-2"
 SLOT="0"
@@ -15,7 +15,7 @@ IUSE="doc gtk +ocamlopt"
 RESTRICT="strip"
 
 DEPEND="
-	>=dev-lang/ocaml-4.02.3[ocamlopt?]
+	>=dev-lang/ocaml-4.05.0[ocamlopt?]
 	>=dev-ml/ocamlgraph-1.8.5[gtk?,ocamlopt?]
 	dev-ml/zarith
 	sci-mathematics/coq
@@ -27,15 +27,9 @@ DEPEND="
 		>=dev-ml/lablgtk-2.14[sourceview,gnomecanvas,ocamlopt?]
 	)"
 RDEPEND="${DEPEND}"
-BDEPEND=">=dev-lang/ocaml-4.02.3[ocamlopt?]"
+BDEPEND=">=dev-lang/ocaml-4.05.0[ocamlopt?]"
 
-S="${WORKDIR}/${PN/-c/-c-$NAME}-$(ver_cut 2-)"
-
-src_prepare(){
-	touch config_file || die
-	rm -f ocamlgraph.tar.gz || die
-	default
-}
+S="${WORKDIR}/${P}-${NAME}"
 
 src_configure(){
 	if use gtk; then
