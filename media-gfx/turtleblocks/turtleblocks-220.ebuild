@@ -22,11 +22,9 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""
 
-DEPEND="x11-libs/gtk+:2
-	dev-python/gconf-python:2[${PYTHON_USEDEP}]
-	dev-python/pygobject:2[${PYTHON_USEDEP}]
+DEPEND="x11-libs/gtk+:3
+	dev-libs/gobject-introspection[${PYTHON_USEDEP}]
 	dev-python/gst-python:1.0[${PYTHON_USEDEP}]
-	dev-python/pygtk:2[${PYTHON_USEDEP}]
 	dev-python/pycurl[${PYTHON_USEDEP}]"
 RDEPEND="${DEPEND}"
 
