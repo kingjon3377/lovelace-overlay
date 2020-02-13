@@ -58,6 +58,15 @@ diff -ru dictdlib-2.0.4.1+nmu1.old/dictdlib.py dictdlib-2.0.4.1+nmu1/dictdlib.py
              return 0
          retval = 0
          entrylist = self.indexentries[word]
+@@ -233,7 +233,7 @@
+         self.dictfile.seek(0, 2)        # Seek to end of file
+         start = self.dictfile.tell()
+         defstr += "\n"
+-        self.dictfile.write(defstr)
++        self.dictfile.write(defstr.encode())
+         for word in headwords:
+             self.addindexentry(word, start, len(defstr))
+             self.count += 1
 @@ -256,7 +256,7 @@
              self.update("Sorting index: converting")
  
