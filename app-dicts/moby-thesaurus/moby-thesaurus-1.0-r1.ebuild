@@ -1,13 +1,13 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 # Zrajm C Akfohg <zrajm@klingonska.org>
 
 EAPI=7
 
-PYTHON_COMPAT=( python2_7 )
+PYTHON_COMPAT=( python3_{5,6,7} )
 
-inherit python-single-r1
+inherit python-any-r1
 
 MY_P=dict-moby-thesaurus
 HOMEPAGE="http://www.dcs.shef.ac.uk/research/ilash/Moby/ https://packages.debian.org/unstable/text/dict-moby-thesaurus"
@@ -16,9 +16,10 @@ DESCRIPTION="Grady Ward's Moby Thesaurus; 35000 root words and 2.5 million synon
 
 RDEPEND=">=app-text/dictd-1.5.5"
 DEPEND="${RDEPEND}
-	dev-python/dictdlib[${PYTHON_USEDEP}]
-	dev-python/dictclient[${PYTHON_USEDEP}]
-	${PYTHON_DEPS}"
+	$(python_gen_any_dep '
+		dev-python/dictdlib[${PYTHON_USEDEP}]
+		dev-python/dictclient[${PYTHON_USEDEP}]
+	')"
 
 SLOT="0"
 LICENSE="public-domain GPL-2"
@@ -28,8 +29,13 @@ IUSE=""
 
 S="${WORKDIR}/${MY_P}-${PV}.orig"
 
+python_check_deps() {
+	has_version "dev-python/dictdlib[${PYTHON_USEDEP}]" && \
+		has_version "dev-python/dictclient[${PYTHON_USEDEP}]"
+}
+
 pkg_setup() {
-	python-single-r1_pkg_setup
+	python-any-r1_pkg_setup
 }
 
 src_prepare() {

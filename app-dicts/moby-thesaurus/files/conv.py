@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 import sys, dictdlib
 
 # Conversion script by John Goerzen
