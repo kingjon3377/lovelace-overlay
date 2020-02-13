@@ -24,15 +24,15 @@ SLOT="0"
 KEYWORDS="amd64 ~x86"
 IUSE=""
 
-RDEPEND="${PYTHON_DEPS}
-	gnome-base/gconf[${PYTHON_USEDEP}]
+RDEPEND="${PYTHON_DEPS} $(python_gen_cond_dep '
+		gnome-base/gconf[${PYTHON_MULTI_USEDEP}]
+		dev-python/dbus-python[${PYTHON_MULTI_USEDEP}]
+		dev-python/pygtk[${PYTHON_MULTI_USEDEP}]
+		dev-python/gtkspell-python[${PYTHON_MULTI_USEDEP}]
+		dev-python/pygtksourceview[${PYTHON_MULTI_USEDEP}]
+	')
 	app-text/yelp-tools
-	dev-libs/dbus-glib
-	dev-python/dbus-python[${PYTHON_USEDEP}]
-	dev-python/pygtk[${PYTHON_USEDEP}]
-	dev-python/gtkspell-python[${PYTHON_USEDEP}]
-	dev-python/pygtksourceview[${PYTHON_USEDEP}]"
-	#dev-python/gtkspell-python[${PYTHON_USEDEP}]
+	dev-libs/dbus-glib"
 DEPEND="${RDEPEND}
 	app-text/gnome-doc-utils
 	virtual/pkgconfig
