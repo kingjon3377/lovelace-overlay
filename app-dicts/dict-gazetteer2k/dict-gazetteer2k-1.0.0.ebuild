@@ -1,11 +1,10 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
-PYTHON_COMPAT=( python{2_5,2_6,2_7} )
-# TODO: Should probably be python-any-r1
-inherit python-single-r1
+PYTHON_COMPAT=( python3_{5,6,7} )
+inherit python-any-r1
 
 DESCRIPTION="Gazetteer from the 2000 census"
 HOMEPAGE="http://www.census.gov/geo/www/gazetteer/places2k.html"
@@ -23,9 +22,10 @@ IUSE=""
 
 RDEPEND="app-text/dictd"
 DEPEND="${RDEPEND}
-	dev-python/dictdlib[${PYTHON_USEDEP}]
-	dev-python/dictclient[${PYTHON_USEDEP}]
-	${PYTHON_DEPS}"
+	$(python_gen_any_dep '
+		dev-python/dictdlib[${PYTHON_USEDEP}]
+		dev-python/dictclient[${PYTHON_USEDEP}]
+	')"
 
 S="${WORKDIR}/${P}.orig"
 
@@ -34,8 +34,13 @@ src_prepare() {
 	default
 }
 
+python_check_deps() {
+	has_version "dev-python/dictdlib[${PYTHON_USEDEP}]" && \
+		has_version "dev-python/dictclient[${PYTHON_USEDEP}]"
+}
+
 pkg_setup() {
-	python-single-r1_pkg_setup
+	python-any-r1_pkg_setup
 }
 
 src_compile() {

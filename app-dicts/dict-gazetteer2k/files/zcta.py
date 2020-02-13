@@ -1,9 +1,10 @@
+#!/usr/bin/python3
 import dictdlib, dictclient, re
 
 rfile = open("zcta5.txt", "rt")
 zctanumdict = {}
 
-for line in rfile.xreadlines():
+for line in rfile:
     line = line.strip()
     new = {}
     new['stateabbr'] = line[0:2]

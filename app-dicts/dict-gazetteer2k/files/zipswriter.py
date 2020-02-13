@@ -1,10 +1,11 @@
-print "Loading states."
+#!/usr/bin/python3
+print("Loading states.")
 from states import statedict
-print "Loading zips."
+print("Loading zips.")
 from zips import zipcodesnumdict, zipcodesdict
-print "Loading ZCTA."
+print("Loading ZCTA.")
 from zcta import zctanumdict
-print "Processing."
+print("Processing.")
 from dictdlib import DictWriter
 import re
 
@@ -33,7 +34,7 @@ http://www.census.gov/ftp/pub/tiger/tms/gazetteer/zips.txt
   the Public Domain."""
                     )
 
-biglist = zipcodesnumdict.keys() + zctanumdict.keys()
+biglist = list(zipcodesnumdict.keys()) + list(zctanumdict.keys())
 biglist.sort()
 biglist = uniq(biglist)
 
@@ -42,7 +43,7 @@ for zipcode in biglist:
     defstr = "%05d -- U.S. ZIP code\n" % zipcode
 
 
-    if zipcodesnumdict.has_key(zipcode):
+    if zipcode in zipcodesnumdict:
         name = zipcodesnumdict[zipcode]
         city, stateabbr = name.split(",")
         stateabbr = stateabbr.strip()
@@ -57,7 +58,7 @@ for zipcode in biglist:
             defstr += " " + allzipcode
         defstr += "\n"
 
-    if zctanumdict.has_key(zipcode):
+    if zipcode in zctanumdict:
         e = zctanumdict[zipcode]
         defstr += "   Population (2000):    %d\n" % e['population']
         defstr += "   Housing Units (2000): %d\n" % e['housingunits']

@@ -1,13 +1,14 @@
-print "Loading states."
+#!/usr/bin/python3
+print("Loading states.")
 from states import statedict
-print "Processing."
+print("Processing.")
 from dictdlib import DictWriter
 import re
 
 def withstate(city, state):
     return [city, city + ", " + state]
 
-rfile = open("county2k.txt", "rt")
+rfile = open("county2k.txt", "rt", encoding="latin1")
 writer = DictWriter('gazetteer2k-counties',
                     'http://www.census.gov/geo/www/gazetteer/places2k.html',
                     'U.S. Gazetteer Counties (2000)',
@@ -21,7 +22,7 @@ http://www.census.gov/ftp/pub/tiger/tms/gazetteer/zips.txt
   the Public Domain."""
                     )
 
-for line in rfile.xreadlines():
+for line in rfile:
     line = line.strip()
     stateabbr = line[0:2]
     statefips = line[2:4]
@@ -33,7 +34,7 @@ for line in rfile.xreadlines():
     landarea_mi = float(line[117:129])
     waterarea_mi = float(line[129:141])
     lat = float(line[141:151])
-    long = float(line[151:162])
+    longit = float(line[151:162])
 
     indexwords = []
     
@@ -63,7 +64,7 @@ for line in rfile.xreadlines():
               (statedict[stateabbr], stateabbr, statefips)
     defstr += "   Location:             %f %s, %f %s\n" % ( \
         abs(lat), lat > 0 and 'N' or 'S',
-        abs(long), long > 0 and 'E' or 'W')
+        abs(longit), longit > 0 and 'E' or 'W')
     defstr += "   Headwords:\n"
     for hw in indexwords:
         defstr += "    %s\n" % hw

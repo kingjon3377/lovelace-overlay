@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 from gzip import GzipFile
 
 statedict = {}
@@ -11,5 +12,5 @@ for line in fh.readlines():
     splitline = line.split(":")
     if len(splitline) != 2:
         continue
-    if not statedict.has_key(splitline[0]):
+    if splitline[0] not in statedict:
         statedict[splitline[0]] = splitline[1]
