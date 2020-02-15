@@ -1,4 +1,4 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -18,16 +18,18 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""
 
-RDEPEND="dev-python/markdown[${PYTHON_USEDEP}]
-	dev-python/wxpython:3.0[${PYTHON_USEDEP}]
-	dev-python/icalendar[${PYTHON_USEDEP}]
-	dev-python/pytz[${PYTHON_USEDEP}]
-	dev-python/pysvg[${PYTHON_USEDEP}]"
+RDEPEND="$(python_gen_cond_dep '
+		dev-python/markdown[${PYTHON_MULTI_USEDEP}]
+		dev-python/wxpython:3.0[${PYTHON_MULTI_USEDEP}]
+		dev-python/icalendar[${PYTHON_MULTI_USEDEP}]
+		dev-python/pytz[${PYTHON_MULTI_USEDEP}]
+		dev-python/pysvg[${PYTHON_MULTI_USEDEP}]
+	')"
 DEPEND="${RDEPEND}
-	test? (
-		dev-python/mock[${PYTHON_USEDEP}]
-		dev-python/mechanize[${PYTHON_USEDEP}]
-	)"
+	test? ( $(python_gen_cond_dep '
+		dev-python/mock[${PYTHON_MULTI_USEDEP}]
+		dev-python/mechanize[${PYTHON_MULTI_USEDEP}]
+	') )"
 
 src_test() {
 	virtx "${PYTHON}" test/execute-specs.py
