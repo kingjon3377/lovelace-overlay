@@ -1,4 +1,4 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -19,22 +19,24 @@ KEYWORDS="~amd64 ~x86"
 IUSE="latex test"
 
 MY_DEPEND="latex? ( app-text/dvipng )
-	dev-python/PyQt5[${PYTHON_USEDEP}]
-	dev-python/matplotlib[${PYTHON_USEDEP}]
-	dev-python/cherrypy[${PYTHON_USEDEP}]
-	dev-python/webob[${PYTHON_USEDEP}]
-	dev-python/pillow[${PYTHON_USEDEP}]
-	dev-python/cheroot[${PYTHON_USEDEP}]"
+	$(python_gen_cond_dep '
+		dev-python/PyQt5[${PYTHON_MULTI_USEDEP}]
+		dev-python/matplotlib[${PYTHON_MULTI_USEDEP}]
+		dev-python/cherrypy[${PYTHON_MULTI_USEDEP}]
+		dev-python/webob[${PYTHON_MULTI_USEDEP}]
+		dev-python/pillow[${PYTHON_MULTI_USEDEP}]
+		dev-python/cheroot[${PYTHON_MULTI_USEDEP}]
+	')"
 
 DEPEND="${DEPEND}
 	${MY_DEPEND}
-	dev-python/sphinx[${PYTHON_USEDEP}]
-	test? (
-		dev-python/nose[${PYTHON_USEDEP}]
-		app-misc/anki[${PYTHON_USEDEP}]
-	)"
-RDEPEND="${RDEPEND}
-	${MY_DEPEND}"
+	$(python_gen_cond_dep '
+		dev-python/sphinx[${PYTHON_MULTI_USEDEP}]')
+	test? ( $(python_gen_cond_dep '
+		dev-python/nose[${PYTHON_MULTI_USEDEP}]
+		app-misc/anki[${PYTHON_MULTI_USEDEP}]
+	') )"
+RDEPEND="${MY_DEPEND}"
 
 S="${WORKDIR}/${P/m/M}"
 
