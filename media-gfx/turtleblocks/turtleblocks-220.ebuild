@@ -23,8 +23,8 @@ KEYWORDS="~amd64"
 IUSE=""
 
 DEPEND="x11-libs/gtk+:3
+	dev-libs/gobject-introspection[${PYTHON_SINGLE_USEDEP}]
 	$(python_gen_cond_dep '
-		dev-libs/gobject-introspection[${PYTHON_MULTI_USEDEP}]
 		dev-python/gst-python:1.0[${PYTHON_MULTI_USEDEP}]
 		dev-python/pycurl[${PYTHON_MULTI_USEDEP}]
 	')"
