@@ -16,9 +16,12 @@ SLOT="0"
 KEYWORDS=""
 IUSE=""
 
-RDEPEND="dev-python/pygobject:3[${PYTHON_USEDEP}]
+RDEPEND="$(python_gen_cond_dep '
+		dev-python/pygobject:3[${PYTHON_MULTI_USEDEP}]
+		dev-python/lxml[${PYTHON_MULTI_USEDEP}]
+	')
 	net-libs/webkit-gtk:4
-	dev-python/lxml[${PYTHON_USEDEP}]"
+	"
 DEPEND="${RDEPEND}
 	dev-libs/glib"
 
