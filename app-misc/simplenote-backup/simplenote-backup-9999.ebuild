@@ -3,7 +3,7 @@
 
 EAPI=7
 
-PYTHON_COMPAT=( python2_7 )
+PYTHON_COMPAT=( python3_{5,6,7} )
 
 inherit python-single-r1 git-r3
 
@@ -18,13 +18,16 @@ KEYWORDS="~amd64"
 IUSE=""
 
 RDEPEND="${PYTHON_DEPS}
-	dev-python/simperium-python[${PYTHON_USEDEP}]"
+	$(python_gen_cond_dep '
+		dev-python/simperium-python[${PYTHON_MULTI_USEDEP}]
+	')"
 DEPEND=""
 
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
 PATCHES=(
 	"${FILESDIR}/add_shebang.patch"
+	"${FILESDIR}/python3.patch"
 )
 
 src_compile() {

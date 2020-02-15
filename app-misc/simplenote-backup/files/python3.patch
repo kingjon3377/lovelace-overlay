@@ -1,0 +1,20 @@
+--- simplenote-backup.py	(original)
++++ simplenote-backup.py	(refactored)
+@@ -4,9 +4,9 @@
+ appname = 'chalk-bump-f49' # Simplenote
+ token = os.environ['TOKEN']
+ backup_dir = sys.argv[1] if len(sys.argv) > 1 else (os.path.join(os.environ['HOME'], "Dropbox/SimplenoteBackups"))
+-print "Starting backup your simplenote to: %s" % backup_dir
++print("Starting backup your simplenote to: %s" % backup_dir)
+ if not os.path.exists(backup_dir):
+-    print "Creating directory: %s" % backup_dir
++    print("Creating directory: %s" % backup_dir)
+     os.makedirs(backup_dir)
+ 
+ api = SimperiumApi(appname, token)
+@@ -52,4 +52,4 @@
+             f.write("System tags: %s\n" % ", ".join(note['d']['systemTags']).encode('utf8'))
+     os.utime(path,(note['d']['modificationDate'],note['d']['modificationDate']))
+ 
+-print "Done: %d files (%d in TRASH)." % (len(index), trashed)
++print("Done: %d files (%d in TRASH)." % (len(index), trashed))
