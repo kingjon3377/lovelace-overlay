@@ -19,7 +19,9 @@ SLOT="0"
 KEYWORDS="amd64"
 IUSE=""
 
-DEPEND="dev-python/pygame[${PYTHON_USEDEP}]"
+DEPEND="$(python_gen_cond_dep '
+		dev-python/pygame[${PYTHON_MULTI_USEDEP}]
+	')"
 RDEPEND="${DEPEND}"
 
 python_prepare() {
