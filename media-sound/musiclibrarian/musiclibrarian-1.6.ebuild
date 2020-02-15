@@ -1,4 +1,4 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -17,10 +17,12 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""
 
-DEPEND="gnome-base/libglade:2.0[${PYTHON_USEDEP}]
-	dev-python/pygtk:2[${PYTHON_USEDEP}]
-	dev-python/id3-py[${PYTHON_USEDEP}]
-	dev-python/pyao[${PYTHON_USEDEP}]
-	dev-python/pymad[${PYTHON_USEDEP}]
-	dev-python/pyvorbis[${PYTHON_USEDEP}]"
+DEPEND="$(python_gen_cond_dep '
+		gnome-base/libglade:2.0[${PYTHON_MULTI_USEDEP}]
+		dev-python/pygtk:2[${PYTHON_MULTI_USEDEP}]
+		dev-python/id3-py[${PYTHON_MULTI_USEDEP}]
+		dev-python/pyao[${PYTHON_MULTI_USEDEP}]
+		dev-python/pymad[${PYTHON_MULTI_USEDEP}]
+		dev-python/pyvorbis[${PYTHON_MULTI_USEDEP}]
+	')"
 RDEPEND="${DEPEND}"
