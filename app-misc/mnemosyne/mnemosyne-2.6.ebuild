@@ -33,9 +33,10 @@ DEPEND="${DEPEND}
 	$(python_gen_cond_dep '
 		dev-python/sphinx[${PYTHON_MULTI_USEDEP}]')
 	test? ( $(python_gen_cond_dep '
-		dev-python/nose[${PYTHON_MULTI_USEDEP}]
-		app-misc/anki[${PYTHON_MULTI_USEDEP}]
-	') )"
+			dev-python/nose[${PYTHON_MULTI_USEDEP}]
+		')
+		app-misc/anki[${PYTHON_SINGLE_USEDEP}]
+	)"
 RDEPEND="${MY_DEPEND}"
 
 S="${WORKDIR}/${P/m/M}"
