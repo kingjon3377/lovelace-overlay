@@ -17,17 +17,18 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""
 
-# 	dev-python/gtkspell-python[${PYTHON_USEDEP}]
-#	dev-python/libgnome-python:2[${PYTHON_USEDEP}]
-DEPEND="dev-python/pygtk:2[${PYTHON_USEDEP}]
-	dev-python/gtkspell-python
-	dev-python/libgnome-python:2
-	dev-python/pygtksourceview:2[${PYTHON_USEDEP}]
-	dev-python/pygobject:2[${PYTHON_USEDEP}]"
+DEPEND="$(python_gen_cond_dep '
+		dev-python/pygtk:2[${PYTHON_MULTI_USEDEP}]
+		dev-python/gtkspell-python[${PYTHON_MULTI_USEDEP}]
+		dev-python/libgnome-python:2[${PYTHON_MULTI_USEDEP}]
+		dev-python/pygtksourceview:2[${PYTHON_MULTI_USEDEP}]
+		dev-python/pygobject:2[${PYTHON_MULTI_USEDEP}]
+	')"
 RDEPEND="${DEPEND}"
 
 src_install() {
 	dodoc -r help/*
+	# TODO: Just use doins -r src ui
 	insinto $(python_get_sitedir)/${PN}/src
 	doins src/*
 	insinto $(python_get_sitedir)/${PN}/ui
