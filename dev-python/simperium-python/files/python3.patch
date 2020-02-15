@@ -1,0 +1,215 @@
+From e25290645e6036a90d385cbd5641471d8ec58463 Mon Sep 17 00:00:00 2001
+From: Pasky <paskyorg@users.noreply.github.com>
+Date: Sat, 28 Nov 2015 04:09:56 +0100
+Subject: [PATCH 1/2] Update core.py
+
+Compatibilidad con Python 3
+---
+ simperium/core.py | 58 ++++++++++++++++++++++++++---------------------
+ 1 file changed, 32 insertions(+), 26 deletions(-)
+
+diff --git a/simperium/core.py b/simperium/core.py
+index 8360481..df5c3d9 100644
+--- a/simperium/core.py
++++ b/simperium/core.py
+@@ -1,9 +1,10 @@
+ import os
+ import sys
+ import uuid
+-import urllib
+-import urllib2
+-import httplib
++import urllib.request
++import urllib.parse
++import urllib.error
++import http.client
+ 
+ try:
+     import simplejson as json
+@@ -33,11 +34,12 @@ def _request(self, url, data=None, headers=None, method=None):
+         if not headers:
+             headers = {}
+         if data:
+-            data = urllib.urlencode(data)
+-        request = urllib2.Request(url, data, headers=headers)
++            #data = urllib.parse.urlencode(data)
++            data = urllib.parse.urlencode(data).encode('utf8') #Hack Python 2to3
++        request = urllib.request.Request(url, data, headers=headers)
+         if method:
+             request.get_method = lambda: method
+-        response = urllib2.urlopen(request)
++        response = urllib.request.urlopen(request)
+         return response
+ 
+     def create(self, username, password):
+@@ -47,8 +49,8 @@ def create(self, username, password):
+             'password': password, }
+         try:
+             response = self._request(self.appname+'/create/', data)
+-            return json.loads(response.read())['access_token']
+-        except urllib2.HTTPError:
++            return json.loads(response.read().decode('utf-8'))['access_token']
++        except urllib.error.HTTPError:
+             return None
+ 
+     def authorize(self, username, password):
+@@ -57,7 +59,8 @@ def authorize(self, username, password):
+             'username': username,
+             'password': password, }
+         response = self._request(self.appname+'/authorize/', data)
+-        return json.loads(response.read())['access_token']
++        #return json.loads(response.read())['access_token']
++        return json.loads(response.read().decode('utf-8'))['access_token'] #Hack Python 2to3
+ 
+ 
+ class Bucket(object):
+@@ -108,13 +111,16 @@ def _request(self, url, data=None, headers=None, method=None, timeout=None):
+         url = '%s://%s/1/%s' % (self.scheme, self.host, url)
+         if not headers:
+             headers = {}
+-        request = urllib2.Request(url, data, headers=headers)
++        if data:
++            request = urllib.request.Request(url, data.encode('utf8'), headers=headers)
++        else:
++            request = urllib.request.Request(url, data, headers=headers)
+         if method:
+             request.get_method = lambda: method
+         if sys.version_info < (2, 6):
+-            response = urllib2.urlopen(request)
++            response = urllib.request.urlopen(request)
+         else:
+-            response = urllib2.urlopen(request, timeout=timeout)
++            response = urllib.request.urlopen(request, timeout=timeout)
+         return response
+ 
+     def index(self, data=False, mark=None, limit=None, since=None):
+@@ -155,12 +161,12 @@ def index(self, data=False, mark=None, limit=None, since=None):
+             args['limit'] = str(limit)
+         if since:
+             args['since'] = str(since)
+-        args = urllib.urlencode(args)
++        args = urllib.parse.urlencode(args)
+         if len(args):
+             url += '?'+args
+ 
+         response = self._request(url, headers=self._auth_header())
+-        return json.loads(response.read())
++        return json.loads(response.read().decode('utf-8')) #Hack Python 2to3
+ 
+     def get(self, item, default=None, version=None):
+         """retrieves either the latest version of item from this bucket, or the
+@@ -170,12 +176,12 @@ def get(self, item, default=None, version=None):
+             url += '/v/%s' % version
+         try:
+             response = self._request(url, headers=self._auth_header())
+-        except urllib2.HTTPError, e:
++        except urllib.error.HTTPError as e:
+             if getattr(e, 'code') == 404:
+                 return default
+             raise
+ 
+-        return json.loads(response.read())
++        return json.loads(response.read().decode('utf-8'))
+ 
+     def post(self, item, data, version=None, ccid=None, include_response=False, replace=False):
+         """posts the supplied data to item
+@@ -196,10 +202,10 @@ def post(self, item, data, version=None, ccid=None, include_response=False, repl
+         data = json.dumps(data)
+         try:
+             response = self._request(url, data, headers=self._auth_header())
+-        except urllib2.HTTPError:
++        except urllib.error.HTTPError:
+             return None
+         if include_response:
+-            return item, json.loads(response.read())
++            return item, json.loads(response.read().decode('utf-8'))
+         else:
+             return item
+ 
+@@ -239,7 +245,7 @@ def bulk_post(self, bulk_data, wait=True):
+             return True
+ 
+         # check each change response for 'error'
+-        return json.loads(response.read())
++        return json.loads(response.read().decode('utf-8'))
+ 
+ 
+     def new(self, data, ccid=None):
+@@ -256,7 +262,7 @@ def delete(self, item, version=None):
+             url += '/v/%s' % version
+         url += '?clientid=%s&ccid=%s' % (self.clientid, ccid)
+         response = self._request(url, headers=self._auth_header(), method='DELETE')
+-        if not response.read().strip():
++        if not response.read().decode('utf-8').strip():
+             return ccid
+ 
+     def changes(self, cv=None, timeout=None):
+@@ -277,14 +283,14 @@ def changes(self, cv=None, timeout=None):
+         headers = self._auth_header()
+         try:
+             response = self._request(url, headers=headers, timeout=timeout)
+-        except httplib.BadStatusLine:
++        except http.client.BadStatusLine:
+             return []
+-        except Exception, e:
++        except Exception as e:
+             if any(msg in str(e) for msg in ['timed out', 'Connection refused', 'Connection reset']) or \
+                     getattr(e, 'code', None) in [502, 504]:
+                 return []
+             raise
+-        return json.loads(response.read())
++        return json.loads(response.read().decode('utf-8'))
+ 
+     def all(self, cv=None, data=False, username=False, most_recent=False, timeout=None):
+         """retrieves *all* updates for this bucket, regardless of the user
+@@ -322,14 +328,14 @@ def all(self, cv=None, data=False, username=False, most_recent=False, timeout=No
+         headers = self._auth_header()
+         try:
+             response = self._request(url, headers=headers, timeout=timeout)
+-        except httplib.BadStatusLine:
++        except http.client.BadStatusLine:
+             return []
+-        except Exception, e:
++        except Exception as e:
+             if any(msg in str(e) for msg in ['timed out', 'Connection refused', 'Connection reset']) or \
+                     getattr(e, 'code', None) in [502, 504]:
+                 return []
+             raise
+-        return json.loads(response.read())
++        return json.loads(response.read().decode('utf-8'))
+ 
+ 
+ class SPUser(object):
+
+From 855820edfcc784790141908875f04825ec30fcde Mon Sep 17 00:00:00 2001
+From: Pasky <paskyorg@users.noreply.github.com>
+Date: Sat, 28 Nov 2015 04:11:30 +0100
+Subject: [PATCH 2/2] Update optfunc.py
+
+Compatibilidad con Python 3
+---
+ simperium/optfunc.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/simperium/optfunc.py b/simperium/optfunc.py
+index 1a9154f..eafa51f 100644
+--- a/simperium/optfunc.py
++++ b/simperium/optfunc.py
+@@ -33,7 +33,7 @@ def __init__(self, *args, **kwargs):
+ 
+     def parse_args(self, argv):
+         options, args = OptionParser.parse_args(self, argv)
+-        for k,v in options.__dict__.iteritems():
++        for k,v in options.__dict__.items():
+             if k in self._custom_names:
+                 options.__dict__[self._custom_names[k]] = v
+                 del options.__dict__[k]
+@@ -42,7 +42,7 @@ def parse_args(self, argv):
+     def error(self, msg):
+         self._errors.append(msg)
+ 
+-optypes=[int,long,float,complex] # not type='choice' choices='a|b'
++optypes=[int,float,complex] # not type='choice' choices='a|b'
+ def optype(t):
+     if t is bool:
+         return None
