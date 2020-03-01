@@ -116,10 +116,8 @@ BDEPEND="virtual/pkgconfig"
 RDEPEND="${COMMON_DEPEND}"
 
 PATCHES=(
-	"${FILESDIR}/${P}-xdgutils.patch"
-	"${FILESDIR}/${P}-poppler-compat_1.patch"
-	"${FILESDIR}/${P}-poppler-compat_2.patch"
-	"${FILESDIR}/${P}-poppler-compat_3.patch"
+	# "${FILESDIR}/${P}-xdgutils.patch"
+	"${FILESDIR}/${PN}-3.12.2-xdgutils.patch"
 )
 
 src_prepare() {
@@ -181,7 +179,7 @@ src_configure() {
 		$(use_enable openssl) \
 		$(use_enable openal)
 	# TODO: Report broken qtwebkit pkg-config file this works around
-	sed -i -e 's@-I/usr/include/qt5/Qt5WebKit@-I/usr/include/qt5/QtWebKit@g' gb.qt5/src/webkit/Makefile || die
+#	sed -i -e 's@-I/usr/include/qt5/Qt5WebKit@-I/usr/include/qt5/QtWebKit@g' gb.qt5/src/webkit/Makefile || die
 }
 
 src_install() {
