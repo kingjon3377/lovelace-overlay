@@ -1,7 +1,12 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
+
+# TODO: Add gcc[ada] support as soon as the eclass supports that
+ADA_COMPAT=( gnat_201{6,7,8,9} )
+
+inherit ada
 
 DESCRIPTION="Latin--English dictionary."
 HOMEPAGE="http://archives.nd.edu/whitaker/words.htm"
@@ -12,8 +17,9 @@ SLOT="0"
 KEYWORDS="amd64"
 IUSE=""
 
-RDEPEND="!app-dicts/words-bin"
-DEPEND="|| ( virtual/gnat dev-lang/gnat-gpl )"
+RDEPEND="${ADA_DEPS}
+	!app-dicts/words-bin"
+DEPEND="${ADA_DEPS}"
 
 S="${WORKDIR}"
 
