@@ -3,7 +3,7 @@
 
 EAPI=7
 
-PYTHON_COMPAT=( python3_6 )
+PYTHON_COMPAT=( python3_{6,7,8} )
 EGIT_REPO_URI="https://github.com/olivierverdier/pydflatex.git"
 
 inherit git-r3 distutils-r1
