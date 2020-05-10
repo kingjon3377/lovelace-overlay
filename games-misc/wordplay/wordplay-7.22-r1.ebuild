@@ -8,7 +8,7 @@ inherit toolchain-funcs
 DESCRIPTION="anagram generator"
 HOMEPAGE="https://packages.debian.org/wordplay"
 SRC_URI="mirror://debian/pool/main/w/${PN}/${PN}_${PV}.orig.tar.gz
-	mirror://debian/pool/main/w/${PN}/${PN}_${PV}-19.debian.tar.xz"
+	mirror://debian/pool/main/w/${PN}/${PN}_${PV}-21.debian.tar.xz"
 
 LICENSE="wordplay"
 SLOT="0"
