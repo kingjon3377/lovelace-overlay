@@ -59,6 +59,8 @@ EANT_GENTOO_CLASSPATH="antlr-3.5,hamcrest-core-1.3,osgi-core-api,ant-bndlib,stri
 # But with that off, missing-from-classpath failures return ...
 #JAVA_PKG_BSFIX=off
 
+PATCHES=( "${FILESDIR}/${P}-maven-https.patch" )
+
 src_prepare() {
 	for jar in ant-1.8.2.jar ant-contrib-1.0b3.jar antlr-complete-3.5.2.jar \
 			hamcrest-core-1.3.0.v201303031735.jar junit-4.11.0.jar org.osgi.core-4.3.1.jar \
@@ -148,6 +150,7 @@ src_prepare() {
 	#   - org/tautua/markdownpapers/core/1.3.4/org.tautua.markdownpapers.core-1.3.4.jar [not in Portage, AFAICS]
 	#   - org/jboss/logmanager/2.0.3.Final/org.jboss.logmanager-2.0.3.Final.jar [in Portage as jboss-logmanager, but only at version 1.5.1]
 	#   - org/jboss/modules/1.4.4.Final/org.jboss.modules-1.4.4.Final.jar [in Portage as jboss-modules, but only at version 1.3.3]
+	eapply "${PATCHES[@]}"
 	eapply_user
 }
 

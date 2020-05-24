@@ -1,0 +1,21 @@
+From 70fc33517e25d55d31f3c40865f2fe7474d0d32e Mon Sep 17 00:00:00 2001
+From: Voitech <wojciech.potiopa@gmail.com>
+Date: Mon, 27 Apr 2020 20:36:12 +0200
+Subject: [PATCH] Use https in CMR for maven central url instread of http
+
+Signed-off-by: Voitech <wojciech.potiopa@gmail.com>
+---
+ .../eclipse/ceylon/cmr/resolver/aether/AetherResolverImpl.java  | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/cmr-aether/src/com/redhat/ceylon/cmr/resolver/aether/AetherResolverImpl.java b/cmr-aether/src/com/redhat/ceylon/cmr/resolver/aether/AetherResolverImpl.java
+index 3f486edd2c..3cad2e9c0f 100644
+--- a/cmr-aether/src/com/redhat/ceylon/cmr/resolver/aether/AetherResolverImpl.java
++++ b/cmr-aether/src/com/redhat/ceylon/cmr/resolver/aether/AetherResolverImpl.java
+@@ -179,5 +179,5 @@ else if (! new File(localRepository).isAbsolute() && currentDirectory != null)
+         // set up remote repos
+         List<RemoteRepository> repos = new ArrayList<>();
+-        RemoteRepository central = new RemoteRepository.Builder( "central", "default", "http://repo1.maven.org/maven2/" ).build();
++        RemoteRepository central = new RemoteRepository.Builder( "central", "default", "https://repo1.maven.org/maven2/" ).build();
+         repos.add(central);
+         Set<String> activeProfiles = new HashSet<>();
