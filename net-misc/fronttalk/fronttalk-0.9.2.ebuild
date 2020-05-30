@@ -25,8 +25,8 @@ src_prepare() {
 		-e "s,\$HELPDIR=.*,\$HELPDIR=/usr/$(get_libdir)/fronttalk/help," \
 		-e 's,$DEFAULT_EDITOR=.*,$DEFAULT_EDITOR=/usr/bin/gate,' lib/config.pl \
 		|| die "fixing config failed"
-	sed -i -e "s:use lib \"/home/janc/src/backtalk/fronttalk/lib\";:use lib \"/usr/$(get_libdir)/fronttalk\":;" \
-		ft || die "fixing lib location failed"
+	sed -i -e "s:\"/home/\(janc\|jan\)/src/backtalk/fronttalk/lib\";:\"/usr/$(get_libdir)/fronttalk\":;" \
+		ft README-fronttalk || die "fixing lib location failed"
 	default
 }
 
