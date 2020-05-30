@@ -1,0 +1,49 @@
+From 7f549758f85ae9c32540b285840e166de60a6d69 Mon Sep 17 00:00:00 2001
+From: gambas <g4mba5@gmail.com>
+Date: Tue, 10 Mar 2020 01:45:55 +0100
+Subject: [PATCH] Support for poppler 0.86, trial 2.
+
+[GB.PDF]
+* BUG: Support for poppler 0.86, trial 2.
+---
+ gb.pdf/src/CPdfDocument.cpp | 4 +++-
+ gb.pdf/src/CPdfDocument.h   | 8 +-------
+ 2 files changed, 4 insertions(+), 8 deletions(-)
+
+diff --git a/gb.pdf/src/CPdfDocument.cpp b/gb.pdf/src/CPdfDocument.cpp
+index 1fe75a164..db6dbf5e2 100644
+--- a/gb.pdf/src/CPdfDocument.cpp
++++ b/gb.pdf/src/CPdfDocument.cpp
+@@ -255,7 +255,9 @@ static uint32_t aux_get_page_from_action(void *_object, const_LinkAction *act)
+ 		{
+ 			name = ((LinkGoTo*)act)->getNamedDest();
+ 			if (name) {
+-			#if POPPLER_VERSION_0_64
++			#if POPPLER_VERSION_0_86
++				dest = THIS->doc->findDest(name).get();
++			#elif POPPLER_VERSION_0_64
+ 				dest = THIS->doc->findDest(name);
+ 			#else
+ 				dest = THIS->doc->findDest((GooString *) name);
+diff --git a/gb.pdf/src/CPdfDocument.h b/gb.pdf/src/CPdfDocument.h
+index d98749694..ef1219f96 100644
+--- a/gb.pdf/src/CPdfDocument.h
++++ b/gb.pdf/src/CPdfDocument.h
+@@ -37,13 +37,7 @@
+ #endif
+ #include <stdint.h>
+ 
+-#if POPPLER_VERSION_0_86
+-	#define const_LinkAction const LinkAction
+-	#define const_LinkDest std::unique_ptr<LinkDest>
+-	#define const_GooList const std::vector<OutlineItem*>
+-	#define GooList std::vector<OutlineItem*>
+-	#define const_GooString const GooString
+-#elif POPPLER_VERSION_0_76
++#if POPPLER_VERSION_0_76
+ 	#define const_LinkAction const LinkAction
+ 	#define const_LinkDest const LinkDest
+ 	#define const_GooList const std::vector<OutlineItem*>
+-- 
+2.26.2
+

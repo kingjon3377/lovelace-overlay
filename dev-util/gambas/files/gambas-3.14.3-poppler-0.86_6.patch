@@ -1,0 +1,48 @@
+From 916b866b69b3849e09dbecdbe90df519bb243eb6 Mon Sep 17 00:00:00 2001
+From: gambas <g4mba5@gmail.com>
+Date: Tue, 10 Mar 2020 03:42:49 +0100
+Subject: [PATCH] Support for poppler 0.86, trial 6.
+
+[GB.PDF]
+* BUG: Support for poppler 0.86, trial 6.
+---
+ gb.pdf/src/CPdfDocument.cpp | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
+
+diff --git a/gb.pdf/src/CPdfDocument.cpp b/gb.pdf/src/CPdfDocument.cpp
+index 328ab2e2a..9102af09a 100644
+--- a/gb.pdf/src/CPdfDocument.cpp
++++ b/gb.pdf/src/CPdfDocument.cpp
+@@ -310,8 +310,7 @@ static char* aux_get_target_from_action(const_LinkAction *act)
+ 	char *uni = NULL;	
+ 	const_GooString *tmp = NULL;
+ #if POPPLER_VERSION_0_86
+-	const std::string str;
+-	const GooString gstr;
++	GooString gstr;
+ #endif
+ 
+ 	switch (act->getKind())
+@@ -333,8 +332,7 @@ static char* aux_get_target_from_action(const_LinkAction *act)
+ 			
+ 		case actionNamed:
+ #if POPPLER_VERSION_0_86
+-			str = ((LinkNamed*)act)->getName(); 
+-			gstr = GooString(str);
++			gstr = GooString(((LinkNamed*)act)->getName());
+ 			tmp = &gstr;
+ #else
+ 			tmp = ((LinkNamed*)act)->getName(); 
+@@ -343,8 +341,7 @@ static char* aux_get_target_from_action(const_LinkAction *act)
+ 
+ 		case actionMovie:
+ #if POPPLER_VERSION_0_86
+-			str = ((LinkMovie*)act)->getAnnotTitle();
+-			gstr = GooString(str);
++			gstr = GooString(((LinkMovie*)act)->getAnnotTitle());
+ 			tmp = &gstr;
+ #else
+ 			tmp = ((LinkMovie*)act)->getAnnotTitle();
+-- 
+2.26.2
+

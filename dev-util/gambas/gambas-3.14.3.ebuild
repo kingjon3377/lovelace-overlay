@@ -119,6 +119,12 @@ PATCHES=(
 	# "${FILESDIR}/${P}-xdgutils.patch"
 	"${FILESDIR}/${PN}-3.12.2-xdgutils.patch"
 	"${FILESDIR}/${P}-poppler-0.85.patch"
+	"${FILESDIR}/${P}-poppler-0.86_1.patch"
+	"${FILESDIR}/${P}-poppler-0.86_2.patch"
+	"${FILESDIR}/${P}-poppler-0.86_3.patch"
+	"${FILESDIR}/${P}-poppler-0.86_4.patch"
+	"${FILESDIR}/${P}-poppler-0.86_5.patch"
+	"${FILESDIR}/${P}-poppler-0.86_6.patch"
 )
 
 src_prepare() {
