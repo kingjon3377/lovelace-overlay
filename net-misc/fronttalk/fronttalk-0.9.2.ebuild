@@ -21,12 +21,14 @@ RDEPEND="dev-perl/libwww-perl
 DEPEND=""
 
 src_prepare() {
-	sed -i -e 's,$SYSLIST=.*,$SYSLIST= "http://www.unixpapa.com/syslist",' \
-		-e "s,\$HELPDIR=.*,\$HELPDIR=/usr/$(get_libdir)/fronttalk/help," \
-		-e 's,$DEFAULT_EDITOR=.*,$DEFAULT_EDITOR=/usr/bin/gate,' lib/config.pl \
+	sed -i -e 's,$SYSLIST=.*,$SYSLIST= "http://www.unixpapa.com/syslist";,' \
+		-e "s,\$HELPDIR=.*,\$HELPDIR=\"/usr/$(get_libdir)/fronttalk/help\";," \
+		-e 's,$DEFAULT_EDITOR=.*,$DEFAULT_EDITOR="/usr/bin/gate";,' \
+		-e 's,\($PATH_STTY= "stty"\) ,\1; ,' lib/config.pl \
 		|| die "fixing config failed"
+	sed -i -e 's@\$\*@*$@' lib/cmd.pl || die "fixing spurious Perl compilation failure failed"
 	sed -i -e "s:\"/home/\(janc\|jan\)/src/backtalk/fronttalk/lib\";:\"/usr/$(get_libdir)/fronttalk\":;" \
-		ft README-fronttalk || die "fixing lib location failed"
+		-e 's:^use lib[^;]*$:&;:' ft README-fronttalk || die "fixing lib location failed"
 	default
 }
 
