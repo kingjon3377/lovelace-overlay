@@ -27,6 +27,7 @@ src_prepare() {
 		|| die "fixing config failed"
 	sed -i -e "s:use lib \"/home/janc/src/backtalk/fronttalk/lib\";:use lib \"/usr/$(get_libdir)/fronttalk\":;" \
 		ft || die "fixing lib location failed"
+	default
 }
 
 src_install() {
