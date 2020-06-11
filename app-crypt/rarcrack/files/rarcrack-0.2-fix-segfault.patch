@@ -1,0 +1,36 @@
+From bcb1a4a23f65ff3402285cf08f1b22fe2725ed47 Mon Sep 17 00:00:00 2001
+From: Matus Tejiscak <ziman@functor.sk>
+Date: Sat, 12 Mar 2011 18:27:21 +0100
+Subject: [PATCH] Fixed segfault on unrecognized file types.
+
+---
+ rarcrack.c | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
+
+diff --git a/rarcrack.c b/rarcrack.c
+index 34f41e2..19aea60 100644
+--- a/rarcrack.c
++++ b/rarcrack.c
+@@ -323,14 +323,16 @@ void init(int argc, char **argv) {
+ 				break;
+ 			}
+ 		}
++
++		if (archive_type < 0) {
++			printf("ERROR: Could not detect archive type (use --type?)\n");
++			return;
++		}
++
+ 		printf("INFO: detected file type: %s\n", TYPE[archive_type]);
+-	} else
++	} else {
+ 		printf("INFO: the specified archive type: %s\n", TYPE[archive_type]);
+-	if (finalcmd[0] == '\0') {
+-		printf("ERROR: Couldn't detect archive type\n");
+-		return;
+-	} /*else
+-		printf("DEBUG: the unpack command is: '%s'\n", finalcmd);*/
++	}
+ 	printf("INFO: cracking %s, status file: %s\n", filename, statname);
+ 	if (loadstatus() == 1) {
+ 		printf("ERROR: The status file (%s) is corrupted!\n", statname);

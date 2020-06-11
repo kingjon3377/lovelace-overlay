@@ -1,0 +1,39 @@
+From f5893644cd584b403feacd738d6ce16dbb10ad06 Mon Sep 17 00:00:00 2001
+From: Matus Tejiscak <ziman@functor.sk>
+Date: Sat, 12 Mar 2011 18:58:16 +0100
+Subject: [PATCH] More flexible file type recognition.
+
+---
+ rarcrack.c | 2 +-
+ rarcrack.h | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/rarcrack.c b/rarcrack.c
+index 19aea60..537ae7f 100644
+--- a/rarcrack.c
++++ b/rarcrack.c
+@@ -317,7 +317,7 @@ void init(int argc, char **argv) {
+ 		fscanf(totest,"%s",(char*)&test);
+ 		pclose(totest);
+ 		for (i = 0; strcmp(MIME[i],"") != 0; i++) {
+-			if (strcmp(MIME[i],test) == 0) {
++			if (strncmp(MIME[i], test, strlen(MIME[i])) == 0) {
+ 				strcpy(finalcmd,CMD[i]);
+ 				archive_type = i;
+ 				break;
+diff --git a/rarcrack.h b/rarcrack.h
+index 011cbeb..45a34f3 100644
+--- a/rarcrack.h
++++ b/rarcrack.h
+@@ -33,9 +33,9 @@
+ 
+ char default_ABC[] = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+ 
+-const char CMD_DETECT[] = "file --mime-type -b %s"; //this command return what is the file mime type
++const char CMD_DETECT[] = "file --mime-type -b -L %s"; //this command return what is the file mime type
+ 
+-const char* TYPE[] = {"rar",		"7z",		"zip", ""}; //the last "" signing this is end of the list
++const char* TYPE[] = {"rar", "7z", "zip", ""}; //the last "" signing this is end of the list
+ const char* MIME[] = {"application/x-rar", "application/x-7z-compressed", "application/zip", ""};
+ const char* CMD[] = {"unrar t -y -p%s %s 2>&1", "7z t -y -p%s %s 2>&1", "unzip -P%s -t %s 2>&1", ""};
+ 

@@ -30,6 +30,10 @@ DEPEND="${CDEPEND}
 PATCHES=(
 	"${FILESDIR}/rarcrack-cflags.patch"
 	"${FILESDIR}/rarcrack-mime.patch"
+	"${FILESDIR}/${P}-fix-segfault.patch"
+	"${FILESDIR}/${P}-flexible.patch"
+	"${FILESDIR}/${P}-clang.patch"
+	"${FILESDIR}/${P}-sscanf.patch"
 )
 
 src_prepare() {
@@ -48,6 +52,11 @@ src_install() {
 }
 
 src_test() {
+	if has sandbox "$FEATURES"; then
+		ewarn "Tests may fail if sandbox enabled"
+	elif has usersandbox "$FEATURES" && has userpriv "$FEATURES";then
+		ewarn "Tests may fail if sandbox enabled"
+	fi
 	cp test.7z test.rar test.zip "${T}" || die
 	cd "${T}" || die
 	for ftype in 7z rar zip; do

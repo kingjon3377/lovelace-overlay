@@ -1,0 +1,22 @@
+From 64c3fa3b8f7848685a85a5c82129a30aad844e1f Mon Sep 17 00:00:00 2001
+From: Samy Kamkar <git@samy.pl>
+Date: Fri, 16 Feb 2018 22:39:24 -0800
+Subject: [PATCH] Update code to allow compiliation via clang
+
+---
+ rarcrack.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/rarcrack.c b/rarcrack.c
+index 537ae7f..8495ca0 100644
+--- a/rarcrack.c
++++ b/rarcrack.c
+@@ -42,7 +42,7 @@ char * getfirstpassword() {
+ 	return (char*) &ret;
+ }
+ 
+-inline void savestatus() {
++static inline void savestatus() {
+ 	xmlNodePtr root = NULL;
+ 	xmlNodePtr node = NULL;
+ 	xmlChar* tmp = NULL;
