@@ -1,11 +1,11 @@
-# Copyright 1999-2018 Gentoo Authors
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 # From bug #107710 or the graaf overlay
 
 EAPI=6
 
-USE_RUBY="ruby21 ruby22 ruby23 ruby24"
+USE_RUBY="ruby24 ruby25 ruby26 ruby27"
 
 inherit ruby-ng desktop xdg-utils
 
