@@ -1,4 +1,4 @@
-# Copyright 1999-2018 Gentoo Authors
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -14,9 +14,9 @@ SLOT="0"
 KEYWORDS="amd64"
 IUSE=""
 
-DEPEND="dev-lang/perl[gdbm]
-	sci-libs/fftw:3.0
-	sys-libs/gdbm
+DEPEND="dev-lang/perl:=[gdbm]
+	sci-libs/fftw:3.0=
+	sys-libs/gdbm:=
 	virtual/perl-Digest-MD5"
 RDEPEND="${DEPEND}
 	media-video/mplayer
