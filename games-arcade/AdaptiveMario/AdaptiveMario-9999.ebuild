@@ -32,5 +32,6 @@ EOF
 }
 
 src_install() {
+	java-pkg-simple_src_install
 	java-pkg_dolauncher "${PN}" --jar "${PN}.jar" --into "${GAMES_BINDIR}"
 }
