@@ -3,7 +3,7 @@
 
 EAPI=7
 
-PYTHON_COMPAT=( python2_{6,7} )
+PYTHON_COMPAT=( python3_{6,7,8} )
 
 inherit virtualx python-single-r1
 
@@ -20,8 +20,10 @@ IUSE=""
 
 RDEPEND="$(python_gen_cond_dep '
 		dev-python/markdown[${PYTHON_MULTI_USEDEP}]
-		dev-python/wxpython:3.0[${PYTHON_MULTI_USEDEP}]
+		dev-python/wxpython:4.0[${PYTHON_MULTI_USEDEP}]
 		dev-python/pysvg[${PYTHON_MULTI_USEDEP}]
+		dev-python/icalendar[${PYTHON_MULTI_USEDEP}]
+		dev-python/humblewx[${PYTHON_MULTI_USEDEP}]
 	')"
 DEPEND="${RDEPEND}
 	test? ( $(python_gen_cond_dep '

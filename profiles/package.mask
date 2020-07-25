@@ -29,9 +29,6 @@
 <=perl-gcpan/Makefile-Parser-0.216
 <=perl-gcpan/Makefile-GraphViz-0.21
 
-# Depends on masked-for-removal pysvg
-app-misc/timeline
-
 # Depends on masked-for-removal pyao
 media-sound/musiclibrarian
 
