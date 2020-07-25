@@ -107,7 +107,7 @@ COMMON_DEPEND="
 	zlib?	( sys-libs/zlib )
 	x11-libs/libSM
 	x11-libs/libXcursor
-	virtual/libffi
+	dev-libs/libffi
 "
 
 DEPEND="${COMMON_DEPEND}"

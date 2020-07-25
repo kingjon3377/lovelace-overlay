@@ -1,4 +1,4 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -19,7 +19,7 @@ IUSE="google-storage automate-captchas" #sikuli
 RDEPEND="${PYTHON_DEPS}
 		google-storage? (
 			dev-libs/openssl:0
-			virtual/libffi
+			dev-libs/libffi
 		)
 		automate-captchas? (
 			dev-python/pycurl[${PYTHON_USEDEP}]
