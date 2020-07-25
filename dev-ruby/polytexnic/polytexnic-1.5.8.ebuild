@@ -1,4 +1,4 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -18,7 +18,7 @@ IUSE="test"
 
 DEPEND="test? ( dev-tex/tralics )"
 ruby_add_rdepend "dev-ruby/nokogiri dev-ruby/pygments_rb dev-ruby/msgpack"
-ruby_add_rdepend "dev-ruby/json:0 dev-ruby/kramdown"
+ruby_add_rdepend "dev-ruby/json:0 dev-ruby/kramdown:0"
 # We _presume_ these are test dependencies ...
 ruby_add_bdepend "test? ( dev-ruby/rspec:2 dev-ruby/simplecov:0.8 )"
 ruby_add_bdepend "dev-ruby/rake"
