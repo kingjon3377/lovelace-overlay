@@ -19,7 +19,7 @@
 =dev-cpp/aspectc++-2.2
 
 # Depends on hard-masked app-text/enchant-2*
-=gnome-extra/lifeograph-1.5.1.1
+#=gnome-extra/lifeograph-1.5.1.1
 
 # Depends on masked-for-removal pyao
 media-sound/musiclibrarian
