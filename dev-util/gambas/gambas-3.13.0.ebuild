@@ -1,4 +1,4 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -73,7 +73,7 @@ COMMON_DEPEND="
 	opengl?	(
 		media-libs/mesa
 		|| ( x11-libs/libGLw x11-drivers/nvidia-drivers )
-		media-libs/glew:0
+		media-libs/glew:0=
 		virtual/glu
 	)
 	openssl?	( dev-libs/openssl:0 )
