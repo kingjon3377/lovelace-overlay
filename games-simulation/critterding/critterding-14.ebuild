@@ -1,9 +1,9 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
-inherit cmake-utils
+inherit cmake
 
 DESCRIPTION="AI evolution simulation"
 HOMEPAGE="http://critterding.sourceforge.net"
@@ -26,13 +26,13 @@ S="${WORKDIR}/${PN}-beta${PV}"
 #}
 
 src_compile() {
-	cmake-utils_src_compile
+	cmake_src_compile
 }
 
 DOCS=( AUTHORS Changelog README )
 
 src_install() {
-	cmake-utils_src_install
+	cmake_src_install
 	dodir "/usr/share/${PN}/profiles"
 	insinto "/usr/share/${PN}/profiles"
 	doins profiles/race
