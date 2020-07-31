@@ -1,4 +1,4 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -29,7 +29,7 @@ src_prepare() {
 }
 
 src_install() {
-	dodir /usr/bin /usr/share/man/man{1,8}
+	dodir /usr/bin /usr/sbin /usr/share/man/man{1,8}
 	emake BIN_GROUP=root BIN_DIR="${D}/usr/bin" MAN_GROUP=root \
 		MAN_1_DIR="${D}/usr/share/man/man1" MAN_8_DIR="${D}/usr/share/man/man8" \
 		SBIN_DIR="${D}/usr/sbin" \
