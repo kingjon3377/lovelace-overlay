@@ -1,4 +1,4 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -27,6 +27,9 @@ RDEPEND="${COMMON_DEP}
 src_prepare() {
 	find -name '*.jar' -delete || die
 	sed -i -e 's@srcdir="src"@srcdir="core/src"@' build.xml || die
+	mv -i examples/build.xml{,.old} || die
+	iconv -f iso-8859-1 -t utf-8 examples/build.xml.old > examples/build.xml || die
+	rm -f examples/build.xml.old || die
 	default
 }
 
