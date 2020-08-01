@@ -60,6 +60,7 @@ PATCHES=(
 
 src_prepare() {
 	default
+	find . -name Makefile.am -exec sed -i -e "s@prefix)/doc@prefix)/share/doc/${PF}@g" {} + || die
 	eautoreconf
 }
 
@@ -93,7 +94,9 @@ src_install () {
 		a_includedir=/usr/include/aplus \
 		TrueTypedir=/usr/share/fonts/truetype/public/aplus \
 		fonts_pcfdir=/usr/share/fonts/pcf/public/aplus \
-		fonts_bdfdir=/usr/share/fonts/pcf/public/aplus
+		fonts_bdfdir=/usr/share/fonts/pcf/public/aplus \
+		autilsdir=/usr/share/${PN}/autils \
+		acoredir=/usr/share/${PN}/acore
 
 #	    idapdir=/usr/$(get_libdir)/aplus \
 #	    fsftestdir=/usr/$(get_libdir)/aplus \
