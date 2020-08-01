@@ -1,0 +1,21 @@
+diff -ru a/src/MSTypes/MSFloatMatrix.H b/src/MSTypes/MSFloatMatrix.H
+--- a/src/MSTypes/MSFloatMatrix.H	2020-08-01 00:02:44.616948418 -0400
++++ b/src/MSTypes/MSFloatMatrix.H	2020-08-01 00:04:32.429951305 -0400
+@@ -206,7 +206,7 @@
+   friend MSTypesExport MSTypeMatrix<double> allElementsDo(const MSTypeMatrix<double>&,MathFunction);
+   friend MSTypesExport MSTypeMatrix<double> allElementsDo(const MSTypeMatrix<double>&,
+ 					     ElementWiseFunction,
+-					     void *clientData_=0);
++					     void *clientData_);
+   MSTypeMatrix<double>& sin(void);
+   MSTypeMatrix<double>& sinh(void);
+   MSTypeMatrix<double>& cos(void);
+@@ -499,7 +499,7 @@
+ template <> MSTypeMatrix<double> stack(const MSTypeMatrix<double>&,const MSTypeMatrix<double>&);
+ template <> MSTypeMatrix<double> adjoin(const MSTypeMatrix<double>&,const MSTypeMatrix<double>&);
+ template <> MSTypeMatrix<double> allElementsDo(const MSTypeMatrix<double>&,MathFunction);
+-template <> MSTypeMatrix<double> allElementsDo(const MSTypeMatrix<double>&,ElementWiseFunction,void *clientData_);
++template <> MSTypeMatrix<double> allElementsDo(const MSTypeMatrix<double>&,ElementWiseFunction,void *clientData_=0);
+ template <> MSTypeMatrix<double> sin(const MSTypeMatrix<double>&);
+ template <> MSTypeMatrix<double> sinh(const MSTypeMatrix<double>&);
+ template <> MSTypeMatrix<double> cos(const MSTypeMatrix<double>&);
