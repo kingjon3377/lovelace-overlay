@@ -18,7 +18,7 @@ IUSE="test"
 
 DEPEND="test? ( dev-tex/tralics )"
 ruby_add_rdepend "dev-ruby/nokogiri dev-ruby/pygments_rb dev-ruby/msgpack"
-ruby_add_rdepend "dev-ruby/json:0 dev-ruby/kramdown:0"
+ruby_add_rdepend "dev-ruby/json:2 dev-ruby/kramdown:2"
 # We _presume_ these are test dependencies ...
 ruby_add_bdepend "test? ( dev-ruby/rspec:2 dev-ruby/simplecov:0.8 )"
 ruby_add_bdepend "dev-ruby/rake"
@@ -27,5 +27,7 @@ ruby_add_bdepend "dev-ruby/rake"
 RESTRICT=test
 
 each_ruby_prepare() {
+	# TODO: Remove this first sed after softcover/polytexnic#117 is merged
+	sed -i -e "s@'kramdown', '~> 1.17'@'kramdown', '>= 1.17', '< 3.0'@" polytexnic.gemspec || die
 	sed -i -e '/coveralls/d' -e '/SimpleCov/d' spec/spec_helper.rb Gemfile || die
 }
