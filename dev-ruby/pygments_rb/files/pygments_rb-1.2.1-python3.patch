@@ -1,0 +1,215 @@
+From 017f15f48d4eba2b439765b8e4a27d55176a093a Mon Sep 17 00:00:00 2001
+From: Ted Nyman <ted@ted.io>
+Date: Fri, 7 Dec 2012 01:52:18 -0800
+Subject: [PATCH 1/5] Add support for python 3
+
+---
+ lib/pygments/mentos.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/lib/pygments/mentos.py b/lib/pygments/mentos.py
+index c0d6e88..8b38f90 100755
+--- a/lib/pygments/mentos.py
++++ b/lib/pygments/mentos.py
+@@ -27,7 +27,7 @@ def _convert_keys(dictionary):
+     if not isinstance(dictionary, dict):
+         return dictionary
+     return dict((str(k), _convert_keys(v))
+-        for k, v in dictionary.items())
++        for k, v in list(dictionary.items()))
+ 
+ def _write_error(error):
+     res = {"error": error}
+@@ -41,7 +41,7 @@ def _write_error(error):
+ 
+ def _get_fixed_bits_from_header(out_header):
+     size = len(out_header)
+-    return "".join(map(lambda y:str((size>>y)&1), range(32-1, -1, -1)))
++    return "".join([str((size>>y)&1) for y in range(32-1, -1, -1)])
+ 
+ def _signal_handler(signal, frame):
+     """
+
+From 9fc981939e0d9d47e444508e50ed6e0ce4dcb3c9 Mon Sep 17 00:00:00 2001
+From: Antonio Terceiro <asa@terceiro.xyz>
+Date: Thu, 13 Feb 2020 08:15:05 -0300
+Subject: [PATCH 2/5] mentos.py: break on EOF
+
+This makes it a lot easier to test the script by providing it pre-cooked
+inputs.
+---
+ lib/pygments/mentos.py | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/lib/pygments/mentos.py b/lib/pygments/mentos.py
+index 8b38f90..02bf3de 100755
+--- a/lib/pygments/mentos.py
++++ b/lib/pygments/mentos.py
+@@ -266,6 +266,9 @@ def start(self):
+             # our JSON header.
+             size = sys.stdin.read(32)
+ 
++            if not size:
++                break
++
+             lock.acquire()
+ 
+             try:
+
+From 2d61d9b4fcf3f848dfe1312ccd73016ed272a837 Mon Sep 17 00:00:00 2001
+From: Antonio Terceiro <asa@terceiro.xyz>
+Date: Thu, 13 Feb 2020 08:18:03 -0300
+Subject: [PATCH 3/5] mentos.py: decode header when getting its length
+
+---
+ lib/pygments/mentos.py | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/lib/pygments/mentos.py b/lib/pygments/mentos.py
+index 02bf3de..4102a07 100755
+--- a/lib/pygments/mentos.py
++++ b/lib/pygments/mentos.py
+@@ -31,7 +31,7 @@ def _convert_keys(dictionary):
+ 
+ def _write_error(error):
+     res = {"error": error}
+-    out_header = json.dumps(res).encode('utf-8')
++    out_header = json.dumps(res)
+     bits = _get_fixed_bits_from_header(out_header)
+     sys.stdout.write(bits + "\n")
+     sys.stdout.flush()
+@@ -40,7 +40,7 @@ def _write_error(error):
+     return
+ 
+ def _get_fixed_bits_from_header(out_header):
+-    size = len(out_header)
++    size = len(out_header.encode('utf-8'))
+     return "".join([str((size>>y)&1) for y in range(32-1, -1, -1)])
+ 
+ def _signal_handler(signal, frame):
+@@ -200,7 +200,7 @@ def _send_data(self, res, method):
+         res_bytes = len(res) + 1
+         base_header["bytes"] = res_bytes
+ 
+-        out_header = json.dumps(base_header).encode('utf-8')
++        out_header = json.dumps(base_header)
+ 
+         # Following the protocol, send over a fixed size represenation of the
+         # size of the JSON header
+
+From 9f27e7e296ed3096a85a116a77a4209aeaf5b6b4 Mon Sep 17 00:00:00 2001
+From: Antonio Terceiro <asa@terceiro.xyz>
+Date: Thu, 13 Feb 2020 14:39:00 -0300
+Subject: [PATCH 4/5] test: drop test that depends on Python internals
+
+This test works on Python 2 because for some reason the "Python" lexers
+comes later, and overrides the "IPython" one in the mime type index. On
+Python 3, that order is different, and a lookup for "text/x-python"
+will return the "IPython" lexer instead.
+---
+ test/test_pygments.rb | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/test/test_pygments.rb b/test/test_pygments.rb
+index 23416ba..2535b22 100644
+--- a/test/test_pygments.rb
++++ b/test/test_pygments.rb
+@@ -243,7 +243,6 @@ def test_find_lexer_by_extname
+  def test_find_lexer_by_mimetype
+     assert_equal P::Lexer['Ruby'], P::Lexer.find_by_mimetype('text/x-ruby')
+     assert_equal P::Lexer['JSON'], P::Lexer.find_by_mimetype('application/json')
+-    assert_equal P::Lexer['Python'], P::Lexer.find_by_mimetype('text/x-python')
+  end
+ end
+ 
+
+From 26e1593b139df1c84cc43851b57f078e2e42b84b Mon Sep 17 00:00:00 2001
+From: Antonio Terceiro <asa@terceiro.xyz>
+Date: Thu, 13 Feb 2020 14:45:36 -0300
+Subject: [PATCH 5/5] Port to python3
+
+Closes #152
+---
+ lib/pygments/mentos.py   | 19 ++++++++-----------
+ lib/pygments/popen.rb    |  4 ++--
+ 3 files changed, 11 insertions(+), 14 deletions(-)
+
+diff --git a/lib/pygments/mentos.py b/lib/pygments/mentos.py
+index 4102a07..fbbb47d 100755
+--- a/lib/pygments/mentos.py
++++ b/lib/pygments/mentos.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env python
++#!/usr/bin/env python3
+ # -*- coding: utf-8 -*-
+ 
+ import sys, re, os, signal
+@@ -163,12 +163,9 @@ def get_data(self, method, lexer, args, kwargs, text=None):
+                 res = json.dumps(res)
+ 
+             elif method == 'highlight':
+-                try:
+-                    text = text.decode('utf-8')
+-                except UnicodeDecodeError:
+-                    # The text may already be encoded
+-                    text = text
+                 res = self.highlight_text(text, lexer, formatter_name, args, _convert_keys(opts))
++                if type(res) is bytes:
++                    res = res.decode('utf-8')
+ 
+             elif method == 'css':
+                 kwargs = _convert_keys(kwargs)
+@@ -197,7 +194,7 @@ def _send_data(self, res, method):
+         # Base header. We'll build on this, adding keys as necessary.
+         base_header = {"method": method}
+ 
+-        res_bytes = len(res) + 1
++        res_bytes = len(res.encode("utf-8")) + 1
+         base_header["bytes"] = res_bytes
+ 
+         out_header = json.dumps(base_header)
+@@ -264,7 +261,7 @@ def start(self):
+             # The loop begins by reading off a simple 32-arity string
+             # representing an integer of 32 bits. This is the length of
+             # our JSON header.
+-            size = sys.stdin.read(32)
++            size = sys.stdin.buffer.read(32).decode('utf-8')
+ 
+             if not size:
+                 break
+@@ -280,7 +277,7 @@ def start(self):
+                 if not size_regex.match(size):
+                     _write_error("Size received is not valid.")
+ 
+-                line = sys.stdin.read(header_bytes)
++                line = sys.stdin.buffer.read(header_bytes).decode('utf-8')
+ 
+                 header = json.loads(line)
+ 
+@@ -294,8 +291,8 @@ def start(self):
+                 if kwargs:
+                     _bytes = kwargs.get("bytes", 0)
+ 
+-                # Read up to the given number bytes (possibly 0)
+-                text = sys.stdin.read(_bytes)
++                # Read up to the given number of *bytes* (not chars) (possibly 0)
++                text = sys.stdin.buffer.read(_bytes).decode('utf-8')
+ 
+                 # Sanity check the return.
+                 if _bytes:
+diff --git a/lib/pygments/popen.rb b/lib/pygments/popen.rb
+index 59942a7..0b509b3 100644
+--- a/lib/pygments/popen.rb
++++ b/lib/pygments/popen.rb
+@@ -63,9 +63,9 @@ def find_python_binary
+       if ENV['PYGMENTS_RB_PYTHON']
+         return which(ENV['PYGMENTS_RB_PYTHON'])
+       elsif windows? && which('py')
+-        return 'py -2'
++        return 'py -3'
+       end
+-      return which('python2') || which('python')
++      return which('python3')
+     end
+ 
+     # Cross platform which command

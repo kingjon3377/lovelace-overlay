@@ -1,0 +1,34 @@
+Description: Update test result
+Subject: Update test result
+ The upstream testsuite is using an embedded pygments version, which
+ at the moment of writing this is 2.0pre. The version in Debian is
+ slightly different (2.0rc1) and there are some minor mismatches. Most
+ importantly, the Debian version is unable to find a good lexer for
+ ambigous code "a". It is fixed by forcing it to use Ruby lexer.
+ Also the number of bytes produced cannot be guaranteed.
+
+ Already reported upstream https://github.com/tmm1/pygments.rb/issues/118
+Author: Per Andersson <avtobiff@gmail.com>
+Reviewed-by: Antonio Terceiro <terceiro@debian.org>
+---
+--- a/test/test_pygments.rb
++++ b/test/test_pygments.rb
+@@ -35,7 +35,7 @@ class PygmentsHighlightTest < Test::Unit
+   def test_highlight_works_with_larger_files
+     code = P.highlight(REDIS_CODE)
+     assert_match 'used_memory_peak_human', code
+-    assert_equal 458511, code.bytesize.to_i
++    assert code.bytesize.to_i > 450_000
+   end
+ 
+   def test_returns_nil_on_timeout
+@@ -91,7 +91,7 @@ class PygmentsHighlightTest < Test::Unit
+   end
+ 
+   def test_highlight_works_with_single_character_input
+-    code = P.highlight("a")
++    code = P.highlight("a", :lexer => 'ruby')
+-    assert_match "a\n</pre>", code
++    assert_match 'a</span>', code
+   end
+ 
