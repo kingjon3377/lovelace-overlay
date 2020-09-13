@@ -14,7 +14,7 @@ SRC_URI="https://github.com/rcaelers/${PN}/archive/v${MY_PV}.tar.gz -> ${P}.tar.
 
 LICENSE="GPL-3+"
 SLOT="0"
-KEYWORDS="~amd64 ~ppc ~x86"
+KEYWORDS="~amd64"
 
 IUSE="appindicator dbus doc gnome gstreamer introspection mate nls pulseaudio test xfce"
 RESTRICT="!test? ( test )"
