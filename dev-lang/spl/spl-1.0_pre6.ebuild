@@ -1,4 +1,4 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -21,7 +21,7 @@ DEPEND="sys-apps/coreutils
 	net-misc/curl
 	sys-apps/util-linux
 	sqlite? ( dev-db/sqlite:3 )
-	mysql? ( dev-db/mysql )
+	mysql? ( dev-db/mysql:= )
 	postgresql? ( dev-db/postgresql:= )
 	xml? ( dev-libs/libxml2 dev-libs/libxslt )
 	doc? ( app-text/texlive-core )
