@@ -1,9 +1,9 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
-inherit bash-completion-r1 eutils autotools
+inherit bash-completion-r1 autotools
 
 DESCRIPTION="Paco is a source code package organizer"
 HOMEPAGE="http://porg.sourceforge.net"
@@ -35,7 +35,7 @@ src_configure() {
 
 src_install() {
 	emake DESTDIR="${D}" datadir=/usr/share install
-	prune_libtool_files
+	find "${ED}" -name '*.la' -delete || die
 	dodoc AUTHORS ChangeLog README doc/faq.txt doc/${PN}rc
 	docinto html
 	dodoc doc/*.html doc/*.png
