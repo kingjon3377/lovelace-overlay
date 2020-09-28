@@ -1,11 +1,11 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 JAVA_PKG_WANT_SOURCE=1.5
 JAVA_PKG_WANT_TARGET=1.5
 
-inherit java-pkg-2 java-ant-2 eutils
+inherit java-pkg-2 java-ant-2
 
 DESCRIPTION="A programming language based on, and extending from, Java."
 

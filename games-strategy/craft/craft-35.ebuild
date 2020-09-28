@@ -1,10 +1,9 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
-# TODO: Do we really still need eutils?
-inherit eutils
+inherit toolchain-funcs
 
 DESCRIPTION="Warcraft 2-like multi-player real-time strategy game"
 HOMEPAGE="https://sourceforge.net/projects/craft-vikings/"
@@ -44,7 +43,7 @@ PATCHES=(
 src_prepare() {
 	default
 	for a in field.hc cmap_edit.hc; do
-		echo >> "${WORKDIR}/${a}"
+		echo >> "${WORKDIR}/${a}" # TODO: Would 'touch' work instead?
 	done
 }
 

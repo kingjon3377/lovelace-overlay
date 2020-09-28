@@ -3,9 +3,6 @@
 
 EAPI=7
 
-# TODO: Is eutils still needed?
-inherit eutils
-
 DESCRIPTION="\"free form\" document preparation system"
 HOMEPAGE="http://www.maplefish.com/todd/aft.html"
 SRC_URI="http://www.maplefish.com/todd/${P}.tar.gz"

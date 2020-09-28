@@ -1,9 +1,9 @@
-# Copyright 2019 Gentoo Authors
+# Copyright 2018 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
-inherit eutils
+inherit wrapper
 
 DESCRIPTION="small puzzle game about clearing blocks from a central area"
 HOMEPAGE="https://linux.softpedia.com/get/GAMES-ENTERTAINMENT/Puzzle/brickshooter-37619.shtml"

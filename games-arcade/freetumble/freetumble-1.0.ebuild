@@ -5,7 +5,7 @@ EAPI=7
 
 PYTHON_COMPAT=( python2_7 python3_{5,6} )
 
-inherit python-any-r1 toolchain-funcs scons-utils eutils
+inherit python-any-r1 toolchain-funcs scons-utils wrapper
 
 MY_PN=FreeTumble
 

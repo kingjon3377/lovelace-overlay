@@ -1,10 +1,7 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-
-# TODO: Do we really still need eutils?
-inherit eutils
 
 DESCRIPTION="Displays relative 3-dimensional positions of stars in space."
 HOMEPAGE="http://www.starplot.org"

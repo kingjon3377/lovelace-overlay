@@ -6,8 +6,7 @@
 
 EAPI=7
 
-# TODO: Do we really still need eutils?
-inherit eutils autotools
+inherit autotools
 
 # Version without the _p suffix
 MY_PV="${PV%%_p*}"

@@ -1,10 +1,9 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
-# TODO: Do we really still need eutils?
-inherit eutils toolchain-funcs autotools
+inherit toolchain-funcs autotools
 
 DESCRIPTION="A two-level morphology tool for natural language processing"
 HOMEPAGE="https://www.issco.unige.ch/en/research/projects/MULTEXT.html https://packages.debian.org/mmorph"

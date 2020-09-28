@@ -6,8 +6,7 @@ EAPI=7
 DISTUTILS_SINGLE_IMPL=true
 PYTHON_COMPAT=( python3_6 ) # python2_7? python3_5
 
-# TODO: Do we really still need eutils?
-inherit distutils-r1 eutils
+inherit distutils-r1 edos2unix
 
 DESCRIPTION="Sophisticated flash-card tool also used for long-term memory research"
 HOMEPAGE="http://www.mnemosyne-proj.org/"

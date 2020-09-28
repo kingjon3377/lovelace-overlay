@@ -1,12 +1,11 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
 EGIT_REPO_URI="https://salsa.debian.org/debian/${PN}.git"
 
-# TODO: Do we really still need eutils?
-inherit eutils git-r3 multilib toolchain-funcs
+inherit git-r3 multilib toolchain-funcs
 
 DESCRIPTION="The Scheme->C compiler, R4RS compliant"
 HOMEPAGE="https://salsa.debian.org/debian/scheme2c"

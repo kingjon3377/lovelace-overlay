@@ -1,12 +1,11 @@
-# Copyright 1999-2018 Gentoo Authors
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
 OFFICE_EXTENSIONS=("writer2latex.oxt" "xhtml-config-sample.oxt" "writer2xhtml.oxt")
 
-# TODO: Is eutils inherit still needed?
-inherit eutils latex-package java-pkg-2 java-ant-2 office-ext-r1
+inherit latex-package java-pkg-2 java-ant-2 office-ext-r1
 
 IS_SOURCE=true
 

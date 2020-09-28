@@ -3,8 +3,7 @@
 
 EAPI=7
 
-# TODO: Do we really need eutils anymore?
-inherit toolchain-funcs eutils
+inherit toolchain-funcs
 
 DESCRIPTION="tool for project management (experimental XML version)"
 HOMEPAGE="http://opensched.sourceforge.net/"

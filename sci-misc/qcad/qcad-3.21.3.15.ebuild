@@ -1,10 +1,10 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
 LANGS="cs da de el en es et fr hu it nl no pa pl ru sk tr"
-inherit eutils desktop qmake-utils
+inherit wrapper desktop qmake-utils
 
 manual_cs="2.0.4.0-1"
 manual_de="2.1.0.0-1"

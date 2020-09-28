@@ -3,8 +3,7 @@
 
 EAPI=7
 
-# TODO: Do we really still need eutils?
-inherit autotools eutils xdg-utils multilib libtool desktop
+inherit autotools xdg-utils multilib libtool desktop
 
 DESCRIPTION="A free IDE based on a Basic interpreter with object extensions"
 HOMEPAGE="http://gambas.sourceforge.net/"

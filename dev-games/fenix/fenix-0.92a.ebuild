@@ -1,12 +1,9 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 # TODO: make sure this works, and fix it if it doesn't.
 
 EAPI=7
-
-# TODO: Do we really still need eutils?
-inherit eutils
 
 DESCRIPTION="development environment for making 2D games"
 HOMEPAGE="https://sourceforge.net/projects/fenix"

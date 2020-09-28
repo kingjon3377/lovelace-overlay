@@ -1,10 +1,7 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-
-# TODO: Is eutils really needed?
-inherit eutils
 
 DESCRIPTION="Random phrases generator based on defined grammar files."
 HOMEPAGE="http://www.polygen.org"

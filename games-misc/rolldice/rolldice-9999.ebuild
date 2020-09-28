@@ -1,12 +1,11 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
 EGIT_REPO_URI=https://gitorious.org/debian-packages/rolldice.git
 
-# TODO: Do we really still need eutils?
-inherit git-r3 eutils toolchain-funcs
+inherit git-r3 toolchain-funcs
 
 DESCRIPTION="virtual dice roller"
 HOMEPAGE="https://packages.debian.org/rolldice"

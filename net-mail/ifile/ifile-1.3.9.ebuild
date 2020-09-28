@@ -1,10 +1,7 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-
-# TODO: Do we really need eutils?
-inherit eutils
 
 DESCRIPTION="Self-learning mail sorter"
 HOMEPAGE="http://qwone.com/~jason/ifile/"

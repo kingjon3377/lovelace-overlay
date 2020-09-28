@@ -24,6 +24,7 @@ DEPEND="${ADA_DEPS}"
 S="${WORKDIR}"
 
 src_compile() {
+	# TODO: Use ada_export GNATMAKE and then ${GNATMAKE} instead of hardcoding 'gnatmake' here
 	for a in words makedict makestem makeewds makeefil makeinfl sorter wakedict
 	do
 		gnatmake ${CFLAGS} ${a} || die "Making ${a} failed"
@@ -62,7 +63,7 @@ src_install() {
 	insinto /usr/share/${PN}
 	doins DICTFILE.GEN UNIQUES.LAT STEMFILE.GEN INFLECTS.SEC INDXFILE.GEN \
 		ADDONS.LAT EWDSFILE.GEN
-	# TODO: Use make_wrapper from eutils instead of having the wrapper premade in FILESDIR
+	# TODO: Use make_wrapper from wrapper.eclass instead of having the wrapper premade in FILESDIR
 	dobin "${FILESDIR}/latin"
 	fperms 755 /usr/libexec/${PN}/${PN}
 	dodoc HOWTO.txt "${FILESDIR}/README" wordsdoc.htm

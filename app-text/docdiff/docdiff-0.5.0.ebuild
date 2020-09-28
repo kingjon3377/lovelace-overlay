@@ -1,11 +1,11 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
 
 USE_RUBY="ruby21"
 
-inherit eutils ruby-ng
+inherit ruby-ng
 
 DESCRIPTION="Compares two files word by word / char by char"
 HOMEPAGE="http://www.kt.rim.or.jp/~hisashim/docdiff/"

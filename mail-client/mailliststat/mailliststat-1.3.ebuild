@@ -3,8 +3,7 @@
 
 EAPI=7
 
-# TODO: Do we really still need eutils?
-inherit toolchain-funcs eutils
+inherit toolchain-funcs
 
 DESCRIPTION="Displays statistics about mbox files"
 HOMEPAGE="http://www.marki-online.net/MLS/"

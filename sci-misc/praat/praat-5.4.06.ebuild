@@ -1,9 +1,9 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
-inherit eutils toolchain-funcs
+inherit toolchain-funcs
 
 # For versions with last part < 10, pad with zeroes:
 # e.g 4 => 4000, 5.1 => 5100, 5.2.7 => 5207.
@@ -58,7 +58,7 @@ src_prepare() {
 		-e 's:^LINK = g++:LINK = $(USER_LINK):' \
 		-e '/^CFLAGS/s/ -O[0-9] / /' \
 		-e '/^CFLAGS/s/ -g\([0-9]\|\) / /' \
-		"${S}/makefile.defs"
+		"${S}/makefile.defs" || die
 }
 
 src_compile() {
