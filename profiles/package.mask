@@ -21,10 +21,6 @@
 # Depends on hard-masked app-text/enchant-2*
 #=gnome-extra/lifeograph-1.5.1.1
 
-# Python 2 only, with deps dropping support. TODO: remove presently
-app-office/gjots2
-dev-lang/giws
-
 # Deps are masked in main tree; TODO: package updated version
 media-sound/gwc
 
