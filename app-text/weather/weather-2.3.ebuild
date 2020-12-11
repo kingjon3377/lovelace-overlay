@@ -42,6 +42,7 @@ src_install() {
 	doins airports *.dbx *.txt metar.tbl places stations slist zctas zlist zones
 	doins -r zonecatalog.curr
 	dodoc FAQ README NEWS
+	python_setup
 	python_optimize
 }
 
