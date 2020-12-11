@@ -1,42 +1,49 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
-PYTHON_COMPAT=( python2_7 python3_{3,4} )
+PYTHON_COMPAT=( python2_7 python3_{3,4,5,6,7,8,9} )
 inherit python-r1
 
 DESCRIPTION="CLI tool to provide quick access to current weather conditions and forecasts"
 HOMEPAGE="http://fungi.yuggoth.org/weather/"
-SRC_URI="http://fungi.yuggoth.org/weather/src/${P}.tar.gz"
+SRC_URI="http://fungi.yuggoth.org/weather/src/${P}.tar.xz"
 
 LICENSE="BSD"
 SLOT="0"
-KEYWORDS="amd64 x86"
+KEYWORDS="~amd64 ~x86"
 IUSE=""
+
+BDEPEND="app-arch/xz-utils"
+
+PATCHES=(
+	"${FILESDIR}/${PN}-2.3-fhs.patch"
+)
 
 src_unpack() {
 	default_src_unpack
 	cd "${S}"
-	unpack ./*zip ./*tar
+	unpack ./*zip
 }
 
 src_install() {
 	my_install() {
 		insinto "$(python_get_sitedir)"
-		doins ${PN}.py
+		doins "${PN}.py"
 	}
 	python_foreach_impl my_install
 
 	insinto /etc
 	doins ${PN}rc overrides.conf
 	dobin ${PN}
+	python_replicate_script "${ED}/usr/bin/${PN}"
 	doman ${PN}.1 ${PN}rc.5
 	insinto /usr/share/${PN}-util
-	doins airports bp03ap12.dbx COOP-ACT.TXT Gaz_*.txt metar.tbl \
-		nsd_cccc.txt places stations slist zctas zlist zones
-	doins -r zonecatalog.curr
-	dodoc ChangeLog FAQ README NEWS
+	doins airports *.dbx *.txt places stations slist zctas zlist zones
+	dodoc FAQ README NEWS
+	python_setup
+	python_optimize
 }
 
 pkg_postinst () {
