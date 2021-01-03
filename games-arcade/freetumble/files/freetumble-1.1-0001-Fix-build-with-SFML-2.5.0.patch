@@ -1,0 +1,44 @@
+From 56f03087208558921232cf38738c97e38a5a2e95 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Jani=20V=C3=A4limaa?= <wally@mageia.org>
+Date: Tue, 19 Jun 2018 18:46:47 +0300
+Subject: [PATCH] Fix build with SFML >= 2.5.0
+
+---
+ CMakeLists.txt | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 0502717..634d259 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -61,7 +61,7 @@ add_executable(${PROJECT_NAME} ${FT_SOURCEFILES})
+ # Find dependencies #
+ #####################
+ 
+-find_package(SFML 2 REQUIRED COMPONENTS Audio Graphics System Window)
++find_package(SFML 2 REQUIRED COMPONENTS audio graphics system window)
+ 
+ #######################
+ # Headers and linking #
+@@ -70,9 +70,6 @@ find_package(SFML 2 REQUIRED COMPONENTS Audio Graphics System Window)
+ include_directories(
+     # FreeTumble includes
+     ${SRC}
+-
+-    # External libraries
+-    SYSTEM ${SFML_INCLUDE_DIR}
+ )
+ 
+ # Link libraries
+@@ -81,7 +78,8 @@ target_link_libraries(
+     ${PROJECT_NAME}
+ 
+     # libraries
+-    ${SFML_LIBRARIES}
++    sfml-graphics
++    sfml-audio
+ )
+ 
+ ################
+-- 
+2.17.1

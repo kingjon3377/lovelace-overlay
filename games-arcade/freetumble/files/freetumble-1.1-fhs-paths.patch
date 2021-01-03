@@ -1,0 +1,18 @@
+--- a/CMakeLists.txt	2021-01-03 13:44:42.779269361 -0500
++++ b/CMakeLists.txt	2021-01-03 13:46:28.448272191 -0500
+@@ -20,7 +20,7 @@
+ 
+ if(FOR_INSTALL)
+     # Set binary and data install locations if we want to use the installer
+-    set(FT_BIN_PATH ${CMAKE_INSTALL_PREFIX}/games CACHE PATH "Absolute path to the game binary directory")
++    set(FT_BIN_PATH ${CMAKE_INSTALL_PREFIX}/bin CACHE PATH "Absolute path to the game binary directory")
+     set(FT_DATA_PATH ${CMAKE_INSTALL_PREFIX}/share/games/${PROJECT_NAME} CACHE PATH "Absolute path to the game data directory")
+     set(FT_SHARE_PATH ${CMAKE_INSTALL_PREFIX}/share CACHE PATH "Absolute path to the shared data directory (desktop file, icons, etc.)")
+ 
+@@ -116,5 +116,5 @@
+     install(FILES ${CMAKE_SOURCE_DIR}/dist/${PROJECT_NAME}.png
+             DESTINATION ${FT_SHARE_PATH}/icons/hicolor/64x64/apps)
+     install(FILES ${FT_DOC}
+-            DESTINATION ${FT_SHARE_PATH}/doc/${PROJECT_NAME})
++	    DESTINATION ${FT_SHARE_PATH}/doc/@@PF@@)
+ endif()
