@@ -4,7 +4,7 @@
 EAPI=7
 
 DESCRIPTION="perpetual Jewish calendar"
-HOMEPAGE="https://github.com/hebcal/hebcal"
+HOMEPAGE="http://hebcal.github.io/ https://github.com/hebcal/hebcal"
 SRC_URI="https://github.com/${PN}/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="GPL-2"
