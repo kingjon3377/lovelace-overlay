@@ -1,0 +1,24 @@
+--- a/packdata.sh	2021-01-03 13:04:55.067205420 -0500
++++ b/packdata.sh	2021-01-03 13:05:11.178205852 -0500
+@@ -3,9 +3,9 @@
+ zip -9jX  Game/blockattack.data source/AUTH
+ cd Game/data
+ zip -9X $(find ../blockattack.data * | sort) -x \*svn*
+ cd ../../man
+-gzip -9n -c blockattack.man > blockattack.6.gz
++mv blockattack.man blockattack.6
+ cd ../source/misc/translation/
+ ./build_mo_all.sh
+ 
+ exit 0
+--- a/CMakeLists.txt	2021-01-03 13:09:07.042212168 -0500
++++ b/CMakeLists.txt	2021-01-03 13:09:31.143212813 -0500
+@@ -100,7 +100,7 @@
+ #Installing
+ install(TARGETS blockattack RUNTIME DESTINATION ${INSTALL_BIN_DIR} )
+ install(FILES Game/blockattack.data DESTINATION ${INSTALL_DATA_DIR} )
+-install(FILES man/blockattack.6.gz DESTINATION ${INSTALL_MAN_DIR} )
++install(FILES man/blockattack.6 DESTINATION ${INSTALL_MAN_DIR} )
+ install(FILES source/misc/blockattack.desktop DESTINATION ${INSTALL_APPLICATIONS_DIR} )
+ install(FILES source/misc/net.blockattack.game.metainfo.xml DESTINATION ${INSTALL_METAINFO_DIR} )
+ install(FILES source/misc/icons/blockattack16.xpm DESTINATION "${INSTALL_ICONS_DIR}/16x16/apps" RENAME blockattack.xpm )
