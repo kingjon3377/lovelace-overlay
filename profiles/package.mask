@@ -21,3 +21,8 @@
 # Deps are masked in main tree; TODO: package updated version
 media-sound/gwc
 
+# Depends on removed packages that don't support Python 3.8. Leaving here
+# rather than removing at this point in hopes this is updated to remove the dep
+# ...
+dev-tex/pydflatex
+
