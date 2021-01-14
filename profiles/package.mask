@@ -26,3 +26,6 @@ media-sound/gwc
 # ...
 dev-tex/pydflatex
 
+# Depends on masked qtwebkit
+=sci-misc/qcad-3.24.2.4
+
