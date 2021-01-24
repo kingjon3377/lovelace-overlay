@@ -18,7 +18,8 @@ IUSE=""
 RDEPEND="${PYTHON_DEPS}
 	dev-python/beautifulsoup:4[${PYTHON_USEDEP}]
 	dev-python/chardet[${PYTHON_USEDEP}]
-	dev-python/html5lib[${PYTHON_USEDEP}]"
+	dev-python/html5lib[${PYTHON_USEDEP}]
+	dev-python/cloudscraper[${PYTHON_USEDEP}]"
 DEPEND="${RDEPEND}"
 
 # TODO: Add USE flag for calibre plugin and web-service
