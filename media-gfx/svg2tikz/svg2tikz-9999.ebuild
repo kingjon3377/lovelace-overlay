@@ -1,11 +1,13 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
 EGIT_REPO_URI="https://github.com/kjellmf/svg2tikz.git"
 
-PYTHON_COMPAT=( python{2_5,2_6,2_7} )
+PYTHON_COMPAT=( python3_{6..9} )
+DISTUTILS_SINGLE_IMPL=yes
+
 inherit git-r3 distutils-r1
 
 DESCRIPTION="SVG to PGF/TikZ converter"
@@ -17,11 +19,12 @@ SLOT="0"
 KEYWORDS=""
 IUSE=""
 
-COMMON_DEPEND="dev-python/lxml"
+COMMON_DEPEND="$(python_gen_cond_dep 'dev-python/lxml[${PYTHON_USEDEP}]')"
+# FIXME: BDEPEND instead of DEPEND?
 DEPEND="${COMMON_DEPEND}
-	dev-python/sphinx"
+	$(python_gen_cond_dep 'dev-python/sphinx[${PYTHON_USEDEP}]')"
 RDEPEND="${COMMON_DEPEND}
-	media-gfx/inkscape"
+	media-gfx/inkscape[${PYTHON_SINGLE_USEDEP}]"
 
 # FIXME: Run tests
 
