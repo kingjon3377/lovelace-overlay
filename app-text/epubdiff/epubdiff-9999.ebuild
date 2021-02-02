@@ -22,6 +22,6 @@ RDEPEND="${DEPEND}"
 BDEPEND=""
 
 src_install() {
-	python_replicate_script "${PN}"
+	python_foreach_impl python_doscript "${PN}"
 	dodoc README.md
 }
