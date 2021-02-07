@@ -23,9 +23,8 @@ DEPEND="
 		dev-python/pytest-xdist[${PYTHON_USEDEP}]
 		dev-python/pytest-forked[${PYTHON_USEDEP}]
 		dev-python/pytest-timeout[${PYTHON_USEDEP}]
-		dev-python/pytest-env[${PYTHON_USEDEP}]
 		dev-python/coverage[${PYTHON_USEDEP}]
-	)" # polling, pytest-watch, python_anticaptcha
+	)" # polling, pytest-watch, python_anticaptcha, pytest-env
 RDEPEND="
 	>=dev-python/requests-2.9.2[${PYTHON_USEDEP}]
 	>=dev-python/requests-toolbelt-0.9.1[${PYTHON_USEDEP}]
