@@ -1,11 +1,13 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
+inherit autotools
+
 DESCRIPTION="Lightweight curses spreadsheet based on GNU oleo"
 HOMEPAGE="https://github.com/blippy/neoleo"
-SRC_URI="https://github.com/blippy/${PN}/releases/download/v${PV}/${P}.tar.gz"
+SRC_URI="https://github.com/blippy/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
@@ -20,7 +22,8 @@ BDEPEND="sys-devel/bison
 
 src_prepare() {
 	default
-	sed -i -e 's@ -Wfatal-errors@@' -e 's@ -Werror@@' src/Makefile.in || die
+	sed -i -e '/-Wfatal-errors/s/^/#/' -e '/-Werror /s/^/#/' src/Makefile.am || die
+	eautoreconf
 }
 
 src_test() {
@@ -29,6 +32,7 @@ src_test() {
 
 src_install() {
 	emake DESTDIR="${D}" generaldir="/usr/share/doc/${PF}" \
-		examplesdir="/usr/share/doc/${PF}/examples" install
+		exampledir="/usr/share/doc/${PF}/examples" install
 	einstalldocs
+	rm "${D}/usr/share/doc/${PF}/INSTALL"-*
 }
