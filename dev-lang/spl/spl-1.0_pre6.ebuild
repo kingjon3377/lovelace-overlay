@@ -1,9 +1,9 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
-inherit toolchain-funcs
+inherit toolchain-funcs readme.gentoo-r1
 
 DESCRIPTION="SPL Programming Language"
 HOMEPAGE="http://www.clifford.at/spl/"
@@ -29,6 +29,14 @@ DEPEND="sys-apps/coreutils
 RDEPEND="${DEPEND}"
 
 S="${WORKDIR}/${P/_/}"
+
+DOC_CONTENTS='
+If syntax highlighting for SPL is not automatically enabled,
+the source says to add the following lines to your .vimrc :
+
+au BufRead,BufNewFile *.spl,*.webspl set filetype=spl
+au BufRead,BufNewFile *.spltpl set filetype=spltpl
+'
 
 pkg_setup() {
 	if use opengl; then
@@ -66,16 +74,9 @@ src_install() {
 		dodoc spldoc/*txt
 	fi
 	use vim-syntax && insinto /usr/share/vim/vimfiles/syntax && \
-		doins syntax-spl.vim syntax-spltpl.vim
+		doins syntax-spl.vim syntax-spltpl.vim && readme.gentoo_create_doc
 }
 
 pkg_postinst() {
-	if use vim-syntax; then
-		einfo "If syntax highlighting for SPL is not automatically enabled,"
-		einfo "the source says to add the following lines to your .vimrc :"
-		einfo
-		einfo 'au BufRead,BufNewFile *.spl,*.webspl set filetype=spl'
-		einfo 'au BufRead,BufNewFile *.spltpl set filetype=spltpl'
-		einfo
-	fi
+	use vim-syntax && readme.gentoo_print_elog
 }

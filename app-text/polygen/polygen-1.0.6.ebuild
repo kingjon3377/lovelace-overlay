@@ -1,7 +1,9 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
+
+inherit readme.gentoo-r1
 
 DESCRIPTION="Random phrases generator based on defined grammar files."
 HOMEPAGE="http://www.polygen.org"
@@ -28,6 +30,16 @@ PATCHES=(
 	"${FILESDIR}/05-8bit-strings.diff"
 )
 
+DOC_CONTENTS="
+Following Debian, in order to keep the polygen binary as close as
+possible to the one upstream distributes, the extension that would
+have polygen look for grammar candidates in '${EPREFIX}/usr/share/polygen' has
+been moved to a wrapper script called polyrun.
+
+As a consequence, for most polygen invocations you should now use
+polyrun instead of polygen.
+"
+
 src_compile() {
 	emake -C src
 }
@@ -38,11 +50,9 @@ src_install() {
 	doman "${FILESDIR}/polyrun.1"
 	dodoc "${FILESDIR}/README.Debian"
 
-	einfo "Following Debian, in order to keep the polygen binary as close as"
-	einfo "possible to the one upstream distributes, the extension that would"
-	einfo "have polygen look for grammar candidates in /usr/share/polygen has"
-	einfo "been moved to a wrapper script called polyrun."
-	einfo
-	einfo "As a consequence, for most polygen invocations you should now use"
-	einfo "polyrun instead of polygen."
+	readme.gentoo_create_doc
+}
+
+pkg_postinst() {
+	readme.gentoo_print_elog
 }

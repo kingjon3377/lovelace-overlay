@@ -1,9 +1,9 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
-inherit toolchain-funcs
+inherit toolchain-funcs readme.gentoo-r1 optfeature
 
 RESTRICT="mirror"
 DESCRIPTION="watchdog to ensure a realtime process won't hang the machine"
@@ -18,6 +18,11 @@ IUSE=""
 DEPEND="gnome-base/libgtop:2=
 		|| ( x11-base/xorg-x11 x11-apps/xmessage )"
 RDEPEND="${DEPEND}"
+
+DOC_CONTENTS="
+now add the script to your runlevel
+e.g. rc-update add ${PN} default
+"
 
 src_prepare() {
 	#fix makefile
@@ -37,12 +42,10 @@ src_install() {
 	dobin test_rt
 	dodoc README
 	newinitd "${FILESDIR}/das_watchdog-init.d" ${PN}
+	readme.gentoo_create_doc
 }
 
 pkg_postinst() {
-	einfo "now add the script to your runlevel"
-	einfo "e.g. rc-update add ${PN} default"
-	einfo "and maybe you also want to use a realtime-kernel:"
-	einfo "\"emerge rt-sources\" or fetch the the"
-	einfo "kernel-patch: redhat.com/~mingo/realtime-preempt/"
+	readme.gentoo_print_elog
+	optfeature "a realtime kernel" sys-kernel/rt-sources
 }

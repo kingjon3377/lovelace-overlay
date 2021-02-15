@@ -1,7 +1,9 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
+
+inherit readme.gentoo-r1
 
 DESCRIPTION="Collection of CAD files that can be used from the library browser of QCad"
 LICENSE="GPL-2"
@@ -33,19 +35,22 @@ RDEPEND="sci-misc/qcad"
 
 S="${WORKDIR}"
 
+DOC_CONTENTS="
+The QCad parts library was installed in
+/usr/share/${PN}
+Please set this path in QCad's preferences to access it.
+(Edit->Application Preferences->Paths->Part Libraries)
+
+After restarting QCad, you can use the library by selecting
+View->Views->Library Browser
+"
+
 src_install() {
 	insinto /usr/share/${PN}
 	doins -r ./*
+	readme.gentoo_create_doc
 }
 
 pkg_postinst() {
-	einfo
-	einfo "The QCad parts library was installed in"
-	einfo "/usr/share/${PN}"
-	einfo "Please set this path in QCad's preferences to access it."
-	einfo "(Edit->Application Preferences->Paths->Part Libraries)"
-	einfo
-	einfo "After restarting QCad, you can use the library by selecting"
-	einfo "View->Views->Library Browser"
-	einfo
+	readme.gentoo_print_elog
 }

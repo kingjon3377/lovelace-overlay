@@ -1,9 +1,9 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
-inherit multilib
+inherit multilib readme.gentoo-r1
 
 DESCRIPTION="w3c-validator is a mark-up validator"
 HOMEPAGE="https://validator.w3.org/source/"
@@ -53,6 +53,14 @@ S="${WORKDIR}/markup-validator-validator-${PV/\./_}-release"
 # Previous version didn't *have* tests, but this one errors out for some reason.
 RESTRICT="test"
 
+DOC_CONTENTS='
+The apache config file, /etc/apache2/vhosts.d/10_w3c-validator.conf
+likely needs to be updated.
+
+For a quick setup, simply change validator-localhost to a suitable
+hostname, and make your DNS point to this machines IP address.
+'
+
 src_prepare() {
 	default_src_prepare
 	chmod +x misc/docs_errors.pl misc/testsuite/harness.py
@@ -81,14 +89,9 @@ src_install() {
 
 	insinto /etc/apache2/vhosts.d
 	doins "${FILESDIR}"/10_w3c-validator.conf
+	readme.gentoo_create_doc
 }
 
 pkg_postinst() {
-	einfo
-	einfo "The apache config file, /etc/apache2/vhosts.d/10_w3c-validator.conf"
-	einfo "likely needs to be updated."
-	einfo
-	einfo "For a quick setup, simply change validator-localhost to a suitable"
-	einfo "hostname, and make your DNS point to this machines IP address."
-	einfo
+	readme.gentoo_print_elog
 }

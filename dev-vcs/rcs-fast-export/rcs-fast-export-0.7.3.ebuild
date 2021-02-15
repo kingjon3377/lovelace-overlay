@@ -1,11 +1,11 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
 
 USE_RUBY="ruby23 ruby24 ruby25 ruby26"
 
-inherit ruby-ng
+inherit ruby-ng optfeature
 
 DESCRIPTION="fast-export from RCS to be imported into git"
 HOMEPAGE="https://github.com/Oblomov/rcs-fast-export"
@@ -25,5 +25,5 @@ each_ruby_install() {
 }
 
 pkg_postinst() {
-	ewarn "Are you sure you want rcs-fast-export, and not cvs-fast-export?"
+	optfeature "you probably want instead" dev-vcs/cvs-fast-export
 }

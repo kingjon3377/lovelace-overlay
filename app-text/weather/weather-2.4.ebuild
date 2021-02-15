@@ -1,10 +1,10 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
 PYTHON_COMPAT=( python2_7 python3_{3,4,5,6,7,8,9} )
-inherit python-r1
+inherit python-r1 readme.gentoo-r1
 
 DESCRIPTION="CLI tool to provide quick access to current weather conditions and forecasts"
 HOMEPAGE="http://fungi.yuggoth.org/weather/"
@@ -20,6 +20,12 @@ BDEPEND="app-arch/xz-utils"
 PATCHES=(
 	"${FILESDIR}/${PN}-2.3-fhs.patch"
 )
+
+DOC_CONTENTS="
+System default config is located in '${EPREFIX}/etc/weatherrc'.
+
+man weather and weatherrc for more info.
+"
 
 src_unpack() {
 	default_src_unpack
@@ -44,11 +50,9 @@ src_install() {
 	dodoc FAQ README NEWS
 	python_setup
 	python_optimize
+	readme.gentoo_create_doc
 }
 
 pkg_postinst () {
-	echo
-	einfo "System default config is located in /etc/weatherrc."
-	einfo "man weather and weatherrc for more info."
-	echo
+	readme.gentoo_print_elog
 }
