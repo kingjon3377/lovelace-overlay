@@ -1,4 +1,4 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 # From bug #107710 or the graaf overlay
@@ -10,7 +10,7 @@ USE_RUBY="ruby24 ruby25 ruby26" # ruby27
 inherit ruby-ng desktop xdg-utils
 
 DESCRIPTION="Ruler measure objects on your screen"
-HOMEPAGE="http://gnomecoder.wordpress.com/screenruler/"
+HOMEPAGE="https://gnomecoder.wordpress.com/screenruler/"
 
 LICENSE="GPL-2"
 SLOT="0"
