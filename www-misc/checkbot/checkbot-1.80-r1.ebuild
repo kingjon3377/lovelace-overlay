@@ -1,15 +1,14 @@
-# Copyright 1999-2018 Gentoo Authors
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
 
-MODULE_AUTHOR="JJDG"
+DIST_AUTHOR="JJDG"
 
 inherit perl-module
 
 DESCRIPTION="WWW link verifier"
-HOMEPAGE="http://degraaff.org/checkbot/ https://sourceforge.net/projects/checkbot/"
-SRC_URI="mirror://cpan/authors/id/J/JJ/JJDG/${P}.tar.gz" # should be supplied by eclass, but isn't in EAPI 6 for some reason
+HOMEPAGE="https://degraaff.org/checkbot/ https://sourceforge.net/projects/checkbot/"
 
 LICENSE="|| ( Artistic GPL-1 GPL-2 GPL-3 )"
 SLOT="0"
