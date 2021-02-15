@@ -1,0 +1,20 @@
+Description: Accept environemnt's compiler and linker flags.
+Author: Alessio Treglia <alessio@debian.org>
+Forwarded: no
+---
+ Makefile |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+--- das-watchdog.orig/Makefile
++++ das-watchdog/Makefile
+@@ -10,8 +10,8 @@ DIST=$(TAR)-$(VERSION)
+ 
+ all:
+ 	which xmessage
+-	gcc das_watchdog.c -o das_watchdog $(FLAGS)
+-	gcc test_rt.c -o test_rt
++	$(CC) $(LDFLAGS) $(CFLAGS) $(CPPFLAGS) das_watchdog.c -o das_watchdog $(FLAGS)
++	$(CC) $(LDFLAGS) $(CFLAGS) $(CPPFLAGS) test_rt.c -o test_rt
+ 
+ dist:
+ 	make clean

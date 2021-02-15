@@ -1,0 +1,31 @@
+Description: Populate INIT INFO
+Origin: Debian
+Bug-Debian: http://bugs.debian.org/469025
+---
+ das_watchdog.rc |   10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
+
+--- das-watchdog-0.9.0.orig/das_watchdog.rc
++++ das-watchdog-0.9.0/das_watchdog.rc
+@@ -1,4 +1,12 @@
+ #! /bin/sh
++### BEGIN INIT INFO
++# Provides:          das-watchdog
++# Required-Start:    $remote_fs $syslog
++# Required-Stop:     $remote_fs $syslog
++# Default-Start:     2 3 4 5
++# Default-Stop:      0 1 6
++# Short-Description: Das watchdog
++### END INIT INFO
+ #
+ #Written by Miquel van Smoorenburg <miquels at cistron.nl>.
+ #Modified for Debian GNU/Linux
+@@ -14,7 +22,7 @@
+ 
+ 
+ PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+-DAEMON=/usr/local/sbin/das_watchdog
++DAEMON=/usr/sbin/das_watchdog
+ NAME=das_watchdog
+ DESC="Watchdog"
+ 

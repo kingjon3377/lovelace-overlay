@@ -1,0 +1,59 @@
+From 57e7400d046f382ee94745791ccb0e1a06efb2e4 Mon Sep 17 00:00:00 2001
+From: Adam Sampson <ats@offog.org>
+Date: Wed, 1 Apr 2015 20:33:41 +0100
+Subject: [PATCH 3/3] The result of fgetc is an int, not a char
+
+Without this change, get_pid_environ_val would go into an infinite loop
+when asked to find a variable that doesn't exist on a platform where
+char is unsigned (e.g. ARM): fgetc would return -1 (EOF), which would be
+stored as 255 in temp[i], which then wouldn't be equal to -1 when
+testing.
+---
+ das_watchdog.c | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
+
+diff --git a/das_watchdog.c b/das_watchdog.c
+index 176fb1b..0dfe38a 100644
+--- a/das_watchdog.c
++++ b/das_watchdog.c
+@@ -322,21 +322,20 @@ static char *get_pid_environ_val(pid_t pid,char *val){
+   }
+   
+   for(;;){
+-    
++    int c = fgetc(fp);
++
+     if (i >= temp_size) {
+       temp_size *= 2;
+       temp = realloc(temp, temp_size);
+     }
+-      
+-    temp[i]=fgetc(fp);    
+ 
+-    if(foundit==1 && (temp[i]=='\0' || temp[i]==EOF)){
++    if(foundit==1 && (c=='\0' || c==EOF)){
+       fclose(fp);
+       temp[i]=0;
+       return temp;
+     }
+ 
+-    switch(temp[i]){
++    switch(c){
+     case EOF:
+       fclose(fp);
+       free(temp);
+@@ -349,9 +348,11 @@ static char *get_pid_environ_val(pid_t pid,char *val){
+       i=0;
+       break;
+     case '\0':
++      temp[i]=0;
+       i=0;
+       break;
+     default:
++      temp[i]=c;
+       i++;
+     }
+   }
+-- 
+2.1.4
+

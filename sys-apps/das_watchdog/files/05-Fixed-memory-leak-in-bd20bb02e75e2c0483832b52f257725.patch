@@ -1,0 +1,50 @@
+From 286489dd7dad59f8b5a9b9fdfececb95bcf5c570 Mon Sep 17 00:00:00 2001
+From: Kjetil Matheussen <k.s.matheussen@usit.uio.no>
+Date: Wed, 1 Apr 2015 16:12:39 +0200
+Subject: [PATCH] Fixed memory leak in bd20bb02e75e2c0483832b52f2577253febfb690
+
+---
+ das_watchdog.c | 13 ++++++-------
+ 1 file changed, 6 insertions(+), 7 deletions(-)
+
+diff --git a/das_watchdog.c b/das_watchdog.c
+index 8381d56..26385b2 100644
+--- a/das_watchdog.c
++++ b/das_watchdog.c
+@@ -316,9 +316,10 @@ static char *get_pid_environ_val(pid_t pid,char *val){
+   sprintf(temp,"/proc/%d/environ",pid);
+ 
+   fp=fopen(temp,"r");
+-  if(fp==NULL)
++  if(fp==NULL){
++    free(temp);
+     return NULL;
+-
++  }
+   
+   for(;;){
+     
+@@ -330,17 +331,15 @@ static char *get_pid_environ_val(pid_t pid,char *val){
+     temp[i]=fgetc(fp);    
+ 
+     if(foundit==1 && (temp[i]==0 || temp[i]=='\0' || temp[i]==EOF)){
+-      char *ret;
+-      temp[i]=0;
+-      ret=malloc(strlen(temp)+10);
+-      sprintf(ret,"%s",temp);
+       fclose(fp);
+-      return ret;
++      temp[i]=0;
++      return temp;
+     }
+ 
+     switch(temp[i]){
+     case EOF:
+       fclose(fp);
++      free(temp);
+       return NULL;
+     case '=':
+       temp[i]=0;
+-- 
+2.1.4
+

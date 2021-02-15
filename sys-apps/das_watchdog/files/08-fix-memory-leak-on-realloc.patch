@@ -1,0 +1,23 @@
+Description: Fix memory leak on realloc
+Origin: vendor
+Author: Salvatore Bonaccorso <carnil@debian.org>
+Last-Update: 2015-04-11
+
+--- a/das_watchdog.c
++++ b/das_watchdog.c
+@@ -325,7 +325,14 @@ static char *get_pid_environ_val(pid_t p
+ 
+     if (i >= temp_size) {
+       temp_size *= 2;
+-      temp = realloc(temp, temp_size);
++      char *new_temp = realloc(temp, temp_size);
++      if(new_temp==NULL){
++        fclose(fp);
++        free(temp);
++        return NULL;
++      }else{
++        temp=new_temp;
++      }
+     }
+ 
+     if(foundit==1 && (c=='\0' || c==EOF)){

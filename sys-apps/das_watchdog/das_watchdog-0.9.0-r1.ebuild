@@ -24,16 +24,26 @@ now add the script to your runlevel
 e.g. rc-update add ${PN} default
 "
 
+PATCHES=(
+	"${FILESDIR}/01-rc.patch"
+	"${FILESDIR}/02-makefile.patch"
+	"${FILESDIR}/03-hardening.patch"
+	"${FILESDIR}/04-Fix-memory-overflow-if-the-name-of-an-environment-is.patch"
+	"${FILESDIR}/05-Fixed-memory-leak-in-bd20bb02e75e2c0483832b52f257725.patch"
+	"${FILESDIR}/06-Remove-duplicate-check-for-temp-i-0.patch"
+	"${FILESDIR}/07-The-result-of-fgetc-is-an-int-not-a-char.patch"
+	"${FILESDIR}/08-fix-memory-leak-on-realloc.patch"
+)
+
 src_prepare() {
 	#fix makefile
-	sed -i -e 's@gcc@$(CC) $(CFLAGS)@g' -e	's@\@sh.*@@g' \
-		-e 's@^[[:blank:]]*which.*@@g'  Makefile
 	default
+	sed -i -e	's@\@sh.*@@g' \
+		-e 's@^[[:blank:]]*which.*@@g'  Makefile
+	tc-export CC
 }
 
 src_compile() {
-	#CONFIG="-O2 `pkg-config --libs --cflags libgtop-2.0` -Wall -lpthread -DWHICH_WISH=\"`which xmessage`\" -DVERSION=\"$(PV)\""
-	#$(tc-getCC) ${CFLAGS} das_watchdog.c -o  ${PN} ${CONFIG} || die "compile failed"
 	emake VERSION="${PV}"
 }
 
