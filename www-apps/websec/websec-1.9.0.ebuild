@@ -1,10 +1,10 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
 DESCRIPTION="A Web Secretary monitoring web pages for changes"
-HOMEPAGE="http://baruch.ev-en.org/proj/websec/"
+HOMEPAGE="https://savannah.nongnu.org/projects/websec https://github.com/baruch/websec"
 SRC_URI="https://savannah.nongnu.org/download/${PN}/${P}.tar.gz"
 LICENSE="GPL-2"
 IUSE=""
