@@ -1,0 +1,29 @@
+Description: Use variables in Makefile
+ Added variables CFLAGS & LIBS to Makefile so build system can use them.
+ Move ${LIBS} to the end of line for petris target so that ld --as needed works.
+Author: Andree Leidenfrost <andree@debian.org>
+--- a/Makefile
++++ b/Makefile
+@@ -1,14 +1,17 @@
++CFLAGS+=-Wall
++LIBS=-lncurses
++
+ petris : main.o game.o highscore.o
+-	gcc -o petris main.o game.o highscore.o -lncurses
++	$(CC) -o petris main.o game.o highscore.o ${LIBS}
+ 
+ main.o : main.c game.h petris.h
+-	gcc -Wall -c main.c
++	$(CC) ${CFLAGS} -c main.c
+ 
+ game.o : game.c game.h petris.h config.h
+-	gcc -Wall -c game.c
++	$(CC) ${CFLAGS} -c game.c
+ 
+ highscore.o : highscore.c highscore.h config.h
+-	gcc -Wall -c highscore.c
++	$(CC) ${CFLAGS} -c highscore.c
+ 
+ clean:
+-	rm main.o game.o highscore.o
++	rm -f main.o game.o highscore.o

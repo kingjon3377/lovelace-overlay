@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Terminal=true
+Name=Petris
+GenericName=Blocks Game
+Categories=Game;BlocksGame;
+Keywords=blocks;text;ncurses;terminal;console;game;
+Exec=petris
+Icon=petris-icon
+Comment=Petris is Peter's Tetris.

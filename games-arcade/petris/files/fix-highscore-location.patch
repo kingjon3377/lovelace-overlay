@@ -1,0 +1,15 @@
+Description: Fix highscore file location
+ Move highscore file from /var/local/petris/highscores to
+ /var/games/petris.scores to be Debian-compliant.
+Author: Andree Leidenfrost <andree@debian.org>
+--- a/config.h
++++ b/config.h
+@@ -12,7 +12,7 @@
+ #define CONTROL_REFRESH	'r'		/* Refresh screen */
+ 
+ /* Highscore file. */
+-#define HIGHSCORE_FILE	"/var/local/petris/highscores"
++#define HIGHSCORE_FILE	"/var/games/petris.scores"
+ 
+ /* Number of entries in highscore list. */
+ #define SIZE_HS_LIST	10

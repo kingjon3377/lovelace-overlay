@@ -1,0 +1,90 @@
+Description: Fix variable initialisation and error handling
+ Make sure variables are initialised and exit program in a well defined
+ way on error.
+Author: Andree Leidenfrost <andree@debian.org>
+--- a/game.c
++++ b/game.c
+@@ -222,6 +222,7 @@ POINTS check_lines(int start)
+ 	
+ 	points.points = 0;
+ 	points.lines = 0;
++        points.level = 0;
+ 	
+ 	/* Avoid reading beyond end of well_data. */
+ 	if (start > WELL_HEIGHT - BLOCK_DOTS)
+@@ -285,7 +286,7 @@ int drop_block(int type, int level)
+ 	int y = 0;
+ 	int x = defx;
+ 	int orient = 0;
+-	int ch;
++	int ch = 0;
+ 	fd_set inputs, test_fds;
+ 	struct timeval timeout;
+ 	int sel_ret;
+@@ -309,7 +310,7 @@ int drop_block(int type, int level)
+ 		
+ 		sel_ret = select(FD_SETSIZE, &test_fds, (fd_set *) 0, (fd_set *) 0, &timeout);
+ 
+-		ch = getch();
++		ch = getch(); if ( (sel_ret == 1) && (ch == ERR) ) exit_after_error();
+ 		
+ 		switch (ch) {
+ 		case CONTROL_LEFT:
+--- a/main.c
++++ b/main.c
+@@ -183,7 +183,7 @@ int get_level(int level)
+ 	nodelay(stdscr, FALSE);
+ 	
+ 	while(ch != ' ' && ch != KEY_ENTER) {
+-		ch = getch();
++		ch = getch(); if (ch == ERR) exit_after_error();
+ 		switch (ch) {
+ 		case KEY_UP:
+ 			level = (level + 1 > NO_LEVELS - 1)? 0 : level + 1;
+@@ -209,7 +209,7 @@ int show_score(POINTS points, int use_hs
+ {
+ 	WINDOW *win;
+ 	int ranking;	/* Highscore ranking. */
+-	int ch;
++	int ch = 0;
+ 	int ret = 1;
+ 
+ 	/* Place window in the middle of the screen. */
+@@ -254,7 +254,7 @@ int show_score(POINTS points, int use_hs
+ 
+ 	nodelay(stdscr, FALSE);
+ 
+-	ch = getch();
++	ch = getch(); if (ch == ERR) exit_after_error();
+ 	if (ch == 'q' || ch == 'Q')
+ 		ret = 0;
+ 	else if (ch == 'h' || ch == 'H')
+@@ -277,9 +277,17 @@ void message(char *msg)
+ 	sleep(3);
+ }
+ 
++/* Exit cleanly after an error occured */
++int exit_after_error()
++{
++	cursor_vis(1);
++	endwin();
++	exit(1);
++}
++
+ int main(int argc, char **argv)
+ {
+-	int play;
++	int play = 1;
+ 	int level = 0;
+ 	POINTS points;
+ 	int use_highscore = 1;
+--- a/petris.h
++++ b/petris.h
+@@ -53,4 +53,7 @@ typedef struct _points {
+ 	unsigned char level;
+ } POINTS;
+ 
++/* Exit cleanly after an error occured */
++int exit_after_error();
++
+ #endif /* _PETRIS_H_ */

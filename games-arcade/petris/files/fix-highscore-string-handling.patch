@@ -1,0 +1,30 @@
+Description: Make copying strings more strict
+When handling entries in highscore list, use strncpy() instead of strcpy().
+Author: Andree Leidenfrost <andree@debian.org>
+--- a/highscore.c
++++ b/highscore.c
+@@ -69,12 +69,13 @@ void insert_hs_entry(int index, char *na
+ 
+ 	/* Move entries one position down starting at index. */
+ 	for (i = SIZE_HS_LIST - 1; i > index; i--) {
+-		strcpy(hs_list[i].name, hs_list[i-1].name);
++	        strncpy(hs_list[i].name, hs_list[i-1].name, sizeof(hs_list[i].name)-1);
+ 		hs_list[i].points = hs_list[i-1].points;
+ 	}
+ 
+ 	/* Insert new entry. */
+-	strcpy(hs_list[index].name, name);
++	memset(hs_list[index].name, '\0', sizeof(hs_list[index].name));
++	strncpy(hs_list[index].name, name, sizeof(hs_list[index].name)-1);
+ 	hs_list[index].points = points;
+ }
+ 
+@@ -147,7 +148,7 @@ int view_highscores()
+ 	
+ 	nodelay(stdscr, FALSE);
+ 	
+-	ch = getch();
++	ch = getch(); if (ch == ERR) exit_after_error();
+ 	if (ch == 'q' || ch == 'Q')
+ 		return 0;
+ 	else
