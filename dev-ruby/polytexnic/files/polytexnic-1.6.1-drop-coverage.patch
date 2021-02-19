@@ -1,0 +1,18 @@
+Coveralls is not packaged; I wasn't sure if SimpleCov's MultiFormatter might
+require more than just one parameter, and SimpleCov isn't a package I normally
+have installed, so I took the opportunity to drop it as well.
+diff -ru polytexnic-1.6.1.old/spec/spec_helper.rb polytexnic-1.6.1/spec/spec_helper.rb
+--- polytexnic-1.6.1.old/spec/spec_helper.rb	2021-02-19 17:19:59.611837216 -0500
++++ polytexnic-1.6.1/spec/spec_helper.rb	2021-02-19 17:24:54.149832652 -0500
+@@ -1,11 +1,4 @@
+-require 'simplecov'
+ require 'json'
+-require 'coveralls'
+-
+-SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
+-  SimpleCov::Formatter::HTMLFormatter,
+-  Coveralls::SimpleCov::Formatter])
+-SimpleCov.start
+ 
+ require 'polytexnic'
+ 
