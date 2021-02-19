@@ -110,18 +110,13 @@ COMMON_DEPEND="
 "
 
 DEPEND="${COMMON_DEPEND}"
-
 BDEPEND="virtual/pkgconfig"
 
 RDEPEND="${COMMON_DEPEND}"
 
-PATCHES=(
+#PATCHES=(
 	# "${FILESDIR}/${P}-xdgutils.patch"
-	"${FILESDIR}/${PN}-3.12.2-xdgutils.patch"
-	"${FILESDIR}/${PN}-3.12.2-poppler-compat_1.patch"
-	"${FILESDIR}/${PN}-3.12.2-poppler-compat_2.patch"
-	"${FILESDIR}/${PN}-3.12.2-poppler-compat_3.patch"
-)
+#)
 
 src_prepare() {
 	default
@@ -168,7 +163,7 @@ src_configure() {
 		$(use_enable gtk3) \
 		$(use_enable opengl) \
 		$(use_enable desktop) \
-		$(use_enable pdf) \
+		$(use_enable pdf poppler) \
 		$(use_enable cairo) \
 		$(use_enable imageio) \
 		$(use_enable imageimlib) \
@@ -184,7 +179,7 @@ src_configure() {
 }
 
 src_install() {
-	DESTDIR="${D}" emake -j1 install # Sometimes fails with "file exists" errors.
+	DESTDIR="${D}" emake -j1 install XDG_UTILS= # Sometimes fails with "file exists" errors.
 
 	dodoc AUTHORS README TODO
 	use net && newdoc gb.net/src/doc/README gb.net-README
