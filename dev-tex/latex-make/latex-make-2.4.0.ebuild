@@ -1,34 +1,41 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
 inherit texlive-common
 
+UPSTREAM_VERSION=10830
+
 DESCRIPTION="A Makefile helper for LaTeX"
-HOMEPAGE="http://gforge.inria.fr/projects/latex-utils/"
-SRC_URI="http://gforge.inria.fr/frs/download.php/file/30927/${P}.tar.gz"
+HOMEPAGE="https://gforge.inria.fr/projects/latex-utils/"
+SRC_URI="https://gforge.inria.fr/frs/download.php/zip/${UPSTREAM_VERSION}/${P}.zip"
 
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64"
 IUSE="doc"
 
-DEPEND="doc? ( dev-texlive/texlive-langfrench )"
-RDEPEND="${DEPEND}
+CDEPEND="dev-texlive/texlive-langfrench"
+RDEPEND="${CDEPEND}
 	sys-devel/make
 	virtual/latex-base"
+DEPEND="${CDEPEND}"
+BDEPEND="app-arch/unzip"
 
-S=${WORKDIR}/${PN}-2.1.18
-
-src_prepare() {
-	sed -i -e 's@/usr/bin/env python$@/usr/bin/env python2@' src/latex-make.dtx || die
+src_unpack() {
+	default
+	unpack "${WORKDIR}/${P}.tar.gz"
+	rm "${WORKDIR}/${P}.tar.gz"
 }
 
-src_compile() {
-	emake -C src
-	emake -C src doc
-	use doc && emake -C doc
+src_configure() {
+	# It aborts on unrecognized options, such as those provided by econf
+	./configure --prefix=/usr --texmf-prefix=/usr/share/texmf || die
+}
+
+src_test() {
+	emake check
 }
 
 src_install() {
@@ -41,7 +48,7 @@ src_install() {
 			DOCDIR="${D}/${TEXMF_DIST_PATH}/doc/latex/${PN}" LATEXDIR="${D}/${TEXMF_DIST_PATH}/tex/latex/${PN}" \
 			LATEXCFGDIR="${D}/${TEXMF_PATH}/tex/latex/${PN}"
 	fi
-	dodoc README
+	dodoc README Changelog
 	texlive-common_handle_config_files
 	pushd "${S}/src" > /dev/null
 	for script in *.py;do
