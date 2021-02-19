@@ -3,7 +3,7 @@
 
 EAPI=7
 
-PYTHON_COMPAT=( python3_{6,7} ) # python3_8 blocked by python-termstyle
+PYTHON_COMPAT=( python3_{7..9} ) # python3_8 blocked by python-termstyle
 EGIT_REPO_URI="https://github.com/olivierverdier/pydflatex.git"
 
 inherit git-r3 distutils-r1
@@ -17,8 +17,7 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""
 
-DEPEND="dev-python/blessings[${PYTHON_USEDEP}]
-	dev-python/python-termstyle[${PYTHON_USEDEP}]"
+DEPEND="dev-python/blessings[${PYTHON_USEDEP}]"
 RDEPEND="${DEPEND}"
 
 distutils_enable_tests unittest
