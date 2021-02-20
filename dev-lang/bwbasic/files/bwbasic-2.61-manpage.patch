@@ -1,0 +1,11 @@
+--- a/bwbasic.1	2021-02-20 12:15:56.759781230 -0500
++++ b/bwbasic.1	2016-06-15 23:43:11.565000000 -0400
+@@ -1,3 +1,8 @@
++.TH BWBASIC 1 "October 11, 1993"
++.SH NAME
++bwbasic \- Bywater BASIC interpreter/shell
++.RE
++.nf
+ 
+ 
+ 

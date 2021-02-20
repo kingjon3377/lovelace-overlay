@@ -1,0 +1,15 @@
+--- a/bwbasic.1	2017-06-08 11:20:14.000000000 -0400
++++ b/bwbasic.1	2016-06-15 23:43:11.565000000 -0400
+@@ -1,7 +1,12 @@
++.TH BWBASIC 1 "October 11, 1993"
++.SH NAME
++bwbasic \- Bywater BASIC interpreter/shell
++.RE
++.nf
+ 
+                     Bywater BASIC Interpreter, version 3.20
+                  ---------------------------------------------
+ 
+                   Copyright (c) 1993, Ted A. Campbell
+                   for bwBASIC version 2.10, 11 October 1993
+ 

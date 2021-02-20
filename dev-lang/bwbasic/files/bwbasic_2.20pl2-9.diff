@@ -1,5 +1,5 @@
---- bwbasic.h
-+++ bwbasic.h
+--- a/bwbasic.h
++++ b/bwbasic.h
 @@ -367,7 +367,7 @@
  
  /* define number of commands */
@@ -9,8 +9,8 @@
  #if UNIX_CMDS
  #define CMDS_DIR	5
  #else
---- bwbasic.c
-+++ bwbasic.c
+--- a/bwbasic.c
++++ b/bwbasic.c
 @@ -1030,6 +1031,7 @@
  bwb_mainloop()
  #endif
@@ -19,8 +19,8 @@
     if ( CURTASK exsc > -1 )
        {
        bwb_execline();			/* execute one line of program */
---- bwb_mes.h
-+++ bwb_mes.h
+--- a/bwb_mes.h
++++ b/bwb_mes.h
 @@ -356,6 +356,7 @@
  #define CMD_REM		"REM"
  #define CMD_LET		"LET"
@@ -29,8 +29,8 @@
  #define CMD_INPUT	"INPUT"
  #define CMD_GO          "GO"
  #define CMD_GOTO        "GOTO"
---- bwb_cmd.c
-+++ bwb_cmd.c
+--- a/bwb_cmd.c
++++ b/bwb_cmd.c
 @@ -552,7 +552,7 @@
     struct bwb_line *oline, *x;
     char varname[ MAXVARNAMESIZE + 1 ];
@@ -65,8 +65,8 @@
     v = (int) exp_getnval( rvar );
  
  #if INTENSIVE_DEBUG
---- bwb_fnc.c
-+++ bwb_fnc.c
+--- a/bwb_fnc.c
++++ b/bwb_fnc.c
 @@ -1437,8 +1437,11 @@
     /* Added check for getenv return value to prevent segmentation faults */
     /* JBV 3/15/96                                                        */
@@ -301,8 +301,8 @@
 +  * Initial Release.
 +
 + -- Robert S. Edmonds <edmonds@freewwweb.com>  Thu, 19 Feb 1998 20:22:12 -0500
---- Makefile.in
-+++ Makefile.in
+--- a/Makefile.in
++++ b/Makefile.in
 @@ -76,9 +76,10 @@
  
  install: all
@@ -324,8 +324,8 @@
  
  mostlyclean: clean
  
---- bwb_dio.c
-+++ bwb_dio.c
+--- a/bwb_dio.c
++++ b/bwb_dio.c
 @@ -90,7 +90,6 @@
     {
     FILE *fp;
@@ -368,8 +368,8 @@
        {
        /* Revised to CALLOC pass-thru call by JBV */
        if ( ( dev_table[ req_devnumber ].buffer = CALLOC( rlen + 1, 1, "bwb_open" )) == NULL )
---- renum.c
-+++ renum.c
+--- a/renum.c
++++ b/renum.c
 @@ -33,7 +33,9 @@
     else
     {
@@ -420,8 +420,8 @@
  }
  
  
---- bwbasic.doc
-+++ bwbasic.doc
+--- a/bwbasic.doc
++++ b/bwbasic.doc
 @@ -307,7 +307,7 @@
  
  5. EXPANDED REFERENCE FOR COMMANDS AND FUNCTIONS
@@ -521,8 +521,8 @@
     		write much longer programs.  This would entail,
     		however, a fairly serious rewriting of the program
     		to utilize memory handles for these storage features
---- bwb_tbl.c
-+++ bwb_tbl.c
+--- a/bwb_tbl.c
++++ b/bwb_tbl.c
 @@ -147,6 +147,7 @@
        { CMD_ON,           bwb_on },
        { CMD_OPTION,       bwb_option },
@@ -531,8 +531,8 @@
        { CMD_RANDOMIZE,    bwb_randomize },
        { CMD_READ,         bwb_read },
        { CMD_REM,          bwb_rem },
---- bwb_var.c
-+++ bwb_var.c
+--- a/bwb_var.c
++++ b/bwb_var.c
 @@ -1806,7 +1806,7 @@
        {
  #if PROG_ERRORS

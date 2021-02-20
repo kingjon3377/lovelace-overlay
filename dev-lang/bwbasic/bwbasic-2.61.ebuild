@@ -23,10 +23,12 @@ PATCHES=(
 	"${FILESDIR}/bwbasic_2.20pl2-9.diff"
 	"${FILESDIR}/renum.patch"
 	"${FILESDIR}/redefines.patch"
+	"${FILESDIR}/${P}-manpage.patch"
 )
 
 src_prepare() {
 	edos2unix $(find . -type f)
+	cp "${PN}.doc" "${PN}.1" || die
 	default
 	chmod +x configure
 }
@@ -36,10 +38,9 @@ src_compile() {
 }
 
 src_install() {
-	dobin bwbasic renum
-	doman debian/renum.1
-	doman "${FILESDIR}/bwbasic.1"
-	dodoc README bwbasic.doc
+	dobin ${PN} renum
+	doman ${PN}.1 renum.1
+	dodoc README ${PN}.doc
 	docinto examples
 	dodoc bwbtest/*
 }

@@ -19,9 +19,12 @@ RDEPEND=""
 
 S="${WORKDIR}"
 
+PATCHES=( "${FILESDIR}/${P}-manpage.patch" )
+
 src_prepare() {
 	edos2unix $(find . -type f)
 	chmod +x configure
+	cp "${PN}.doc" "${PN}.1" || die
 	echo '.so man1/bwbasic.1' > renum.1
 	default
 }
@@ -32,6 +35,6 @@ src_compile() {
 
 src_install() {
 	dobin bwbasic renum
-	doman "${FILESDIR}/bwbasic.1" renum.1
+	doman ${PN}.1 renum.1
 	dodoc README bwbasic.doc DOCS/* example.bas
 }
