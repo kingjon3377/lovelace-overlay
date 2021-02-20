@@ -1,4 +1,4 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -9,7 +9,7 @@ CABAL_FEATURES="lib profile haddock hoogle hscolour test-suite"
 inherit haskell-cabal
 
 DESCRIPTION="Library for parsing and manipulating ePub files and OPF package data"
-HOMEPAGE="http://ui3.info/d/proj/epub-metadata.html"
+HOMEPAGE="https://hub.darcs.net/dino/epub-metadata http://ui3.info/d/proj/epub-metadata.html"
 SRC_URI="mirror://hackage/packages/archive/${PN}/${PV}/${P}.tar.gz"
 
 LICENSE="BSD"
