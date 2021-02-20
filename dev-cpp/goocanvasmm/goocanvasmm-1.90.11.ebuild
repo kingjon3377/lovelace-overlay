@@ -1,8 +1,7 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
-GCONF_DEBUG="no"
+EAPI=7
 GNOME2_LA_PUNT="yes"
 
 inherit gnome2
@@ -27,6 +26,5 @@ DEPEND="${RDEPEND}
 DOCS=( AUTHORS ChangeLog NEWS README TODO )
 
 src_configure() {
-	G2CONF="${G2CONF} $(use_enable static-libs static)"
-	gnome2_src_configure
+	gnome2_src_configure $(use_enable static-libs static)
 }
