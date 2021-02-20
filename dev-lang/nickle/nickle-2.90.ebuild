@@ -1,22 +1,19 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
 DESCRIPTION="desk calculator language"
-HOMEPAGE="http://nickle.org"
-SRC_URI="http://nickle.org/release/${P}.tar.gz"
+HOMEPAGE="https://nickle.org"
+SRC_URI="https://nickle.org/release/${P}.tar.gz"
 
 LICENSE="BSD-1"
 SLOT="0"
 KEYWORDS="amd64"
 IUSE=""
 
+# TODO: Add tools (something jade?) used in build to BDEPEND
 DEPEND=""
 RDEPEND="${DEPEND}"
-
-PATCHES=(
-	"${FILESDIR}/tutorial-close-tags-nickle.git-1e29f3df828ec68ca7b4556e9b1bb830c8afbb4b.patch"
-)
 
 DOCS=( AUTHORS ChangeLog NEWS README README.name README.release TODO )
