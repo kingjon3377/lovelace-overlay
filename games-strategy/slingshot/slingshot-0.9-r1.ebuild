@@ -1,4 +1,4 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -25,6 +25,7 @@ RDEPEND="${DEPEND}"
 PATCHES=(
 	"${DISTDIR}/${P}-whitespace.patch"
 	"${FILESDIR}/${P}-python3.patch"
+	"${FILESDIR}/${P}-python3_2.patch"
 )
 
 python_prepare() {

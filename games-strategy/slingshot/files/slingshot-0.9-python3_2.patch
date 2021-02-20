@@ -1,0 +1,344 @@
+diff --git a/src/slingshot/network.py b/src/slingshot/network.py
+index 6af5775..8ea6d64 100644
+--- a/src/slingshot/network.py
++++ b/src/slingshot/network.py
+@@ -42,7 +42,7 @@ def wait_for_cnct(self):
+ 				af, socktype, proto, canonname, sa = res
+ 				try:
+ 					connect_s = socket.socket(af, socktype, proto)
+-				except socket.error, msg:
++				except socket.error as msg:
+ 					connect_s = None
+ 					continue
+ 				try:
+@@ -50,12 +50,12 @@ def wait_for_cnct(self):
+ 					connect_s.bind(sa)
+ 					connect_s.listen(1)
+ 					connect_s.settimeout(2)
+-				except socket.error, msg:
++				except socket.error as msg:
+ 					connect_s.close()
+ 					connect_s = None
+ 					continue
+ 				break
+-		except socket.error, msg:
++		except socket.error as msg:
+ 			connect_s = None
+ 
+ 		if connect_s is None:
+@@ -77,18 +77,18 @@ def cnct(self, hostname):
+ 				af, socktype, proto, canonname, sa = res
+ 				try:
+ 					self.s = socket.socket(af, socktype, proto)
+-				except socket.error, msg:
++				except socket.error as msg:
+ 					self.s = None
+ 					continue
+ 				try:
+ 					self.s.settimeout(3)
+ 					self.s.connect(sa)
+-				except socket.error, msg:
++				except socket.error as msg:
+ 					self.s.close()
+ 					self.s = None
+ 					continue
+ 				break
+-		except socket.error, msg:
++		except socket.error as msg:
+ 			self.s = None
+ 
+ 		if self.s is None:
+diff --git a/src/slingshot/particle.py b/src/slingshot/particle.py
+index cd875bb..1541663 100644
+--- a/src/slingshot/particle.py
++++ b/src/slingshot/particle.py
+@@ -32,7 +32,7 @@
+ class Particle(pygame.sprite.Sprite):
+ 
+ 	def __init__(self, pos = (0.0, 0.0), size = 10):
+-                ''' Initialize the particle. '''
++		''' Initialize the particle. '''
+ 		pygame.sprite.Sprite.__init__(self)
+ 		if size == 5:
+ 			self.image = Settings.particle_image5
+@@ -59,7 +59,7 @@ def max_flight(self):
+ 			return False
+ 
+ 	def update(self, planets):
+-                """
++		"""
+                 Updates information about ourselves, namely our location.
+ 
+                 @param planets: list of planets
+@@ -70,7 +70,7 @@ def update(self, planets):
+                           1 otherwise
+                 @rtype: int
+ 
+-                """
++		"""
+ 		self.flight = self.flight - 1
+ 
+ 		self.last_pos = self.pos
+@@ -78,20 +78,20 @@ def update(self, planets):
+ 		for p in planets:
+ 			p_pos = p.get_pos()
+ 			mass = p.get_mass()
+-                        dx = self.pos[0] - p_pos[0]
+-                        dy = self.pos[1] - p_pos[1]
++			dx = self.pos[0] - p_pos[0]
++			dy = self.pos[1] - p_pos[1]
+ 			d = dx**2 + dy**2
+-                        # a is the acceleration in pixels/tick
+-                        #  ->   [ G * m_p * \delta d_x     G * m_p * \delta d_y   ]
+-                        #  a  = [ ---------------------- , ---------------------- ]
+-                        #       [      r ^ (1/3)                 r ^ (1/3)        ]
+-                        try:
+-                            a = ((Settings.g * mass * dx) / (d * math.sqrt(d)), (Settings.g * mass * dy) / (d * math.sqrt(d)))
+-                        except ZeroDivisionError:
+-                            # Hackishly take any silly particles out of the game.
+-                            a = (10000, 10000)
+-                        # It's been a tick, update our velocity according to our
+-                        # acceleration
++			# a is the acceleration in pixels/tick
++			#  ->   [ G * m_p * \delta d_x     G * m_p * \delta d_y   ]
++			#  a  = [ ---------------------- , ---------------------- ]
++			#       [      r ^ (1/3)                 r ^ (1/3)        ]
++			try:
++				a = ((Settings.g * mass * dx) / (d * math.sqrt(d)), (Settings.g * mass * dy) / (d * math.sqrt(d)))
++			except ZeroDivisionError:
++				# Hackishly take any silly particles out of the game.
++				a = (10000, 10000)
++			# It's been a tick, update our velocity according to our
++			# acceleration
+ 			self.v = (self.v[0] - a[0], self.v[1] - a[1])
+ 
+ 		self.pos = (self.pos[0] + self.v[0], self.pos[1] + self.v[1])
+@@ -102,19 +102,19 @@ def update(self, planets):
+ 		for p in planets:
+ 			p_pos = p.get_pos()
+ 			r = p.get_radius()
+-                        # d is not the distance from the planet, it's the distance squared.
++			# d is not the distance from the planet, it's the distance squared.
+ 			d = (self.pos[0] - p_pos[0])**2 + (self.pos[1] - p_pos[1])**2
+-                        if p.type == "Blackhole":
+-                                min_dist = p.get_mass()
+-                                if d <= min_dist:
+-                                        self.impact_pos = p_pos
+-                                        self.pos = self.impact_pos
+-                                        return -1
+-                        elif d <= (r)**2:
+-                                # This is a planet
+-                                self.impact_pos = get_intersect(p_pos, r, self.last_pos, self.pos)
+-                                self.pos = self.impact_pos
+-                                return 0
++			if p.type == "Blackhole":
++				min_dist = p.get_mass()
++				if d <= min_dist:
++					self.impact_pos = p_pos
++					self.pos = self.impact_pos
++					return -1
++			elif d <= (r)**2:
++				# This is a planet
++				self.impact_pos = get_intersect(p_pos, r, self.last_pos, self.pos)
++				self.pos = self.impact_pos
++				return 0
+ 
+ 		if Settings.BOUNCE:
+ 			if self.pos[0] > 799:
+@@ -146,10 +146,10 @@ def in_range(self):
+ 			return False
+ 
+ 	def visible(self):
+-                """
+-                Returns whether or not the particle is within the playing area.
++		"""
++		Returns whether or not the particle is within the playing area.
+ 
+-                """
++		"""
+ 		if pygame.Rect(0, 0, 800, 600).collidepoint(self.pos):
+ 			return True
+ 		else:
+@@ -186,7 +186,7 @@ def launch(self, player):
+ 	def update_players(self, players):
+ 		result = 1
+ 
+-		for i in xrange(10):
++		for i in range(10):
+ 			pos = (self.last_pos[0] + i * 0.1 * self.v[0], self.last_pos[1] + i * 0.1 * self.v[1])
+ 			if players[1].hit(pos):
+ 				result = 0
+@@ -215,9 +215,9 @@ def draw_status(self, screen):
+ 	def update(self, planets, players):
+ 		result = Particle.update(self, planets)
+ 		result = result * self.update_players(players)
+-                # Draws the missile's trajectory only if we haven't entered a black hole.
+-                if result != -1:
+-                        pygame.draw.aaline(self.trail_screen, self.trail_color, self.last_pos, self.pos)
++		# Draws the missile's trajectory only if we haven't entered a black hole.
++		if result != -1:
++			pygame.draw.aaline(self.trail_screen, self.trail_color, self.last_pos, self.pos)
+ 		return result
+ 
+ 	def get_image(self):
+diff --git a/src/slingshot/planet.py b/src/slingshot/planet.py
+index a6da9db..7626506 100644
+--- a/src/slingshot/planet.py
++++ b/src/slingshot/planet.py
+@@ -31,10 +31,10 @@
+ from slingshot.general import *
+ 
+ class Planet(pygame.sprite.Sprite):
+-        """ A planet sprite """
++	""" A planet sprite """
+ 
+ 	def __init__(self, planets, background, n=None, radius=None, mass=None, pos=None):
+-                """
++		"""
+                 Initialize a Planet.
+ 
+                 @param planets: list of Planets
+@@ -54,7 +54,7 @@ def __init__(self, planets, background, n=None, radius=None, mass=None, pos=None
+                 """
+ 		pygame.sprite.Sprite.__init__(self)
+ 
+-                self.type = "Planet"
++		self.type = "Planet"
+ 
+ 		if n == None and planets != None:
+ 			unique = False
+@@ -75,8 +75,8 @@ def __init__(self, planets, background, n=None, radius=None, mass=None, pos=None
+ 			positioned = False
+ 			while not positioned:
+ 				self.mass = randint(8,512)
+-                                # radius is between 25 and 100 when mass is
+-                                # between 8 and 512
++				# radius is between 25 and 100 when mass is
++				# between 8 and 512
+ 				self.r = self.mass**(1.0/3.0) * 12.5
+ 				self.pos = (randint(Settings.PLANET_SHIP_DISTANCE + round(self.r), 800 - Settings.PLANET_SHIP_DISTANCE - round(self.r)), randint(Settings.PLANET_EDGE_DISTANCE + round(self.r), 600 - Settings.PLANET_EDGE_DISTANCE - round(self.r)))
+ 				positioned = True
+@@ -129,15 +129,15 @@ def fade(self, f):
+ #				self.image.set_at((randint(0, round(self.r * 2)), randint(0, round(self.r * 2))), (0,0,0,0))
+ 
+ class Blackhole(Planet):
+-        def __init__(self, planets, background, n=None, radius=None, mass=None, pos=None):
++	def __init__(self, planets, background, n=None, radius=None, mass=None, pos=None):
+ 		pygame.sprite.Sprite.__init__(self)
+ 
+-                self.type = "Blackhole"
++		self.type = "Blackhole"
+ 
+-                self.image = pygame.surface.Surface((2, 2))
+-                self.image.fill((0,0,0))
+-                self.image.set_alpha(0)
+-                self.rect = self.image.get_rect()
++		self.image = pygame.surface.Surface((2, 2))
++		self.image.fill((0,0,0))
++		self.image.set_alpha(0)
++		self.rect = self.image.get_rect()
+ 
+ 		if n == None and planets != None:
+ 			unique = False
+@@ -153,7 +153,7 @@ def __init__(self, planets, background, n=None, radius=None, mass=None, pos=None
+ 		if radius == None or mass == None or pos == None:
+ 			positioned = False
+ 			while not positioned:
+-                                # We can't accurately represent blackholes in
++								# We can't accurately represent blackholes in
+                                 # this game. According to my (feeble)
+                                 # understanding of the Schwarzschild radius, to
+                                 # have a radius of 1m and be a black hole, we'd
+@@ -162,7 +162,7 @@ def __init__(self, planets, background, n=None, radius=None, mass=None, pos=None
+                                 # our largest planet.
+ 				self.mass = randint(600, 700)
+ 				self.r = 1 # radius
+-                                # Slightly more distance from the sides than
++								# Slightly more distance from the sides than
+                                 # planets because of our massive gravit.
+                                 # field.
+ 				self.pos = (randint(3 * Settings.PLANET_SHIP_DISTANCE + round(self.r),
+@@ -179,10 +179,10 @@ def __init__(self, planets, background, n=None, radius=None, mass=None, pos=None
+ 			self.r = radius
+ 			self.pos = pos
+ 
+-                self.orig = self.image
+-                self.rect = self.orig.get_rect()
++		self.orig = self.image
++		self.rect = self.orig.get_rect()
+ 		self.rect.center = self.pos
+ 
+-        def fade(self, f):
+-                """ Don't mess with our alpha, we're invilible! """
+-                pass
++		def fade(self, f):
++			""" Don't mess with our alpha, we're invilible! """
++			pass
+diff --git a/src/slingshot/player.py b/src/slingshot/player.py
+index 2558f85..94cb71c 100644
+--- a/src/slingshot/player.py
++++ b/src/slingshot/player.py
+@@ -192,7 +192,7 @@ def draw_status(self, screen):
+ 
+ 	def update_explosion(self):
+ 		self.e = self.e + 1
+-		s = self.e * (6 - self.e) * 100 / 9
++		s = self.e * (6 - self.e) * 100 // 9
+ 		if s >= 0:
+ 			self.image = pygame.transform.scale(self.exp, (s,s))
+ 			pos = self.rect.center
+@@ -200,7 +200,7 @@ def update_explosion(self):
+ 			self.rect.center = pos
+ 
+ 	def draw_line(self, screen):
+-                ''' Draws the aiming line out of the ship's gun. '''
++		''' Draws the aiming line out of the ship's gun. '''
+ 		(sx,sy) = self.get_launchpoint()
+ 
+ 		pygame.draw.aaline(screen, self.color, (sx,sy), (sx + self.power * math.sin(math.radians(self.angle)), sy - self.power * math.cos(math.radians(self.angle))))
+@@ -218,10 +218,10 @@ def draw(self, screen):
+ #			if img2 == 7:
+ #				f = f - 8.0
+ 
+-		print
+-		print img1
+-		print img2
+-		print f
++		print()
++		print(img1)
++		print(img2)
++		print(f)
+ 
+ 		rect1 = pygame.Rect(img1 * 40, 0, 40, 33)
+ 		rect2 = pygame.Rect(img2 * 40, 0, 40, 33)
+diff --git a/src/slingshot/settings.py b/src/slingshot/settings.py
+index 799fa7b..4f3bd3e 100644
+--- a/src/slingshot/settings.py
++++ b/src/slingshot/settings.py
+@@ -26,7 +26,7 @@
+ 
+ class Settings:
+ 
+-        VERSION = '0.9'
++	VERSION = '0.9'
+ 
+ 	g = 120 # gravity
+ 	MAXPOWER = 350
+@@ -52,7 +52,7 @@ class Settings:
+ 	MAX_FLIGHT = 750
+ 
+ 	MAX_PLANETS = 4
+-        MAX_BLACKHOLES = 0
++	MAX_BLACKHOLES = 0
+ 
+ 	HITSCORE = 1500
+ 	SELFHIT = 2000
+@@ -71,6 +71,6 @@ class Settings:
+ 
+ 	MAX_ROUNDS = 0
+ 
+-        DATA_PATH = os.path.join(os.path.dirname(__file__), 'data/')
++	DATA_PATH = os.path.join(os.path.dirname(__file__), 'data/')
+ 
+-        FULLSCREEN = False
++	FULLSCREEN = False
