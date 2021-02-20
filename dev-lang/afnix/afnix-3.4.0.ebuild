@@ -5,24 +5,39 @@ EAPI=7
 
 inherit toolchain-funcs
 
+DEBIAN_PATCH_V=2
+
 DESCRIPTION="Compiler and run-time for the AFNIX programming language"
 HOMEPAGE="http://www.afnix.org/"
 # http://www.afnix.org/ftp/afnix-src-2.4.0.tgz
 SRC_URI="http://www.afnix.org/ftp/${PN}-src-${PV}.tgz
-	doc? ( http://www.afnix.org/ftp/${PN}-doc-${PV}.tgz )"
+	doc? ( http://www.afnix.org/ftp/${PN}-doc-${PV}.tgz )
+	mirror://debian/pool/main/a/${PN}/${PN}_${PV}-${DEBIAN_PATCH_V}.debian.tar.xz"
 
 LICENSE="afnix"
 SLOT="0"
 KEYWORDS="~amd64"
 IUSE="+doc"
 
-DEPEND=""
-RDEPEND="${DEPEND}"
+RDEPEND="sys-libs/ncurses:0="
+DEPEND="${RDEPEND}
+	app-arch/xz-utils"
 
 S="${WORKDIR}/${PN}-src-${PV}"
 
 # A test fails, in a way that looks like a problem with my local computer configuration
-RESTRICT=test
+#RESTRICT=test
+
+src_prepare() {
+	mv "${WORKDIR}/debian" "${S}/debian" || die
+	for file in $(cat debian/patches/series);do
+		eapply "debian/patches/${file}"
+	done
+	if ! has_version 'sys-libs/ncurses:0[tinfo]'; then
+		sed -i -e 's@-ltinfo@-lncurses@' cnf/mak/afnix-libs.mak || die
+	fi
+	default
+}
 
 src_configure() {
 	sed -i -e "s:-Werror::" cnf/mak/*.mak || die "removing -Werror failed"
@@ -32,12 +47,12 @@ src_configure() {
 }
 
 src_compile() {
-	emake CC=$(tc-getCXX) LD=$(tc-getCXX) STDCCFLAGS="${CXXFLAGS} -std=c++0x" AR=$(tc-getAR) RANLIB=$(tc-getRANLIB)
+	emake CC=$(tc-getCXX) LD=$(tc-getCXX) AR=$(tc-getAR) RANLIB=$(tc-getRANLIB)
 	use doc && emake doc
 }
 
 src_test() {
-	emake test CC=$(tc-getCXX) LD=$(tc-getCXX) STDCCFLAGS="${CXXFLAGS} -std=c++0x" AR=$(tc-getAR) RANLIB=$(tc-getRANLIB) \
+	emake test CC=$(tc-getCXX) LD=$(tc-getCXX) AR=$(tc-getAR) RANLIB=$(tc-getRANLIB) \
 		DLYPATH="${S}/bld/lib"
 }
 
