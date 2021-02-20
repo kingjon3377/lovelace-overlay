@@ -1,4 +1,4 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -35,6 +35,7 @@ src_unpack() {
 
 PATCHES=(
 	"${FILESDIR}"/craft-install.patch
+	"${FILESDIR}"/craft-install-2.patch
 	"${FILESDIR}"/fscanf-void.patch
 	"${FILESDIR}/object_handler.patch"
 	"${FILESDIR}/getline_rename.patch"
@@ -42,9 +43,7 @@ PATCHES=(
 
 src_prepare() {
 	default
-	for a in field.hc cmap_edit.hc; do
-		echo >> "${WORKDIR}/${a}" # TODO: Would 'touch' work instead?
-	done
+	touch field.hc cmap_edit.hc || die
 }
 
 src_compile() {
