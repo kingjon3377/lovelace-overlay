@@ -1,0 +1,221 @@
+diff -Nur mailliststat-1.3/mls_text.c mailliststat-1.3.new/mls_text.c
+--- mailliststat-1.3/mls_text.c	2005-12-01 21:44:46.000000000 +0100
++++ mailliststat-1.3.new/mls_text.c	2005-12-01 22:08:45.000000000 +0100
+@@ -336,7 +337,7 @@
+   if (mode!=2) { // don't print HTML header/footer in html2 mode
+     fprintf(fOut,"<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n");
+     fprintf(fOut,"<HTML><HEAD>\n");
+-    fprintf(fOut,"  <META HTTP-EQUIV=\"Content-Type\" CONTENT=\"text/html; charset=%s\">\n",langCharset[lang]);
++    fprintf(fOut,"  <META HTTP-EQUIV=\"Content-Type\" CONTENT=\"text/html; charset=%s\">\n",nl_langinfo(CODESET));
+     fprintf(fOut,"  <META NAME=\"GENERATOR\" CONTENT=\"MailListStat by (C) Marki, 2001-2003\">\n");
+     fprintf(fOut,"  <META NAME=\"AUTHOR\" CONTENT=\"(marki (at) nexin.sk)  (http://freshmeat.net/projects/mls)\">\n");
+     fprintf(fOut,"  <LINK href=\"style_mls.css\" rel=\"stylesheet\" type=\"text/css\">\n");
+@@ -354,148 +355,148 @@
+    if (onlytitle==1) fprintf(fOut, "%s", title); // only user-defined title
+    else { // normal title
+      tm1=localtime(&t_oldest);
+-     fprintf(fOut,"%s %i.%i.%i ", langTit1[lang], tm1->tm_mday, tm1->tm_mon+1, tm1->tm_year+1900);
++     fprintf(fOut,"%s %i.%i.%i ", _("Statistics from"), tm1->tm_mday, tm1->tm_mon+1, tm1->tm_year+1900);
+      tm1=localtime(&t_newest);
+-     fprintf(fOut,"%s %i.%i.%i" , langTit2[lang], tm1->tm_mday, tm1->tm_mon+1, tm1->tm_year+1900);
+-     if (title[0]!='\0') fprintf(fOut,"<br>%s %s",langTit3[lang],title);
++     fprintf(fOut,"%s %i.%i.%i" , _("to"), tm1->tm_mday, tm1->tm_mon+1, tm1->tm_year+1900);
++     if (title[0]!='\0') fprintf(fOut,"<br>%s %s",_("for"),title);
+    }
+    fprintf(fOut,"</h1>\n");
+    fprintf(fOut,"<!-- === -->\n"); // marker for PHP wrapper
+ 
+    // TOP AUTHORS by no. of msgs
+-   fprintf(fOut,"\n<h2 id=\"zozA\">%s</h2>\n",langTOPpeople[lang]);
++   fprintf(fOut,"\n<h2 id=\"zozA\">%s</h2>\n",_("People who have written most messages:"));
+    fprintf(fOut,"<TABLE class=\"topXX\">\n");
+    fprintf(fOut," <TR class=\"topXXhead\">");
+-// fprintf(fOut,"<td>&nbsp;<td>&nbsp;%s&nbsp;<td>&nbsp;%s&nbsp;<td>&nbsp;Percent&nbsp;\n",langGAuthorHtml[lang],langGMessHtml[lang]);
+-   fprintf(fOut,"<td>&nbsp;<td>&nbsp;%s&nbsp;<td>&nbsp;%s&nbsp;<td>&nbsp;%s&nbsp;\n",langGAuthorHtml[lang],langGMessHtml[lang],langPercentHtml[lang]);
++// fprintf(fOut,"<td>&nbsp;<td>&nbsp;%s&nbsp;<td>&nbsp;%s&nbsp;<td>&nbsp;Percent&nbsp;\n",_("Author"),_("Msg"));
++   fprintf(fOut,"<td>&nbsp;<td>&nbsp;%s&nbsp;<td>&nbsp;%s&nbsp;<td>&nbsp;%s&nbsp;\n",_("Author"),_("Msg"),_("Percent"));
+    PrintTopHtml(zozA, topXX);
+    i=nSprav - GetSumZoz(zozA, topXX);
+-   fprintf(fOut," <TR class=\"topXXtrO\"><td>&nbsp;<td>%s<td align=\"right\">%li<td align=\"right\">%5.2f %%\n",langOstI[lang],i,(float)i/nSprav*100);
++   fprintf(fOut," <TR class=\"topXXtrO\"><td>&nbsp;<td>%s<td align=\"right\">%li<td align=\"right\">%5.2f %%\n",_("other"),i,(float)i/nSprav*100);
+    fprintf(fOut,"</TABLE>\n");
+ 
+    // TOP AUTHORS by total size of msgs
+-   fprintf(fOut,"\n<h2 id=\"zozAt\">%s</h2>\n",langTOPauthorSizeT[lang]);
++   fprintf(fOut,"\n<h2 id=\"zozAt\">%s</h2>\n",_("Best authors, by total size of their messages (w/o quoting):"));
+    fprintf(fOut,"<TABLE class=\"topXX\">\n");
+    fprintf(fOut," <TR class=\"topXXhead\">");
+-   fprintf(fOut,"<td>&nbsp;<td>&nbsp;%s&nbsp;<td>&nbsp;KBytes&nbsp;\n",langGAuthorHtml[lang]);
++   fprintf(fOut,"<td>&nbsp;<td>&nbsp;%s&nbsp;<td>&nbsp;KBytes&nbsp;\n",_("Author"));
+    for (i=1, akt=zozAt; (i <= topXX) && (akt!=NULL); i++, akt=akt->next) {
+-       if (akt->text[0]=='\0') myCopy(akt->text, langUnknown[lang], MAX_TEXT);
++       if (akt->text[0]=='\0') myCopy(akt->text, _("(unknown)"), MAX_TEXT);
+        fprintf(fOut," <TR class=\"%s\"><td align=\"right\">%li<td>%s<td align=\"right\">%6.1f\n",(i%2)?"topXXtr1":"topXXtr2",i,akt->text,(float)akt->count/1024);
+    }
+    fprintf(fOut,"</TABLE>\n");
+ 
+    // TOP AUTHORS by average size of msgs
+-   fprintf(fOut,"\n<h2 id=\"zozAa\">%s</h2>\n",langTOPauthorSizeA[lang]);
++   fprintf(fOut,"\n<h2 id=\"zozAa\">%s</h2>\n",_("Best authors, by average size of their message (w/o quoting):"));
+    fprintf(fOut,"<TABLE class=\"topXX\">\n");
+    fprintf(fOut," <TR class=\"topXXhead\">");
+-   fprintf(fOut,"<td>&nbsp;<td>&nbsp;%s&nbsp;<td>&nbsp;bytes&nbsp;\n",langGAuthorHtml[lang]);
++   fprintf(fOut,"<td>&nbsp;<td>&nbsp;%s&nbsp;<td>&nbsp;bytes&nbsp;\n",_("Author"));
+    for (i=1, akt=zozAa; (i <= topXX) && (akt!=NULL); i++, akt=akt->next) {
+-       if (akt->text[0]=='\0') myCopy(akt->text, langUnknown[lang], MAX_TEXT);
++       if (akt->text[0]=='\0') myCopy(akt->text, _("(unknown)"), MAX_TEXT);
+        fprintf(fOut," <TR class=\"%s\"><td align=\"right\">%li<td>%s<td align=\"right\">%lu\n",(i%2)?"topXXtr1":"topXXtr2",i,akt->text,akt->count);
+    }
+    fprintf(fOut,"</TABLE>\n");
+ 
+    // TOP SUBJ
+-   fprintf(fOut,"\n<h2 id=\"zozS\">%s</h2>\n",langTOPsubj[lang]);
++   fprintf(fOut,"\n<h2 id=\"zozS\">%s</h2>\n",_("Table showing the most successful subjects:"));
+    fprintf(fOut,"<TABLE class=\"topXX\">\n");
+    fprintf(fOut," <TR class=\"topXXhead\">");
+-// fprintf(fOut,"<td>&nbsp;<td>&nbsp;Subject&nbsp;<td>&nbsp;%s&nbsp;<td>&nbsp;Percent&nbsp;\n",langGMessHtml[lang]);
+-   fprintf(fOut,"<td>&nbsp;<td>&nbsp;%s&nbsp;<td>&nbsp;%s&nbsp;<td>&nbsp;%s&nbsp;\n",langSubjectHtml[lang],langGMessHtml[lang],langPercentHtml[lang]);
++// fprintf(fOut,"<td>&nbsp;<td>&nbsp;Subject&nbsp;<td>&nbsp;%s&nbsp;<td>&nbsp;Percent&nbsp;\n",_("Msg"));
++   fprintf(fOut,"<td>&nbsp;<td>&nbsp;%s&nbsp;<td>&nbsp;%s&nbsp;<td>&nbsp;%s&nbsp;\n",_("Subject"),_("Msg"),_("Percent"));
+    PrintTopHtml(zozS, topXX);
+    i=nSprav - GetSumZoz(zozS, topXX);
+-   fprintf(fOut," <TR class=\"topXXtrO\"><td>&nbsp;<td>%s<td align=\"right\">%li<td align=\"right\">%5.2f %%\n",langOstE[lang],i,(float)i/nSprav*100);
++   fprintf(fOut," <TR class=\"topXXtrO\"><td>&nbsp;<td>%s<td align=\"right\">%li<td align=\"right\">%5.2f %%\n",_("other"),i,(float)i/nSprav*100);
+    fprintf(fOut,"</TABLE>\n");
+ 
+    // TOP MAILERS
+-   fprintf(fOut,"\n<h2 id=\"zozM\">%s</h2>\n",langTOPmail[lang]);
++   fprintf(fOut,"\n<h2 id=\"zozM\">%s</h2>\n",_("Most used email clients:"));
+    fprintf(fOut,"<TABLE class=\"topXX\">\n");
+    fprintf(fOut," <TR class=\"topXXhead\">");
+-// fprintf(fOut,"<td>&nbsp;<td>&nbsp;Mailer&nbsp;<td>&nbsp;%s&nbsp;<td>&nbsp;Percent&nbsp;\n",langGMessHtml[lang]);
+-   fprintf(fOut,"<td>&nbsp;<td>&nbsp;%s&nbsp;<td>&nbsp;%s&nbsp;<td>&nbsp;%s&nbsp;\n",langMailerHtml[lang],langGMessHtml[lang],langPercentHtml[lang]);
++// fprintf(fOut,"<td>&nbsp;<td>&nbsp;Mailer&nbsp;<td>&nbsp;%s&nbsp;<td>&nbsp;Percent&nbsp;\n",_("Msg"));
++   fprintf(fOut,"<td>&nbsp;<td>&nbsp;%s&nbsp;<td>&nbsp;%s&nbsp;<td>&nbsp;%s&nbsp;\n",_("Mailer"),_("Msg"),_("Percent"));
+    PrintTopHtml(zozM, topXX);
+    i=nSprav - GetSumZoz(zozM, topXX);
+-   fprintf(fOut," <TR class=\"topXXtrO\"><td>&nbsp;<td>%s<td align=\"right\">%li<td align=\"right\">%5.2f %%\n",langOstE[lang],i,(float)i/nSprav*100);
++   fprintf(fOut," <TR class=\"topXXtrO\"><td>&nbsp;<td>%s<td align=\"right\">%li<td align=\"right\">%5.2f %%\n",_("other"),i,(float)i/nSprav*100);
+    fprintf(fOut,"</TABLE>\n");
+ 
+    // TOP QUOTING
+-   fprintf(fOut,"\n<h2 id=\"zozQ\">%s</h2>\n",langTOPquote[lang]);
++   fprintf(fOut,"\n<h2 id=\"zozQ\">%s</h2>\n",_("Table of maximal quoting:"));
+    fprintf(fOut,"<TABLE class=\"topXX\">\n");
+    fprintf(fOut," <TR class=\"topXXhead\">");
+-// fprintf(fOut,"<td>&nbsp;<td>&nbsp;%s&nbsp;<td>&nbsp;Percent&nbsp;\n",langGAuthorHtml[lang]);
+-   fprintf(fOut,"<td>&nbsp;<td>&nbsp;%s&nbsp;<td>&nbsp;%s&nbsp;\n",langGAuthorHtml[lang],langPercentHtml[lang]);
++// fprintf(fOut,"<td>&nbsp;<td>&nbsp;%s&nbsp;<td>&nbsp;Percent&nbsp;\n",_("Author"));
++   fprintf(fOut,"<td>&nbsp;<td>&nbsp;%s&nbsp;<td>&nbsp;%s&nbsp;\n",_("Author"),_("Percent"));
+    for (i=1, akt=zozQ; (i <= topXX) && (akt!=NULL); i++, akt=akt->next) {
+-       if (akt->text[0]=='\0') myCopy(akt->text, langUnknown[lang], MAX_TEXT);
++       if (akt->text[0]=='\0') myCopy(akt->text, _("(unknown)"), MAX_TEXT);
+        fprintf(fOut," <TR class=\"%s\"><td align=\"right\">%li<td>%s<td align=\"right\">%6.2f %%\n",(i%2)?"topXXtr1":"topXXtr2",i,akt->text,(float)akt->count/100);
+    }
+-   fprintf(fOut," <TR class=\"topXXtrO\"><td>&nbsp;<td>%s<td align=\"right\">%6.2f %%\n",langAvg[lang],(float)GetSumZozQ(zozQ)/nDlzka*100);
++   fprintf(fOut," <TR class=\"topXXtrO\"><td>&nbsp;<td>%s<td align=\"right\">%6.2f %%\n",_("average"),(float)GetSumZozQ(zozQ)/nDlzka*100);
+    fprintf(fOut,"</TABLE>\n");
+ 
+    // Hours of day
+    if (graph & G_DAY) {
+-     fprintf(fOut,"\n<h2 id=\"Ghour\">%s</h2>\n",langGhour[lang]);
+-     PrintGraphHtml(nHod, sNumb, 24, langHour[lang]);
+-     if (GetSum(nHod, 24) != nSprav) fprintf(fOut,"<br><b>%s:</b> <i>%li %s</i>.<br>\n",langWarn[lang],nSprav - GetSum(nHod,24),langCount[lang]);
++     fprintf(fOut,"\n<h2 id=\"Ghour\">%s</h2>\n",_("Graph showing number of messages written during hours of day:"));
++     PrintGraphHtml(nHod, sNumb, 24, _("hour "));
++     if (GetSum(nHod, 24) != nSprav) fprintf(fOut,"<br><b>%s:</b> <i>%li %s</i>.<br>\n",_("Warning"),nSprav - GetSum(nHod,24),_("message(s) not counted"));
+    }
+ 
+    // Days of month
+    if (graph & G_MONTH) {
+-     fprintf(fOut,"\n<h2 id=\"Gmonth\">%s</h2>\n",langGday[lang]);
+-     PrintGraphHtml(nDen, sNumb+1, 31, langDay[lang]);
+-     if (GetSum(nDen, 31) != nSprav) fprintf(fOut,"<br><b>%s:</b> <i>%li %s</i>.<br>\n",langWarn[lang],nSprav - GetSum(nDen,31),langCount[lang]);
++     fprintf(fOut,"\n<h2 id=\"Gmonth\">%s</h2>\n",_("Graph showing number of messages written during days of month:"));
++     PrintGraphHtml(nDen, sNumb+1, 31, _("day "));
++     if (GetSum(nDen, 31) != nSprav) fprintf(fOut,"<br><b>%s:</b> <i>%li %s</i>.<br>\n",_("Warning"),nSprav - GetSum(nDen,31),_("message(s) not counted"));
+    }
+ 
+    // Days of week
+    if (graph & G_WEEK) {
+-     for (i=0; i <= 7; i++) { // fill the sNumb array with week-day names from langDOW[lang]
+-        strncpy(sNumb[i], langDOW[lang]+i*4, 3);
++     for (i=0; i <= 7; i++) { // fill the sNumb array with week-day names from _("Mon Tue Wed Thu Fri Sat Sun")
++        strncpy(sNumb[i], _("Mon Tue Wed Thu Fri Sat Sun")+i*4, 3);
+         sNumb[i][3]='\0';
+      }
+-     fprintf(fOut,"\n<h2 id=\"Gweek\">%s</h2>\n",langGdow[lang]);
++     fprintf(fOut,"\n<h2 id=\"Gweek\">%s</h2>\n",_("Graph showing number of messages written during days of week:"));
+      PrintGraphHtml(nDOW, sNumb, 7, "");
+-     if (GetSum(nDOW,  7) != nSprav) fprintf(fOut,"<br><b>%s:</b> <i>%li %s</i>.<br>\n",langWarn[lang],nSprav - GetSum(nDOW, 7),langCount[lang]);
++     if (GetSum(nDOW,  7) != nSprav) fprintf(fOut,"<br><b>%s:</b> <i>%li %s</i>.<br>\n",_("Warning"),nSprav - GetSum(nDOW, 7),_("message(s) not counted"));
+    }
+ 
+    // Months of year
+    if (graph & G_YEAR) {
+-     for (i=0; i <=12; i++) { // fill the sNumb array with month-names from langMON[lang]
+-        strncpy(sNumb[i], langMON[lang]+i*4, 3);
++     for (i=0; i <=12; i++) { // fill the sNumb array with month-names from _("Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec")
++        strncpy(sNumb[i], _("Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec")+i*4, 3);
+         sNumb[i][3]='\0';
+      }
+-     fprintf(fOut,"\n<h2 id=\"Gmonth\">%s</h2>\n",langGmon[lang]);
++     fprintf(fOut,"\n<h2 id=\"Gmonth\">%s</h2>\n",_("Graph showing number of messages written during months of year:"));
+      PrintGraphHtml(nMon, sNumb,12, "");
+-     if (GetSum(nMon, 12) != nSprav) fprintf(fOut,"<br><b>%s:</b> <i>%li %s</i>.<br>\n",langWarn[lang],nSprav - GetSum(nMon,12),langCount[lang]);
++     if (GetSum(nMon, 12) != nSprav) fprintf(fOut,"<br><b>%s:</b> <i>%li %s</i>.<br>\n",_("Warning"),nSprav - GetSum(nMon,12),_("message(s) not counted"));
+    }
+ 
+-   fprintf(fOut,"\n<h2 id=\"endstat\">%s</h2>\n",langMaxQuot[lang]);
++   fprintf(fOut,"\n<h2 id=\"endstat\">%s</h2>\n",_("Maximal quoting:"));
+    fprintf(fOut,"<TABLE class=\"endstat\">\n");
+-   fprintf(fOut," <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %s \n",langAuth[lang], msgQ->auth);
+-   fprintf(fOut," <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %s \n",langSubj[lang], msgQ->subj);
+-   fprintf(fOut," <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %s \n",langDate[lang], msgQ->date);
+-   fprintf(fOut," <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %0.2f%% / %li %s\n",langRate[lang], msgQ->perc*100,msgQ->size, langByte[lang]);
++   fprintf(fOut," <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %s \n",_("Author     :"), msgQ->auth);
++   fprintf(fOut," <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %s \n",_("Subject    :"), msgQ->subj);
++   fprintf(fOut," <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %s \n",_("Date       :"), msgQ->date);
++   fprintf(fOut," <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %0.2f%% / %li %s\n",_("Quote ratio:"), msgQ->perc*100,msgQ->size, _("bytes"));
+    fprintf(fOut,"</TABLE>\n");
+ 
+-   fprintf(fOut,"\n<h2>%s</h2>\n",langMaxLeng[lang]);
++   fprintf(fOut,"\n<h2>%s</h2>\n",_("Longest message:"));
+    fprintf(fOut,"<TABLE class=\"endstat\">\n");
+-   fprintf(fOut,"  <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %s\n",langAuth[lang], msgD->auth);
+-   fprintf(fOut,"  <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %s\n",langSubj[lang], msgD->subj);
+-   fprintf(fOut,"  <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %s\n",langDate[lang], msgD->date);
+-   fprintf(fOut,"  <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %li %s\n",langSize[lang], msgD->size, langByte[lang]);
++   fprintf(fOut,"  <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %s\n",_("Author     :"), msgD->auth);
++   fprintf(fOut,"  <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %s\n",_("Subject    :"), msgD->subj);
++   fprintf(fOut,"  <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %s\n",_("Date       :"), msgD->date);
++   fprintf(fOut,"  <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %li %s\n",_("Size       :"), msgD->size, _("bytes"));
+    fprintf(fOut,"</TABLE>\n");
+ 
+-   fprintf(fOut,"\n<h2>%s</h2>\n",langMaxSubj[lang]);
++   fprintf(fOut,"\n<h2>%s</h2>\n",_("Most successful subject:"));
+    fprintf(fOut,"<TABLE class=\"endstat\">\n");
+-   fprintf(fOut," <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %s\n" ,langSubj[lang], zozS->text);
+-   fprintf(fOut," <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %li\n",langNumb[lang], zozS->count);
+-   fprintf(fOut," <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %li %s\n",langSSiz[lang], zozS->size, langByte[lang]);
++   fprintf(fOut," <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %s\n" ,_("Subject    :"), zozS->text);
++   fprintf(fOut," <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %li\n",_("No. of msgs:"), zozS->count);
++   fprintf(fOut," <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %li %s\n",_("Total size :"), zozS->size, _("bytes"));
+    fprintf(fOut,"</TABLE>\n");
+ 
+-   fprintf(fOut,"\n<h2>%s</h2>\n",langEndStat[lang]);
++   fprintf(fOut,"\n<h2>%s</h2>\n",_("Final summary:"));
+    fprintf(fOut,"<TABLE class=\"endstat\">\n");
+-   fprintf(fOut,"  <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %li\n",langTotMess[lang], nSprav);
+-   fprintf(fOut,"  <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %li\n",langTotAuth[lang], GetCount(zozA));
+-   fprintf(fOut,"  <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %li\n",langTotSubj[lang], GetCount(zozS));
+-   fprintf(fOut,"  <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %li %s\n",langTotLeng[lang], nDlzka, langByte[lang]);
+-   fprintf(fOut,"  <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %li %s\n",langAvgLeng[lang], nDlzka/nSprav, langByte[lang]);
++   fprintf(fOut,"  <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %li\n",_("Total number of messages:            "), nSprav);
++   fprintf(fOut,"  <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %li\n",_("Total number of different authors:   "), GetCount(zozA));
++   fprintf(fOut,"  <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %li\n",_("Total number of different subjects:  "), GetCount(zozS));
++   fprintf(fOut,"  <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %li %s\n",_("Total size of messages (w/o headers):"), nDlzka, _("bytes"));
++   fprintf(fOut,"  <TR class=\"endstat\"><td class=\"endtit\"> <i>%s</i> <td class=\"endval\"> %li %s\n",_("Average size of a message:           "), nDlzka/nSprav, _("bytes"));
+    fprintf(fOut,"</TABLE>\n");
+ 
+    fprintf(fOut,"\n<HR>\n");

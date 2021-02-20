@@ -1,0 +1,265 @@
+diff -Nur mailliststat-1.3/mls_text.c mailliststat-1.3.new/mls_text.c
+--- mailliststat-1.3/mls_text.c	2005-12-01 21:44:46.000000000 +0100
++++ mailliststat-1.3.new/mls_text.c	2005-12-01 22:08:45.000000000 +0100
+@@ -19,13 +19,14 @@
+  ****************************************************************************/
+ 
+ #include "mls.h"
+-#include "mls_lang.h"
+ #include "mls_stat.h"
++#include <libintl.h>
++#include <langinfo.h>
++#define _(String) gettext (String)
+ 
+ // because we must specify it when 2dimensional array is passed to function
+ #define SNUMB_LEN	4
+ 
+-extern int lang;
+ extern int graph;
+ extern int onlytitle;
+ extern FILE *fOut;
+@@ -83,7 +84,7 @@
+   int i;
+   
+   for (i=1, akt=first; (i <= top) && (akt!=NULL); i++, akt=akt->next) {
+-      if (akt->text[0]=='\0') myCopy(akt->text, langUnknown[lang], MAX_TEXT);
++      if (akt->text[0]=='\0') myCopy(akt->text, _("(unknown)"), MAX_TEXT);
+       fprintf(fOut,"|%3i | %-44.44s |%5li |%6.2f %% |\n",i,akt->text,akt->count,(float)akt->count/nSprav*100);
+   }
+ }
+@@ -94,7 +95,7 @@
+   int i;
+   
+   for (i=1, akt=first; (i <= top) && (akt!=NULL); i++, akt=akt->next) {
+-      if (akt->text[0]=='\0') myCopy(akt->text, langUnknown[lang], MAX_TEXT);
++      if (akt->text[0]=='\0') myCopy(akt->text, _("(unknown)"), MAX_TEXT);
+       fprintf(fOut," <TR class=\"%s\"><td align=\"right\">%i<td>%s<td align=\"right\">%li<td align=\"right\">%6.2f %%\n",(i%2)?"topXXtr1":"topXXtr2",i,akt->text,akt->count,(float)akt->count/nSprav*100);
+   }
+ }
+@@ -105,7 +106,7 @@
+   int i;
+   
+   for (i=1, akt=first; (i <= top) && (akt!=NULL); i++, akt=akt->next) {
+-      if (akt->text[0]=='\0') myCopy(akt->text, langUnknown[lang], MAX_TEXT);
++      if (akt->text[0]=='\0') myCopy(akt->text, _("(unknown)"), MAX_TEXT);
+       fprintf(fOut,"|%3i | %-45.45s       |%6.2f %% |\n",i,akt->text,(float)akt->count/100);
+   }
+ }
+@@ -135,7 +136,7 @@
+     }
+     fprintf(fOut,"\n%3i%% -%s", i*10, line);
+     if (i==10) fprintf(fOut," - %li", max);
+-    if (i== 9) fprintf(fOut," %s", langMess[lang]);
++    if (i== 9) fprintf(fOut," %s", _("msgs"));
+   }
+   // footer - description of x-axis
+   for (i=0; i < max_index; i++) {
+@@ -161,7 +162,7 @@
+ // GRAPH w/ HORIZONTAL BARS (and ALT tags)
+ /*
+   fprintf(fOut," <TR valign=\"middle\"><td class=\"graph\" align=\"center\"><i>%s</i>", sHeader);
+-  fprintf(fOut,"<td class=\"graph\" align=\"left\">&nbsp;<i>%s</i>\n", langMess[lang]);
++  fprintf(fOut,"<td class=\"graph\" align=\"left\">&nbsp;<i>%s</i>\n", _("msgs"));
+   for (i=0; i < max_index; i++) {
+     a=(float)data[i]/max;
+     for (j=0; j < a*10; j++) ch[j]='#'; // print # for every 10%
+@@ -172,7 +173,7 @@
+   }
+ */
+ // GRAPH w/ VERTICAL BARS
+-  fprintf(fOut, "<TR valign=\"bottom\"><td class=\"graph\" align=\"center\">%s\n", langMess[lang]);
++  fprintf(fOut, "<TR valign=\"bottom\"><td class=\"graph\" align=\"center\">%s\n", _("msgs"));
+   for (i=0; i < max_index; i++) {
+     a=(float)data[i]/max;
+     a*=150; // max. height of bar
+@@ -194,129 +195,129 @@
+ 
+   if (nSprav > 0) {
+    tm1=localtime(&t_oldest);
+-   sprintf(string,"\n %s %i.%i.%i", langTit1[lang], tm1->tm_mday, tm1->tm_mon+1, tm1->tm_year+1900);
++   sprintf(string,"\n %s %i.%i.%i", _("Statistics from"), tm1->tm_mday, tm1->tm_mon+1, tm1->tm_year+1900);
+    tm1=localtime(&t_newest);
+-   sprintf(string+strlen(string)," %s %i.%i.%i", langTit2[lang], tm1->tm_mday, tm1->tm_mon+1, tm1->tm_year+1900);
+-   if (title[0]!='\0') sprintf(string+strlen(string)," %s %s",langTit3[lang],title);
++   sprintf(string+strlen(string)," %s %i.%i.%i", _("to"), tm1->tm_mday, tm1->tm_mon+1, tm1->tm_year+1900);
++   if (title[0]!='\0') sprintf(string+strlen(string)," %s %s",_("for"),title);
+    if (onlytitle==1) sprintf(string, "%s", title); // only user-defined title
+    fprintf(fOut,"%s\n",string);
+    for (i=0; i<strlen(string); i++) fprintf(fOut,"~");
+ 
+    // TOP AUTHORS by no. of msgs
+-   fprintf(fOut,"\n***** %s\n",langTOPpeople[lang]);
+-// fprintf(fOut,"+----+----%s----------------------------------+%s+-Percent-+\n",langGAuthor[lang],langGMess[lang]);
+-   fprintf(fOut,"+----+----%s----------------------------------+%s+%s+\n",langGAuthor[lang],langGMess[lang],langPercent[lang]);
++   fprintf(fOut,"\n***** %s\n",_("People who have written most messages:"));
++// fprintf(fOut,"+----+----%s----------------------------------+%s+-Percent-+\n",_("-Author-"),_("--Msg-"));
++   fprintf(fOut,"+----+----%s----------------------------------+%s+%s+\n",_("-Author-"),_("--Msg-"),_("-Percent-"));
+    PrintTop(zozA, topXX);
+    fprintf(fOut,"+----+----------------------------------------------+------+---------+\n");
+    i=nSprav - GetSumZoz(zozA, topXX);
+-   fprintf(fOut,"|    | %-44.44s |%5li | %5.2f %% |\n",langOstI[lang],i,(float)i/nSprav*100);
++   fprintf(fOut,"|    | %-44.44s |%5li | %5.2f %% |\n",_("other"),i,(float)i/nSprav*100);
+    fprintf(fOut,"+----+----------------------------------------------+------+---------+\n");
+ 
+    // TOP AUTHORS by total size of msgs
+-   fprintf(fOut,"\n***** %s\n",langTOPauthorSizeT[lang]);
+-   fprintf(fOut,"+----+----%s------------------------------------------+-KBytes-+\n",langGAuthor[lang]);
++   fprintf(fOut,"\n***** %s\n",_("Best authors, by total size of their messages (w/o quoting):"));
++   fprintf(fOut,"+----+----%s------------------------------------------+-KBytes-+\n",_("-Author-"));
+    for (i=1, akt=zozAt; (i <= topXX) && (akt!=NULL); i++, akt=akt->next) {
+-       if (akt->text[0]=='\0') myCopy(akt->text, langUnknown[lang], MAX_TEXT);
++       if (akt->text[0]=='\0') myCopy(akt->text, _("(unknown)"), MAX_TEXT);
+        fprintf(fOut,"|%3li | %-52.52s | %6.1f |\n",i,akt->text,(float)akt->count/1024);
+    }
+    fprintf(fOut,"+----+------------------------------------------------------+--------+\n");
+ 
+    // TOP AUTHORS by average size of msgs
+-   fprintf(fOut,"\n***** %s\n",langTOPauthorSizeA[lang]);
+-   fprintf(fOut,"+----+----%s-------------------------------------------+-bytes-+\n",langGAuthor[lang]);
++   fprintf(fOut,"\n***** %s\n",_("Best authors, by average size of their message (w/o quoting):"));
++   fprintf(fOut,"+----+----%s-------------------------------------------+-bytes-+\n",_("-Author-"));
+    for (i=1, akt=zozAa; (i <= topXX) && (akt!=NULL); i++, akt=akt->next) {
+-       if (akt->text[0]=='\0') myCopy(akt->text, langUnknown[lang], MAX_TEXT);
++       if (akt->text[0]=='\0') myCopy(akt->text, _("(unknown)"), MAX_TEXT);
+        fprintf(fOut,"|%3li | %-53.53s |%6lu |\n",i,akt->text,akt->count);
+    }
+    fprintf(fOut,"+----+-------------------------------------------------------+-------+\n");
+ 
+    // TOP SUBJ
+-   fprintf(fOut,"\n***** %s\n",langTOPsubj[lang]);
+-// fprintf(fOut,"+----+----Subject-----------------------------------+%s+-Percent-+\n",langGMess[lang]);
+-   fprintf(fOut,"+----+---%s----------------------------------+%s+%s+\n",langSubject[lang],langGMess[lang],langPercent[lang]);
++   fprintf(fOut,"\n***** %s\n",_("Table showing the most successful subjects:"));
++// fprintf(fOut,"+----+----Subject-----------------------------------+%s+-Percent-+\n",_("--Msg-"));
++   fprintf(fOut,"+----+---%s----------------------------------+%s+%s+\n",_("-Subject-"),_("--Msg-"),_("-Percent-"));
+    PrintTop(zozS, topXX);
+    fprintf(fOut,"+----+----------------------------------------------+------+---------+\n");
+    i=nSprav - GetSumZoz(zozS, topXX);
+-   fprintf(fOut,"|    | %-44.44s |%5li | %5.2f %% |\n",langOstE[lang],i,(float)i/nSprav*100);
++   fprintf(fOut,"|    | %-44.44s |%5li | %5.2f %% |\n",_("other"),i,(float)i/nSprav*100);
+    fprintf(fOut,"+----+----------------------------------------------+------+---------+\n");
+ 
+    // TOP MAILERS
+-   fprintf(fOut,"\n***** %s\n",langTOPmail[lang]);
+-// fprintf(fOut,"+----+----Mailer------------------------------------+%s+-Percent-+\n",langGMess[lang]);
+-   fprintf(fOut,"+----+---%s----------------------------------+%s+%s+\n",langMailer[lang],langGMess[lang],langPercent[lang]);
++   fprintf(fOut,"\n***** %s\n",_("Most used email clients:"));
++// fprintf(fOut,"+----+----Mailer------------------------------------+%s+-Percent-+\n",_("--Msg-"));
++   fprintf(fOut,"+----+---%s----------------------------------+%s+%s+\n",_("-Mailer--"),_("--Msg-"),_("-Percent-"));
+    PrintTop(zozM, topXX);
+    fprintf(fOut,"+----+----------------------------------------------+------+---------+\n");
+    i=nSprav - GetSumZoz(zozM, topXX);
+-   fprintf(fOut,"|    | %-44.44s |%5li | %5.2f %% |\n",langOstE[lang],i,(float)i/nSprav*100);
++   fprintf(fOut,"|    | %-44.44s |%5li | %5.2f %% |\n",_("other"),i,(float)i/nSprav*100);
+    fprintf(fOut,"+----+----------------------------------------------+------+---------+\n");
+ 
+    // TOP QUOTING
+-   fprintf(fOut,"\n***** %s\n",langTOPquote[lang]);
+-// fprintf(fOut,"+----+----%s-----------------------------------------+-Percent-+\n",langGAuthor[lang]);
+-   fprintf(fOut,"+----+----%s-----------------------------------------+%s+\n",langGAuthor[lang],langPercent[lang]);
++   fprintf(fOut,"\n***** %s\n",_("Table of maximal quoting:"));
++// fprintf(fOut,"+----+----%s-----------------------------------------+-Percent-+\n",_("-Author-"));
++   fprintf(fOut,"+----+----%s-----------------------------------------+%s+\n",_("-Author-"),_("-Percent-"));
+    for (i=1, akt=zozQ; (i <= topXX) && (akt!=NULL); i++, akt=akt->next) {
+-       if (akt->text[0]=='\0') myCopy(akt->text, langUnknown[lang], MAX_TEXT);
++       if (akt->text[0]=='\0') myCopy(akt->text, _("(unknown)"), MAX_TEXT);
+        fprintf(fOut,"|%3li | %-45.45s       |%6.2f %% |\n",i,akt->text,(float)akt->count/100);
+    }
+    fprintf(fOut,"+----+-----------------------------------------------------+---------+\n");
+-   fprintf(fOut,"|    | %-45.45s       | %5.2f %% |\n",langAvg[lang],(float)GetSumZozQ(zozQ)/nDlzka*100);
++   fprintf(fOut,"|    | %-45.45s       | %5.2f %% |\n",_("average"),(float)GetSumZozQ(zozQ)/nDlzka*100);
+    fprintf(fOut,"+----+-----------------------------------------------------+---------+\n");
+ 
+    // Hours of day
+    if (graph & G_DAY) {
+-     fprintf(fOut,"\n***** %s\n",langGhour[lang]);
++     fprintf(fOut,"\n***** %s\n",_("Graph showing number of messages written during hours of day:"));
+      PrintGraph(nHod,24,2);
+-     fprintf(fOut,"%s 0         5           11          17          23\n",langHour[lang]);
+-     if (GetSum(nHod, 24) != nSprav) fprintf(fOut,"!!!!! %s: %li %s.\n",langWarn[lang],nSprav - GetSum(nHod,24),langCount[lang]);
++     fprintf(fOut,"%s 0         5           11          17          23\n",_("hour "));
++     if (GetSum(nHod, 24) != nSprav) fprintf(fOut,"!!!!! %s: %li %s.\n",_("Warning"),nSprav - GetSum(nHod,24),_("message(s) not counted"));
+    }
+ 
+    // Days of month
+    if (graph & G_MONTH) {
+-     fprintf(fOut,"\n\n***** %s\n",langGday[lang]);
++     fprintf(fOut,"\n\n***** %s\n",_("Graph showing number of messages written during days of month:"));
+      PrintGraph(nDen,31,2);
+-     fprintf(fOut," %s 1         6           12          18          24            31\n",langDay[lang]);
+-     if (GetSum(nDen, 31) != nSprav) fprintf(fOut,"!!!!! %s: %li %s.\n",langWarn[lang],nSprav - GetSum(nDen,31),langCount[lang]);
++     fprintf(fOut," %s 1         6           12          18          24            31\n",_("day "));
++     if (GetSum(nDen, 31) != nSprav) fprintf(fOut,"!!!!! %s: %li %s.\n",_("Warning"),nSprav - GetSum(nDen,31),_("message(s) not counted"));
+    }
+ 
+    // Days of week
+    if (graph & G_WEEK) {
+-     fprintf(fOut,"\n\n***** %s\n",langGdow[lang]);
++     fprintf(fOut,"\n\n***** %s\n",_("Graph showing number of messages written during days of week:"));
+      PrintGraph(nDOW,7,4);
+-     fprintf(fOut,"     %s\n",langDOW[lang]);
+-     if (GetSum(nDOW, 7) != nSprav) fprintf(fOut,"!!!!! %s: %li %s.\n",langWarn[lang],nSprav - GetSum(nDOW,7),langCount[lang]);
++     fprintf(fOut,"     %s\n",_("Mon Tue Wed Thu Fri Sat Sun"));
++     if (GetSum(nDOW, 7) != nSprav) fprintf(fOut,"!!!!! %s: %li %s.\n",_("Warning"),nSprav - GetSum(nDOW,7),_("message(s) not counted"));
+    }
+ 
+    // Months of year
+    if (graph & G_YEAR) {
+-     fprintf(fOut,"\n\n***** %s\n",langGmon[lang]);
++     fprintf(fOut,"\n\n***** %s\n",_("Graph showing number of messages written during months of year:"));
+      PrintGraph(nMon,12,4);
+-     fprintf(fOut,"     %s\n",langMON[lang]);
+-     if (GetSum(nMon, 12) != nSprav) fprintf(fOut,"!!!!! %s: %li %s.\n",langWarn[lang],nSprav - GetSum(nMon,12),langCount[lang]);
++     fprintf(fOut,"     %s\n",_("Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec"));
++     if (GetSum(nMon, 12) != nSprav) fprintf(fOut,"!!!!! %s: %li %s.\n",_("Warning"),nSprav - GetSum(nMon,12),_("message(s) not counted"));
+    }
+ 
+-   fprintf(fOut,"\n\n***** %s\n",langMaxQuot[lang]);
+-   fprintf(fOut,"      %s %s\n",langAuth[lang], msgQ->auth);
+-   fprintf(fOut,"      %s %s\n",langSubj[lang], msgQ->subj);
+-   fprintf(fOut,"      %s %s\n",langDate[lang], msgQ->date);
+-   fprintf(fOut,"      %s %0.2f%% / %li %s\n",langRate[lang], msgQ->perc*100,msgQ->size, langByte[lang]);
+-
+-   fprintf(fOut,"\n***** %s\n",langMaxLeng[lang]);
+-   fprintf(fOut,"      %s %s\n",langAuth[lang], msgD->auth);
+-   fprintf(fOut,"      %s %s\n",langSubj[lang], msgD->subj);
+-   fprintf(fOut,"      %s %s\n",langDate[lang], msgD->date);
+-   fprintf(fOut,"      %s %li %s\n",langSize[lang], msgD->size, langByte[lang]);
+-
+-   fprintf(fOut,"\n***** %s\n",langMaxSubj[lang]);
+-   fprintf(fOut,"      %s %s\n" ,langSubj[lang], zozS->text);
+-   fprintf(fOut,"      %s %li\n",langNumb[lang], zozS->count);
+-   fprintf(fOut,"      %s %li %s\n",langSSiz[lang], zozS->size, langByte[lang]);
+-
+-   fprintf(fOut,"\n***** %s\n",langEndStat[lang]);
+-   fprintf(fOut,"      %s %li\n",langTotMess[lang], nSprav);
+-   fprintf(fOut,"      %s %li\n",langTotAuth[lang], GetCount(zozA));
+-   fprintf(fOut,"      %s %li\n",langTotSubj[lang], GetCount(zozS));
+-   fprintf(fOut,"      %s %li %s\n",langTotLeng[lang], nDlzka, langByte[lang]);
+-   fprintf(fOut,"      %s %li %s\n",langAvgLeng[lang], nDlzka/nSprav, langByte[lang]);
++   fprintf(fOut,"\n\n***** %s\n",_("Maximal quoting:"));
++   fprintf(fOut,"      %s %s\n",_("Author     :"), msgQ->auth);
++   fprintf(fOut,"      %s %s\n",_("Subject    :"), msgQ->subj);
++   fprintf(fOut,"      %s %s\n",_("Date       :"), msgQ->date);
++   fprintf(fOut,"      %s %0.2f%% / %li %s\n",_("Quote ratio:"), msgQ->perc*100,msgQ->size, _("bytes"));
++
++   fprintf(fOut,"\n***** %s\n",_("Longest message:"));
++   fprintf(fOut,"      %s %s\n",_("Author     :"), msgD->auth);
++   fprintf(fOut,"      %s %s\n",_("Subject    :"), msgD->subj);
++   fprintf(fOut,"      %s %s\n",_("Date       :"), msgD->date);
++   fprintf(fOut,"      %s %li %s\n",_("Size       :"), msgD->size, _("bytes"));
++
++   fprintf(fOut,"\n***** %s\n",_("Most successful subject:"));
++   fprintf(fOut,"      %s %s\n" ,_("Subject    :"), zozS->text);
++   fprintf(fOut,"      %s %li\n",_("No. of msgs:"), zozS->count);
++   fprintf(fOut,"      %s %li %s\n",_("Total size :"), zozS->size, _("bytes"));
++
++   fprintf(fOut,"\n***** %s\n",_("Final summary:"));
++   fprintf(fOut,"      %s %li\n",_("Total number of messages:            "), nSprav);
++   fprintf(fOut,"      %s %li\n",_("Total number of different authors:   "), GetCount(zozA));
++   fprintf(fOut,"      %s %li\n",_("Total number of different subjects:  "), GetCount(zozS));
++   fprintf(fOut,"      %s %li %s\n",_("Total size of messages (w/o headers):"), nDlzka, _("bytes"));
++   fprintf(fOut,"      %s %li %s\n",_("Average size of a message:           "), nDlzka/nSprav, _("bytes"));
+ 
+    fprintf(fOut,"\n");
+    fprintf(fOut,"***** Generated by MailListStat v%s, (C) 2001-2003 <marki (at) nexin.sk>\n",VERSION);

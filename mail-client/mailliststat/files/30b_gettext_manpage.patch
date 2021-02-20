@@ -1,0 +1,82 @@
+diff -Nur mailliststat-1.3/man/mailliststat.1 mailliststat-1.3.new/man/mailliststat.1
+--- mailliststat-1.3/man/mailliststat.1	2005-12-01 21:44:46.000000000 +0100
++++ mailliststat-1.3.new/man/mailliststat.1	2005-12-01 22:28:37.000000000 +0100
+@@ -3,8 +3,7 @@
+ .SH NAME
+ mailliststat \- Display useful statistics on email messages
+ .SH SYNOPSIS
+-.B mailliststat [-hvq] [-l
+-.IB lang "] [-i"
++.B mailliststat [-hvq] [-i
+ .IB file "] [-o"
+ .IB file "] [-r|w|u"
+ .IB file "] [-t|T"
+@@ -36,20 +35,6 @@
+ 200th, ..., 900th, 1000th, 2000th ... message being processed) and warnings 
+ about malformed headers found
+ .TP
+-.BI \-l " lang"
+-select output language; please note that this applies only to generated 
+-statistics - program messages printed to
+-.I stderr
+-ale always in English. These languages are currently supported:
+-.IR EN " (English),"
+-.IR SK " (Slovak),"
+-.IR IT " (Italian),"
+-.IR FR " (Francais),"
+-.IR DE " (Deutsch),"
+-.IR ES " (Spanish),"
+-.IR SR " (Serbian),"
+-.IR BR " (Portugues Brasil)."
+-.TP
+ .BI \-i " file"
+ name of input file (if not specified, use
+ .IR stdin ")."
+@@ -108,7 +93,7 @@
+ of cache file is invalid. Try to create the cache file again.
+ .TP
+ .B 2
+-Invalid command-line option/language. You have specified an invalid
++Invalid command-line option. You have specified an invalid
+ command-line parameter.
+ .TP
+ .B 3
+@@ -140,8 +125,8 @@
+ put their special messages to the mailbox. This message is only ignored when
+ reporting oldest message found.
+ .SS Output
+-Statistics is put into output file (or stdout if unspecified) in specified
+-language. All diagnostic messages are written to stderr and are in English.
++Statistics is put into output file (or stdout if unspecified). All
++diagnostic messages are written to stderr.
+ Output consists of several statistical data - tables, graphs and summaries.
+ The title has two formats depending on
+ .I "-t"
+@@ -197,7 +182,7 @@
+ actual stats using
+ .B mailliststat
+  as CGI script. It has an advantage over static stats
+-that user can choose language and others options and it will be generated
++that user can choose options and it will be generated
+ in a moment!
+ 
+ To update cache file, use the
+@@ -223,13 +208,13 @@
+ I have written also PHP wrapper for
+ .B mailliststat
+ to make it more "interactive". It has
+-two major advantages over plain HTML output from
++one major advantage over plain HTML output from
+ .BR mailliststat :
+ User can choose output
+-language and number of TOP items to show. It works by running
++number of TOP items to show. It works by running
+ .B mailliststat
+-with appopriate command-line options. It's safe, because only two items from user
+-are language and topXX which are checked using regexp, so running arbitrary
++with appopriate command-line options. It's safe, because only one item from user
++is topXX which is checked using regexp, so running arbitrary
+ code is not possible. You can also alter
+ .B mailliststat
+ output - for example change @ in email addresses to (at) to prevent spamming.
+diff -Nur mailliststat-1.3/mls.c mailliststat-1.3.new/mls.c
