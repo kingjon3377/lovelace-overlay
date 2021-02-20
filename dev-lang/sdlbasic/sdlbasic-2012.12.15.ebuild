@@ -1,4 +1,4 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -27,7 +27,6 @@ src_prepare() {
 	mkdir debian
 	cp "${FILESDIR}/${PN}.menu" "${FILESDIR}/copyright" \
 		"${FILESDIR}/${PN}.xpm" "${FILESDIR}/${PN}.desktop" \
-		"${FILESDIR}/${PN}.sng" \
 		debian || die
 #	eapply $(sed -e 's:^:debian/patches/:' debian/patches/series)
 	for file in makefiles fonts 64bit fix_example ldflags datadir \
