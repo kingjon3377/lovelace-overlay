@@ -4,8 +4,8 @@
 EAPI=7
 
 DESCRIPTION="a program to can validate HTML, and modify it to be more clean and standard"
-HOMEPAGE="http://www.tidyp.com/"
-SRC_URI="mirror://github/petdance/${PN}/${P}.tar.gz"
+HOMEPAGE="https://github.com/petdance/tidyp"
+SRC_URI="https://github.com/petdance/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="MIT"
 SLOT="0"
