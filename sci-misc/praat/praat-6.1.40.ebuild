@@ -1,4 +1,4 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -30,10 +30,15 @@ RDEPEND="|| ( ( x11-libs/libXmu
 	media-libs/alsa-lib"
 DEPEND="${RDEPEND}
 	app-text/xmlto"
+BDEPEND="app-text/pandoc"
 
-PATCHES=( "${WORKDIR}/debian/patches/fix-procrustes-unit-test.patch" )
+PATCHES=(
+	"${WORKDIR}/debian/patches/use-ldflags.patch"
+	"${WORKDIR}/debian/patches/cross-build.patch"
+)
 
 src_prepare() {
+	default
 	# TODO: following line should be updated for non-linux etc. builds
 	# (Flammie does not have testing equipment)
 	cp "${S}/makefiles/makefile.defs.linux.alsa" "${S}/makefile.defs"
@@ -43,18 +48,17 @@ src_prepare() {
 		-e 's:^LINK = g++:LINK = $(USER_LINK):' \
 		-e '/^CFLAGS/s/ -O[0-9] / /' \
 		-e '/^CFLAGS/s/ -g\([0-9]\|\) / /' \
-		"${S}/makefile.defs"
+		"${S}/makefile.defs" || die
 	sed -i -e 's@xvfb-run -a @@' -e 's@xvfb-run @@' "${WORKDIR}/debian/tests/run-tests" || die
-	default
 }
 
 src_compile() {
 	emake USER_CC="$(tc-getCC) ${CFLAGS}" USER_CXX="$(tc-getCXX) ${CXXFLAGS}" \
 		"USER_AR=$(tc-getAR)" "USER_LINK=$(tc-getCXX) ${LDFLAGS} -Wl,--as-needed"
 	$(tc-getCC) ${CPPFLAGS} ${CFLAGS} ${LDFLAGS} -Wl,--as-needed -DSTAND_ALONE -DUNIX \
-		-o send${PN} sys/send${PN}.c $(pkg-config --cflags --libs gtk+-2.0) || die
+		-o send${PN} sys/send${PN}.c $(pkg-config --cflags --libs gtk+-2.0) -lX11 || die
 	for file in ${PN} send${PN} ${PN}-open-files;do
-		xmlto -m "${WORKDIR}/debian/manpage.xsl" man "${WORKDIR}/debian/${file}.dbk"
+		pandoc --standalone --to man "${WORKDIR}/debian/${file}.md" -o "${file}.1" || die
 	done
 }
 
@@ -68,9 +72,9 @@ src_install() {
 	insinto /usr/share/pixmaps
 	doins ../debian/${PN}.xpm
 	insinto /usr/share/icons/hicolor/scalable/apps
-	doins ../debian/${PN}.svg
+	doins main/${PN}.svg
 	insinto /usr/share/applications
-	doins ../debian/${PN}.desktop
+	doins main/${PN}.desktop
 	doman ${PN}.1 send${PN}.1 ${PN}-open-files.1
 	newdoc ../debian/What_s_new_.html ChangeLog.html
 }
