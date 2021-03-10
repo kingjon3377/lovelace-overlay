@@ -1,11 +1,11 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
 DESCRIPTION="meta search and replace tool for both filenames and files"
-HOMEPAGE="http://complearn.org"
-SRC_URI="http://complearn.org/downloads/${P}.tar.gz"
+HOMEPAGE="https://complearn.org"
+SRC_URI="https://complearn.org/downloads/${P}.tar.gz"
 
 LICENSE="BSD"
 SLOT="0"
