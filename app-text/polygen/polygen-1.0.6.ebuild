@@ -6,8 +6,8 @@ EAPI=7
 inherit readme.gentoo-r1
 
 DESCRIPTION="Random phrases generator based on defined grammar files."
-HOMEPAGE="http://www.polygen.org"
-SRC_URI="http://www.polygen.org/dist/${P}-20040628-src.zip"
+HOMEPAGE="https://www.polygen.org"
+SRC_URI="https://www.polygen.org/dist/${P}-20040628-src.zip"
 #SRC_URI="http://ftp.de.debian.org/debian/pool/main/p/polygen/polygen_1.0.6.ds2.orig.tar.gz"
 
 LICENSE="GPL-2"
