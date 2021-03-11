@@ -1,15 +1,15 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
 GNOME2_LA_PUNT="yes"
 PYTHON_COMPAT=( python3_{6,7,8,9} )
 
-inherit autotools gnome2 python-single-r1 versionator vcs-snapshot
+inherit autotools gnome2 python-single-r1 eapi7-ver vcs-snapshot
 
 DESCRIPTION="Helpful utility to attack Repetitive Strain Injury (RSI)"
 HOMEPAGE="http://www.workrave.org/"
-MY_PV=$(replace_all_version_separators '_')
+MY_PV=$(ver_rs 1- '_')
 SRC_URI="https://github.com/rcaelers/${PN}/archive/v${MY_PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="GPL-3+"
