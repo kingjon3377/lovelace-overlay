@@ -1,15 +1,18 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
 inherit toolchain-funcs
 
-DESCRIPTION="Bible Retrieval System: UI for the Bible"
-HOMEPAGE="https://launchpad.net/ubuntu/+source/bible-kjv"
-SRC_URI="https://launchpad.net/ubuntu/+archive/primary/+files/bible-kjv_${PV}.tar.gz"
+# TODO: Rename this package to bible-kjv, and move to app-dicts
+MY_PN=bible-kjv
 
-LICENSE="GPL-2"
+DESCRIPTION="Bible Retrieval System: UI for the Bible"
+HOMEPAGE="https://packages.debian.org/bible-kjv"
+SRC_URI="mirror://debian/pool/main/${MY_PN:0:1}/${MY_PN}/${MY_PN}_${PV}.tar.gz"
+
+LICENSE="GPL-2+"
 SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""
@@ -17,12 +20,18 @@ IUSE=""
 DEPEND=""
 RDEPEND="${DEPEND}"
 
-S="${WORKDIR}/bible-kjv"
+#S="${WORKDIR}/${MY_PN}"
+S="${WORKDIR}/work"
 
 src_prepare() {
 	sed -i -e 's:\([ 	]\)make\([ 	]\):\1$(MAKE)\2:g' -e "s:-ggdb:${CFLAGS}:" \
 		-e 's:-Werror::g' "${S}/Makefile" -e 's:\([ 	]\)@:\1:' || die "sed failed"
 	emake clean
+	default
+}
+
+src_configure() {
+	tc-export CC
 	default
 }
 
