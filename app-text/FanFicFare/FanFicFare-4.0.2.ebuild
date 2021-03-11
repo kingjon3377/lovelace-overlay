@@ -1,8 +1,8 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-PYTHON_COMPAT=( python3_{7,8} )
+PYTHON_COMPAT=( python3_{6,7,8,9} )
 
 inherit distutils-r1
 
@@ -16,9 +16,15 @@ KEYWORDS="~amd64"
 IUSE=""
 
 RDEPEND="${PYTHON_DEPS}
+	dev-python/requests[${PYTHON_USEDEP}]
 	dev-python/beautifulsoup:4[${PYTHON_USEDEP}]
 	dev-python/chardet[${PYTHON_USEDEP}]
 	dev-python/html5lib[${PYTHON_USEDEP}]
+	dev-python/html2text[${PYTHON_USEDEP}]
+	dev-python/urllib3[${PYTHON_USEDEP}]
+	dev-python/requests-file[${PYTHON_USEDEP}]
+	|| ( app-arch/brotli[python,${PYTHON_USEDEP}] dev-python/brotlipy[${PYTHON_USEDEP}] )
+	dev-python/pillow[${PYTHON_USEDEP}]
 	dev-python/cloudscraper[${PYTHON_USEDEP}]"
 DEPEND="${RDEPEND}"
 
