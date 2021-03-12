@@ -9,7 +9,7 @@ PYTHON_COMPAT=( python3_{6..8} )
 inherit distutils-r1 edos2unix
 
 DESCRIPTION="Sophisticated flash-card tool also used for long-term memory research"
-HOMEPAGE="http://www.mnemosyne-proj.org/"
+HOMEPAGE="https://www.mnemosyne-proj.org/"
 SRC_URI="mirror://sourceforge/${PN}-proj/${PN}/${P/2a/2}/${P/m/M}.tar.gz"
 
 LICENSE="GPL-2"
