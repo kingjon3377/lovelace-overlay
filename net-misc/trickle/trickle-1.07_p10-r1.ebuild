@@ -40,6 +40,7 @@ PATCHES=(
 
 src_prepare() {
 	default
+	sed -i -e "s@/lib/@/$(get_libdir)/@" configure.in || die
 	eautoreconf
 }
 
