@@ -1,4 +1,4 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -18,7 +18,7 @@ RDEPEND="dev-qt/qtcharts:5"
 DEPEND="${RDEPEND}"
 
 src_configure() {
-	PREFIX="${EPREFIX}/usr" eqmake5
+	eqmake5 PREFIX="${EPREFIX}/usr" DOCUMENTATION_DIR="${EPREFIX}/usr/share/doc/${PF}/html"
 }
 
 src_install() {
