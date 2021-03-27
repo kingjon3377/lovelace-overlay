@@ -16,13 +16,19 @@ KEYWORDS="~amd64"
 IUSE=""
 
 RDEPEND="${PYTHON_DEPS}
+	dev-python/requests[${PYTHON_USEDEP}]
 	dev-python/beautifulsoup:4[${PYTHON_USEDEP}]
 	dev-python/chardet[${PYTHON_USEDEP}]
 	dev-python/html5lib[${PYTHON_USEDEP}]
+	dev-python/html2text[${PYTHON_USEDEP}]
+	dev-python/urllib3[${PYTHON_USEDEP}]
+	dev-python/requests-file[${PYTHON_USEDEP}]
+	|| ( app-arch/brotli[python,${PYTHON_USEDEP}] dev-python/brotlipy[${PYTHON_USEDEP}] )
+	dev-python/pillow[${PYTHON_USEDEP}]
 	dev-python/cloudscraper[${PYTHON_USEDEP}]"
 DEPEND="${RDEPEND}"
 
-# TODO: Add USE flag for calibre plugin and web-service
+# TODO: Add USE flag for calibre plugin
 
 PATCHES=(
 	"${FILESDIR}/dwiggie-fff-3.patch"
