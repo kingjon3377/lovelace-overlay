@@ -16,7 +16,7 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
 
-RDEPEND="dev-games/clanlib:2.3[X,opengl,sdl,vorbis,sound]
+RDEPEND="dev-games/clanlib:2.3[X,opengl,vorbis,sound]
 	dev-python/pygobject:3[${PYTHON_USEDEP}]
 	media-libs/fontconfig
 	media-libs/freetype
@@ -41,10 +41,6 @@ DOCS=( NEWS README TODO ChangeLog )
 src_prepare() {
 	default
 	eautoreconf
-}
-
-src_compile() {
-	emake
 }
 
 src_install() {
