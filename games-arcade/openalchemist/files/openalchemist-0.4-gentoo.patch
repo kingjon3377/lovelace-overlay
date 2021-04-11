@@ -1,0 +1,35 @@
+--- a/src/misc.cpp	2021-01-10 19:59:58.545571846 -0500
++++ b/src/misc.cpp	2021-01-10 20:03:12.602577043 -0500
+@@ -63,6 +63,7 @@
+ {
+ #ifdef DATA_DIR
+ 	std::string dir = DATA_DIR;
++	dir += "/skins/";
+ #else
+ 	std::string dir = CL_System::get_exe_path();
+ 	dir += "skins";
+@@ -91,7 +92,7 @@
+ #else
+ #ifdef DATA_DIR
+ 	std::string file_path = DATA_DIR;
+-	file_path += "/";
++	file_path += "/data/";
+ #else
+ 	std::string file_path = CL_System::get_exe_path() + "data/";
+ #endif
+@@ -106,6 +107,7 @@
+ {
+ #ifdef DATA_DIR
+ 	std::string dir = DATA_DIR;
++	dir += "/music/";
+ #else
+ 	std::string dir = CL_System::get_exe_path();
+ 	dir += "music";
+@@ -121,6 +123,7 @@
+ {
+ #ifdef DATA_DIR
+ 	std::string dir = DATA_DIR;
++	dir += "/sounds/";
+ #else
+ 	std::string dir = CL_System::get_exe_path();
+ 	dir += "sounds";

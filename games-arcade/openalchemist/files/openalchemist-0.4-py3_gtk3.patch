@@ -1,0 +1,132 @@
+--- a/openalchemist-config	2018-07-14 21:42:36.000000000 +0200
++++ b/openalchemist-config	2019-08-08 16:59:50.849688998 +0200
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/python3
+ # -*- coding: UTF-8 -*-
+ 
+ # Configuration tool (0.3 version)
+@@ -23,7 +23,11 @@
+ 
+ # This program needs Python(http://www.python.org) of course, GTK+(http://www.gtk.org) and PyGTK 2.6 (http://www.pygtk.org).
+ 
+-import gtk, os, sys, struct, ConfigParser
++import gi
++gi.require_version("Gtk", "3.0")
++from gi.repository import Gtk
++from gi.repository import Gdk
++import os, sys, configparser
+ 
+ OPENALCHEMIST_VERSION = "svn"
+ 
+@@ -31,10 +35,10 @@
+ 	def __init__(self):
+ 		self.init_GUI()
+ 		self.readfile()
+-		gtk.main()
++		Gtk.main()
+ 
+ 	def readfile(self):
+-		ini = ConfigParser.SafeConfigParser()
++		ini = configparser.ConfigParser()
+ 		
+ 		try:
+ 			ini.read(os.getenv("HOME")+"/.openalchemist/preferences-"+OPENALCHEMIST_VERSION+".ini")
+@@ -53,69 +57,68 @@
+ 			else:
+ 				self.window.cb_widescreen.set_active(False)
+ 		except:
+-			print "Error while reading ini file"
++			print("Error while reading ini file")
+           
+                
+ 	def init_GUI(self):
+ 		# Window creation
+-		self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
+-		self.window.set_title('OpenAlchemist Config')
++		self.window = Gtk.Window(title="OpenAlchemist Config")
+ 
+ 		# Add events
+ 		self.window.connect("destroy", self._event_quit)
+ 
+-		self.window.mainbox = gtk.VBox(homogeneous = False, spacing=10)
++		self.window.mainbox = Gtk.VBox(spacing=10)
+ 		self.window.mainbox.set_border_width(10)
+ 		self.window.add(self.window.mainbox)
+ 
+-		self.window.render_frame = gtk.Frame("Render")
+-		self.window.mainbox.pack_start(self.window.render_frame, fill=False, expand=False)
+-		self.window.render_box = gtk.VBox(homogeneous = True, spacing = 0)
++		self.window.render_frame = Gtk.Frame(label="Render")
++		self.window.mainbox.pack_start(self.window.render_frame, False, False, 0)
++		self.window.render_box = Gtk.VBox(homogeneous = True, spacing = 0)
+ 		self.window.render_box.set_border_width(10)
+ 		self.window.render_frame.add(self.window.render_box)
+-		self.window.rbt_opengl = gtk.RadioButton(label="OpenGL")
+-		self.window.render_box.pack_start(self.window.rbt_opengl, fill=False, expand=False)
+-		self.window.rbt_sdl = gtk.RadioButton(label="SDL", group=self.window.rbt_opengl)
+-		self.window.render_box.pack_start(self.window.rbt_sdl, fill=False, expand=False)
+-
+-		self.window.fps_frame = gtk.Frame("Limit framerate to :")
+-		self.window.mainbox.pack_start(self.window.fps_frame, fill=False, expand=False)
+-		self.window.fps_box = gtk.VBox()
++		self.window.rbt_opengl = Gtk.RadioButton(label="OpenGL")
++		self.window.render_box.pack_start(self.window.rbt_opengl, False, False, 0)
++		self.window.rbt_sdl = Gtk.RadioButton(label="SDL", group=self.window.rbt_opengl)
++		self.window.render_box.pack_start(self.window.rbt_sdl, False, False, 0)
++
++		self.window.fps_frame = Gtk.Frame(label="Limit framerate to :")
++		self.window.mainbox.pack_start(self.window.fps_frame, False, False, 0)
++		self.window.fps_box = Gtk.VBox()
+ 		self.window.fps_frame.add(self.window.fps_box)
+ 		self.window.fps_box.set_border_width(10)
+-		self.window.txt_fps = gtk.Entry()
++		self.window.txt_fps = Gtk.Entry()
+ 		self.window.txt_fps.set_text("60")
+-		self.window.fps_box.pack_start(self.window.txt_fps, fill=False, expand=False)
++		self.window.fps_box.pack_start(self.window.txt_fps, False, False, 0)
+ 
+-		self.window.options_frame = gtk.Frame("Options")
+-		self.window.mainbox.pack_start(self.window.options_frame, fill=False, expand=False)
+-		self.window.options_box = gtk.VBox()
++		self.window.options_frame = Gtk.Frame(label="Options")
++		self.window.mainbox.pack_start(self.window.options_frame, False, False, 0)
++		self.window.options_box = Gtk.VBox()
+ 		self.window.options_box.set_border_width(10)
+ 		self.window.options_frame.add(self.window.options_box)
+-		self.window.cb_widescreen = gtk.CheckButton(label="Active 16:9 wide screen mode")
+-		self.window.options_box.pack_start(self.window.cb_widescreen, fill=False, expand=False)
+-		self.window.cb_colorblind = gtk.CheckButton(label="Active color blind mode")
+-		self.window.options_box.pack_start(self.window.cb_colorblind, fill=False, expand=False)
++		self.window.cb_widescreen = Gtk.CheckButton(label="Active 16:9 wide screen mode")
++		self.window.options_box.pack_start(self.window.cb_widescreen, False, False, 0)
++		self.window.cb_colorblind = Gtk.CheckButton(label="Active color blind mode")
++		self.window.options_box.pack_start(self.window.cb_colorblind, False, False, 0)
+                
+-		self.window.bt_start = gtk.Button("Run game")
+-		self.window.mainbox.pack_start(self.window.bt_start, fill=False, expand=False)
++		self.window.bt_start = Gtk.Button(label="Run game")
++		self.window.mainbox.pack_start(self.window.bt_start, False, False, 0)
+ 		self.window.bt_start.connect("clicked", self._event_ok)
+ 		
+ 		self.check_resolution()
+ 
+ 		# Show the window and start the main loop.
+-		self.window.set_position(gtk.WIN_POS_CENTER)
++		self.window.set_position(Gtk.WindowPosition.CENTER)
+ 		self.window.show_all()
+ 		
+ 	def check_resolution(self):
+-		ratio = 0.0 + gtk.gdk.screen_width() / (0.0 + gtk.gdk.screen_height())
++		ratio = 0.0 + Gdk.Screen.width() / (0.0 + Gdk.Screen.height())
+ 		if 16.0 / 9.0 * 1.2 > ratio and 16.0 / 9.0 * 0.8 < ratio:
+ 			self.window.cb_widescreen.set_active(True)
+ 		else:
+ 			self.window.cb_widescreen.set_active(False)
+                 
+ 	def _event_quit(self,  event):
+-		gtk.main_quit()
++		Gtk.main_quit()
+ 
+ 	def _event_ok(self, event):
+ 		os.system("cd " + sys.path[0])

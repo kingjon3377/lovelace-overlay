@@ -1,0 +1,57 @@
+--- a/skins/aqua/title.xml	2009-10-26 11:29:30.000000000 +0100
++++ b/skins/aqua/title.xml	2014-04-15 16:20:17.395954367 +0200
+@@ -15,16 +15,13 @@
+ 			
+ 			<!-- Sprite -->
+ 			<sprite name = "sprite">
+-				<!-- first frame -->
+ 				<image file="dialogs/title/start_message.png">
+ 					<grid pos="0,0" size="420,80" />
+ 				</image>
+-				<!-- second frame -->
+ 				<image file="dialogs/title/start_message.png">
+ 					<grid pos="0,0" size="0,0" />
+ 				</image>
+ 				
+-				<!-- animation speed -->
+ 				<animation speed="900" />
+ 			</sprite>
+ 		</section>
+--- a/skins/brushed/title.xml	2009-10-23 13:19:28.000000000 +0200
++++ b/skins/brushed/title.xml	2014-04-15 16:20:26.929053779 +0200
+@@ -15,16 +15,13 @@
+ 			
+ 			<!-- Sprite -->
+ 			<sprite name = "sprite">
+-				<!-- first frame -->
+ 				<image file="dialogs/title/start_message.png">
+ 					<grid pos="0,0" size="420,80" />
+ 				</image>
+-				<!-- second frame -->
+ 				<image file="dialogs/title/start_message.png">
+ 					<grid pos="0,0" size="0,0" />
+ 				</image>
+ 				
+-				<!-- animation speed -->
+ 				<animation speed="900" />
+ 			</sprite>
+ 		</section>
+--- a/skins/vectoriel/title.xml	2009-10-23 13:19:28.000000000 +0200
++++ b/skins/vectoriel/title.xml	2014-04-15 16:20:33.781125227 +0200
+@@ -15,16 +15,13 @@
+ 			
+ 			<!-- Sprite -->
+ 			<sprite name = "sprite">
+-				<!-- first frame -->
+ 				<image file="dialogs/title/start_message.png">
+ 					<grid pos="0,0" size="420,80" />
+ 				</image>
+-				<!-- second frame -->
+ 				<image file="dialogs/title/start_message.png">
+ 					<grid pos="0,0" size="0,0" />
+ 				</image>
+ 				
+-				<!-- animation speed -->
+ 				<animation speed="900" />
+ 			</sprite>
+ 		</section>

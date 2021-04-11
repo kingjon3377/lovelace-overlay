@@ -1,0 +1,378 @@
+--- a/Makefile.am	2009-10-27 11:36:42.000000000 +0100
++++ b/Makefile.am	2011-12-11 20:09:47.375398003 +0100
+@@ -2,7 +2,7 @@ SUBDIRS = build
+ 
+ bin_SCRIPTS = openalchemist-config
+ 
+-dist_pkgdata_DATA = skins/aqua skins/brushed skins/vectoriel data/* music/* sounds/* CODE-LICENSE GRAPHICS-LICENSE skins/aqua.zip skins/brushed.zip skins/vectoriel.zip
++dist_pkgdata_DATA = data/* music/* sounds/* CODE-LICENSE GRAPHICS-LICENSE skins/aqua.zip skins/brushed.zip skins/vectoriel.zip
+ 
+ all : skins/aqua.zip skins/brushed.zip skins/vectoriel.zip
+ 	@echo "-----------------------------------------"
+--- a/build/Makefile.am	2009-10-23 13:19:28.000000000 +0200
++++ b/build/Makefile.am	2011-12-11 17:37:56.652120435 +0100
+@@ -3,5 +3,5 @@ bin_PROGRAMS = openalchemist
+ openalchemist_SOURCES = ../src/Application.cpp ../src/AudioManager.cpp ../src/Board.cpp ../src/CombosPainter.cpp ../src/CommonResources.cpp ../src/DemoPlayer.cpp ../src/FrameRateCounter.cpp ../src/FrontLayer.cpp ../src/GameEngine.cpp ../src/HumanPlayer.cpp ../src/IniFile.cpp ../src/Keys.cpp ../src/LoadingScreen.cpp ../src/Player.cpp ../src/Preferences.cpp ../src/ProgressBar.cpp ../src/Skin.cpp ../src/SkinsManager.cpp ../src/Window.cpp ../src/main.cpp ../src/memory.cpp ../src/misc.cpp ../src/states/CommonState.cpp ../src/states/GameOverState.cpp ../src/states/GameState.cpp ../src/states/InGameState.cpp ../src/states/MenuState.cpp ../src/states/MenuState/BasicItem.cpp ../src/states/MenuState/DualChoiceItem.cpp ../src/states/MenuState/MenuItem.cpp ../src/states/MenuState/MultipleChoicesItem.cpp ../src/states/MenuState/TableChoicesItem.cpp ../src/states/OptionsMenuState.cpp ../src/states/PauseMenuState.cpp ../src/states/QuitMenuState.cpp ../src/states/SkinsMenuState.cpp ../src/states/TitleState.cpp
+ 
+ 
+-AM_CXXFLAGS = `pkg-config --cflags clanCore-2.1 clanDisplay-2.1 clanApp-2.1 clanGL1-2.1 clanGL-2.1 clanGDI-2.1` -DDATA_DIR="\"$(datadir)/openalchemist\""
+-AM_LDFLAGS = `pkg-config --libs clanCore-2.1 clanDisplay-2.1 clanApp-2.1 clanGL1-2.1 clanGL-2.1 clanGDI-2.1 clanSound-2.1 clanVorbis-2.1`
++AM_CXXFLAGS = `pkg-config --cflags clanCore-2.3 clanDisplay-2.3 clanApp-2.3 clanGL1-2.3 clanGL-2.3 clanSWRender-2.3` -DDATA_DIR="\"$(datadir)/openalchemist\""
++AM_LDFLAGS = `pkg-config --libs clanCore-2.3 clanDisplay-2.3 clanApp-2.3 clanGL1-2.3 clanGL-2.3 clanSWRender-2.3 clanSound-2.3 clanVorbis-2.3`
+--- a/configure.ac	2009-10-27 13:09:00.000000000 +0100
++++ b/configure.ac	2011-12-11 17:37:42.876119995 +0100
+@@ -1,29 +1,28 @@
+-% Prelude
++# Prelude
+ AC_INIT([openalchemist], [1.0-rc1], [contact@openalchemist.com])
+ AC_CONFIG_AUX_DIR([build-aux])
+ AM_INIT_AUTOMAKE([-Wall])
+ AC_CONFIG_SRCDIR([src/main.cpp])
+ 
+-% Check for programs
++# Check for programs
+ AC_PROG_CXX
+ 
+-% Check for header files
+-% AC_CHECK_HEADER([iostream string vector list])
++# Check for header files
++# AC_CHECK_HEADER([iostream string vector list])
+ 
+-% Check for libraries
+-REQUIRED_CLANLIB_VERSION="2.1.0"
++# Check for libraries
++REQUIRED_CLANLIB_VERSION="2.3.0"
+ PKG_CHECK_MODULES(clanlib,
+ [
+-	clanCore-2.1 >= $REQUIRED_CLANLIB_VERSION
+-	clanApp-2.1 >= $REQUIRED_CLANLIB_VERSION
+-	clanDisplay-2.1 >= $REQUIRED_CLANLIB_VERSION
+-	clanGL-2.1 >= $REQUIRED_CLANLIB_VERSION
+-	clanSound-2.1 >= $REQUIRED_CLANLIB_VERSION
+-  clanVorbis-2.1 >= $REQUIRED_CLANLIB_VERSION
++	clanCore-2.3 >= $REQUIRED_CLANLIB_VERSION
++	clanApp-2.3 >= $REQUIRED_CLANLIB_VERSION
++	clanDisplay-2.3 >= $REQUIRED_CLANLIB_VERSION
++	clanGL-2.3 >= $REQUIRED_CLANLIB_VERSION
++	clanSound-2.3 >= $REQUIRED_CLANLIB_VERSION
++  clanVorbis-2.3 >= $REQUIRED_CLANLIB_VERSION
+ ], [], [echo "This program needs ClanLib >= 2.0 (clanCore, clanApp, clanDisplay, clanGL, clanSound, clanVorbis)"; exit])
+ 
+-% Outputfiles
+-% AC_CONFIG_HEADERS([src/config.h])
++# Outputfiles
++# AC_CONFIG_HEADERS([src/config.h])
+ AC_CONFIG_FILES([Makefile build/Makefile])
+ AC_OUTPUT
+-
+--- a/src/CombosPainter.cpp	2010-03-30 20:29:00.000000000 +0200
++++ b/src/CombosPainter.cpp	2011-12-11 19:51:59.685415259 +0100
+@@ -62,7 +62,7 @@
+ 	_score_x =  CL_Integer_to_int("combos/score/left", &gfx_combos);
+ 	_score_y =  CL_Integer_to_int("combos/score/top", &gfx_combos);  
+ 
+-	_font_height = (int)_font.get_font_metrics(gc).get_height();
++	_font_height = (int)_font.get_font_metrics().get_height();
+ 
+ }
+ 
+--- a/src/GameEngine.h	2010-03-30 20:29:00.000000000 +0200
++++ b/src/GameEngine.h	2011-12-11 19:50:30.565416701 +0100
+@@ -21,9 +21,9 @@
+ #endif
+ 
+ #include <ClanLib/display.h>
++#include <ClanLib/gl.h> /* gl.h *must* be included before gl1.h !! */
+ #include <ClanLib/gl1.h>
+-#include <ClanLib/gl.h>
+-#include <ClanLib/gdi.h>
++#include <ClanLib/swrender.h>
+ 
+ #include "Window.h"
+ #include "FrameRateCounter.h"
+@@ -117,7 +117,7 @@
+ private:
+ 
+ 	/** Display window	*/
+-	Window _window;
++	GameWindow _window;
+ 
+ 	/** Setup display */
+ 	CL_SetupDisplay setup_display;
+@@ -129,7 +129,7 @@
+ 	CL_SetupGL target_GL2;
+ 
+ 	/** Setup GDI (software render)	*/
+-	CL_SetupGDI target_GDI;
++	CL_SetupSWRender target_GDI;
+ 
+ #ifdef WITH_DX_9
+ 	/** Setup DirectX 9 */
+--- a/src/LoadingScreen.cpp	2010-03-30 20:29:00.000000000 +0200
++++ b/src/LoadingScreen.cpp	2011-12-11 19:47:13.718419883 +0100
+@@ -18,7 +18,7 @@
+ /************************************************************************/
+ /* Constructor                                                          */
+ /************************************************************************/
+-LoadingScreen::LoadingScreen(Window& window):
++LoadingScreen::LoadingScreen(GameWindow& window):
+ _window(window)
+ {
+ 
+--- a/src/LoadingScreen.h	2010-03-30 20:29:00.000000000 +0200
++++ b/src/LoadingScreen.h	2011-12-11 19:49:18.086417871 +0100
+@@ -14,13 +14,13 @@
+ 
+ #include <ClanLib/display.h>
+ 
+-class Window;
++class GameWindow;
+ 
+ class LoadingScreen
+ {
+ 
+ public:
+-	LoadingScreen(Window& window);
++	LoadingScreen(GameWindow& window);
+ 	~LoadingScreen();
+ 
+ 	void init();
+@@ -32,7 +32,7 @@
+ 	CL_Image _progression;
+ 	CL_Image _progression_cursor;
+ 
+-	Window& _window;
++	GameWindow& _window;
+ 
+ };
+ 
+--- a/src/Window.cpp	2010-03-30 20:29:00.000000000 +0200
++++ b/src/Window.cpp	2011-12-11 19:48:54.150418258 +0100
+@@ -18,7 +18,7 @@
+ /************************************************************************/
+ /* Constructor                                                          */
+ /************************************************************************/
+-Window::Window(int game_width, int game_height)
++GameWindow::GameWindow(int game_width, int game_height)
+ {
+ 	_game_width = game_width;
+ 	_game_height = game_height;
+@@ -28,7 +28,7 @@
+ /************************************************************************/
+ /* Destructor                                                           */
+ /************************************************************************/
+-Window::~Window()
++GameWindow::~GameWindow()
+ {
+ }
+ 
+@@ -42,7 +42,7 @@
+ /************************************************************************/
+ /* Manager                                                              */
+ /************************************************************************/
+-void Window::manage(GameEngine& game_engine)
++void GameWindow::manage(GameEngine& game_engine)
+ {
+ 	// Save the old main_window (if valid), so graphics are not lost 
+ 	// when screen mode is changed.
+@@ -89,7 +89,7 @@
+ /************************************************************************/
+ /* Clear                                                                */
+ /************************************************************************/
+-void Window::prepare()
++void GameWindow::prepare()
+ {
+ 	CL_GraphicContext gc = _clanlib_window.get_gc();
+ 
+@@ -114,7 +114,7 @@
+ /************************************************************************/
+ /* Display                                                              */
+ /************************************************************************/
+-void Window::display()
++void GameWindow::display()
+ {
+ 	_clanlib_window.flip(0);
+ 
+--- a/src/Window.h	2010-03-30 20:29:00.000000000 +0200
++++ b/src/Window.h	2011-12-11 19:49:03.349418109 +0100
+@@ -19,15 +19,15 @@
+ /** 
+ * Manage the game window and the render target
+ */
+-class Window{
++class GameWindow{
+ 
+ public:
+ 
+ 	/** Constructor	*/
+-	Window(int game_width, int game_height);
++	GameWindow(int game_width, int game_height);
+ 
+ 	/** Destructor */
+-	~Window();
++	~GameWindow();
+ 
+ 	/** Manage window */
+ 	void manage(GameEngine& game_engine);
+--- a/src/memory.cpp	2010-03-30 20:29:00.000000000 +0200
++++ b/src/memory.cpp	2011-12-11 19:53:14.340414062 +0100
+@@ -159,11 +159,9 @@
+ 		return;
+ 
+ 	MemAlloc* p_current = &mem_alloc_first;
+-	MemAlloc* p_previous = p_current;	
+ 
+ 	while(p_current && p_current -> ptr != ptr)
+ 	{
+-		p_previous = p_current;
+ 		p_current = p_current -> p_next;
+ 	}
+ 	if(p_current && p_current -> ptr == ptr)
+--- a/src/states/CommonState.cpp	2010-03-30 20:29:00.000000000 +0200
++++ b/src/states/CommonState.cpp	2011-12-11 19:48:10.358418952 +0100
+@@ -100,7 +100,7 @@
+ /************************************************************************/
+ /* Events                                                               */
+ /************************************************************************/
+-void CommonState::events(Window& window)
++void CommonState::events(GameWindow& window)
+ {
+ 	CL_InputContext& ic = window.get_ic();
+ 	if(_p_common_resources->key.framerate.get(ic))
+--- a/src/states/CommonState.h	2010-03-30 20:29:00.000000000 +0200
++++ b/src/states/CommonState.h	2011-12-11 19:47:46.294419369 +0100
+@@ -44,7 +44,7 @@
+ 	
+ 	virtual void update(CL_GraphicContext& gc);
+ 	
+-	virtual void events(Window& window);
++	virtual void events(GameWindow& window);
+ 
+ 	virtual bool front_layer_behind();
+ 
+--- a/src/states/GameOverState.cpp	2010-03-30 20:29:00.000000000 +0200
++++ b/src/states/GameOverState.cpp	2011-12-11 19:47:59.702419140 +0100
+@@ -132,7 +132,7 @@
+ /************************************************************************/
+ /* Events                                                               */
+ /************************************************************************/
+-void GameOverState::events(Window& window)
++void GameOverState::events(GameWindow& window)
+ {
+ 	MenuState::events(window);
+ 		
+--- a/src/states/GameOverState.h	2010-03-30 20:29:00.000000000 +0200
++++ b/src/states/GameOverState.h	2011-12-11 19:48:02.758419085 +0100
+@@ -40,7 +40,7 @@
+ 
+ 	virtual void draw(CL_GraphicContext& gc);
+ 
+-	virtual void events(Window& window);
++	virtual void events(GameWindow& window);
+ 
+ 	virtual void action_performed(int selection, ActionType action_type);
+ 
+--- a/src/states/GameState.h	2010-03-30 20:29:00.000000000 +0200
++++ b/src/states/GameState.h	2011-12-11 19:47:50.758419291 +0100
+@@ -16,7 +16,7 @@
+ #include <ClanLib/display.h>
+ 
+ class CommonResources;
+-class Window;
++class GameWindow;
+ 
+ /**
+  * Generic (Abstract) State Class 
+@@ -50,7 +50,7 @@
+   virtual void update(CL_GraphicContext& gc) = 0;
+ 
+   /** Looking up key events */
+-  virtual void events(Window& window) = 0;
++  virtual void events(GameWindow& window) = 0;
+ 
+   /** @return true if the front layer should be displayed behind this state */
+   virtual bool front_layer_behind() = 0;
+--- a/src/states/InGameState.cpp	2010-03-30 20:29:00.000000000 +0200
++++ b/src/states/InGameState.cpp	2011-12-11 19:47:55.478419205 +0100
+@@ -81,7 +81,7 @@
+ /************************************************************************/
+ /* Events                                                               */
+ /************************************************************************/
+-void InGameState::events(Window& window)
++void InGameState::events(GameWindow& window)
+ {
+ 	CL_InputContext & ic = window.get_ic();
+ 	_p_common_resources -> player1.events(ic);
+--- a/src/states/InGameState.h	2010-03-30 20:29:00.000000000 +0200
++++ b/src/states/InGameState.h	2011-12-11 19:48:05.254419035 +0100
+@@ -44,7 +44,7 @@
+ 	
+ 	virtual void update(CL_GraphicContext& gc);
+ 	
+-	virtual void events(Window& window);
++	virtual void events(GameWindow& window);
+ 
+ 	virtual bool front_layer_behind();
+ 
+--- a/src/states/MenuState.cpp	2010-03-30 20:29:00.000000000 +0200
++++ b/src/states/MenuState.cpp	2011-12-11 19:47:41.222419439 +0100
+@@ -97,7 +97,7 @@
+ /************************************************************************/
+ /* Events                                                               */
+ /************************************************************************/
+-void MenuState::events (Window& window)
++void MenuState::events (GameWindow& window)
+ {
+ 	CL_InputContext & ic = window.get_ic();
+ 
+@@ -197,7 +197,7 @@
+ /************************************************************************/
+ /* Mouse events                                                         */
+ /************************************************************************/
+-void MenuState::_mouse_events(Window& window)
++void MenuState::_mouse_events(GameWindow& window)
+ {
+ 	CL_InputContext & ic = window.get_ic();
+ 	if(ic.get_mouse_count() > 0)
+--- a/src/states/MenuState.h	2010-03-30 20:29:00.000000000 +0200
++++ b/src/states/MenuState.h	2011-12-11 19:47:36.230419517 +0100
+@@ -51,7 +51,7 @@
+ 
+ 	virtual void update(CL_GraphicContext& gc);
+ 
+-	virtual void events(Window& window);
++	virtual void events(GameWindow& window);
+ 
+ 	virtual bool front_layer_behind();
+ 	
+@@ -109,7 +109,7 @@
+ 	void _start_disappear();
+ 
+ 	/** Mouse events */
+-	void _mouse_events(Window& window);
++	void _mouse_events(GameWindow& window);
+ 
+ };
+ 
+--- a/src/states/TitleState.cpp	2010-03-30 20:29:00.000000000 +0200
++++ b/src/states/TitleState.cpp	2011-12-11 19:48:07.974419002 +0100
+@@ -279,7 +279,7 @@
+ /************************************************************************/
+ /* Events                                                               */
+ /************************************************************************/
+-void TitleState::events(Window& window)
++void TitleState::events(GameWindow& window)
+ {
+ 	CL_InputContext& ic = window.get_ic();
+ 	CL_InputDevice& keyboard = ic.get_keyboard();
+--- a/src/states/TitleState.h	2010-03-30 20:29:00.000000000 +0200
++++ b/src/states/TitleState.h	2011-12-11 19:48:13.446418919 +0100
+@@ -45,7 +45,7 @@
+ 	
+ 	virtual void update(CL_GraphicContext& gc);
+ 	
+-	virtual void events(Window& window);
++	virtual void events(GameWindow& window);
+ 
+ 	virtual bool front_layer_behind();
+ 
