@@ -23,3 +23,6 @@ media-sound/gwc
 # Depends on masked qtwebkit
 =sci-misc/qcad-3.24.2.4
 
+# Fails tests in a way that suggests it will be completely broken
+=app-misc/email-reminder-0.8.1
+

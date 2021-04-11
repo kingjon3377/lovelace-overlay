@@ -1,0 +1,11 @@
+#!/bin/sh
+COLLECT_SCRIPT=/usr/sbin/collect-reminders
+SEND_SCRIPT=/usr/bin/send-reminders
+
+# Comment out the following line to enable this job
+exit 0
+
+if [ -x "$COLLECT_SCRIPT" -a -x "$SEND_SCRIPT" ]; then
+	$COLLECT_SCRIPT
+	su - email-reminder -c $SEND_SCRIPT
+fi
