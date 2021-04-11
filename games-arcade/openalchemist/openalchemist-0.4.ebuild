@@ -40,6 +40,7 @@ DOCS=( NEWS README TODO ChangeLog )
 
 src_prepare() {
 	default
+	sed -i -e "s@1.0-rc1@${PV}@" -e 's#contact@openalchemist.com#kingjon3377@gmail.com#' configure.ac || die
 	eautoreconf
 }
 
@@ -47,7 +48,7 @@ src_install() {
 	dobin build/${PN} ${PN}-config
 
 	insinto /usr/share/${PN}
-	doins -r data skins music
+	doins -r data skins music sounds
 
 	dodoc ${DOCS} || die "dodoc failed"
 

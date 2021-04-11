@@ -4,7 +4,7 @@
  {
  #ifdef DATA_DIR
    std::string dir = DATA_DIR;
-+  dir += "/skins/";
++  dir += "/skins";
  #else
    std::string dir = CL_System::get_exe_path() + get_path_separator() + "skins";
  #endif
@@ -13,7 +13,7 @@
  #ifdef DATA_DIR
    std::string file_path = DATA_DIR;
 -  file_path += "/";
-+  file_path += "/data/";
++  file_path += "/data";
  #else
    std::string file_path = CL_System::get_exe_path() + "/data";
  #endif
