@@ -47,7 +47,7 @@ src_install() {
 	dobin build/${PN} ${PN}-config
 
 	insinto /usr/share/${PN}
-	doins -r data skins
+	doins -r data skins music
 
 	dodoc ${DOCS} || die "dodoc failed"
 
