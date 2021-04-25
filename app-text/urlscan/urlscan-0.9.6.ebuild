@@ -16,15 +16,9 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""
 
-RDEPEND="dev-python/urwid[${PYTHON_USEDEP}]"
-DEPEND="${RDEPEND}"
+DEPEND="dev-python/urwid[${PYTHON_USEDEP}]"
+RDEPEND="${DEPEND}"
+BDEPEND=""
 
-src_prepare() {
-	default
-	sed -i -e "s@share/doc/${PN}@share/doc/${PF}@" setup.py || die
-}
-
-src_install() {
-	distutils-r1_src_install
-	doman ${PN}.1
-}
+DOCS=( README.rst )
+PATCHES=( "${FILESDIR}/${PN}-0.9.4-respect-paths.patch" )
