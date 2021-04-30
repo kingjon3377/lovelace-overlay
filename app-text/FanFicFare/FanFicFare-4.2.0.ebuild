@@ -28,7 +28,7 @@ RDEPEND="${PYTHON_DEPS}
 	dev-python/cloudscraper[${PYTHON_USEDEP}]"
 DEPEND="${RDEPEND}"
 
-# TODO: Add USE flag for calibre plugin and web-service
+# TODO: Add USE flag for calibre plugin
 
 PATCHES=(
 	"${FILESDIR}/dwiggie-fff-3.patch"
