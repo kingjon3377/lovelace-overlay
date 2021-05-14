@@ -30,10 +30,12 @@ RDEPEND="|| ( ( x11-libs/libXmu
 	media-libs/alsa-lib"
 DEPEND="${RDEPEND}
 	app-text/xmlto"
+BDEPEND="app-text/pandoc"
 
 PATCHES=(
 	"${WORKDIR}/debian/patches/use-ldflags.patch"
 	"${WORKDIR}/debian/patches/cross-build.patch"
+	"${WORKDIR}/debian/patches/disable-test-sound-voiceactivity.patch"
 )
 
 src_prepare() {
@@ -57,7 +59,7 @@ src_compile() {
 	$(tc-getCC) ${CPPFLAGS} ${CFLAGS} ${LDFLAGS} -Wl,--as-needed -DSTAND_ALONE -DUNIX \
 		-o send${PN} sys/send${PN}.c $(pkg-config --cflags --libs gtk+-2.0) -lX11 || die
 	for file in ${PN} send${PN} ${PN}-open-files;do
-		xmlto -m "${WORKDIR}/debian/manpage.xsl" man "${WORKDIR}/debian/${file}.dbk"
+		pandoc --standalone --to man "${WORKDIR}/debian/${file}.md" -o "${file}.1" || die
 	done
 }
 
