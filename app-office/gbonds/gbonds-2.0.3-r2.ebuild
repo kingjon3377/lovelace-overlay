@@ -1,9 +1,9 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 # Copyright 2002 Paul Thompson
 
-EAPI=6
+EAPI=7
 
 inherit gnome2 autotools
 
@@ -14,7 +14,7 @@ inherit gnome2 autotools
 DESCRIPTION="A GNOME US savings bonds inventory program."
 HOMEPAGE="http://gbonds.sourceforge.net"
 SRC_URI="mirror://sourceforge/${PN}/${P}.tar.gz
-	mirror://debian/pool/main/g/${PN}/${PN}_${PV}-12.debian.tar.xz"
+	mirror://debian/pool/main/g/${PN}/${PN}_${PV}-16.debian.tar.xz"
 
 LICENSE="GPL-2"
 SLOT="0"
@@ -24,7 +24,6 @@ KEYWORDS="~amd64 ~x86"
 # Libraries the Debian package depends on.
 RDEPEND="x11-libs/gtk+:3
 		dev-libs/libxml2:2
-		gnome-base/gconf:2
 		x11-libs/cairo:0
 		nls? ( sys-devel/gettext )
 		x11-libs/gdk-pixbuf:2
