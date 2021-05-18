@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit vcs-snapshot toolchain-funcs
+inherit toolchain-funcs
 
 DESCRIPTION="Experimental XEP-0280: Message Carbons plugin for libpurple"
 HOMEPAGE="https://github.com/gkdr/carbons"
@@ -20,6 +20,8 @@ RDEPEND="net-im/pidgin
 DEPEND="${RDEPEND}
 	test? ( dev-util/cmocka )
 	virtual/pkgconfig"
+
+S=${WORKDIR}/carbons-${PV}
 
 DOCS=( CHANGELOG.md README.md )
 

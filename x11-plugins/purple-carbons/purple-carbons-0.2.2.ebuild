@@ -1,9 +1,9 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
-inherit vcs-snapshot toolchain-funcs
+inherit toolchain-funcs
 
 DESCRIPTION="Experimental XEP-0280: Message Carbons plugin for libpurple"
 HOMEPAGE="https://github.com/gkdr/carbons"
@@ -20,6 +20,8 @@ RDEPEND="net-im/pidgin
 DEPEND="${RDEPEND}
 	test? ( dev-util/cmocka )
 	virtual/pkgconfig"
+
+S=${WORKDIR}/carbons-${PV}
 
 src_prepare() {
 	default
