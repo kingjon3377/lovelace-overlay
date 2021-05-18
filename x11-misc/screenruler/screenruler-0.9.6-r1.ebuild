@@ -3,9 +3,9 @@
 
 # From bug #107710 or the graaf overlay
 
-EAPI=6
+EAPI=7
 
-USE_RUBY="ruby24 ruby25 ruby26" # ruby27
+USE_RUBY="ruby25 ruby26 ruby27"
 
 inherit ruby-ng desktop xdg-utils
 
