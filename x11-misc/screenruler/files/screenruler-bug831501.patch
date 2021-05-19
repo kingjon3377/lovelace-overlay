@@ -1,6 +1,6 @@
 diff -up /usr/share/screenruler/ruler_window.rb.orig /usr/share/screenruler/ruler_window.rb
---- /usr/share/screenruler/ruler_window.rb.orig	2011-03-30 00:26:46.000000000 -0400
-+++ /usr/share/screenruler/ruler_window.rb	2013-03-20 14:26:17.878840196 -0400
+--- a/ruler_window.rb	2011-03-30 00:26:46.000000000 -0400
++++ b/ruler_window.rb	2013-03-20 14:26:17.878840196 -0400
 @@ -16,7 +16,8 @@
   #  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
   ###############################################################################
@@ -12,8 +12,8 @@ diff -up /usr/share/screenruler/ruler_window.rb.orig /usr/share/screenruler/rule
  Unit = Struct.new('Unit', :name, :tick_pattern, :units_per_pattern_repetition, :per_inch)
  
 diff -up /usr/share/screenruler/screenruler.rb.orig /usr/share/screenruler/screenruler.rb
---- /usr/share/screenruler/screenruler.rb.orig	2011-03-30 00:26:46.000000000 -0400
-+++ /usr/share/screenruler/screenruler.rb	2013-03-20 14:29:12.584115347 -0400
+--- a/screenruler.rb	2011-03-30 00:26:46.000000000 -0400
++++ b/screenruler.rb	2013-03-20 14:29:12.584115347 -0400
 @@ -1,5 +1,5 @@
  #!/usr/bin/env ruby
 -#coding: utf-8
