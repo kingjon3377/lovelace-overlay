@@ -95,7 +95,7 @@ class DwiggieComAdapter(BaseSiteAdapter):
 
     def tryArchivePage(self, url):
         try:
-            data = self._fetchUrl(url)
+            data = self.get_request(url)
 
         except HTTPError as e:
             if e.code == 404:
@@ -153,7 +153,7 @@ class DwiggieComAdapter(BaseSiteAdapter):
 
     def getChaptersFromPage(self, url):
         try:
-            data = self._fetchUrl(url)
+            data = self.get_request(url)
         except HTTPError as e:
             if e.code == 404:
                 return []
