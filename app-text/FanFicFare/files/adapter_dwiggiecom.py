@@ -183,9 +183,9 @@ class DwiggieComAdapter(BaseSiteAdapter):
         regex = re.compile(r'(?m)(href\="' + storyId_trimmed +
                            '[a-z]?.htm\"|Copyright\ held\ by\ the\ author|<p>\s*(Section\ I|Beginning),\s*</?p>)', re.MULTILINE)
         s = filter(lambda x: regex.search(x), pagesections)
-#        print s
+#        print(s)
         pagesections = filter(lambda x: not regex.search(x), pagesections)
-#        print pagesections[0]
+#        print(pagesections[0])
         return pagesections
 
     # Getting the chapter list and the meta data, plus 'is adult' checking.
@@ -193,7 +193,7 @@ class DwiggieComAdapter(BaseSiteAdapter):
 
         url = self.url
         meta = self.getItemFromArchivePage()
-#        print meta
+#        print(meta)
 
 #         Title
         t = meta.a
@@ -248,7 +248,7 @@ class DwiggieComAdapter(BaseSiteAdapter):
         d = soup.p
         for x in s:
             d.append(x)
-#        print d
+#        print(d)
 
 #         extract category from summary text
         desc = stripHTML(d)
@@ -335,7 +335,7 @@ class DwiggieComAdapter(BaseSiteAdapter):
                         postdate = m.group('date')
                 i += 1
         self.chapters = dict(chapters)
-#        print postdate
+#        print(postdate)
         pubdate = None
         if postdate is not None:
             format1 = re.match(re.compile(r'\d{4}\-\d{2}\-\d{2}'), postdate)
@@ -348,10 +348,10 @@ class DwiggieComAdapter(BaseSiteAdapter):
         if pubdate is None:
             pubdate = makeDate(self.story.getMetadata('dateUpdated'),
                                "%Y-%m-%d")
-#        print pubdate
+#        print(pubdate)
         self.story.setMetadata('datePublished', pubdate)
-#        print self.story.getMetadata('dateUpdated')
-#        print self.story.getMetadata('datePublished')
+#        print(self.story.getMetadata('dateUpdated'))
+#        print(self.story.getMetadata('datePublished'))
         self.story.setMetadata('numChapters', c)
         logger.debug("numChapters: (%s)" % self.story.getMetadata('numChapters'))
 
