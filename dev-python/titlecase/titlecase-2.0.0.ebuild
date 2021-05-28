@@ -14,6 +14,8 @@ LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 
-DEPEND=""
+DEPEND="test? ( dev-python/regex[${PYTHON_USEDEP}] )"
 RDEPEND=""
 BDEPEND=""
+
+distutils_enable_tests nose
