@@ -28,6 +28,19 @@ DEPEND="test? (
 		)"
 BDEPEND=""
 
+src_unpack() {
+	to_unpack=( )
+	to_copy=( )
+	for file in $A;do
+		case "${file}" in
+		*tar.gz) to_unpack+=( "${file}" ) ;;
+		*) to_copy+=( "${file}" ) ;;
+		esac
+	done
+	unpack ${to_unpack}
+	cp ${to_copy} "${WORKDIR}" || die
+}
+
 src_prepare() {
 	mkdir "${S}/tests/integration/files" || die
 	for file in comment_ids.txt test.mp4 test.mov too_large.jpg;do
