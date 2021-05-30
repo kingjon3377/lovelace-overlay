@@ -29,16 +29,12 @@ DEPEND="test? (
 BDEPEND=""
 
 src_unpack() {
-	to_unpack=( )
-	to_copy=( )
 	for file in $A;do
 		case "${file}" in
-		*tar.gz) to_unpack+=( "${file}" ) ;;
-		*) to_copy+=( "${file}" ) ;;
+		*tar.gz) unpack "${file}" ;;
+		*) cp -av "${DISTDIR}/${file}" "${WORKDIR}" || die ;;
 		esac
 	done
-	unpack ${to_unpack}
-	cp ${to_copy} "${WORKDIR}" || die
 }
 
 src_prepare() {
