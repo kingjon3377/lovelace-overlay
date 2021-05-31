@@ -1,0 +1,81 @@
+--- a/Makefile	2021-05-30 23:36:59.166027732 -0400
++++ b/Makefile	2021-05-30 23:37:59.509029348 -0400
+@@ -19,12 +19,12 @@
+ SUBSYSTEM =	SOLARIS
+ 
+ # Locations
+-DIR =		/home/dick
+-BINDIR =	$(DIR)/bin.`$(DIR)/bin/arch`
+-MAN1DIR =	$(DIR)/man/man1
++DIR =		/usr
++BINDIR =	$(DIR)/bin
++MAN1DIR =	$(DIR)/share/man/man1
+ 
+ # Commands
+-COPY =		cp -p
++COPY =		install -D
+ EXE =		#
+ LEX =		flex
+ LN =		ln
+@@ -34,29 +34,8 @@
+ NULLFILE =	/dev/null
+ 
+ ################################################################
+-# For MSDOS + MinGW
+-
+-SYSTEM =	MSDOS
+-SUBSYSTEM =	MinGW
+-
+-# Locations
+-DIR =		C:/BIN
+-BINDIR =	C:/BIN
+-MAN1DIR =	C:/BIN
+-
+-# File names
+-NULLFILE =	nul
+-
+-# Commands (cp required, since xcopy cannot handle forward slashes)
+-COPY =		cp -p
+-EXE =		.exe
+-LEX =		flex
+-LN =		ln
+-ZIP =		zip -o
+-
+-################################################################
+ # General, C compilation:
+-CC =		gcc -D$(SYSTEM) -D$(SUBSYSTEM)
++CC =		gcc
+ LINT =		lint -ansi -D$(SYSTEM) -D$(SUBSYSTEM)
+ LINTFLAGS =	-xh
+ 
+@@ -100,7 +79,7 @@
+ EH_INPUT =	eh.c eh.o ./
+ 
+ # The test
+-test:		eh$(EXE) $(EH_INPUT)
++test:		eh$(EXE)
+ 		./eh -v
+ 		./eh $(EH_FLAGS) $(EH_INPUT)
+ 
+@@ -111,7 +90,7 @@
+ EH_GRB =	eh eh.exe
+ 
+ eh$(EXE):	$(EH_OBJ)
+-		$(CC) $(EH_OBJ) -o $@ $(LIBFLAGS)
++		$(CC) -D$(SYSTEM) -D$(SUBSYSTEM) $(CFLAGS) $(EH_OBJ) -o $@ $(LIBFLAGS)
+ 
+ 
+ 
+@@ -126,10 +105,10 @@
+ install:	$(BINDIR)/eh$(EXE) $(MAN1DIR)/eh.1
+ 
+ $(BINDIR)/eh$(EXE):	eh$(EXE)
+-		cp -p eh$(EXE) $@
++		$(COPY) eh$(EXE) $@
+ 
+ $(MAN1DIR)/eh.1:	eh.1
+-		cp -p eh.1 $@
++		$(COPY) eh.1 $@
+ 
+ 
+ # Miscellaneous
