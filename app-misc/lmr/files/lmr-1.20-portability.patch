@@ -1,0 +1,72 @@
+--- a/Makefile	2021-05-30 22:59:34.948967633 -0400
++++ b/Makefile	2021-05-30 23:00:49.386969627 -0400
+@@ -17,12 +17,12 @@
+ SUBSYSTEM =	SOLARIS
+ 
+ # Locations
+-DIR =		/home/dick
+-BINDIR =	$(DIR)/bin.`$(DIR)/bin/arch`
+-MAN1DIR =	$(DIR)/man/man1
++DIR =		/usr
++BINDIR =	$(DIR)/bin
++MAN1DIR =	$(DIR)/share/man/man1
+ 
+ # Commands
+-COPY =		cp -p
++COPY =		install -D
+ EXE =		#
+ LEX =		flex
+ LN =		ln
+@@ -32,29 +32,8 @@
+ NULLFILE =	/dev/null
+ 
+ ################################################################
+-# For MSDOS + MinGW
+-
+-SYSTEM =	MSDOS
+-SUBSYSTEM =	MinGW
+-
+-# Locations
+-DIR =		C:/BIN
+-BINDIR =	C:/BIN
+-MAN1DIR =	C:/BIN
+-
+-# File names
+-NULLFILE =	nul
+-
+-# Commands (cp required, since xcopy cannot handle forward slashes)
+-COPY =		cp -p
+-EXE =		.exe
+-LEX =		flex
+-LN =		ln
+-ZIP =		zip -o
+-
+-################################################################
+ # General, C compilation:
+-CC =		gcc -D$(SYSTEM) -D$(SUBSYSTEM)
++CC =		gcc
+ LINT =		lint -ansi -D$(SYSTEM) -D$(SUBSYSTEM)
+ LINTFLAGS =	-xh
+ 
+@@ -108,7 +87,7 @@
+ LMR_GRB =	lmr lmr.exe
+ 
+ lmr$(EXE):	$(LMR_OBJ)
+-		$(CC) $(LMR_OBJ) -o $@ $(LIBFLAGS)
++		$(CC) -D$(SYSTEM) -D$(SUBSYSTEM) $(CFLAGS) $(LMR_OBJ) -o $@ $(LIBFLAGS)
+ 
+ 
+ 
+@@ -124,10 +103,10 @@
+ install:	$(BINDIR)/lmr$(EXE) $(MAN1DIR)/lmr.1
+ 
+ $(BINDIR)/lmr$(EXE):	lmr$(EXE)
+-		cp -p lmr$(EXE) $@
++		$(COPY) lmr$(EXE) $@
+ 
+ $(MAN1DIR)/lmr.1:	lmr.1
+-		cp -p lmr.1 $@
++		$(COPY) lmr.1 $@
+ 
+ # Miscellaneous
+ lint:		$(LMR_SRC) $(LMR_HDR)
