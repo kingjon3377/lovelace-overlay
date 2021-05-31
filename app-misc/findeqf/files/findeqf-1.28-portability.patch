@@ -1,0 +1,72 @@
+--- a/Makefile	2021-05-30 23:11:19.181986492 -0400
++++ b/Makefile	2021-05-30 23:11:23.088986597 -0400
+@@ -17,12 +17,12 @@
+ SUBSYSTEM =	SOLARIS
+ 
+ # Locations
+-DIR =		/home/dick
+-BINDIR =	$(DIR)/bin.`$(DIR)/bin/arch`
+-MAN1DIR =	$(DIR)/man/man1
++DIR =		/usr
++BINDIR =	$(DIR)/bin
++MAN1DIR =	$(DIR)/share/man/man1
+ 
+ # Commands
+-COPY =		cp -p
++COPY =		install -D
+ EXE =		#
+ LEX =		flex
+ LN =		ln
+@@ -32,29 +32,8 @@
+ NULLFILE =	/dev/null
+ 
+ ################################################################
+-# For MSDOS + MinGW
+-
+-SYSTEM =	MSDOS
+-SUBSYSTEM =	MinGW
+-
+-# Locations
+-DIR =		C:/BIN
+-BINDIR =	C:/BIN
+-MAN1DIR =	C:/BIN
+-
+-# File names
+-NULLFILE =	nul
+-
+-# Commands (cp required, since xcopy cannot handle forward slashes)
+-COPY =		cp -p
+-EXE =		.exe
+-LEX =		flex
+-LN =		ln
+-ZIP =		zip -o
+-
+-################################################################
+ # General, C compilation:
+-CC =		gcc -D$(SYSTEM) -D$(SUBSYSTEM)
++CC =		gcc
+ LINT =		lint -ansi -D$(SYSTEM) -D$(SUBSYSTEM)
+ LINTFLAGS =	-xh
+ 
+@@ -115,7 +94,7 @@
+ FINDEQF_GRB =	findeqf$(EXE)
+ 
+ findeqf$(EXE):	$(FINDEQF_OBJ)
+-		$(CC) $(FINDEQF_OBJ) -o $@ $(LIBFLAGS)
++		$(CC) -D$(SYSTEM) -D$(SUBSYSTEM) $(CFLAGS) $(FINDEQF_OBJ) -o $@ $(LIBFLAGS)
+ 
+ 
+ 
+@@ -128,10 +107,10 @@
+ install:	$(BINDIR)/findeqf$(EXE) $(MAN1DIR)/findeqf.1
+ 
+ $(BINDIR)/findeqf$(EXE):	findeqf$(EXE)
+-		cp -p findeqf$(EXE) $(BINDIR)/findeqf$(EXE)
++		$(COPY) findeqf$(EXE) $(BINDIR)/findeqf$(EXE)
+ 
+ $(MAN1DIR)/findeqf.1:	findeqf.1
+-		cp -p findeqf.1 $(MAN1DIR)/findeqf.1
++		$(COPY) findeqf.1 $(MAN1DIR)/findeqf.1
+ 
+ # Miscellaneous
+ lint:		$(FINDEQF_SRC) $(FINDEQF_HDR)
