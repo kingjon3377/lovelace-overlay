@@ -1,0 +1,72 @@
+--- a/Makefile	2021-05-30 22:45:29.951945005 -0400
++++ b/Makefile	2021-05-30 22:45:55.608945692 -0400
+@@ -17,12 +17,12 @@
+ SUBSYSTEM =	SOLARIS
+ 
+ # Locations
+-DIR =		/home/dick
+-BINDIR =	$(DIR)/bin.`$(DIR)/bin/arch`
+-MAN1DIR =	$(DIR)/man/man1
++DIR =		/usr
++BINDIR =	$(DIR)/bin
++MAN1DIR =	$(DIR)/share/man/man1
+ 
+ # Commands
+-COPY =		cp -p
++COPY =		install -D
+ EXE =		#
+ LEX =		flex
+ LN =		ln
+@@ -32,29 +32,8 @@
+ NULLFILE =	/dev/null
+ 
+ ################################################################
+-# For MSDOS + MinGW
+-
+-SYSTEM =	MSDOS
+-SUBSYSTEM =	MinGW
+-
+-# Locations
+-DIR =		C:/BIN
+-BINDIR =	C:/BIN
+-MAN1DIR =	C:/BIN
+-
+-# File names
+-NULLFILE =	nul
+-
+-# Commands (cp required, since xcopy cannot handle forward slashes)
+-COPY =		cp -p
+-EXE =		.exe
+-LEX =		flex
+-LN =		ln
+-ZIP =		zip -o
+-
+-################################################################
+ # General, C compilation:
+-CC =		gcc -D$(SYSTEM) -D$(SUBSYSTEM)
++CC =		gcc
+ LINT =		lint -ansi -D$(SYSTEM) -D$(SUBSYSTEM)
+ LINTFLAGS =	-xh
+ 
+@@ -113,7 +92,7 @@
+ TALLY_HDR =	        list.h utf8.h Malloc.h any_int.h
+ 
+ tally$(EXE):	$(TALLY_OBJ) $(TALLY_HDR)
+-		$(CC) $(TALLY_OBJ) -o $@ $(LIBFLAGS)
++		$(CC) -D$(SYSTEM) -D$(SUBSYSTEM) $(CFLAGS) $(TALLY_OBJ) -o $@ $(LIBFLAGS)
+ 
+ EXEC_GRB +=	tally tally.exe
+ 
+@@ -143,10 +122,10 @@
+ install:	$(BINDIR)/tally$(EXE) $(MAN1DIR)/tally.1
+ 
+ $(BINDIR)/tally$(EXE):	tally$(EXE)
+-		cp -p tally$(EXE) $@
++		$(COPY) tally$(EXE) $@
+ 
+ $(MAN1DIR)/tally.1:	tally.1
+-		cp -p tally.1 $@
++		$(COPY) tally.1 $@
+ 
+ # Miscellaneous
+ lint:		$(TALLY_SRC) $(TALLY_HDR)
