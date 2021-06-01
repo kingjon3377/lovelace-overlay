@@ -26,6 +26,11 @@ BDEPEND=""
 
 S="${WORKDIR}/${P/-/ }"
 
+src_prepare() {
+	sed -i -e 's@bs4@beautifulsoup4@' setup.py ${PN/-/_}.egg-info/requires.txt || die
+	default
+}
+
 # Tests not included in PyPI tarball
 #python_test() {
 	#cd "${S}/Tests" || die
