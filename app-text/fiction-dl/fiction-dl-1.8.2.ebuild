@@ -4,6 +4,7 @@
 EAPI=7
 
 PYTHON_COMPAT=( python3_{8..9} )
+DISTUTILS_USE_SETUPTOOLS=rdepend
 inherit distutils-r1
 
 DESCRIPTION="(Fan)fiction content downloader"
@@ -33,3 +34,8 @@ RDEPEND="${DEPEND}
 	dev-python/pykakasi[${PYTHON_USEDEP}]
 	dev-python/pyopenssl[${PYTHON_USEDEP}]"
 BDEPEND=""
+
+src_prepare() {
+	sed -i -e '/opencv-python/d' -e 's@bs4@beautifulsoup4@' setup.py ${PN/-/_}.egg-info/requires.txt || die
+	default
+}
