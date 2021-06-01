@@ -18,9 +18,9 @@ LICENSE="BSD-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 
-# Package claims a dependency on update_checker, but tests pass without it.
 RDEPEND="dev-python/websocket-client[${PYTHON_USEDEP}]
-	dev-python/prawcore[${PYTHON_USEDEP}]"
+	dev-python/prawcore[${PYTHON_USEDEP}]
+	dev-python/update_checker[${PYTHON_USEDEP}]"
 DEPEND="test? (
 			${RDEPEND}
 			dev-python/betamax[${PYTHON_USEDEP}]
