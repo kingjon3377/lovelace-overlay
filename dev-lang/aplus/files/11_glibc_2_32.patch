@@ -1,0 +1,67 @@
+diff -ru a/src/dap/error.c b/src/dap/error.c
+--- a/src/dap/error.c	2021-06-02 19:10:03.646540011 -0400
++++ b/src/dap/error.c	2021-06-02 19:11:09.042541762 -0400
+@@ -45,7 +45,7 @@
+ 
+ /* char _ErrBuf[2 * MAXERRSIZE]; not thread safe moved into functions*/
+ 
+-#if defined(__sun__)
++#if defined(__sun__) && !defined(HAVE_STRERROR)
+ extern int sys_nerr;
+ #endif
+ 
+@@ -54,6 +54,7 @@
+ fixit(int errnum, char *s, char r[])
+ {
+   char *z, *p = r, *cp = s, *str, ctimebuf[60];
++  char *localerrstr;
+   static struct timeval tp;
+   static struct timezone tzp;
+ 
+@@ -71,12 +72,16 @@
+ 
+ 	/* error string a la syslog(3) */
+       case 'm':
++#ifdef HAVE_STRERROR
++	localerrstr = strerror(errnum);
++	if (localerrstr)
++          str = localerrstr;
++	else
++	  str = "unknown error";
++#else
+ 	if (errnum < 1 || errnum > sys_nerr)
+ 	  str = "unknown error";
+ 	else
+-#ifdef HAVE_STRERROR
+-          str = strerror(errnum);
+-#else
+ 	  str = sys_errlist[errnum];
+ #endif
+ 	for (z = str; *z != (char) NULL &&
+diff -ru a/src/MSIPC/MSProtocolConnection.C b/src/MSIPC/MSProtocolConnection.C
+--- a/src/MSIPC/MSProtocolConnection.C	2021-06-02 19:10:03.665540012 -0400
++++ b/src/MSIPC/MSProtocolConnection.C	2021-06-02 19:10:14.813540310 -0400
+@@ -21,7 +21,7 @@
+ #include <MSIPC/MSProtocolConnection.H>
+ #include <MSTypes/MSMessageLog.H>
+ 
+-#if defined(MS_NEED_SYS_NERR_DECLARATION)
++#if defined(MS_NEED_SYS_NERR_DECLARATION) && !defined(HAVE_STRERROR)
+ extern "C" int sys_nerr;
+ extern "C" char* sys_errlist[];
+ #endif
+@@ -129,8 +129,14 @@
+   if (getpeername(fd(),(struct sockaddr *)&sockname,&socklen)) 
+ #endif
+    {
++#ifndef HAVE_STRERROR
+      MSMessageLog::warningMessage("MSProtocolConnection: getpeername failed: %s\n",
+                                   (errno<sys_nerr)?sys_errlist[errno]:"unknown error");
++#else
++     char *errstr=strerror(errno);
++     MSMessageLog::warningMessage("MSProtocolConnection: getpeername failed: %s\n",
++                                  errstr?errstr:"unknown error");
++#endif
+      close();
+      return MSFalse;
+    }

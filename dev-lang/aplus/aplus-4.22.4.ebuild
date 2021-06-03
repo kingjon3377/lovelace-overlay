@@ -1,4 +1,4 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 # From Gentoo bug #132018
@@ -56,6 +56,7 @@ PATCHES=(
 	"${FILESDIR}/08_cxs.patch"
 	"${FILESDIR}/09_shadowed.patch"
 	"${FILESDIR}/10_friend_default.patch"
+	"${FILESDIR}/11_glibc_2_32.patch"
 )
 
 src_prepare() {
