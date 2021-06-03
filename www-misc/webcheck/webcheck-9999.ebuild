@@ -5,7 +5,7 @@
 
 EAPI=7
 
-PYTHON_COMPAT=( python3_{6..8} )
+PYTHON_COMPAT=( python3_{6..9} )
 
 EGIT_REPO_URI="https://github.com/arthurdejong/webcheck.git"
 
