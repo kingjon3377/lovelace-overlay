@@ -1,4 +1,4 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -22,7 +22,7 @@ S="${WORKDIR}/csv-${PV}"
 #S="${WORKDIR}/csv-1.2.1"
 
 src_prepare() {
-	sed -i -e "s@/usr/local@${D}/usr@" setup.ml || die
+	sed -i -e "s@/usr/local@/usr@" setup.ml || die
 	default
 }
 
