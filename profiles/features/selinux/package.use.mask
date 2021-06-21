@@ -1,3 +1,0 @@
-# Depends on gnome-shell, masked on SELinux
-app-misc/workrave gnome
-
