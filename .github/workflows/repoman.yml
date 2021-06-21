@@ -1,0 +1,15 @@
+name: Repoman
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: '15 5 3 * *'
+jobs:
+  repoman:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup ::gentoo Portage tree
+        run: ./.github/scripts/setup-master-gentoo.sh
+      - name: Setup and run Repoman
+        run: ./.github/scripts/setup-and-run-repoman.sh
