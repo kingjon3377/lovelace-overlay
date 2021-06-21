@@ -1,0 +1,12 @@
+name: Repoman
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: '15 5 3 * *'
+jobs:
+  repoman:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: lucianposton/repoman-ebuild-qa-action@v1
