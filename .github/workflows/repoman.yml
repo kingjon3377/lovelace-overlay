@@ -9,4 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: gentoo-monero/repoman-action@v1
+      - name: Setup ::gentoo Portage tree
+        run: ./.github/scripts/setup-master-gentoo.sh
+      - name: Setup and run Repoman
+        run: ./.github/scripts/setup-and-run-repoman.sh
