@@ -10,7 +10,7 @@ inherit haskell-cabal
 
 DESCRIPTION="Library for parsing and manipulating ePub files and OPF package data"
 HOMEPAGE="https://hub.darcs.net/dino/epub-metadata http://ui3.info/d/proj/epub-metadata.html"
-SRC_URI="mirror://hackage/packages/archive/${PN}/${PV}/${P}.tar.gz"
+SRC_URI="https://hackage.haskell.org/packages/archive/${PN}/${PV}/${P}.tar.gz"
 
 LICENSE="BSD"
 SLOT="0/${PV}"
