@@ -1,4 +1,4 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -7,7 +7,7 @@ inherit autotools
 
 DESCRIPTION="The GNU Image-Finding Tool"
 HOMEPAGE="https://www.gnu.org/software/gift/"
-SRC_URI="mirror://gnu-alpha/${PN}/${P}.tar.gz"
+SRC_URI="https://alpha.gnu.org/gnu/${PN}/${P}.tar.gz"
 LICENSE="LGPL-2.1"
 
 #IUSE="doc"
