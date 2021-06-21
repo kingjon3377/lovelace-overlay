@@ -20,7 +20,7 @@ SLOT="0"
 KEYWORDS="amd64 x86"
 
 # dbus support looks to be used only for trying to use panel applets on gnome3!
-IUSE="appindicator doc gnome gstreamer introspection mate nls pulseaudio test xfce"
+IUSE="appindicator doc gstreamer introspection mate nls pulseaudio test xfce" # gnome
 RESTRICT="!test? ( test )"
 REQUIRED_USE="appindicator? ( introspection ) ${PYTHON_REQUIRED_USE}"
 
@@ -33,7 +33,6 @@ RDEPEND="
 	appindicator? (
 		>=dev-libs/libdbusmenu-0.4[gtk3,introspection]
 		>=dev-libs/libindicator-0.4:3 )
-	gnome? ( >=gnome-base/gnome-shell-3.6.2 )
 	gstreamer? (
 		media-libs/gstreamer:1.0[introspection?]
 		media-libs/gst-plugins-base:1.0[introspection?]
@@ -51,6 +50,7 @@ RDEPEND="
 	x11-libs/libXt
 	x11-libs/libXmu
 "
+#	gnome? ( >=gnome-base/gnome-shell-3.6.2 )
 #	dbus? (
 #		dev-libs/boost
 #		dev-libs/dbus-glib
@@ -97,7 +97,8 @@ src_configure() {
 		--disable-xml \
 		$(use_enable appindicator indicator) \
 		$(use_enable doc manual) \
-		$(use_enable gnome gnome3) \
+#		$(use_enable gnome gnome3) \
+		--disable-gnome3 \
 		$(use_enable gstreamer) \
 		$(use_enable introspection) \
 		$(use_enable mate) \

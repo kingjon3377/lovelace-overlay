@@ -18,7 +18,7 @@ LICENSE="GPL-3+"
 SLOT="0"
 KEYWORDS="~amd64"
 
-IUSE="appindicator dbus doc gnome gstreamer introspection mate nls pulseaudio test xfce"
+IUSE="appindicator dbus doc gstreamer introspection mate nls pulseaudio test xfce" # gnome
 RESTRICT="!test? ( test )"
 REQUIRED_USE="appindicator? ( introspection ) ${PYTHON_REQUIRED_USE}"
 
@@ -36,9 +36,7 @@ RDEPEND="
 		dev-libs/dbus-glib
 		>=sys-apps/dbus-1.2
 		${PYTHON_DEPS}
-		gnome? ( gnome-base/gnome-panel )
 	)
-	gnome? ( >=gnome-base/gnome-shell-3.6.2 )
 	gstreamer? (
 		media-libs/gstreamer:1.0[introspection?]
 		media-libs/gst-plugins-base:1.0[introspection?]
@@ -56,6 +54,8 @@ RDEPEND="
 	x11-libs/libXt
 	x11-libs/libXmu
 "
+#		dbus? ( gnome? ( gnome-base/gnome-panel ) )
+#	gnome? ( >=gnome-base/gnome-shell-3.6.2 )
 DEPEND="${RDEPEND}
 	dev-util/glib-utils
 	>=dev-util/intltool-0.40.0
@@ -94,7 +94,8 @@ src_configure() {
 		$(use_enable appindicator indicator) \
 		$(use_enable dbus) \
 		$(use_enable doc manual) \
-		$(use_enable gnome gnome3) \
+#		$(use_enable gnome gnome3) \
+		--disable-gnome3 \
 		$(use_enable gstreamer) \
 		$(use_enable introspection) \
 		$(use_enable mate) \
