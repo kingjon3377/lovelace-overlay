@@ -1,4 +1,4 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -33,7 +33,7 @@ src_install() {
 	dodoc usr/share/ecub/readme.txt
 	rm usr/share/ecub/readme.txt
 	# TODO: Use doins -r instead of cp
-	cp -R "usr/share/ecub" "${D}usr/share/" || die
+	cp -R "usr/share/ecub" "${D}/usr/share/" || die
 	make_wrapper ${PN} ../share/${PN}/${PN}
 	insinto /usr/share/pixmaps
 	# TODO: Exclude icon and .desktop from being installed to /usr/share/ecub, or make these symlinks instead
