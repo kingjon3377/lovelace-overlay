@@ -14,7 +14,8 @@ sudo useradd -g portage -d /var/tmp/portage -s /bin/false -u 250 portage
 
 ### Sync the portage repository
 git clone https://github.com/gentoo/portage.git
-cd portage
+(
+cd portage || exit 5
 
 # Get all versions, and read into array
 mapfile -t RM_VERSIONS < <( git tag | grep portage | sort -uV )
@@ -23,9 +24,9 @@ mapfile -t RM_VERSIONS < <( git tag | grep portage | sort -uV )
 RM_VERS="${RM_VERSIONS[-1]}"
 
 # Checkout this version
-git checkout tags/${RM_VERS} -b ${RM_VERS}
+git checkout "tags/${RM_VERS}" -b "${RM_VERS}"
 
-cd ..
+)
 
 ### Run repoman
 python3 portage/repoman/bin/repoman -dx full
