@@ -4,7 +4,7 @@
 #
 language: python
 python:
-    - "3.8"
+    - "3.9"
 env:
     - PORTAGE_VER="3.0.13"
 before_install:
