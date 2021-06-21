@@ -23,7 +23,7 @@ S="${WORKDIR}"
 PATCHES=( "${FILESDIR}"/${P}-fix-configuration.patch )
 
 src_compile() {
-	emake DESTDIR="${D}" USER_CC="$(tc-getCC)" USER_CFLAGS="${CFLAGS}" LDFLAGS="${LDFLAGS}" binaries
+	emake USER_CC="$(tc-getCC)" USER_CFLAGS="${CFLAGS}" LDFLAGS="${LDFLAGS}" binaries
 }
 
 src_install() {

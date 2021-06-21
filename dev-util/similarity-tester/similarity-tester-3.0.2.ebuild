@@ -32,5 +32,5 @@ src_prepare() {
 }
 
 src_compile() {
-	emake -j1 DESTDIR="${D}" USER_CC="$(tc-getCC)" USER_CFLAGS="${CFLAGS}" LDFLAGS="${LDFLAGS}" binaries
+	emake -j1 USER_CC="$(tc-getCC)" USER_CFLAGS="${CFLAGS}" LDFLAGS="${LDFLAGS}" binaries
 }
