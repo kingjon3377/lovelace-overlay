@@ -35,7 +35,8 @@ BDEPEND="app-text/pandoc"
 PATCHES=(
 	"${WORKDIR}/debian/patches/use-ldflags.patch"
 	"${WORKDIR}/debian/patches/cross-build.patch"
-	"${WORKDIR}/debian/patches/disable-test-sound-voiceactivity.patch"
+	"${WORKDIR}/debian/patches/dwtest-random-seed.patch"
+	"${WORKDIR}/debian/patches/fix-test-mds.patch"
 )
 
 src_prepare() {
