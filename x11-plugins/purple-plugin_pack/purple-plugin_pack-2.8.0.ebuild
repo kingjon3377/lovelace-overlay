@@ -9,7 +9,7 @@ MY_PN=${PN/_/-}
 MY_P=${MY_PN}-${PV}
 DESCRIPTION="A package with many different plugins for pidgin and libpurple"
 HOMEPAGE="https://keep.imfreedom.org/pidgin/purple-plugin-pack/"
-SRC_URI="https://dl.bintray.com/pidgin/releases/${MY_P}.tar.xz"
+SRC_URI="mirror://sourceforge/pidgin/${MY_PN//-/%20}/${PV}/${MY_P}.tar.xz"
 
 LICENSE="GPL-2"
 SLOT="0"
