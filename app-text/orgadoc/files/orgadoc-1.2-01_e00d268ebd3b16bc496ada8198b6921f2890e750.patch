@@ -1,0 +1,24 @@
+From e00d268ebd3b16bc496ada8198b6921f2890e750 Mon Sep 17 00:00:00 2001
+From: Adam Bilbrough <ats@atlas.cz>
+Date: Sat, 3 Aug 2019 10:51:03 +0200
+Subject: fixes for util permissions
+
+---
+ utils/Makefile.in | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/utils/Makefile.in b/utils/Makefile.in
+index 4310d63..64c3cfb 100644
+--- a/utils/Makefile.in
++++ b/utils/Makefile.in
+@@ -30,6 +30,7 @@ $(PROGRAM):
+ 
+ install: all
+ 	mkdir -p $(DESTDIR)$(BINDIR)
++	chmod 775 $(SCRIPTS)
+ 	-cp $(SCRIPTS) $(DESTDIR)$(BINDIR)
+ 
+ clean:
+-- 
+cgit v1.2.1
+
