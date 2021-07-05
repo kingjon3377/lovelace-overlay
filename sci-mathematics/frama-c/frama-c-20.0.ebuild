@@ -1,4 +1,4 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -21,6 +21,8 @@ DEPEND="
 	sci-mathematics/coq
 	sci-mathematics/ltl2ba
 	sci-mathematics/alt-ergo
+	dev-ml/yojson
+	dev-ml/ppx_deriving
 	gtk? (
 		>=x11-libs/gtksourceview-2.8:2.0
 		>=gnome-base/libgnomecanvas-2.26
@@ -32,12 +34,7 @@ BDEPEND=">=dev-lang/ocaml-4.05.0[ocamlopt?]"
 S="${WORKDIR}/${P}-${NAME}"
 
 src_configure(){
-	if use gtk; then
-		myconf="--enable-gui"
-	else
-		myconf="--disable-gui"
-	fi
-	econf ${myconf}
+	econf $(use_enable gtk gui)
 }
 
 src_compile(){
