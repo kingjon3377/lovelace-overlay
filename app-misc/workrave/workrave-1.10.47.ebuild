@@ -3,7 +3,7 @@
 
 EAPI=7
 GNOME2_LA_PUNT="yes"
-PYTHON_COMPAT=( python3_{6..9} )
+PYTHON_COMPAT=( python3_{7..9} )
 
 inherit autotools gnome2 python-single-r1
 
@@ -85,6 +85,7 @@ src_prepare() {
 src_configure() {
 	# gnet ("distribution") is dead for ages and other distributions stopped
 	# relying on it for such time too.
+#		$(use_enable gnome gnome3) \
 	gnome2_src_configure \
 		--disable-distribution \
 		--enable-exercises \
@@ -94,7 +95,6 @@ src_configure() {
 		$(use_enable appindicator indicator) \
 		$(use_enable dbus) \
 		$(use_enable doc manual) \
-#		$(use_enable gnome gnome3) \
 		--disable-gnome3 \
 		$(use_enable gstreamer) \
 		$(use_enable introspection) \
