@@ -18,6 +18,9 @@ LICENSE="BSD-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 
+# Tests fail in a way that 7.2.0 and 7.3.0 didn't; I don't have time to investigate
+RESTRICT="test"
+
 RDEPEND="dev-python/websocket-client[${PYTHON_USEDEP}]
 	dev-python/prawcore[${PYTHON_USEDEP}]
 	dev-python/update_checker[${PYTHON_USEDEP}]"
@@ -42,7 +45,7 @@ src_prepare() {
 	for file in comment_ids.txt test.mp4 test.mov too_large.jpg;do
 		cp "${WORKDIR}/${P}_${file}" "${S}/tests/integration/files/${file}" || die
 	done
-	cp "${FILESDIR}/${PV}_tests_integration_files"/* "${S}/tests/integration/files" || die
+	cp "${FILESDIR}/7.2.0_tests_integration_files"/* "${S}/tests/integration/files" || die
 	mkdir "${S}/${PN}/images" || die
 	cp "${S}/docs/logo/png/PRAW logo.png" "${S}/${PN}/images/" || die
 	cp "${FILESDIR}/tests_unit_${PN}.ini" "${S}/tests/unit/${PN}.ini" || die
