@@ -107,6 +107,7 @@ COMMON_DEPEND="
 	x11-libs/libSM
 	x11-libs/libXcursor
 	dev-libs/libffi
+	virtual/libcrypt
 "
 
 DEPEND="${COMMON_DEPEND}"
@@ -114,17 +115,9 @@ BDEPEND="virtual/pkgconfig"
 
 RDEPEND="${COMMON_DEPEND}"
 
-PATCHES=(
+#PATCHES=(
 	# "${FILESDIR}/${P}-xdgutils.patch"
-	"${FILESDIR}/${PN}-3.12.2-xdgutils.patch"
-	"${FILESDIR}/${P}-poppler-0.85.patch"
-	"${FILESDIR}/${P}-poppler-0.86_1.patch"
-	"${FILESDIR}/${P}-poppler-0.86_2.patch"
-	"${FILESDIR}/${P}-poppler-0.86_3.patch"
-	"${FILESDIR}/${P}-poppler-0.86_4.patch"
-	"${FILESDIR}/${P}-poppler-0.86_5.patch"
-	"${FILESDIR}/${P}-poppler-0.86_6.patch"
-)
+#)
 
 src_prepare() {
 	default
@@ -171,7 +164,7 @@ src_configure() {
 		$(use_enable gtk3) \
 		$(use_enable opengl) \
 		$(use_enable desktop) \
-		$(use_enable pdf) \
+		$(use_enable pdf poppler) \
 		$(use_enable cairo) \
 		$(use_enable imageio) \
 		$(use_enable imageimlib) \
@@ -184,12 +177,10 @@ src_configure() {
 		$(use_enable httpd) \
 		$(use_enable openssl) \
 		$(use_enable openal)
-	# TODO: Report broken qtwebkit pkg-config file this works around
-#	sed -i -e 's@-I/usr/include/qt5/Qt5WebKit@-I/usr/include/qt5/QtWebKit@g' gb.qt5/src/webkit/Makefile || die
 }
 
 src_install() {
-	DESTDIR="${D}" emake -j1 install # Sometimes fails with "file exists" errors.
+	DESTDIR="${D}" emake -j1 install XDG_UTILS= # Sometimes fails with "file exists" errors.
 
 	dodoc AUTHORS README TODO
 	use net && newdoc gb.net/src/doc/README gb.net-README
