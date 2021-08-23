@@ -1,0 +1,42 @@
+Only in gate-2.06: gate
+diff -ru a/gate.h b/gate.h
+--- a/gate.h	2021-08-22 22:38:02.921535340 -0400
++++ b/gate.h	2021-08-22 22:46:37.918551820 -0400
+@@ -47,7 +47,7 @@
+ #ifdef F_TERMIOS
+ #include <termios.h>
+ typedef struct termios term_mode;
+-term_mode cooked, cbreak;
++extern term_mode cooked, cbreak;
+ #define GTTY(fd, st)	tcgetattr(fd, (st))
+ #ifdef TCSASOFT
+ #define STTY(fd, st)	tcsetattr(fd, TCSASOFT | TCSADRAIN, (st))
+@@ -80,7 +80,7 @@
+ #ifdef F_TERMIO
+ #include <termio.h>
+ typedef struct termio term_mode;
+-term_mode cooked, cbreak;
++extern term_mode cooked, cbreak;
+ #define GTTY(fd, st)    ioctl(fd, TCGETA, (st))
+ #define STTY(fd, st)    ioctl(fd, TCSETAW, (st))
+ #define EOF_CHAR    (cooked.c_cc[VEOF])
+@@ -108,7 +108,7 @@
+ struct tchars tch;
+ struct ltchars ltch;
+ typedef struct sgttyb term_mode;
+-term_mode cooked, cbreak;
++extern term_mode cooked, cbreak;
+ #define GTTY(fd, st)    ioctl(fd, TIOCGETP, (st))
+ #define STTY(fd, st)    ioctl(fd, TIOCSETP, (st))
+ #define EOF_CHAR (tch.t_eofc)
+diff -ru a/syst.c b/syst.c
+--- a/syst.c	2021-08-22 22:38:02.921535340 -0400
++++ b/syst.c	2021-08-22 22:48:22.007555151 -0400
+@@ -18,6 +18,7 @@
+ }
+ #endif
+ 
++term_mode cooked, cbreak;
+ 
+ /* INITMODES: Set up the cooked and cbreak modes for future use.  Note that
+  * this doesn't actually change the modes.

@@ -1,0 +1,66 @@
+diff -ru a/gate.h b/gate.h
+--- a/gate.h	2021-08-22 17:14:08.300526460 -0400
++++ b/gate.h	2021-08-22 17:20:55.977539506 -0400
+@@ -214,6 +214,7 @@
+ int gate_getline(char *bf, char *wbf, int *wcol, char *prompt);
+ void back_to_col(int ncol);
+ void print_to_index(int newi);
++void mcursor(int *col, int *lin, char ch);
+ 
+ /* MAIN.C */
+ int main(int argc,char **argv);
+@@ -281,6 +282,8 @@
+ void erase_eol(void);
+ void begin_standout(void);
+ void end_standout(void);
++void erase_eos();
++void move_up(int n, int ccol);
+ 
+ /* UTIL.C */
+ 
+Binary files gate-2.06.old/gate and gate-2.06/gate differ
+diff -ru gate-2.06.old/gate.h gate-2.06/gate.h
+--- gate-2.06.old/gate.h	2021-08-22 22:53:28.937564973 -0400
++++ gate-2.06/gate.h	2021-08-22 22:59:16.368576090 -0400
+@@ -250,6 +250,11 @@
+ void addword(char *word);
+ #endif
+ 
++void parse_ispell(char *ispell, int *offset, int *word_len,
++	   int *guesses, char **guesslist);
++int fix_word(char *line, int offset, int *word_len,
++	     int guesses, char **guesslist);
++
+ /* SUBS.C */
+ void decode_pat(char *pattern);
+ FILE *make_copy(void);
+diff -ru gate-2.06.old/spel.c gate-2.06/spel.c
+--- gate-2.06.old/spel.c	2021-08-22 22:53:28.937564973 -0400
++++ gate-2.06/spel.c	2021-08-22 22:58:11.754574023 -0400
+@@ -133,7 +133,7 @@
+ /* EMPTY_REPL - destroy the replacement list.
+  */
+ 
+-empty_repl()
++void empty_repl()
+ {
+     struct repl *r, *n;
+ 
+@@ -152,7 +152,7 @@
+  * "replace" may be NULL to indicate that the word is to be ignored.
+  */
+ 
+-add_repl(char *word, int word_len, char *replace)
++void add_repl(char *word, int word_len, char *replace)
+ {
+     struct repl *r;
+ 
+@@ -616,7 +616,7 @@
+  * out the offset (not yet adjusted), word length, and guesslist.
+  */
+ 
+-parse_ispell(char *ispell, int *offset, int *word_len,
++void parse_ispell(char *ispell, int *offset, int *word_len,
+ 	   int *guesses, char **guesslist)
+ {
+     char *p;

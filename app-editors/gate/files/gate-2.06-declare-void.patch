@@ -1,0 +1,11 @@
+--- a/subs.c	2021-08-22 17:14:08.300526460 -0400
++++ b/subs.c	2021-08-22 17:15:32.667529160 -0400
+@@ -120,7 +120,7 @@
+ 
+ /* ASK_SUBS - Ask if he really wants to make the named substitution */
+ 
+-ask_subs()
++void ask_subs()
+ {
+     if (do_subs == 'y' || do_subs == 'n')
+     {
