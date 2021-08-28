@@ -29,7 +29,7 @@ SRC_URI="https://sourceforge.net/code-snapshots/svn/w/wr/writer2latex/code/${PN}
 
 SLOT="0"
 LICENSE="GPL-2"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS="~amd64"
 IUSE="doc examples"
 
 DEPEND=">=virtual/jdk-1.8
