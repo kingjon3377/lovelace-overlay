@@ -3,12 +3,14 @@
 <pkgmetadata>
 <use>
   <flag name='architecture'>Install the 'architecture' parts library</flag>
+  <flag name='chemistry'>Install the 'chemistry symbols' parts library</flag>
   <flag name='electronics'>Install the 'electronics' parts library</flag>
   <flag name='gis'>Install the 'gis' parts library</flag>
   <flag name='hydraulics'>Install the 'hydraulics' parts library</flag>
   <flag name='circuits'>Install the 'LRM circuits' parts library</flag>
   <flag name='mechanics'>Install the 'mechanics' parts library</flag>
   <flag name='misc'>Install the 'miscellaneous' parts library</flag>
+  <flag name='msr'>Install the 'MSR, DIN28004' parts library</flag>
   <flag name='processing'>Install the 'processing' parts library</flag>
   <flag name='nounproject'>Install the parts library from The Noun Project</flag>
 </use>
