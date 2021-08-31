@@ -11,7 +11,7 @@ SRC_URI="mirror://sourceforge/kidbasic/${P/-/_}.orig.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~amd64"
+KEYWORDS="amd64"
 IUSE="l10n_en l10n_de l10n_es l10n_fr l10n_nl l10n_ru"
 
 RDEPEND="dev-qt/qtcore:5
