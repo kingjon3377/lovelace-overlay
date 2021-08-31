@@ -53,6 +53,11 @@ OOO_EXTENSIONS="writer2latex.oxt writer2xhtml.oxt xhtml-config-sample.oxt"
 EANT_EXTRA_ARGS="-DOFFICE_HOME=${S}"
 EANT_BUILD_TARGET="all"
 
+pkg_nofetch() {
+	einfo "If fetch of SVN snapshot fails, regenerate by visiting"
+	einfo "https://sourceforge.net/p/${PN}/code/${REV}/tarball?path=/tags/${PV}"
+}
+
 src_prepare(){
 	sed -i -e "s:W2LPATH=.*:W2LPATH=/usr/$(get_libdir)/${PN}:" ${S_DISTRO}/w2l || die "Sed failed"
 	sed -i -e "/URE_CLASSES/s:/usr/share/java:/usr/$(get_libdir)/libreoffice/program/classes/:" \
