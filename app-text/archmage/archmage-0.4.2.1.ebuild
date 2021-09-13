@@ -17,7 +17,7 @@ KEYWORDS="amd64 ~x86"
 
 IUSE="dump test"
 
-RDEPEND="dev-python/beautifulsoup:4[${PYTHON_USEDEP}]
+RDEPEND="dev-python/beautifulsoup4[${PYTHON_USEDEP}]
 	dev-python/pychm[${PYTHON_USEDEP}]
 	dump? ( app-text/htmldoc
 		|| ( www-client/lynx www-client/elinks ) )"

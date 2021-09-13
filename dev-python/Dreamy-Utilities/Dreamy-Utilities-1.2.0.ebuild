@@ -16,7 +16,7 @@ KEYWORDS="~amd64" # no ~x86 because not present in cloudscraper
 
 DEPEND=""
 RDEPEND="dev-python/Babel[${PYTHON_USEDEP}]
-	dev-python/beautifulsoup:4[${PYTHON_USEDEP}]
+	dev-python/beautifulsoup4[${PYTHON_USEDEP}]
 	dev-python/cloudscraper[${PYTHON_USEDEP}]
 	dev-python/colorama[${PYTHON_USEDEP}]
 	dev-python/termtables[${PYTHON_USEDEP}]

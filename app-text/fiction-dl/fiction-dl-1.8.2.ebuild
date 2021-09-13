@@ -21,7 +21,7 @@ DEPEND="dev-python/Dreamy-Utilities[${PYTHON_USEDEP}]"
 RDEPEND="${DEPEND}
 	dev-python/PyMuPDF[${PYTHON_USEDEP}]
 	dev-python/bleach[${PYTHON_USEDEP}]
-	dev-python/beautifulsoup:4[${PYTHON_USEDEP}]
+	dev-python/beautifulsoup4[${PYTHON_USEDEP}]
 	dev-python/ebooklib[${PYTHON_USEDEP}]
 	dev-python/fake-useragent[${PYTHON_USEDEP}]
 	dev-python/html5lib[${PYTHON_USEDEP}]

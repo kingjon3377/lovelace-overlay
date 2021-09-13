@@ -21,7 +21,7 @@ KEYWORDS=""
 IUSE=""
 
 RDEPEND="dev-python/utidylib[${PYTHON_USEDEP}]
-	dev-python/beautifulsoup[${PYTHON_USEDEP}]
+	dev-python/beautifulsoup4[${PYTHON_USEDEP}]
 "
 DEPEND="${DEPEND}
 	dev-python/sqlalchemy[${PYTHON_USEDEP}]
