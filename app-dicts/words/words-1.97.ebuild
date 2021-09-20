@@ -4,7 +4,7 @@
 EAPI=7
 
 # TODO: Add gcc[ada] support as soon as the eclass supports that
-ADA_COMPAT=( gnat_20{17..19} ) # ..21
+ADA_COMPAT=( gnat_20{19..21} )
 
 inherit ada
 
