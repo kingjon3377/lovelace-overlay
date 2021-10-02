@@ -15,7 +15,8 @@ KEYWORDS="amd64"
 IUSE=""
 
 DEPEND="sys-libs/ncurses:0
-	dev-libs/boost"
+	dev-libs/boost
+	acct-group/gamestat"
 RDEPEND="${DEPEND}"
 
 PATCHES=( "${FILESDIR}/petris_1.0.1-8.diff" )
@@ -35,6 +36,6 @@ src_install() {
 	dodoc CHANGELOG README
 	dodir /var/games
 	touch "${D}/var/games/petris.scores"
-	fowners "games:games" /var/games/petris.scores
+	fowners ":gamestat" /var/games/petris.scores
 	fperms 0664 /var/games/petris.scores
 }

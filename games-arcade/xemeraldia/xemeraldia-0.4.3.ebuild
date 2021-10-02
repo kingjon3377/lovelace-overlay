@@ -12,7 +12,8 @@ SLOT="0"
 KEYWORDS="amd64"
 IUSE=""
 
-DEPEND="x11-libs/gtk+:2"
+DEPEND="x11-libs/gtk+:2
+	acct-group/gamestat"
 RDEPEND="${DEPEND}"
 
 src_prepare() {
@@ -27,6 +28,6 @@ src_install() {
 	dodoc NEWS README TODO ChangeLog
 	dodir "/var/games"
 	touch "${D}/var/games/${PN}.scores"
-	fowners "games:games" "/var/games/${PN}.scores"
+	fowners ":gamestat" "/var/games/${PN}.scores"
 	fperms 664 "/var/games/${PN}.scores"
 }

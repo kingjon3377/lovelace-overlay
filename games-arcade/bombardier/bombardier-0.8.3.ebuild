@@ -1,4 +1,4 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -16,7 +16,7 @@ SLOT="0"
 KEYWORDS="amd64"
 IUSE=""
 
-DEPEND=""
+DEPEND="acct-group/gamestat"
 RDEPEND="${DEPEND}"
 
 S="${WORKDIR}/${P}+${NMU_VER}"
@@ -33,6 +33,6 @@ src_install() {
 	emake DESTDIR="${D}" install
 	dodir "/var/games/${PN}"
 	touch "${D}/var/games/${PN}/bdscore"
-	fowners games:games "/var/games/${PN}/bdscore"
+	fowners :gamestat "/var/games/${PN}/bdscore"
 	fperms 0664 "/var/games/${PN}/bdscore"
 }
