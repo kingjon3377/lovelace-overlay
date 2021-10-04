@@ -27,7 +27,7 @@ DEPEND="
 	dev-ml/ppx_deriving
 	gtk? (
 		|| (
-			dev-ml/ocamlgraph_gtk:=[ocamlopt?]
+			dev-ml/ocamlgraph_gtk[ocamlopt?]
 			>=dev-ml/ocamlgraph-1.8.5[gtk?,ocamlopt?]
 		)
 		>=x11-libs/gtksourceview-2.8:2.0
