@@ -26,7 +26,8 @@ S=${WORKDIR}/${BASE_PN}-${PV}
 
 # As of 2.0.0, ocamlgraph ebuild still includes most(?) necessary deps
 RDEPEND=">=dev-ml/ocamlgraph-${PV}:=[ocamlopt?]
-	dev-ml/lablgtk:2=[ocamlopt?]"
+	dev-ml/lablgtk:2=[ocamlopt?]
+	!!<dev-ml/ocamlgraph-2.0.0[gtk]"
 DEPEND="${DEPEND}"
 
 IUSE="+ocamlopt"
