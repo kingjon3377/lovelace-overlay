@@ -3,6 +3,8 @@
 
 EAPI=7
 
+inherit autotools
+
 DESCRIPTION="perpetual Jewish calendar"
 HOMEPAGE="http://hebcal.github.io/ https://github.com/hebcal/hebcal"
 SRC_URI="https://github.com/${PN}/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
@@ -16,6 +18,11 @@ DEPEND=""
 RDEPEND="${DEPEND}"
 
 DOCS=( AUTHORS NEWS.md README.md )
+
+src_prepare() {
+	default
+	eautoreconf
+}
 
 src_test() {
 	emake check
