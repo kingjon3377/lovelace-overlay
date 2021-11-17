@@ -1,5 +1,5 @@
---- oleo-1.99.16.orig/Xresources/Makefile.am
-+++ oleo-1.99.16/Xresources/Makefile.am
+--- a/Xresources/Makefile.am
++++ b/Xresources/Makefile.am
 @@ -17,9 +17,9 @@
  endir =		$(xdefaultsdir)
  
@@ -14,8 +14,8 @@
 +		$(INSTALL_DATA) $(srcdir)/Oleo.en $(DESTDIR)$(endir)/Oleo
  
  MAINTAINERCLEANFILES = Makefile.in
---- oleo-1.99.16.orig/Xresources/Makefile.in
-+++ oleo-1.99.16/Xresources/Makefile.in
+--- a/Xresources/Makefile.in
++++ b/Xresources/Makefile.in
 @@ -235,10 +235,10 @@
  
  

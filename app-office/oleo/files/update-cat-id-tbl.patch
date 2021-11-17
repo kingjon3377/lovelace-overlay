@@ -1,5 +1,5 @@
---- oleo-1.99.16.orig/po/cat-id-tbl.c
-+++ oleo-1.99.16/po/cat-id-tbl.c
+--- a/po/cat-id-tbl.c
++++ b/po/cat-id-tbl.c
 @@ -27,7 +27,7 @@
  \n\
  Report bugs to <bug-oleo@gnu.org>.\n", 4},

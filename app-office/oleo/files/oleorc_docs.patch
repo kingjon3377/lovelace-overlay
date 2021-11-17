@@ -1,13 +1,13 @@
---- oleo-1.99.16.orig/doc/expressions.texi
-+++ oleo-1.99.16/doc/expressions.texi
+--- a/doc/expressions.texi
++++ b/doc/expressions.texi
 @@ -1,4 +1,4 @@
 -@node   Expressions, , .oleorc file, Basics
 +@node   Expressions, , ~/.oleorc file, Basics
  @section Expressions
  @cindex Expressions
  
---- oleo-1.99.16.orig/doc/basics.texi
-+++ oleo-1.99.16/doc/basics.texi
+--- a/doc/basics.texi
++++ b/doc/basics.texi
 @@ -46,7 +46,7 @@
  * Getting Help::                Getting help
  * Saving and reading::          Saving and reading Spreadsheets

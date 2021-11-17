@@ -1,4 +1,4 @@
---- a/examples/sample/Makefile.in.old	2010-11-24 00:55:36.000000000 -0500
+--- a/examples/sample/Makefile.in	2010-11-24 00:55:36.000000000 -0500
 +++ b/examples/sample/Makefile.in	2010-11-24 00:55:52.000000000 -0500
 @@ -186,7 +186,7 @@
  	latex sample
@@ -9,7 +9,7 @@
  	../../src/opensched sample.sched
  
  png :: sample_gantt_1.png
---- a/examples/toffee/Makefile.in.old	2010-11-24 00:57:50.000000000 -0500
+--- a/examples/toffee/Makefile.in	2010-11-24 00:57:50.000000000 -0500
 +++ b/examples/toffee/Makefile.in	2010-11-24 00:58:25.000000000 -0500
 @@ -184,7 +184,7 @@
  	latex toffee
