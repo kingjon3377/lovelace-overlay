@@ -15,5 +15,5 @@ IUSE=""
 
 COMMON_DEP=""
 
-RDEPEND=""
+RDEPEND="sys-libs/zlib"
 DEPEND=""

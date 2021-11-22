@@ -13,7 +13,9 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""
 
-RDEPEND="dev-libs/libxml2:2"
+RDEPEND="dev-libs/libxml2:2
+	dev-libs/icu:=
+	sys-libs/zlib"
 DEPEND="${RDEPEND}
 	app-text/texi2html"
 

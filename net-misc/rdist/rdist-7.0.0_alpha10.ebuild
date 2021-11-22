@@ -13,7 +13,8 @@ KEYWORDS="amd64 x86"
 IUSE="+crypt"
 
 BDEPEND="sys-devel/bison"
-RDEPEND="crypt? ( virtual/ssh )"
+RDEPEND="crypt? ( virtual/ssh )
+	net-libs/libnsl:="
 
 S="${WORKDIR}/${P/_/-}"
 

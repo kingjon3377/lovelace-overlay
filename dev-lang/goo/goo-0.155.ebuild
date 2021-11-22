@@ -18,7 +18,7 @@ KEYWORDS="amd64"
 IUSE=""
 
 RDEPEND="dev-libs/boehm-gc
-	dev-libs/gmp:0"
+	dev-libs/gmp:0="
 DEPEND="${RDEPEND}
 	app-arch/xz-utils"
 

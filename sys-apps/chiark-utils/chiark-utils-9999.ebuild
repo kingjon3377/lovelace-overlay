@@ -22,11 +22,12 @@ IUSE=""
 
 DEPEND="x11-libs/libX11
 	x11-libs/libXmu
-	dev-libs/nettle
+	dev-libs/nettle:=
 	x11-libs/libXdmcp
 	x11-libs/libXau
 	x11-libs/libICE
-	x11-libs/libSM"
+	x11-libs/libSM
+	dev-libs/gmp:="
 RDEPEND="${DEPEND}
 	dev-lang/tcl
 	dev-perl/Git-Wrapper

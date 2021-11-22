@@ -15,7 +15,9 @@ KEYWORDS="~amd64"
 IUSE=""
 
 DEPEND="sys-fs/fuse:0
-	dev-libs/libxml2"
+	dev-libs/libxml2
+	dev-libs/icu:=
+	sys-libs/zlib"
 RDEPEND="${DEPEND}"
 
 src_prepare() {

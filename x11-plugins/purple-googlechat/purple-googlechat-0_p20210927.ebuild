@@ -19,7 +19,7 @@ KEYWORDS="~amd64"
 RDEPEND="dev-libs/glib:2
 	dev-libs/json-glib
 	dev-libs/protobuf-c:=
-	net-im/pidgin
+	net-im/pidgin:=
 	sys-libs/zlib"
 DEPEND="${RDEPEND}"
 BDEPEND="virtual/pkgconfig"

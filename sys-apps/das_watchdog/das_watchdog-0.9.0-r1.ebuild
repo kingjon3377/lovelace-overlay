@@ -16,7 +16,8 @@ KEYWORDS="amd64 x86"
 IUSE=""
 
 DEPEND="gnome-base/libgtop:2=
-		|| ( x11-base/xorg-x11 x11-apps/xmessage )"
+		|| ( x11-base/xorg-x11 x11-apps/xmessage )
+		dev-libs/glib:2"
 RDEPEND="${DEPEND}"
 
 DOC_CONTENTS="

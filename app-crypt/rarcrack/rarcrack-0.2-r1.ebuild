@@ -14,7 +14,9 @@ SLOT="0"
 KEYWORDS="amd64 ~x86"
 IUSE="7zip rar zip test"
 
-CDEPEND="dev-libs/libxml2"
+CDEPEND="dev-libs/libxml2
+	dev-libs/icu:=
+	sys-libs/zlib"
 RDEPEND="${CDEPEND}
 	rar? ( app-arch/unrar )
 	zip? ( app-arch/unzip )

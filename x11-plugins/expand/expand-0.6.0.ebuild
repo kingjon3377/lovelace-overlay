@@ -14,7 +14,8 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
 
-RDEPEND=">=net-im/pidgin-2.6"
+RDEPEND="net-im/pidgin:=
+	dev-libs/glib:2"
 DEPEND="${RDEPEND}"
 BDEPEND="virtual/pkgconfig"
 

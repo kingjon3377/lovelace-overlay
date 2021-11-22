@@ -23,7 +23,8 @@ SLOT="0"
 KEYWORDS="amd64 x86"
 IUSE="emacs"
 
-RDEPEND=""
+RDEPEND="net-libs/libnsl:=
+	x11-libs/libX11"
 DEPEND="${RDEPEND}"
 
 S=${WORKDIR}/${PN}-fsf-${PV/22.4/22}

@@ -14,7 +14,7 @@ LICENSE="AGPL-3"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 
-DEPEND="=app-text/mupdf-$(ver_cut 0-2)*"
+DEPEND="=app-text/mupdf-$(ver_cut 0-2)*:="
 RDEPEND="${DEPEND}"
 BDEPEND=""
 

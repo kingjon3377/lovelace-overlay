@@ -26,9 +26,10 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""
 
-DEPEND=">=dev-libs/libevent-1.4.13
+DEPEND=">=dev-libs/libevent-1.4.13:=
 	>=dev-libs/libbsd-0.2.0
-	net-libs/libtirpc"
+	net-libs/libnsl:=
+	net-libs/libtirpc:="
 RDEPEND="${DEPEND}"
 
 S="${WORKDIR}/${MY_P}"

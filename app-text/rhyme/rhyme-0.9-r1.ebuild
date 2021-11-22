@@ -17,8 +17,8 @@ SLOT="0"
 KEYWORDS="amd64 x86"
 IUSE=""
 
-DEPEND="sys-libs/readline
-	sys-libs/gdbm"
+DEPEND="sys-libs/readline:=
+	sys-libs/gdbm:="
 RDEPEND="${DEPEND}"
 
 src_prepare() {

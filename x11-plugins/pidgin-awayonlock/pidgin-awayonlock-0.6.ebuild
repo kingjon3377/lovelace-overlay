@@ -16,7 +16,8 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
 
-RDEPEND=">=net-im/pidgin-2.4.0
+RDEPEND="net-im/pidgin:=
+	dev-libs/glib:2
 	sys-libs/glibc
 	dev-libs/dbus-glib"
 DEPEND="${DEPEND}"

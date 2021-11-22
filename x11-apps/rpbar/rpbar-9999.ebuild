@@ -15,7 +15,9 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""
 
-DEPEND="x11-libs/libX11"
+DEPEND="x11-libs/libX11
+	media-libs/fontconfig
+	x11-libs/libXft"
 RDEPEND="${DEPEND}
 	x11-wm/ratpoison"
 
