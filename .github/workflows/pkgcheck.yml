@@ -12,6 +12,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Run pkgcheck
-      uses: pkgcore/pkgcheck-action@v1
+      # Switch back to pkgcore/pkgcheck-action@v1 once pkgcore/pkgcheck-action#4 is fixed
+      uses: nabbi/pkgcheck-action@v1
       with:
         args: --keywords=-RedundantVersion,-MissingAccountIdentifier,-OldPackageUpdate
