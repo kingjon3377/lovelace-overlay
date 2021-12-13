@@ -4,7 +4,7 @@
 EAPI=7
 
 DISTUTILS_SINGLE_IMPL=true
-PYTHON_COMPAT=( python3_{6..8} )
+PYTHON_COMPAT=( python3_{8..9} )
 
 inherit distutils-r1 edos2unix
 
