@@ -25,7 +25,7 @@ RDEPEND="virtual/imagemagick-tools[perl]
 	dev-perl/IO-String
 	dev-perl/JSON-XS
 	dev-perl/libwww-perl
-	virtual/perl-Pod-Parser
+	dev-perl/Pod-Parser
 	dev-perl/Text-Unidecode
 	virtual/perl-Time-HiRes
 	dev-perl/URI
