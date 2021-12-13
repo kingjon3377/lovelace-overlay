@@ -15,7 +15,7 @@ KEYWORDS="~amd64 ~x86"
 IUSE=""
 
 DEPEND="media-libs/libextractor
-	sys-libs/ncurses:0[unicode]"
+	sys-libs/ncurses:0[unicode(+)]"
 RDEPEND="${DEPEND}
 	app-text/poppler
 	app-arch/unzip"
