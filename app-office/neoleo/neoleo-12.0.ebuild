@@ -1,9 +1,9 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
-inherit toolchain-funcs flag-o-matic
+inherit autotools
 
 DESCRIPTION="Lightweight curses spreadsheet based on GNU oleo"
 HOMEPAGE="https://github.com/blippy/neoleo"
@@ -22,12 +22,8 @@ BDEPEND="sys-devel/bison
 
 src_prepare() {
 	default
-	sed -i -e 's@ -Wfatal-errors@@' -e 's@ -Werror@@' src/Makefile.in || die
-	sed -i -e '/^neoleo_LDADD/s/$/ -lstdc++fs/' src/Makefile.in || die
-}
-
-src_configure() {
-	default CURSES_LIBS=-lc++fs
+	sed -i -e '/-Wfatal-errors/s/^/#/' -e '/-Werror /s/^/#/' src/Makefile.am || die
+	eautoreconf
 }
 
 src_test() {
@@ -36,6 +32,7 @@ src_test() {
 
 src_install() {
 	emake DESTDIR="${D}" generaldir="/usr/share/doc/${PF}" \
-		examplesdir="/usr/share/doc/${PF}/examples" install
+		exampledir="/usr/share/doc/${PF}/examples" install
 	einstalldocs
+	rm "${D}/usr/share/doc/${PF}/INSTALL"-*
 }
