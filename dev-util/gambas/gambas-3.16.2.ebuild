@@ -115,13 +115,10 @@ BDEPEND="virtual/pkgconfig"
 
 RDEPEND="${COMMON_DEPEND}"
 
-#PATCHES=(
-	# "${FILESDIR}/${P}-xdgutils.patch"
-#)
-
 src_prepare() {
 	default
 	sed -i -e 's@scrdir@srcdir@' */Makefile.am || die
+	sed -i -e 's@c++11@c++17@g' acinclude.m4 || die # Poppler header now uses C++17 constructs
 	eautoreconf
 	for dir in "${S}"/gb.*;do
 		if ! test -d "${dir}"; then
