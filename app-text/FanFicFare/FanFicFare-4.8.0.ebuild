@@ -23,7 +23,7 @@ RDEPEND="${PYTHON_DEPS}
 	dev-python/html2text[${PYTHON_USEDEP}]
 	dev-python/urllib3[${PYTHON_USEDEP}]
 	dev-python/requests-file[${PYTHON_USEDEP}]
-	|| ( app-arch/brotli[python,${PYTHON_USEDEP}] dev-python/brotlipy[${PYTHON_USEDEP}] )
+	app-arch/brotli[python,${PYTHON_USEDEP}]
 	dev-python/pillow[${PYTHON_USEDEP}]
 	dev-python/cloudscraper[${PYTHON_USEDEP}]"
 DEPEND="${RDEPEND}"
