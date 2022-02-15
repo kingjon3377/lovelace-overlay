@@ -1,4 +1,4 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -19,15 +19,15 @@ KEYWORDS="~amd64"
 IUSE=""
 
 RDEPEND="$(python_gen_cond_dep '
-		dev-python/markdown[${PYTHON_MULTI_USEDEP}]
-		dev-python/wxpython:4.0[${PYTHON_MULTI_USEDEP}]
-		dev-python/pysvg[${PYTHON_MULTI_USEDEP}]
-		dev-python/icalendar[${PYTHON_MULTI_USEDEP}]
-		dev-python/humblewx[${PYTHON_MULTI_USEDEP}]
+		dev-python/markdown[${PYTHON_USEDEP}]
+		dev-python/wxpython:4.0[${PYTHON_USEDEP}]
+		dev-python/pysvg[${PYTHON_USEDEP}]
+		dev-python/icalendar[${PYTHON_USEDEP}]
+		dev-python/humblewx[${PYTHON_USEDEP}]
 	')"
 DEPEND="${RDEPEND}
 	test? ( $(python_gen_cond_dep '
-		dev-python/mock[${PYTHON_MULTI_USEDEP}]
+		dev-python/mock[${PYTHON_USEDEP}]
 	') )"
 
 # A test fails

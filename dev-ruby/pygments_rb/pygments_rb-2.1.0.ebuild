@@ -1,4 +1,4 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -31,8 +31,8 @@ RUBY_S="${MY_P}"
 RDEPEND+="
 	${PYTHON_DEPS}
 	$(python_gen_cond_dep '
-		>=dev-python/pygments-2.2.0[${PYTHON_MULTI_USEDEP}]
-		dev-python/simplejson[${PYTHON_MULTI_USEDEP}]
+		>=dev-python/pygments-2.2.0[${PYTHON_USEDEP}]
+		dev-python/simplejson[${PYTHON_USEDEP}]
 	')"
 DEPEND+=" test? ( ${RDEPEND} )"
 
