@@ -1,9 +1,9 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
-PYTHON_COMPAT=( python2_7 python3_{3..9} )
+PYTHON_COMPAT=( python2_7 python3_{3..10} )
 inherit python-r1 readme.gentoo-r1
 
 DESCRIPTION="CLI tool to provide quick access to current weather conditions and forecasts"

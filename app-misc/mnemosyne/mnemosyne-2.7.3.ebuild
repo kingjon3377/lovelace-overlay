@@ -4,6 +4,7 @@
 EAPI=7
 
 DISTUTILS_SINGLE_IMPL=true
+# Python 3.10 blocked by app-misc/anki
 PYTHON_COMPAT=( python3_{8..9} )
 
 inherit distutils-r1 edos2unix
