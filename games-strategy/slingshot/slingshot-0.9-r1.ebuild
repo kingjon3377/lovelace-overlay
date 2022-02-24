@@ -4,7 +4,7 @@
 EAPI=7
 
 DISTUTILS_SINGLE_IMPL=true
-PYTHON_COMPAT=( python3_{6..10} )
+PYTHON_COMPAT=( python3_{8..10} )
 inherit distutils-r1
 
 DESCRIPTION="simple 2D shooting strategy game set in space, with gravity"

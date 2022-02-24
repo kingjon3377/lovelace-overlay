@@ -4,7 +4,7 @@
 EAPI=7
 
 # Python 3.10 blocked by wxpython
-PYTHON_COMPAT=( python3_{6..9} )
+PYTHON_COMPAT=( python3_{8..9} )
 inherit distutils-r1
 
 DESCRIPTION="Library that simplifies creating user interfaces with wxPython"

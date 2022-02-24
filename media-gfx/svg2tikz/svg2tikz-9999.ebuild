@@ -5,7 +5,7 @@ EAPI=7
 
 EGIT_REPO_URI="https://github.com/kjellmf/svg2tikz.git"
 
-PYTHON_COMPAT=( python3_{6..10} )
+PYTHON_COMPAT=( python3_{8..10} )
 DISTUTILS_SINGLE_IMPL=yes
 
 inherit git-r3 distutils-r1

@@ -3,7 +3,7 @@
 
 EAPI=7
 
-PYTHON_COMPAT=( python2_7 python3_{3..10} )
+PYTHON_COMPAT=( python2_7 python3_{8..10} )
 inherit python-r1 readme.gentoo-r1
 
 DESCRIPTION="CLI tool to provide quick access to current weather conditions and forecasts"

@@ -4,7 +4,7 @@
 EAPI=7
 
 EGIT_REPO_URI="https://github.com/dyskette/seneca.git"
-PYTHON_COMPAT=( python3_{7..10} )
+PYTHON_COMPAT=( python3_{8..10} )
 inherit git-r3 meson python-single-r1
 
 DESCRIPTION="EPUB reader for GNOME"

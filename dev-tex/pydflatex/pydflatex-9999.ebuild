@@ -3,7 +3,7 @@
 
 EAPI=7
 
-PYTHON_COMPAT=( python3_{7..10} ) # python3_8 blocked by python-termstyle
+PYTHON_COMPAT=( python3_{8..10} )
 EGIT_REPO_URI="https://github.com/olivierverdier/pydflatex.git"
 
 inherit git-r3 distutils-r1
