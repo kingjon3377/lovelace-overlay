@@ -1,4 +1,4 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 # From bug #107710 or the graaf overlay
@@ -20,7 +20,10 @@ SRC_URI="http://launchpad.net/${PN}/trunk/${PV}/+download/${P}.tar.gz"
 
 ruby_add_rdepend "dev-ruby/rcairo dev-ruby/ruby-gtk2 dev-ruby/ruby-gettext"
 
-PATCHES=( "${FILESDIR}/screenruler-bug831501.patch" )
+PATCHES=(
+	"${FILESDIR}/screenruler-bug831501.patch"
+	"${FILESDIR}/scr.patch"
+)
 
 #src_prepare() {
 	#sed -i -e "s/File.dirname(__FILE__)/'\/usr\/share\/screenruler'/" screenruler.rb
