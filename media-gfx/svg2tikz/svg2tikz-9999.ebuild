@@ -3,7 +3,7 @@
 
 EAPI=7
 
-EGIT_REPO_URI="https://github.com/kjellmf/svg2tikz.git"
+EGIT_REPO_URI="https://github.com/xyz2tex/svg2tikz.git"
 
 PYTHON_COMPAT=( python3_{8..10} )
 DISTUTILS_SINGLE_IMPL=yes
@@ -11,7 +11,7 @@ DISTUTILS_SINGLE_IMPL=yes
 inherit git-r3 distutils-r1
 
 DESCRIPTION="SVG to PGF/TikZ converter"
-HOMEPAGE="https://github.com/kjellmf/svg2tikz.git"
+HOMEPAGE="https://github.com/xyz2tex/svg2tikz"
 SRC_URI=""
 
 LICENSE="GPL-2+"
