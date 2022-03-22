@@ -1,4 +1,4 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -6,9 +6,8 @@ EAPI=7
 inherit texlive-common
 
 DESCRIPTION="A Makefile helper for LaTeX"
-HOMEPAGE="http://gforge.inria.fr/projects/latex-utils/"
-#SRC_URI="http://gforge.inria.fr/frs/download.php/file/30927/${P}.tar.gz"
-SRC_URI="http://gforge.inria.fr/frs/download.php/zip/10626/${P}.zip"
+HOMEPAGE="https://gitlab.inria.fr/latex-utils/latex-make"
+SRC_URI="https://gitlab.inria.fr/latex-utils/${PN}/-/archive/v${PV}/${PN}-v${PV}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
@@ -20,13 +19,8 @@ RDEPEND="${CDEPEND}
 	sys-devel/make
 	virtual/latex-base"
 DEPEND="${CDEPEND}"
-BDEPEND="app-arch/unzip"
 
-src_unpack() {
-	default
-	unpack "${WORKDIR}/${P}.tar.gz"
-	rm "${WORKDIR}/${P}.tar.gz"
-}
+S="${WORKDIR}/${PN}-v${PV}"
 
 src_configure() {
 	# It aborts on unrecognized options, such as those provided by econf

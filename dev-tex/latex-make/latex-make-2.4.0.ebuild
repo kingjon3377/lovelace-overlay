@@ -1,4 +1,4 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -8,7 +8,7 @@ inherit texlive-common
 UPSTREAM_VERSION=10830
 
 DESCRIPTION="A Makefile helper for LaTeX"
-HOMEPAGE="https://gforge.inria.fr/projects/latex-utils/"
+HOMEPAGE="https://gitlab.inria.fr/latex-utils/latex-make"
 SRC_URI="https://gforge.inria.fr/frs/download.php/zip/${UPSTREAM_VERSION}/${P}.zip"
 
 LICENSE="GPL-2"
