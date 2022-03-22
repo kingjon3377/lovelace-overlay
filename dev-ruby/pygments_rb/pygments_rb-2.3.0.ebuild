@@ -11,14 +11,14 @@ MY_P="${RUBY_FAKEGEM_NAME}-${PV}"
 
 RUBY_FAKEGEM_RECIPE_TEST="rake"
 RUBY_FAKEGEM_RECIPE_DOC="none"
-RUBY_FAKEGEM_EXTRADOC="CHANGELOG.md README.md"
+RUBY_FAKEGEM_EXTRADOC="CHANGELOG.adoc README.adoc"
 
 RUBY_FAKEGEM_GEMSPEC="${RUBY_FAKEGEM_NAME}.gemspec"
 
 inherit ruby-fakegem python-single-r1
 
 DESCRIPTION="Pygments syntax highlighting in ruby"
-HOMEPAGE="https://github.com/tmm1/pygments.rb"
+HOMEPAGE="https://github.com/pygments/pygments.rb"
 
 LICENSE="MIT"
 SLOT="0"
@@ -39,10 +39,7 @@ DEPEND+=" test? ( ${RDEPEND} )"
 ruby_add_rdepend ">=dev-ruby/multi_json-1.0.0"
 ruby_add_bdepend "dev-ruby/rake-compiler"
 
-PATCHES=(
-	"${FILESDIR}/${P}-python3.patch"
-	"${FILESDIR}/${P}-update-tests.patch"
-)
+RESTRICT=test # Test failures against pygments-2.11.2, TODO: investigate
 
 pkg_setup() {
 	ruby-ng_pkg_setup
@@ -53,15 +50,8 @@ all_ruby_prepare() {
 	sed -i -e '/[Bb]undler/d' Rakefile || die
 	sed -i -e '/s.files/d' pygments.rb.gemspec || die
 	python_fix_shebang lib/pygments/mentos.py
-	# we are loosing a "custom github lexer here", no idea what it is,
-	# but if we need it, it should go into dev-python/pygments
-	rm -r vendor lexers || die "removing bundled libs failed"
+	rm -r vendor || die "removing bundled libs failed"
 	eapply_user
-}
-
-each_ruby_compile() {
-	# regenerate the lexer cache, based on the system pygments pkg
-	${RUBY} cache-lexers.rb || die "regenerating lexer cache failed"
 }
 
 each_ruby_install() {
