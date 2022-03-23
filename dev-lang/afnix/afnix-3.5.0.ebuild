@@ -1,16 +1,18 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
 inherit toolchain-funcs
 
+DEBIAN_PATCH_V=3
+
 DESCRIPTION="Compiler and run-time for the AFNIX programming language"
 HOMEPAGE="http://www.afnix.org/"
 # http://www.afnix.org/ftp/afnix-src-2.4.0.tgz
 SRC_URI="http://www.afnix.org/ftp/${PN}-src-${PV}.tgz
 	doc? ( http://www.afnix.org/ftp/${PN}-doc-${PV}.tgz )
-	mirror://debian/pool/main/a/${PN}/${PN}_${PV}-1.debian.tar.xz"
+	mirror://debian/pool/main/a/${PN}/${PN}_${PV}-${DEBIAN_PATCH_V}.debian.tar.xz"
 
 LICENSE="afnix"
 SLOT="0"
@@ -24,7 +26,7 @@ DEPEND="${RDEPEND}
 S="${WORKDIR}/${PN}-src-${PV}"
 
 # A test fails, in a way that looks like a problem with my local computer configuration
-#RESTRICT=test
+RESTRICT=test
 
 src_prepare() {
 	mv "${WORKDIR}/debian" "${S}/debian" || die
