@@ -8,16 +8,17 @@ inherit python-r1 readme.gentoo-r1
 
 DESCRIPTION="CLI tool to provide quick access to current weather conditions and forecasts"
 HOMEPAGE="http://fungi.yuggoth.org/weather/"
-SRC_URI="http://fungi.yuggoth.org/weather/src/${P}.tar.gz"
+SRC_URI="http://fungi.yuggoth.org/weather/src/${P}.tar.xz"
 
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
 
+BDEPEND="app-arch/xz-utils"
+
 PATCHES=(
-	"${FILESDIR}/${P}-fhs.patch"
-	"${FILESDIR}/${P}-py3k-decompress.patch"
+	"${FILESDIR}/${PN}-2.3-fhs.patch"
 )
 
 DOC_CONTENTS="
@@ -29,7 +30,7 @@ man weather and weatherrc for more info.
 src_unpack() {
 	default_src_unpack
 	cd "${S}"
-	unpack ./*zip ./*tar
+	unpack ./*zip
 }
 
 src_install() {
@@ -45,8 +46,7 @@ src_install() {
 	python_replicate_script "${ED}/usr/bin/${PN}"
 	doman ${PN}.1 ${PN}rc.5
 	insinto /usr/share/${PN}-util
-	doins airports *.dbx *.txt metar.tbl places stations slist zctas zlist zones
-	doins -r zonecatalog.curr
+	doins airports *.dbx *.txt places stations slist zctas zlist zones
 	dodoc FAQ README NEWS
 	python_setup
 	python_optimize
