@@ -1,4 +1,4 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 # From bug #145270 . Had been in Sunrise, but dev incorrectly claimed it's in
@@ -9,8 +9,8 @@ EAPI=7
 MY_P=${PN/m/M}_${PV}
 
 DESCRIPTION="Text-to-HTML conversion tool"
-HOMEPAGE="http://daringfireball.net/projects/markdown/"
-SRC_URI="http://daringfireball.net/projects/downloads/${MY_P}.zip"
+HOMEPAGE="https://daringfireball.net/projects/markdown/"
+SRC_URI="https://daringfireball.net/projects/downloads/${MY_P}.zip"
 
 LICENSE="BSD"
 SLOT="0"
