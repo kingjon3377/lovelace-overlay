@@ -1,4 +1,4 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -9,7 +9,7 @@ GNOME2_LA_PUNT="yes"
 inherit autotools gnome2
 
 DESCRIPTION="Helpful utility to attack Repetitive Strain Injury (RSI)"
-HOMEPAGE="http://www.workrave.org/"
+HOMEPAGE="https://www.workrave.org/"
 MY_PV=$(ver_rs 1- '_')
 SRC_URI="https://github.com/rcaelers/${PN}/archive/v${MY_PV}.tar.gz -> ${P}.tar.gz"
 
