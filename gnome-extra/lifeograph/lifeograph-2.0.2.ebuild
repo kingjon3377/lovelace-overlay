@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit gnome2 toolchain-funcs meson desktop
+inherit gnome2 meson
 
 DESCRIPTION="Private digital diary"
 HOMEPAGE="http://lifeograph.sourceforge.net"
