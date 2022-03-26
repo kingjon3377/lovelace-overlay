@@ -29,7 +29,6 @@ src_prepare() {
 # something less clear
 RESTRICT="test"
 
-
 python_test() {
 	distutils_install_for_testing
 	cd tests || die
