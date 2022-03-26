@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-USE_RUBY="ruby25 ruby26 ruby27 ruby30"
+USE_RUBY="ruby25 ruby26 ruby27" # ruby30 blocked by kramdown and pygments_rb
 RUBY_FAKEGEM_VERSION="${PV}"
 RUBY_FAKEGEM_RECIPE_TEST=rspec
 
