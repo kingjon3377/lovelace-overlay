@@ -20,6 +20,7 @@ IUSE=""
 DEPEND="dev-lang/perl
 	virtual/perl-Digest-MD5"
 RDEPEND="${DEPEND}"
+BDEPEND="app-arch/unzip"
 
 S="${WORKDIR}/${MY_P}"
 
