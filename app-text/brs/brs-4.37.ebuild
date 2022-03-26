@@ -1,4 +1,4 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -12,7 +12,7 @@ DESCRIPTION="Bible Retrieval System: UI for the Bible"
 HOMEPAGE="https://packages.debian.org/bible-kjv"
 SRC_URI="mirror://debian/pool/main/${MY_PN:0:1}/${MY_PN}/${MY_PN}_${PV}.tar.gz"
 
-LICENSE="GPL-2"
+LICENSE="GPL-2+"
 SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""
@@ -20,7 +20,8 @@ IUSE=""
 DEPEND=""
 RDEPEND="${DEPEND}"
 
-S="${WORKDIR}/${MY_PN}"
+#S="${WORKDIR}/${MY_PN}"
+S="${WORKDIR}/work"
 
 src_prepare() {
 	sed -i -e 's:\([ 	]\)make\([ 	]\):\1$(MAKE)\2:g' -e "s:-ggdb:${CFLAGS}:" \
@@ -39,8 +40,9 @@ src_test() {
 }
 
 src_compile() {
-	# Without the -j1, for some reason one file erors istead of linking.
-	emake LD=$(tc-getCC) LDFLAGS="${LDFLAGS} ${CFLAGS}" DESTLIB="/usr/$(get_libdir)" all
+	# Without the -j1, for some reason one file errors istead of linking.
+	emake -j1 LD=$(tc-getCC) CC=$(tc-getCC) LDFLAGS="${LDFLAGS} ${CFLAGS}" \
+		DESTLIB="/usr/$(get_libdir)" all
 	cd debian && $(tc-getCC) ${CFLAGS} -o randverse randverse.c || die "making randverse failed"
 }
 
