@@ -50,7 +50,6 @@ src_prepare() {
 
 python_install_all() {
 	distutils-r1_python_install_all
-	dodir /etc/fanficfare
 	insinto /etc/fanficfare
 	doins fanficfare/defaults.ini
 	dodoc fanficfare/example.ini DESCRIPTION.rst
