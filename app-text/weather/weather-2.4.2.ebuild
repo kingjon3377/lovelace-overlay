@@ -16,6 +16,8 @@ KEYWORDS="~amd64 ~x86"
 IUSE=""
 
 BDEPEND="app-arch/xz-utils"
+RDEPEND="${PYTHON_DEPS}"
+REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
 PATCHES=(
 	"${FILESDIR}/${PN}-2.3-fhs.patch"
