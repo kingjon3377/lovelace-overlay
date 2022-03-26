@@ -63,7 +63,7 @@ src_configure() {
 }
 
 src_install() {
-	dodir "/usr/$(get_libdir)/${PN}" /usr/share/pixmaps /usr/share/applications
+	dodir /usr/share/pixmaps /usr/share/applications
 	insinto "/usr/$(get_libdir)/${PN}"
 	doins -r examples fonts libraries linetypes patterns platforminputcontexts platforms plugins \
 		scripts themes ts xcbglintegrations
