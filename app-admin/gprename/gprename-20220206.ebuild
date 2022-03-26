@@ -1,4 +1,4 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -11,11 +11,11 @@ SRC_URI="mirror://sourceforge/${PN}/${PN}/${PV}/${P}.tar.bz2"
 
 LICENSE="GPL-3"
 SLOT="0"
-KEYWORDS="amd64"
+KEYWORDS="~amd64"
 IUSE=""
 
 RDEPEND="dev-perl/glib-perl
-	dev-perl/Gtk2
+	dev-perl/Gtk3
 	dev-perl/Locale-gettext
 	dev-perl/libintl-perl"
 DEPEND=""
@@ -29,7 +29,6 @@ for lang in ${LANGS}; do
 done
 
 src_prepare() {
-	default
 	sed -i \
 		-e 's/install: uninstall build/install:/' \
 			Makefile || die "sed failed"
@@ -54,6 +53,7 @@ src_prepare() {
 			einfo "Keeping language ${lang}"
 		fi
 	done
+	default
 }
 
 src_compile() {
