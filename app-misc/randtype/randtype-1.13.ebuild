@@ -1,4 +1,4 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -6,7 +6,7 @@ EAPI=7
 inherit toolchain-funcs
 
 DESCRIPTION="semi-random text typer"
-HOMEPAGE="http://bjk.sourceforge.net/randtype/"
+HOMEPAGE="https://randtype.sourceforge.io/"
 SRC_URI="mirror://sourceforge/bjk/randtype/${PV}/${P}.tar.gz"
 
 LICENSE="GPL-2"
