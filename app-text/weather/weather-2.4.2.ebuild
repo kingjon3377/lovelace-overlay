@@ -35,7 +35,8 @@ src_unpack() {
 
 src_install() {
 	my_install() {
-		insinto "$(python_get_sitedir)"
+		sitedir="$(python_get_sitedir)"
+		insinto "${sitedir#${EPREFIX}}"
 		doins "${PN}.py"
 	}
 	python_foreach_impl my_install
