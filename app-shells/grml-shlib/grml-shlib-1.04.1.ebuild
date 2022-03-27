@@ -1,4 +1,4 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -34,7 +34,6 @@ src_install() {
 	if use doc; then
 		emake DESTDIR="${D}" install
 	else
-		dodir /etc/grml
 		insinto /etc/grml
 		doins sh-lib
 		fperms 755 /etc/grml/sh-lib
