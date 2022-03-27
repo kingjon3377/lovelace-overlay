@@ -90,7 +90,6 @@ src_install() {
 	emake -C ${ORIGSRC}/sdlBrt ${XFLAGS} install DESTDIR="${D}"
 	docinto html
 	dodoc -r ${ORIGDATA}/../doc/sdlBasic/english/*
-	dodir ${DESTDATA}
 	insinto ${DESTDATA}
 	doins ${ORIGDATA}/*.*
 	insinto ${DESTPLUGINS}
