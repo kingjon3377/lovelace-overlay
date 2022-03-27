@@ -30,6 +30,7 @@ DEPEND="${RDEPEND}
 	test? ( $(python_gen_cond_dep '
 		dev-python/mock[${PYTHON_USEDEP}]
 	') )"
+BDEPEND="app-arch/unzip"
 
 # A test fails
 src_test() {
