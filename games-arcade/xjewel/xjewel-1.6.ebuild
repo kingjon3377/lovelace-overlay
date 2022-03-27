@@ -1,4 +1,4 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -7,7 +7,7 @@ inherit toolchain-funcs
 
 DESCRIPTION="match colors on falling columns of blocks"
 HOMEPAGE="https://packages.debian.org/xjewel"
-SRC_URI="ftp://ftp.warwick.ac.uk/pub/x11/xjewel-1.6.tar.z"
+SRC_URI="ftp://ftp.warwick.ac.uk/pub/x11/${P}.tar.z"
 
 LICENSE="xjewel"
 SLOT="0"
