@@ -3,8 +3,6 @@
 
 EAPI=7
 
-inherit toolchain-funcs
-
 MY_P="${PN}_${PV}"
 DEB_PL="10"
 
