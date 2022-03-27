@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit wrapper unpacker
+inherit wrapper unpacker desktop
 
 DESCRIPTION="A simple to use EPUB and MobiPocket ebook creator"
 HOMEPAGE="http://www.juliansmart.com/ecub"
@@ -25,16 +25,14 @@ PATCHES=(
 )
 
 src_install() {
-	dodir /usr/bin /usr/share/applications /usr/share/pixmaps
+	dodir /usr/bin
 	cd "${WORKDIR}"
 	dodoc usr/share/ecub/readme.txt
 	rm usr/share/ecub/readme.txt
 	insinto /usr/share
 	doins -r usr/share/${PN}
 	make_wrapper ${PN} ../share/${PN}/${PN}
-	insinto /usr/share/pixmaps
 	# TODO: Exclude icon and .desktop from being installed to /usr/share/ecub, or make these symlinks instead
-	newins usr/share/ecub/appicons/ecub48x48.png ecub.png
-	insinto /usr/share/applications
-	doins usr/share/ecub/ecub.desktop
+	newicon usr/share/ecub/appicons/ecub48x48.png ecub.png
+	domenu usr/share/ecub/ecub.desktop
 }
