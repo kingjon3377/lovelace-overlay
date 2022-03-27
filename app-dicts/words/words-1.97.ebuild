@@ -17,8 +17,7 @@ SLOT="0"
 KEYWORDS="amd64"
 IUSE=""
 
-RDEPEND="${ADA_DEPS}
-	!app-dicts/words-bin"
+RDEPEND="${ADA_DEPS}"
 DEPEND="${ADA_DEPS}"
 BDEPEND="app-arch/unzip"
 
