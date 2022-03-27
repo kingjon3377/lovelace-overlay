@@ -25,7 +25,7 @@ DEPEND=""
 LANGS="ca de es et fr id it nl pl pt_BR pl_BR ru sv zh_CN"
 
 for lang in ${LANGS}; do
-	IUSE="${IUSE} l10n_${lang}"
+	L10N="${L10N} l10n_${lang/_/-}"
 done
 
 src_prepare() {
@@ -46,11 +46,11 @@ src_prepare() {
 	# lt.po doesn't actually exist
 	remove_lang lt
 	for lang in ${LANGS}; do
-		if ! use l10n_${lang}; then
-			einfo "Removing language ${lang}"
+		if ! use l10n_${lang/_/-}; then
+			einfo "Removing language ${lang/_/-}"
 			remove_lang ${lang}
 		else
-			einfo "Keeping language ${lang}"
+			einfo "Keeping language ${lang/_/-}"
 		fi
 	done
 	default
