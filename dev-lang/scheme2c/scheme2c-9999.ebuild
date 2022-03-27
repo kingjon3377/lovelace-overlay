@@ -5,7 +5,7 @@ EAPI=7
 
 EGIT_REPO_URI="https://salsa.debian.org/debian/${PN}.git"
 
-inherit git-r3 multilib toolchain-funcs
+inherit git-r3 toolchain-funcs
 
 DESCRIPTION="The Scheme->C compiler, R4RS compliant"
 HOMEPAGE="https://salsa.debian.org/debian/scheme2c"
