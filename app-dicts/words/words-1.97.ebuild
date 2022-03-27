@@ -20,6 +20,7 @@ IUSE=""
 RDEPEND="${ADA_DEPS}
 	!app-dicts/words-bin"
 DEPEND="${ADA_DEPS}"
+BDEPEND="app-arch/unzip"
 
 S="${WORKDIR}"
 
