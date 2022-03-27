@@ -167,12 +167,10 @@ src_test() {
 src_install() {
 	cd "${S}/dist"
 	dodir /usr/share/${PN}
-	dodir /usr/share/doc/${PF}/en
 	dosym ../doc/${PF} /usr/share/${PN}/doc
 	insinto /usr/share/doc/${PF}/en
 	doins -r dist/doc/en/*
 	for dir in bin repo lib samples templates contrib; do
-		dodir "/usr/share/${PN}/${dir}"
 		insinto "/usr/share/${PN}/${dir}"
 		doins -r "dist/${dir}"/*
 	done
