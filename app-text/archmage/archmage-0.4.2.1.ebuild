@@ -26,6 +26,8 @@ DEPEND="${RDEPEND}
 
 distutils_enable_tests pytest
 
+RESTRICT="!test? ( test )"
+
 src_prepare() {
 	# version isn't in release tarball for some reason
 	if ! test -f "${S}/RELEASE-VERSION"; then

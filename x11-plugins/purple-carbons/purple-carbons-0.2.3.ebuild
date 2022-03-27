@@ -1,4 +1,4 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -22,6 +22,8 @@ DEPEND="${RDEPEND}
 	virtual/pkgconfig"
 
 S=${WORKDIR}/carbons-${PV}
+
+RESTRICT="!test? ( test )"
 
 DOCS=( CHANGELOG.md README.md )
 

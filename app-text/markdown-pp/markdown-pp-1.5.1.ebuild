@@ -20,6 +20,8 @@ RDEPEND="dev-python/watchdog[${PYTHON_USEDEP}]"
 DEPEND="${RDEPEND}
 	test? ( dev-python/flake8[${PYTHON_USEDEP}] )"
 
+RESTRICT="!test? ( test )"
+
 src_prepare() {
 	sed -i -e 's/python/$(PYTHON)/g' -e 's/^test: lint/test:/' makefile || die
 	default

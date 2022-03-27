@@ -29,4 +29,6 @@ DEPEND="test? (
 BDEPEND="dev-python/setuptools_scm[${PYTHON_USEDEP}]
 	dev-python/pytest-benchmark[${PYTHON_USEDEP}]"
 
+RESTRICT="!test? ( test )"
+
 distutils_enable_tests pytest

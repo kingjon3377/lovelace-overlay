@@ -1,4 +1,4 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -23,6 +23,8 @@ BDEPEND=">=virtual/jdk-1.4
 	app-arch/unzip:0"
 DEPEND="test? ( dev-java/junit:4 dev-java/ant-junit4:0 )
 	${COMMON_DEP}"
+
+RESTRICT="!test? ( test )"
 
 S="${WORKDIR}"
 

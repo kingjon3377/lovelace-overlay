@@ -41,6 +41,8 @@ RDEPEND="${MY_DEPEND}"
 
 S="${WORKDIR}/${P/m/M}"
 
+RESTRICT="!test? ( test )"
+
 pkg_setup() {
 	# Required by DISTUTILS_SINGLE_IMPL
 	python-single-r1_pkg_setup

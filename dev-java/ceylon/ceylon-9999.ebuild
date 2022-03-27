@@ -1,4 +1,4 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -52,6 +52,8 @@ EANT_GENTOO_CLASSPATH="antlr-3.5,hamcrest-core-1.3,osgi-core-api,ant-bndlib,stri
 # Build file rewriting somehow breaks the build, even with classpath-injection off
 # But with that off, missing-from-classpath failures return ...
 #JAVA_PKG_BSFIX=off
+
+RESTRICT="!test? ( test )"
 
 src_prepare() {
 	for jar in ant-1.8.2.jar ant-contrib-1.0b3.jar antlr-complete-3.5.2.jar \

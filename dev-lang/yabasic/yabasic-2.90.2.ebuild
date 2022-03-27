@@ -22,6 +22,8 @@ BDEPEND="sys-devel/bison
 DEPEND="${RDEPEND}
 	test? ( app-misc/tmux )"
 
+RESTRICT="!test? ( test )"
+
 src_prepare() {
 	default
 	eautoreconf

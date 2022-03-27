@@ -1,4 +1,4 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -30,6 +30,8 @@ DEPEND=">=virtual/jdk-1.5
 
 EANT_BUILD_TARGET="jarDiffXML"
 EANT_DOC_TARGET=""
+
+RESTRICT="!test? ( test )"
 
 src_test() {
 	java-pkg-2_src_test

@@ -18,6 +18,8 @@ RDEPEND=""
 DEPEND="${RDEPEND}
 	test? ( dev-lang/perl )"
 
+RESTRICT="!test? ( test )"
+
 src_prepare() {
 	# After running the tests, we don't need to install them
 	sed -i -e '/${EXAMPLESDIR}\/tests/d' Makefile || die

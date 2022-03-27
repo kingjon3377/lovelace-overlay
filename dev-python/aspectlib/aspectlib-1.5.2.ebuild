@@ -24,6 +24,8 @@ DEPEND="test? (
 		)"
 BDEPEND=""
 
+RESTRICT="!test? ( test )"
+
 PATCHES=( "${FILESDIR}/7dccb198dfb426f529b81a28a755f3c02f8b50cb.patch" )
 
 distutils_enable_tests pytest

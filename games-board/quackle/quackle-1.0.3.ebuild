@@ -1,4 +1,4 @@
-# Copyright 1999-2018 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -18,6 +18,8 @@ RDEPEND="dev-qt/qtgui:5
 	dev-qt/qtcore:5
 	dev-qt/qtwidgets:5"
 DEPEND="${RDEPEND}"
+
+RESTRICT="!test? ( test )"
 
 PATCHES=(
 	"${FILESDIR}/quackle-1.0.3-qt5-0c4f091e74a5c6d1e0b5f4cf47670bd1c3e1e3e6.patch"

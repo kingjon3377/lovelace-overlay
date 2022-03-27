@@ -1,4 +1,4 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -17,6 +17,8 @@ IUSE="test"
 RDEPEND=""
 DEPEND="${RDEPEND}
 	test? ( app-text/texlive-core )" # bibtex
+
+RESTRICT="!test? ( test )"
 
 # TODO: Investigate the github.com/softcover/tralics fork, possibly adding some of its changes as patches
 src_prepare() {

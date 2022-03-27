@@ -1,4 +1,4 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -31,6 +31,8 @@ DEPEND="test? ( dev-java/junit:0 )
 
 EANT_BUILD_TARGET=""
 EANT_DOC_TARGET=""
+
+RESTRICT="!test? ( test )"
 
 src_compile() {
 	eant
