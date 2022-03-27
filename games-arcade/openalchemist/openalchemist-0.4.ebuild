@@ -16,7 +16,8 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
 
-RDEPEND="dev-games/clanlib:2.3[X,opengl,vorbis,sound]
+RDEPEND="${PYTHON_DEPS}
+	dev-games/clanlib:2.3[X,opengl,vorbis,sound]
 	dev-python/pygobject:3[${PYTHON_USEDEP}]
 	media-libs/fontconfig
 	media-libs/freetype
@@ -26,6 +27,8 @@ RDEPEND="dev-games/clanlib:2.3[X,opengl,vorbis,sound]
 	x11-themes/hicolor-icon-theme"
 BDEPEND="virtual/pkgconfig"
 DEPEND="${RDEPEND}"
+
+REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
 PATCHES=(
 	"${FILESDIR}/${P}-cl23.patch"
