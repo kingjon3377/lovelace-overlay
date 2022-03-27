@@ -53,7 +53,6 @@ src_install () {
 	dodoc AUTHORS ChangeLog NEWS README
 	dosym ../../gnome/help/gbonds/C /usr/share/doc/${PF}/html
 	doman ../debian/${PN}.1
-	dodir /usr/share/gbonds
 	insinto /usr/share/gbonds
 	doins ../debian/sb*.asc
 }
