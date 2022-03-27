@@ -19,7 +19,8 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""
 
-RDEPEND="$(python_gen_cond_dep '
+RDEPEND="${PYTHON_DEPS}
+	$(python_gen_cond_dep '
 		dev-python/markdown[${PYTHON_USEDEP}]
 		dev-python/wxpython:4.0[${PYTHON_USEDEP}]
 		dev-python/pysvg[${PYTHON_USEDEP}]
@@ -31,6 +32,8 @@ DEPEND="${RDEPEND}
 		dev-python/mock[${PYTHON_USEDEP}]
 	') )"
 BDEPEND="app-arch/unzip"
+
+REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
 # A test fails
 src_test() {
