@@ -5,7 +5,7 @@ EAPI=7
 
 PYTHON_COMPAT=( python3_{8..10} )
 
-inherit perl-module python-r1
+inherit perl-module python-r1 desktop
 
 DESCRIPTION="Send event reminders by email"
 HOMEPAGE="https://launchpad.net/email-reminder"

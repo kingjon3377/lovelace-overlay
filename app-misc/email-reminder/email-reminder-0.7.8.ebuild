@@ -1,9 +1,9 @@
-# Copyright 1999-2018 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
 
-inherit perl-module
+inherit perl-module desktop user
 
 DESCRIPTION="Send event reminders by email"
 HOMEPAGE="https://launchpad.net/email-reminder"
