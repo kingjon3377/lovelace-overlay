@@ -1,9 +1,7 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-
-inherit multilib
 
 DESCRIPTION="The classic hand-waving multi-player X game of spellcasting:"
 HOMEPAGE="http://www.eblong.com/zarf/spellcast.html"
