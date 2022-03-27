@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit toolchain-funcs
+inherit toolchain-funcs desktop
 
 DESCRIPTION="Peter's Tetris"
 HOMEPAGE="https://packages.debian.org/src:petris"
@@ -44,10 +44,7 @@ src_install() {
 	touch "${D}/var/games/petris.scores"
 	fowners ":gamestat" /var/games/petris.scores
 	fperms 0664 /var/games/petris.scores
-	insinto /usr/share/pixmaps
-	doins "${FILESDIR}/${PN}-icon.xpm"
-	insinto /usr/share/icons/hicolor/128x128/apps
-	doins "${FILESDIR}/${PN}-icon.png"
-	insinto /usr/share/applications
-	doins "${FILESDIR}/${PN}.desktop"
+	doicon "${FILESDIR}/${PN}-icon.xpm"
+	doicon -s 128x128 "${FILESDIR}/${PN}-icon.png"
+	domenu "${FILESDIR}/${PN}.desktop"
 }
