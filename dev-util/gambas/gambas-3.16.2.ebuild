@@ -188,8 +188,7 @@ src_install() {
 	use smtp && newdoc gb.net.smtp/README gb.net.smtp-README
 
 	if { use qt5 || use gtk || use gtk3; } ; then
-		insinto /usr/share/applications
-		doins app/desktop/gambas3.desktop
+		domenu app/desktop/gambas3.desktop
 
 		newicon -s 128 app/src/${MY_PN}/img/logo/logo.png gambas3.png
 		doicon -s 64 -c mimetypes app/mime/*.png main/mime/*.png
