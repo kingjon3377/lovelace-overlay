@@ -25,7 +25,10 @@ DEPEND="dev-perl/XML-DOM
 	dev-python/pyside2[${PYTHON_USEDEP}]
 	dev-python/defusedxml[${PYTHON_USEDEP}]"
 RDEPEND="${DEPEND}
+	${PYTHON_DEPS}
 	acct-user/email-reminder"
+
+REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
 src_configure() {
 	perl-module_src_configure
