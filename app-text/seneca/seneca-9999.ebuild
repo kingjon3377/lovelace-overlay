@@ -16,7 +16,8 @@ SLOT="0"
 KEYWORDS=""
 IUSE=""
 
-RDEPEND="$(python_gen_cond_dep '
+RDEPEND="${PYTHON_DEPS}
+	$(python_gen_cond_dep '
 		dev-python/pygobject:3[${PYTHON_USEDEP}]
 		dev-python/lxml[${PYTHON_USEDEP}]
 	')
@@ -24,6 +25,8 @@ RDEPEND="$(python_gen_cond_dep '
 	"
 DEPEND="${RDEPEND}
 	dev-libs/glib"
+
+REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
 pkg_setup() {
 	python-single-r1_pkg_setup
