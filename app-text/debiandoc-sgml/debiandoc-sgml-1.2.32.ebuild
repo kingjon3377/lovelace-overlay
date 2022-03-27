@@ -5,7 +5,7 @@
 
 EAPI=7
 
-inherit perl-module multilib
+inherit perl-module
 
 DESCRIPTION="Debian SGML documentation tools"
 HOMEPAGE="https://packages.debian.org/source/sid/debiandoc-sgml"
