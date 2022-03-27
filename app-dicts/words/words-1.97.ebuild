@@ -55,11 +55,8 @@ src_compile() {
 }
 
 src_install() {
-	# TODO: Do we really need to dodir before insinto/doins?
-	dodir /usr/libexec/${PN}
 	insinto /usr/libexec/${PN}
 	doins ${PN}
-	dodir /usr/share/${PN}
 	insinto /usr/share/${PN}
 	doins DICTFILE.GEN UNIQUES.LAT STEMFILE.GEN INFLECTS.SEC INDXFILE.GEN \
 		ADDONS.LAT EWDSFILE.GEN
