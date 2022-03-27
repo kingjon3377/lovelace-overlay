@@ -1,4 +1,4 @@
-# Copyright 2018 Gentoo Authors
+# Copyright 2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -21,7 +21,6 @@ RDEPEND="${DEPEND}"
 BDEPEND=""
 
 src_install() {
-	dodir /usr/share/${PN}
 	exeinto /usr/share/${PN}
 	doexe ${PN}
 	insinto /usr/share/${PN}
