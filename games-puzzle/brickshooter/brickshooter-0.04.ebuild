@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit wrapper
+inherit wrapper desktop
 
 DESCRIPTION="small puzzle game about clearing blocks from a central area"
 HOMEPAGE="https://linux.softpedia.com/get/GAMES-ENTERTAINMENT/Puzzle/brickshooter-37619.shtml"
@@ -26,8 +26,6 @@ src_install() {
 	insinto /usr/share/${PN}
 	doins -r gfx levels snd
 	make_wrapper ${PN} ${PN} /usr/share/${PN}
-	insinto /usr/share/applications
-	doins "${FILESDIR}/${PN}.desktop"
-	insinto /usr/share/pixmaps
-	doins "${FILESDIR}/${PN}.png"
+	domenu "${FILESDIR}/${PN}.desktop"
+	doicon "${FILESDIR}/${PN}.png"
 }
