@@ -21,6 +21,8 @@ DEPEND="${PYTHON_DEPS}
 RDEPEND="${DEPEND}"
 BDEPEND=""
 
+REQUIRED_USE="${PYTHON_REQUIRED_USE}"
+
 src_install() {
 	python_foreach_impl python_doscript "${PN}"
 	dodoc README.md
