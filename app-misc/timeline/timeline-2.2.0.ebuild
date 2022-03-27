@@ -37,11 +37,13 @@ src_test() {
 }
 
 src_install() {
-	insinto $(python_get_sitedir)/${PN}
+	sitedir="$(python_get_sitedir)"
+	sitedir="${sitedir#${EPREFIX}}"
+	insinto "${sitedir}/${PN}"
 	doins -r timelinelib/ icons/
 	doins ${PN}.py
-	python_fix_shebang "${D}"/$(python_get_sitedir)/${PN}/${PN}.py
-	fperms +x $(python_get_sitedir)/${PN}/${PN}.py
+	python_fix_shebang "${D}/${sitedir}/${PN}/${PN}.py"
+	fperms +x "${sitedir}/${PN}/${PN}.py"
 	dodir /usr/bin
-	dosym $(python_get_sitedir)/${PN}/${PN}.py /usr/bin/${PN}
+	dosym "$(python_get_sitedir)/${PN}/${PN}.py" /usr/bin/${PN}
 }
