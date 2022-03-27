@@ -10,7 +10,7 @@ DEB_PL="10"
 
 DESCRIPTION="Converts (la)tex files to text"
 HOMEPAGE="http://www.ctan.org/pkg/untex"
-SRC_URI="http://www.ctan.org/tex-archive/support/untex/untex-1.2.tar.gz"
+SRC_URI="http://www.ctan.org/tex-archive/support/untex/${P}.tar.gz"
 #	mirror://debian/pool/main/u/untex/${MY_P}-${DEB_PL}.diff.gz"
 RESTRICT="mirror"
 
