@@ -33,7 +33,6 @@ DOCS=( AUTHORS Changelog README )
 
 src_install() {
 	cmake_src_install
-	dodir "/usr/share/${PN}/profiles"
 	insinto "/usr/share/${PN}/profiles"
 	doins profiles/race
 }

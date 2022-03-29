@@ -34,7 +34,6 @@ DOCS=( AUTHORS Changelog README )
 src_install() {
 	cmake_src_install
 	# TODO: check that it finds these paths now I've changed them in dropping games eclass
-	dodir "/usr/share/${PN}/profiles"
 	insinto "/usr/share/${PN}/profiles"
 	doins profiles/race
 }
