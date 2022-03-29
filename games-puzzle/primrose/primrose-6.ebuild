@@ -55,8 +55,7 @@ src_install() {
 	newbin tilePlacementGames/game1/gameSource/Primrose ${PN}
 	insinto /usr/share/${PN}
 	doins -r tilePlacementGames/game1/gameSource/graphics
-	insinto /usr/share/applications
-	doins "${FILESDIR}/${PN}.desktop"
+	domenu "${FILESDIR}/${PN}.desktop"
 	doman "${FILESDIR}/${PN}.6"
 	doicon -s 256 256x256/*.png
 	doicon -s 128 128x128/*.png
