@@ -1,4 +1,4 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -11,7 +11,7 @@ MY_PN="org.jacoco.agent"
 
 DESCRIPTION="Java Code Coverage library: agent module"
 HOMEPAGE="http://jacoco.org"
-SRC_URI="https://github.com/jacoco/jacoco/archive/v0.7.8.zip -> jacoco-0.7.8.zip"
+SRC_URI="https://github.com/jacoco/jacoco/archive/v0.7.8.tar.gz -> jacoco-0.7.8.tar.gz"
 
 LICENSE="EPL-1.0"
 SLOT="0"
@@ -24,8 +24,7 @@ CDEPEND="dev-java/asm:4
 
 RDEPEND=">=virtual/jre-1.6
 	${CDEPEND}"
-BDEPEND=">=virtual/jdk-1.6
-	app-arch/unzip"
+BDEPEND=">=virtual/jdk-1.6"
 DEPEND="${CDEPEND}"
 
 JAVA_GENTOO_CLASSPATH="
