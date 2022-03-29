@@ -1,7 +1,9 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
+
+inherit toolchain-funcs
 
 DESCRIPTION="WordPerfect 5.x documents to whatever converter"
 HOMEPAGE="ftp://ftp.penguin.cz/pub/users/mhi/wp2x"
