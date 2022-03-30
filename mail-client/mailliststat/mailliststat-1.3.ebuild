@@ -12,7 +12,8 @@ SRC_URI="http://www.marki-online.net/MLS/mls-${PV}.tgz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE="nls l10n_de l10n_es l10n_fr l10n_it l10n_pt_BR l10n_sk l10n_sr"
+IUSE="nls"
+L10N="de es fr it pt-BR sk sr"
 
 RDEPEND=""
 DEPEND="${RDEPEND}
@@ -39,7 +40,7 @@ src_prepare() {
 	mkdir -p po || die
 	for lang in de es fr it pt_BR sk sr
 	do
-		use l10n_${lang} && cp "${FILESDIR}/${lang}.po" po/
+		use l10n_${lang/_/-} && cp "${FILESDIR}/${lang}.po" po/
 	done
 	cp "${FILESDIR}/${PN}.pot" po/ || die
 	cp "${FILESDIR}/po-Makefile" po/Makefile || die

@@ -4,7 +4,4 @@
 <longdescription>Mailliststat displays statistical data about mailbox files that
 are in the MBOX format. It displays the results in text mode using tables and
 graphs. </longdescription>
-<use>
-  <flag name='l10n_pt_BR'>Language support for Brazilian Portuguese</flag>
-</use>
 </pkgmetadata>
