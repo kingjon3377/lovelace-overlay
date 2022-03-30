@@ -3,6 +3,8 @@
 
 EAPI=7
 
+inherit desktop
+
 DESCRIPTION="Displays relative 3-dimensional positions of stars in space."
 HOMEPAGE="http://www.starplot.org"
 SRC_URI="http://starplot.org/downloads/${P}.tar.gz"
@@ -26,15 +28,11 @@ PATCHES=(
 
 src_install () {
 	emake DESTDIR="${D}" install
-	dodir /usr/share/pixmaps
-	insinto /usr/share/pixmaps
-	doins src/gui/*.xpm
+	doicon src/gui/*.xpm
 	dodoc ChangeLog AUTHORS NEWS NLS-TEAM README TODO "${FILESDIR}/README.source"
 	dodoc -r doc/html
-	dodir /usr/$(get_libdir)/stardata
 	insinto /usr/$(get_libdir)/stardata
 	newins "${FILESDIR}/${PN}.sh" ${PN}
-	dodir /usr/share/${PN}/specfiles
 	insinto /usr/share/${PN}/specfiles
 	doins "${FILESDIR}"/*.spec
 }
