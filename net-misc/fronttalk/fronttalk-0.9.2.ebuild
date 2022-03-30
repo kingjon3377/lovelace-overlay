@@ -1,9 +1,7 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-
-inherit multilib
 
 DESCRIPTION="Client for Backtalk BBS"
 HOMEPAGE="http://www.unixpapa.com/backtalk/fronttalk/"
