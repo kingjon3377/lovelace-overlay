@@ -3,8 +3,6 @@
 
 EAPI=7
 
-inherit multilib
-
 DESCRIPTION="stellar data set from the Third Catalogue of Nearby Stars"
 HOMEPAGE="http://starplot.org/datafiles.html"
 # TODO: Plainly PV should be 0.95
