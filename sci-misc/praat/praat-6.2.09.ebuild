@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit toolchain-funcs virtualx
+inherit toolchain-funcs virtualx desktop
 
 DESCRIPTION="Speech analysis and synthesis"
 SRC_URI="https://github.com/${PN}/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz
@@ -66,13 +66,10 @@ src_test() {
 
 src_install() {
 	dobin ${PN} send${PN} ../debian/${PN}-open-files
-	dodir /usr/share/pixmaps /usr/share/icons/hicolor/scalable/apps /usr/share/applications
-	insinto /usr/share/pixmaps
-	doins ../debian/${PN}.xpm
+	doicon ../debian/${PN}.xpm
 	insinto /usr/share/icons/hicolor/scalable/apps
 	doins main/${PN}.svg
-	insinto /usr/share/applications
-	doins main/${PN}.desktop
+	domenu main/${PN}.desktop
 	doman ${PN}.1 send${PN}.1 ${PN}-open-files.1
 	newdoc ../debian/What_s_new_.html ChangeLog.html
 }
