@@ -7,7 +7,7 @@ inherit wrapper desktop
 
 DESCRIPTION="small puzzle game about clearing blocks from a central area"
 HOMEPAGE="https://linux.softpedia.com/get/GAMES-ENTERTAINMENT/Puzzle/brickshooter-37619.shtml"
-SRC_URI="https://mirror.amdmi3.ru/distfiles/brickshooter-0.04.tar.gz"
+SRC_URI="https://mirror.amdmi3.ru/distfiles/${P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
