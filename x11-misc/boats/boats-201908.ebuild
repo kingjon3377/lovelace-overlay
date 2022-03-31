@@ -1,4 +1,4 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 # I wrote this; if it works, submit.
@@ -27,14 +27,13 @@ src_configure() {
 
 src_install() {
 	dobin ${PN}
-	insinto /usr/share/applications
-	doins resources/${PN}.desktop
-	for a in 32x32/mimetypes/application-x-boats.png \
-			32x32/apps/boats.png 16x16/mimetypes/application-x-boats.png \
-			16x16/apps/boats.png 48x48/mimetypes/application-x-boats.png \
-			48x48/apps/boats.png 128x128/apps/boats.png; do
-		insinto /usr/share/icons/hicolor/$(dirname ${a})
-		doins images/icons/hicolor/${a}
+	domenu resources/${PN}.desktop
+	for size in 32 16 48;do
+		insinto /usr/share/icons/${size}x${size}/mimetypes
+		doins ${size}x${size}/mimetypes/application-x-${PN}.png
+	done
+	for size in 32 16 48 128;do
+		doicon -s ${size}x${size} ${size}x${size}/apps/${PN}.png
 	done
 	doicon images/icons/hicolor/128x128/apps/${PN}.png
 	insinto /usr/share/mime/packages

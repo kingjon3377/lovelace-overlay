@@ -1,4 +1,4 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 # I wrote this; if it works, submit.
@@ -27,9 +27,8 @@ src_configure() {
 
 src_install() {
 	dobin ${PN}
-	insinto /usr/share/applications
 	# FIXME: .desktop fails validation
-	doins resources/${PN}.desktop
+	domenu resources/${PN}.desktop
 	for size in 32 16 48 ; do
 		base=icons/hicolor/${size}x${size}
 		insinto /usr/share/${base}/mimetypes
