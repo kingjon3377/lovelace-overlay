@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit multilib readme.gentoo-r1
+inherit readme.gentoo-r1
 
 DESCRIPTION="w3c-validator is a mark-up validator"
 HOMEPAGE="https://validator.w3.org/source/"
