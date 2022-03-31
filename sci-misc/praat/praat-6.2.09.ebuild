@@ -16,16 +16,13 @@ KEYWORDS="~amd64"
 IUSE=""
 
 # TODO: README lists a lot more dependencies
-RDEPEND="|| ( ( x11-libs/libXmu
-			x11-libs/libXt
-			x11-libs/libX11
-			x11-libs/libICE
-			x11-libs/libXext
-			x11-libs/libSM
-			x11-libs/gtk+:2
-		)
-		virtual/x11
-	)
+RDEPEND="x11-libs/libXmu
+	x11-libs/libXt
+	x11-libs/libX11
+	x11-libs/libICE
+	x11-libs/libXext
+	x11-libs/libSM
+	x11-libs/gtk+:2
 	x11-libs/motif:0
 	media-libs/alsa-lib"
 DEPEND="${RDEPEND}
