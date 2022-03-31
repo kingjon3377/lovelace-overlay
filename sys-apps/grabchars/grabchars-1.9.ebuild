@@ -1,7 +1,9 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
+
+inherit toolchain-funcs
 
 SRC_URI_BASE="ftp://ftp.informatik.uni-stuttgart.de/pub/archive/comp.sources/misc"
 DESCRIPTION="Utility to read characters from the console"
