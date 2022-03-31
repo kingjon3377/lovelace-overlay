@@ -67,12 +67,10 @@ src_prepare() {
 }
 
 src_install() {
-	dodir /usr/share/validator/
 	insinto /usr/share/validator/
 	doins -r "${S}/htdocs"
 	doins -r "${S}/share"
 
-	dodir /usr/share/validator/cgi-bin/
 	exeinto /usr/share/validator/cgi-bin/
 	doexe "${S}/httpd/cgi-bin/check"
 	doexe "${S}/httpd/cgi-bin/sendfeedback.pl"
@@ -80,7 +78,6 @@ src_install() {
 #	insinto /usr/local/validator/
 #	doins -r "${S}/httpd/cgi-bin"
 
-	dodir /usr/share/validator/httpd/
 	insinto /usr/share/validator/httpd/
 	doins -r "${S}/httpd/conf"
 
