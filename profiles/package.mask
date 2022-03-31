@@ -6,7 +6,6 @@
 ~games-misc/rolldice-9999
 ~media-gfx/gift-9999
 ~sys-apps/chiark-utils-9999
-~sys-apps/fidefrag-9999
 ~app-text/markdown-pp-9999
 ~app-admin/sloth-9999
 ~app-misc/simplenote-backup-9999
@@ -31,9 +30,6 @@
 
 # Deps are masked in main tree; TODO: package updated version
 media-sound/gwc
-
-# Depends on masked qtwebkit
-=sci-misc/qcad-3.24.2.4
 
 # Fails tests in a way that suggests it will be completely broken
 =app-misc/email-reminder-0.8.1
