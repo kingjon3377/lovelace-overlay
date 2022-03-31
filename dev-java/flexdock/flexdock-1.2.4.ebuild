@@ -1,4 +1,4 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -24,7 +24,7 @@ DEPEND=">=virtual/jdk-1.5
 
 EANT_DOC_TARGET="doc"
 
-PATCHES=( "${FILESDIR}"/${P}-nodemo.patch )
+PATCHES=( "${FILESDIR}"/${PN}-1.1.1-nodemo.patch )
 
 src_prepare() {
 	default
