@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit multilib toolchain-funcs desktop
+inherit toolchain-funcs desktop
 
 DESCRIPTION="Toolkit for Conceptual Modeling"
 HOMEPAGE="http://wwwhome.cs.utwente.nl/~tcm/"
