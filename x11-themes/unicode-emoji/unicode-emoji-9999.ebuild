@@ -27,7 +27,6 @@ src_install() {
 			ewarn "${file} subdirectory doesn't contain a theme file, skipping ..."
 			continue
 		fi
-		dodir "/usr/share/pixmaps/pidgin/emotes/${file}"
 		insinto "/usr/share/pixmaps/pidgin/emotes/${file}"
 		doins "${file}"/*.png "${file}/theme"
 	done
