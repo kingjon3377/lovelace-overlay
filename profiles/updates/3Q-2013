@@ -1,3 +1,1 @@
-move dev-python/wsgi-intercept dev-python/wsgiintercept
 move games-puzzle/nottetris games-arcade/nottetris2
-slotmove =kde-misc/konstruktor-0.9_beta1 0 4
