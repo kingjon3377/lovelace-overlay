@@ -3,6 +3,8 @@
 
 EAPI=7
 
+DISTUTILS_USE_PEP517=setuptools
+
 PYTHON_COMPAT=( python3_{8..10} )
 
 inherit readme.gentoo-r1 distutils-r1
@@ -34,7 +36,7 @@ python_test() {
 }
 
 src_install() {
-	default
+	distutils-r1_src_install
 	readme.gentoo_create_doc
 }
 
