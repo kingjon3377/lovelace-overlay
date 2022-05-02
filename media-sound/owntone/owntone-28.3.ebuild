@@ -46,6 +46,7 @@ BDEPEND="sys-devel/gettext
 	dev-util/gperf
 	sys-devel/bison
 	sys-devel/flex
+	dev-java/antlr:3
 	webinterface? ( net-libs/nodejs )"
 
 S="${WORKDIR}/${PN}-server-${PV}"
