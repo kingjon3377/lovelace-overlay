@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "https://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+<use><flag name="itunes">Support for iTunes Music Library XML format</flag>
+<flag name="lasfm">Build Last.fm scrobbling support</flag>
+<flag name="webinterface">Build the Web interface</flag>
+<flag name="chromecast">Support streaming to ChromeCast devices</flag>
+<flag name="spotify">Build native Spotify integration</flag>
+<flag name="pulseaudio">Build PulseAudio output support</flag>
+</use>
+</pkgmetadata>
