@@ -80,7 +80,13 @@ src_install() {
 
 	# dodir by itself fails in the likely case of /srv/music having a
 	# volume mounted already.
-	test -d /srv/music || dodir /srv/music
+	if ! test -d /srv/music ; then
+		dodir /srv/music
+		keepdir /srv/music
+	fi
+
+	dodir /var/cache/${PN}
+	keepdir /var/cache/${PN}
 
 	fowners -R daapd:daapd /var/cache/${PN}
 }

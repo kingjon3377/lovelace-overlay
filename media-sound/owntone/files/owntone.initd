@@ -5,7 +5,7 @@ LOG_LEVEL=${LOG_LEVEL:-2}
 LOG_DOMAINS=${LOG_DOMAINS:-'main,mdns,db,scan'}
 FFID=${FFID:-daapd}
 
-PIDFILE=/var/run/forked-daapd.pid
+PIDFILE=/var/run/owntone.pid
 
 depend() {
     need avahi-dnsconfd
@@ -13,7 +13,7 @@ depend() {
 
 start() {
     ebegin "Starting daapd"
-    start-stop-daemon --start forked-daapd \
+    start-stop-daemon --start owntone \
 		      --pidfile "$PIDFILE" \
 		      -- \
 		      -P "$PIDFILE" \
@@ -25,7 +25,7 @@ start() {
 
 stop() {
     ebegin "Stopping daapd"
-    start-stop-daemon --stop forked-daapd \
+    start-stop-daemon --stop owntone \
 		      --pidfile "$PIDFILE"
     eend $?
 }
