@@ -11,7 +11,7 @@ SRC_URI="https://github.com/${PN}/${PN}-server/archive/${PV}.tar.gz -> ${P}.tar.
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE="itunes lastfm mpd webinterface chromecast spotify pulseaudio"
+IUSE="lastfm mpd webinterface chromecast spotify pulseaudio"
 
 # Note: mpd support appears to be standalone, e.g. --enable-mpd doesn't
 # result in additional linkage.
@@ -32,7 +32,7 @@ RDEPEND="
 	media-video/ffmpeg
 	dev-libs/libsodium
 
-	itunes? ( app-pda/libplist )
+	app-pda/libplist
 	lastfm? ( net-misc/curl )
 	webinterface? ( net-libs/libwebsockets )
 	pulseaudio? ( || ( media-libs/libpulse media-sound/pulseaudio ) )
@@ -63,7 +63,6 @@ src_prepare() {
 src_configure() {
 	econf --sysconfdir=/etc --localstatedir=/var \
 		--with-alsa \
-		$(use_enable itunes) \
 		$(use_enable lastfm) \
 		$(use_enable mpd) \
 		$(use_enable webinterface) \
