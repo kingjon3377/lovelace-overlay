@@ -84,9 +84,4 @@ src_install() {
 		dodir /srv/music
 		keepdir /srv/music
 	fi
-
-	dodir /var/cache/${PN}
-	keepdir /var/cache/${PN}
-
-	fowners -R daapd:daapd /var/cache/${PN}
 }

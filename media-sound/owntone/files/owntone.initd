@@ -11,6 +11,10 @@ depend() {
     need avahi-dnsconfd
 }
 
+start_pre() {
+	checkpath -q -d -m 755 -o daapd:daapd /var/cache/owntone
+}
+
 start() {
     ebegin "Starting daapd"
     start-stop-daemon --start owntone \
