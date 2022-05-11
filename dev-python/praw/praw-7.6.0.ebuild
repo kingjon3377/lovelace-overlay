@@ -9,10 +9,10 @@ inherit distutils-r1
 DESCRIPTION="Python Reddit API Wrapper"
 HOMEPAGE="https://pypi.org/project/praw/ https://github.com/praw-dev/praw"
 SRC_URI="mirror://pypi/${PN:0:1}/${PN}/${P}.tar.gz
-	https://raw.githubusercontent.com/praw-dev/praw/2b71773bd4f87cd2479f1fc94dfe2574220d66a5/tests/integration/files/comment_ids.txt -> ${P}_comment_ids.txt
-	https://github.com/praw-dev/praw/raw/0e9d8f1ea7710a9203c83fd657a581628a946f5a/tests/integration/files/test.mov -> ${P}_test.mov
-	https://github.com/praw-dev/praw/raw/0e9d8f1ea7710a9203c83fd657a581628a946f5a/tests/integration/files/test.mp4 -> ${P}_test.mp4
-	https://github.com/praw-dev/praw/raw/17e9bec1ab02607eff6d0cf05a62d0c6ba479dd5/tests/integration/files/too_large.jpg -> ${P}_too_large.jpg"
+	https://raw.githubusercontent.com/praw-dev/praw/2b71773bd4f87cd2479f1fc94dfe2574220d66a5/tests/integration/files/comment_ids.txt -> ${PN}-7.4.0_comment_ids.txt
+	https://github.com/praw-dev/praw/raw/0e9d8f1ea7710a9203c83fd657a581628a946f5a/tests/integration/files/test.mov -> ${PN}-7.4.0_test.mov
+	https://github.com/praw-dev/praw/raw/0e9d8f1ea7710a9203c83fd657a581628a946f5a/tests/integration/files/test.mp4 -> ${PN}-7.4.0_test.mp4
+	https://github.com/praw-dev/praw/raw/17e9bec1ab02607eff6d0cf05a62d0c6ba479dd5/tests/integration/files/too_large.jpg -> ${PN}-7.4.0_too_large.jpg"
 
 LICENSE="BSD-2"
 SLOT="0"
@@ -41,12 +41,12 @@ src_unpack() {
 }
 
 src_prepare() {
-	mkdir "${S}/tests/integration/files" || die
+	mkdir -p "${S}/tests/integration/files" || die
 	for file in comment_ids.txt test.mp4 test.mov too_large.jpg;do
-		cp "${WORKDIR}/${P}_${file}" "${S}/tests/integration/files/${file}" || die
+		cp "${WORKDIR}/${PN}-7.4.0_${file}" "${S}/tests/integration/files/${file}" || die
 	done
 	cp "${FILESDIR}/7.2.0_tests_integration_files"/* "${S}/tests/integration/files" || die
-	mkdir "${S}/${PN}/images" || die
+	mkdir -p "${S}/${PN}/images" || die
 	cp "${S}/docs/logo/png/PRAW logo.png" "${S}/${PN}/images/" || die
 	cp "${FILESDIR}/tests_unit_${PN}.ini" "${S}/tests/unit/${PN}.ini" || die
 	default
