@@ -23,6 +23,7 @@ RDEPEND="${PYTHON_DEPS}
 	dev-python/colorama[${PYTHON_USEDEP}]
 	dev-python/idna[${PYTHON_USEDEP}]
 	dev-python/requests[${PYTHON_USEDEP}]
+	dev-python/tqdm[${PYTHON_USEDEP}]
 	>=dev-python/loguru-0.6.0[${PYTHON_USEDEP}]"
 DEPEND="${RDEPEND}"
 BDEPEND=""
