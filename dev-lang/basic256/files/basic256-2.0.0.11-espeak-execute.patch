@@ -1,0 +1,22 @@
+diff -ru basic256-2.0.0.11.old/BASIC256.pro basic256-2.0.0.11/BASIC256.pro
+--- basic256-2.0.0.11.old/BASIC256.pro	2022-06-03 23:26:05.078822747 -0400
++++ basic256-2.0.0.11/BASIC256.pro	2022-06-03 23:26:45.557824042 -0400
+@@ -91,13 +91,13 @@
+ 	# uncomment one of the options
+ 
+ 	## TTS Option 1 - ececute 'espak' command to speak
+-	#DEFINES					+=	ESPEAK_EXECUTE
++	DEFINES					+=	ESPEAK_EXECUTE
+ 
+ 	## TTS Option 2 - use the espeak library
+-	DEFINES						+=	ESPEAK
+-	INCLUDEPATH					+=	/usr/include/espeak
+-	LIBS						+=	-lespeak
+-	LIBS						+=	-lm
++	#DEFINES						+=	ESPEAK
++	#INCLUDEPATH					+=	/usr/include/espeak
++	#LIBS						+=	-lespeak
++	#LIBS						+=	-lm
+ 
+ 	########
+ 	# Sound class - How Sound statement works

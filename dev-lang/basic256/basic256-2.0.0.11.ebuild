@@ -19,12 +19,14 @@ RDEPEND="dev-qt/qtcore:5
 	dev-qt/qtserialport:5
 	media-libs/sdl-mixer
 	dev-db/sqlite:3
-	app-accessibility/espeak[portaudio]"
+	|| ( app-accessibility/espeak-ng app-accessibility/espeak )"
 DEPEND="${RDEPEND}
 	sys-devel/flex
 	sys-devel/bison"
 
 DOCS=( ChangeLog CONTRIBUTORS )
+
+PATCHES=( "${FILESDIR}/${P}-espeak-execute.patch" )
 
 src_configure() {
 	eqmake5 ${PN^^}.pro
