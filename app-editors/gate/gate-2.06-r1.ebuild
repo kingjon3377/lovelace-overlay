@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit toolchain-funcs
+inherit toolchain-funcs autotools
 
 DESCRIPTION="Text gatherer for Fronttalk"
 HOMEPAGE="https://www.unixpapa.com/gate.html"
@@ -16,7 +16,7 @@ IUSE=""
 
 # FIXME: Port to modern ncurses instead of -ltermcap
 DEPEND="app-text/aspell
-	>=sys-libs/libtermcap-compat-2.0.8-r5:="
+	sys-libs/libtermcap-compat"
 RDEPEND="${DEPEND}"
 
 PATCHES=(
@@ -24,6 +24,7 @@ PATCHES=(
 	"${FILESDIR}/${P}-declare-void.patch"
 	"${FILESDIR}/${P}-implicit-definitions.patch"
 	"${FILESDIR}/${P}-multiple-definition.patch"
+	"${FILESDIR}/${P}-require-termcap.patch"
 )
 
 src_prepare() {
@@ -32,6 +33,7 @@ src_prepare() {
 		die "sed failed"
 	sed -i -e 's/Termcap too big.  %d/Termcap too big.  %ld/' term.c || \
 		die "sed failed"
+	eautoreconf
 }
 
 src_configure() {

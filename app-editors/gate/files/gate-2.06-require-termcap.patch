@@ -1,0 +1,11 @@
+--- gate-2.06/configure.in.old	2022-06-24 23:06:49.340000000 -0400
++++ gate-2.06/configure.in	2022-06-24 23:09:39.213000000 -0400
+@@ -258,7 +258,7 @@
+ AC_PROG_GCC_TRADITIONAL
+ 
+ dnl Checks for libraries.
+-AC_SEARCH_LIBS(tgetent, termcap curses)
++AC_SEARCH_LIBS(tgetent, termcap :libtermcap.so.2 curses, [], [AC_ERROR([termcap support is required])])
+ 
+ dnl Checks for header files.
+ AC_HEADER_STDC
