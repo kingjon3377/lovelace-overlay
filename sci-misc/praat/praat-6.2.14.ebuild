@@ -6,7 +6,7 @@ EAPI=7
 inherit toolchain-funcs virtualx desktop
 
 DESCRIPTION="Speech analysis and synthesis"
-SRC_URI="https://github.com/${PN}/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz
+SRC_URI="https://github.com/${PN}/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz
 	mirror://debian/pool/main/p/${PN}/${P/-/_}-1.debian.tar.xz"
 HOMEPAGE="http://www.fon.hum.uva.nl/praat/"
 
@@ -53,9 +53,7 @@ src_prepare() {
 src_compile() {
 	emake USER_CC="$(tc-getCC) ${CFLAGS}" USER_CXX="$(tc-getCXX) ${CXXFLAGS}" \
 		"USER_AR=$(tc-getAR)" "USER_LINK=$(tc-getCXX) ${LDFLAGS} -Wl,--as-needed"
-	$(tc-getCC) ${CPPFLAGS} ${CFLAGS} ${LDFLAGS} -Wl,--as-needed -DSTAND_ALONE -DUNIX \
-		-o send${PN} sys/send${PN}.c $(pkg-config --cflags --libs gtk+-2.0) -lX11 || die
-	for file in ${PN} send${PN} ${PN}-open-files;do
+	for file in ${PN} ${PN}-open-files;do
 		pandoc --standalone --to man "${WORKDIR}/debian/${file}.md" -o "${file}.1" || die
 	done
 }
@@ -65,11 +63,11 @@ src_test() {
 }
 
 src_install() {
-	dobin ${PN} send${PN} ../debian/${PN}-open-files
+	dobin ${PN} ../debian/${PN}-open-files
 	doicon ../debian/${PN}.xpm
 	insinto /usr/share/icons/hicolor/scalable/apps
-	doins main/${PN}.svg
-	domenu main/${PN}.desktop
-	doman ${PN}.1 send${PN}.1 ${PN}-open-files.1
+	doins main/${PN}.svg ../debian/${PN}-file.svg
+	domenu main/${PN}.desktop ../debian/${PN}-file.desktop
+	doman ${PN}.1 ${PN}-open-files.1
 	newdoc ../debian/What_s_new_.html ChangeLog.html
 }
