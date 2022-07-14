@@ -1,0 +1,19 @@
+diff -ru neoleo-12.2.old/src/Makefile.am neoleo-12.2/src/Makefile.am
+--- neoleo-12.2.old/src/Makefile.am	2022-07-14 18:09:18.370000000 -0400
++++ neoleo-12.2/src/Makefile.am	2022-07-14 18:09:44.604000000 -0400
+@@ -1,5 +1,5 @@
+ AM_CXXFLAGS = @ASAN_CXXFLAGS@
+-AM_CXXFLAGS += -Werror # treats warnings as errors
++#AM_CXXFLAGS += -Werror # treats warnings as errors
+ AM_CXXFLAGS += -std=c++17
+ #AM_CXXFLAGS += -Wno-psabi # turn off ABI 7.1 changes
+ #AM_CXXFLAGS += -Wno-write-strings # activate to supress warnings about const char*
+@@ -14,7 +14,7 @@
+ AM_CXXFLAGS += -Wuninitialized
+ #AM_CXXFLAGS += -Wfatal-errors  # aborts compilation on first error
+ AM_CXXFLAGS += -Wno-psabi # ignore warnings about GCC 7.1 ABI breakage
+-AM_CXXFLAGS += -Wall -Wuse-after-free
++AM_CXXFLAGS += -Wall # -Wuse-after-free
+ 
+ #YFLAGS = -d
+ #EXTRA_DIST = $(srcdir)/neoleo.i
