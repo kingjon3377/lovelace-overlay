@@ -34,6 +34,11 @@ BDEPEND="app-arch/unzip"
 
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
+src_prepare() {
+	sed -i -e 's@asert_called_with@assert_called_with@' test/unit/wxgui/dialogs/editevent/controller.py || die
+	default
+}
+
 # A test fails
 src_test() {
 	virtx "${PYTHON}" tools/execute-specs.py
