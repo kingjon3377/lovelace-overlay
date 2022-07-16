@@ -49,7 +49,7 @@ src_install() {
 	sitedir="${sitedir#${EPREFIX}}"
 	insinto "${sitedir}/${PN}"
 	doins -r source/timelinelib/ icons/
-	doins ${PN}.py
+	doins source/${PN}.py
 	python_fix_shebang "${D}/${sitedir}/${PN}/${PN}.py"
 	fperms +x "${sitedir}/${PN}/${PN}.py"
 	dodir /usr/bin
