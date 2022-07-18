@@ -26,9 +26,15 @@ DEPEND="test? (
 			dev-python/sphinx-py3doc-enhanced-theme[${PYTHON_USEDEP}]
 			dev-python/sphinx_rtd_theme[${PYTHON_USEDEP}]
 		)"
-BDEPEND="dev-python/setuptools_scm[${PYTHON_USEDEP}]
-	dev-python/pytest-benchmark[${PYTHON_USEDEP}]"
+BDEPEND="dev-python/setuptools_scm[${PYTHON_USEDEP}]"
 
 RESTRICT="!test? ( test )"
 
 distutils_enable_tests pytest
+
+EPYTEST_DESELECT=( tests/test_pykakasi_advanced.py::test_benchmark )
+
+src_prepare() {
+	sed -i -e '22,$d' tests/conftest.py || die
+	default
+}
