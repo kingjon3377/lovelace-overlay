@@ -37,3 +37,6 @@ media-sound/gwc
 # A dep has been masked for removal
 <=dev-java/flexdock-1.2.4
 
+# Dead upstream (alas), depends on masked or treecleaned packages. Removal soon.
+dev-java/ceylon
+
