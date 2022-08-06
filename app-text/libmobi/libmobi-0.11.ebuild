@@ -9,7 +9,7 @@ DESCRIPTION="C library and tools for handling Kindle/MOBI ebooks"
 HOMEPAGE="https://github.com/bfabiszewski/libmobi"
 SRC_URI="https://github.com/bfabiszewski/${PN}/releases/download/v${PV}/${P}.tar.gz"
 
-LICENSE="LGPL-3.0"
+LICENSE="LGPL-3"
 SLOT="0"
 KEYWORDS="~amd64"
 
