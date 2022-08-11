@@ -23,12 +23,14 @@ src_prepare() {
 	default
 }
 
-# Tests aren't included in PyPI tarball
+# Two tests fail (with below python_test; distutils_enable_tests pytest leads
+# to every test failing due to circular module dependencies), one with
+# "unsupported font" even when the font in question is installed and the other
+# something less clear
+RESTRICT="test"
 
-#distutils_enable_tests pytest
-
-#python_test() {
-	#distutils_install_for_testing
-	#cd test || die
-	#epytest
-#}
+python_test() {
+	distutils_install_for_testing
+	cd tests || die
+	epytest
+}
