@@ -15,8 +15,10 @@ LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 
-RDEPEND="${DEPEND}"
-DEPEND="test? ( dev-python/pytest-codeblocks[${PYTHON_USEDEP}] ) "
+DEPEND="test? (
+		dev-python/pytest-codeblocks[${PYTHON_USEDEP}]
+		dev-python/numpy[${PYTHON_USEDEP}]
+	) "
 BDEPEND="dev-python/wheel[${PYTHON_USEDEP}]"
 
 distutils_enable_tests pytest
