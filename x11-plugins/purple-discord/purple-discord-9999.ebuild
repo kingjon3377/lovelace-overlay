@@ -17,6 +17,7 @@ IUSE=""
 RDEPEND="
 	net-im/pidgin
 	dev-libs/json-glib
+	media-gfx/qrencode
 "
 
 # TODO: Should imagemagick be BDEPEND instead?
