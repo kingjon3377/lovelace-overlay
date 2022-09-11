@@ -40,3 +40,6 @@ media-sound/gwc
 # Dead upstream (alas), depends on masked or treecleaned packages. Removal soon.
 dev-java/ceylon
 
+# Appears broken. TODO: figure out how to fix the ebuild
+=x11-misc/variety-0.8.9
+
