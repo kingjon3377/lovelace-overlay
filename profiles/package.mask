@@ -41,5 +41,5 @@ media-sound/gwc
 dev-java/ceylon
 
 # Appears broken. TODO: figure out how to fix the ebuild
-=x11-misc/variety-0.8.9
+=x11-apps/variety-0.8.9
 
