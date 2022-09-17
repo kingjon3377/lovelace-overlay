@@ -26,6 +26,7 @@ DEPEND="${RDEPEND}
 	test? (
 		app-arch/arj
 		app-arch/lha
+		dev-python/pyyaml[${PYTHON_USEDEP}]
 	)"
 
 DOC_CONTENTS="Additional packages may need to be installed, depending on the archive type."
@@ -36,7 +37,7 @@ python_test() {
 }
 
 src_install() {
-	default
+	distutils-r1_src_install
 	readme.gentoo_create_doc
 }
 
