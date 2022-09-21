@@ -4,7 +4,7 @@
 EAPI=7
 
 PYTHON_COMPAT=( python3_{8..10} )
-DISTUTILS_USE_SETUPTOOLS=pyproject.toml
+DISTUTILS_USE_PEP517=setuptools
 inherit distutils-r1
 
 DESCRIPTION="Pretty tables in the terminal"
@@ -24,6 +24,5 @@ BDEPEND="dev-python/wheel[${PYTHON_USEDEP}]"
 distutils_enable_tests pytest
 
 python_test() {
-	distutils_install_for_testing
 	epytest --codeblocks
 }
