@@ -66,7 +66,13 @@ src_install() {
 	dobin ${PN} ../debian/${PN}-open-files
 	doicon ../debian/${PN}.xpm
 	insinto /usr/share/icons/hicolor/scalable/apps
-	doins main/${PN}.svg ../debian/${PN}-file.svg
+	all_svgs=( main/${PN}-*.svg )
+	doins main/${PN}-*.svg ../debian/${PN}-file.svg
+	case "${#all_svgs[@]}" in
+		0) ewarn "main SVG icon missing" ;;
+		1) dosym "${#all_svgs[@]}" /usr/share/icons/hicolor/scalable/apps/${PN}.svg ;;
+		*) ewarn "Too many SVG icons" ;;
+	esac
 	domenu main/${PN}.desktop ../debian/${PN}-file.desktop
 	doman ${PN}.1 ${PN}-open-files.1
 	newdoc ../debian/What_s_new_.html ChangeLog.html
