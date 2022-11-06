@@ -4,6 +4,7 @@
 EAPI=7
 
 PYTHON_COMPAT=( python3_{8..10} )
+DISTUTILS_USE_PEP517=setuptools
 inherit distutils-r1
 
 DESCRIPTION="up to date simple useragent faker with real world database"
@@ -14,9 +15,6 @@ LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="test"
-
-# PyPI tarball doesn't include tests
-RESTRICT=test
 
 # FIXME: We're probably missing some dependencies. But the requirements.txt
 # includes a lot of dubious entries, so we'll assume none are actually required
