@@ -18,9 +18,6 @@ LICENSE="BSD-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 
-# Tests fail in a way that 7.2.0 and 7.3.0 didn't; I don't have time to investigate
-RESTRICT="test"
-
 RDEPEND="dev-python/websocket-client[${PYTHON_USEDEP}]
 	dev-python/prawcore[${PYTHON_USEDEP}]
 	dev-python/update_checker[${PYTHON_USEDEP}]"
