@@ -1,0 +1,35 @@
+diff -rNu comparator-2.12.old/Makefile comparator-2.12/Makefile
+--- comparator-2.12.old/Makefile	2022-12-03 19:21:30.778962720 -0500
++++ comparator-2.12/Makefile	2022-12-03 19:22:26.446962720 -0500
+@@ -54,7 +54,7 @@
+ # "couldn't open testN-a.scf, Success", just run the test again.
+ check:
+ 	@for n in 1 2 3; do \
+-	    comparator $(OPTS) -d test test$${n}-a test$${n}-b | grep -v 'Merge-Program' >test/out$${n}.log;\
++	    ./comparator $(OPTS) -d test test$${n}-a test$${n}-b | grep -v 'Merge-Program' >test/out$${n}.log;\
+ 	    if diff -c test/out$${n}.good test/out$${n}.log; \
+ 	    then \
+ 		echo "Test $${n} from trees passed."; \
+@@ -63,10 +63,10 @@
+ 	    fi; \
+ 	done; \
+ 	for n in 1 2 3; do \
+-	    comparator $(OPTS) -d test -c test$${n}-a | grep -v 'Merge-Program' >test$${n}-a.scf; \
+-	    comparator $(OPTS) -d test -c test$${n}-b | grep -v 'Merge-Program' >test$${n}-b.scf; \
++	    ./comparator $(OPTS) -d test -c test$${n}-a | grep -v 'Merge-Program' >test$${n}-a.scf; \
++	    ./comparator $(OPTS) -d test -c test$${n}-b | grep -v 'Merge-Program' >test$${n}-b.scf; \
+ 	    sync; sync; \
+-	    comparator $(OPTS) test$${n}-a.scf test$${n}-b.scf | grep -v 'Merge-Program' >test/out$${n}.log;\
++	    ./comparator $(OPTS) test$${n}-a.scf test$${n}-b.scf | grep -v 'Merge-Program' >test/out$${n}.log;\
+ 	    rm test$${n}-a.scf test$${n}-b.scf; \
+ 	    if diff -u test/out$${n}.good test/out$${n}.log; \
+ 	    then \
+@@ -80,7 +80,7 @@
+ OPTS="-N line-oriented, remove-braces, remove-whitespace"
+ makeregress:
+ 	@for n in 1 2 3; do \
+-	    comparator $(OPTS) -d test test$${n}-a test$${n}-b | grep -v 'Merge-Program' >test/out$${n}.good;\
++	    ./comparator $(OPTS) -d test test$${n}-a test$${n}-b | grep -v 'Merge-Program' >test/out$${n}.good;\
+ 	done
+ 
+ install: comparator.1 uninstall
