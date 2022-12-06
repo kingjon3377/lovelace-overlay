@@ -14,7 +14,7 @@ IUSE=""
 
 DEPEND=""
 RDEPEND="${DEPEND}
-	virtual/awk"
+	app-alternatives/awk"
 
 S="${WORKDIR}/${PN}"
 
