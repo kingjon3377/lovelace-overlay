@@ -40,10 +40,8 @@ src_prepare() {
 	# TODO: following line should be updated for non-linux etc. builds
 	# (Flammie does not have testing equipment)
 	cp "${S}/makefiles/makefile.defs.linux.alsa" "${S}/makefile.defs"
-	sed -i -e 's:^CC = gcc:CC = $(USER_CC):' \
-		-e 's:^CXX = g++:CXX = $(USER_CXX):' \
+	sed -i \
 		-e 's:^AR = ar:AR = $(USER_AR):' \
-		-e 's:^LINK = g++:LINK = $(USER_LINK):' \
 		-e '/^CFLAGS/s/ -O[0-9] / /' \
 		-e '/^CFLAGS/s/ -g\([0-9]\|\) / /' \
 		"${S}/makefile.defs" || die
@@ -51,8 +49,8 @@ src_prepare() {
 }
 
 src_compile() {
-	emake USER_CC="$(tc-getCC) ${CFLAGS}" USER_CXX="$(tc-getCXX) ${CXXFLAGS}" \
-		"USER_AR=$(tc-getAR)" "USER_LINK=$(tc-getCXX) ${LDFLAGS} -Wl,--as-needed"
+	emake CC="$(tc-getCC) ${CFLAGS}" CXX="$(tc-getCXX) ${CXXFLAGS}" \
+		"USER_AR=$(tc-getAR)" "LINK=$(tc-getCXX) ${LDFLAGS} -Wl,--as-needed"
 	for file in ${PN} ${PN}-open-files;do
 		pandoc --standalone --to man "${WORKDIR}/debian/${file}.md" -o "${file}.1" || die
 	done
