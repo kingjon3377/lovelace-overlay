@@ -3,7 +3,7 @@
 
 EAPI=7
 
-PYTHON_COMPAT=( python3_{8..10} )
+PYTHON_COMPAT=( python3_{8..11} )
 EGIT_REPO_URI="https://github.com/olivierverdier/pydflatex.git"
 
 inherit git-r3 distutils-r1
@@ -17,7 +17,13 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""
 
-DEPEND="dev-python/blessings[${PYTHON_USEDEP}]"
+DEPEND="dev-python/blessed[${PYTHON_USEDEP}]"
 RDEPEND="${DEPEND}"
 
 distutils_enable_tests unittest
+
+src_prepare() {
+	sed -i -e 's@blessings@blessed@' \
+		requirements.txt "${PN}/latex_logger.py" "${PN}/processor.py" "test/test_output.py" || die
+	default
+}
