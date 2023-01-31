@@ -7,7 +7,7 @@ inherit autotools
 
 DESCRIPTION="Lightweight curses spreadsheet based on GNU oleo"
 HOMEPAGE="https://github.com/blippy/neoleo"
-SRC_URI="https://github.com/blippy/${PN}/releases/download/v${PV}/${P}.tar.gz"
+SRC_URI="https://github.com/blippy/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
@@ -22,7 +22,7 @@ BDEPEND="sys-devel/bison
 
 src_prepare() {
 	default
-	sed -i -e '/-Wfatal-errors/s/^/#/' -e '/-Werror /s/^/#/' src/Makefile.am || die
+	sed -i -e 's/-Wuse-after-free//' src/Makefile.am || die
 	eautoreconf
 }
 
