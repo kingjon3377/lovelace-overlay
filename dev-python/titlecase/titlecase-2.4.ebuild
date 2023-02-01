@@ -1,9 +1,10 @@
-# Copyright 2022 Gentoo Authors
+# Copyright 2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
 PYTHON_COMPAT=( python3_{8..10} )
+DISTUTILS_USE_PEP517=setuptools
 inherit distutils-r1
 
 DESCRIPTION="Python libary to capitalize Strings per NYT Manual of Style"
@@ -18,4 +19,4 @@ DEPEND="test? ( dev-python/regex[${PYTHON_USEDEP}] )"
 RDEPEND=""
 BDEPEND=""
 
-distutils_enable_tests nose
+distutils_enable_tests unittest
