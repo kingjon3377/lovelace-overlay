@@ -18,8 +18,15 @@ DEPEND="=app-text/mupdf-$(ver_cut 0-2)*:="
 RDEPEND="${DEPEND}"
 BDEPEND=""
 
+PATCHES=( "${FILESDIR}/${P}-fix_build.patch" )
+
 src_prepare() {
-	sed -i -e '/third/d' setup.py || die
+	sed -i -e '/mupdf-third/d' setup.py || die
+	default
+}
+
+python_configure() {
+	export PYMUPDF_SETUP_MUPDF_BUILD= PYMUPDF_SETUP_MUPDF_TGZ=
 	default
 }
 
