@@ -26,7 +26,7 @@ DEPEND="test? (
 			dev-python/sphinx-py3doc-enhanced-theme[${PYTHON_USEDEP}]
 			dev-python/sphinx_rtd_theme[${PYTHON_USEDEP}]
 		)"
-BDEPEND="dev-python/setuptools_scm[${PYTHON_USEDEP}]"
+BDEPEND="dev-python/setuptools-scm[${PYTHON_USEDEP}]"
 
 RESTRICT="!test? ( test )"
 
