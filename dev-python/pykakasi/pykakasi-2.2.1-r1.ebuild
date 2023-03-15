@@ -1,4 +1,4 @@
-# Copyright 2022 Gentoo Authors
+# Copyright 2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -24,7 +24,7 @@ DEPEND="test? (
 		doc? (
 			dev-python/sphinx[${PYTHON_USEDEP}]
 			dev-python/sphinx-py3doc-enhanced-theme[${PYTHON_USEDEP}]
-			dev-python/sphinx_rtd_theme[${PYTHON_USEDEP}]
+			dev-python/sphinx-rtd-theme[${PYTHON_USEDEP}]
 		)"
 BDEPEND="dev-python/setuptools-scm[${PYTHON_USEDEP}]"
 
