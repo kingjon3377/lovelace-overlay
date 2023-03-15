@@ -1,4 +1,4 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 # Bug #348280 -- tosubmit
@@ -21,7 +21,9 @@ RDEPEND="${DEPEND}"
 
 src_install() {
 	dodir /usr/share/${PN}
-	find -name \*.py | xargs cp --parents --target-directory "${D}/usr/share/${PN}" || die "installing python files failed"
+	find -name \*.py | \
+		xargs cp --parents --target-directory "${D}/usr/share/${PN}" || \
+		die "installing python files failed"
 	insinto /usr/share/${PN}
 	doins webcheck.css favicon.ico
 	insinto /usr/share/${PN}/fancytooltips
