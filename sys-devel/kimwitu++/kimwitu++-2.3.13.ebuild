@@ -24,9 +24,9 @@ DEPEND="${RDEPEND}
 
 src_prepare() {
 	default
-	sed -i -e 's:/usr/share/sgml/docbook/stylesheet/xsl/nwalsh/xhtml/docbook.xsl:/usr/share/sgml/docbook/xsl-stylesheets/xhtml/docbook.xsl:g' \
+	sed -i -e 's:\(/usr/share/sgml/docbook\)/stylesheet/xsl/nwalsh/\(xhtml/docbook.xsl\):\1/xsl-stylesheets/\2:g' \
 		doc/formatters/docbook2html.sh || die "sed failed"
-	sed -i -e 's:/usr/share/sgml/docbook/dtd/xml/4.1.2/docbookx.dtd:/usr/share/sgml/docbook/xml-dtd-4.1.2/docbookx.dtd:g' \
+	sed -i -e 's:\(/usr/share/sgml/docbook\)/dtd/xml/\(4.1.2/docbookx.dtd\):\1/xml-dtd-\2:g' \
 		doc/kpp-main.xml || die "second sed failed"
 }
 
