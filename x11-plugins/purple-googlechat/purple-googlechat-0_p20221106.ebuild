@@ -1,4 +1,4 @@
-# Copyright 2021 Gentoo Authors
+# Copyright 2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -8,7 +8,7 @@ inherit toolchain-funcs
 DESCRIPTION="libpurple plugin for new Google Chat protocol"
 HOMEPAGE="https://github.com/EionRobb/purple-googlechat"
 
-COMMIT_ID="4302f901fd4fb5c1d5ad3b083fa5b29380332b9c"
+COMMIT_ID="b6b824a4764b51316f7be325492575684647e021"
 SRC_URI="https://github.com/EionRobb/purple-googlechat/archive/${COMMIT_ID}.tar.gz -> ${P}.tar.gz"
 S="${WORKDIR}/${PN}-${COMMIT_ID}"
 
