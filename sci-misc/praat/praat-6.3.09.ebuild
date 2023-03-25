@@ -27,7 +27,7 @@ RDEPEND="x11-libs/libXmu
 	media-libs/alsa-lib"
 DEPEND="${RDEPEND}
 	app-text/xmlto"
-BDEPEND="app-text/pandoc"
+BDEPEND="virtual/pandoc"
 
 PATCHES=(
 	"${WORKDIR}/debian/patches/use-ldflags.patch"
