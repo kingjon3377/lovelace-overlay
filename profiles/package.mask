@@ -32,7 +32,7 @@
 media-sound/gwc
 
 # Fails tests in a way that suggests it will be completely broken
-=app-misc/email-reminder-0.8.1
+=app-misc/email-reminder-0.8.2
 
 # A dep has been masked for removal
 <=dev-java/flexdock-1.2.4
