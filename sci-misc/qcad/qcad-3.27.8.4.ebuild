@@ -1,4 +1,4 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -15,7 +15,7 @@ LANGS_M="cs de en hu"
 
 DESCRIPTION="A 2D CAD package based upon Qt."
 # ugly hack, don't make en L10N-controlled as we may need it as default
-SRC_URI="https://github.com/${PN}/${PN}/archive/v${PV}.tar.gz -> ${P}.tgz"
+SRC_URI="https://github.com/${PN}/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 HOMEPAGE="https://www.ribbonsoft.com/en/qcad-downloads-trial https://github.com/qcad/qcad"
 
 LICENSE="GPL-3 public-domain CC-BY-3.0 GPL-2+ LGPL-2.1 BSD-2"
