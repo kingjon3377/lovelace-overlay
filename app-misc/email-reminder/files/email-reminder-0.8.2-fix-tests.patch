@@ -1,0 +1,12 @@
+diff -ru email-reminder-0.8.2.old/t/messages.t email-reminder-0.8.2/t/messages.t
+--- email-reminder-0.8.2.old/t/messages.t	2023-03-26 23:59:49.878000000 -0400
++++ email-reminder-0.8.2/t/messages.t	2023-03-27 00:01:25.428000000 -0400
+@@ -86,6 +86,7 @@
+     my $msg = $event->get_message;
+     my ($i) = grep { $strs[$_] eq $msg } 0..$#strs;
+     splice (@strs, $i, 1) if defined($i);
+-    ok(defined($i), "event msg ($i)");
++    my $testmsg = defined($i) ? "event msg ($i)" : "event msg (undefined)";
++    ok(defined($i), $testmsg);
+ }
+ is(scalar @strs, 0, "all messages were found");

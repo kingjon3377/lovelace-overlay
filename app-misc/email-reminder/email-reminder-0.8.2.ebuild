@@ -30,6 +30,8 @@ RDEPEND="${DEPEND}
 
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
+PATCHES=( "${FILESDIR}/${P}-fix-tests.patch" )
+
 src_configure() {
 	perl-module_src_configure
 }
