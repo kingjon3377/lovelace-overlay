@@ -39,7 +39,7 @@ src_compile() {
 }
 
 src_test() {
-	# TODO: Add necessary deps and run 'emake -f Makefile.python test'
+	# N.B. "test" in Makefile.python isn't Python *tests* but Python *linters*.
 	emake test
 }
 
