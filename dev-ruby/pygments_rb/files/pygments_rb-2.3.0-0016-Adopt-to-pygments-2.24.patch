@@ -1,0 +1,21 @@
+From: Jochen Sprickerhof <jspricke@debian.org>
+Date: Fri, 20 Jan 2023 09:04:03 +0100
+Subject: Adopt to pygments 2.24
+
+---
+ test/test_pygments.rb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/test/test_pygments.rb b/test/test_pygments.rb
+index b8c0292..25bd75f 100644
+--- a/test/test_pygments.rb
++++ b/test/test_pygments.rb
+@@ -29,7 +29,7 @@ class PygmentsHighlightTest < Test::Unit::TestCase
+     code = P.highlight(RUBY_CODE)
+     assert_match '<span class="ch">#!/usr/bin/ruby</span>', code
+     assert_equal %(<div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/ruby</span>
+-<span class="nb">puts</span> <span class="s1">&#39;foo&#39;</span>
++<span class="nb">puts</span><span class=\"w\"> </span><span class="s1">&#39;foo&#39;</span>
+ </pre></div>), code
+   end
+ 

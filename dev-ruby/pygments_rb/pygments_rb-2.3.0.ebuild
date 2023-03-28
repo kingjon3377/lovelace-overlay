@@ -39,7 +39,15 @@ DEPEND+=" test? ( ${RDEPEND} )"
 ruby_add_rdepend ">=dev-ruby/multi_json-1.0.0"
 ruby_add_bdepend "dev-ruby/rake-compiler"
 
-RESTRICT=test # Test failures against pygments-2.11.2, TODO: investigate
+PATCHES=(
+	"${FILESDIR}/${P}-0001-Remove-gemspec-git-ls-files.patch"
+	"${FILESDIR}/${P}-0007-no-relative-path-for-require-in-tests.patch"
+	"${FILESDIR}/${P}-0010-Disable-the-test-expecting-a-timeout.patch"
+	"${FILESDIR}/${P}-0013-test-drop-test-that-depends-on-Python-internals.patch"
+	"${FILESDIR}/${P}-0014-no-relative-path-to-mentos-py.patch"
+	"${FILESDIR}/${P}-0015-test-update-for-latest-pygments.patch"
+	"${FILESDIR}/${P}-0016-Adopt-to-pygments-2.24.patch"
+)
 
 pkg_setup() {
 	ruby-ng_pkg_setup
@@ -48,13 +56,9 @@ pkg_setup() {
 
 all_ruby_prepare() {
 	sed -i -e '/[Bb]undler/d' Rakefile || die
-	sed -i -e '/s.files/d' pygments.rb.gemspec || die
+	sed -i -e "s:require_relative ':require './:" pygments.rb.gemspec || die
+#	sed -i -e '/s.files/d' pygments.rb.gemspec || die
 	python_fix_shebang lib/pygments/mentos.py
 	rm -r vendor || die "removing bundled libs failed"
 	eapply_user
-}
-
-each_ruby_install() {
-	each_fakegem_install
-	ruby_fakegem_doins lexers
 }

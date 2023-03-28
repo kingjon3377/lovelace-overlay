@@ -1,0 +1,25 @@
+Description: disable the test expecting a timeout
+Based on previous patch from Santiago Vila <sanvila@debian.org>.
+Author: Alexandre Ghiti <alexandre.ghiti@canonical.com>
+Origin: vendor
+Bug-Debian: https://bugs.debian.org/928505
+Forwarded: no
+Last-Update: 2022-01-06
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+--- a/test/test_pygments.rb
++++ b/test/test_pygments.rb
+@@ -33,13 +33,6 @@
+     assert_match 'Main loop, waiting for inputs on stdin', code
+   end
+ 
+-  def test_raises_exception_on_timeout
+-    assert_raise MentosError.new('Timeout on a mentos highlight call') do
+-      # Assume highlighting a large file will take more than 1 millisecond
+-      P.highlight(TEST_CODE * 10, timeout: 0.001)
+-    end
+-  end
+-
+   def test_highlight_works_with_null_bytes
+     code = P.highlight("\0hello", lexer: 'rb')
+     assert_match 'hello', code
