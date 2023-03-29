@@ -41,7 +41,8 @@ src_prepare() {
 
 src_configure() {
 	sed -i -e "s:-Werror::" cnf/mak/*.mak || die "removing -Werror failed"
-	CC=$(tc-getCXX) ./cnf/bin/afnix-setup -v --prefix=/usr --altdir=/etc --pkglib=/usr/$(get_libdir) --pkgprj=/usr/$(get_libdir)/${PN} \
+	CC=$(tc-getCXX) ./cnf/bin/afnix-setup -v --prefix=/usr --altdir=/etc \
+		--pkglib=/usr/$(get_libdir) --pkgprj=/usr/$(get_libdir)/${PN} \
 		--pkgetc=/etc/${PN} --pkgdoc=/usr/share/doc/${PF} || "afnix-setup failed"
 	emake status
 }
