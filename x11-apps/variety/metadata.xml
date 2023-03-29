@@ -3,7 +3,7 @@
 <pkgmetadata>
   <use>
     <flag name="fortune">Enable support for fortune cookies via
-		<pkg>games-misc/fortune-mod</pkg></flag>
+        <pkg>games-misc/fortune-mod</pkg></flag>
   </use>
 <upstream>
 <remote-id type="github">varietywalls/variety</remote-id>
