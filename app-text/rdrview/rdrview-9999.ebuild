@@ -32,12 +32,12 @@ RESTRICT=test
 
 src_prepare() {
 	sed -i -e 's@^CFLAGS = \(.* \)-O2 -Wall -Wextra\( .*\)@CFLAGS += \1 \2@' \
-		-e "s@/usr/local\$@${EROOT}/usr@" Makefile || die
+		-e "s@/usr/local\$@${EPREFIX}/usr@" Makefile || die
 	default
 }
 
 src_compile() {
-	emake CC=$(tc-getCC) CFLAGS="${CFLAGS}" PREFIX="${EROOT}/usr"
+	emake CC=$(tc-getCC) CFLAGS="${CFLAGS}" PREFIX="${EPREFIX}/usr"
 }
 
 src_test() {
