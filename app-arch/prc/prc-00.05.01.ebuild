@@ -1,4 +1,4 @@
-# Copyright 2022 Gentoo Authors
+# Copyright 2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -9,7 +9,7 @@ DESCRIPTION="Tool/library for manipulating Palm PRC/PDB files."
 HOMEPAGE="http://djw.org/product/palm/par/index.html"
 SRC_URI="http://djw.org/product/palm/par/${PN}.tgz -> ${P}.tgz"
 
-LICENSE="MIT-1.1"
+LICENSE="MPL-1.1"
 SLOT="0"
 KEYWORDS="~amd64"
 
