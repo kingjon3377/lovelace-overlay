@@ -1,4 +1,4 @@
-# Copyright 2022 Gentoo Authors
+# Copyright 2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -8,11 +8,18 @@ inherit distutils-r1
 
 DESCRIPTION="Python Reddit API Wrapper"
 HOMEPAGE="https://pypi.org/project/praw/ https://github.com/praw-dev/praw"
+comment_ids_commit=2b71773bd4f87cd2479f1fc94dfe2574220d66a5
+test_files_commit=0e9d8f1ea7710a9203c83fd657a581628a946f5a
+too_large_commit=17e9bec1ab02607eff6d0cf05a62d0c6ba479dd5
 SRC_URI="mirror://pypi/${PN:0:1}/${PN}/${P}.tar.gz
-	https://raw.githubusercontent.com/praw-dev/praw/2b71773bd4f87cd2479f1fc94dfe2574220d66a5/tests/integration/files/comment_ids.txt -> ${PN}-7.4.0_comment_ids.txt
-	https://github.com/praw-dev/praw/raw/0e9d8f1ea7710a9203c83fd657a581628a946f5a/tests/integration/files/test.mov -> ${PN}-7.4.0_test.mov
-	https://github.com/praw-dev/praw/raw/0e9d8f1ea7710a9203c83fd657a581628a946f5a/tests/integration/files/test.mp4 -> ${PN}-7.4.0_test.mp4
-	https://github.com/praw-dev/praw/raw/17e9bec1ab02607eff6d0cf05a62d0c6ba479dd5/tests/integration/files/too_large.jpg -> ${PN}-7.4.0_too_large.jpg"
+	https://raw.githubusercontent.com/praw-dev/praw/${comment_ids_commit}/tests/integration/files/comment_ids.txt
+		-> ${PN}-7.4.0_comment_ids.txt
+	https://github.com/praw-dev/praw/raw/${test_files_commit}/tests/integration/files/test.mov
+		-> ${PN}-7.4.0_test.mov
+	https://github.com/praw-dev/praw/raw/${test_files_commit}/tests/integration/files/test.mp4
+		-> ${PN}-7.4.0_test.mp4
+	https://github.com/praw-dev/praw/raw/${too_large_commit}/tests/integration/files/too_large.jpg
+		-> ${PN}-7.4.0_too_large.jpg"
 
 LICENSE="BSD-2"
 SLOT="0"
