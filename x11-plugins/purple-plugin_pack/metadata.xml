@@ -5,4 +5,7 @@
 <email>kingjon3377@gmail.com</email>
 <name>Jonathan Lovelace</name>
 </maintainer>
+<upstream>
+<remote-id type="sourceforge">pidgin</remote-id>
+</upstream>
 </pkgmetadata>

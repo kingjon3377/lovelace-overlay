@@ -4,4 +4,8 @@
 <use>
 	<flag name="mobi">Pull in <pkg>dev-python/mobi</pkg> to allow reading MobiPocket files.</flag>
 </use>
+<upstream>
+<remote-id type="github">wustho/epy</remote-id>
+<remote-id type="pypi">epy-reader</remote-id>
+</upstream>
 </pkgmetadata>

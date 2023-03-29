@@ -5,4 +5,7 @@
   <flag name='jis2k'>Enable JIS2K encoding support</flag>
   <flag name='htmltidy'>Enable HTMLTidy integration</flag>
 </use>
+<upstream>
+<remote-id type="github">w3c/markup-validator</remote-id>
+</upstream>
 </pkgmetadata>

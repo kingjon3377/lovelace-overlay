@@ -5,4 +5,7 @@
   <flag name='dump'>Allow dumping to text using <pkg>app-text/htmldoc</pkg> and
     either <pkg>www-client/lynx</pkg> or <pkg>www-client/elinks</pkg></flag>
 </use>
+<upstream>
+<remote-id type="github">dottedmag/archmage</remote-id>
+</upstream>
 </pkgmetadata>

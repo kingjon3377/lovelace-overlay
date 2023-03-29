@@ -8,4 +8,8 @@
 <email>kingjon3377@gmail.com</email>
 <name>Jonathan Lovelace</name>
 </maintainer>
+<upstream>
+<remote-id type="github">nschloe/termtables</remote-id>
+<remote-id type="pypi">termtables</remote-id>
+</upstream>
 </pkgmetadata>

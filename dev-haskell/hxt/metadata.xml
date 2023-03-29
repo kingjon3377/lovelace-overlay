@@ -8,4 +8,7 @@
 	<use>
 		<flag name="profile">turn profiling on</flag>
 	</use>
+<upstream>
+<remote-id type="github">UweSchmidt/hxt</remote-id>
+</upstream>
 </pkgmetadata>

@@ -4,4 +4,8 @@
 <maintainer type="person">
 	<email>kingjon3377@gmail.com</email>
 </maintainer>
+<upstream>
+<remote-id type="github">ragb/purple-typewriter</remote-id>
+<remote-id type="launchpad">pidgin-typewriter</remote-id>
+</upstream>
 </pkgmetadata>

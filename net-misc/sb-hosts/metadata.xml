@@ -4,4 +4,7 @@
 <maintainer type="person">
 <email></email>
 </maintainer>
+<upstream>
+<remote-id type="github">StevenBlack/hosts</remote-id>
+</upstream>
 </pkgmetadata>

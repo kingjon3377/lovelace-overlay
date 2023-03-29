@@ -8,4 +8,7 @@
    user-defined markup.  It supports several encodings and end-of-line
    characters, including ASCII, UTF-8, EUC-JP, Shift_JIS, CR, LF, and CRLF.
    </longdescription>
+<upstream>
+<remote-id type="github">hisashim/docdiff</remote-id>
+</upstream>
 </pkgmetadata>

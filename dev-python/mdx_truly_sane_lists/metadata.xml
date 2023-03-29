@@ -2,6 +2,7 @@
 <!DOCTYPE pkgmetadata SYSTEM "https://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
 <upstream>
-<remote-id type="sourceforge">opensched</remote-id>
+<remote-id type="github">radude/mdx_truly_sane_lists</remote-id>
+<remote-id type="pypi">mdx_truly_sane_lists</remote-id>
 </upstream>
 </pkgmetadata>

@@ -4,4 +4,7 @@
 <use>
   <flag name='mail'>Enable mail-sending feature</flag>
 </use>
+<upstream>
+<remote-id type="sourceforge">checkbot</remote-id>
+</upstream>
 </pkgmetadata>

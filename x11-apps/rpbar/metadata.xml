@@ -14,4 +14,7 @@
 	The main inspiration is the simple task bars you get in other minimalistic
 	window managers such as Awesome or wmii. rpbar's appearance is modeled on
 	these task bars.</longdescription>
+<upstream>
+<remote-id type="github">dimatura/rpbar</remote-id>
+</upstream>
 </pkgmetadata>

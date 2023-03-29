@@ -7,4 +7,7 @@
 
    Robot programs can be written in any language, all communication with the
    main program is done via stdout/stdin.</longdescription>
+<upstream>
+<remote-id type="sourceforge">realtimebattle</remote-id>
+</upstream>
 </pkgmetadata>

@@ -5,4 +5,7 @@
 designed to developing and running 2D games. It has a full graphic library,
 sound engine and full featured 2D game engine, making game development extremely
 easy.</longdescription>
+<upstream>
+<remote-id type="sourceforge">fenix</remote-id>
+</upstream>
 </pkgmetadata>

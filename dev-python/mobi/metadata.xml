@@ -8,4 +8,8 @@
 <email>kingjon3377@gmail.com</email>
 <name>Jonathan Lovelace</name>
 </maintainer>
+<upstream>
+<remote-id type="github">iscc/mobi</remote-id>
+<remote-id type="pypi">mobi</remote-id>
+</upstream>
 </pkgmetadata>

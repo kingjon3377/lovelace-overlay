@@ -5,5 +5,8 @@
 <flag name="rar">Pull in <pkg>app-arch/unrar</pkg>, to be sure to be able to attempt RAR files.</flag>
 <flag name="zip">Pull in <pkg>app-arch/unzip</pkg>, to be sure to be able to attempt Zip files.</flag>
 </use>
+<upstream>
+<remote-id type="github">ziman/rarcrack</remote-id>
+</upstream>
 </pkgmetadata>
 

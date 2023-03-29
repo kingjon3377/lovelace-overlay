@@ -5,4 +5,8 @@
 		Pidgin plugin that allows additional sort options fot the buddy list,
 		like sorting by status, log size, online time, etc.
 	</longdescription>
+<upstream>
+<remote-id type="launchpad">pidgin-extended-blist-sort</remote-id>
+<remote-id type="github">kgraefe/pidgin-extended-blist-sort</remote-id>
+</upstream>
 </pkgmetadata>

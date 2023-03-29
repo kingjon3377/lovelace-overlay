@@ -7,4 +7,7 @@
 <flag name="spotify">Build native Spotify integration</flag>
 <flag name="pulseaudio">Build PulseAudio output support</flag>
 </use>
+<upstream>
+<remote-id type="github">owntone/owntone-server</remote-id>
+</upstream>
 </pkgmetadata>

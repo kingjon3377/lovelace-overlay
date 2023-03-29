@@ -5,4 +5,8 @@
 <email>kingjon3377@gmail.com</email>
 <name>Jonathan Lovelace</name>
 </maintainer>
+<upstream>
+<remote-id type="github">DreamCobbler/fiction-dl</remote-id>
+<remote-id type="pypi">fiction-dl</remote-id>
+</upstream>
 </pkgmetadata>

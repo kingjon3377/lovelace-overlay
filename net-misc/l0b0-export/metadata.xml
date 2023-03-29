@@ -5,4 +5,7 @@
 	<flag name="wordpress">Install the WordPress.com export script</flag>
 	<flag name="librarything">Install the LibraryThing.com export script</flag>
 </use>
+<upstream>
+<remote-id type="github">l0b0/export</remote-id>
+</upstream>
 </pkgmetadata>
