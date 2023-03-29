@@ -37,6 +37,7 @@ src_install() {
 	doins -r help
 	dobin ft
 	newdoc README-fronttalk README
-	ewarn "This just installs the client program; I'd like to make ebuilds for the server-side stuff and the rest of Backtalk."
+	ewarn "This just installs the client program; I'd like to make ebuilds for the"
+	ewarn "server-side stuff and the rest of Backtalk."
 	# TODO: Make such ebuilds
 }

@@ -43,7 +43,8 @@ src_compile() {
 	mkdir -p 256x256 128x128 64x64 32x32
 	convert -scale 256x256 tilePlacementGames/game1/gameSource/iPhone/largeIcon2.png 256x256/primrose.png
 	cp -f tilePlacementGames/game1/build/macOSX/iconColor.png 128x128/primrose.png
-	convert -background None -gravity center -extent 64x64 tilePlacementGames/game1/gameSource/iPhone/icon.png 64x64/primrose.png
+	convert -background None -gravity center -extent 64x64 \
+		tilePlacementGames/game1/gameSource/iPhone/icon.png 64x64/primrose.png
 	cp -f tilePlacementGames/game1/build/win32/icon.png 32x32/primrose.png
 	convert 32x32/primrose.png 32x32/primrose.xpm
 	emake -C "${S}/tilePlacementGames/game1/gameSource" \
