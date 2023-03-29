@@ -1,12 +1,13 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
 DESCRIPTION="Organizes documents from XML descriptions"
 HOMEPAGE="https://www.gnu.org/software/orgadoc"
+PATCH_HASH=51307a7bbec1ad0c75128ce2d0f4163d1a52b2e1
 SRC_URI="mirror://gnu/orgadoc/${P}.tar.gz
-	https://git.savannah.gnu.org/cgit/orgadoc.git/patch/?id=51307a7bbec1ad0c75128ce2d0f4163d1a52b2e1 -> ${P}-patch-2.patch"
+	https://git.savannah.gnu.org/cgit/orgadoc.git/patch/?id=${PATCH_HASH} -> ${P}-patch-2.patch"
 
 LICENSE="GPL-3"
 SLOT="0"
