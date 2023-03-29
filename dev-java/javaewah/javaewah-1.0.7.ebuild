@@ -33,7 +33,8 @@ EANT_DOC_TARGET=""
 JAVA_GENTOO_CLASSPATH="junit-4"
 
 src_prepare() {
-	# Rather than packaging junit-benchmarks, which is officially deprecated anyway, we just remove the one file that refers to it
+	# Rather than packaging junit-benchmarks, which is officially deprecated
+	# anyway, we just remove the one file that refers to it
 	rm src/test/java/com/googlecode/javaewah/BenchmarkConsumers.java || die
 	default
 }
