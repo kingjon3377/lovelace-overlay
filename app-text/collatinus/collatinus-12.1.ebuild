@@ -1,4 +1,4 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -17,7 +17,7 @@ IUSE=""
 
 #DEPEND="dev-qt/qt-creator
 RDEPEND="dev-qt/qtcore:5
-	dev-libs/quazip
+	dev-libs/quazip[qt5]
 	dev-qt/qtgui:5
 	dev-qt/qtsvg:5
 	dev-qt/qtnetwork:5
@@ -42,6 +42,7 @@ src_prepare() {
 	sed -i -e 's@-lquazip5@-lquazip1-qt5@' ${PN}.pro || die
 	qz_ver="$(best_version dev-libs/quazip)"
 	qz_ver="${qz_ver##dev-libs/quazip-}"
+	qz_ver="${qz_ver%%-r[0-9]*}"
 	eqmake5 ${PN}.pro "INCLUDEPATH+=/usr/include/QuaZip-Qt5-${qz_ver}"
 }
 
