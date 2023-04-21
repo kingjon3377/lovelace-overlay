@@ -28,9 +28,9 @@ IUSE="test"
 # at runtime until proven otherwise.
 RDEPEND="
 	${PYTHON_DEPS}
-	dev-python/importlib_metadata[${PYTHON_USEDEP}]
+	dev-python/importlib-metadata[${PYTHON_USEDEP}]
 	$(python_gen_cond_dep '
-		dev-python/importlib_resources[${PYTHON_USEDEP}]
+		dev-python/importlib-resources[${PYTHON_USEDEP}]
 	' python3_8)
 "
 DEPEND="test? (
