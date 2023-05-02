@@ -1,4 +1,4 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -11,7 +11,7 @@ inherit distutils-r1
 
 DESCRIPTION="Open-source wallpaper changer for Linux"
 HOMEPAGE="https://peterlevi.com/variety https://github.com/varietywalls/variety"
-SRC_URI="https://github.com/varietywalls/${PN}/archive/refs/tags/${PV}.tar.gz"
+SRC_URI="https://github.com/varietywalls/${PN}/archive/refs/tags/${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="GPL-3"
 SLOT="0"
