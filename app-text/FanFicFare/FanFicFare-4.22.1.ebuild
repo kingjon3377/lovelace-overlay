@@ -2,7 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-PYTHON_COMPAT=( python3_{8..10} )
+PYTHON_COMPAT=( python3_{8..11} )
+#DISTUTILS_USE_PEP517=setuptools # fails when current active python isn't the same as $PYTHON, TODO: debug
 
 inherit distutils-r1
 
