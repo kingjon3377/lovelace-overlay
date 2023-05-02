@@ -17,7 +17,7 @@ IUSE=""
 
 #DEPEND="dev-qt/qt-creator
 RDEPEND="dev-qt/qtcore:5
-	dev-libs/quazip[qt5]
+	dev-libs/quazip[qt5(+)]
 	dev-qt/qtgui:5
 	dev-qt/qtsvg:5
 	dev-qt/qtnetwork:5
