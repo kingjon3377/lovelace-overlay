@@ -5,7 +5,7 @@ EAPI=7
 
 DESCRIPTION="Personal time management system"
 HOMEPAGE="https://johnlines.github.io/taglog/"
-SRC_URI="https://github.com/JohnLines/taglog/archive/v0.2.7.tar.gz -> ${P}.tar.gz"
+SRC_URI="https://github.com/JohnLines/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="GPL-3"
 SLOT="0"
