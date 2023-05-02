@@ -3,8 +3,7 @@
 
 EAPI=7
 
-# Python 3.10 blocked by wxpython
-PYTHON_COMPAT=( python3_{8..9} )
+PYTHON_COMPAT=( python3_{8..11} )
 
 inherit virtualx python-single-r1
 
