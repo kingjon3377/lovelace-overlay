@@ -5,6 +5,8 @@ EAPI=8
 
 PYPI_NO_NORMALIZE=1
 PYTHON_COMPAT=( python3_{9..11} )
+DISTUTILS_USE_PEP517=setuptools
+
 inherit distutils-r1 pypi
 
 DESCRIPTION="Download ebooks from ArchiveOfOurOwn.org"
