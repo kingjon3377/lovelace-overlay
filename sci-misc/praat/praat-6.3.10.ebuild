@@ -33,6 +33,7 @@ PATCHES=(
 	"${WORKDIR}/debian/patches/use-ldflags.patch"
 	"${WORKDIR}/debian/patches/cross-build.patch"
 	"${WORKDIR}/debian/patches/dwtest-random-seed.patch"
+	"${WORKDIR}/debian/patches/new-absolute-peak.patch"
 )
 
 src_prepare() {
