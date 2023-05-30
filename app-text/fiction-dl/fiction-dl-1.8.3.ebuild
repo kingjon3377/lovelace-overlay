@@ -37,5 +37,8 @@ BDEPEND=""
 
 src_prepare() {
 	sed -i -e '/opencv-python/d' -e 's@bs4@beautifulsoup4@' setup.py ${PN/-/_}.egg-info/requires.txt || die
+	sed -i -e 's/loadPage/load_page/' -e 's/getPixmap/get_pixmap/' \
+		-e 's/getImageData/tobytes/' \
+		fiction_dl/Utilities/General.py || die # PyMuPDF API changed
 	default
 }
