@@ -3,7 +3,7 @@
 
 EAPI=7
 PYTHON_COMPAT=( python3_{8..11} )
-#DISTUTILS_USE_PEP517=setuptools # fails when current active python isn't the same as $PYTHON, TODO: debug
+DISTUTILS_USE_PEP517=setuptools
 
 inherit distutils-r1
 
