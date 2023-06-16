@@ -18,7 +18,7 @@ KEYWORDS="~amd64 ~x86"
 IUSE=""
 SRC_URI="http://launchpad.net/${PN}/trunk/${PV}/+download/${P}.tar.gz"
 
-ruby_add_rdepend "dev-ruby/rcairo dev-ruby/ruby-gtk2 dev-ruby/ruby-gettext"
+ruby_add_rdepend "dev-ruby/rcairo dev-ruby/ruby-gtk3 dev-ruby/ruby-gettext"
 
 PATCHES=(
 	"${FILESDIR}/screenruler-bug831501.patch"
