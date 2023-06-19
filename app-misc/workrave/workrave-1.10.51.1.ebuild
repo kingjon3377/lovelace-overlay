@@ -1,12 +1,11 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 GNOME2_LA_PUNT="yes"
-#PYTHON_COMPAT=( python2_7 )
+PYTHON_COMPAT=( python3_{9..11} )
 
-#inherit autotools gnome2 python-single-r1 versionator vcs-snapshot
-inherit autotools gnome2
+inherit autotools gnome2 python-single-r1
 
 DESCRIPTION="Helpful utility to attack Repetitive Strain Injury (RSI)"
 HOMEPAGE="https://www.workrave.org/"
@@ -17,10 +16,9 @@ S=${WORKDIR}/${PN}-${MY_PV}
 
 LICENSE="GPL-3+"
 SLOT="0"
-KEYWORDS="amd64 x86"
+KEYWORDS="~amd64"
 
-# dbus support looks to be used only for trying to use panel applets on gnome3!
-IUSE="appindicator doc gstreamer introspection mate nls pulseaudio test xfce" # gnome
+IUSE="appindicator dbus doc gstreamer introspection mate nls pulseaudio test xfce" # gnome
 RESTRICT="!test? ( test )"
 REQUIRED_USE="appindicator? ( introspection ) ${PYTHON_REQUIRED_USE}"
 
@@ -33,6 +31,12 @@ RDEPEND="
 	appindicator? (
 		>=dev-libs/libdbusmenu-0.4[gtk3,introspection]
 		>=dev-libs/libindicator-0.4:3 )
+	dbus? (
+		dev-libs/boost
+		dev-libs/dbus-glib
+		>=sys-apps/dbus-1.2
+		${PYTHON_DEPS}
+	)
 	gstreamer? (
 		media-libs/gstreamer:1.0[introspection?]
 		media-libs/gst-plugins-base:1.0[introspection?]
@@ -50,35 +54,29 @@ RDEPEND="
 	x11-libs/libXt
 	x11-libs/libXmu
 "
+#		dbus? ( gnome? ( gnome-base/gnome-panel ) )
 #	gnome? ( >=gnome-base/gnome-shell-3.6.2 )
-#	dbus? (
-#		dev-libs/boost
-#		dev-libs/dbus-glib
-#		>=sys-apps/dbus-1.2
-#		${PYTHON_DEPS}
-#		gnome? ( gnome-base/gnome-panel ) )
-
 DEPEND="${RDEPEND}
 	dev-util/glib-utils
 	>=dev-util/intltool-0.40.0
 	sys-devel/autoconf-archive
 	x11-base/xorg-proto
 	virtual/pkgconfig
+	dbus? ( dev-python/jinja )
 	doc? (
 		app-text/docbook-sgml-utils
 		app-text/xmlto )
 	nls? ( >=sys-devel/gettext-0.17 )
 "
-#	dbus? ( dev-python/cheetah )
 
-#pkg_setup() {
-#	python-single-r1_pkg_setup
-#}
+pkg_setup() {
+	python-single-r1_pkg_setup
+}
 
 src_prepare() {
 	# Fix gstreamer slot automagic dependency, bug #563584
 	# http://issues.workrave.org/show_bug.cgi?id=1179
-	eapply "${FILESDIR}"/${PN}-1.10.6-automagic-gstreamer.patch
+	eapply "${FILESDIR}"/${PN}-1.10.44-automagic-gstreamer.patch
 
 	eautoreconf
 	gnome2_src_prepare
@@ -87,17 +85,16 @@ src_prepare() {
 src_configure() {
 	# gnet ("distribution") is dead for ages and other distributions stopped
 	# relying on it for such time too.
+#		$(use_enable gnome gnome3) \
 	gnome2_src_configure \
-		--disable-dbus \
 		--disable-distribution \
 		--enable-exercises \
 		--disable-experimental \
-		--disable-gnome2 \
 		--disable-static \
 		--disable-xml \
 		$(use_enable appindicator indicator) \
+		$(use_enable dbus) \
 		$(use_enable doc manual) \
-#		$(use_enable gnome gnome3) \
 		--disable-gnome3 \
 		$(use_enable gstreamer) \
 		$(use_enable introspection) \
