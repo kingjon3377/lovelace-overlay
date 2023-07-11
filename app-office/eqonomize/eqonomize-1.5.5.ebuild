@@ -14,7 +14,11 @@ KEYWORDS="~amd64 ~x86"
 IUSE=""
 
 # TODO: What other Qt modules does it require?
-RDEPEND="dev-qt/qtcharts:5"
+# FIXME: Support building on Qt 6
+RDEPEND="dev-qt/qtcharts:5
+	dev-qt/qtwidgets:5
+	dev-qt/qtnetwork:5
+	dev-qt/qtprintsupport:5"
 DEPEND="${RDEPEND}"
 
 src_configure() {
