@@ -3,15 +3,15 @@
 
 EAPI=7
 
-PYTHON_COMPAT=( python3_{8..10} )
-inherit distutils-r1
+PYTHON_COMPAT=( python3_{9..11} )
+inherit distutils-r1 pypi
 
 DESCRIPTION="Python Reddit API Wrapper"
 HOMEPAGE="https://pypi.org/project/praw/ https://github.com/praw-dev/praw"
 comment_ids_commit=2b71773bd4f87cd2479f1fc94dfe2574220d66a5
 test_files_commit=0e9d8f1ea7710a9203c83fd657a581628a946f5a
 too_large_commit=17e9bec1ab02607eff6d0cf05a62d0c6ba479dd5
-SRC_URI="mirror://pypi/${PN:0:1}/${PN}/${P}.tar.gz
+SRC_URI="$(pypi_sdist_url)
 	https://raw.githubusercontent.com/praw-dev/praw/${comment_ids_commit}/tests/integration/files/comment_ids.txt
 		-> ${PN}-7.4.0_comment_ids.txt
 	https://github.com/praw-dev/praw/raw/${test_files_commit}/tests/integration/files/test.mov
