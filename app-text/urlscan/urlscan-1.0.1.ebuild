@@ -3,13 +3,13 @@
 
 EAPI=7
 
-PYTHON_COMPAT=( python3_{8..10} )
+PYTHON_COMPAT=( python3_{10..11} )
+DISTUTILS_USE_PEP517=hatchling
 
-inherit distutils-r1
+inherit distutils-r1 pypi
 
 DESCRIPTION="Extract and browse the URLs contained in an email"
-HOMEPAGE="https://github.com/firecat53/urlscan https://packages.debian.org/urlscan"
-SRC_URI="https://github.com/firecat53/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
+HOMEPAGE="https://pypi.org/project/urlscan/ https://github.com/firecat53/urlscan"
 
 LICENSE="GPL-2"
 SLOT="0"
@@ -21,4 +21,9 @@ RDEPEND="${DEPEND}"
 BDEPEND=""
 
 DOCS=( README.md )
-PATCHES=( "${FILESDIR}/${PN}-0.9.7-respect-paths.patch" )
+PATCHES=( "${FILESDIR}/${PN}-1.0.0-respect-paths.patch" )
+
+src_install() {
+	default
+	dodoc README.md
+}
