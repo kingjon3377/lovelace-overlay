@@ -5,9 +5,11 @@ EAPI=7
 
 inherit toolchain-funcs virtualx desktop
 
+DEBIAN_PATCH_REV=1
+
 DESCRIPTION="Speech analysis and synthesis"
 SRC_URI="https://github.com/${PN}/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz
-	mirror://debian/pool/main/p/${PN}/${P/-/_}-1.debian.tar.xz"
+	mirror://debian/pool/main/p/${PN}/${P/-/_}-${DEBIAN_PATCH_REV}.debian.tar.xz"
 HOMEPAGE="http://www.fon.hum.uva.nl/praat/"
 
 LICENSE="GPL-2"
@@ -33,7 +35,7 @@ PATCHES=(
 	"${WORKDIR}/debian/patches/use-ldflags.patch"
 	"${WORKDIR}/debian/patches/cross-build.patch"
 	"${WORKDIR}/debian/patches/dwtest-random-seed.patch"
-	"${WORKDIR}/debian/patches/new-absolute-peak.patch"
+	"${WORKDIR}/debian/patches/ftbfs-on-i386-with-g++13.patch"
 )
 
 src_prepare() {
