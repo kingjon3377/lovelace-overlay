@@ -5,7 +5,7 @@ EAPI=7
 
 inherit toolchain-funcs virtualx desktop
 
-DEBIAN_PATCH_REV=2
+DEBIAN_PATCH_REV=1
 
 DESCRIPTION="Speech analysis and synthesis"
 SRC_URI="https://github.com/${PN}/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz
