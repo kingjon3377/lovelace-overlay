@@ -1,11 +1,11 @@
-# Copyright 2019 Gentoo Authors
+# Copyright 2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
 DESCRIPTION="scancode/keycode table manipulation utility"
-HOMEPAGE="http://0pointer.de/lennart/projects/keyfuzz/"
-SRC_URI="http://0pointer.de/lennart/projects/${PN}/${P}.tar.gz"
+HOMEPAGE="https://0pointer.de/lennart/projects/keyfuzz/"
+SRC_URI="https://0pointer.de/lennart/projects/${PN}/${P}.tar.gz"
 
 LICENSE="GPL-2+"
 SLOT="0"
