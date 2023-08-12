@@ -1,4 +1,4 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 # I wrote this; if it works, submit.
@@ -8,7 +8,7 @@ EAPI=7
 inherit qmake-utils desktop
 
 DESCRIPTION="a race scenario drawing tool"
-HOMEPAGE="http://boats.sourceforge.net/"
+HOMEPAGE="https://boats.sourceforge.net/"
 SRC_URI="mirror://sourceforge/${PN}/${PV}/${PN}_${PV}_src.tgz"
 
 LICENSE="GPL-3"
