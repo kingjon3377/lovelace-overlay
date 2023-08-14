@@ -1,4 +1,4 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -7,8 +7,8 @@ inherit desktop java-pkg-2 java-pkg-simple
 
 MY_PN=OpticalRayTracer
 DESCRIPTION="Virtual lens design workshop"
-HOMEPAGE="http://arachnoid.com/OpticalRayTracer"
-SRC_URI="http://arachnoid.com/${MY_PN}/resources/${MY_PN}_source.tar.bz2 -> ${P}.tar.bz2"
+HOMEPAGE="https://arachnoid.com/OpticalRayTracer"
+SRC_URI="https://arachnoid.com/${MY_PN}/resources/${MY_PN}_source.tar.bz2 -> ${P}.tar.bz2"
 
 LICENSE="GPL-2"
 SLOT="0"
