@@ -1,11 +1,11 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
 MY_P=${PN}-$(ver_rs 1- '-')
 DESCRIPTION="A simple, lightweight tool for sniping ebay auctions"
-HOMEPAGE="http://esniper.sourceforge.net/"
+HOMEPAGE="https://esniper.sourceforge.net/"
 SRC_URI="mirror://sourceforge/${PN}/${MY_P}.tgz"
 
 LICENSE="BSD"

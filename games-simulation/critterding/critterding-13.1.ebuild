@@ -1,4 +1,4 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -6,7 +6,7 @@ EAPI=7
 inherit cmake
 
 DESCRIPTION="AI evolution simulation"
-HOMEPAGE="http://critterding.sourceforge.net"
+HOMEPAGE="https://critterding.sourceforge.net"
 SRC_URI="mirror://sourceforge/${PN}/${PN}/sources/${PN}-beta${PV}.tar.bz2"
 
 LICENSE="GPL-3"

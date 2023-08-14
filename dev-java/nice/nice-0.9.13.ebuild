@@ -1,4 +1,4 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -9,7 +9,7 @@ inherit java-pkg-2 java-ant-2
 
 DESCRIPTION="A programming language based on, and extending from, Java."
 
-HOMEPAGE="http://nice.sourceforge.net"
+HOMEPAGE="https://nice.sourceforge.net"
 SRC_URI="mirror://sourceforge/nice/Nice-${PV}-source.tgz"
 LICENSE="GPL-2"
 SLOT="0"

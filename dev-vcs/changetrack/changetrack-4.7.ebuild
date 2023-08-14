@@ -1,11 +1,11 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
 DESCRIPTION="monitor changes to (configuration) files"
-HOMEPAGE="http://changetrack.sourceforge.net"
-SRC_URI="http://changetrack.sourceforge.net/change${PV/./_}.tar.gz"
+HOMEPAGE="https://changetrack.sourceforge.net"
+SRC_URI="https://changetrack.sourceforge.net/change${PV/./_}.tar.gz"
 
 LICENSE="GPL-3"
 SLOT="0"

@@ -1,4 +1,4 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -6,7 +6,7 @@ EAPI=7
 inherit java-pkg-2 java-pkg-simple
 
 DESCRIPTION="Research Project Helper"
-HOMEPAGE="http://rphelper.sourceforge.net"
+HOMEPAGE="https://rphelper.sourceforge.net"
 SRC_URI="mirror://sourceforge/${PN}/${PN}/v${PV}-source/${PN}-source.zip -> ${P}.zip"
 
 LICENSE="GPL-2"

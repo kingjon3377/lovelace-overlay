@@ -1,4 +1,4 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 # Copyright 2002 Paul Thompson
@@ -12,7 +12,7 @@ inherit gnome2 autotools
 # download treasury databases. I also could crash it.
 
 DESCRIPTION="A GNOME US savings bonds inventory program."
-HOMEPAGE="http://gbonds.sourceforge.net"
+HOMEPAGE="https://gbonds.sourceforge.net"
 SRC_URI="mirror://sourceforge/${PN}/${P}.tar.gz
 	mirror://debian/pool/main/g/${PN}/${PN}_${PV}-16.debian.tar.xz"
 

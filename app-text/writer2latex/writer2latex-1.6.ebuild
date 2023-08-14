@@ -1,4 +1,4 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -23,7 +23,7 @@ else
 fi
 
 DESCRIPTION="Converter from OpenDocument .odt format to LaTeX"
-HOMEPAGE="http://writer2latex.sourceforge.net"
+HOMEPAGE="https://writer2latex.sourceforge.net"
 #SRC_URI="mirror://sourceforge/${PN}/${MY_P}.zip"
 SRC_URI="https://sourceforge.net/code-snapshots/svn/w/wr/writer2latex/code/${PN}-code-r${REV}-tags-${PV}.zip"
 

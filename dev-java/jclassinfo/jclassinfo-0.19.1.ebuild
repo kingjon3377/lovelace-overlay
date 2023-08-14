@@ -1,10 +1,10 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
 DESCRIPTION="Extracts information from Java class files"
-HOMEPAGE="http://jclassinfo.sourceforge.net"
+HOMEPAGE="https://jclassinfo.sourceforge.net"
 SRC_URI="mirror://sourceforge/${PN}/${PN}/${PV}/${P}.tar.gz"
 
 LICENSE="GPL-2"

@@ -1,4 +1,4 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -6,7 +6,7 @@ EAPI=7
 inherit desktop qmake-utils
 
 DESCRIPTION="application for creating 3D structures"
-HOMEPAGE="http://structuresynth.sourceforge.net/"
+HOMEPAGE="https://structuresynth.sourceforge.net/"
 SRC_URI="mirror://sourceforge/${PN}/Structure%20Synth/Version%201.5%20%28Hinxton%29/StructureSynth-Source-v${PV}.zip"
 
 LICENSE="GPL-3"

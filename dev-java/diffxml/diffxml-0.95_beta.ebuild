@@ -1,4 +1,4 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -9,7 +9,7 @@ EANT_TEST_TARGET="fullTest"
 inherit java-pkg-2 java-ant-2
 
 DESCRIPTION="XML differencing and packaging tools"
-HOMEPAGE="http://diffxml.sourceforge.net"
+HOMEPAGE="https://diffxml.sourceforge.net"
 SRC_URI="mirror://sourceforge/${PN}/${PN}/${PV/_beta/%20BETA}/${PN}-src-${PV/_beta/B}.tar.gz"
 
 LICENSE="GPL-2"

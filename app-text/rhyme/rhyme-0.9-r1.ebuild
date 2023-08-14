@@ -1,4 +1,4 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -9,7 +9,7 @@ inherit toolchain-funcs
 RESTRICT="test"
 
 DESCRIPTION="Console based Rhyming Dictionary"
-HOMEPAGE="http://rhyme.sourceforge.net/"
+HOMEPAGE="https://rhyme.sourceforge.net/"
 SRC_URI="mirror://sourceforge/rhyme/${P}.tar.gz"
 
 LICENSE="GPL-2"
