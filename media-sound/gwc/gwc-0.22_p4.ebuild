@@ -1,4 +1,4 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -6,7 +6,7 @@ EAPI=7
 inherit gnome2 toolchain-funcs autotools
 
 DESCRIPTION="Audio file denoiser"
-HOMEPAGE="http://gwc.sourceforge.net/"
+HOMEPAGE="https://gwc.sourceforge.net/"
 SRC_URI="mirror://sourceforge/${PN}/${PN}2/$(ver_cut 1-2)-$(ver_cut 4)/gtk-wave-cleaner-$(ver_cut 1-2)-0$(ver_cut 4).tar.gz
 	mirror://debian/pool/main/g/${PN}/${PN}_$(ver_cut 1-2).0$(ver_cut 4)-1.debian.tar.xz"
 
