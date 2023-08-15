@@ -1,4 +1,4 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -6,7 +6,7 @@ EAPI=7
 inherit toolchain-funcs
 
 DESCRIPTION="LaTeX to XML translator"
-HOMEPAGE="http://www-sop.inria.fr/marelle/tralics/"
+HOMEPAGE="https://www-sop.inria.fr/marelle/tralics/"
 SRC_URI="ftp://ftp-sop.inria.fr/marelle/${PN}/src/${PN}-src-${PV}.tar.gz"
 
 LICENSE="CeCILL-2"
