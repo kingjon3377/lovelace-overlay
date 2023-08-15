@@ -1,11 +1,11 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
 DESCRIPTION="The classic hand-waving multi-player X game of spellcasting:"
-HOMEPAGE="http://www.eblong.com/zarf/spellcast.html"
-SRC_URI="http://www.eblong.com/zarf/ftp/${PN}.tar.Z
+HOMEPAGE="https://www.eblong.com/zarf/spellcast.html"
+SRC_URI="https://www.eblong.com/zarf/ftp/${PN}.tar.Z
 	doc? ( mirror://debian/pool/non-free/s/spellcast-doc/spellcast-doc_1.5.tar.gz )"
 
 LICENSE="spellcast"
