@@ -1,11 +1,11 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
 inherit toolchain-funcs
 
-DEBIAN_PATCH_V=2
+DEBIAN_PATCH_V=1
 
 DESCRIPTION="Compiler and run-time for the AFNIX programming language"
 HOMEPAGE="http://www.afnix.org/"
