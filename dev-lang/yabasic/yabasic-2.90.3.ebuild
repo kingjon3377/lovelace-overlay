@@ -6,8 +6,8 @@ EAPI=7
 inherit toolchain-funcs autotools
 
 DESCRIPTION="Yet Another BASIC interpreter"
-HOMEPAGE="http://www.yabasic.de"
-SRC_URI="http://www.${PN}.de/download/${P}.tar.gz"
+HOMEPAGE="https://2484.de/yabasic/"
+SRC_URI="https://2484.de/${PN}/download/${P}.tar.gz"
 
 LICENSE="GPL-3"
 SLOT="0"
@@ -34,7 +34,7 @@ src_configure() {
 	default
 	# marcIhm/yabasic#47
 	if has_version 'sys-libs/ncurses[tinfo]'; then
-		sed -i -e 's@-lcurses@& -ltinfo@' Makefile || die
+		sed -i -e 's@-lncurses@& -ltinfo@' Makefile || die
 	fi
 }
 
