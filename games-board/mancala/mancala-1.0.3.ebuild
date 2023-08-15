@@ -1,4 +1,4 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -6,8 +6,8 @@ EAPI=7
 inherit toolchain-funcs
 
 DESCRIPTION="Implementation of the simple board game called Mancala"
-HOMEPAGE="http://shh.thathost.com/pub-unix/#Mancala"
-SRC_URI="http://shh.thathost.com/pub-unix/files/${P}.tar.gz"
+HOMEPAGE="https://shh.thathost.com/pub-unix/#Mancala"
+SRC_URI="https://shh.thathost.com/pub-unix/files/${P}.tar.gz"
 
 LICENSE="Artistic"
 SLOT="0"
