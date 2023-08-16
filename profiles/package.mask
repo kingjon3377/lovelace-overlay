@@ -39,6 +39,8 @@ media-sound/gwc
 
 # Dead upstream (alas), depends on masked or treecleaned packages. Removal soon.
 dev-java/ceylon
+# Otherwise-unused deps
+dev-java/ant-bndlib
 
 # Appears broken. TODO: figure out how to fix the ebuild
 =x11-apps/variety-0.8.9
