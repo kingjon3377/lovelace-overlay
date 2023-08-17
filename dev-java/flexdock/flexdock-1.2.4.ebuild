@@ -7,7 +7,7 @@ JAVA_PKG_IUSE="doc source"
 inherit java-pkg-2 java-ant-2
 
 DESCRIPTION="A Java docking framework for use in cross-platform Swing applications"
-HOMEPAGE="http://forge.scilab.org/index.php/p/flexdock/"
+HOMEPAGE="https://gitlab.com/scilab/forge/flexdock"
 SRC_URI="http://forge.scilab.org/index.php/p/flexdock/downloads/get/${P}.tar.gz"
 
 LICENSE="MIT"
