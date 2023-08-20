@@ -1,4 +1,4 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -7,7 +7,7 @@ GNOME2_LA_PUNT="yes"
 inherit gnome2
 
 DESCRIPTION="C++ bindings for x11-libs/goocanvas"
-HOMEPAGE="http://live.gnome.org/GooCanvas"
+HOMEPAGE="https://wiki.gnome.org/GooCanvas"
 
 LICENSE="LGPL-2.1"
 SLOT="2.0"
