@@ -4,8 +4,8 @@
 EAPI=7
 
 DESCRIPTION="\"free form\" document preparation system"
-HOMEPAGE="http://www.maplefish.com/todd/aft.html"
-SRC_URI="http://www.maplefish.com/todd/${P}.tar.gz"
+HOMEPAGE="https://www.maplefish.com/todd/aft.html"
+SRC_URI="https://www.maplefish.com/todd/${P}.tar.gz"
 
 LICENSE="Artistic"
 SLOT="0"
