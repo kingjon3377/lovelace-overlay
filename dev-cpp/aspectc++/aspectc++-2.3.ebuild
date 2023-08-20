@@ -6,8 +6,9 @@ EAPI=7
 inherit toolchain-funcs
 
 DESCRIPTION="AspectC++ is an AOP extension to C++"
-SRC_URI="https://aspectc.org/releases/${PV}/ac-${PV}.tar.gz
-	mirror://debian/pool/main/a/${PN}/${PN}_${PV}+git20181008-2.debian.tar.xz"
+# In 2.3, upstream-provided .tar.gz is actually BZ2-compressed
+SRC_URI="https://aspectc.org/releases/${PV}/ac-${PV}.tar.gz -> ac-${PV}.tar.bz2
+	mirror://debian/pool/main/a/${PN}/${PN}_${PV}+git20230726-1.debian.tar.xz"
 HOMEPAGE="https://www.aspectc.org/"
 RDEPEND="dev-libs/libxml2"
 DEPEND="${RDEPEND}

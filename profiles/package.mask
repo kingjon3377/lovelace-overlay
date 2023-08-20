@@ -26,7 +26,7 @@
 =dev-lang/sdlbasic-2012.12.15
 
 # Fails to build using either the Puma or the Clang frontend.
-=dev-cpp/aspectc++-2.2
+=dev-cpp/aspectc++-2.3
 
 # Deps are masked in main tree; TODO: package updated version
 media-sound/gwc
