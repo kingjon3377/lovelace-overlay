@@ -17,14 +17,14 @@ KEYWORDS="~amd64"
 
 IUSE="examples"
 
+# TODO: Make a build-time dep only?
 COMMON_DEP="dev-java/junit:4"
 
 S="${WORKDIR}/${PN}-JavaEWAH-${PV}"
 
-RDEPEND=">=virtual/jre-1.6
+RDEPEND=">=virtual/jre-1.7
 	${COMMON_DEP}"
-BDEPEND=">=virtual/jdk-1.6
-	app-arch/unzip"
+BDEPEND=">=virtual/jdk-1.7"
 DEPEND="${COMMON_DEP}"
 
 EANT_BUILD_TARGET=""
@@ -32,12 +32,7 @@ EANT_DOC_TARGET=""
 
 JAVA_GENTOO_CLASSPATH="junit-4"
 
-src_prepare() {
-	# Rather than packaging junit-benchmarks, which is officially deprecated
-	# anyway, we just remove the one file that refers to it
-	rm src/test/java/com/googlecode/javaewah/BenchmarkConsumers.java || die
-	default
-}
+# TODO: run tests
 
 src_install() {
 	java-pkg-simple_src_install
