@@ -1,0 +1,70 @@
+commit 8bae47bd510ff034edb5524f5f8ddcb3e6108dcf
+Author: Jonathan Lovelace <kingjon3377@gmail.com>
+Date:   Tue Feb 2 00:04:21 2021 -0500
+
+    Use tempfile.TemporaryDirectory instead of hardcoding temp dir names.
+
+diff --git a/epubdiff b/epubdiff
+index 5960745..109e4e3 100755
+--- a/epubdiff
++++ b/epubdiff
+@@ -5,6 +5,7 @@ import re
+ import shutil
+ import sys
+ import zipfile
++import tempfile
+ 
+ from pyquery import PyQuery as pq
+ from subprocess import call
+@@ -152,30 +153,30 @@ if __name__ == '__main__':
+         base2 = os.path.splitext(os.path.basename(file2))[0]
+ 
+     # Output paths
+-    temp_dir1 = '_tmp1'
+-    temp_dir2 = '_tmp2'
+-    output1 = '{}/{}.txt'.format(temp_dir1, base1)
+-    output2 = '{}/{}.txt'.format(temp_dir2, base2)
++    with tempfile.TemporaryDirectory() as temp_dir1:
++        with tempfile.TemporaryDirectory() as temp_dir2:
++            output1 = '{}/{}.txt'.format(temp_dir1, base1)
++            output2 = '{}/{}.txt'.format(temp_dir2, base2)
+ 
+-    # Unzip EPUBs
+-    unzip_epub(file1, temp_dir1)
+-    unzip_epub(file2, temp_dir2)
++            # Unzip EPUBs
++            unzip_epub(file1, temp_dir1)
++            unzip_epub(file2, temp_dir2)
+ 
+-    # Get manifest
+-    files1 = get_file_list(temp_dir1)
+-    files2 = get_file_list(temp_dir2)
++            # Get manifest
++            files1 = get_file_list(temp_dir1)
++            files2 = get_file_list(temp_dir2)
+ 
+-    # Concatenate
+-    html1 = concatenate_html(files1)
+-    html2 = concatenate_html(files2)
++            # Concatenate
++            html1 = concatenate_html(files1)
++            html2 = concatenate_html(files2)
+ 
+-    # Save out
+-    save_html(html1, output1)
+-    save_html(html2, output2)
++            # Save out
++            save_html(html1, output1)
++            save_html(html2, output2)
+ 
+-    # Diff
+-    call(['diff', output1, output2])
++            # Diff
++            call(['diff', output1, output2])
+ 
+-    # Cleanup
+-    clean_directory(temp_dir1)
+-    clean_directory(temp_dir2)
++            # Cleanup
++            clean_directory(temp_dir1)
++            clean_directory(temp_dir2)

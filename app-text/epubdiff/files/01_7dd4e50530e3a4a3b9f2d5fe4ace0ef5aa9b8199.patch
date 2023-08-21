@@ -1,0 +1,21 @@
+commit 7dd4e50530e3a4a3b9f2d5fe4ace0ef5aa9b8199
+Author: Jonathan Lovelace <kingjon3377@gmail.com>
+Date:   Mon Feb 1 23:54:34 2021 -0500
+
+    Use only basename, not full path, of EPUBs for output txt names.
+
+diff --git a/epubdiff b/epubdiff
+index 16d1286..5960745 100755
+--- a/epubdiff
++++ b/epubdiff
+@@ -148,8 +148,8 @@ if __name__ == '__main__':
+         file1 = sys.argv[1]
+         file2 = sys.argv[2]
+ 
+-        base1 = os.path.splitext(file1)[0]
+-        base2 = os.path.splitext(file2)[0]
++        base1 = os.path.splitext(os.path.basename(file1))[0]
++        base2 = os.path.splitext(os.path.basename(file2))[0]
+ 
+     # Output paths
+     temp_dir1 = '_tmp1'
