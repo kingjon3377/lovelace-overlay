@@ -48,3 +48,6 @@ dev-java/ant-bndlib
 # Known not to work anymore. Masked for removal.
 =net-misc/esniper-2.35.0
 
+# Dead upstream (404), binary-only. Masked for removal
+app-text/ecub
+
