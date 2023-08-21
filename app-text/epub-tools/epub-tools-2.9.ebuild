@@ -1,4 +1,4 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -9,7 +9,7 @@ CABAL_FEATURES="test-suite"
 inherit haskell-cabal
 
 DESCRIPTION="Command line utilities for working with epub files"
-HOMEPAGE="http://hub.darcs.net/dino/epub-tools"
+HOMEPAGE="https://hub.darcs.net/dino/epub-tools"
 SRC_URI="https://hackage.haskell.org/packages/archive/${PN}/${PV}/${P}.tar.gz"
 
 LICENSE="BSD"
