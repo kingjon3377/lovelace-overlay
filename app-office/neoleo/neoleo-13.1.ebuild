@@ -20,8 +20,6 @@ BDEPEND="sys-devel/bison
 	sys-devel/flex
 	virtual/pkgconfig"
 
-PATCHES=( "${FILESDIR}/${P}-no-Werror.patch" )
-
 src_prepare() {
 	default
 	eautoreconf
