@@ -1,4 +1,4 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -7,8 +7,8 @@ MY_P="${PN}_${PV}"
 DEB_PL="10"
 
 DESCRIPTION="Converts (la)tex files to text"
-HOMEPAGE="http://www.ctan.org/pkg/untex"
-SRC_URI="http://www.ctan.org/tex-archive/support/untex/${P}.tar.gz"
+HOMEPAGE="https://www.ctan.org/pkg/untex"
+SRC_URI="https://www.ctan.org/tex-archive/support/untex/${P}.tar.gz"
 #	mirror://debian/pool/main/u/untex/${MY_P}-${DEB_PL}.diff.gz"
 RESTRICT="mirror"
 
