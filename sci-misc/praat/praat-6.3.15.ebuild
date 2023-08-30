@@ -36,6 +36,7 @@ PATCHES=(
 	"${WORKDIR}/debian/patches/cross-build.patch"
 	"${WORKDIR}/debian/patches/dwtest-random-seed.patch"
 	"${WORKDIR}/debian/patches/ftbfs-on-i386-with-g++13.patch"
+	"${WORKDIR}/debian/patches/return-getphonemesfromtext.patch"
 )
 
 src_prepare() {
