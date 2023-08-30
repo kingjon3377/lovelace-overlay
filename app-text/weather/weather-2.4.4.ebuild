@@ -1,14 +1,14 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
-PYTHON_COMPAT=( python2_7 python3_{8..10} )
+PYTHON_COMPAT=( python3_{9..11} )
 inherit python-r1 readme.gentoo-r1
 
 DESCRIPTION="CLI tool to provide quick access to current weather conditions and forecasts"
-HOMEPAGE="http://fungi.yuggoth.org/weather/"
-SRC_URI="http://fungi.yuggoth.org/weather/src/${P}.tar.xz"
+HOMEPAGE="https://fungi.yuggoth.org/weather/"
+SRC_URI="https://fungi.yuggoth.org/weather/src/${P}.tar.xz"
 
 LICENSE="BSD"
 SLOT="0"
@@ -35,6 +35,7 @@ src_unpack() {
 	unpack ./*zip
 }
 
+# TODO: Investigate: Debian's equivalent of src_compile() is largely 'python3 ./weather --build-sets'
 src_install() {
 	my_install() {
 		sitedir="$(python_get_sitedir)"

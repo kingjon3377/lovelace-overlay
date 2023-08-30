@@ -7,8 +7,8 @@ PYTHON_COMPAT=( python3_{9..11} )
 inherit python-r1 readme.gentoo-r1
 
 DESCRIPTION="CLI tool to provide quick access to current weather conditions and forecasts"
-HOMEPAGE="http://fungi.yuggoth.org/weather/"
-SRC_URI="http://fungi.yuggoth.org/weather/src/${P}.tar.xz"
+HOMEPAGE="https://fungi.yuggoth.org/weather/"
+SRC_URI="https://fungi.yuggoth.org/weather/src/${P}.tar.xz"
 
 LICENSE="BSD"
 SLOT="0"
