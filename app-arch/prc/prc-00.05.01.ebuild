@@ -6,8 +6,8 @@ EAPI=8
 inherit toolchain-funcs
 
 DESCRIPTION="Tool/library for manipulating Palm PRC/PDB files."
-HOMEPAGE="http://djw.org/product/palm/par/index.html"
-SRC_URI="http://djw.org/product/palm/par/${PN}.tgz -> ${P}.tgz"
+HOMEPAGE="https://djw.org/product/palm/par/index.html"
+SRC_URI="https://djw.org/product/palm/par/${PN}.tgz -> ${P}.tgz"
 
 LICENSE="MPL-1.1"
 SLOT="0"
