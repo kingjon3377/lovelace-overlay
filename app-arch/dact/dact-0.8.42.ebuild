@@ -1,11 +1,11 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
 DESCRIPTION="Multi-algorithm compression"
-HOMEPAGE="http://www.rkeene.org/oss/dact"
-SRC_URI="http://www.rkeene.org/files/oss/${PN}/release/${P}.tar.gz"
+HOMEPAGE="https://www.rkeene.org/oss/dact"
+SRC_URI="https://www.rkeene.org/files/oss/${PN}/release/${P}.tar.gz"
 
 LICENSE="|| ( LGPL-2 GPL-2 MIT )"
 SLOT="0"
