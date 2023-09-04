@@ -51,6 +51,3 @@ dev-java/ant-bndlib
 # Dead upstream (404), binary-only. Masked for removal
 app-text/ecub
 
-# Not even build-tested yet. Unmask after that checking is done.
-=app-text/epub-tools-3.0
-
