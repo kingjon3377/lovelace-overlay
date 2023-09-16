@@ -51,3 +51,6 @@ dev-java/ant-bndlib
 # Dead upstream (404), binary-only. Masked for removal
 app-text/ecub
 
+# Live, and compilation currently broken
+=app-misc/Leanify-9999
+

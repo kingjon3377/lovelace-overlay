@@ -1,0 +1,15 @@
+diff -ru a/Makefile b/Makefile
+--- a/Makefile	2015-11-26 01:11:59.000000000 -0500
++++ b/Makefile	2023-09-15 21:07:43.660054744 -0400
+@@ -6,11 +6,6 @@
+ ZOPFLI_SRC      := lib/zopfli/hash.c lib/zopfli/squeeze.c lib/zopfli/gzip_container.c lib/zopfli/katajainen.c lib/zopfli/zopfli_lib.c lib/zopfli/cache.c lib/zopfli/zlib_container.c lib/zopfli/util.c lib/zopfli/tree.c lib/zopfli/deflate.c lib/zopfli/blocksplitter.c lib/zopfli/lz77.c
+ ZOPFLIPNG_SRC   := lib/zopflipng/lodepng/lodepng.cpp lib/zopflipng/lodepng/lodepng_util.cpp lib/zopflipng/zopflipng_lib.cc
+ 
+-CFLAGS      += -Wall -O3 -msse2 -mfpmath=sse
+-ifneq ($(CC),clang)
+-    CFLAGS  += -flto
+-endif
+-
+ ifeq ($(shell uname -s),Darwin)
+     LDFLAGS += -liconv
+ else
