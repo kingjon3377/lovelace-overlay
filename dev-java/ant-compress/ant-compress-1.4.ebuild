@@ -1,4 +1,4 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -17,10 +17,10 @@ KEYWORDS="~amd64"
 
 IUSE=""
 
-RDEPEND=">=virtual/jre-1.5:*
+RDEPEND=">=virtual/jre-1.7:*
 	dev-java/commons-compress:0
 	>=dev-java/ant-core-1.7.0:0"
-BDEPEND=">=virtual/jdk-1.5"
+BDEPEND=">=virtual/jdk-1.7"
 DEPEND="${RDEPEND}"
 
 EANT_BUILD_TARGET="antlib"

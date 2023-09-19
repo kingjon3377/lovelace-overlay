@@ -15,10 +15,10 @@ LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64 ~x86"
 IUSE=""
-RDEPEND=">=virtual/jre-1.5:*
+RDEPEND=">=virtual/jre-1.7:*
 		sys-apps/groff
 		>=dev-java/javacc-3.2"
-BDEPEND=">=virtual/jdk-1.5"
+BDEPEND=">=virtual/jdk-1.7"
 DEPEND="${RDEPEND}"
 NICE="nice-${PV}.orig"
 S="${WORKDIR}/${NICE}"

@@ -1,4 +1,4 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -20,9 +20,9 @@ COMMON_DEP="
 	>=dev-java/ant-core-1.7:0
 	>=dev-java/xerces-2.8.1:2"
 DEPEND="${COMMON_DEP}"
-BDEPEND=">=virtual/jdk-1.6"
+BDEPEND=">=virtual/jdk-1.7"
 RDEPEND="${COMMON_DEP}
-	>=virtual/jre-1.6"
+	>=virtual/jre-1.7"
 
 src_prepare() {
 	find -name '*.jar' -delete || die

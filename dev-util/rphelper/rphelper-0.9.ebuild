@@ -14,9 +14,9 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""
 
-BDEPEND=">=virtual/jdk-1.3
+BDEPEND=">=virtual/jdk-1.7
 	app-arch/unzip"
-RDEPEND=">=virtual/jre-1.3:*"
+RDEPEND=">=virtual/jre-1.7:*"
 
 S="${WORKDIR}"
 

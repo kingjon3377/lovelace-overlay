@@ -1,4 +1,4 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -22,9 +22,9 @@ COMMON_DEP="dev-java/junit:4"
 
 S="${WORKDIR}/${PN}-JavaEWAH-${PV}"
 
-RDEPEND=">=virtual/jre-1.6
+RDEPEND=">=virtual/jre-1.7
 	${COMMON_DEP}"
-BDEPEND=">=virtual/jdk-1.6"
+BDEPEND=">=virtual/jdk-1.7"
 DEPEND="${COMMON_DEP}"
 
 EANT_BUILD_TARGET=""

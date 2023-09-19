@@ -21,9 +21,9 @@ IUSE=""
 
 COMMON_DEP=""
 
-RDEPEND=">=virtual/jre-7
+RDEPEND=">=virtual/jre-1.7
 	${COMMON_DEP}"
-BDEPEND=">=virtual/jdk-7
+BDEPEND=">=virtual/jdk-1.7
 	app-arch/unzip"
 DEPEND="${COMMON_DEP}"
 

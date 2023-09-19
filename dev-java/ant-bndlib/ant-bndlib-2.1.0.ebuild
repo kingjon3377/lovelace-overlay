@@ -1,4 +1,4 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 # Adapted from dev-java/bndlib in the main tree.
@@ -25,11 +25,11 @@ CDEPEND="dev-java/bndlib:0
 
 # Tests appear broken and cause a circular dependency.
 # test? ( dev-java/bnd-junit:0 )
-DEPEND=">=virtual/jdk-1.5
+DEPEND=">=virtual/jdk-1.7
 	${CDEPEND}
 	test? ( dev-java/junit:4 )"
 
-RDEPEND=">=virtual/jre-1.5
+RDEPEND=">=virtual/jre-1.7
 	${CDEPEND}"
 
 S="${WORKDIR}/bnd-${PV}.REL/biz.aQute.bnd"

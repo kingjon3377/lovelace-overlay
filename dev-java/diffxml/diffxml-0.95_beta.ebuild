@@ -22,9 +22,9 @@ COMMON_DEP="dev-java/xpp3"
 
 S="${WORKDIR}/${PN}"
 
-RDEPEND=">=virtual/jre-1.5
+RDEPEND=">=virtual/jre-1.7
 	${COMMON_DEP}"
-DEPEND=">=virtual/jdk-1.5
+DEPEND=">=virtual/jdk-1.7
 	test? ( dev-java/junit:4 )
 	${COMMON_DEP}"
 

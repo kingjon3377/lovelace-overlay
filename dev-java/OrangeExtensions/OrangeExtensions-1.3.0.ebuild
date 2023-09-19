@@ -1,4 +1,4 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -17,8 +17,8 @@ KEYWORDS="~amd64 ~x86"
 
 IUSE=""
 
-RDEPEND=">=virtual/jre-1.5"
-BDEPEND=">=virtual/jdk-1.5"
+RDEPEND=">=virtual/jre-1.7"
+BDEPEND=">=virtual/jdk-1.7"
 
 # This is needed because java-pkg-simple sets it to ${WORKDIR}
 S="${WORKDIR}/OrangeExtensions-${PV}"

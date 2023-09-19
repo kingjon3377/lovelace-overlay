@@ -1,4 +1,4 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -16,9 +16,9 @@ HOMEPAGE="https://mapcraft.glendale.org.uk/"
 COMMON_DEPEND="dev-java/xerces:2
 	dev-java/xalan
 	dev-java/junit:0"
-RDEPEND=">=virtual/jre-1.4
+RDEPEND=">=virtual/jre-1.7
 	${COMMON_DEPEND}"
-BDEPEND=">=virtual/jdk-1.4"
+BDEPEND=">=virtual/jdk-1.7"
 DEPEND="${COMMON_DEPEND}"
 IUSE="doc source"
 
