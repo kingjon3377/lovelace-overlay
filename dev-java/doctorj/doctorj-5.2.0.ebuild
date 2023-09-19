@@ -1,4 +1,4 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -23,9 +23,9 @@ IUSE="test"
 
 COMMON_DEP=""
 
-RDEPEND=">=virtual/jre-1.4
+RDEPEND=">=virtual/jre-7
 	${COMMON_DEP}"
-BDEPEND=">=virtual/jdk-1.4"
+BDEPEND=">=virtual/jdk-7"
 DEPEND="test? ( dev-java/junit:0 )
 	${COMMON_DEP}"
 
