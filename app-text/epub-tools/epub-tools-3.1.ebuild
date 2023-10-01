@@ -17,8 +17,7 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
 
-RDEPEND=">=dev-haskell/epub-metadata-4.0:=
-	<dev-haskell/epub-metadata-5.0:=
+RDEPEND=">=dev-haskell/epub-metadata-5.1:=
 	dev-haskell/mtl:=
 	dev-haskell/parsec:=
 	dev-haskell/regex-compat:=
