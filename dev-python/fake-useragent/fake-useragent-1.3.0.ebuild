@@ -1,4 +1,4 @@
-# Copyright 2022 Gentoo Authors
+# Copyright 2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -29,9 +29,6 @@ IUSE="test"
 RDEPEND="
 	${PYTHON_DEPS}
 	dev-python/importlib-metadata[${PYTHON_USEDEP}]
-	$(python_gen_cond_dep '
-		dev-python/importlib-resources[${PYTHON_USEDEP}]
-	' python3_8)
 "
 DEPEND="test? (
 			dev-python/pytest[${PYTHON_USEDEP}]
@@ -39,6 +36,6 @@ DEPEND="test? (
 		)"
 BDEPEND=""
 
-PATCHES=( "${FILESDIR}/${P}-drop-pytest-coverage.patch" )
+PATCHES=( "${FILESDIR}/${PN}-1.1.3-drop-pytest-coverage.patch" )
 
 distutils_enable_tests pytest
