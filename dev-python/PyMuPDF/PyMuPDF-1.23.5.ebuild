@@ -18,20 +18,15 @@ DEPEND="=app-text/mupdf-$(ver_cut 0-2)*:="
 RDEPEND="${DEPEND}"
 BDEPEND=""
 
-src_prepare() {
-	sed -i -e '/mupdf-third/d' setup.py || die
-	default
-}
-
 python_configure() {
 	export PYMUPDF_SETUP_MUPDF_BUILD= PYMUPDF_SETUP_MUPDF_TGZ=
 	default
 }
 
-# Two tests fail (with below python_test; distutils_enable_tests pytest leads
-# to every test failing due to circular module dependencies), one with
-# "unsupported font" even when the font in question is installed and the other
-# something less clear
+# Two tests fail (in 1.21.1?, with below python_test; distutils_enable_tests
+# pytest leads to every test failing due to circular module dependencies), one
+# with "unsupported font" even when the font in question is installed and the
+# other something less clear
 RESTRICT="test"
 
 python_test() {
