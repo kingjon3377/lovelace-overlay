@@ -30,10 +30,7 @@ DEPEND="
 	dev-ml/ppx_deriving_yojson:=
 	dev-ml/ppx_import:=
 	gtk? (
-		|| (
-			dev-ml/ocamlgraph_gtk:=[ocamlopt?]
-			>=dev-ml/ocamlgraph-1.8.5:=[gtk?,ocamlopt?]
-		)
+		dev-ml/ocamlgraph_gtk:=[ocamlopt?]
 		>=x11-libs/gtksourceview-2.8:2.0=
 		>=gnome-base/libgnomecanvas-2.26
 		>=dev-ml/lablgtk-2.14:=[sourceview,gnomecanvas,ocamlopt?]
