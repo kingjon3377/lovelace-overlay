@@ -26,7 +26,7 @@ BDEPEND="${PYTHON_DEPS}
 S="${WORKDIR}/hosts-${PV}"
 
 python_check_deps() {
-	has_version -b "dev-python/requests[${PYTHON_USEDEP}]"
+	python_has_version -b "dev-python/requests[${PYTHON_USEDEP}]"
 }
 
 pkg_setup() {
