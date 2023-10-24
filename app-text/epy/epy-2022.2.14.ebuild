@@ -7,11 +7,14 @@ PYTHON_COMPAT=( python3_{9..11} )
 
 PYTHON_REQ_USE="ncurses"
 
-inherit distutils-r1
+PYPI_PN=${PN}-reader
+PYPI_NO_NORMALIZE=true
+
+inherit distutils-r1 pypi
 
 DESCRIPTION="CLI EPUB reader"
 HOMEPAGE="https://github.com/wustho/epy https://pypi.org/project/epy-reader/"
-SRC_URI="mirror://pypi/${PN:0:1}/${PN}-reader/${PN}-reader-${PV}.tar.gz"
+SRC_URI="$(pypi_sdist_url --no-normalize "${PN}-reader" "${PV}")"
 
 LICENSE="MIT"
 SLOT="0"

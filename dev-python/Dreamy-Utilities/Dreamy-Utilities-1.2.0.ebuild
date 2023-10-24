@@ -4,11 +4,12 @@
 EAPI=7
 
 PYTHON_COMPAT=( python3_{9..11} )
+PYPI_NO_NORMALIZE=true
 inherit distutils-r1
 
 DESCRIPTION="Set of various utilities for Python applications"
 HOMEPAGE="https://pypi.org/project/Dreamy-Utilities/ https://github.com/DreamCobbler/dreamy-utilities"
-SRC_URI="mirror://pypi/${PN:0:1}/${PN}/${P/-/%20}.tar.gz"
+SRC_URI="https://files.pythonhosted.org/packages/source/${PN:0:1}/${PN}/${P/-/%20}.tar.gz"
 
 LICENSE="GPL-3"
 SLOT="0"

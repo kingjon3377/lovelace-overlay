@@ -8,7 +8,6 @@ inherit distutils-r1 pypi
 
 DESCRIPTION="Pure-Python Japanese character interconverter"
 HOMEPAGE="https://pypi.org/project/jaconv/ https://github.com/ikegami-yukino/jaconv"
-#SRC_URI="mirror://pypi/${PN:0:1}/${PN}/${P}.tar.gz"
 
 LICENSE="MIT"
 SLOT="0"

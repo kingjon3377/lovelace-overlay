@@ -4,13 +4,14 @@
 EAPI=7
 
 PYTHON_COMPAT=( python3_{9..11} )
-inherit distutils-r1
+PYPI_PN=EbookLib
+PYPI_NO_NORMALIZE=true
+inherit distutils-r1 pypi
 
 MY_PN=EbookLib
 
 DESCRIPTION="Python E-book library for handling books in EPUB2/EPUB3 format"
 HOMEPAGE="https://pypi.org/project/EbookLib/ https://github.com/aerkalov/ebooklib"
-SRC_URI="mirror://pypi/${PN:0:1}/${PN}/${MY_PN}-${PV}.tar.gz"
 
 LICENSE="AGPL-3"
 SLOT="0"

@@ -4,11 +4,10 @@
 EAPI=7
 
 PYTHON_COMPAT=( python3_{9..11} )
-inherit distutils-r1
+inherit distutils-r1 pypi
 
 DESCRIPTION="Low-level communication layer for PRAW 4+."
 HOMEPAGE="https://pypi.python.org/pypi/prawcore https://github.com/praw-dev/prawcore"
-SRC_URI="mirror://pypi/${PN:0:1}/${PN}/${P}.tar.gz"
 
 LICENSE="BSD-2"
 SLOT="0"

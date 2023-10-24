@@ -4,11 +4,10 @@
 EAPI=7
 
 PYTHON_COMPAT=( python3_{9..11} )
-inherit distutils-r1
+inherit distutils-r1 pypi
 
 DESCRIPTION="python module that will check for package updates"
 HOMEPAGE="https://pypi.org/project/update-checker/ https://github.com/bboe/update_checker"
-SRC_URI="mirror://pypi/${PN:0:1}/${PN}/${P}.tar.gz"
 
 LICENSE="BSD"
 SLOT="0"
