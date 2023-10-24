@@ -14,7 +14,7 @@ MY_P="${MY_PN}-${PV}"
 SRC_URI="https://gitlab.com/${PN}/${PN}/-/archive/${PV}/${P}.tar.bz2"
 LICENSE="GPL-2"
 
-KEYWORDS="~amd64 ~x86"
+KEYWORDS="~amd64"
 DEF_ON_FLAGS=( bzip2 cairo curl desktop gtk3 htmlview imageio media mime ncurses net
 				opengl pcre pdf qt5 sdl sdlsound sdl2 sqlite svg v4l xml zlib )
 DEF_OFF_FLAGS=( crypt dbus examples gmp gsl gtk httpd imageimlib mysql
