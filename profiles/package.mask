@@ -19,6 +19,10 @@
 ~x11-apps/rpbar-9999
 ~x11-plugins/mehturt-pidgin-9999
 ~x11-themes/unicode-emoji-9999
+~app-text/rdrview-9999
+~sys-fs/apfs-9999
+~sys-fs/apfs-fuse-9999
+~x11-plugins/purple-discord-9999
 
 # Doesn't yet build, more effort is needed to see what patches are still needed
 # or will apply, and probably we'll need to download the 'brt' source tarball
