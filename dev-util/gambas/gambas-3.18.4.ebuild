@@ -1,12 +1,12 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
 inherit autotools xdg-utils multilib libtool desktop
 
 DESCRIPTION="A free IDE based on a Basic interpreter with object extensions"
-HOMEPAGE="http://gambas.sourceforge.net/"
+HOMEPAGE="https://gambas.sourceforge.net/"
 
 SLOT="3"
 MY_PN="${PN}${SLOT}"
@@ -15,9 +15,9 @@ SRC_URI="https://gitlab.com/${PN}/${PN}/-/archive/${PV}/${P}.tar.bz2"
 LICENSE="GPL-2"
 
 KEYWORDS="~amd64 ~x86"
-DEF_ON_FLAGS=( bzip2 cairo curl desktop gtk3 imageio media mime ncurses net
-				opengl pcre pdf qt5 sdl sdlsound sqlite svg v4l xml zlib )
-DEF_OFF_FLAGS=( crypt dbus examples gmp gsl gtk httpd imageimlib jit mysql
+DEF_ON_FLAGS=( bzip2 cairo curl desktop gtk3 htmlview imageio media mime ncurses net
+				opengl pcre pdf qt5 sdl sdlsound sdl2 sqlite svg v4l xml zlib )
+DEF_OFF_FLAGS=( crypt dbus examples gmp gsl gtk httpd imageimlib mysql
 				postgres odbc openssl openal smtp )
 for flag in "${DEF_ON_FLAGS[@]}";do
 	IUSE+=" +${flag}"
@@ -30,7 +30,8 @@ REQUIRED_USE="gtk3? ( cairo ) gtk? ( cairo ) media? ( v4l ) mysql? ( zlib ) net?
 
 # libcrypt.so is part of glibc
 # gtk? ( x11-libs/gtk+:2[cups] )
-# TODO: check gtk3, other, deps
+# TODO: check gtk3, htmlview, other, deps
+# TODO: What does sdl2 need beyond libsdl2? (And what USE flags on that package?)
 COMMON_DEPEND="
 	bzip2?	( app-arch/bzip2 )
 	cairo?	( x11-libs/cairo )
@@ -55,7 +56,6 @@ COMMON_DEPEND="
 	)
 	imageio? ( x11-libs/gdk-pixbuf:2 )
 	imageimlib?	( media-libs/imlib2 )
-	jit?	( >=sys-devel/llvm-3.1:= )
 	media?	(
 		media-libs/gstreamer:1.0
 		media-libs/gst-plugins-base:1.0
@@ -91,6 +91,7 @@ COMMON_DEPEND="
 		media-libs/sdl-ttf
 	)
 	sdlsound?	( media-libs/sdl-sound )
+	sdl2? ( media-libs/libsdl2 )
 	smtp?	( dev-libs/glib:2 )
 	sqlite?	( dev-db/sqlite:3 )
 	svg?	( gnome-base/librsvg )
@@ -107,6 +108,7 @@ COMMON_DEPEND="
 	x11-libs/libSM
 	x11-libs/libXcursor
 	dev-libs/libffi
+	virtual/libcrypt
 "
 
 DEPEND="${COMMON_DEPEND}"
@@ -114,30 +116,22 @@ BDEPEND="virtual/pkgconfig"
 
 RDEPEND="${COMMON_DEPEND}"
 
-#PATCHES=(
-	# "${FILESDIR}/${P}-xdgutils.patch"
-#)
-
 src_prepare() {
 	default
-	sed -i -e 's@scrdir@srcdir@' */Makefile.am || die
 	eautoreconf
-	for dir in "${S}"/gb.*;do
-		if ! test -d "${dir}"; then
-			einfo "${dir} is not a directory, skipping eautoreconf"
-			continue
-		elif test -f "${dir}/.elibtoolized"; then
-			einfo "eautoreconf already ran in ${dir}, skipping"
-			continue
-		else
-			cd "${dir}" || die "Failed to enter ${dir}"
-			eautoreconf
-			cd "${S}" || die "Failed to return to \$S"
-		fi
-	done
+	while IFS= read -r -d $'\0' subdir;do
+		case "${subdir}" in
+		*TEMPLATE*) continue ;;
+		esac
+		test -f "${subdir}/configure" && continue
+		pushd "${subdir}" > /dev/null || die "Failed to cd to ${subdir}"
+		eautoreconf
+		popd > /dev/null || die "Failed to cd back from ${subdir}"
+	done < <(find . -name configure.ac -exec dirname {} -z \; | sort -u -z)
 }
 
 src_configure() {
+	# TODO: What about 'pdf' itself, instead of/as well as 'poppler'?
 	econf \
 		$(use_enable bzip2 bzlib2) \
 		$(use_enable zlib) \
@@ -153,6 +147,7 @@ src_configure() {
 		$(use_enable pcre) \
 		$(use_enable sdl) \
 		$(use_enable sdlsound) \
+		$(use_enable sdl2) \
 		$(use_enable xml libxml) \
 		$(use_enable xml) \
 		$(use_enable v4l) \
@@ -162,7 +157,8 @@ src_configure() {
 		$(use_enable gtk) \
 		$(use_enable gtk3) \
 		$(use_enable opengl) \
-		$(use_enable desktop) \
+		$(use_enable desktop x11) \
+		$(use_enable desktop keyring) \
 		$(use_enable pdf poppler) \
 		$(use_enable cairo) \
 		$(use_enable imageio) \
@@ -172,21 +168,22 @@ src_configure() {
 		$(use_enable gmp) \
 		$(use_enable ncurses) \
 		$(use_enable media) \
-		$(use_enable jit) \
 		$(use_enable httpd) \
 		$(use_enable openssl) \
-		$(use_enable openal)
+		$(use_enable openal) \
+		$(use_enable htmlview)
 }
 
 src_install() {
 	DESTDIR="${D}" emake -j1 install XDG_UTILS= # Sometimes fails with "file exists" errors.
+
+	find "${ED}" -type f -name \*.la -delete || die
 
 	dodoc AUTHORS README TODO
 	use net && newdoc gb.net/src/doc/README gb.net-README
 	use net && newdoc gb.net/src/doc/changes.txt gb.net-ChangeLog
 	use pcre && newdoc gb.pcre/src/README gb.pcre-README
 	use sqlite && newdoc gb.db.sqlite3/README gb.db.sqlite3-README
-	use jit && newdoc gb.jit/README gb.jit-README
 	use smtp && newdoc gb.net.smtp/README gb.net.smtp-README
 
 	if { use qt5 || use gtk || use gtk3; } ; then
