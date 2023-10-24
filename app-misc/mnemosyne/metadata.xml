@@ -3,5 +3,6 @@
 <pkgmetadata>
 <upstream>
 <remote-id type="sourceforge">mnemosyne-proj</remote-id>
+<remote-id type="github">mnemosyne-proj/mnemosyne</remote-id>
 </upstream>
 </pkgmetadata>

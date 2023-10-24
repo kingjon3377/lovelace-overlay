@@ -3,5 +3,6 @@
 <pkgmetadata>
 <upstream>
 <remote-id type="github">firecate53/urlscan</remote-id>
+<remote-id type="pypi">urlscan</remote-id>
 </upstream>
 </pkgmetadata>

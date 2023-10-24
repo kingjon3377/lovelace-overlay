@@ -8,4 +8,7 @@
 
    Also there are some scripts that help cleaning up the hard disk (finding
    duplicated and/or unstripped files).</longdescription>
+<upstream>
+<remote-id type="sourceforge">perforate-linux</remote-id>
+</upstream>
 </pkgmetadata>

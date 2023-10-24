@@ -18,5 +18,6 @@
   </use>
 <upstream>
 <remote-id type="gitlab">gambas/gambas</remote-id>
+<remote-id type="sourceforge">gambas</remote-id>
 </upstream>
 </pkgmetadata>
