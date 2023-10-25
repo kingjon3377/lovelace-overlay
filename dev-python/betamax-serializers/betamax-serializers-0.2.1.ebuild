@@ -5,6 +5,7 @@ EAPI=7
 
 PYTHON_COMPAT=( python3_{9..11} )
 PYPI_NO_NORMALIZE=true
+DISTUTILS_USE_PEP517=setuptools
 inherit distutils-r1 pypi
 
 DESCRIPTION="A set of third-party serializers for Betamax"
