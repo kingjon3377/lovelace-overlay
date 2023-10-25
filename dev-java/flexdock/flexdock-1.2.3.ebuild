@@ -8,7 +8,7 @@ inherit java-pkg-2 java-ant-2
 
 DESCRIPTION="A Java docking framework for use in cross-platform Swing applications"
 HOMEPAGE="https://gitlab.com/scilab/forge/flexdock"
-SRC_URI="https://gitlab.com/scilab/forge/${PN}/-/archive/${PV}/${P}.tar.gz"
+SRC_URI="https://gitlab.com/scilab/forge/${PN}/-/archive/${PV}/${P}.tar.bz2"
 
 LICENSE="MIT"
 SLOT="0"
@@ -19,7 +19,8 @@ IUSE=""
 RDEPEND=">=virtual/jre-1.7"
 DEPEND=">=virtual/jdk-1.7
 	app-arch/unzip
-	dev-java/skinlf"
+	dev-java/skinlf
+	app-alternatives/bzip2"
 #	dev-java/jgoodies-looks"
 
 EANT_DOC_TARGET="doc"

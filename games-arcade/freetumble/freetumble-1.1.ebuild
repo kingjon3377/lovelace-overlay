@@ -7,7 +7,7 @@ inherit cmake
 
 DESCRIPTION="Clear a grid of stones by color"
 HOMEPAGE="https://gitlab.com/LibreGames/freetumble"
-SRC_URI="https://gitlab.com/LibreGames/${PN}/-/archive/${PV}/${P}.tar.gz"
+SRC_URI="https://gitlab.com/LibreGames/${PN}/-/archive/${PV}/${P}.tar.bz2"
 
 LICENSE="GPL-3"
 SLOT="0"
@@ -15,7 +15,8 @@ KEYWORDS="~amd64"
 IUSE=""
 
 RDEPEND="media-libs/libsfml"
-DEPEND="${RDEPEND}"
+DEPEND="${RDEPEND}
+	app-alternatives/bzip2"
 
 PATCHES=(
 	"${FILESDIR}/${P}-0001-Fix-build-with-SFML-2.5.0.patch"

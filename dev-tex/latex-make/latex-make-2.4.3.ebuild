@@ -7,7 +7,7 @@ inherit texlive-common
 
 DESCRIPTION="A Makefile helper for LaTeX"
 HOMEPAGE="https://gitlab.inria.fr/latex-utils/latex-make"
-SRC_URI="https://gitlab.inria.fr/latex-utils/${PN}/-/archive/v${PV}/${PN}-v${PV}.tar.gz"
+SRC_URI="https://gitlab.inria.fr/latex-utils/${PN}/-/archive/v${PV}/${PN}-v${PV}.tar.bz2"
 
 LICENSE="GPL-2"
 SLOT="0"
@@ -18,7 +18,8 @@ CDEPEND="dev-texlive/texlive-langfrench"
 RDEPEND="${CDEPEND}
 	sys-devel/make
 	virtual/latex-base"
-DEPEND="${CDEPEND}"
+DEPEND="${CDEPEND}
+	app-alternatives/bzip2"
 
 S="${WORKDIR}/${PN}-v${PV}"
 

@@ -9,7 +9,7 @@ inherit lua-single
 
 DESCRIPTION="Rearrange dominoes to cause a chain reaction"
 HOMEPAGE="https://domino-chain.gitlab.io/"
-SRC_URI="https://gitlab.com/domino-chain/domino-chain.gitlab.io/-/archive/${PV}/${PN}.gitlab.io-${PV}.tar.gz"
+SRC_URI="https://gitlab.com/domino-chain/domino-chain.gitlab.io/-/archive/${PV}/${PN}.gitlab.io-${PV}.tar.bz2"
 
 LICENSE="GPL-3"
 SLOT="0"
@@ -33,6 +33,7 @@ BDEPEND="sys-devel/gettext
 	virtual/pkgconfig
 	media-gfx/povray
 	sys-apps/sed
+	app-alternatives/bzip2
 	|| ( dev-util/shellcheck dev-util/shellcheck-bin )" # TODO: test? () ?
 
 S="${WORKDIR}/${PN}.gitlab.io-${PV}"
