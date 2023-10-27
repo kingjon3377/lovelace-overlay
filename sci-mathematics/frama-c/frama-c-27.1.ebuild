@@ -33,7 +33,7 @@ DEPEND="
 		dev-ml/ocamlgraph_gtk:=[ocamlopt?]
 		>=x11-libs/gtksourceview-2.8:2.0=
 		>=gnome-base/libgnomecanvas-2.26
-		>=dev-ml/lablgtk-2.14:=[sourceview,gnomecanvas,ocamlopt?]
+		>=dev-ml/lablgtk-2.14:2=[sourceview,gnomecanvas,ocamlopt?]
 	)"
 RDEPEND="${DEPEND}"
 BDEPEND=">=dev-lang/ocaml-4.05.0[ocamlopt?]
