@@ -45,7 +45,7 @@ CRATES="
 	ppv-lite86@0.2.10
 	precomputed-hash@0.1.1
 	proc-macro-hack@0.5.19
-	proc-macro2-1.0.29
+	proc-macro2@1.0.29
 	quote@1.0.9
 	rand@0.7.3
 	rand_chacha@0.2.2
