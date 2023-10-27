@@ -3,7 +3,7 @@
 
 EAPI=8
 
-inherit git-r3 linux-mod
+inherit git-r3 linux-mod-r1
 
 DESCRIPTION="In-kernel APFS driver"
 HOMEPAGE="https://github.com/linux-apfs/linux-apfs-rw"
@@ -14,21 +14,18 @@ LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64"
 
-MODULE_NAMES="apfs(fs)"
-BUILD_TARGETS="clean default"
-
 DEPEND=""
 RDEPEND="${DEPEND}"
 BDEPEND=""
 
-DOCS=( CONTRIBUTING README.rst )
+DOCS=( README.rst )
 
 src_compile() {
 	unset SRCARCH ARCH
-	emake KERNEL_DIR="${KERNEL_DIR}"
+	local modlist=( apfs=fs )
+	linux-mod-r1_src_compile
 }
 
 src_install() {
-	linux-mod_src_install
-	dodoc "${DOCS[@]}"
+	linux-mod-r1_src_install
 }
