@@ -23,7 +23,10 @@ BDEPEND=""
 
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
-PATCHES=( 01_7dd4e50530e3a4a3b9f2d5fe4ace0ef5aa9b8199.patch  02_8bae47bd510ff034edb5524f5f8ddcb3e6108dcf.patch )
+PATCHES=(
+	"${FILESDIR}/01_7dd4e50530e3a4a3b9f2d5fe4ace0ef5aa9b8199.patch"
+	"${FILESDIR}/02_8bae47bd510ff034edb5524f5f8ddcb3e6108dcf.patch"
+)
 
 src_install() {
 	python_foreach_impl python_doscript "${PN}"
