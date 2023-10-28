@@ -5,6 +5,7 @@ EAPI=7
 
 DISTUTILS_SINGLE_IMPL=true
 PYTHON_COMPAT=( python3_{8..12} )
+DISTUTILS_USE_PEP517=setuptools
 inherit distutils-r1
 
 DESCRIPTION="simple 2D shooting strategy game set in space, with gravity"
@@ -28,8 +29,9 @@ PATCHES=(
 	"${FILESDIR}/${P}-python3_2.patch"
 )
 
-python_prepare() {
-	sed -i -e "s:prefix = '/usr/local':prefix = '/usr':" setup.py
+src_prepare() {
+	sed -i -e "s:prefix = '/usr/local':prefix = '/usr':" setup.py || die
+	default
 }
 
 src_install() {

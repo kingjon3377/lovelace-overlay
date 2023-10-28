@@ -4,6 +4,7 @@
 EAPI=7
 
 PYTHON_COMPAT=( python3_{8..12} )
+DISTUTILS_USE_PEP517=setuptools
 EGIT_REPO_URI="https://github.com/olivierverdier/pydflatex.git"
 
 inherit git-r3 distutils-r1
