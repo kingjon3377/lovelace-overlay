@@ -47,9 +47,12 @@ src_compile() {
 		tilePlacementGames/game1/gameSource/iPhone/icon.png 64x64/primrose.png
 	cp -f tilePlacementGames/game1/build/win32/icon.png 32x32/primrose.png
 	convert 32x32/primrose.png 32x32/primrose.xpm
+	MY_CFLAGS="${CFLAGS}"
+	MY_CFLAGS="${MY_CFLAGS} -DETCDIR=\\\"${EPREFIX}/etc/primrose\\\""
+	MY_CFLAGS="${MY_CFLAGS} -DDATADIR=\\\"${EPREFIX}/usr/share/primrose/\\\""
 	emake -C "${S}/tilePlacementGames/game1/gameSource" \
 		PLATFORM_LINK_FLAGS="-lGL -lSDL -lpthread ${LDFLAGS}" \
-		PLATFORM_COMPILE_FLAGS="${CFLAGS} -DETCDIR=\\\"${EPREFIX}/etc/primrose\\\" -DDATADIR=\\\"${EPREFIX}/usr/share/primrose/\\\""
+		PLATFORM_COMPILE_FLAGS="${MY_CFLAGS}"
 }
 
 src_install() {
