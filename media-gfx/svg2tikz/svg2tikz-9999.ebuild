@@ -7,6 +7,7 @@ EGIT_REPO_URI="https://github.com/xyz2tex/svg2tikz.git"
 
 PYTHON_COMPAT=( python3_{8..11} )
 DISTUTILS_SINGLE_IMPL=yes
+DISTUTILS_USE_PEP517=poetry
 
 inherit git-r3 distutils-r1
 
@@ -22,7 +23,7 @@ IUSE=""
 COMMON_DEPEND="$(python_gen_cond_dep 'dev-python/lxml[${PYTHON_USEDEP}]')"
 # FIXME: BDEPEND instead of DEPEND?
 DEPEND="${COMMON_DEPEND}
-	$(python_gen_cond_dep 'dev-python/sphinx[${PYTHON_USEDEP}]')"
+	$(python_gen_cond_dep 'dev-python/sphinx-argparse[${PYTHON_USEDEP}]')"
 RDEPEND="${COMMON_DEPEND}
 	media-gfx/inkscape[${PYTHON_SINGLE_USEDEP}]"
 
