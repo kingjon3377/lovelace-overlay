@@ -5,12 +5,12 @@
     <flag name="smtp">Enable smtp support.</flag>
     <flag name="imageio">Enable image IO via <pkg>x11-libs/gdk-pixbuf</pkg></flag>
     <flag name="desktop">Enable desktop module</flag>
-	<flag name="htmlview">Enable htmlview module</flag>
+    <flag name="htmlview">Enable htmlview module</flag>
     <flag name="imageimlib">Enable image IO via <pkg>media-libs/imlib2</pkg></flag>
     <flag name="media">Enable multimedia support via <pkg>media-libs/gstreamer</pkg></flag>
     <flag name="mime">Build MIME module</flag>
     <flag name="net">Enable networking support via <pkg>net-misc/curl</pkg></flag>
-	<flag name="sdl2">Enable support for <pkg>media-libs/libsdl2</pkg></flag>
+    <flag name="sdl2">Enable support for <pkg>media-libs/libsdl2</pkg></flag>
     <flag name="sdlsound">Enable sound support via <pkg>media-libs/sdl-sound</pkg></flag>
     <flag name="httpd">Enable HTTP server component</flag>
     <flag name="openssl">Enable SSL support via <pkg>dev-libs/openssl</pkg></flag>
