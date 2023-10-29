@@ -1,4 +1,4 @@
-# Copyright 2021 Gentoo Authors
+# Copyright 2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -28,7 +28,6 @@ S=${WORKDIR}/${BASE_PN}-${PV}
 RDEPEND=">=dev-ml/ocamlgraph-${PV}:=[ocamlopt?]
 	dev-ml/lablgtk:2=[ocamlopt?]
 	!!<dev-ml/ocamlgraph-2.0.0[gtk]"
-DEPEND="${DEPEND}"
 
 IUSE="+ocamlopt"
 

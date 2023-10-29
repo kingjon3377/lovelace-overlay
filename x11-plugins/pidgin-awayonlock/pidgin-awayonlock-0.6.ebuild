@@ -18,7 +18,7 @@ KEYWORDS="~amd64 ~x86"
 RDEPEND="net-im/pidgin:=
 	dev-libs/glib:2
 	dev-libs/dbus-glib"
-DEPEND="${DEPEND}"
+DEPEND="${RDEPEND}"
 BDEPEND="virtual/pkgconfig"
 
 S="${WORKDIR}/${MY_PN}-${PV}"
