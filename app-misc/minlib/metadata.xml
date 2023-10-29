@@ -3,5 +3,6 @@
 <pkgmetadata>
 <upstream>
 <remote-id type="github">dgoodmaniii/minlib</remote-id>
+<remote-id type="codeberg">dgoodmaniii/minlib</remote-id>
 </upstream>
 </pkgmetadata>
