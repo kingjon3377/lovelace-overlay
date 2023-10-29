@@ -35,10 +35,6 @@ each_ruby_install() {
 	popd > /dev/null || die
 }
 
-each_ruby_test() {
-	emake test
-}
-
 all_ruby_install() {
 	emake install DESTDIR="${ED}" PREFIX="/usr"
 	mv "${ED}/usr/share/doc/${PN}" "${ED}/usr/share/doc/${PF}" || die
