@@ -41,19 +41,8 @@ media-sound/gwc
 # A dep has been masked for removal
 <=dev-java/flexdock-1.2.4
 
-# Dead upstream (alas), depends on masked or treecleaned packages. Removal soon.
-dev-java/ceylon
-# Otherwise-unused deps
-dev-java/ant-bndlib
-
 # Appears broken. TODO: figure out how to fix the ebuild
 =x11-apps/variety-0.8.9
-
-# Known not to work anymore. Masked for removal.
-=net-misc/esniper-2.35.0
-
-# Dead upstream (404), binary-only. Masked for removal
-app-text/ecub
 
 # Live, and compilation currently broken
 =app-misc/Leanify-9999
