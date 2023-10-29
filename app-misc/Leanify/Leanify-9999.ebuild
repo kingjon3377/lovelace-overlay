@@ -19,7 +19,8 @@ PATCHES=( "${FILESDIR}/${P}-unset-cflags.patch" )
 # TODO: Unbundle any bundled libraries
 
 src_compile() {
-	emake CC="$(tc-getCC)" CXX="$(tc-getCXX)" CFLAGS="${CFLAGS}" LDFLAGS="${LDFLAGS}" CXXFLAGS="${CXXFLAGS}" # CPPFLAGS="${CPPFLAGS}"
+	emake CC="$(tc-getCC)" CXX="$(tc-getCXX)" CFLAGS="${CFLAGS}" \
+		LDFLAGS="${LDFLAGS}" CXXFLAGS="${CXXFLAGS}" # CPPFLAGS="${CPPFLAGS}"
 }
 
 DOCS=( README.md CHANGELOG.md SECURITY.md )

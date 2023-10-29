@@ -26,5 +26,6 @@ ruby_add_bdepend "dev-ruby/rake"
 
 PATCHES=( "${FILESDIR}/${PN}-1.6.1-drop-coverage.patch" )
 
-# Several tests fail, many with permission-denied errors accessing a pygments_rb file; TODO: check dep versions and report upstream
+# Several tests fail, many with permission-denied errors accessing a
+# pygments_rb file; TODO: check dep versions and report upstream
 RESTRICT=test

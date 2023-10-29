@@ -26,5 +26,6 @@ ruby_add_bdepend "dev-ruby/rake"
 
 PATCHES=( "${FILESDIR}/${P}-drop-coverage.patch" )
 
-# Several tests fail, apparently due to whitespace differences in generated HTML; TODO: check dep versions and report upstream
+# Several tests fail, apparently due to whitespace differences in generated
+# HTML; TODO: check dep versions and report upstream
 RESTRICT=test
