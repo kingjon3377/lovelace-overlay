@@ -12,7 +12,6 @@ SRC_URI="https://invisible-island.net/archives/${PN}/${P}.tgz"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
 
 DEPEND="sys-libs/ncurses:0"
 RDEPEND="${DEPEND}"

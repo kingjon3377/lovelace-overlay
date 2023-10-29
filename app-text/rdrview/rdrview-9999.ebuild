@@ -7,7 +7,6 @@ inherit git-r3 toolchain-funcs
 
 DESCRIPTION="Strip cruft from HTML (Readability)"
 HOMEPAGE="https://github.com/eafer/rdrview"
-SRC_URI=""
 EGIT_REPO_URI="https://github.com/eafer/${PN}.git"
 
 IUSE="test"
@@ -25,7 +24,6 @@ DEPEND="${RDEPEND}
 		dev-util/valgrind
 		www-client/links
 	)"
-BDEPEND=""
 
 # Tests fail to run if mailcap not set up, TODO: report
 RESTRICT=test

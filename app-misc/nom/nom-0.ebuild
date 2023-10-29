@@ -10,9 +10,7 @@ SRC_URI="https://www.macs.hw.ac.uk/~hwloidl/docs/UnixPowerTools/example_files/sp
 LICENSE="freedist" # apparently---no license is given in _Unix Power Tools_
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
 
-DEPEND=""
 RDEPEND="${DEPEND}"
 
 src_install() {

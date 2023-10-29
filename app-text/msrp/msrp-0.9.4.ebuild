@@ -10,7 +10,6 @@ SRC_URI="https://complearn.org/downloads/${P}.tar.gz"
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE=""
 
 DEPEND="dev-libs/libpcre"
 RDEPEND="${DEPEND}"

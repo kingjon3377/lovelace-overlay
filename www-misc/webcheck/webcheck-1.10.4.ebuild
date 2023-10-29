@@ -14,13 +14,12 @@ SRC_URI="https://arthurdejong.org/${PN}/${P}.tar.gz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE=""
 
-DEPEND=""
 RDEPEND="${DEPEND}"
 
 src_install() {
 	dodir /usr/share/${PN}
+	# TODO: Use either "find -exec" or "find -print0 | xargs -0"
 	find -name \*.py | \
 		xargs cp --parents --target-directory "${D}/usr/share/${PN}" || \
 		die "installing python files failed"

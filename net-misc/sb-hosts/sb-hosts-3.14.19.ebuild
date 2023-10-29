@@ -16,7 +16,6 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE="+savedconfig"
 
-RDEPEND=""
 DEPEND="${RDEPEND}"
 BDEPEND="${PYTHON_DEPS}
 	$(python_gen_any_dep '

@@ -22,7 +22,6 @@ DEPEND="test? (
 			dev-python/testfixtures[${PYTHON_USEDEP}]
 		)"
 RDEPEND="dev-python/requests[${PYTHON_USEDEP}]"
-BDEPEND=""
 
 # Fails to detect any tests
 RESTRICT=test

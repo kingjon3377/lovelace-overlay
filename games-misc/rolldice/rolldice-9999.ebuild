@@ -9,14 +9,11 @@ inherit git-r3 toolchain-funcs
 
 DESCRIPTION="virtual dice roller"
 HOMEPAGE="https://packages.debian.org/rolldice"
-SRC_URI=""
 
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
 
-DEPEND=""
 RDEPEND="${DEPEND}"
 
 src_prepare() {

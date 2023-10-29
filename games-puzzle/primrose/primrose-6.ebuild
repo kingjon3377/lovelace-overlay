@@ -12,7 +12,6 @@ SRC_URI="mirror://sourceforge/${PN}/${PN/p/P}_v${PV}_UnixSource.tar.gz"
 LICENSE="public-domain"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE=""
 
 RDEPEND="media-libs/libsdl
 	virtual/opengl"

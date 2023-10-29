@@ -12,7 +12,6 @@ SRC_URI="mirror://sourceforge/${PN}/${PN}/v${PV}-source/${PN}-source.zip -> ${P}
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
 
 BDEPEND=">=virtual/jdk-1.7
 	app-arch/unzip"

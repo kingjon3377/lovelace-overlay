@@ -29,4 +29,3 @@ DEPEND="${RDEPEND}
 		dev-ml/lwt
 		dev-ml/alcotest
 	)"
-BDEPEND=""

@@ -13,9 +13,6 @@ HOMEPAGE="https://github.com/thetimelineproj/humblewx"
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE=""
 
-DEPEND=""
 RDEPEND="${DEPEND}
 	dev-python/wxpython:4.0[${PYTHON_USEDEP}]"
-BDEPEND=""

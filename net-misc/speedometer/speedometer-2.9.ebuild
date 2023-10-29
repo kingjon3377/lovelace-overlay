@@ -15,7 +15,6 @@ SRC_URI="https://github.com/wardi/${PN}/archive/refs/tags/release-${PV}.tar.gz -
 LICENSE="LGPL-2.1"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
 
 DEPEND="dev-python/urwid[${PYTHON_USEDEP}]
 	dev-python/psutil[${PYTHON_USEDEP}]

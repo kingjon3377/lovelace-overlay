@@ -34,7 +34,6 @@ DEPEND="test? (
 			dev-python/pytest[${PYTHON_USEDEP}]
 			dev-python/mock[${PYTHON_USEDEP}]
 		)"
-BDEPEND=""
 
 PATCHES=( "${FILESDIR}/${PN}-1.1.3-drop-pytest-coverage.patch" )
 

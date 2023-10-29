@@ -10,9 +10,7 @@ SRC_URI="http://lorance.freeshell.org/${PN}/${PN}.tar.gz"
 LICENSE="public-domain"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
 
-DEPEND=""
 RDEPEND="${DEPEND}
 	app-alternatives/awk"
 

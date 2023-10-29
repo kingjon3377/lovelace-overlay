@@ -12,7 +12,6 @@ SRC_URI="mirror://sourceforge/gwc/gwc2/${PV}-11/${P}-11.tgz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE=""
 
 DEPEND="media-libs/libsndfile
 	sci-libs/fftw:3.0

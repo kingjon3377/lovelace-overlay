@@ -13,9 +13,7 @@ SRC_URI="${SRC_URI_BASE}/${PN}/part01.gz -> ${P}-part01.shar.gz"
 LICENSE="freedist" # apparently---no license is given in _Unix Power Tools_
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
 
-RDEPEND=""
 DEPEND="${RDEPEND}"
 BDEPEND="app-arch/sharutils"
 

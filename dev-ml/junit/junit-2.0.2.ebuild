@@ -27,7 +27,6 @@ RDEPEND="dev-ml/ptime:=
 	dev-ml/ounit2:="
 DEPEND="${RDEPEND}
 	doc? ( dev-ml/odoc )"
-BDEPEND=""
 
 PATCHES=( "${FILESDIR}/4.patch" )
 

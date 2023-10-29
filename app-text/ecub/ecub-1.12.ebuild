@@ -13,10 +13,6 @@ amd64? ( http://www.anthemion.co.uk/ecub/${PN}_${PV}-1_amd64.deb )"
 LICENSE="eCub"
 SLOT="0"
 KEYWORDS="amd64 x86"
-IUSE=""
-
-DEPEND=""
-RDEPEND=""
 
 S="${WORKDIR}"
 

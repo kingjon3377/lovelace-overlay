@@ -11,11 +11,8 @@ LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64"
 
-IUSE=""
-
 RDEPEND="virtual/jre:*
 	app-shells/bash:*"
-DEPEND=""
 
 RESTRICT=test # tests have never worked, and don't actually test the code that is installed
 

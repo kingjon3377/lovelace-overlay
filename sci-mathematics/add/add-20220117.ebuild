@@ -12,7 +12,6 @@ SRC_URI="ftp://ftp.invisible-island.net/${PN}/${P}.tgz"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
 
 DEPEND="sys-libs/ncurses:0"
 RDEPEND="${DEPEND}"

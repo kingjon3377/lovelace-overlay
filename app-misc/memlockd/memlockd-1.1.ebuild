@@ -12,9 +12,7 @@ SRC_URI="https://www.coker.com.au/${PN}/${PN}_${PV}.tar.gz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE=""
 
-DEPEND=""
 RDEPEND="${DEPEND}"
 
 src_compile() {

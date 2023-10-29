@@ -12,9 +12,7 @@ SRC_URI="https://download.savannah.gnu.org/releases/${PN}/${P}.tar.gz"
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE=""
 
-DEPEND=""
 RDEPEND="${DEPEND}"
 
 src_prepare() {

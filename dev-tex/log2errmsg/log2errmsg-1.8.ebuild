@@ -13,7 +13,6 @@ LICENSE="GPL-3" # "GNU License", specified in 2019
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 
-DEPEND=""
 RDEPEND="${DEPEND}"
 BDEPEND="app-arch/unzip"
 

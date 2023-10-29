@@ -12,7 +12,6 @@ SRC_URI="https://github.com/stardot/MatrixBrandy/archive/V${PV}.tar.gz -> ${P}.t
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
 
 DEPEND="media-libs/libsdl"
 RDEPEND="${DEPEND}"

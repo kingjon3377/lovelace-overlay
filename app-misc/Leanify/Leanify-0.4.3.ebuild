@@ -13,9 +13,7 @@ LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64"
 
-DEPEND=""
 RDEPEND="${DEPEND}"
-BDEPEND=""
 
 IUSE="cpu_flags_x86_sse2"
 

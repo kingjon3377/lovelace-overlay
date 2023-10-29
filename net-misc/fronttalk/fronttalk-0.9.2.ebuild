@@ -10,13 +10,11 @@ SRC_URI="http://www.unixpapa.com/software/${P}.tar.gz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE=""
 
 RDEPEND="dev-perl/libwww-perl
 	app-editors/gate
 	|| ( dev-perl/Term-ReadLine-Perl dev-perl/Term-ReadLine-Gnu )
 	|| ( dev-perl/Crypt-SSLeay dev-perl/IO-Socket-SSL )"
-DEPEND=""
 
 src_prepare() {
 	sed -i -e 's,$SYSLIST=.*,$SYSLIST= "http://www.unixpapa.com/syslist";,' \

@@ -12,15 +12,9 @@ SLOT="0"
 KEYWORDS="amd64"
 IUSE="+doc"
 
-RDEPEND=""
 DEPEND="${RDEPEND}
 	doc? ( media-gfx/transfig
 	dev-texlive/texlive-langgerman )"
-
-#PATCHES=(
-	#"${FILESDIR}/strlen.patch"
-	#"${FILESDIR}/docs.patch"
-#)
 
 src_prepare() {
 	default

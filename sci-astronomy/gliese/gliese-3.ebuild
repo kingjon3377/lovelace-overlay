@@ -11,7 +11,6 @@ SRC_URI="http://starplot.org/data/${P/-/}-0.95.tar.gz"
 LICENSE="stars GPL-2"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE=""
 
 DEPEND="sci-astronomy/starplot"
 RDEPEND="${DEPEND}"

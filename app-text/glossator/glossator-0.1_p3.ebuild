@@ -12,11 +12,9 @@ SRC_URI="https://ppa.launchpad.net/chameleondave/ppa/ubuntu/pool/main/g/${PN}/${
 LICENSE="public-domain"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE=""
 
 RDEPEND="dev-lang/tcl
 	dev-lang/tk"
-DEPEND=""
 
 S="${WORKDIR}/${PN}-0.1"
 

@@ -14,8 +14,6 @@ SRC_URI="http://gentooexperimental.org/distfiles/${MY_P}.tar.bz2"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64 ~x86"
-IUSE=""
-DEPEND=""
 RDEPEND=">=virtual/jre-1.7"
 
 S=${WORKDIR}/${PN}

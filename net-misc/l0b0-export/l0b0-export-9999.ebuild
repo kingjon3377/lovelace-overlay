@@ -8,7 +8,6 @@ inherit git-r3
 DESCRIPTION="Export scripts for various web sites"
 HOMEPAGE="https://github.com/l0b0/export"
 EGIT_REPO_URI="https://github.com/l0b0/export.git"
-SRC_URI=""
 
 LICENSE="GPL-3"
 SLOT="0"
@@ -25,7 +24,6 @@ RDEPEND="wordpress? (
 	librarything? (
 		net-misc/wget
 	)"
-DEPEND=""
 
 # "tests" are primarily Python syntax type checks
 RESTRICT=test

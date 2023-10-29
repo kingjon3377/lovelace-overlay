@@ -13,9 +13,7 @@ SRC_URI="mirror://debian/pool/main/p/${PN}/${P/-/_}.tar.gz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE=""
 
-DEPEND=""
 RDEPEND="${DEPEND}"
 
 S="${WORKDIR}/trunk"

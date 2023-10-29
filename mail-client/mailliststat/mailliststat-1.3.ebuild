@@ -15,7 +15,6 @@ KEYWORDS="amd64"
 IUSE="nls"
 L10N="de es fr it pt-BR sk sr"
 
-RDEPEND=""
 DEPEND="${RDEPEND}
 	nls? ( app-text/po4a )"
 

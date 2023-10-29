@@ -12,14 +12,12 @@ SRC_URI="https://codeberg.org/dgoodmaniii/${PN}/archive/v${PV}.tar.gz -> ${P}.ta
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE=""
 
 DEPEND="media-libs/libextractor
 	sys-libs/ncurses:0[unicode(+)]"
 RDEPEND="${DEPEND}
 	app-text/poppler
 	app-arch/unzip"
-BDEPEND=""
 
 src_compile() {
 	emake CC=$(tc-getCC) CFLAGS="${CFLAGS}" prefix=/usr

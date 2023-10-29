@@ -12,10 +12,6 @@ SRC_URI="http://www.lsv.ens-cachan.fr/~gastin/${PN}/${P}.tar.gz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE=""
-
-RDEPEND=""
-DEPEND=""
 
 src_prepare() {
 	sed -i Makefile \

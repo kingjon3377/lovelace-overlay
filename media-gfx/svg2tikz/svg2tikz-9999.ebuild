@@ -13,12 +13,9 @@ inherit git-r3 distutils-r1
 
 DESCRIPTION="SVG to PGF/TikZ converter"
 HOMEPAGE="https://github.com/xyz2tex/svg2tikz"
-SRC_URI=""
 
 LICENSE="GPL-2+"
 SLOT="0"
-KEYWORDS=""
-IUSE=""
 
 COMMON_DEPEND="$(python_gen_cond_dep 'dev-python/lxml[${PYTHON_USEDEP}]')"
 # FIXME: BDEPEND instead of DEPEND?

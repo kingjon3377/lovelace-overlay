@@ -10,7 +10,6 @@ SRC_URI="http://frakir.org/~morty/lue/${P}.tar.gz"
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE=""
 
 # TODO: What's needed in BDEPEND?
 DEPEND="dev-lang/perl

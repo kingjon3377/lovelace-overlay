@@ -12,9 +12,7 @@ SRC_URI="https://www.dickgrune.com/Programs/LaTeXTools/${PN}/${PN}_$(ver_rs 1 _)
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE=""
 
-DEPEND=""
 RDEPEND="${DEPEND}"
 BDEPEND="app-arch/unzip
 	dev-texlive/texlive-latex"

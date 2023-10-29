@@ -14,9 +14,7 @@ SRC_URI="mirror://debian/pool/main/w/${PN}/${PN}_${PV}.orig.tar.gz
 LICENSE="wordplay"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
 
-RDEPEND=""
 DEPEND="${RDEPEND}"
 BDEPEND="app-arch/xz-utils"
 

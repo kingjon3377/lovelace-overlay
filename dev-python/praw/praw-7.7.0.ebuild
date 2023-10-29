@@ -33,7 +33,6 @@ DEPEND="test? (
 			dev-python/betamax[${PYTHON_USEDEP}]
 			dev-python/betamax-matchers[${PYTHON_USEDEP}]
 		)"
-BDEPEND=""
 
 src_unpack() {
 	for file in $A;do

@@ -10,7 +10,6 @@ SRC_URI="mirror://sourceforge/${PN}/${PN}/${PV}/${P}.tar.gz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE=""
 
 DEPEND="dev-libs/openssl:0
 	dev-libs/argtable"

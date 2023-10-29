@@ -15,12 +15,8 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE="doc source"
 
-COMMON_DEPEND=""
-
-DEPEND="${COMMON_DEPEND}
-	>=virtual/jdk-1.7"
-RDEPEND="${COMMON_DEPEND}
-	>=virtual/jre-1.7"
+DEPEND=">=virtual/jdk-1.7"
+RDEPEND=">=virtual/jre-1.7"
 
 S="${WORKDIR}"
 

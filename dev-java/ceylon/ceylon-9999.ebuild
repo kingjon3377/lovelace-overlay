@@ -10,7 +10,6 @@ WANT_ANT_TASKS="ant-contrib ant-antlr ant-bndlib ant-junit"
 if test "${PV}" = 9999; then
 	inherit java-pkg-2 java-ant-2 git-r3 bash-completion-r1
 	EGIT_REPO_URI="https://github.com/eclipse/${PN}.git"
-	SRC_URI=""
 else
 	inherit java-pkg-2 java-ant-2 bash-completion-r1
 	SRC_URI="https://github.com/eclipse/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
@@ -21,7 +20,6 @@ HOMEPAGE="https://ceylon-lang.org"
 
 LICENSE="Apache-2.0 GPL-2-with-classpath-exception LGPL-2.1"
 SLOT="0"
-KEYWORDS=""
 
 IUSE="test"
 

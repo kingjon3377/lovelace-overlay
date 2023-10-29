@@ -10,9 +10,7 @@ SRC_URI="https://github.com/petdance/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE=""
 
-DEPEND=""
 RDEPEND="${DEPEND}"
 # Some of the tests/ folder aren't in this tarball
 RESTRICT="test"

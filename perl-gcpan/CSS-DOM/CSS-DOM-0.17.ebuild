@@ -12,7 +12,6 @@ DESCRIPTION="CSS style declaration class for CSS::DOM"
 LICENSE="|| ( Artistic GPL-1 GPL-2 GPL-3 )"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE=""
 
 DEPEND="dev-perl/Clone
 	dev-lang/perl:="

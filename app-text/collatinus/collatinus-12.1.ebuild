@@ -13,7 +13,6 @@ SRC_URI="mirror://debian/pool/main/c/${PN}/${P/-/_}.orig.tar.xz"
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
 
 #DEPEND="dev-qt/qt-creator
 RDEPEND="dev-qt/qtcore:5

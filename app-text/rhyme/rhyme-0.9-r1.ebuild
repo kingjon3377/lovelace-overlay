@@ -15,7 +15,6 @@ SRC_URI="mirror://sourceforge/rhyme/${P}.tar.gz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64 x86"
-IUSE=""
 
 DEPEND="sys-libs/readline:=
 	sys-libs/gdbm:="

@@ -12,7 +12,6 @@ SRC_URI="ftp://ftp.warwick.ac.uk/pub/x11/${P}.tar.z"
 LICENSE="xjewel"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE=""
 
 DEPEND="x11-libs/libX11
 	acct-group/gamestat"

@@ -15,7 +15,6 @@ SRC_URI="https://hackage.haskell.org/packages/archive/${PN}/${PV}/${P}.tar.gz"
 LICENSE="BSD"
 SLOT="0/${PV}"
 KEYWORDS="~amd64 ~x86"
-IUSE=""
 
 RDEPEND=">=dev-haskell/hxt-9:=[profile?]
 		dev-haskell/utf8-string:=[profile?]

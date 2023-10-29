@@ -12,7 +12,6 @@ SRC_URI="mirror://sourceforge/waon/${P}.tar.gz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE=""
 
 DEPEND="sci-libs/fftw:3.0
 	media-libs/libao

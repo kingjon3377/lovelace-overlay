@@ -24,4 +24,3 @@ DEPEND="${RDEPEND}
 		dev-ml/alcotest
 		dev-ml/crowbar
 	)"
-BDEPEND=""

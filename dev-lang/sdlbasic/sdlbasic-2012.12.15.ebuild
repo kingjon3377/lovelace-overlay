@@ -12,9 +12,7 @@ SRC_URI="mirror://sourceforge/${PN}/source/$(ver_cut 1)/${PN/b/B}-source-$(ver_r
 LICENSE="LGPL-2.1"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
 
-DEPEND=""
 RDEPEND="${DEPEND}"
 
 src_unpack() {

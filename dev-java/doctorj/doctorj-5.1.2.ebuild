@@ -17,15 +17,9 @@ LICENSE="LGPL-2.1"
 SLOT="0"
 KEYWORDS="amd64"
 
-IUSE=""
-
-COMMON_DEP=""
-
-RDEPEND=">=virtual/jre-1.7
-	${COMMON_DEP}"
+RDEPEND=">=virtual/jre-1.7"
 BDEPEND=">=virtual/jdk-1.7
 	app-arch/unzip"
-DEPEND="${COMMON_DEP}"
 
 EANT_BUILD_TARGET=""
 EANT_DOC_TARGET=""

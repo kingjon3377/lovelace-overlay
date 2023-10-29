@@ -13,9 +13,7 @@ SRC_URI="http://www.moshier.net/aa-56.zip"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE=""
 
-RDEPEND=""
 DEPEND="${RDEPEND}"
 BDEPEND="app-arch/unzip"
 

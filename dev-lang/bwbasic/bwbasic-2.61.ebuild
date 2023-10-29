@@ -12,10 +12,7 @@ SRC_URI="mirror://sourceforge/${PN}/${PN}/version%20${PV}/${P}.zip"
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
 
-DEPEND=""
-RDEPEND=""
 BDEPEND="app-arch/unzip"
 
 S="${WORKDIR}"

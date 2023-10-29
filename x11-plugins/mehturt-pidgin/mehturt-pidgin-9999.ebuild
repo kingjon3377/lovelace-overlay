@@ -9,12 +9,10 @@ EGIT_REPO_URI="https://github.com/mehturt/pidgin.git"
 
 DESCRIPTION="A collection of pidgin/finch plugins"
 HOMEPAGE="https://github.com/mehturt/pidgin"
-SRC_URI=""
 
 LICENSE="GPL-2+"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
 
 DEPEND="net-im/pidgin
 	dev-libs/glib:2

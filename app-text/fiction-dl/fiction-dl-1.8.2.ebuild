@@ -33,7 +33,6 @@ RDEPEND="${DEPEND}
 	dev-python/praw[${PYTHON_USEDEP}]
 	dev-python/pykakasi[${PYTHON_USEDEP}]
 	dev-python/pyopenssl[${PYTHON_USEDEP}]"
-BDEPEND=""
 
 src_prepare() {
 	sed -i -e '/opencv-python/d' -e 's@bs4@beautifulsoup4@' setup.py ${PN/-/_}.egg-info/requires.txt || die

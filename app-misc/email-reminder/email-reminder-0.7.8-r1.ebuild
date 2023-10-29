@@ -12,7 +12,6 @@ SRC_URI="https://launchpad.net/${PN}/trunk/${PV}/+download/${P}.tar.gz"
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
 
 DEPEND="dev-perl/XML-DOM
 	dev-perl/Gtk2

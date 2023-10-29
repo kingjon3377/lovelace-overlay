@@ -9,12 +9,9 @@ inherit git-r3 meson python-single-r1
 
 DESCRIPTION="EPUB reader for GNOME"
 HOMEPAGE="https://github.com/dyskette/seneca"
-SRC_URI=""
 
 LICENSE="GPL-3"
 SLOT="0"
-KEYWORDS=""
-IUSE=""
 
 RDEPEND="${PYTHON_DEPS}
 	$(python_gen_cond_dep '

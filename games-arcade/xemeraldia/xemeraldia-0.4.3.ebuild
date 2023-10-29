@@ -10,7 +10,6 @@ SRC_URI="http://www.reloco.com.ar/xemeraldia/${P}.tar.gz"
 LICENSE="freedist"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE=""
 
 DEPEND="x11-libs/gtk+:2
 	acct-group/gamestat"

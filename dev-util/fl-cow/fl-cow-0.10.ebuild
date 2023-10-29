@@ -10,13 +10,11 @@ SRC_URI="http://www.xmailserver.org/${P}.tar.gz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE=""
 
-DEPEND=""
 RDEPEND="${DEPEND}"
 
 src_test() {
-	emake -C test
+	emake -C test # FIXME: Do this in src_compile if USE=test
 	cd test
 	./flcow-test.sh || ewarn "tests failed, probably a sandbox problem"
 }

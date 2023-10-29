@@ -12,7 +12,6 @@ SRC_URI="mirror://sourceforge/${PN}/${PN}/sources/${PN}-beta${PV}.tar.bz2"
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE=""
 
 RDEPEND="media-libs/freetype:2
 	media-libs/libsdl"
@@ -20,10 +19,6 @@ DEPEND="${RDEPEND}"
 BDEPEND=">=sys-devel/gcc-4.2"
 
 S="${WORKDIR}/${PN}-beta${PV}"
-
-#src_prepare() {
-	#eautoreconf
-#}
 
 src_compile() {
 	cmake_src_compile

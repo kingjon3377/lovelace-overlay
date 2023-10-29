@@ -12,11 +12,9 @@ SRC_URI="mirror://sourceforge/${PN}/${PN}/${PV}/${P}.tar.bz2"
 LICENSE="public-domain"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE=""
 
 RDEPEND="dev-python/pygame
 	dev-python/pyyaml"
-RDEPEND=""
 
 src_prepare() {
 	sed -i 's:KRANKPATH=`dirname $0`:KRANKPATH=/usr/share/krank:' ${PN} \

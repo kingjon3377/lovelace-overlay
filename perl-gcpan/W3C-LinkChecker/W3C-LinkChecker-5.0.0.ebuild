@@ -12,7 +12,6 @@ DESCRIPTION="The W3C Link Checker"
 LICENSE="|| ( Artistic GPL-1 GPL-2 GPL-3 )"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
 
 # TODO: Compare to list of deps in the package itself
 DEPEND="dev-perl/CGI

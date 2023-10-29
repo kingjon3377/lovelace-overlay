@@ -10,7 +10,6 @@ SRC_URI="http://www.siorarina.net/heap/gss/src/autotools/${P}.tar.gz"
 LICENSE="GPL-2+"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
 
 DEPEND="net-im/pidgin"
 RDEPEND="${DEPEND}"

@@ -7,7 +7,6 @@ inherit git-r3
 
 DESCRIPTION="Useful utils from chiark.greenend.org.uk"
 HOMEPAGE="https://www.chiark.greenend.org.uk"
-SRC_URI=""
 
 EGIT_REPO_URI="https://www.chiark.greenend.org.uk/ucgi/~ian/githttp/chiark-utils.git"
 
@@ -18,7 +17,6 @@ EGIT_REPO_URI="https://www.chiark.greenend.org.uk/ucgi/~ian/githttp/chiark-utils
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
 
 DEPEND="x11-libs/libX11
 	x11-libs/libXmu

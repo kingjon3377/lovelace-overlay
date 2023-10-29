@@ -12,9 +12,7 @@ SRC_URI="https://www.infradead.org/~rdunlap/src/${P}.tar.gz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
 
-DEPEND=""
 RDEPEND="${DEPEND}"
 
 src_compile() {

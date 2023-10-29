@@ -19,4 +19,3 @@ S="${WORKDIR}/ocaml-${P}"
 
 RDEPEND="dev-ml/cstruct:="
 DEPEND="${RDEPEND}"
-BDEPEND=""

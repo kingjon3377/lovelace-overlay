@@ -16,7 +16,6 @@ HOMEPAGE="http://www.fon.hum.uva.nl/praat/"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
 
 # TODO: README lists a lot more dependencies
 RDEPEND="x11-libs/libXmu

@@ -12,7 +12,6 @@ SRC_URI="mirror://sourceforge/${PN}/Structure%20Synth/Version%201.5%20%28Hinxton
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
 
 DEPEND="dev-qt/qtopengl:5
 	dev-qt/qtscript:5

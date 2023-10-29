@@ -10,7 +10,6 @@ SRC_URI="https://github.com/TobiX/${PN}/releases/download/${PV}/${P}.tar.gz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE=""
 
 DEPEND="x11-libs/gtk+:2
 	dev-libs/glib:2"

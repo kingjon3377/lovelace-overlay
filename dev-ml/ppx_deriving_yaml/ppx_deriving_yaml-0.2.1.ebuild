@@ -27,4 +27,3 @@ DEPEND="${RDEPEND}
 		dev-ml/ezjsonm
 	)
 	doc? ( dev-ml/odoc )"
-BDEPEND=""

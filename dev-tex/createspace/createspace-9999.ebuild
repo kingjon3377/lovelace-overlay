@@ -8,14 +8,11 @@ inherit git-r3 latex-package
 DESCRIPTION="LaTeX template for CreateSpace books"
 HOMEPAGE="https://github.com/aginiewicz/createspace"
 EGIT_REPO_URI="https://github.com/aginiewicz/createspace.git"
-SRC_URI=""
 
 LICENSE="ZLIB LPPL-1.3"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
 
-DEPEND=""
 RDEPEND="${DEPEND}
 	dev-texlive/texlive-latexrecommended"
 

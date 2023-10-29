@@ -14,7 +14,6 @@ SRC_URI="https://kojipkgs.fedoraproject.org/packages/${PN}/${PV}/32.fc33/src/${P
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE=""
 
 RDEPEND="${PYTHON_DEPS}
 	dev-games/clanlib:2.3[X,opengl,vorbis,sound]

@@ -12,13 +12,11 @@ SRC_URI="https://mirror.amdmi3.ru/distfiles/${P}.tar.gz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE=""
 
 DEPEND="media-libs/sdl-mixer
 	media-libs/sdl-image
 	media-libs/libsdl"
 RDEPEND="${DEPEND}"
-BDEPEND=""
 
 src_install() {
 	exeinto /usr/share/${PN}

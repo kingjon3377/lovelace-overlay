@@ -10,7 +10,6 @@ SRC_URI="mirror://sourceforge/${PN}/${PN}/${PV}/${P}.tar.gz"
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE=""
 
 BDEPEND="dev-lang/tcl"
 DEPEND="dev-lang/tk:="

@@ -12,9 +12,7 @@ SRC_URI="mirror://debian/pool/main/n/${PN}/${P/-/_}.orig.tar.gz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE=""
 
-DEPEND=""
 RDEPEND="${DEPEND}"
 
 src_compile() {

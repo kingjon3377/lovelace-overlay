@@ -12,7 +12,6 @@ DESCRIPTION="Convert Wiki Creole 1.0 markup to XHTML"
 LICENSE="|| ( Artistic GPL-1 GPL-2 GPL-3 )"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE=""
 
 DEPEND="dev-lang/perl:="
 RDEPEND="${DEPEND}"

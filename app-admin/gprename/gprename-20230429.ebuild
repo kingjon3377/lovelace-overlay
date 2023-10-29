@@ -12,13 +12,11 @@ SRC_URI="mirror://sourceforge/${PN}/${PN}/${PV}/${P}.zip"
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
 
 RDEPEND="dev-perl/glib-perl
 	dev-perl/Gtk3
 	dev-perl/Locale-gettext
 	dev-perl/libintl-perl"
-DEPEND=""
 BDEPEND="app-arch/unzip"
 
 #S="${WORKDIR}/${PN}"

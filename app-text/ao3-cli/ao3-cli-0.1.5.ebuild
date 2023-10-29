@@ -28,4 +28,3 @@ RDEPEND="${PYTHON_DEPS}
 	dev-python/tqdm[${PYTHON_USEDEP}]
 	>=dev-python/loguru-0.6.0[${PYTHON_USEDEP}]"
 DEPEND="${RDEPEND}"
-BDEPEND=""

@@ -10,10 +10,8 @@ SRC_URI="http://www.semistable.com/dicelab/${P}.tar.gz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE=""
 
 BDEPEND="dev-util/treecc"
-RDEPEND=""
 
 DOCS=( AUTHORS ChangeLog NEWS README docs/dicelab_manual.pdf )
 

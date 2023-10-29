@@ -11,7 +11,6 @@ SRC_URI="https://alpha.gnu.org/gnu/${PN}/${P}.tar.gz"
 LICENSE="LGPL-2.1"
 
 #IUSE="doc"
-IUSE=""
 KEYWORDS="amd64 ~x86"
 
 DEPEND="media-gfx/imagemagick

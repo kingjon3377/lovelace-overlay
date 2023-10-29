@@ -12,9 +12,7 @@ SRC_URI="http://students.ceid.upatras.gr/~sxanth/${PN}/${P}.tar.gz"
 LICENSE="Artistic"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE=""
 
-DEPEND=""
 RDEPEND="${DEPEND}"
 
 #PATCHES=( "${FILESDIR}"/${P}-flags.patch )

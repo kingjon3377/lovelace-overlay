@@ -10,7 +10,6 @@ SRC_URI="https://ibiblio.org/pub/linux/apps/reminder/${P}.tar.gz"
 LICENSE="public-domain"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE=""
 
 DEPEND="sys-libs/ncurses:0"
 RDEPEND="${DEPEND}"

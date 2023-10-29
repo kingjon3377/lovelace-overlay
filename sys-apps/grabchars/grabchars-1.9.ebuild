@@ -14,9 +14,7 @@ SRC_URI="${SRC_URI_BASE}/${P}/part01.gz -> ${P}-part01.shar.gz
 LICENSE="grabchars"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE=""
 
-RDEPEND=""
 DEPEND="${DEPEND}
 	app-arch/sharutils
 	app-shells/tcsh"

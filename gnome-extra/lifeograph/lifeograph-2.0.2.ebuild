@@ -12,7 +12,6 @@ SRC_URI="https://launchpad.net/lifeograph/trunk/${PV}/+download/${P}.tar.xz"
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
 
 RDEPEND="dev-cpp/atkmm
 	dev-cpp/cairomm

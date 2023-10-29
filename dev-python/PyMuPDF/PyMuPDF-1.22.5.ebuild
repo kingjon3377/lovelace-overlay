@@ -18,7 +18,6 @@ KEYWORDS="~amd64 ~x86"
 
 DEPEND="=app-text/mupdf-$(ver_cut 0-2)*:="
 RDEPEND="${DEPEND}"
-BDEPEND=""
 
 python_configure() {
 	export PYMUPDF_SETUP_MUPDF_BUILD= PYMUPDF_SETUP_MUPDF_TGZ= PYMUPDF_SETUP_MUPDF_THIRD=0

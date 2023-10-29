@@ -12,7 +12,6 @@ SRC_URI="https://gitlab.com/LibreGames/${PN}/-/archive/${PV}/${P}.tar.bz2"
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
 
 RDEPEND="media-libs/libsfml"
 DEPEND="${RDEPEND}

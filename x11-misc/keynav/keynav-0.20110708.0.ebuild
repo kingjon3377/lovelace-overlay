@@ -14,7 +14,6 @@ SRC_URI="https://storage.googleapis.com/google-code-archive-downloads/v2/code.go
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="amd64 ~x86"
-IUSE=""
 
 RDEPEND="
 	x11-libs/cairo[X]

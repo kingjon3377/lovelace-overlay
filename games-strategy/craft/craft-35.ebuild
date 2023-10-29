@@ -19,9 +19,6 @@ SLOT="0"
 KEYWORDS="amd64"
 IUSE="doc"
 
-DEPEND=""
-RDEPEND=""
-
 S="${WORKDIR}"
 
 src_unpack() {

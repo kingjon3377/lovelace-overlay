@@ -12,9 +12,7 @@ SRC_URI="mirror://sourceforge/opensched/experimental/${PN}.${PV}/${PN}.${PV}.tar
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE=""
 
-RDEPEND=""
 DEPEND="${DEPEND}
 	dev-texlive/texlive-latexextra
 	app-text/psutils"

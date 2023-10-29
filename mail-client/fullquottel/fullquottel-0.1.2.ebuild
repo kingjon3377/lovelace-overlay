@@ -12,7 +12,6 @@ SLOT="0"
 KEYWORDS="amd64"
 IUSE="+doc"
 
-DEPEND=""
 RDEPEND="${DEPEND}"
 
 # TODO: Convert first couple of lines to DOCS=() default_src_install

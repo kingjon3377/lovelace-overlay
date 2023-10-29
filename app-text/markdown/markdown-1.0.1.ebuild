@@ -15,7 +15,6 @@ SRC_URI="https://daringfireball.net/projects/downloads/${MY_P}.zip"
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE=""
 
 DEPEND="dev-lang/perl
 	virtual/perl-Digest-MD5"

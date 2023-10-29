@@ -10,7 +10,6 @@ SRC_URI="https://www.rkeene.org/files/oss/${PN}/release/${P}.tar.gz"
 LICENSE="|| ( LGPL-2 GPL-2 MIT )"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE=""
 
 DEPEND="app-arch/bzip2
 	dev-libs/lzo:2

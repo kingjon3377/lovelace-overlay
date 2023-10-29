@@ -10,10 +10,9 @@ inherit autotools cvs
 
 DESCRIPTION="The GNU Image-Finding Tool"
 HOMEPAGE="https://www.gnu.org/software/gift/"
-SRC_URI=""
 LICENSE="LGPL-2.1"
 
-IUSE="" #"doc"
+#IUSE="doc"
 KEYWORDS="~amd64 ~x86"
 
 DEPEND="media-gfx/imagemagick

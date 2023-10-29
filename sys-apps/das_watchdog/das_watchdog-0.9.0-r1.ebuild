@@ -13,7 +13,6 @@ SRC_URI="http://www.notam02.no/arkiv/src/${P}.tar.gz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64 x86"
-IUSE=""
 
 DEPEND="gnome-base/libgtop:2=
 		|| ( x11-base/xorg-x11 x11-apps/xmessage )

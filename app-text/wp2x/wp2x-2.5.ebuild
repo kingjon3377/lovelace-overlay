@@ -12,9 +12,7 @@ SRC_URI="ftp://ftp.penguin.cz/pub/users/mhi/wp2x/${P}-mhi.tar.bz2"
 LICENSE="freedist"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE=""
 
-DEPEND=""
 RDEPEND="${DEPEND}"
 # Tests fail for some reason
 RESTRICT="test"

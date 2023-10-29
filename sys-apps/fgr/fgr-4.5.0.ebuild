@@ -10,7 +10,5 @@ SRC_URI="mirror://sourceforge/xffm/${P}.tar.gz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE=""
 
 DEPEND=">=dev-libs/glib-2.6.0"
-RDEPEND=""

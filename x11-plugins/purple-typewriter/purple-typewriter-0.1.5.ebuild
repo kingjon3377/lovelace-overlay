@@ -12,7 +12,6 @@ SRC_URI="https://launchpad.net/pidgin-typewriter/trunk/${PV}/+download/typewrite
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
 
 DEPEND="net-im/pidgin" # TODO: what USE flags?
 RDEPEND="${DEPEND}"

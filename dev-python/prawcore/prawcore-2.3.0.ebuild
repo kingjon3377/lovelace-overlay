@@ -21,6 +21,5 @@ DEPEND="test? (
 			dev-python/testfixtures[${PYTHON_USEDEP}]
 		)"
 RDEPEND="dev-python/requests[${PYTHON_USEDEP}]"
-BDEPEND=""
 
 distutils_enable_tests pytest

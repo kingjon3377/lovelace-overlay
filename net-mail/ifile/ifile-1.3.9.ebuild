@@ -8,7 +8,6 @@ HOMEPAGE="http://qwone.com/~jason/ifile/"
 SRC_URI="mirror://debian/pool/main/${PN:0:1}/${PN}/${PN}_${PV}.orig.tar.gz"
 LICENSE="GPL-2"
 SLOT="0"
-IUSE=""
 KEYWORDS="amd64 ~x86"
 
 RESTRICT=test # "test suite" tests that 'make install' works properly ...

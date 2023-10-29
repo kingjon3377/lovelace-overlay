@@ -15,7 +15,6 @@ RESTRICT="mirror"
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
 
 DEPEND=">=dev-libs/libevent-1.4.13:=
 	>=dev-libs/libbsd-0.2.0

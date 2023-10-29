@@ -14,7 +14,6 @@ SRC_URI="https://github.com/dequis/${PN}/releases/download/v${MY_PV}/${PN}-${MY_
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE=""
 
 RDEPEND="dev-libs/json-glib
 	net-im/pidgin:="

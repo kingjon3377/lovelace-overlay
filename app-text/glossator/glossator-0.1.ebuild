@@ -10,7 +10,6 @@ SRC_URI="https://www.geocities.ws/mfp_99/gloss$(ver_rs 1- '').zip"
 LICENSE="public-domain"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
 
 RDEPEND="dev-lang/tcl
 	dev-lang/tk"

@@ -14,12 +14,9 @@ inherit git-r3 distutils-r1
 
 DESCRIPTION="website link and structure checker"
 HOMEPAGE="https://arthurdejong.org/webcheck/"
-SRC_URI=""
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS=""
-IUSE=""
 
 RDEPEND="dev-python/utidylib[${PYTHON_USEDEP}]
 	dev-python/beautifulsoup4[${PYTHON_USEDEP}]

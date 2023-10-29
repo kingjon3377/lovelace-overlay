@@ -12,7 +12,6 @@ SLOT="0"
 
 DEPEND="dev-perl/TimeDate"
 RDEPEND="${DEPEND}"
-IUSE=""
 
 S="${WORKDIR}"
 

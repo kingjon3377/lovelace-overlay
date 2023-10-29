@@ -21,7 +21,6 @@ KEYWORDS="~amd64 ~x86"
 RDEPEND="${PYTHON_DEPS}
 	$(python_gen_cond_dep 'dev-python/six[${PYTHON_USEDEP}]')"
 DEPEND="${PYTHON_DEPS}"
-BDEPEND=""
 
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 

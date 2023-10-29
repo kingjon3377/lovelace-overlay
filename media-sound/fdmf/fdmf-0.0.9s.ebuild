@@ -12,7 +12,6 @@ SRC_URI="http://w140.com/audio/${P}.tar.gz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE=""
 
 DEPEND="dev-lang/perl:=[gdbm]
 	sci-libs/fftw:3.0=

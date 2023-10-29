@@ -10,7 +10,6 @@ HOMEPAGE="http://www.dict.org"
 
 LICENSE="GPL-2"
 SLOT="0"
-IUSE=""
 KEYWORDS="amd64 ppc ppc64 sparc x86"
 
 DEPEND=">=app-text/dictd-1.5.5"

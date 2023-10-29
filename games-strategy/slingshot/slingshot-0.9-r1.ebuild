@@ -16,7 +16,6 @@ SRC_URI="https://github.com/ryanakca/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
 
 DEPEND="$(python_gen_cond_dep '
 		dev-python/pygame[${PYTHON_USEDEP}]

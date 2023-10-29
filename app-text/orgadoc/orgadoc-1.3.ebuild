@@ -10,7 +10,6 @@ SRC_URI="mirror://gnu/orgadoc/${P}.tar.gz"
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
 
 RDEPEND="dev-libs/libxml2:2
 	dev-libs/icu:=

@@ -13,9 +13,7 @@ SRC_URI="http://packages.psychotic.ninja/7/base/SRPMS/${P}-2.el7.psychotic.src.r
 LICENSE="grabchars"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE=""
 
-RDEPEND=""
 DEPEND="${RDEPEND}"
 BDEPEND="app-shells/tcsh"
 

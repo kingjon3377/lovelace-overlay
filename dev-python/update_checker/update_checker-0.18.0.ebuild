@@ -16,6 +16,5 @@ KEYWORDS="~amd64 ~x86"
 
 RDEPEND="dev-python/requests[${PYTHON_USEDEP}]"
 DEPEND="test? ( ${RDEPEND} )"
-BDEPEND=""
 
 distutils_enable_tests pytest

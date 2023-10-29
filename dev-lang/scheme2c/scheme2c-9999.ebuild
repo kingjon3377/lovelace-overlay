@@ -9,11 +9,10 @@ inherit git-r3 toolchain-funcs
 
 DESCRIPTION="The Scheme->C compiler, R4RS compliant"
 HOMEPAGE="https://salsa.debian.org/debian/scheme2c"
-SRC_URI=""
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="" #only x32 and amd64 are tested and supported
+#KEYWORDS="" #only x32 and amd64 are tested and supported
 IUSE="X +doc"
 
 DEPEND="dev-libs/libsigsegv

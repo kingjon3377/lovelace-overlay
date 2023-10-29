@@ -12,10 +12,6 @@ EGIT_REPO_URI="https://github.com/stv0g/unicode-emoji.git"
 LICENSE="Apache-2.0 CC-BY-4.0 OFL-1.1"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
-
-DEPEND=""
-RDEPEND=""
 
 # TODO: build from source-TTFs using the included generator scripts
 

@@ -11,12 +11,10 @@ inherit git-r3 distutils-r1
 
 DESCRIPTION="LaTeX wrapper and log colorizer"
 HOMEPAGE="https://github.com/olivierverdier/pydflatex"
-SRC_URI=""
 
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
 
 DEPEND="dev-python/blessed[${PYTHON_USEDEP}]"
 RDEPEND="${DEPEND}"

@@ -14,7 +14,6 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE="test"
 
-RDEPEND=""
 DEPEND="${RDEPEND}
 	test? ( dev-lang/perl )"
 

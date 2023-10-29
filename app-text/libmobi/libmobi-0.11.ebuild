@@ -16,7 +16,6 @@ KEYWORDS="~amd64"
 DEPEND="sys-libs/zlib:=
 	dev-libs/libxml2:2"
 RDEPEND="${DEPEND}"
-BDEPEND=""
 
 src_compile() {
 	emake CC=$(tc-getCC) CFLAGS="${CFLAGS}"

@@ -15,7 +15,6 @@ SRC_URI="https://people.csail.mit.edu/jrb/${PN}/${PN}-$(ver_rs 1- _)-any-dev.tar
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE=""
 
 RDEPEND="dev-libs/boehm-gc
 	dev-libs/gmp:0="

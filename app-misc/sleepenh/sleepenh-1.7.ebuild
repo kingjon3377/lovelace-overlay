@@ -12,9 +12,7 @@ SRC_URI="mirror://debian/pool/main/s/${PN}/${PN}_${PV}.orig.tar.xz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
 
-RDEPEND=""
 DEPEND="${RDEPEND}"
 BDEPEND="app-arch/xz-utils"
 

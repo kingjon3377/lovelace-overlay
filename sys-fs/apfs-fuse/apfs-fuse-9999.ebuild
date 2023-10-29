@@ -7,7 +7,6 @@ inherit git-r3 cmake
 
 DESCRIPTION="FUSE driver for Apple's APFS filesystem"
 HOMEPAGE="https://github.com/sgan81/apfs-fuse"
-SRC_URI=""
 EGIT_REPO_URI="https://github.com/sgan81/${PN}.git"
 
 LICENSE="GPL-2"
@@ -19,7 +18,6 @@ DEPEND="sys-fs/fuse:3=
 	app-arch/bzip2:=
 	sys-apps/attr"
 RDEPEND="${DEPEND}"
-BDEPEND=""
 
 src_prepare() {
 	cat >> CMakeLists.txt <<-EOF

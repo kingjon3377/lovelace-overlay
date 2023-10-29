@@ -11,9 +11,4 @@ LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64"
 
-IUSE=""
-
-COMMON_DEP=""
-
 RDEPEND="sys-libs/zlib"
-DEPEND=""

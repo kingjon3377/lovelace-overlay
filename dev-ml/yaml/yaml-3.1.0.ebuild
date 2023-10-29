@@ -30,4 +30,3 @@ DEPEND="${DEPEND}
 		dev-ml/ezjsonm
 		dev-ml/junit
 	)"
-BDEPEND=""

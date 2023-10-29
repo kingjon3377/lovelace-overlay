@@ -11,11 +11,8 @@ SRC_URI="https://ti.arc.nasa.gov/m/project/autoclass/${PN}-$(ver_rs 1- -).tar.gz
 LICENSE="freedist"
 SLOT="0"
 KEYWORDS="amd64 ~x86"
-IUSE=""
 RDEPEND="app-shells/tcsh"
 BDEPEND="app-shells/tcsh"
-
-#RDEPEND=""
 
 S=${WORKDIR}/${PN}
 

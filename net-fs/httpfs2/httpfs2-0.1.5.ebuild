@@ -10,7 +10,6 @@ SRC_URI="mirror://sourceforge/httpfs/${PN}/${P}.tar.gz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE=""
 
 RDEPEND="sys-fs/fuse:0
 	net-libs/gnutls"

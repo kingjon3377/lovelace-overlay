@@ -13,7 +13,6 @@ SRC_URI="http://www.kirkk.com/main/zip/JarAnalyzer-src-${PV}.zip"
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE=""
 
 COMMON_DEP="dev-java/ant-core:0
 	dev-java/bcel:0

@@ -7,13 +7,11 @@ inherit java-pkg-2 java-pkg-simple git-r3
 
 DESCRIPTION="Infinite Mario levels adapting to player skill"
 HOMEPAGE="https://github.com/bnoordhuis/Infinite-Adaptive-Mario"
-SRC_URI=""
 EGIT_REPO_URI="https://github.com/bnoordhuis/Infinite-Adaptive-Mario.git"
 
 LICENSE="freedist" # No license stated; a former class project of its developer ...
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
 
 BDEPEND=">=virtual/jdk-1.7"
 RDEPEND=">=virtual/jre-1.7:*"

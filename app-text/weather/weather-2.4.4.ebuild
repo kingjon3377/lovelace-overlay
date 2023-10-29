@@ -13,7 +13,6 @@ SRC_URI="https://fungi.yuggoth.org/weather/src/${P}.tar.xz"
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE=""
 
 BDEPEND="app-arch/xz-utils"
 RDEPEND="${PYTHON_DEPS}"

@@ -15,14 +15,8 @@ LICENSE="BSD"
 SLOT="0"
 KEYWORDS="~amd64"
 
-IUSE=""
-
-COMMON_DEP=""
-
-RDEPEND=">=virtual/jre-1.7
-	${COMMON_DEP}"
+RDEPEND=">=virtual/jre-1.7"
 DEPEND=">=virtual/jdk-1.7
-	app-arch/unzip
-	${COMMON_DEP}"
+	app-arch/unzip"
 
 S=${WORKDIR}

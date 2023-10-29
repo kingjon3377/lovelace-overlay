@@ -14,8 +14,6 @@ LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 
-IUSE=""
-
 RDEPEND=">=virtual/jre-1.7"
 DEPEND=">=virtual/jdk-1.7
 	app-arch/unzip

@@ -12,7 +12,6 @@ SRC_URI="http://starplot.org/downloads/${P}.tar.gz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64 ~x86"
-IUSE=""
 
 DEPEND="x11-libs/gtk+:2
 		dev-cpp/gtkmm:2.4"

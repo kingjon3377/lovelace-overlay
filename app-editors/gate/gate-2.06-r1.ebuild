@@ -12,7 +12,6 @@ SRC_URI="https://www.unixpapa.com/software/${P}.tar.gz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE=""
 
 # FIXME: Port to modern ncurses instead of -ltermcap
 DEPEND="app-text/aspell

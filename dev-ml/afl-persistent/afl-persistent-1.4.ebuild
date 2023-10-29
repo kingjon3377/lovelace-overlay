@@ -17,6 +17,4 @@ RESTRICT="!test? ( test )"
 
 S="${WORKDIR}/ocaml-${P}"
 
-DEPEND=""
 RDEPEND="${DEPEND}"
-BDEPEND=""

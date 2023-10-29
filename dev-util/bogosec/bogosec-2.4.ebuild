@@ -10,7 +10,6 @@ SRC_URI="https://launchpad.net/${PN}/trunk/${PV}/+download/${PN}_${PV}.orig.tar.
 LICENSE="EPL-1.0"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE=""
 
 DEPEND="|| ( dev-util/flawfinder dev-util/rats )"
 BDEPEND="dev-lang/perl"

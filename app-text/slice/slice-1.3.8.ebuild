@@ -12,7 +12,6 @@ SRC_URI="https://www.mirrorservice.org/sites/ftp.ossp.org/pkg/tool/${PN}/${P}.ta
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE=""
 
 DEPEND="dev-perl/Bit-Vector"
 RDEPEND="${DEPEND}"

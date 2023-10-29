@@ -10,7 +10,6 @@ SRC_URI="https://www.maplefish.com/todd/${P}.tar.gz"
 LICENSE="Artistic"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE=""
 
 BDEPEND="dev-lang/perl"
 RDEPEND="dev-lang/perl"

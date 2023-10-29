@@ -17,7 +17,6 @@ SRC_URI="mirror://sourceforge/${PN}/${PN}2/${MY_V}/gtk-wave-cleaner-${MY_VZ}.tar
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
 
 RDEPEND="media-libs/libsndfile
 	sci-libs/fftw:3.0

@@ -12,7 +12,6 @@ DESCRIPTION="(X)HTML validation in a Perl object"
 LICENSE="|| ( Artistic GPL-1 GPL-2 GPL-3 )"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE=""
 
 DEPEND="dev-lang/perl:=
 	app-text/tidyp"

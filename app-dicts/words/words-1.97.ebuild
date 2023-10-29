@@ -14,7 +14,6 @@ SRC_URI="http://archives.nd.edu/whitaker/wordsall.zip"
 LICENSE="words"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE=""
 
 RDEPEND="${ADA_DEPS}"
 DEPEND="${ADA_DEPS}"

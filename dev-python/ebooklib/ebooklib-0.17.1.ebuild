@@ -17,9 +17,7 @@ LICENSE="AGPL-3"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 
-DEPEND=""
 RDEPEND="dev-python/lxml[${PYTHON_USEDEP}]
 	dev-python/six[${PYTHON_USEDEP}]"
-BDEPEND=""
 
 S=${WORKDIR}/${MY_PN}-${PV}

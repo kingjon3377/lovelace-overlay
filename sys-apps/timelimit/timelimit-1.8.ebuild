@@ -12,9 +12,7 @@ SRC_URI="https://devel.ringlet.net/files/sys/${PN}/${P}.tar.gz"
 LICENSE="BSD-2"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE=""
 
-DEPEND=""
 RDEPEND="${DEPEND}"
 
 src_compile() {

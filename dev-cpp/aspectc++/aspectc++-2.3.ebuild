@@ -22,7 +22,6 @@ KEYWORDS="~amd64 ~x86"
 # TODO: add USE=debug, and if set pass TARGET=linux as an option to each
 # 'emake' call ... but that will probably change the location of the binaries
 # we should 'dobin'.
-IUSE=""
 
 S="${WORKDIR}/${PN}"
 

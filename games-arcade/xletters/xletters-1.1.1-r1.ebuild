@@ -10,7 +10,6 @@ SRC_URI="mirror://debian/pool/main/x/${PN}/${PN}_${PV}.orig.tar.gz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE=""
 
 # netcat is used at runtime in xletters-duel and presumably detected at
 # build-time; it is not used *in* the build.

@@ -14,7 +14,6 @@ SRC_URI="https://dlmf.nist.gov/${PN}/releases/${P}.tar.gz"
 LICENSE="public-domain"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
 
 RDEPEND="virtual/imagemagick-tools[perl]
 	dev-perl/Archive-Zip

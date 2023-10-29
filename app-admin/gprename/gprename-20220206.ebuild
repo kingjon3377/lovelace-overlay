@@ -12,15 +12,11 @@ SRC_URI="mirror://sourceforge/${PN}/${PN}/${PV}/${P}.tar.bz2"
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
 
 RDEPEND="dev-perl/glib-perl
 	dev-perl/Gtk3
 	dev-perl/Locale-gettext
 	dev-perl/libintl-perl"
-DEPEND=""
-
-#S="${WORKDIR}/${PN}"
 
 LANGS="ca de es et fr id it nl pl pt_BR pl_BR ru sv zh_CN"
 

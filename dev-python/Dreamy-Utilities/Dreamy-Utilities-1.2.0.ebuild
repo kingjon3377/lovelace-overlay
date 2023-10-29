@@ -16,7 +16,6 @@ LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64" # no ~x86 because not present in cloudscraper
 
-DEPEND=""
 RDEPEND="dev-python/Babel[${PYTHON_USEDEP}]
 	dev-python/beautifulsoup4[${PYTHON_USEDEP}]
 	dev-python/cloudscraper[${PYTHON_USEDEP}]
@@ -24,7 +23,6 @@ RDEPEND="dev-python/Babel[${PYTHON_USEDEP}]
 	dev-python/termtables[${PYTHON_USEDEP}]
 	dev-python/titlecase[${PYTHON_USEDEP}]
 	dev-python/tldextract[${PYTHON_USEDEP}]"
-BDEPEND=""
 
 S="${WORKDIR}/${P/-/ }"
 

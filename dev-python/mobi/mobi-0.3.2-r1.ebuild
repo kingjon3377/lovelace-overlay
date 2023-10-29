@@ -14,9 +14,7 @@ LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 
-DEPEND=""
 RDEPEND="dev-python/loguru[${PYTHON_USEDEP}]"
-BDEPEND=""
 
 python_prepare_all() {
 	sed -i -e 's@^\([ 	]*print\)[ 	]*\(".*\)@\1(\2)@' \

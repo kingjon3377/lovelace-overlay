@@ -27,4 +27,3 @@ RDEPEND="dev-ml/jsonm:=
 DEPEND="${RDEPEND}
 	test? ( dev-ml/alcotest )
 	"
-BDEPEND=""

@@ -8,4 +8,3 @@ KEYWORDS="amd64"
 inherit freedict
 
 DESCRIPTION="FreeDict for language translation from Latin to English"
-IUSE=""

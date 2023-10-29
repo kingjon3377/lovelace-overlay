@@ -16,7 +16,6 @@ SRC_URI="mirror://sourceforge/${PROJ}/${PROJ}/${PV}/${P}.zip"
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
 
 RDEPEND="${PYTHON_DEPS}
 	$(python_gen_cond_dep '

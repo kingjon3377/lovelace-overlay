@@ -11,11 +11,8 @@ EGIT_REPO_URI="https://github.com/JayXon/${PN}.git"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS=""
 
-DEPEND=""
 RDEPEND="${DEPEND}"
-BDEPEND=""
 
 PATCHES=( "${FILESDIR}/${P}-unset-cflags.patch" )
 

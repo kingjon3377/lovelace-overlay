@@ -12,7 +12,6 @@ DESCRIPTION="XS Interface to the OpenSP SGML/XML Parser"
 LICENSE="|| ( Artistic GPL-1 GPL-2 GPL-3 )"
 SLOT="0"
 KEYWORDS="amd64 x86"
-IUSE=""
 
 DEPEND="dev-perl/Test-Exception
 	dev-perl/Class-Accessor

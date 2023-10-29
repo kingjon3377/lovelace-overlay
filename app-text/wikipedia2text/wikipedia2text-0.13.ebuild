@@ -10,9 +10,7 @@ SRC_URI="https://github.com/chrisbra/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE=""
 
-DEPEND=""
 RDEPEND="dev-perl/URI"
 
 src_install() {

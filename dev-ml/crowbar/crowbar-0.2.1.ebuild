@@ -30,4 +30,3 @@ DEPEND="${DEPEND}
 		dev-ml/uutf
 	)
 	doc? ( dev-ml/odoc )"
-BDEPEND=""

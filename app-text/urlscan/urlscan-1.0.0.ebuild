@@ -14,11 +14,9 @@ HOMEPAGE="https://pypi.org/project/urlscan/ https://github.com/firecat53/urlscan
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
 
 DEPEND="dev-python/urwid[${PYTHON_USEDEP}]"
 RDEPEND="${DEPEND}"
-BDEPEND=""
 
 DOCS=( README.md )
 PATCHES=( "${FILESDIR}/${P}-respect-paths.patch" )

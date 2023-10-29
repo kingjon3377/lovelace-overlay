@@ -15,10 +15,6 @@ KEYWORDS="~amd64"
 IUSE="+ocamlopt test"
 RESTRICT="!test? ( test )"
 
-DEPEND=""
-RDEPEND=""
-BDEPEND=""
-
 S="${WORKDIR}/ocaml-csv-${PV}"
 
 # TODO: We should be able to run tests, and there may be more that should be installed.

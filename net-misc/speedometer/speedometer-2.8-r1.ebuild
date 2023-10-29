@@ -14,7 +14,6 @@ SRC_URI="https://excess.org/${PN}/${P}.tar.gz"
 LICENSE="LGPL-2.1"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
 
 DEPEND="dev-python/urwid[${PYTHON_USEDEP}]
 	dev-python/psutil[${PYTHON_USEDEP}]

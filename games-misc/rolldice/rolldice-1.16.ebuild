@@ -12,7 +12,6 @@ SRC_URI="https://github.com/sstrickl/rolldice/archive/v${PV}.tar.gz -> ${P}.tar.
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
 
 DEPEND="sys-libs/readline:0"
 RDEPEND="${DEPEND}"

@@ -20,7 +20,6 @@ SRC_URI="https://download.sugarlabs.org/sources/sucrose/fructose/TurtleArt/${MY_
 LICENSE="BSD-1"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
 
 DEPEND="x11-libs/gtk+:3
 	dev-libs/gobject-introspection[${PYTHON_SINGLE_USEDEP}]

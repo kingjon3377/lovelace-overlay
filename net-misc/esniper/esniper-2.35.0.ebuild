@@ -11,7 +11,6 @@ SRC_URI="mirror://sourceforge/${PN}/${MY_P}.tgz"
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE=""
 
 DEPEND="dev-libs/openssl:0
 	>=net-misc/curl-7.12[ssl]"

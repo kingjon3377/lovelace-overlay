@@ -13,9 +13,7 @@ SRC_URI="ftp://ftp.penguin.cz/pub/users/mhi/${PN}/${P}-mhi.tar.bz2
 LICENSE="freedist"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE=""
 
-RDEPEND=""
 DEPEND="${RDEPEND}"
 BDEPEND="app-arch/xz-utils"
 

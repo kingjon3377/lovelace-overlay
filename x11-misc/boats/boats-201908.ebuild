@@ -14,7 +14,6 @@ SRC_URI="mirror://sourceforge/${PN}/${PV}/${PN}_${PV}_src.tgz"
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
 
 DEPEND="media-libs/giflib
 	dev-qt/qtcore:5

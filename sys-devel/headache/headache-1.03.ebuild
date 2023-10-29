@@ -10,7 +10,6 @@ SRC_URI="http://www.normalesup.org/~simonet/soft/${PN}/${P}.tar.gz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE=""
 
 DEPEND="dev-lang/ocaml"
 BDEPEND="dev-lang/ocaml"

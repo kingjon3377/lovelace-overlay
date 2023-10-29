@@ -12,7 +12,6 @@ SRC_URI="mirror://debian/pool/main/m/${PN}/${PN}_${PV}.orig.tar.gz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE=""
 
 RDEPEND="sys-libs/db:="
 DEPEND="${RDEPEND}"

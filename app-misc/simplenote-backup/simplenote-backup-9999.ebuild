@@ -9,19 +9,16 @@ inherit python-single-r1 git-r3
 
 DESCRIPTION="Backup utility for the Simplenote Web service"
 HOMEPAGE="https://github.com/hiroshi/simplenote-backup"
-SRC_URI=""
 EGIT_REPO_URI="https://github.com/hiroshi/simplenote-backup.git"
 
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
 
 RDEPEND="${PYTHON_DEPS}
 	$(python_gen_cond_dep '
 		dev-python/simperium-python[${PYTHON_USEDEP}]
 	')"
-DEPEND=""
 
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 

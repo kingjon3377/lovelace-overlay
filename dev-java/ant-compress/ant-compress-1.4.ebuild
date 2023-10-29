@@ -15,8 +15,6 @@ LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="~amd64"
 
-IUSE=""
-
 RDEPEND=">=virtual/jre-1.7:*
 	dev-java/commons-compress:0
 	>=dev-java/ant-core-1.7.0:0"

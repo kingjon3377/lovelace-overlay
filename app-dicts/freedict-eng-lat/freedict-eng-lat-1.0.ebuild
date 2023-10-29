@@ -7,5 +7,3 @@ KEYWORDS="amd64"
 DESCRIPTION="FreeDict for language translation from English to Latin"
 
 inherit freedict
-
-IUSE=""

@@ -12,9 +12,7 @@ SRC_URI="https://www.vanheusden.com/recoverdm/${P}.tgz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE=""
 
-DEPEND=""
 RDEPEND="${DEPEND}"
 
 src_prepare() {

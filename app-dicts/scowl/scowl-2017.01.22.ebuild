@@ -10,9 +10,7 @@ SRC_URI="mirror://sourceforge/wordlist/${P}.tar.gz"
 LICENSE="public-domain Princeton"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
 
-DEPEND=""
 RDEPEND="${DEPEND}"
 
 src_compile() {

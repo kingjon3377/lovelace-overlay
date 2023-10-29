@@ -7,16 +7,13 @@ inherit git-r3 linux-mod-r1
 
 DESCRIPTION="In-kernel APFS driver"
 HOMEPAGE="https://github.com/linux-apfs/linux-apfs-rw"
-SRC_URI=""
 EGIT_REPO_URI="https://github.com/linux-apfs/linux-apfs-rw.git"
 
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64"
 
-DEPEND=""
 RDEPEND="${DEPEND}"
-BDEPEND=""
 
 DOCS=( README.rst )
 

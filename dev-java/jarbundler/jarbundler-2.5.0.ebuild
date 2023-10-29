@@ -14,7 +14,6 @@ SRC_URI="https://github.com/tofi86/Jarbundler/releases/download/v${PV}/${P}.tar.
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE=""
 
 COMMON_DEP="
 	>=dev-java/ant-core-1.7:0

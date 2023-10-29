@@ -14,7 +14,6 @@ SRC_URI="mirror://sourceforge/nice/Nice-${PV}-source.tgz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64 ~x86"
-IUSE=""
 RDEPEND=">=virtual/jre-1.7:*
 		sys-apps/groff
 		>=dev-java/javacc-3.2"

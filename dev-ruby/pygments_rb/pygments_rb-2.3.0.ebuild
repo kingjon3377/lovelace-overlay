@@ -23,7 +23,6 @@ HOMEPAGE="https://github.com/pygments/pygments.rb"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
 REQUIRED_USE+=" ${PYTHON_REQUIRED_USE}"
 
 RUBY_S="${MY_P}"

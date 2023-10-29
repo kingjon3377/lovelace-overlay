@@ -12,7 +12,6 @@ SRC_URI="http://www.catb.org/~esr/vms-empire/${P}.tar.gz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
 
 DEPEND="sys-libs/ncurses"
 RDEPEND="${DEPEND}"

@@ -14,7 +14,6 @@ SRC_URI="https://github.com/Oblomov/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
 LICENSE="freedist" # No license stated, see https://github.com/Oblomov/rcs-fast-export/issues/2
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
 
 each_ruby_prepare() {
 	sed -i -e "s@RFE_VERSION=\"git\"@RFE_VERSION=\"${PV}\"@" ${PN}.rb || die

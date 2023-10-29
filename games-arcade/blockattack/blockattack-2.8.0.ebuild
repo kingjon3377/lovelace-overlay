@@ -12,7 +12,6 @@ SRC_URI="https://github.com/${PN}/${PN}-game/archive/v${PV}.tar.gz -> ${P}.tar.g
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
 
 RDEPEND="dev-games/physfs
 	media-libs/sdl-image

@@ -14,7 +14,6 @@ SRC_URI="https://github.com/costela/${MY_PN}/archive/v${PV}.tar.gz -> ${MY_PN}-$
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE=""
 
 RDEPEND="net-im/pidgin:=
 	dev-libs/glib:2

@@ -13,10 +13,6 @@ SRC_URI="x86? ( http://www.anthemion.co.uk/${PN}/${PN}_${PV}-1_i386.deb )"
 LICENSE="eCub"
 SLOT="0"
 KEYWORDS="~x86" # no amd64 DEB or TGZ for this version
-IUSE=""
-
-DEPEND=""
-RDEPEND=""
 
 S="${WORKDIR}"
 

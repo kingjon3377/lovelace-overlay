@@ -13,10 +13,6 @@ LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 
-DEPEND=""
-RDEPEND=""
-BDEPEND=""
-
 # Tests aren't included in the PyPI tarball
 RESTRICT=test
 #distutils_enable_tests nose

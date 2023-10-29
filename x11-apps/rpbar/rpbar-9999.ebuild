@@ -7,13 +7,11 @@ inherit git-r3 toolchain-funcs
 
 DESCRIPTION="Taskbar for ratpoison window manager"
 HOMEPAGE="https://github.com/dimatura/rpbar"
-SRC_URI=""
 EGIT_REPO_URI="https://github.com/dimatura/rpbar.git"
 
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
 
 DEPEND="x11-libs/libX11
 	media-libs/fontconfig

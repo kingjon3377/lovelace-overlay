@@ -12,7 +12,6 @@ SRC_URI="mirror://debian/pool/main/u/${PN}/${P/r-/r_}.orig.tar.xz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
 
 RDEPEND="app-text/recode
 	dev-libs/gmp"

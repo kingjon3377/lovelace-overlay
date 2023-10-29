@@ -16,8 +16,6 @@ IUSE="doc +ocamlopt test"
 RESTRICT="!test? ( test )"
 
 # TODO: Deps in DEPEND should probably be BDEPEND instead?
-RDEPEND=""
-DEPEND="${DEPEND}
+DEPEND="${RDEPEND}
 	test? ( dev-ml/alcotest )
 	doc? ( dev-ml/odoc )"
-BDEPEND=""

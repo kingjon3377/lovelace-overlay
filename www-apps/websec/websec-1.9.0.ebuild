@@ -7,7 +7,6 @@ DESCRIPTION="A Web Secretary monitoring web pages for changes"
 HOMEPAGE="https://savannah.nongnu.org/projects/websec https://github.com/baruch/websec"
 SRC_URI="https://savannah.nongnu.org/download/${PN}/${P}.tar.gz"
 LICENSE="GPL-2"
-IUSE=""
 KEYWORDS="amd64 ~x86"
 SLOT="0"
 

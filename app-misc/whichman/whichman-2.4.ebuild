@@ -10,9 +10,7 @@ SRC_URI="http://linuxfocus.org/~guido/${P}.tar.gz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE=""
 
-DEPEND=""
 RDEPEND="${DEPEND}"
 
 DOCS=( README )

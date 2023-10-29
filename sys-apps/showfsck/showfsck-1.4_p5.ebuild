@@ -10,9 +10,7 @@ SRC_URI="mirror://ubuntu/pool/universe/s/showfsck/${PN}_$(ver_cut 1-2)ubuntu$(ve
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
 
-DEPEND=""
 RDEPEND="
 	sys-fs/e2fsprogs"
 BDEPEND="app-arch/xz-utils"

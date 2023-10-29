@@ -8,14 +8,11 @@ inherit git-r3 toolchain-funcs
 
 DESCRIPTION="generate similarity hashes to find nearly duplicate files"
 HOMEPAGE="http://wiki.cs.pdx.edu/forge/simhash.html"
-SRC_URI=""
 
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
 
-DEPEND=""
 RDEPEND="${DEPEND}"
 
 src_compile() {

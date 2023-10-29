@@ -12,7 +12,6 @@ SRC_URI="http://forge.ocamlcore.org/frs/download.php/1376/csv-${PV}.tar.gz"
 LICENSE="LGPL-2.1"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE=""
 
 DEPEND="dev-lang/ocaml"
 RDEPEND="${DEPEND}"

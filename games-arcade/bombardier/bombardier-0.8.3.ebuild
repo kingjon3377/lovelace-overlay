@@ -14,7 +14,6 @@ SRC_URI="mirror://debian/pool/main/b/bombardier/${P/-/_}+${NMU_VER}.tar.gz"
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE=""
 
 DEPEND="acct-group/gamestat"
 RDEPEND="${DEPEND}"

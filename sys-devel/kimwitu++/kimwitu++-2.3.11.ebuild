@@ -12,7 +12,6 @@ SLOT="0"
 KEYWORDS="amd64"
 IUSE="+doc"
 
-RDEPEND=""
 DEPEND="${RDEPEND}
 	doc? ( media-gfx/transfig
 	dev-texlive/texlive-langgerman )"

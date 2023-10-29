@@ -19,7 +19,6 @@ IUSE="doc"
 
 # TODO: Should this go in BDEPEND instead?
 DEPEND="doc? ( app-text/debiandoc-sgml[latex] )"
-RDEPEND=""
 
 S="${WORKDIR}/${PN}"
 

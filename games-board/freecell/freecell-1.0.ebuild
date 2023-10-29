@@ -10,9 +10,7 @@ SRC_URI="https://www.linusakesson.net/files/${P}.tar.gz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE=""
 
-DEPEND=""
 RDEPEND="${DEPEND}"
 
 # TODO: Isn't this basically default_src_install?

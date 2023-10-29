@@ -11,7 +11,6 @@ LICENSE="GPL-2"
 
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE=""
 
 # TODO: What other Qt modules does it require?
 # FIXME: Support building on Qt 6
