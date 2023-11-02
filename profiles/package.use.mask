@@ -1,6 +1,3 @@
 # Compilation failure apparently in doc generation
 =sci-mathematics/frama-c-20.0 doc
 
-# Depends on qtwebkit, which is now masked
-dev-util/gambas qt5
-
