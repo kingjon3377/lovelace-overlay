@@ -1,8 +1,3 @@
-# Depends on gnome-shell, which is masked in SELinux profiles, and since I
-# don't use Gnome anyway this is easier than setting up a mixin profile
-# https://trofi.github.io/posts/201-masking-a-package-in-gentoo-overlay.html
-app-misc/workrave gnome
-
 # Compilation failure apparently in doc generation
 =sci-mathematics/frama-c-20.0 doc
 
