@@ -14,6 +14,7 @@ LICENSE="freedist" # apparently---no license is given in _Unix Power Tools_
 SLOT="0"
 KEYWORDS="~amd64"
 
+RDEPEND="sys-libs/ncurses"
 DEPEND="${RDEPEND}"
 BDEPEND="app-arch/sharutils"
 
@@ -24,7 +25,10 @@ src_unpack() {
 	unshar -d "${P}" *.shar || die
 }
 
-PATCHES=( "${FILESDIR}/fix_segfaults_etc.patch" )
+PATCHES=(
+	"${FILESDIR}/fix_segfaults_etc.patch"
+	"${FILESDIR}/fix_build.patch"
+)
 
 src_prepare() {
 	sed -i -e 's@cc@$(CC)@' Makefile || die
@@ -32,7 +36,9 @@ src_prepare() {
 }
 
 src_compile() {
-	emake CC="$(tc-getCC)" CFLAGS="${CFLAGS} -DSYSV"
+	flags="${CFLAGS} -DSYSV"
+	has_version 'sys-libs/ncurses[tinfo]' && flags="${flags} -ltinfo"
+	emake CC="$(tc-getCC)" CFLAGS="${flags}"
 }
 
 src_test() {

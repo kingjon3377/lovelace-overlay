@@ -1,0 +1,184 @@
+diff -ru a/rot.c b/rot.c
+--- a/rot.c	2023-11-05 15:18:50.939251888 -0500
++++ b/rot.c	2023-11-05 15:33:10.831240368 -0500
+@@ -20,6 +20,7 @@
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <string.h>
++#include <unistd.h>
+ 
+ #ifdef SYSV
+ # include <termio.h>
+@@ -63,9 +64,12 @@
+ /* Options */
+ int packflag = 0;
+ 
+-main(ac, av)
+-int ac;
+-char **av;
++void tend();
++void tinit(char *name);
++int dropf(char *file);
++int fdropf(FILE *fp);
++
++void main(int ac, char**av)
+ {
+ 	/* set ospeed so padding works correctly */
+ #ifdef SYSV
+@@ -99,9 +103,9 @@
+ 	tend();
+ }
+ 
+-at(x, y, c)
+-int x, y;
+-char c;
++void _at(int x, int y);
++
++void at(int x, int y, char c)
+ {
+ #ifdef DEBUG
+ 	_at(x, y);
+@@ -134,8 +138,7 @@
+ 	}
+ }
+ 
+-_at(x, y)
+-int x, y;
++void _at(int x, int y)
+ {
+ 	extern int	outc();
+ 
+@@ -145,14 +148,14 @@
+ }
+ 
+ int
+-outc(c)
+-register c;
++outc(register int c)
+ {
+ 	return putc(c&0x7F, stdout);
+ }
+ 
+-tinit(name)
+-char *name;
++int min(int a, int b);
++
++void tinit(char *name)
+ {
+ 	static char junkbuf[1024], *junkptr;
+ 	char tbuf[1024];
+@@ -188,7 +191,9 @@
+ 	tglen = strlen(tgoto(cm, co-1, li-1));
+ }
+ 
+-tend()
++void outs(char* s);
++
++void tend()
+ {
+ 	outs(te);
+ 	_at(0, li-1);
+@@ -197,8 +202,7 @@
+ }
+ 
+ void
+-readscreen(fp)
+-FILE *fp;
++readscreen(FILE *fp)
+ {
+ 	int line, column, p;
+ 	char tmp[256];
+@@ -253,14 +257,16 @@
+ 		newscreen[line][column] = screen[li][column] = '*';
+ }
+ 
+-drawscreen()
++void update();
++
++void drawscreen()
+ {
+ 	lastx = lasty = 0;
+ 	outs(cl);
+ 	update();
+ }
+ 
+-update() /* copy new screen back to old screen */
++void update() /* copy new screen back to old screen */
+ {
+ 	int l, c;
+ 
+@@ -275,8 +281,7 @@
+ }
+ 
+ void
+-drop(line, column)
+-int line, column;
++drop(int line, int column)
+ {
+ 	struct _c *hold, *temp;
+ 
+@@ -309,7 +314,7 @@
+ 	}
+ }
+ 
+-drops()
++void drops()
+ {
+ 	int l, c;
+ 	struct _c *hold;
+@@ -397,8 +402,7 @@
+ 			hold=hold->c_next;
+ }
+ 
+-droplet(line, column)
+-int line, column;
++int droplet(int line, int column)
+ {
+ 	int ret;
+ 	if(line==li-1)
+@@ -420,7 +424,7 @@
+ 	return ret;
+ }
+ 
+-dropscreen()
++void dropscreen()
+ {
+ 	int column, line;
+ 	int rubbish = 0, count = 0;
+@@ -442,8 +446,7 @@
+ 	} while(rubbish);
+ }
+ 
+-dropf(file)
+-char *file;
++int dropf(char *file)
+ {
+ 	FILE *fp;
+ 
+@@ -454,8 +457,7 @@
+ 	fdropf(fp);
+ }
+ 
+-fdropf(fp)
+-FILE *fp;
++int fdropf(FILE *fp)
+ {
+ 	int i;
+ 
+@@ -469,14 +471,12 @@
+ 	}
+ }
+ 
+-outs(s)
+-char *s;
++void outs(char* s)
+ {
+ 	fputs(s, stdout);
+ }
+ 
+-min(a, b)
+-int a, b;
++int min(int a, int b)
+ {
+ 	if(a<b) return a;
+ 	return b;
