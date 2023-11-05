@@ -1,5 +1,5 @@
---- a/oleo-1.99.16/po/oleo.pot
-+++ b/oleo-1.99.16/po/oleo.pot
+--- a/po/oleo.pot
++++ b/po/oleo.pot
 @@ -6,27 +6,29 @@
  msgid ""
  msgstr ""
@@ -129,8 +129,8 @@
 +#, c-format
  msgid "XmProcessTraversal failed\n"
  msgstr ""
---- a/oleo-1.99.16/src/io-utils.c
-+++ b/oleo-1.99.16/src/io-utils.c
+--- a/src/io-utils.c
++++ b/src/io-utils.c
 @@ -71,7 +71,7 @@
  
  double __plinf;
@@ -149,8 +149,8 @@
  }
  
  
---- a/oleo-1.99.16/src/ref.c
-+++ b/oleo-1.99.16/src/ref.c
+--- a/src/ref.c
++++ b/src/ref.c
 @@ -263,7 +263,7 @@
  read_new_value (CELLREF row, CELLREF col, char *form, char *val)
  {
@@ -169,8 +169,8 @@
  	    }
  	  else
  	    {
---- a/oleo-1.99.16/src/io-x11.c
-+++ b/oleo-1.99.16/src/io-x11.c
+--- a/src/io-x11.c
++++ b/src/io-x11.c
 @@ -34,7 +34,7 @@
  #include <stdio.h>
  #include <ctype.h>
@@ -180,8 +180,8 @@
  #include <X11/X.h>
  #include <X11/Xlib.h>
  #include <X11/Xutil.h>
---- a/oleo-1.99.16/src/plotter.c
-+++ b/oleo-1.99.16/src/plotter.c
+--- a/src/plotter.c
++++ b/src/plotter.c
 @@ -2639,8 +2639,6 @@
  	case SP_PLOT_PIE:
  		sp_pie_plot_point(mg, point);
@@ -209,8 +209,8 @@
  	}
  }
  
---- a/oleo-1.99.16/src/io-term.c
-+++ b/oleo-1.99.16/src/io-term.c
+--- a/src/io-term.c
++++ b/src/io-term.c
 @@ -234,7 +234,7 @@
  
  		if (Preferences[i].copynext) {
@@ -238,8 +238,8 @@
              printf(_("%s comes with ABSOLUTELY NO WARRANTY.\n"), GNU_PACKAGE);
              printf(_("You may redistribute copies of %s\n"), PACKAGE);
              printf(_("under the terms of the GNU General Public License.\n"));
---- a/oleo-1.99.16/src/io-term.h
-+++ b/oleo-1.99.16/src/io-term.h
+--- a/src/io-term.h
++++ b/src/io-term.h
 @@ -44,8 +44,6 @@
  extern int default_lock;
  
@@ -249,8 +249,8 @@
  /* When printing ascii output, this controls page width. */
  extern int modified;
  
---- a/oleo-1.99.16/src/global.h
-+++ b/oleo-1.99.16/src/global.h
+--- a/src/global.h
++++ b/src/global.h
 @@ -208,7 +208,7 @@
  extern char nname[];
  
@@ -269,8 +269,8 @@
  extern const char oleo_version_string[];
  
  extern double astof (char **);
---- a/oleo-1.99.16/src/eval.c
-+++ b/oleo-1.99.16/src/eval.c
+--- a/src/eval.c
++++ b/src/eval.c
 @@ -565,7 +565,7 @@
  	case CONST_NINF:
  	case CONST_NAN:
@@ -280,8 +280,8 @@
  	  break;
  
  	case VAR:
---- a/oleo-1.99.16/src/posixtm.y
-+++ b/oleo-1.99.16/src/posixtm.y
+--- a/src/posixtm.y
++++ b/src/posixtm.y
 @@ -85,6 +85,7 @@
  		   YYABORT;
  		 }
@@ -290,8 +290,8 @@
  
  year : digitpair {
                     t.tm_year = $1;
---- a/oleo-1.99.16/src/sysdef.h
-+++ b/oleo-1.99.16/src/sysdef.h
+--- a/src/sysdef.h
++++ b/src/sysdef.h
 @@ -119,8 +119,6 @@
  
  #endif /* !defined(__STDC__) */
@@ -301,8 +301,8 @@
  #ifndef RETSIGTYPE
  #define RETSIGTYPE void
  #endif /* RETSIGTYPE */
---- a/oleo-1.99.16/src/basic.h
-+++ b/oleo-1.99.16/src/basic.h
+--- a/src/basic.h
++++ b/src/basic.h
 @@ -36,9 +36,6 @@
  
  extern const int colmagic[9];
@@ -313,8 +313,8 @@
  
  extern int run_load_hooks;
  
---- a/oleo-1.99.16/src/xrdb.c
-+++ b/oleo-1.99.16/src/xrdb.c
+--- a/src/xrdb.c
++++ b/src/xrdb.c
 @@ -57,7 +57,7 @@
  /* This should be included before the X include files; otherwise, we get
     warnings about redefining NULL under BSD 4.3.  */
