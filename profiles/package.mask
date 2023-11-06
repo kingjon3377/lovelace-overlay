@@ -50,3 +50,6 @@ media-sound/gwc
 # Fails to build with dev-lang/ocaml versions currently in the tree (safe-string compatibility)
 =app-text/csvtool-1.3.3
 
+# Fails to fetch
+=app-text/writer2latex-1.6
+
