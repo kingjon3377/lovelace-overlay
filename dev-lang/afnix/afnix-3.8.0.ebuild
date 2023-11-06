@@ -28,6 +28,8 @@ S="${WORKDIR}/${PN}-src-${PV}"
 # A test fails, in a way that looks like a problem with my local computer configuration
 #RESTRICT=test
 
+PATCHES=( "${FILESDIR}/${P}-gcc-13.patch" )
+
 src_prepare() {
 	mv "${WORKDIR}/debian" "${S}/debian" || die
 	for file in $(cat debian/patches/series);do
@@ -35,6 +37,9 @@ src_prepare() {
 	done
 	if ! has_version 'sys-libs/ncurses:0[tinfo]'; then
 		sed -i -e 's@-ltinfo@-lncurses@' cnf/mak/afnix-libs.mak || die
+	fi
+	if has_version '>=sys-devel/gcc-13';then
+		cp cnf/mak/${PN}-gc12.mak cnf/mak/${PN}-gc13.mak || die
 	fi
 	default
 }

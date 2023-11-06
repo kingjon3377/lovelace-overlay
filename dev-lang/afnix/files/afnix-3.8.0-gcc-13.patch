@@ -1,0 +1,19 @@
+diff -ru a/cnf/bin/afnix-vcomp b/cnf/bin/afnix-vcomp
+--- a/cnf/bin/afnix-vcomp	2023-01-13 17:44:45.000000000 -0500
++++ b/cnf/bin/afnix-vcomp	2023-11-06 18:01:07.073963897 -0500
+@@ -118,6 +118,7 @@
+        10*) ccvers=10 ;;
+        11*) ccvers=11 ;;
+        12*) ccvers=12 ;;
++       13*) ccvers=13 ;;
+ 	esac
+     fi
+     # check for g++ version
+@@ -132,6 +133,7 @@
+        10*) ccvers=10 ;;
+        11*) ccvers=11 ;;
+        12*) ccvers=12 ;;
++       13*) ccvers=13 ;;
+ 	esac
+     fi
+     # check for clang version
