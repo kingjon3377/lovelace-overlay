@@ -58,6 +58,7 @@ PATCHES=(
 	"${FILESDIR}/09_shadowed.patch"
 	"${FILESDIR}/10_friend_default.patch"
 	"${FILESDIR}/11_glibc_2_32.patch"
+	"${FILESDIR}/12_pointer_comparison.patch"
 )
 
 src_prepare() {

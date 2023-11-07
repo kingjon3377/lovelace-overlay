@@ -1,0 +1,86 @@
+diff -ru a/src/MSGUI/MSGraphUI.C b/src/MSGUI/MSGraphUI.C
+--- a/src/MSGUI/MSGraphUI.C	2008-03-27 15:09:56.000000000 -0400
++++ b/src/MSGUI/MSGraphUI.C	2023-11-06 19:04:58.958912559 -0500
+@@ -1493,7 +1493,7 @@
+       {
+         xs=trace->xAxis();
+         ys=trace->yAxis();
+-        if(trace->style()!=MSG::Text&&trace->dataCount()>1&&trace->legend()>0)
++        if(trace->style()!=MSG::Text&&trace->dataCount()>1&&trace->legend())
+          {
+            if (setX==MSFalse) 
+             {
+--- a/src/MSTypes/MSBinaryMatrix.C	2008-03-27 15:10:27.000000000 -0400
++++ b/src/MSTypes/MSBinaryMatrix.C	2023-11-06 19:21:31.465899262 -0500
+@@ -832,7 +832,7 @@
+      unsigned char *dp=d->elements();
+      unsigned char *mp=aBinaryMatrix_.data();
+      unsigned char *row=aBinaryMatrix_.data()+aBinaryMatrix_.columns();
+-     if (mp>0)
++     if (mp)
+       {
+ 	do
+ 	 {
+@@ -842,7 +842,7 @@
+       }
+      mp=bBinaryMatrix_.data();
+      row=bBinaryMatrix_.data()+bBinaryMatrix_.columns();
+-     if (mp>0)
++     if (mp)
+       {
+ 	do
+ 	 {
+@@ -869,7 +869,7 @@
+      unsigned char *dp=d->elements();
+      unsigned char *mp=data();
+      unsigned char *row=data()+columns();
+-     if (mp>0)
++     if (mp)
+       {
+ 	do
+ 	 {
+@@ -879,7 +879,7 @@
+       }
+      mp=aBinaryMatrix_.data();
+      row=aBinaryMatrix_.data()+aBinaryMatrix_.columns();
+-     if (mp>0)
++     if (mp)
+       {
+         do
+          {
+@@ -917,7 +917,7 @@
+      unsigned char *dp=d->elements();
+      unsigned char *mp=aBinaryMatrix_.data();
+      unsigned char *row=aBinaryMatrix_.data()+aBinaryMatrix_.columns();
+-     if (mp>0)
++     if (mp)
+       {
+ 	do 
+ 	 {
+@@ -929,7 +929,7 @@
+      dp=d->elements()+aBinaryMatrix_.columns();
+      mp=bBinaryMatrix_.data();
+      row=bBinaryMatrix_.data()+bBinaryMatrix_.columns();
+-     if (mp>0)
++     if (mp)
+       {
+ 	do
+ 	 {
+@@ -957,7 +957,7 @@
+      unsigned char *dp=d->elements();
+      unsigned char *mp=data();
+      unsigned char *row=data()+columns();
+-     if (mp>0)
++     if (mp)
+       {
+ 	do 
+ 	 {
+@@ -969,7 +969,7 @@
+      dp=d->elements()+columns();
+      mp=aBinaryMatrix_.data();
+      row=aBinaryMatrix_.data()+aBinaryMatrix_.columns();
+-     if (mp>0)
++     if (mp)
+       {
+ 	do
+ 	 {
