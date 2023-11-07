@@ -20,16 +20,10 @@ KEYWORDS="amd64 arm ~mips ppc ppc64 sparc x86"
 DEPEND="=app-text/docbook-xml-dtd-4.1.2*
 	app-text/xmlto"
 
-PATCHES=(
-	"${FILESDIR}/${P}-gcc10.patch"
-	"${FILESDIR}/drop-distutils.patch"
-	"${FILESDIR}/${P}-fix-tests.patch"
-)
-
 src_prepare() {
 	default
-	cp "${FILESDIR}/setup.cfg" "${FILESDIR}/pyproject.toml" . || die
-	sed -e '/python setup.py install/d' -i Makefile || die "sed failed"
+	cp -n "${FILESDIR}/setup.cfg" "${FILESDIR}/pyproject.toml" . || die
+	sed -e '/python3 setup.py install/d' -i Makefile || die "sed failed"
 }
 
 src_test() {
