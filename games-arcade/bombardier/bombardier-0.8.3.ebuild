@@ -1,4 +1,4 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -22,10 +22,17 @@ S="${WORKDIR}/${P}+${NMU_VER}"
 
 src_prepare() {
 	sed -i -e 's:/usr/games:/usr/bin:' Makefile || die "sed failed"
+	default
 }
 
 src_compile() {
-	emake CC=$(tc-getCC) CFLAGS="${CFLAGS}" LDFLAGS="-lncurses ${LDFLAGS}" all
+	local link_flags
+	if has_version 'sys-libs/ncurses[tinfo]'; then
+		link_flags="-lncurses -ltinfo"
+	else
+		link_flags="-lncurses"
+	fi
+	emake CC=$(tc-getCC) CFLAGS="${CFLAGS}" LDFLAGS="${link_flags} ${LDFLAGS}" all
 }
 
 src_install() {
