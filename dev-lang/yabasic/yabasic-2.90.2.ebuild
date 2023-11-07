@@ -34,7 +34,7 @@ src_configure() {
 	default
 	# marcIhm/yabasic#47
 	if has_version 'sys-libs/ncurses[tinfo]'; then
-		sed -i -e 's@-lcurses@& -ltinfo@' Makefile || die
+		sed -i -e 's@-lncurses@& -ltinfo@' Makefile || die
 	fi
 }
 
