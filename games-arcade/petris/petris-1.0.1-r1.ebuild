@@ -11,7 +11,7 @@ SRC_URI="mirror://debian/pool/main/p/petris/${PN}_${PV}.orig.tar.gz"
 
 LICENSE="public-domain"
 SLOT="0"
-KEYWORDS="~amd64"
+KEYWORDS="amd64"
 
 DEPEND="sys-libs/ncurses:0
 	dev-libs/boost
