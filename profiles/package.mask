@@ -52,4 +52,5 @@ media-sound/gwc
 
 # Fails to fetch
 =app-text/writer2latex-1.6
+=dev-tex/latex-make-2.4.0
 
