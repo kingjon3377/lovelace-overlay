@@ -21,7 +21,7 @@ BDEPEND="doc? ( app-text/ghostscript-gpl )"
 RDEPEND="${DEPEND}"
 
 PATCHES=(
-	"${FILESDIR}/0001-doc-pdflatex.patch" "${FILESDIR}/0002-drop-gcc-arch-native-opt.patch"
+	"${FILESDIR}/0001-doc-pdflatex.patch"
 )
 
 # FIXME: Convert to real multilib
