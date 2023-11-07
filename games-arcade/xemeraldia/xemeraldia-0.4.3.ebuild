@@ -18,6 +18,7 @@ RDEPEND="${DEPEND}"
 src_prepare() {
 	sed -i -e 's:GTK_WIDGET_FLAGS(widget) & GTK_NO_WINDOW:!(gtk_widget_get_has_window(widget)):' \
 		graphics.c || die "sed failed"
+	default
 }
 
 src_install() {
