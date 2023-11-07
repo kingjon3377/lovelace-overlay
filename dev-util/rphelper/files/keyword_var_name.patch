@@ -1,0 +1,16 @@
+diff -ru a/rphelper/abxmldoc/MutableABElement.java b/rphelper/abxmldoc/MutableABElement.java
+--- a/rphelper/abxmldoc/MutableABElement.java	2023-11-06 23:04:24.165720100 -0500
++++ b/rphelper/abxmldoc/MutableABElement.java	2023-11-06 23:05:51.699718927 -0500
+@@ -264,10 +264,10 @@
+ 			return null;
+ 		int size = attributes.size();
+ 		String [][] atts = new String [size][2];
+-		Enumeration enum = attributes.keys();
++		Enumeration enumer = attributes.keys();
+ 		for( int i=0; i<size; i++ )
+ 		{
+-			atts[i][0] = (String)enum.nextElement();
++			atts[i][0] = (String)enumer.nextElement();
+ 			atts[i][1] = (String)attributes.get( atts[i][0] );
+ 		}
+ 		return atts;

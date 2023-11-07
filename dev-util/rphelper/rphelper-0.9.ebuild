@@ -19,6 +19,10 @@ RDEPEND=">=virtual/jre-1.7:*"
 
 S="${WORKDIR}"
 
+PATCHES=(
+	"${FILESDIR}/keyword_var_name.patch"
+)
+
 src_prepare() {
 	default
 	sed -i -e 's@src\.@rphelper.@' ${PN}/abxmldoc/*.java || die
