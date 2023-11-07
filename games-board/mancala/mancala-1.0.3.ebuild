@@ -29,6 +29,6 @@ src_compile() {
 
 src_install() {
 	dobin mancala xmancala mancala-text
-	dodoc README RULES mancala-1.0.1.lsm NEWS ChangeLog
+	dodoc README RULES ${P}.lsm NEWS ChangeLog
 	doman "${FILESDIR}/mancala.6"
 }
