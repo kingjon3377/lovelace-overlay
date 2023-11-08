@@ -18,6 +18,7 @@ DEPEND="virtual/opengl
 		media-libs/libsdl
 		media-libs/sdl-mixer
 		media-libs/sdl-ttf
+		media-libs/sdl-net
 		media-libs/sdl-image"
 RDEPEND="${DEPEND}"
 
