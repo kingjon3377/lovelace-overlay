@@ -3,7 +3,7 @@
 
 EAPI=7
 
-# TODO: Should probably use python-r1 related eclass
+# FIXME: Should probably use python-r1 related eclass
 
 DESCRIPTION="is a game of dexterity where you match stones together"
 HOMEPAGE="https://krank.sourceforge.net/"
@@ -19,6 +19,7 @@ RDEPEND="dev-python/pygame
 src_prepare() {
 	sed -i 's:KRANKPATH=`dirname $0`:KRANKPATH=/usr/share/krank:' ${PN} \
 		|| die "sed failed"
+	default
 }
 
 src_install() {
