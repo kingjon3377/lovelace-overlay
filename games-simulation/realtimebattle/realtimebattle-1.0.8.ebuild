@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit desktop edos2unix
+inherit desktop edos2unix toolchain-funcs
 
 MY_P1E="RealTimeBattle-${PV}-Ext"
 MY_P1S="RealTimeBattle-${PV}-Std"
@@ -41,23 +41,23 @@ src_prepare() {
 }
 
 src_configure() {
-	econf $(use_enable debug) $(use nls || echo "--disable-nls")
+	econf $(use_enable debug) $(use nls || echo "--disable-nls") \
+		--with-rtb-dir=/usr/share/${PN}
+}
+
+src_compile() {
+	emake CXX="$(tc-getCXX)" CXXFLAGS="-std=gnu++98 ${CXXFLAGS}"
 }
 
 src_install(){
 	# TODO: fix the makefile to make all this unnecessary
-	dodir /usr/share/games /usr/games/bin
-	dosym "../share/games" /usr/bin
-	dosym "../../share/games/RealTimeBattle" /usr/games/RealTimeBattle
 	dodir /usr/share/doc/${PF}
 	dosym ../../../share/doc/${PF} \
 		"/usr/share/games/RealTimeBattle/Documentation"
 	emake DESTDIR="${D}" install
-	rm -f "${D}/usr/bin"
 	rm -f "${D}/usr/share/games/RealTimeBattle/Documentation"
 	use doc || rm -Rf "${D}/usr/share/doc/${PF}"
-	rm -f "${D}/usr/games/RealTimeBattle"
 	rm "${D}//usr/share/locale/locale.alias"
-	make_desktop_entry "${GAMES_BINDIR}/${PN}" RealTimeBattle ${PN}.xpm "Games/Simulation"
+	make_desktop_entry "/usr/bin/${PN}" RealTimeBattle ${PN}.xpm "Games/Simulation"
 	doman "${FILESDIR}/${PN}.6"
 }
