@@ -54,3 +54,6 @@ media-sound/gwc
 =app-text/writer2latex-1.6
 =dev-tex/latex-make-2.4.0
 
+# Fails to build; later version builds without issue.
+=games-strategy/vms-empire-1.15
+
