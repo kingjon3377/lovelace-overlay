@@ -5,7 +5,7 @@ EAPI=7
 
 LUA_COMPAT=( lua5-{1..4} )
 
-inherit lua-single
+inherit lua-single toolchain-funcs
 
 DESCRIPTION="Rearrange dominoes to cause a chain reaction"
 HOMEPAGE="https://domino-chain.gitlab.io/"
@@ -39,6 +39,10 @@ BDEPEND="sys-devel/gettext
 S="${WORKDIR}/${PN}.gitlab.io-${PV}"
 
 RESTRICT="test" # TODO: ask upstream how to get them to pass
+
+src_compile() {
+	emake CXX="$(tc-getCXX)" CXXFLAGS="${CXXFLAGS}"
+}
 
 src_test() {
 	mkdir -p "${T}/.local/share/${PN}/" || die
