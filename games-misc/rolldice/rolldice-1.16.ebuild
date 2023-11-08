@@ -17,6 +17,7 @@ DEPEND="sys-libs/readline:0"
 RDEPEND="${DEPEND}"
 
 src_prepare() {
+	default
 	sed -i -e "s:/usr/games$:/usr/bin:" Makefile || die
 }
 
