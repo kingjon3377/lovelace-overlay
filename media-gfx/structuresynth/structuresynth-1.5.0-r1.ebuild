@@ -27,6 +27,7 @@ PATCHES=(
 	"${FILESDIR}/${P}-qt5-part1.patch"
 	"${FILESDIR}/${P}-qt5-part2.patch"
 	"${FILESDIR}/${P}-type-punning.patch"
+	"${FILESDIR}/${P}-climits.patch"
 )
 
 src_prepare() {
@@ -42,7 +43,7 @@ src_configure() {
 src_install() {
 	dobin ${PN}
 	docinto examples
-	dodoc Examples/*
+	dodoc Examples/*.*
 	docinto examples/tutorials
 	dodoc Examples/Tutorials/*
 	insinto /usr/share/${PN}
