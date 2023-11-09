@@ -1,0 +1,65 @@
+diff -ru a/Makefile b/Makefile
+--- a/Makefile	2023-11-09 08:30:04.650950279 -0500
++++ b/Makefile	2023-11-09 09:43:18.996891406 -0500
+@@ -14,33 +14,23 @@
+ DEBUG=-g
+ 
+ #### DON'T CHANGE ANYTHING BELOW ####
+-CFLAGS=-Wall $(OPTIMIZE) $(DEBUG)
++CFLAGS=-Wall $(OPTIMIZE) $(DEBUG) -fcommon # use "-fcommon" for this bug https://stackoverflow.com/questions/69908418/multiple-definition-of-first-defined-here-on-gcc-10-2-1-but-not-gcc-8-3-0
+ LIBS=-lm
+ CC=gcc -DLOCALEDIR="\"$(LOCALEDIR)\"" -DPACKAGE="\"$(PACKAGE)\""
+ 
++DEPS=mls.h mls_mime.h mls_text.h mls_list.h mls_stat.h
+ OBJS=mls.o mls_mime.o mls_text.o mls_list.o mls_stat.o
+ 
+ all: mailliststat
+ 	make -C po/ all
+ 	make -C man/ all
+ 
+-$(PACKAGE): $(OBJS) Makefile
+-	$(CC) $(CFLAGS) $(OBJS) -o $(PACKAGE)
++$(PACKAGE): $(OBJS)
++	$(CC) -o $@ $^ $(CFLAGS)
+ 
+-mls.o: mls.c mls.h Makefile
+-	$(CC) $(CFLAGS) -c mls.c -o mls.o
+-
+-mls_mime.o: mls_mime.c mls_mime.h Makefile
+-	$(CC) $(CFLAGS) -c mls_mime.c -o mls_mime.o
+-
+-mls_list.o: mls_list.c mls_list.h Makefile
+-	$(CC) $(CFLAGS) -c mls_list.c -o mls_list.o
+-
+-mls_stat.o: mls_stat.c mls_stat.h Makefile
+-	$(CC) $(CFLAGS) -c mls_stat.c -o mls_stat.o
+-
+-mls_text.o: mls_text.c mls_text.h Makefile
+-	$(CC) $(CFLAGS) -c mls_text.c -o mls_text.o
++# https://www.cs.colby.edu/maxwell/courses/tutorials/maketutor/
++%.o: %.c $(DEPS)
++	$(CC) -c -o $@ $< $(CFLAGS)
+ 
+ install: $(PACKAGE)
+ 	test -d $(DESTDIR)/bin || install -d -m 755 $(DESTDIR)/bin
+diff -ru a/mls_text.h b/mls_text.h
+--- a/mls_text.h	2023-11-09 08:30:04.656950279 -0500
++++ b/mls_text.h	2023-11-09 09:44:13.888890670 -0500
+@@ -20,6 +20,7 @@
+ 
+ #ifndef	_MLS_TEXT_H
+ #define	_MLS_TEXT_H	1
++#define SNUMB_LEN       4
+ 
+ /* ********************************************* FUNCTION DECLARATIONS *** */
+ long GetCount(nTptr);
+@@ -31,8 +32,7 @@
+ void PrintTopQ(nTptr, int);
+ void PrintTopHtml(nTptr, int);
+ void PrintGraph(long[], int, int);
+-//Removed to allow building with GCC 4 - SDT 2005-07-31
+-//void PrintGraphHtml(long[], long[][], int, char *);
++void PrintGraphHtml(long[], long[][SNUMB_LEN], int, char *);
+ 
+ void PrintStatText(int, char *);
+ void PrintStatHtml(int, char *, short);

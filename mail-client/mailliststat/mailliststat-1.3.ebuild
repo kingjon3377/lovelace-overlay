@@ -13,7 +13,10 @@ LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64"
 IUSE="nls"
-L10N="de es fr it pt-BR sk sr"
+MY_LANGS="de es fr it pt-BR sk sr"
+for lang in ${MY_LANGS};do
+	IUSE+=" l10n_${lang}"
+done
 
 DEPEND="${RDEPEND}
 	nls? ( app-text/po4a )"
@@ -31,6 +34,7 @@ PATCHES=(
 	"${FILESDIR}/50_iconv.patch"
 	"${FILESDIR}/60_lowercase-email.patch"
 	"${FILESDIR}/70_nostrip.patch"
+	"${FILESDIR}/331ca768a3a6f783302e5ac2db8f063eb6c0f973.patch"
 )
 
 src_prepare() {
@@ -51,10 +55,10 @@ src_prepare() {
 
 src_compile() {
 	if use nls; then
-		emake USER_CC=$(tc-getCC) CFLAGS="${CFLAGS}" LOCALEDIR=/usr/share/locale
+		emake USER_CC=$(tc-getCC) CFLAGS="${CFLAGS} -fcommon" LOCALEDIR=/usr/share/locale
 	else
-		emake USER_CC=$(tc-getCC) CFLAGS="${CFLAGS}" LOCALEDIR=/usr/share/locale ${PN}
-		emake -C po USER_CC=$(tc-getCC) CFLAGS="${CFLAGS}" LOCALEDIR=/usr/share/locale
+		emake USER_CC=$(tc-getCC) CFLAGS="${CFLAGS} -fcommon" LOCALEDIR=/usr/share/locale ${PN}
+		emake -C po USER_CC=$(tc-getCC) CFLAGS="${CFLAGS} -fcommon" LOCALEDIR=/usr/share/locale
 	fi
 }
 
