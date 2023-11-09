@@ -14,7 +14,7 @@ KEYWORDS="~amd64 ~x86"
 src_compile() {
 	sed -i Makefile \
 		-e "s/CC=gcc/#CC=gcc/g" \
-		-e "s/CFLAGS= -O3 -ansi -DNXT/CFLAGS+= -ansi -DNXT/g"
+		-e "s/CFLAGS= -O3 -ansi -DNXT/CFLAGS+= -ansi -DNXT -fcommon/g"
 	default
 }
 
