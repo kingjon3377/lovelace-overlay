@@ -58,6 +58,10 @@ RDEPEND="${DEPEND}
 	!sci-biology/glimmer
 "
 
+PATCHES=(
+	"${FILESDIR}/7a6166a6e8ca42c72a920d3ba744670316a9aa01.patch"
+)
+
 src_prepare() {
 	default
 
