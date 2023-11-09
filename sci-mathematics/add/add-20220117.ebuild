@@ -7,7 +7,7 @@ inherit autotools
 
 DESCRIPTION="fixed-point calculator operating as a full-screen editor (tapecalc in Debian)"
 HOMEPAGE="https://invisible-island.net/add/add.html"
-SRC_URI="ftp://ftp.invisible-island.net/${PN}/${P}.tgz"
+SRC_URI="https://invisible-island.net/archives/${PN}/${P}.tgz"
 
 LICENSE="MIT"
 SLOT="0"
