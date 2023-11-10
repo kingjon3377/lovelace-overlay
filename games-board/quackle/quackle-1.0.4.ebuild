@@ -37,9 +37,6 @@ src_prepare() {
 	sed -is "s?\"data\"?\"/${EPREFIX}/usr/${PN}\"?" quackletest.cpp quacker/settings.cpp || die
 	sed -is "s?../data?${EPREIX}/usr/${PN}?" quacker/settings.cpp encodeleaves/encodeleaves.cpp \
 		makeminidawg/makeminidawgmain.cpp || die
-	# fix qmake failure
-	sed -i -e 's@:!win32-msvc2013@@' test/test.pro gaddagize/gaddagize.pro makegaddag/makegaddag.pro \
-		makeminidawg/makeminidawg.pro || die
 }
 
 src_configure() {
