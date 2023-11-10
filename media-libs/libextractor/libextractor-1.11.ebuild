@@ -65,11 +65,6 @@ PATCHES=(
 src_prepare() {
 	default
 
-	# m4/ax_create_pkgconfig_info.m4 is passing environment LDFLAGS to Libs:
-	sed -i \
-		-e '/^ax_create_pkgconfig_ldflags=/s:$LDFLAGS ::' \
-		configure src/plugins/html_extractor.c || die
-
 	if ! use tidy; then
 		sed -i -e 's:tidy.h:dIsAbLe&:' configure || die
 	fi
