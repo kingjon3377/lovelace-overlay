@@ -57,3 +57,6 @@ media-sound/gwc
 # Fails to build; later version builds without issue.
 =games-strategy/vms-empire-1.15
 
+# Fails to build, dead upstream. Masked for removal
+=sci-misc/tcm-2.20
+
