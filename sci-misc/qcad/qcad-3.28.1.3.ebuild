@@ -54,7 +54,6 @@ src_prepare() {
 		cp "src/3rdparty/${fname}-${same_slot_version}/${fname}-${same_slot_version}.pro" \
 			"src/3rdparty/${fname}-${qt_version}/${fname}-${qt_version}.pro" || die
 	fi
-	sed -i -e "s@'\\\$\$ORIGIN'@'\\\$ORIGIN'@" shared.pri || die
 	default
 }
 
