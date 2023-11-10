@@ -17,8 +17,7 @@ RDEPEND="sys-libs/zlib"
 DEPEND="${RDEPEND}"
 
 src_prepare() {
-	sed -i -e 's:\(^CFLAGS.*$\):\1 -lz:' \
-		-e 's/	cc /	$(CC) $(CFLAGS) /' Makefile || die "sed failed"
+	sed -i -e 's/	cc /	$(CC) $(CFLAGS) /' Makefile || die "sed failed"
 	default
 }
 

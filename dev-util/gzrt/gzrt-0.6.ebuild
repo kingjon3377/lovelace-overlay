@@ -14,11 +14,6 @@ KEYWORDS="amd64 x86"
 RDEPEND="sys-libs/zlib"
 DEPEND="${RDEPEND}"
 
-src_prepare() {
-	sed -i -e 's:\(^CFLAGS.*$\):\1 -lz:' Makefile || die "sed failed"
-	default
-}
-
 src_compile() {
 	emake
 }
