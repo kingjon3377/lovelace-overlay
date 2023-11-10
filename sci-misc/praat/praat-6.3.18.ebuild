@@ -45,10 +45,7 @@ src_prepare() {
 	cp "${S}/makefiles/makefile.defs.linux.alsa" "${S}/makefile.defs"
 	sed -i \
 		-e 's:^AR = ar:AR = $(USER_AR):' \
-		-e '/^CFLAGS/s/ -O[0-9] / /' \
-		-e '/^CFLAGS/s/ -g\([0-9]\|\) / /' \
 		"${S}/makefile.defs" || die
-	sed -i -e 's@xvfb-run -a @@' -e 's@xvfb-run @@' "${WORKDIR}/debian/tests/run-tests" || die
 }
 
 src_compile() {
