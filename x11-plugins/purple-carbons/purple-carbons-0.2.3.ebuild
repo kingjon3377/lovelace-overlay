@@ -27,12 +27,6 @@ RESTRICT="!test? ( test )"
 
 DOCS=( CHANGELOG.md README.md )
 
-src_prepare() {
-	default
-	sed -i -e "s#\~/.purple/plugins#\$(DESTDIR)/usr/$(get_libdir)/pidgin/#"\
-		Makefile || die
-}
-
 src_compile() {
 	CC=$(tc-getCC) emake
 }
