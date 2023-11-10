@@ -7,13 +7,17 @@ EAPI=7
 
 inherit toolchain-funcs
 
+DEB_REV=~git6505bd0d
+DEB_PATCH=-3
+
 DESCRIPTION="Move the mouse pointer with few key strokes"
 HOMEPAGE="https://www.semicomplete.com/projects/keynav/"
-SRC_URI="https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/semicomplete/${P}.tar.gz"
+SRC_URI="mirror://debian/pool/main/${PN:0:1}/${PN}/${PN}_${PV}${DEB_REV}.orig.tar.gz
+	mirror://debian/pool/main/${PN:0:1}/${PN}/${PN}_${PV}${DEB_REV}${DEB_PATCH}.debian.tar.xz"
 
 LICENSE="BSD"
 SLOT="0"
-KEYWORDS="amd64 ~x86"
+KEYWORDS="~amd64 ~x86"
 
 RDEPEND="
 	x11-libs/cairo[X]
@@ -25,16 +29,25 @@ RDEPEND="
 	x11-misc/xdotool"
 DEPEND="x11-base/xorg-proto
 	${RDEPEND}"
+BDEPEND="app-arch/xz-utils"
+
+S=${WORKDIR}/${PN}-master
+
+PATCHES=(
+	"${FILESDIR}/remove_debianisms.patch"
+)
 
 src_prepare() {
-	# -pg is incompatible with PIE.
-	sed -i -e "s:^CFLAGS+=-pg -g:CFLAGS+=-g:" \
-		-e "s:^LDFLAGS+=-pg -g:LDFLAGS+=-g:" "${S}"/Makefile || die "sed failed"
+	while read -r patch;do
+		eapply "../debian/patches/${patch}"
+	done < ../debian/patches/series
+	sed -i -e "s@dpkg-parsechangelog -SVersion@echo '$PV'@" version.sh || die
+	default
 }
 
 src_compile() {
 	tc-export CC LD
-	default
+	default CFLAGS="${CFLAGS} ${CPPFLAGS}" LDFLAGS="${LDFLAGS}"
 }
 
 src_install() {

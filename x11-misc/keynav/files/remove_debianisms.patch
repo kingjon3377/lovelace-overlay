@@ -1,0 +1,13 @@
+diff -ru a/Makefile b/Makefile
+--- a/Makefile	2023-11-10 00:46:04.551165719 -0500
++++ b/Makefile	2023-11-10 00:47:51.094164291 -0500
+@@ -1,6 +1,6 @@
+-CFLAGS+=$(shell pkg-config --cflags cairo-xlib xinerama glib-2.0 xext x11 2> /dev/null || echo -I/usr/X11R6/include -I/usr/local/include) $(shell dpkg-buildflags --get CFLAGS) $(shell dpkg-buildflags --get CPPFLAGS)
++CFLAGS+=$(shell pkg-config --cflags cairo-xlib xinerama glib-2.0 xext x11 2> /dev/null || echo -I/usr/X11R6/include -I/usr/local/include)
+ LDFLAGS+=$(shell pkg-config --libs cairo-xlib xinerama glib-2.0 xext x11 2> /dev/null || echo -L/usr/X11R6/lib -L/usr/local/lib -lX11 -lXinerama -lXext -lglib)
+-LDFLAGS+=$(shell pkg-config --libs glib-2.0) $(shell dpkg-buildflags --get LDFLAGS)
++LDFLAGS+=$(shell pkg-config --libs glib-2.0)
+ 
+ OTHERFILES=README CHANGELIST COPYRIGHT \
+            keynavrc Makefile version.sh VERSION
+Only in b: .Makefile.swp
