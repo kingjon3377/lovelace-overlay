@@ -38,8 +38,7 @@ PATCHES=(
 src_prepare() {
 	#fix makefile
 	default
-	sed -i -e	's@\@sh.*@@g' \
-		-e 's@^[[:blank:]]*which.*@@g'  Makefile
+	sed -i -e 's@^[[:blank:]]*which.*@@g'  Makefile
 	tc-export CC
 }
 
