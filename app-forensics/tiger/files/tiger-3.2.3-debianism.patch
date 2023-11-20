@@ -1,0 +1,24 @@
+diff -ru a/config b/config
+--- a/config	2008-09-08 20:12:35.000000000 -0400
++++ b/config	2023-11-19 21:20:34.595755406 -0500
+@@ -395,7 +395,7 @@
+   #
+ 
+   [ -n "$RCFILE" -a -r $RCFILE ] && {
+-    tempfile=`tempfile -d $WORKDIR` || tempfile=$WORKDIR/rcfile.$$
++    tempfile=`mktemp -d $WORKDIR` || tempfile=$WORKDIR/rcfile.$$
+     $GREP -v '^#' $RCFILE |
+     $SED -e 's/^\(.*\)=/export \1; \1=/' > $tempfile
+     . $tempfile
+diff -ru a/util/genmsgidx b/util/genmsgidx
+--- a/util/genmsgidx	2023-11-19 21:18:30.262757071 -0500
++++ b/util/genmsgidx	2023-11-19 21:21:29.312754672 -0500
+@@ -76,7 +76,7 @@
+ 
+ # Setup a tempfile
+ [ -n "$TMPDIR" ] && TMPDIR=/tmp/
+-tempfile=`tempfile`
++tempfile=`mktemp`
+ [ -z "$tempfile" ] && tempfile=$TMPDIR/te.$$
+ [ ! -e $tempfile ] && >$tempfile
+ 

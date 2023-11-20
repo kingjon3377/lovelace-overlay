@@ -15,6 +15,8 @@ KEYWORDS="amd64"
 
 RDEPEND="${DEPEND}"
 
+PATCHES=( "${FILESDIR}/${P}-debianism.patch" )
+
 src_prepare() {
 	sed -i -e 's:^>:test -f:' util/genmsgidx || die
 	default
