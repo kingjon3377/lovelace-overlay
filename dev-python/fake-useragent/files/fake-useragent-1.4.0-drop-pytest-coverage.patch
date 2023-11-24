@@ -1,0 +1,7 @@
+diff -ru a/pytest.ini b/pytest.ini
+--- a/pytest.ini	2023-11-24 16:04:08.000000000 -0500
++++ b/pytest.ini	2023-11-24 18:00:35.304128415 -0500
+@@ -1,2 +1,2 @@
+ [pytest]
+-addopts = -s --strict-markers --keep-duplicates --cache-clear --verbose --maxfail=1 --no-cov-on-fail --cov=fake_useragent --cov-report=term --cov-report=xml --cov-report=html --fulltrace
++addopts = -s --strict-markers --keep-duplicates --cache-clear --verbose --maxfail=1 --fulltrace
