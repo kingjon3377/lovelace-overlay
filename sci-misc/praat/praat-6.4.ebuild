@@ -35,7 +35,8 @@ PATCHES=(
 	"${WORKDIR}/debian/patches/use-ldflags.patch"
 	"${WORKDIR}/debian/patches/cross-build.patch"
 	"${WORKDIR}/debian/patches/dwtest-random-seed.patch"
-	"${WORKDIR}/debian/patches/ftbfs-on-i386-with-g++13.patch"
+	"${WORKDIR}/debian/patches/honor-cppflags.patch"
+	"${WORKDIR}/debian/patches/drop-espeak-demonic-file.patch"
 )
 
 src_prepare() {
@@ -46,10 +47,13 @@ src_prepare() {
 	sed -i \
 		-e 's:^AR = ar:AR = $(USER_AR):' \
 		"${S}/makefile.defs" || die
+	sed -n '/^R"~~~(/,/^)~~~"/{/^R"~~~(/!{/^)~~~"/!p}}' fon/manual_whatsnew.cpp > ../debian/what-is-new || die
 }
 
 src_compile() {
-	emake CC="$(tc-getCC) ${CFLAGS}" CXX="$(tc-getCXX) ${CXXFLAGS}" \
+	emake CC="$(tc-getCC) -fexcess-precision=fast ${CFLAGS}" \
+		CXX="$(tc-getCXX) -fexcess-precision=fast ${CXXFLAGS}" \
+		CPP="$(tc-getCPP) ${CPPFLAGS}" AR="$(tc-getAR)" \
 		"USER_AR=$(tc-getAR)" "LINK=$(tc-getCXX) ${LDFLAGS} -Wl,--as-needed"
 	for file in ${PN} ${PN}-open-files;do
 		pandoc --standalone --to man "${WORKDIR}/debian/${file}.md" -o "${file}.1" || die
@@ -68,10 +72,10 @@ src_install() {
 	doins main/${PN}-*.svg ../debian/${PN}-file.svg
 	case "${#all_svgs[@]}" in
 		0) ewarn "main SVG icon missing" ;;
-		1) dosym "${#all_svgs[@]}" /usr/share/icons/hicolor/scalable/apps/${PN}.svg ;;
+		1) dosym "${all_svgs[@]}" /usr/share/icons/hicolor/scalable/apps/${PN}.svg ;;
 		*) ewarn "Too many SVG icons" ;;
 	esac
 	domenu main/${PN}.desktop ../debian/${PN}-file.desktop
 	doman ${PN}.1 ${PN}-open-files.1
-	newdoc ../debian/What_s_new_.html ChangeLog.html
+	newdoc ../debian/what-is-new ChangeLog
 }
