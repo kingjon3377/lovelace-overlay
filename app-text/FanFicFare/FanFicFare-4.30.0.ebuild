@@ -52,7 +52,6 @@ python_install_all() {
 	insinto /etc/fanficfare
 	doins fanficfare/defaults.ini
 	dodoc fanficfare/example.ini DESCRIPTION.rst
-	dosym fanficfare /usr/bin/ffd
 	dosym fanficfare /usr/bin/fff
 }
 
