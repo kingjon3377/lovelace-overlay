@@ -1,14 +1,16 @@
-# Copyright 2022 Gentoo Authors
+# Copyright 2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-PYTHON_COMPAT=( python3_{8..11} )
+PYTHON_COMPAT=( python3_{9..12} )
 
 inherit python-r1
 
 MY_PN=EpubMerge
 
 # TODO: install Calibre plugin as well
+
+# TODO: Install Qt-based UI?
 
 DESCRIPTION="Utility to merge EPUBs"
 HOMEPAGE="https://github.com/JimmXinu/EpubMerge"
