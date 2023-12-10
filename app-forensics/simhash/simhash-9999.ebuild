@@ -7,7 +7,7 @@ EGIT_REPO_URI="https://github.com/BartMassey/simhash.git"
 inherit git-r3 toolchain-funcs
 
 DESCRIPTION="generate similarity hashes to find nearly duplicate files"
-HOMEPAGE="http://wiki.cs.pdx.edu/forge/simhash.html"
+HOMEPAGE="https://wiki.cs.pdx.edu/forge/simhash.html"
 
 LICENSE="BSD"
 SLOT="0"
