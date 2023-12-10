@@ -6,7 +6,7 @@ EAPI=7
 MY_P=elements-20001107-pre
 DESCRIPTION="The elements database for dict"
 SRC_URI="ftp://ftp.dict.org/pub/dict/pre/${MY_P}.tar.gz"
-HOMEPAGE="http://www.dict.org"
+HOMEPAGE="https://www.dict.org"
 
 LICENSE="GPL-2"
 SLOT="0"

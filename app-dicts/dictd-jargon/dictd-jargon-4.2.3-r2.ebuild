@@ -5,7 +5,7 @@ EAPI=7
 
 MY_P=${PN/dictd-/}_${PV}
 DESCRIPTION="Jargon lexicon"
-HOMEPAGE="http://www.dict.org/"
+HOMEPAGE="https://www.dict.org/"
 SRC_URI="ftp://ftp.dict.org/pub/dict/pre/${MY_P}.tar.gz"
 
 LICENSE="GPL-2"

@@ -5,7 +5,7 @@ EAPI=7
 
 MY_P=dict-gazetteer-${PV}-pre
 DESCRIPTION="The original U.S. Gazetteer Place and Zipcode Files for dict"
-HOMEPAGE="http://www.dict.org/"
+HOMEPAGE="https://www.dict.org/"
 SRC_URI="ftp://ftp.dict.org/pub/dict/pre/${MY_P}.tar.gz"
 
 LICENSE="GPL-2"
