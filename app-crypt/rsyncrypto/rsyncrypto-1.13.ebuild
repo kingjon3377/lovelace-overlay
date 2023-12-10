@@ -4,7 +4,7 @@
 EAPI=7
 
 DESCRIPTION="rsync friendly encryption"
-HOMEPAGE="http://rsyncrypto.lingnu.com"
+HOMEPAGE="https://rsyncrypto.lingnu.com"
 SRC_URI="mirror://sourceforge/${PN}/${PN}/${PV}/${P}.tar.bz2"
 
 LICENSE="GPL-2"
