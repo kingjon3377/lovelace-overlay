@@ -6,7 +6,7 @@ EAPI=7
 inherit toolchain-funcs virtualx desktop
 
 DEBIAN_EXTRA_REV=+dfsg
-DEBIAN_PATCH_REV=1
+DEBIAN_PATCH_REV=2
 
 DESCRIPTION="Speech analysis and synthesis"
 SRC_URI="https://github.com/${PN}/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz
@@ -18,6 +18,7 @@ SLOT="0"
 KEYWORDS="~amd64"
 
 # TODO: README lists a lot more dependencies
+# TODO: Make GUI optional
 RDEPEND="x11-libs/libXmu
 	x11-libs/libXt
 	x11-libs/libX11
@@ -37,13 +38,14 @@ PATCHES=(
 	"${WORKDIR}/debian/patches/dwtest-random-seed.patch"
 	"${WORKDIR}/debian/patches/honor-cppflags.patch"
 	"${WORKDIR}/debian/patches/drop-espeak-demonic-file.patch"
+	"${WORKDIR}/debian/patches/praat-launch-in-desktop.patch"
 )
 
 src_prepare() {
 	default
 	# TODO: following line should be updated for non-linux etc. builds
 	# (Flammie does not have testing equipment)
-	cp "${S}/makefiles/makefile.defs.linux.alsa" "${S}/makefile.defs"
+	cp "${S}/makefiles/makefile.defs.linux.alsa" "${S}/makefile.defs" || die
 	sed -i \
 		-e 's:^AR = ar:AR = $(USER_AR):' \
 		"${S}/makefile.defs" || die
@@ -55,7 +57,7 @@ src_compile() {
 		CXX="$(tc-getCXX) -fexcess-precision=fast ${CXXFLAGS}" \
 		CPP="$(tc-getCPP) ${CPPFLAGS}" AR="$(tc-getAR)" \
 		"USER_AR=$(tc-getAR)" "LINK=$(tc-getCXX) ${LDFLAGS} -Wl,--as-needed"
-	for file in ${PN} ${PN}-open-files;do
+	for file in ${PN} ${PN}-launch;do
 		pandoc --standalone --to man "${WORKDIR}/debian/${file}.md" -o "${file}.1" || die
 	done
 }
@@ -65,17 +67,18 @@ src_test() {
 }
 
 src_install() {
-	dobin ${PN} ../debian/${PN}-open-files
+	dobin ${PN} ../debian/${PN}-launch
 	doicon ../debian/${PN}.xpm
 	insinto /usr/share/icons/hicolor/scalable/apps
-	all_svgs=( main/${PN}-*.svg )
-	doins main/${PN}-*.svg ../debian/${PN}-file.svg
+	all_svgs=( main/${PN}*.svg )
+	doins main/${PN}*.svg
 	case "${#all_svgs[@]}" in
 		0) ewarn "main SVG icon missing" ;;
 		1) dosym "${all_svgs[@]}" /usr/share/icons/hicolor/scalable/apps/${PN}.svg ;;
 		*) ewarn "Too many SVG icons" ;;
 	esac
-	domenu main/${PN}.desktop ../debian/${PN}-file.desktop
-	doman ${PN}.1 ${PN}-open-files.1
+	domenu main/${PN}.desktop
+	doman ${PN}.1 ${PN}-launch.1
 	newdoc ../debian/what-is-new ChangeLog
+	dodoc ../debian/NEWS
 }
