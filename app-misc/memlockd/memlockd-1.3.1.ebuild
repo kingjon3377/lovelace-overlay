@@ -1,19 +1,20 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
 inherit toolchain-funcs
 
 DESCRIPTION="Locks important files into memory and out of swap"
 HOMEPAGE="https://doc.coker.com.au/projects/memlockd/"
-SRC_URI="https://www.coker.com.au/${PN}/${PN}_${PV}.tar.gz"
+SRC_URI="https://www.coker.com.au/${PN}/${PN}_${PV}.tar.xz"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="amd64"
+KEYWORDS="~amd64"
 
 RDEPEND="${DEPEND}"
+BDEPEND="app-arch/xz-utils"
 
 src_compile() {
 	CXX=$(tc-getCXX) CXXFLAGS="${CXXFLAGS}" emake
