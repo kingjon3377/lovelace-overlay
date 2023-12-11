@@ -61,3 +61,6 @@ media-sound/gwc
 # Fails to build, dead upstream. Masked for removal
 =sci-misc/tcm-2.20
 
+# HOMEPAGE gone, and GTK 2 is on its way out. Masked for removal.
+=app-misc/glista-0.4-r1
+
