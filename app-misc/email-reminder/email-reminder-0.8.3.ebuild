@@ -3,7 +3,7 @@
 
 EAPI=7
 
-PYTHON_COMPAT=( python3_{8..10} )
+PYTHON_COMPAT=( python3_{8..12} )
 
 inherit perl-module python-r1 desktop
 
@@ -29,7 +29,7 @@ RDEPEND="${DEPEND}
 
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
-PATCHES=( "${FILESDIR}/${P}-fix-tests.patch" )
+#PATCHES=( "${FILESDIR}/${P}-fix-tests.patch" )
 
 src_configure() {
 	perl-module_src_configure
