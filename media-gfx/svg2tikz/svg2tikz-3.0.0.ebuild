@@ -3,7 +3,8 @@
 
 EAPI=7
 
-PYTHON_COMPAT=( python3_{9..12} )
+# As of 2024-01-06, Inkscape doesn't declare 3.12 support yet
+PYTHON_COMPAT=( python3_{9..11} )
 DISTUTILS_SINGLE_IMPL=yes
 DISTUTILS_USE_PEP517=poetry
 
