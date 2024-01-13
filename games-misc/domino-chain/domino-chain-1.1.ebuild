@@ -1,4 +1,4 @@
-# Copyright 2021 Gentoo Authors
+# Copyright 2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -29,7 +29,7 @@ DEPEND="dev-libs/boost
 RDEPEND="${DEPEND}"
 BDEPEND="sys-devel/gettext
 	virtual/imagemagick-tools
-	sys-devel/make
+	dev-build/make
 	virtual/pkgconfig
 	media-gfx/povray
 	sys-apps/sed
