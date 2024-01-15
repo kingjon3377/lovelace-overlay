@@ -1,0 +1,11 @@
+diff -ru a/src/neotypes.h b/src/neotypes.h
+--- a/src/neotypes.h	2024-01-15 09:13:47.000000000 -0500
++++ b/src/neotypes.h	2024-01-15 09:59:56.457322162 -0500
+@@ -5,6 +5,7 @@
+ #include <vector>
+ 
+ #include "errors.h"
++#include <cstdint>
+ 
+ typedef double num_t;
+ typedef unsigned short CELLREF;
