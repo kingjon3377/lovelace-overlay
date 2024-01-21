@@ -6,7 +6,7 @@ EAPI=7
 inherit toolchain-funcs virtualx desktop
 
 DEBIAN_EXTRA_REV=+dfsg
-DEBIAN_PATCH_REV=2
+DEBIAN_PATCH_REV=3
 
 DESCRIPTION="Speech analysis and synthesis"
 SRC_URI="https://github.com/${PN}/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz
@@ -71,7 +71,7 @@ src_install() {
 	doicon ../debian/${PN}.xpm
 	insinto /usr/share/icons/hicolor/scalable/apps
 	all_svgs=( main/${PN}*.svg )
-	doins main/${PN}*.svg
+	doins "${all_svgs[@]}"
 	case "${#all_svgs[@]}" in
 		0) ewarn "main SVG icon missing" ;;
 		1) dosym "${all_svgs[@]}" /usr/share/icons/hicolor/scalable/apps/${PN}.svg ;;
