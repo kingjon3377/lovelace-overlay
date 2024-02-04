@@ -1,10 +1,10 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
 USE_RUBY="ruby30 ruby31 ruby32"
-PYTHON_COMPAT=( python3_{8..10} )
+PYTHON_COMPAT=( python3_{9..12} )
 
 RUBY_FAKEGEM_NAME="pygments.rb"
 MY_P="${RUBY_FAKEGEM_NAME}-${PV}"
@@ -38,6 +38,13 @@ DEPEND+=" test? ( ${RDEPEND} )"
 ruby_add_rdepend ">=dev-ruby/multi_json-1.0.0"
 ruby_add_bdepend "dev-ruby/rake-compiler"
 
+PATCHES=(
+	"${FILESDIR}/${PN}-2.3.0-0001-Remove-gemspec-git-ls-files.patch"
+	"${FILESDIR}/${PN}-2.3.0-0010-Disable-the-test-expecting-a-timeout.patch"
+	"${FILESDIR}/${PN}-2.3.0-0013-test-drop-test-that-depends-on-Python-internals.patch"
+	"${FILESDIR}/${PN}-2.3.0-0014-no-relative-path-to-mentos-py.patch"
+)
+
 pkg_setup() {
 	ruby-ng_pkg_setup
 	python-single-r1_pkg_setup
@@ -45,20 +52,9 @@ pkg_setup() {
 
 all_ruby_prepare() {
 	sed -i -e '/[Bb]undler/d' Rakefile || die
-	sed -i -e '/s.files/d' pygments.rb.gemspec || die
+	sed -i -e "s:require_relative ':require './:" pygments.rb.gemspec || die
+#	sed -i -e '/s.files/d' pygments.rb.gemspec || die
 	python_fix_shebang lib/pygments/mentos.py
-	# we are loosing a "custom github lexer here", no idea what it is,
-	# but if we need it, it should go into dev-python/pygments
-	rm -r vendor lexers || die "removing bundled libs failed"
+	rm -r vendor || die "removing bundled libs failed"
 	eapply_user
-}
-
-each_ruby_compile() {
-	# regenerate the lexer cache, based on the system pygments pkg
-	${RUBY} cache_lexers.rb || die "regenerating lexer cache failed"
-}
-
-each_ruby_install() {
-	each_fakegem_install
-	ruby_fakegem_doins lexers
 }
