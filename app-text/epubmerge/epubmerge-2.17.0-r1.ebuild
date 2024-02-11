@@ -28,6 +28,11 @@ REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
 S="${WORKDIR}/${MY_PN}-${PV}"
 
+PATCHES=(
+	"${FILESDIR}/${P}-d642d48b44065c7eff35ecebe9ad9abf56bc2137.patch"
+	"${FILESDIR}/${P}-9c63aea9d87feecdd214c63f283d706d29e1407a.patch"
+)
+
 src_install() {
 	newbin "${PN}.py" "${PN}"
 	python_replicate_script "${ED}"/usr/bin/"${PN}"

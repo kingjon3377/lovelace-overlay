@@ -1,0 +1,22 @@
+From d642d48b44065c7eff35ecebe9ad9abf56bc2137 Mon Sep 17 00:00:00 2001
+From: Jim Miller <retiefjimm@gmail.com>
+Date: Sat, 10 Feb 2024 21:06:51 -0600
+Subject: [PATCH] Actually have 'en' default for -l in CLI.
+
+---
+ epubmerge.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/epubmerge.py b/epubmerge.py
+index 1396d43..5579b86 100644
+--- a/epubmerge.py
++++ b/epubmerge.py
+@@ -104,7 +104,7 @@ def main(argv,usage=None):
+                       action="append", dest="tagopts", default=[],
+                       help="Include TAG as dc:subject tag, multiple tags may be given, Default: None", metavar="TAG")
+     optparser.add_option("-l", "--language",
+-                      action="append", dest="languageopts", default=[],
++                      action="append", dest="languageopts", default=['en'],
+                       help="Include LANG as dc:language tag, multiple languages may be given, Default: en", metavar="LANG")
+     optparser.add_option("-n", "--no-titles-in-toc",
+                       action="store_false", dest="titlenavpoints", default=True,
