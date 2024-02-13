@@ -1,0 +1,60 @@
+From d22747ee9b66eafe232107a1fcd408eab4e1d3b4 Mon Sep 17 00:00:00 2001
+From: Mathieu Rul <mathroule@users.noreply.github.com>
+Date: Mon, 2 Oct 2023 11:57:38 +0200
+Subject: [PATCH] Fix Markdown lint version in SARIF output test (#469)
+
+Use dynamic Markdown lint version
+
+Signed-off-by: Mathieu Rul <mathroule@gmail.com>
+---
+ test/fixtures/output/sarif/with_matches.sarif    | 2 +-
+ test/fixtures/output/sarif/without_matches.sarif | 2 +-
+ test/test_cli.rb                                 | 7 +++++--
+ 3 files changed, 7 insertions(+), 4 deletions(-)
+
+diff --git a/test/fixtures/output/sarif/with_matches.sarif b/test/fixtures/output/sarif/with_matches.sarif
+index 75f8f864..316784d6 100644
+--- a/test/fixtures/output/sarif/with_matches.sarif
++++ b/test/fixtures/output/sarif/with_matches.sarif
+@@ -1 +1 @@
+-{"$schema":"https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json","version":"2.1.0","runs":[{"tool":{"driver":{"name":"Markdown lint","version":"0.12.0","informationUri":"https://github.com/markdownlint/markdownlint","rules":[{"id":"MD002","name":"FirstHeaderH1","defaultConfiguration":{"level":"note"},"properties":{"description":"First header should be a top level header","tags":["headers"],"queryURI":"https://github.com/markdownlint/markdownlint/blob/main/docs/RULES.md#md002---first-header-should-be-a-top-level-header"},"shortDescription":{"text":"First header should be a top level header"},"fullDescription":{"text":"First header should be a top level header"},"helpUri":"https://github.com/markdownlint/markdownlint/blob/main/docs/RULES.md#md002---first-header-should-be-a-top-level-header","help":{"text":"More info: https://github.com/markdownlint/markdownlint/blob/main/docs/RULES.md#md002---first-header-should-be-a-top-level-header","markdown":"[More info](https://github.com/markdownlint/markdownlint/blob/main/docs/RULES.md#md002---first-header-should-be-a-top-level-header)"}}]}},"results":[{"ruleId":"MD002","ruleIndex":0,"message":{"text":"MD002 - First header should be a top level header"},"locations":[{"physicalLocation":{"artifactLocation":{"uri":"(stdin)","uriBaseId":"%SRCROOT%"},"region":{"startLine":1}}}]}]}]}
++{"$schema":"https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json","version":"2.1.0","runs":[{"tool":{"driver":{"name":"Markdown lint","version":"<%= MarkdownLint::VERSION %>","informationUri":"https://github.com/markdownlint/markdownlint","rules":[{"id":"MD002","name":"FirstHeaderH1","defaultConfiguration":{"level":"note"},"properties":{"description":"First header should be a top level header","tags":["headers"],"queryURI":"https://github.com/markdownlint/markdownlint/blob/main/docs/RULES.md#md002---first-header-should-be-a-top-level-header"},"shortDescription":{"text":"First header should be a top level header"},"fullDescription":{"text":"First header should be a top level header"},"helpUri":"https://github.com/markdownlint/markdownlint/blob/main/docs/RULES.md#md002---first-header-should-be-a-top-level-header","help":{"text":"More info: https://github.com/markdownlint/markdownlint/blob/main/docs/RULES.md#md002---first-header-should-be-a-top-level-header","markdown":"[More info](https://github.com/markdownlint/markdownlint/blob/main/docs/RULES.md#md002---first-header-should-be-a-top-level-header)"}}]}},"results":[{"ruleId":"MD002","ruleIndex":0,"message":{"text":"MD002 - First header should be a top level header"},"locations":[{"physicalLocation":{"artifactLocation":{"uri":"(stdin)","uriBaseId":"%SRCROOT%"},"region":{"startLine":1}}}]}]}]}
+diff --git a/test/fixtures/output/sarif/without_matches.sarif b/test/fixtures/output/sarif/without_matches.sarif
+index 73238323..715bc257 100644
+--- a/test/fixtures/output/sarif/without_matches.sarif
++++ b/test/fixtures/output/sarif/without_matches.sarif
+@@ -1 +1 @@
+-{"$schema":"https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json","version":"2.1.0","runs":[{"tool":{"driver":{"name":"Markdown lint","version":"0.12.0","informationUri":"https://github.com/markdownlint/markdownlint","rules":[]}},"results":[]}]}
++{"$schema":"https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json","version":"2.1.0","runs":[{"tool":{"driver":{"name":"Markdown lint","version":"<%= MarkdownLint::VERSION %>","informationUri":"https://github.com/markdownlint/markdownlint","rules":[]}},"results":[]}]}
+diff --git a/test/test_cli.rb b/test/test_cli.rb
+index 1397d770..d9e163ed 100644
+--- a/test/test_cli.rb
++++ b/test/test_cli.rb
+@@ -1,6 +1,7 @@
+ require_relative 'setup_tests'
+ require 'open3'
+ require 'set'
++require 'erb'
+ require 'fileutils'
+ require 'json'
+ 
+@@ -29,7 +30,8 @@ def test_json_output_with_matches
+   def test_sarif_output
+     result = run_cli_with_input('-S', "# header\n")
+     assert_ran_ok(result)
+-    expected = File.read('test/fixtures/output/sarif/without_matches.sarif')
++    sarif_file = File.read('test/fixtures/output/sarif/without_matches.sarif')
++    expected = ERB.new(sarif_file).result(binding)
+     assert_equal(expected, result[:stdout])
+   end
+ 
+@@ -37,7 +39,8 @@ def test_sarif_output_with_matches
+     result = run_cli_with_input('-S -r MD002', "## header2\n")
+     assert_equal(1, result[:status])
+     assert_equal('', result[:stderr])
+-    expected = File.read('test/fixtures/output/sarif/with_matches.sarif')
++    sarif_file = File.read('test/fixtures/output/sarif/with_matches.sarif')
++    expected = ERB.new(sarif_file).result(binding)
+     assert_equal(expected, result[:stdout])
+   end
+ 
