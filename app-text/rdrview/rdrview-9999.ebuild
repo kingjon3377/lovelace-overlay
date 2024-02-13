@@ -21,7 +21,7 @@ RDEPEND="sys-libs/libseccomp
 DEPEND="${RDEPEND}
 	test? (
 		app-text/htmltidy
-		dev-util/valgrind
+		dev-build/valgrind
 		www-client/links
 	)"
 
