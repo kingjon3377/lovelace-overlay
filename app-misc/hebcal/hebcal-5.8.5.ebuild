@@ -54,7 +54,7 @@ SRC_URI="https://github.com/${PN}/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz
 # github.com/hebcal/hebcal-go: GPL-2.0
 # github.com/nathan-osman/go-sunrise: MIT
 # github.com/pborman/getopt/v2: BSD-3
-LICENSE="GPL-2 MIT BSD-2 BSD-3"
+LICENSE="GPL-2 MIT BSD-2 BSD"
 SLOT="0"
 KEYWORDS="~amd64"
 
