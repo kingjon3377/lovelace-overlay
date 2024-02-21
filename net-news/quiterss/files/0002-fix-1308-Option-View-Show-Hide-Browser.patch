@@ -1,0 +1,135 @@
+From cfc14edaf1bcb7561e63a56a060a74ec942c666b Mon Sep 17 00:00:00 2001
+From: Shilyaev Egor <egor.shilyaev@gmail.com>
+Date: Sun, 26 Apr 2020 13:56:34 +0500
+Subject: [PATCH 02/40] fix #1308: Option "View->Show/Hide->Browser"
+
+---
+ src/application/mainwindow.cpp | 15 ++++++++++++++-
+ src/application/mainwindow.h   |  1 +
+ src/newstabwidget.cpp          |  9 +++++++++
+ src/newstabwidget.h            |  1 +
+ 4 files changed, 25 insertions(+), 1 deletion(-)
+
+diff --git a/src/application/mainwindow.cpp b/src/application/mainwindow.cpp
+index f14c7805..2d95c4eb 100755
+--- a/src/application/mainwindow.cpp
++++ b/src/application/mainwindow.cpp
+@@ -1192,6 +1192,11 @@ void MainWindow::createActions()
+   connect(pushButtonNull_, SIGNAL(clicked()), feedsWidgetVisibleAct_, SLOT(trigger()));
+   this->addAction(feedsWidgetVisibleAct_);
+ 
++  webWidgetVisibleAct_ = new QAction(this);
++  webWidgetVisibleAct_->setObjectName("webWidgetVisibleAct");
++  webWidgetVisibleAct_->setCheckable(true);
++  this->addAction(webWidgetVisibleAct_);
++
+   showUnreadCount_ = new QAction(this);
+   showUnreadCount_->setData(feedsView_->columnIndex("unread"));
+   showUnreadCount_->setCheckable(true);
+@@ -1576,6 +1581,7 @@ void MainWindow::createShortcut()
+ 
+   feedsWidgetVisibleAct_->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_D));
+   listActions_.append(feedsWidgetVisibleAct_);
++  listActions_.append(webWidgetVisibleAct_);
+ 
+   listActions_.append(placeToTrayAct_);
+ 
+@@ -1703,6 +1709,8 @@ void MainWindow::createMenu()
+   fileMenu_->addAction(exitAct_);
+ 
+   toolbarsMenu_ = new QMenu(this);
++  toolbarsMenu_->addAction(feedsWidgetVisibleAct_);
++  toolbarsMenu_->addAction(webWidgetVisibleAct_);
+   toolbarsMenu_->addAction(mainToolbarToggle_);
+   toolbarsMenu_->addAction(feedsToolbarToggle_);
+   toolbarsMenu_->addAction(newsToolbarToggle_);
+@@ -2292,6 +2300,7 @@ void MainWindow::loadSettings()
+   mainSplitter_->restoreState(settings.value("MainSplitterState").toByteArray());
+   feedsWidgetVisibleAct_->setChecked(settings.value("FeedsWidgetVisible", true).toBool());
+   slotVisibledFeedsWidget();
++  webWidgetVisibleAct_->setChecked(settings.value("WebWidgetVisible", true).toBool());
+ 
+   feedsWidgetSplitterState_ = settings.value("FeedsWidgetSplitterState").toByteArray();
+   bool showCategories = settings.value("NewsCategoriesTreeVisible", true).toBool();
+@@ -2495,6 +2504,7 @@ void MainWindow::saveSettings()
+ 
+   settings.setValue("MainSplitterState", mainSplitter_->saveState());
+   settings.setValue("FeedsWidgetVisible", showFeedsTabPermanent_);
++  settings.setValue("WebWidgetVisible", webWidgetVisibleAct_->isChecked());
+ 
+   bool newsCategoriesTreeVisible = true;
+   if (categoriesWidget_->height() <= (categoriesPanel_->height()+2)) {
+@@ -5001,7 +5011,10 @@ void MainWindow::retranslateStrings()
+   switchFocusPrevAct_->setToolTip(
+         tr("Switch Focus to Previous Panel (Tree Feeds, Browser, List News)"));
+ 
+-  feedsWidgetVisibleAct_->setText(tr("Show/Hide Tree Feeds"));
++  feedsWidgetVisibleAct_->setText(tr("Tree Feeds"));
++  feedsWidgetVisibleAct_->setToolTip(tr("Show/Hide Tree Feeds"));
++  webWidgetVisibleAct_->setText(tr("Browser"));
++  webWidgetVisibleAct_->setToolTip(tr("Show/Hide Browser"));
+ 
+   placeToTrayAct_->setText(tr("Minimize to Tray"));
+   placeToTrayAct_->setToolTip(tr("Minimize Application to Tray"));
+diff --git a/src/application/mainwindow.h b/src/application/mainwindow.h
+index dc7e8227..b0d798ff 100755
+--- a/src/application/mainwindow.h
++++ b/src/application/mainwindow.h
+@@ -117,6 +117,7 @@ public:
+ 
+   QAction *newsToolbarToggle_;
+   QAction *browserToolbarToggle_;
++  QAction *webWidgetVisibleAct_;
+   QAction *categoriesPanelToggle_;
+   QAction *statusBarToggle_;
+   QAction *newsFilter_;
+diff --git a/src/newstabwidget.cpp b/src/newstabwidget.cpp
+index fd00e7f6..f9d6507e 100644
+--- a/src/newstabwidget.cpp
++++ b/src/newstabwidget.cpp
+@@ -414,6 +414,7 @@ void NewsTabWidget::createWebWidget()
+   webWidget_->setLayout(webLayout);
+   webWidget_->setMinimumWidth(400);
+   webWidget_->setMinimumHeight(100);
++  setWebWidgetVisible();
+ 
+   webView_->page()->action(QWebPage::OpenLink)->disconnect();
+   webView_->page()->action(QWebPage::OpenLinkInNewWindow)->disconnect();
+@@ -452,6 +453,8 @@ void NewsTabWidget::createWebWidget()
+           this, SLOT(setAutoLoadImages()));
+   connect(mainWindow_->browserToolbarToggle_, SIGNAL(triggered()),
+           this, SLOT(setWebToolbarVisible()));
++  connect(mainWindow_->webWidgetVisibleAct_, SIGNAL(triggered()),
++          this, SLOT(setWebWidgetVisible()));
+ 
+   connect(locationBar_, SIGNAL(returnPressed()),this, SLOT(slotUrlEnter()));
+   connect(webView_, SIGNAL(rssChanged(bool)), locationBar_, SLOT(showRssIcon(bool)));
+@@ -2385,7 +2388,13 @@ void NewsTabWidget::setWebToolbarVisible(bool show, bool checked)
+   if (!checked) webToolbarShow_ = show;
+   webControlPanel_->setVisible(webToolbarShow_ &
+                                mainWindow_->browserToolbarToggle_->isChecked());
++}
++
++void NewsTabWidget::setWebWidgetVisible()
++{
++  if (type_ >= TabTypeWeb) return;
+ 
++  webWidget_->setVisible(mainWindow_->webWidgetVisibleAct_->isChecked());
+ }
+ 
+ /** @brief Set label for selected news
+diff --git a/src/newstabwidget.h b/src/newstabwidget.h
+index 4cc8e60b..84163172 100644
+--- a/src/newstabwidget.h
++++ b/src/newstabwidget.h
+@@ -188,6 +188,7 @@ private slots:
+   void slotSelectFind();
+ 
+   void setWebToolbarVisible(bool show = true, bool checked = true);
++  void setWebWidgetVisible();
+ 
+   void slotNewslLabelClicked(QModelIndex index);
+ 
+-- 
+2.43.0
+

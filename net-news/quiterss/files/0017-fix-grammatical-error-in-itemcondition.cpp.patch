@@ -1,0 +1,59 @@
+From 32fdabd5309efb0d02863ef0514d809ef6fb9ec7 Mon Sep 17 00:00:00 2001
+From: Aptrug <60358026+Aptrug@users.noreply.github.com>
+Date: Sat, 10 Oct 2020 15:58:12 +0100
+Subject: [PATCH 17/40] fix grammatical error in itemcondition.cpp
+
+---
+ src/newsfilters/itemcondition.cpp | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/src/newsfilters/itemcondition.cpp b/src/newsfilters/itemcondition.cpp
+index 9afcb7ee..303b7476 100644
+--- a/src/newsfilters/itemcondition.cpp
++++ b/src/newsfilters/itemcondition.cpp
+@@ -78,22 +78,22 @@ void ItemCondition::currentIndexChanged(const QString &str)
+   comboBox3_->setVisible(false);
+   lineEdit_->setVisible(true);
+   if (str == tr("Title")) {
+-    itemList << tr("contains") << tr("doesn't contains")
++    itemList << tr("contains") << tr("doesn't contain")
+              << tr("is") << tr("isn't")
+              << tr("begins with") << tr("ends with")
+              << tr("Regular expressions");
+     comboBox2_->addItems(itemList);
+   } else if (str == tr("Description")) {
+-    itemList << tr("contains") << tr("doesn't contains")
++    itemList << tr("contains") << tr("doesn't contain")
+              << tr("Regular expressions");
+     comboBox2_->addItems(itemList);
+   } else if (str == tr("Author")) {
+-    itemList << tr("contains") << tr("doesn't contains")
++    itemList << tr("contains") << tr("doesn't contain")
+              << tr("is") << tr("isn't")
+              << tr("Regular expressions");
+     comboBox2_->addItems(itemList);
+   } else if (str == tr("Category")) {
+-    itemList << tr("contains") << tr("doesn't contains")
++    itemList << tr("contains") << tr("doesn't contain")
+              << tr("is") << tr("isn't")
+              << tr("begins with") << tr("ends with")
+              << tr("Regular expressions");
+@@ -104,13 +104,13 @@ void ItemCondition::currentIndexChanged(const QString &str)
+     comboBox3_->setVisible(true);
+     lineEdit_->setVisible(false);
+   } else if (str == tr("Link")) {
+-    itemList << tr("contains") << tr("doesn't contains")
++    itemList << tr("contains") << tr("doesn't contain")
+              << tr("is") << tr("isn't")
+              << tr("begins with") << tr("ends with")
+              << tr("Regular expressions");
+     comboBox2_->addItems(itemList);
+   } else if (str == tr("News")) {
+-    itemList << tr("contains") << tr("doesn't contains")
++    itemList << tr("contains") << tr("doesn't contain")
+              << tr("Regular expressions");
+     comboBox2_->addItems(itemList);
+   } /*else if (str == "Published") {
+-- 
+2.43.0
+

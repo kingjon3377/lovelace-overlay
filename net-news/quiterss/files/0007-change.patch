@@ -1,0 +1,41 @@
+From fd7c3a5e7cc7c0a9b79610af8a4e5a03e9e8e4f9 Mon Sep 17 00:00:00 2001
+From: Shilyaev Egor <egor.shilyaev@gmail.com>
+Date: Fri, 1 May 2020 09:18:51 +0500
+Subject: [PATCH 07/40] =?UTF-8?q?change:=20=D0=9D=D0=B0=D1=81=D1=82=D1=80?=
+ =?UTF-8?q?=D0=BE=D0=B9=D0=BA=D0=B8=20=D1=88=D1=80=D0=B8=D1=84=D1=82=D0=B0?=
+ =?UTF-8?q?=20=D1=81=D0=BF=D0=B8=D1=81=D0=BA=D0=B0=20=D0=BB=D0=B5=D0=BD?=
+ =?UTF-8?q?=D1=82=20=D1=82=D0=B0=D0=BA=20=D0=B6=D0=B5=20=D0=B2=D0=BB=D0=B8?=
+ =?UTF-8?q?=D1=8F=D1=8E=D1=82=20=D0=B8=20=D0=BD=D0=B0=20=D1=81=D0=BF=D0=B8?=
+ =?UTF-8?q?=D1=81=D0=BE=D0=BA=20=D0=BA=D0=B0=D1=82=D0=B5=D0=B3=D0=BE=D1=80?=
+ =?UTF-8?q?=D0=B8=D0=B9?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+---
+ src/application/mainwindow.cpp | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/src/application/mainwindow.cpp b/src/application/mainwindow.cpp
+index e971084a..f1913cd1 100755
+--- a/src/application/mainwindow.cpp
++++ b/src/application/mainwindow.cpp
+@@ -1992,6 +1992,7 @@ void MainWindow::loadSettings()
+   int fontSize = settings.value("feedsFontSize", qApp->font().pointSize()).toInt();
+   feedsView_->setFont(QFont(fontFamily, fontSize));
+   feedsModel_->font_ = feedsView_->font();
++  categoriesTree_->setFont(QFont(fontFamily, fontSize));
+ 
+   newsListFontFamily_ = settings.value("newsFontFamily", qApp->font().family()).toString();
+   newsListFontSize_ = settings.value("newsFontSize", qApp->font().pointSize()).toInt();
+@@ -3951,6 +3952,7 @@ void MainWindow::showOptionDlg(int index)
+         optionsDialog_->fontsTree_->topLevelItem(0)->text(2).section(", ", 1).toInt());
+   feedsView_->setFont(font);
+   feedsModel_->font_ = font;
++  categoriesTree_->setFont(font);
+ 
+   newsListFontFamily_ = optionsDialog_->fontsTree_->topLevelItem(1)->text(2).section(", ", 0, 0);
+   newsListFontSize_ = optionsDialog_->fontsTree_->topLevelItem(1)->text(2).section(", ", 1).toInt();
+-- 
+2.43.0
+

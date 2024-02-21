@@ -1,0 +1,50 @@
+From 22ac4c95bfe71ece3e816dbe550fa213a6f19d60 Mon Sep 17 00:00:00 2001
+From: Sergei K <s2k0z@outlook.com>
+Date: Tue, 14 Dec 2021 08:57:26 +0500
+Subject: [PATCH 33/40] Fixes of translation errors
+
+---
+ lang/quiterss_ru.ts | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/lang/quiterss_ru.ts b/lang/quiterss_ru.ts
+index 9467497d..54959088 100644
+--- a/lang/quiterss_ru.ts
++++ b/lang/quiterss_ru.ts
+@@ -1719,7 +1719,7 @@ Ancient news could reappear</source>
+     <message>
+         <location filename="../src/application/mainwindow.cpp" line="4905"/>
+         <source>Show Not Working Feeds</source>
+-        <translation>Показать не рабочие ленты</translation>
++        <translation>Показать нерабочие ленты</translation>
+     </message>
+     <message>
+         <location filename="../src/application/mainwindow.cpp" line="4907"/>
+@@ -4050,7 +4050,7 @@ Ancient news could reappear</source>
+     <message>
+         <location filename="../src/optionsdialog.cpp" line="1800"/>
+         <source>Fantasy</source>
+-        <translation>Моноширинный</translation>
++        <translation>Декоративный</translation>
+     </message>
+     <message>
+         <location filename="../src/optionsdialog.cpp" line="1815"/>
+@@ -4060,7 +4060,7 @@ Ancient news could reappear</source>
+     <message>
+         <location filename="../src/optionsdialog.cpp" line="1817"/>
+         <source>Fixed font size</source>
+-        <translation>Фиксированный размер шрифта</translation>
++        <translation>Размер фиксированного шрифта</translation>
+     </message>
+     <message>
+         <location filename="../src/optionsdialog.cpp" line="1819"/>
+@@ -4598,4 +4598,4 @@ Ancient news could reappear</source>
+         <translation>Ошибка при проверке обновлений</translation>
+     </message>
+ </context>
+-</TS>
+\ No newline at end of file
++</TS>
+-- 
+2.43.0
+

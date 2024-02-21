@@ -1,0 +1,25 @@
+From 3909a7e1aa3bb12f598fb8d5e7e992882aa88c2a Mon Sep 17 00:00:00 2001
+From: Zlatan <16328515+darcosion@users.noreply.github.com>
+Date: Tue, 9 Feb 2021 03:24:24 +0100
+Subject: [PATCH 24/40] Update INSTALL, add sqlite dev package neccessary
+
+---
+ INSTALL | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/INSTALL b/INSTALL
+index 52879eac..af09a6ef 100644
+--- a/INSTALL
++++ b/INSTALL
+@@ -14,7 +14,7 @@ Build depends:
+     QtXml
+     
+  Linux Mint 20 (others?):
+- sudo apt install qt5-default qttools5-dev-tools qttools5-dev
++ sudo apt install qt5-default qttools5-dev-tools qttools5-dev libsqlite3-dev
+  sudo apt-get install qtmultimedia5-dev libqt5multimediawidgets5 libqt5multimedia5-plugins libqt5multimedia5
+ 
+ 
+-- 
+2.43.0
+

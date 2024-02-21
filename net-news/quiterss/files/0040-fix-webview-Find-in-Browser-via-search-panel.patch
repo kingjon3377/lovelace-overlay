@@ -1,0 +1,35 @@
+From dd65115fca58e179cf17116cd2a9b79c5637c015 Mon Sep 17 00:00:00 2001
+From: aleksey-khokhryakov <arhohryakov@gmail.com>
+Date: Tue, 8 Feb 2022 15:39:37 +0500
+Subject: [PATCH 40/40] fix(webview): "Find in Browser" via search panel
+
+---
+ src/newstabwidget.cpp | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/src/newstabwidget.cpp b/src/newstabwidget.cpp
+index c414ce5f..4a13e856 100644
+--- a/src/newstabwidget.cpp
++++ b/src/newstabwidget.cpp
+@@ -2231,8 +2231,7 @@ void NewsTabWidget::slotFindText(const QString &text)
+ {
+   QString objectName = findText_->findGroup_->checkedAction()->objectName();
+   if (objectName == "findInBrowserAct") {
+-//    webView_->findText("", QWebPage::HighlightAllOccurrences);
+-//    webView_->findText(text, QWebPage::HighlightAllOccurrences);
++    webView_->findText(text);
+   } else {
+     int newsId = newsModel_->dataField(newsView_->currentIndex().row(), "id").toInt();
+ 
+@@ -2293,7 +2292,7 @@ void NewsTabWidget::slotFindText(const QString &text)
+ //----------------------------------------------------------------------------
+ void NewsTabWidget::slotSelectFind()
+ {
+-//  webView_->findText("", QWebPage::HighlightAllOccurrences);
++  webView_->findText("");
+   slotFindText(findText_->text());
+ }
+ //----------------------------------------------------------------------------
+-- 
+2.43.0
+

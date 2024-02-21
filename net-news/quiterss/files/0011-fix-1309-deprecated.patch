@@ -1,0 +1,539 @@
+From 4bd7f02379572a5942b318e2a83e2079a8330f42 Mon Sep 17 00:00:00 2001
+From: Shilyaev Egor <egor.shilyaev@gmail.com>
+Date: Thu, 14 May 2020 17:16:22 +0500
+Subject: [PATCH 11/40] =?UTF-8?q?fix=20#1309:=20=D0=A3=D0=B4=D0=B0=D0=BB?=
+ =?UTF-8?q?=D0=B5=D0=BD=D0=B8=D0=B5=20=D0=BF=D1=80=D0=B5=D0=B4=D1=83=D0=BF?=
+ =?UTF-8?q?=D1=80=D0=B5=D0=B6=D0=B4=D0=B5=D0=BD=D0=B8=D0=B9=20"deprecated"?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+---
+ 3rdparty/ganalytics/ganalytics.h            | 24 ++++---------
+ 3rdparty/sqlitex/sqlitedriver.cpp           |  2 +-
+ src/adblock/adblockdialog.cpp               |  4 +++
+ src/application/mainapplication.cpp         |  9 +++--
+ src/application/mainwindow.cpp              | 12 +++----
+ src/downloads/downloaditem.h                |  2 +-
+ src/feedsview/feedsmodel.cpp                |  8 +++--
+ src/feedsview/feedsview.cpp                 |  8 ++---
+ src/network/networkmanager.cpp              | 16 +++++----
+ src/newstabwidget.cpp                       |  4 +--
+ src/newsview/newsmodel.cpp                  |  7 +++-
+ src/notifications/notificationsfeeditem.cpp |  6 +++-
+ src/notifications/notificationswidget.cpp   | 23 ++++++++-----
+ src/optionsdialog.cpp                       | 38 +++++++++++++--------
+ src/tabbar.cpp                              |  2 +-
+ 15 files changed, 96 insertions(+), 69 deletions(-)
+
+diff --git a/3rdparty/ganalytics/ganalytics.h b/3rdparty/ganalytics/ganalytics.h
+index 4dd56ca1..8ad10ec5 100644
+--- a/3rdparty/ganalytics/ganalytics.h
++++ b/3rdparty/ganalytics/ganalytics.h
+@@ -33,23 +33,9 @@
+   to enable debugging messages, '#define GANALYTICS_DEBUG 1' before including this file
+   to get super verbose debugging, '#define GANALYTICS_DEBUG 2'
+ 
+-  To build GAnalytics with QtQuick application (QGuiApplication) instead of Desktop,
+-  define GANALYTICS_QTQUICK in your .pro file like this: 'DEFINES += GANALYTICS_QTQUICK',
+-  or in cmake project: 'add_definitions(-DGANALYTICS_QTQUICK)'
+ */
+ #include <QCoreApplication>
+ #include <QSettings>
+-
+-#if defined(GANALYTICS_QTQUICK)
+-#include <QGuiApplication>
+-#include <QScreen>
+-#else
+-#ifdef QT_GUI_LIB
+-#include <QApplication>
+-#include <QDesktopWidget>
+-#endif
+-#endif
+-
+ #include <QUuid>
+ #include <QNetworkAccessManager>
+ #include <QNetworkRequest>
+@@ -61,9 +47,13 @@
+ #include <QEventLoop>
+ 
+ #if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
++#include <QGuiApplication>
++#include <QScreen>
+ #include <QUrlQuery>
+ #define URL_QUERY QUrlQuery
+ #else
++#include <QApplication>
++#include <QDesktopWidget>
+ #define URL_QUERY QUrl
+ #endif
+ 
+@@ -279,18 +269,16 @@ public:
+     QString os = Common::operatingSystemLong();
+     _userAgent = "Mozilla/5.0 (" + os + "; " + locale + ") GAnalytics/1.0 (Qt/" QT_VERSION_STR ")";
+     _userLanguage = locale;
+-#if defined(GANALYTICS_QTQUICK)
+-    QScreen* screen = qApp->primaryScreen();
++#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
++    QScreen* screen = QGuiApplication::primaryScreen();
+     QString geom = QString::number(screen->geometry().width())
+             + "x" + QString::number(screen->geometry().height());
+     _screenResolution = geom;
+ #else
+-#ifdef QT_GUI_LIB
+     QString geom = QString::number(QApplication::desktop()->screenGeometry().width())
+       + "x" + QString::number(QApplication::desktop()->screenGeometry().height());
+     _screenResolution = geom;
+ #endif
+-#endif
+ #if GANALYTICS_DEBUG > 1
+     qDebug() << "User-Agent:" << _userAgent;
+     qDebug() << "Language:" << _userLanguage;
+diff --git a/3rdparty/sqlitex/sqlitedriver.cpp b/3rdparty/sqlitex/sqlitedriver.cpp
+index c06c5cee..e13d1591 100644
+--- a/3rdparty/sqlitex/sqlitedriver.cpp
++++ b/3rdparty/sqlitex/sqlitedriver.cpp
+@@ -82,7 +82,7 @@ static QSqlError qMakeError(sqlite3 *access, const QString &descr, QSqlError::Er
+ {
+   return QSqlError(descr,
+                    QString(reinterpret_cast<const QChar *>(sqlite3_errmsg16(access))),
+-                   type, errorCode);
++                   type, QString::number(errorCode));
+ }
+ 
+ #if defined(SQLITEDRIVER_DEBUG)
+diff --git a/src/adblock/adblockdialog.cpp b/src/adblock/adblockdialog.cpp
+index f2f393bb..45f2c445 100644
+--- a/src/adblock/adblockdialog.cpp
++++ b/src/adblock/adblockdialog.cpp
+@@ -59,7 +59,11 @@ AdBlockDialog::AdBlockDialog(QWidget* parent)
+   setAttribute(Qt::WA_DeleteOnClose);
+   setupUi(this);
+ 
++#ifdef HAVE_QT5
++  const QRect screen = QGuiApplication::primaryScreen()->geometry();
++#else
+   const QRect screen = QApplication::desktop()->screenGeometry();
++#endif
+   const QRect size = geometry();
+   move((screen.width() - size.width()) / 2, (screen.height() - size.height()) / 2);
+   tabWidget->setDocumentMode(false);
+diff --git a/src/application/mainapplication.cpp b/src/application/mainapplication.cpp
+index a2b6f714..747dc430 100644
+--- a/src/application/mainapplication.cpp
++++ b/src/application/mainapplication.cpp
+@@ -265,14 +265,19 @@ void MainApplication::quitApplication()
+ 
+ void MainApplication::showClosingWidget()
+ {
++#ifdef HAVE_QT5
++  const QRect screenGeometry = QGuiApplication::primaryScreen()->availableGeometry();
++#else
++  const QRect screenGeometry = QApplication::desktop()->availableGeometry();
++#endif
+   closingWidget_ = new QWidget(0, Qt::Dialog | Qt::WindowStaysOnTopHint | Qt::WindowCloseButtonHint);
+   closingWidget_->setFocusPolicy(Qt::NoFocus);
+   QVBoxLayout *layout = new QVBoxLayout(closingWidget_);
+   layout->addWidget(new QLabel(tr("Saving data...")));
+   closingWidget_->resize(150, 20);
+   closingWidget_->show();
+-  closingWidget_->move(QApplication::desktop()->availableGeometry().width() - closingWidget_->frameSize().width(),
+-               QApplication::desktop()->availableGeometry().height() - closingWidget_->frameSize().height());
++  closingWidget_->move(screenGeometry.width() - closingWidget_->frameSize().width(),
++               screenGeometry.height() - closingWidget_->frameSize().height());
+   closingWidget_->setFixedSize(closingWidget_->size());
+   qApp->processEvents();
+ }
+diff --git a/src/application/mainwindow.cpp b/src/application/mainwindow.cpp
+index f1913cd1..3f1ac747 100755
+--- a/src/application/mainwindow.cpp
++++ b/src/application/mainwindow.cpp
+@@ -709,7 +709,7 @@ void MainWindow::createCentralWidget()
+         QString("QSplitter::handle {background: qlineargradient("
+                 "x1: 0, y1: 0, x2: 0, y2: 1,"
+                 "stop: 0 %1, stop: 0.07 %2);}").
+-        arg(feedsPanel_->palette().background().color().name()).
++        arg(feedsPanel_->palette().window().color().name()).
+         arg(qApp->palette().color(QPalette::Dark).name()));
+   mainSplitter_->setChildrenCollapsible(false);
+   mainSplitter_->addWidget(feedsWidget_);
+@@ -3488,7 +3488,7 @@ void MainWindow::showOptionDlg(int index)
+   optionsDialog_->soundNotifyBox_->setChecked(soundNewNews_);
+   optionsDialog_->editSoundNotifer_->setText(soundNotifyPath_);
+   optionsDialog_->showNotifyOn_->setChecked(showNotifyOn_);
+-  optionsDialog_->screenNotify_->setCurrentIndex(screenNotify_+1);
++  optionsDialog_->screenNotify_->setCurrentIndex(screenNotify_);
+   optionsDialog_->positionNotify_->setCurrentIndex(positionNotify_);
+   optionsDialog_->transparencyNotify_->setValue(transparencyNotify_);
+   optionsDialog_->countShowNewsNotify_->setValue(countShowNewsNotify_);
+@@ -3925,7 +3925,7 @@ void MainWindow::showOptionDlg(int index)
+   soundNewNews_ = optionsDialog_->soundNotifyBox_->isChecked();
+   soundNotifyPath_ = optionsDialog_->editSoundNotifer_->text();
+   showNotifyOn_ = optionsDialog_->showNotifyOn_->isChecked();
+-  screenNotify_ = optionsDialog_->screenNotify_->currentIndex()-1;
++  screenNotify_ = optionsDialog_->screenNotify_->currentIndex();
+   positionNotify_ = optionsDialog_->positionNotify_->currentIndex();
+   transparencyNotify_ = optionsDialog_->transparencyNotify_->value();
+   countShowNewsNotify_ = optionsDialog_->countShowNewsNotify_->value();
+@@ -5832,9 +5832,9 @@ void MainWindow::slotRefreshInfoTray(int newCount, int unreadCount)
+       QRect rectangle(0, 0, 128, 128);
+       QLinearGradient gradient(rectangle.bottomLeft(), rectangle.topLeft());
+       QColor color("#117C04");
+-      gradient.setColorAt(0, color.light());
++      gradient.setColorAt(0, color.lighter());
+       gradient.setColorAt(0.5, color);
+-      gradient.setColorAt(1, color.light());
++      gradient.setColorAt(1, color.lighter());
+       trayPainter.setBrush(gradient);
+       trayPainter.drawRoundedRect(rectangle, 20, 20);
+       trayPainter.setFont(font);
+@@ -6295,7 +6295,7 @@ void MainWindow::setStyleApp(QAction *pAct)
+         QString("QSplitter::handle {background: qlineargradient("
+                 "x1: 0, y1: 0, x2: 0, y2: 1,"
+                 "stop: 0 %1, stop: 0.07 %2);}").
+-        arg(feedsPanel_->palette().background().color().name()).
++        arg(feedsPanel_->palette().window().color().name()).
+         arg(qApp->palette().color(QPalette::Dark).name()));
+ 
+   mainApp->reloadUserStyleBrowser();
+diff --git a/src/downloads/downloaditem.h b/src/downloads/downloaditem.h
+index 6bf63c4f..c44319bf 100644
+--- a/src/downloads/downloaditem.h
++++ b/src/downloads/downloaditem.h
+@@ -94,7 +94,7 @@ private:
+   QNetworkReply *reply_;
+   FtpDownloader *ftpDownloader_;
+   QString fileName_;
+-  QTime downloadTimer_;
++  QElapsedTimer downloadTimer_;
+   QTime remTime_;
+   QTimer updateInfoTimer_;
+   QFile outputFile_;
+diff --git a/src/feedsview/feedsmodel.cpp b/src/feedsview/feedsmodel.cpp
+index 0a3d84c6..76d4bfb5 100644
+--- a/src/feedsview/feedsmodel.cpp
++++ b/src/feedsview/feedsmodel.cpp
+@@ -275,8 +275,12 @@ QVariant FeedsModel::data(const QModelIndex &index, int role) const
+       if (0 < indexSibling(index, "unread").data(Qt::EditRole).toInt())
+         font.setBold(true);
+       QFontMetrics fontMetrics(font);
+-
+-      if (width < fontMetrics.width(title))
++#if QT_VERSION >= QT_VERSION_CHECK(5,11,0)
++      const int fontMetricsWidth = fontMetrics.horizontalAdvance(title);
++#else
++      const int fontMetricsWidth = fontMetrics.width(title);
++#endif
++      if (width < fontMetricsWidth)
+         return title;
+     }
+     return QString("");
+diff --git a/src/feedsview/feedsview.cpp b/src/feedsview/feedsview.cpp
+index 793ea568..5c85d43c 100644
+--- a/src/feedsview/feedsview.cpp
++++ b/src/feedsview/feedsview.cpp
+@@ -211,7 +211,7 @@ QModelIndex FeedsView::lastFeedInFolder(const QModelIndex &indexFolder)
+   QModelIndex index = QModelIndex();
+ 
+   for (int i = model()->rowCount(indexFolder)-1; i >= 0; --i) {
+-    index = indexFolder.child(i, columnIndex("text"));
++    index = model()->index(i, columnIndex("text"), indexFolder);
+     if (isFolder(index))
+       index = lastFeedInFolder(index);
+     if (index.isValid())
+@@ -256,7 +256,7 @@ QModelIndex FeedsView::firstFeedInFolder(const QModelIndex &indexFolder)
+   QModelIndex index = QModelIndex();
+ 
+   for (int i = 0; i < model()->rowCount(indexFolder); i++) {
+-    index = indexFolder.child(i, columnIndex("text"));
++    index = model()->index(i, columnIndex("text"), indexFolder);
+     if (isFolder(index))
+       index = firstFeedInFolder(index);
+     if (index.isValid())
+@@ -302,7 +302,7 @@ QModelIndex FeedsView::lastFolderInFolder(const QModelIndex &indexFolder)
+ {
+   if (indexFolder.isValid()) {
+     for (int i = model()->rowCount(indexFolder)-1; i >= 0; --i) {
+-      QModelIndex index = indexFolder.child(i, columnIndex("text"));
++      QModelIndex index = model()->index(i, columnIndex("text"), indexFolder);
+       if (isFolder(index)) {
+         return index;
+       }
+@@ -341,7 +341,7 @@ QModelIndex FeedsView::firstFolderInFolder(const QModelIndex &indexFolder)
+ {
+   if (indexFolder.isValid()) {
+     for (int i = 0; i < model()->rowCount(indexFolder); i++) {
+-      QModelIndex index = indexFolder.child(i, columnIndex("text"));
++      QModelIndex index = model()->index(i, columnIndex("text"), indexFolder);
+       if (isFolder(index)) {
+         return index;
+       }
+diff --git a/src/network/networkmanager.cpp b/src/network/networkmanager.cpp
+index 3873e6f6..e1731675 100644
+--- a/src/network/networkmanager.cpp
++++ b/src/network/networkmanager.cpp
+@@ -102,10 +102,13 @@ void NetworkManager::loadSettings()
+     QFile(":data/bundle_version").copy(bundleVersionPath);
+     QFile(bundleVersionPath).setPermissions(QFile::ReadUser | QFile::WriteUser);
+   }
+-
+-  QSslSocket::setDefaultCaCertificates(QSslCertificate::fromPath(bundlePath));
++  QSslConfiguration::defaultConfiguration().setCaCertificates(QSslCertificate::fromPath(bundlePath));
++#else
++#if QT_VERSION >= QT_VERSION_CHECK(5,5,0)
++  QSslConfiguration::defaultConfiguration().setCaCertificates(QSslConfiguration::systemCaCertificates());
+ #else
+   QSslSocket::setDefaultCaCertificates(QSslSocket::systemCaCertificates());
++#endif
+ #endif
+ 
+   loadCertificates();
+@@ -120,7 +123,7 @@ void NetworkManager::loadCertificates()
+   settings.endGroup();
+ 
+   // CA Certificates
+-  caCerts_ = QSslSocket::defaultCaCertificates();
++  caCerts_ = QSslConfiguration::defaultConfiguration().caCertificates();
+ 
+   foreach (const QString &path, certPaths_) {
+ #ifdef Q_OS_WIN
+@@ -159,8 +162,7 @@ void NetworkManager::loadCertificates()
+ #else
+   localCerts_ = QSslCertificate::fromPath(mainApp->dataDir() + "/certificates/*.crt", QSsl::Pem, QRegExp::Wildcard);
+ #endif
+-
+-  QSslSocket::setDefaultCaCertificates(caCerts_ + localCerts_);
++  QSslConfiguration::defaultConfiguration().setCaCertificates(caCerts_ + localCerts_);
+ 
+ #if defined(Q_OS_WIN) || defined(Q_OS_OS2)
+   new CaBundleUpdater(this, this);
+@@ -370,9 +372,9 @@ void NetworkManager::removeLocalCertificate(const QSslCertificate &cert)
+ {
+   localCerts_.removeOne(cert);
+ 
+-  QList<QSslCertificate> certs = QSslSocket::defaultCaCertificates();
++  QList<QSslCertificate> certs = QSslConfiguration::defaultConfiguration().caCertificates();;
+   certs.removeOne(cert);
+-  QSslSocket::setDefaultCaCertificates(certs);
++  QSslConfiguration::defaultConfiguration().setCaCertificates(certs);
+ 
+   // Delete cert file from profile
+   bool deleted = false;
+diff --git a/src/newstabwidget.cpp b/src/newstabwidget.cpp
+index f9d6507e..bb1faf2e 100644
+--- a/src/newstabwidget.cpp
++++ b/src/newstabwidget.cpp
+@@ -127,7 +127,7 @@ NewsTabWidget::NewsTabWidget(QWidget *parent, TabType type, int feedId, int feed
+             QString("QSplitter::handle {background: qlineargradient("
+                     "x1: 0, y1: 0, x2: 0, y2: 1,"
+                     "stop: 0 %1, stop: 0.07 %2);}").
+-            arg(newsPanelWidget_->palette().background().color().name()).
++            arg(newsPanelWidget_->palette().window().color().name()).
+             arg(qApp->palette().color(QPalette::Dark).name()));
+     } else {
+       newsTabWidgetSplitter_->setOrientation(Qt::Vertical);
+@@ -2111,7 +2111,7 @@ void NewsTabWidget::setBrowserPosition()
+           QString("QSplitter::handle {background: qlineargradient("
+                   "x1: 0, y1: 0, x2: 0, y2: 1,"
+                   "stop: 0 %1, stop: 0.07 %2);}").
+-          arg(newsPanelWidget_->palette().background().color().name()).
++          arg(newsPanelWidget_->palette().window().color().name()).
+           arg(qApp->palette().color(QPalette::Dark).name()));
+     break;
+   default:
+diff --git a/src/newsview/newsmodel.cpp b/src/newsview/newsmodel.cpp
+index c911fa7d..bd937725 100644
+--- a/src/newsview/newsmodel.cpp
++++ b/src/newsview/newsmodel.cpp
+@@ -87,7 +87,12 @@ QVariant NewsModel::data(const QModelIndex &index, int role) const
+       return mainWindow->feedsModel_->dataField(feedIndex, "text").toString();
+     } else if (QSqlTableModel::fieldIndex("title") == index.column()) {
+       QString title = index.data(Qt::EditRole).toString();
+-      if ((view_->header()->sectionSize(index.column()) - 14) < view_->header()->fontMetrics().width(title))
++#if QT_VERSION >= QT_VERSION_CHECK(5,11,0)
++      const int fontMetricsWidth = view_->header()->fontMetrics().horizontalAdvance(title);
++#else
++      const int fontMetricsWidth = view_->header()->fontMetrics().width(title);
++#endif
++      if ((view_->header()->sectionSize(index.column()) - 14) < fontMetricsWidth)
+         return title;
+     }
+     return QString("");
+diff --git a/src/notifications/notificationsfeeditem.cpp b/src/notifications/notificationsfeeditem.cpp
+index 6b1dd768..9d5fb599 100644
+--- a/src/notifications/notificationsfeeditem.cpp
++++ b/src/notifications/notificationsfeeditem.cpp
+@@ -51,7 +51,11 @@ void FeedItem::setIcon(const QPixmap &icon)
+ 
+ void FeedItem::setTitle(const QString &text, int cntNews)
+ {
+-  int wight = titleLabel_->fontMetrics().width(QString(" (%1)").arg(cntNews));
++#if QT_VERSION >= QT_VERSION_CHECK(5,11,0)
++  const int wight = titleLabel_->fontMetrics().horizontalAdvance(QString(" (%1)").arg(cntNews));
++#else
++  const int wight = titleLabel_->fontMetrics().width(QString(" (%1)").arg(cntNews));
++#endif
+   QString titleStr = titleLabel_->fontMetrics().elidedText(
+         text, Qt::ElideRight, titleLabel_->sizeHint().width() - wight);
+   titleLabel_->setText(QString("%1 (%2)").arg(titleStr).arg(cntNews));
+diff --git a/src/notifications/notificationswidget.cpp b/src/notifications/notificationswidget.cpp
+index 49e14c5a..750317c3 100644
+--- a/src/notifications/notificationswidget.cpp
++++ b/src/notifications/notificationswidget.cpp
+@@ -81,7 +81,7 @@ NotificationWidget::NotificationWidget(QList<int> idFeedList,
+     closeNotify_ = mainApp->mainWindow()->closeNotify_;
+   } else {
+     OptionsDialog *options = qobject_cast<OptionsDialog*>(parentWidget);
+-    screen_ = options->screenNotify_->currentIndex()-1;
++    screen_ = options->screenNotify_->currentIndex();
+     position_ = options->positionNotify_->currentIndex();
+     transparency_ = options->transparencyNotify_->value();
+     timeShowNews_ = options->timeShowNewsNotify_->value();
+@@ -399,23 +399,28 @@ NotificationWidget::~NotificationWidget()
+ 
+ void NotificationWidget::showEvent(QShowEvent*)
+ {
++#ifdef HAVE_QT5
++  const QRect screenGeometry = QGuiApplication::screens().at(screen_)->availableGeometry();
++#else
++  const QRect screenGeometry = QApplication::desktop()->availableGeometry(screen_);
++#endif
+   QPoint point;
+   switch (position_) {
+   case 0:
+-    point = QPoint(QApplication::desktop()->availableGeometry(screen_).topLeft().x(),
+-                   QApplication::desktop()->availableGeometry(screen_).topLeft().y());
++    point = QPoint(screenGeometry.topLeft().x(),
++                   screenGeometry.topLeft().y());
+     break;
+   case 1:
+-    point = QPoint(QApplication::desktop()->availableGeometry(screen_).topRight().x()-width(),
+-                   QApplication::desktop()->availableGeometry(screen_).topRight().y());
++    point = QPoint(screenGeometry.topRight().x()-width(),
++                   screenGeometry.topRight().y());
+     break;
+   case 2:
+-    point = QPoint(QApplication::desktop()->availableGeometry(screen_).bottomLeft().x(),
+-                   QApplication::desktop()->availableGeometry(screen_).bottomLeft().y()-height());
++    point = QPoint(screenGeometry.bottomLeft().x(),
++                   screenGeometry.bottomLeft().y()-height());
+     break;
+   default:
+-    point = QPoint(QApplication::desktop()->availableGeometry(screen_).bottomRight().x()-width(),
+-                   QApplication::desktop()->availableGeometry(screen_).bottomRight().y()-height());
++    point = QPoint(screenGeometry.bottomRight().x()-width(),
++                   screenGeometry.bottomRight().y()-height());
+     break;
+   }
+   move(point);
+diff --git a/src/optionsdialog.cpp b/src/optionsdialog.cpp
+index 806737fa..a595b7e4 100755
+--- a/src/optionsdialog.cpp
++++ b/src/optionsdialog.cpp
+@@ -168,16 +168,21 @@ OptionsDialog::OptionsDialog(QWidget *parent)
+ 
+ void OptionsDialog::showEvent(QShowEvent*event)
+ {
+-  int desktopWidth = QApplication::desktop()->availableGeometry().width();
+-  int desktopHeight = QApplication::desktop()->availableGeometry().height();
++#ifdef HAVE_QT5
++  const QRect screenGeometry = QGuiApplication::primaryScreen()->availableGeometry();
++#else
++  const QRect screenGeometry = QApplication::desktop()->availableGeometry();
++#endif
++  int desktopWidth = screenGeometry.width();
++  int desktopHeight = screenGeometry.height();
+   int maxWidth = desktopWidth - (frameSize().width() - width());
+   int maxHeight = desktopHeight - (frameSize().height() - height());
+ 
+   setMaximumSize(maxWidth, maxHeight);
+ 
+   if (frameSize().height() >= desktopHeight) {
+-    QPoint point = QPoint(QApplication::desktop()->availableGeometry().topLeft().x(),
+-                          QApplication::desktop()->availableGeometry().topLeft().y());
++    QPoint point = QPoint(screenGeometry.topLeft().x(),
++                          screenGeometry.topLeft().y());
+     move(point);
+   }
+ 
+@@ -1102,11 +1107,16 @@ void OptionsDialog::createNotifierWidget()
+   showNotifyOn_->setChecked(false);
+ 
+   screenNotify_ = new QComboBox();
+-  screenNotify_->addItem("-1");
+-  for (int i = 0; i < QApplication::desktop()->screenCount(); ++i) {
++
++#ifdef HAVE_QT5
++  const int screenCount = QApplication::screens().size();
++#else
++  const int screenCount = QApplication::desktop()->screenCount();
++#endif
++  for (int i = 0; i < screenCount; ++i) {
+     screenNotify_->addItem(QString::number(i));
+   }
+-  screenNotify_->setCurrentIndex(1);
++  screenNotify_->setCurrentIndex(0);
+ 
+   positionNotify_ = new QComboBox();
+   QStringList positionList;
+@@ -2411,9 +2421,9 @@ void OptionsDialog::loadLabels()
+     QTreeWidgetItem *treeWidgetItem = new QTreeWidgetItem(strTreeItem);
+     treeWidgetItem->setIcon(1, QIcon(imageLabel));
+     if (!colorText.isEmpty())
+-      treeWidgetItem->setTextColor(1, QColor(colorText));
++      treeWidgetItem->setForeground(1, QColor(colorText));
+     if (!colorBg.isEmpty())
+-      treeWidgetItem->setBackgroundColor(1, QColor(colorBg));
++      treeWidgetItem->setBackground(1, QColor(colorBg));
+     labelsTree_->addTopLevelItem(treeWidgetItem);
+   }
+ }
+@@ -2446,9 +2456,9 @@ void OptionsDialog::newLabel()
+   QTreeWidgetItem *treeWidgetItem = new QTreeWidgetItem(itemStr);
+   treeWidgetItem->setIcon(1, labelDialog->icon_);
+   if (!colorText.isEmpty())
+-    treeWidgetItem->setTextColor(1, QColor(colorText));
++    treeWidgetItem->setForeground(1, QColor(colorText));
+   if (!colorBg.isEmpty())
+-    treeWidgetItem->setBackgroundColor(1, QColor(colorBg));
++    treeWidgetItem->setBackground(1, QColor(colorBg));
+   labelsTree_->addTopLevelItem(treeWidgetItem);
+   addIdLabelList(treeWidgetItem->text(0));
+ 
+@@ -2502,9 +2512,9 @@ void OptionsDialog::editLabel()
+   treeWidgetItem->setText(3, colorBg);
+   treeWidgetItem->setIcon(1, labelDialog->icon_);
+   if (!colorText.isEmpty())
+-    treeWidgetItem->setTextColor(1, QColor(colorText));
++    treeWidgetItem->setForeground(1, QColor(colorText));
+   if (!colorBg.isEmpty())
+-    treeWidgetItem->setBackgroundColor(1, QColor(colorBg));
++    treeWidgetItem->setBackground(1, QColor(colorBg));
+   addIdLabelList(idLabelStr);
+ 
+   QList<QStandardItem *> treeItems;
+@@ -2822,7 +2832,7 @@ void OptionsDialog::applyPass()
+   db_.transaction();
+   QSqlQuery q;
+   for (int i = 0; i < passTree_->topLevelItemCount(); i++) {
+-    if (passTree_->isItemHidden(passTree_->topLevelItem(i))) {
++    if (passTree_->topLevelItem(i)->isHidden()) {
+       QString id = passTree_->topLevelItem(i)->text(0);
+       q.exec(QString("DELETE FROM passwords WHERE id=='%1'").arg(id));
+     }
+diff --git a/src/tabbar.cpp b/src/tabbar.cpp
+index 199f1715..033a60a8 100644
+--- a/src/tabbar.cpp
++++ b/src/tabbar.cpp
+@@ -37,7 +37,7 @@ TabBar::TabBar(QWidget *parent)
+ 
+   setStyleSheet(QString("#tabBar_ QToolButton {border: 1px solid %1; border-radius: 2px; background: %2;}").
+                 arg(qApp->palette().color(QPalette::Dark).name()).
+-                arg(palette().background().color().name()));
++                arg(palette().window().color().name()));
+ 
+   addTab("");
+ 
+-- 
+2.43.0
+

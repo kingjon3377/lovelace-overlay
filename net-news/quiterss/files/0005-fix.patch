@@ -1,0 +1,29 @@
+From f37a2e4ff066c87926ecd9f8b00571292baef94e Mon Sep 17 00:00:00 2001
+From: Shilyaev Egor <egor.shilyaev@gmail.com>
+Date: Wed, 29 Apr 2020 18:52:52 +0500
+Subject: [PATCH 05/40] =?UTF-8?q?fix:=20=D0=9E=D0=BF=D0=B5=D1=87=D0=B0?=
+ =?UTF-8?q?=D1=82=D0=BA=D0=B0?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+---
+ src/application/mainwindow.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/application/mainwindow.cpp b/src/application/mainwindow.cpp
+index 2d95c4eb..e971084a 100755
+--- a/src/application/mainwindow.cpp
++++ b/src/application/mainwindow.cpp
+@@ -1464,7 +1464,7 @@ void MainWindow::createActions()
+ 
+   viberShareAct_ = new QAction(this);
+   viberShareAct_->setObjectName("viberShareAct");
+-  viberShareAct_->setText("Vider");
++  viberShareAct_->setText("Viber");
+   viberShareAct_->setIcon(QIcon(":/share/images/share/viber.png"));
+   shareGroup_->addAction(viberShareAct_);
+ 
+-- 
+2.43.0
+

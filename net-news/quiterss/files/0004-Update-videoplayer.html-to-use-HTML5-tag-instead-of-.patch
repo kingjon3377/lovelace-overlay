@@ -1,0 +1,24 @@
+From 1cbb930b6b29750138e8ea5cf56d7f1b0ad9ad30 Mon Sep 17 00:00:00 2001
+From: vinbrule <40869791+vinbrule@users.noreply.github.com>
+Date: Wed, 29 Apr 2020 09:25:25 -0400
+Subject: [PATCH 04/40] Update videoplayer.html to use HTML5 tag instead of
+ Flash
+
+---
+ html/videoplayer.html | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/html/videoplayer.html b/html/videoplayer.html
+index 78336601..a0e18d38 100644
+--- a/html/videoplayer.html
++++ b/html/videoplayer.html
+@@ -1 +1,4 @@
+-<object type="application/x-shockwave-flash" data="http://flv-mp3.com/i/pic/uflvplayer_500x375.swf" height="300" width="400"><param name="bgcolor" value="#FFFFFF" /><param name="allowFullScreen" value="true" /><param name="allowScriptAccess" value="always" /><param name="movie" value="http://flv-mp3.com/i/pic/uflvplayer_500x375.swf" /><param name="FlashVars" value="way=%1&amp;swf=http://flv-mp3.com/i/pic/uflvplayer_500x375.swf&amp;w=400&amp;h=300&amp;pic=http://&amp;autoplay=0&amp;tools=2&amp;skin=black&amp;volume=70&amp;q=1&amp;comment=" /></object>
+\ No newline at end of file
++<video width="400" height="300" controls>
++  <source src="%1">
++Your browser does not support the video tag.
++</video>
+-- 
+2.43.0
+

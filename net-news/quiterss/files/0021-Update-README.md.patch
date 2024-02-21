@@ -1,0 +1,26 @@
+From 99c2b366b9d19f0b4399027175817c2017addc01 Mon Sep 17 00:00:00 2001
+From: Egor Shilyaev <egor.shilyaev@gmail.com>
+Date: Mon, 2 Nov 2020 11:13:16 +0500
+Subject: [PATCH 21/40] Update README.md
+
+---
+ README.md | 6 ------
+ 1 file changed, 6 deletions(-)
+
+diff --git a/README.md b/README.md
+index a31c1d23..e8e3c598 100644
+--- a/README.md
++++ b/README.md
+@@ -1,9 +1,3 @@
+-Download the source code:
+-Ubuntu/Mint:
+-sudo apt install git
+-git clone https://github.com/QuiteRSS/quiterss
+-Follow the INSTALL file instructions.
+-
+ [![Build Status](https://travis-ci.org/QuiteRSS/quiterss.svg?branch=master)](https://travis-ci.org/QuiteRSS/quiterss)
+ [![Build status](https://ci.appveyor.com/api/projects/status/5lr4m5jxf2ad4f5r/branch/master?svg=true)](https://ci.appveyor.com/project/Funcy-dcm/quiterss/branch/master)
+ [![Codacy Badge](https://api.codacy.com/project/badge/Grade/ed6473aef4dd4c5aba8cf1dbbc8c6383)](https://www.codacy.com/app/Funcy-dcm/quiterss?utm_source=github.com&utm_medium=referral&utm_content=QuiteRSS/quiterss&utm_campaign=badger)
+-- 
+2.43.0
+

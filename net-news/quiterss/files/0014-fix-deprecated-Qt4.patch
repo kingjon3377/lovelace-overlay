@@ -1,0 +1,39 @@
+From e69b406a49a5e58cc9d8422ba6337b086a47c995 Mon Sep 17 00:00:00 2001
+From: Shilyaev Egor <egor.shilyaev@gmail.com>
+Date: Fri, 15 May 2020 17:39:09 +0500
+Subject: [PATCH 14/40] =?UTF-8?q?fix:=20=D0=A3=D0=B4=D0=B0=D0=BB=D0=B5?=
+ =?UTF-8?q?=D0=BD=D0=B8=D0=B5=20=D0=BF=D1=80=D0=B5=D0=B4=D1=83=D0=BF=D1=80?=
+ =?UTF-8?q?=D0=B5=D0=B6=D0=B4=D0=B5=D0=BD=D0=B8=D0=B9=20"deprecated"=20(?=
+ =?UTF-8?q?=D0=BF=D0=BE=D0=B4=D0=B4=D0=B5=D1=80=D0=B6=D0=BA=D0=B0=20Qt4)?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+---
+ 3rdparty/sqlitex/sqlitedriver.cpp | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/3rdparty/sqlitex/sqlitedriver.cpp b/3rdparty/sqlitex/sqlitedriver.cpp
+index e13d1591..0de53ce2 100644
+--- a/3rdparty/sqlitex/sqlitedriver.cpp
++++ b/3rdparty/sqlitex/sqlitedriver.cpp
+@@ -80,9 +80,16 @@ static QVariant::Type qGetColumnType(const QString &tpName)
+ static QSqlError qMakeError(sqlite3 *access, const QString &descr, QSqlError::ErrorType type,
+                             int errorCode = -1)
+ {
++#ifdef HAVE_QT5
+   return QSqlError(descr,
+                    QString(reinterpret_cast<const QChar *>(sqlite3_errmsg16(access))),
+                    type, QString::number(errorCode));
++#else
++  return QSqlError(descr,
++                   QString(reinterpret_cast<const QChar *>(sqlite3_errmsg16(access))),
++                   type, errorCode);
++#endif
++
+ }
+ 
+ #if defined(SQLITEDRIVER_DEBUG)
+-- 
+2.43.0
+

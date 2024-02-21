@@ -1,0 +1,1556 @@
+From 08b9f01170c9b25a0c5bad380dd0fc7037c6544b Mon Sep 17 00:00:00 2001
+From: aleksey-khokhryakov <arhohryakov@gmail.com>
+Date: Wed, 2 Feb 2022 17:36:53 +0500
+Subject: [PATCH 39/40] build(webview)!: switch to QtWebEngine (was QtWebKit)
+
+BREAKING CHANGE: switch from QtWebKit to QtWebEngine (Chromium)
+---
+ QuiteRSS.pro                        |  10 +-
+ src/aboutdialog.cpp                 |   6 +-
+ src/adblock/adblockicon.cpp         |   2 +-
+ src/adblock/adblockmanager.cpp      |   2 +-
+ src/adblock/adblockrule.cpp         |  25 +--
+ src/adblock/adblocksubscription.cpp |   2 +-
+ src/application/mainapplication.cpp |   2 +-
+ src/application/mainwindow.cpp      | 194 +++++++++---------
+ src/application/mainwindow.h        |   8 +-
+ src/main/globals.cpp                |   2 +-
+ src/newstabwidget.cpp               | 306 ++++++++++++++--------------
+ src/newstabwidget.h                 |   2 +-
+ src/plugins/clicktoflash.h          |   2 +-
+ src/updateappdialog.cpp             |   2 +-
+ src/updateappdialog.h               |   5 +-
+ src/webview/rssdetectionwidget.cpp  |  76 +++----
+ src/webview/webpage.cpp             |  96 ++++-----
+ src/webview/webpage.h               |  12 +-
+ src/webview/webview.cpp             |  64 +++---
+ src/webview/webview.h               |  12 +-
+ 20 files changed, 416 insertions(+), 414 deletions(-)
+
+diff --git a/QuiteRSS.pro b/QuiteRSS.pro
+index 22dceac5..8dce8131 100644
+--- a/QuiteRSS.pro
++++ b/QuiteRSS.pro
+@@ -32,7 +32,7 @@ exists(.git) {
+ }
+ 
+ isEqual(QT_MAJOR_VERSION, 5) {
+-  QT += widgets webkitwidgets network xml printsupport sql multimedia
++  QT += widgets webenginewidgets network xml printsupport sql multimedia
+   DEFINES += HAVE_QT5
+   equals(WEBKIT_ALPHA, true) {
+       DEFINES += WEBKIT_ALPHA
+@@ -73,8 +73,8 @@ HEADERS += \
+     src/labeldialog.h \
+     src/faviconobject.h \
+     src/customizetoolbardialog.h \
+-    src/plugins/webpluginfactory.h \
+-    src/plugins/clicktoflash.h \
++#    src/plugins/webpluginfactory.h \
++#    src/plugins/clicktoflash.h \
+     src/downloads/downloadmanager.h \
+     src/downloads/downloaditem.h \
+     src/tabbar.h \
+@@ -142,8 +142,8 @@ SOURCES += \
+     src/labeldialog.cpp \
+     src/faviconobject.cpp \
+     src/customizetoolbardialog.cpp \
+-    src/plugins/webpluginfactory.cpp \
+-    src/plugins/clicktoflash.cpp \
++#    src/plugins/webpluginfactory.cpp \
++#    src/plugins/clicktoflash.cpp \
+     src/downloads/downloadmanager.cpp \
+     src/downloads/downloaditem.cpp \
+     src/tabbar.cpp \
+diff --git a/src/aboutdialog.cpp b/src/aboutdialog.cpp
+index 643d25d2..71250bca 100644
+--- a/src/aboutdialog.cpp
++++ b/src/aboutdialog.cpp
+@@ -22,7 +22,7 @@
+ 
+ #include <sqlite3.h>
+ #ifdef HAVE_QT5
+-#include <QWebPage>
++#include <QWebEnginePage>
+ #else
+ #include <qwebkitversion.h>
+ #endif
+@@ -53,8 +53,8 @@ AboutDialog::AboutDialog(const QString &lang, QWidget *parent) :
+       + "<BR>"
+       + tr("QuiteRSS is a open-source cross-platform RSS/Atom news reader")
+       + "<P>" + tr("Includes:")
+-      + QString(" Qt-%1, SQLite-%2, WebKit-%4").
+-      arg(QT_VERSION_STR).arg(SQLITE_VERSION).arg(qWebKitVersion())
++      + QString(" Qt-%1, SQLite-%2, WebEngine-%4").
++      arg(QT_VERSION_STR).arg(SQLITE_VERSION).arg("83.0.4103.122") //.arg(qWebKitVersion())
+       + "</P>"
+       + QString("<a href=\"%1\">%1</a>").arg("https://quiterss.org") +
+       "<P>Copyright &copy; 2011-2021 QuiteRSS Team "
+diff --git a/src/adblock/adblockicon.cpp b/src/adblock/adblockicon.cpp
+index 3c3adc51..a2552f5d 100644
+--- a/src/adblock/adblockicon.cpp
++++ b/src/adblock/adblockicon.cpp
+@@ -128,7 +128,7 @@ void AdBlockIcon::createMenu(QMenu* menu)
+   AdBlockCustomList* customList = manager->customList();
+ 
+   WebPage* page = qobject_cast<WebPage*>(m_window->currentNewsTab->webView_->page());
+-  const QUrl pageUrl = page->mainFrame()->url();
++  const QUrl pageUrl = page->url();
+ 
+   menu->addAction(tr("Show AdBlock &Settings"), manager, SLOT(showDialog()));
+   menu->addSeparator();
+diff --git a/src/adblock/adblockmanager.cpp b/src/adblock/adblockmanager.cpp
+index 46e2a82f..e66f4aff 100644
+--- a/src/adblock/adblockmanager.cpp
++++ b/src/adblock/adblockmanager.cpp
+@@ -124,7 +124,7 @@ QNetworkReply* AdBlockManager::block(const QNetworkRequest &request)
+     QVariant v = request.attribute((QNetworkRequest::Attribute)(QNetworkRequest::User + 100));
+     WebPage* webPage = static_cast<WebPage*>(v.value<void*>());
+     if (WebPage::isPointerSafeToUse(webPage)) {
+-      if (!canBeBlocked(webPage->mainFrame()->url())) {
++      if (!canBeBlocked(webPage->url())) {
+         return 0;
+       }
+ 
+diff --git a/src/adblock/adblockrule.cpp b/src/adblock/adblockrule.cpp
+index 0a0ab308..b168f32a 100644
+--- a/src/adblock/adblockrule.cpp
++++ b/src/adblock/adblockrule.cpp
+@@ -70,8 +70,8 @@
+ #include <QString>
+ #include <QStringList>
+ #include <QNetworkRequest>
+-#include <QWebFrame>
+-#include <QWebPage>
++//#include <QWebFrame>
++#include <QWebEnginePage>
+ 
+ // Version for Qt < 4.8 has one issue, it will wrongly
+ // count .co.uk (and others) as second-level domain
+@@ -369,19 +369,20 @@ bool AdBlockRule::matchObject(const QNetworkRequest &request) const
+ 
+ bool AdBlockRule::matchSubdocument(const QNetworkRequest &request) const
+ {
+-  QWebFrame* originatingFrame = static_cast<QWebFrame*>(request.originatingObject());
+-  if (!originatingFrame) {
+-    return false;
+-  }
++//  QWebFrame* originatingFrame = static_cast<QWebFrame*>(request.originatingObject());
++//  if (!originatingFrame) {
++//    return false;
++//  }
+ 
+-  QWebPage* page = originatingFrame->page();
+-  if (!page) {
+-    return false;
+-  }
++//  QWebPage* page = originatingFrame->page();
++//  if (!page) {
++//    return false;
++//  }
+ 
+-  bool match = !(originatingFrame == page->mainFrame());
++//  bool match = !(originatingFrame == page->mainFrame());
+ 
+-  return hasException(SubdocumentOption) ? !match : match;
++//  return hasException(SubdocumentOption) ? !match : match;
++    return false;
+ }
+ 
+ bool AdBlockRule::matchXmlHttpRequest(const QNetworkRequest &request) const
+diff --git a/src/adblock/adblocksubscription.cpp b/src/adblock/adblocksubscription.cpp
+index c8ec18fe..d7b21869 100644
+--- a/src/adblock/adblocksubscription.cpp
++++ b/src/adblock/adblocksubscription.cpp
+@@ -71,7 +71,7 @@
+ #include <QTimer>
+ #include <QNetworkReply>
+ #include <QDebug>
+-#include <QWebPage>
++#include <QWebEnginePage>
+ 
+ AdBlockSubscription::AdBlockSubscription(const QString &title, QObject* parent)
+   : QObject(parent)
+diff --git a/src/application/mainapplication.cpp b/src/application/mainapplication.cpp
+index 81f10394..944465ee 100644
+--- a/src/application/mainapplication.cpp
++++ b/src/application/mainapplication.cpp
+@@ -593,7 +593,7 @@ void MainApplication::reloadUserStyleBrowser()
+   Settings settings;
+   settings.beginGroup("Settings");
+   QString userStyleBrowser = settings.value("userStyleBrowser", QString()).toString();
+-  QWebSettings::globalSettings()->setUserStyleSheetUrl(userStyleSheet(userStyleBrowser));
++//  QWebSettings::globalSettings()->setUserStyleSheetUrl(userStyleSheet(userStyleBrowser));
+   settings.endGroup();
+ }
+ 
+diff --git a/src/application/mainwindow.cpp b/src/application/mainwindow.cpp
+index 3973e2b0..3ba521a5 100755
+--- a/src/application/mainwindow.cpp
++++ b/src/application/mainwindow.cpp
+@@ -2004,46 +2004,46 @@ void MainWindow::loadSettings()
+   notificationFontSize_ = settings.value("notificationFontSize", qApp->font().pointSize()).toInt();
+ 
+   QString browserStandardFont = settings.value(
+-        "browserStandardFont", QWebSettings::globalSettings()->fontFamily(QWebSettings::StandardFont)).toString();
++        "browserStandardFont", QWebEngineSettings::globalSettings()->fontFamily(QWebEngineSettings::StandardFont)).toString();
+   QString browserFixedFont = settings.value(
+-        "browserFixedFont", QWebSettings::globalSettings()->fontFamily(QWebSettings::FixedFont)).toString();
++        "browserFixedFont", QWebEngineSettings::globalSettings()->fontFamily(QWebEngineSettings::FixedFont)).toString();
+   QString browserSerifFont = settings.value(
+-        "browserSerifFont", QWebSettings::globalSettings()->fontFamily(QWebSettings::SerifFont)).toString();
++        "browserSerifFont", QWebEngineSettings::globalSettings()->fontFamily(QWebEngineSettings::SerifFont)).toString();
+   QString browserSansSerifFont = settings.value(
+-        "browserSansSerifFont", QWebSettings::globalSettings()->fontFamily(QWebSettings::SansSerifFont)).toString();
++        "browserSansSerifFont", QWebEngineSettings::globalSettings()->fontFamily(QWebEngineSettings::SansSerifFont)).toString();
+   QString browserCursiveFont = settings.value(
+-        "browserCursiveFont", QWebSettings::globalSettings()->fontFamily(QWebSettings::CursiveFont)).toString();
++        "browserCursiveFont", QWebEngineSettings::globalSettings()->fontFamily(QWebEngineSettings::CursiveFont)).toString();
+   QString browserFantasyFont = settings.value(
+-        "browserFantasyFont", QWebSettings::globalSettings()->fontFamily(QWebSettings::FantasyFont)).toString();
++        "browserFantasyFont", QWebEngineSettings::globalSettings()->fontFamily(QWebEngineSettings::FantasyFont)).toString();
+   int browserDefaultFontSize = settings.value(
+-        "browserDefaultFontSize", QWebSettings::globalSettings()->fontSize(QWebSettings::DefaultFontSize)).toInt();
++        "browserDefaultFontSize", QWebEngineSettings::globalSettings()->fontSize(QWebEngineSettings::DefaultFontSize)).toInt();
+   int browserFixedFontSize = settings.value(
+-        "browserFixedFontSize", QWebSettings::globalSettings()->fontSize(QWebSettings::DefaultFixedFontSize)).toInt();
++        "browserFixedFontSize", QWebEngineSettings::globalSettings()->fontSize(QWebEngineSettings::DefaultFixedFontSize)).toInt();
+   int browserMinFontSize = settings.value(
+-        "browserMinFontSize", QWebSettings::globalSettings()->fontSize(QWebSettings::MinimumFontSize)).toInt();
++        "browserMinFontSize", QWebEngineSettings::globalSettings()->fontSize(QWebEngineSettings::MinimumFontSize)).toInt();
+   int browserMinLogFontSize = settings.value(
+-        "browserMinLogFontSize", QWebSettings::globalSettings()->fontSize(QWebSettings::MinimumLogicalFontSize)).toInt();
+-
+-  QWebSettings::globalSettings()->setFontFamily(
+-        QWebSettings::StandardFont, browserStandardFont);
+-  QWebSettings::globalSettings()->setFontFamily(
+-        QWebSettings::FixedFont, browserFixedFont);
+-  QWebSettings::globalSettings()->setFontFamily(
+-        QWebSettings::SerifFont, browserSerifFont);
+-  QWebSettings::globalSettings()->setFontFamily(
+-        QWebSettings::SansSerifFont, browserSansSerifFont);
+-  QWebSettings::globalSettings()->setFontFamily(
+-        QWebSettings::CursiveFont, browserCursiveFont);
+-  QWebSettings::globalSettings()->setFontFamily(
+-        QWebSettings::FantasyFont, browserFantasyFont);
+-  QWebSettings::globalSettings()->setFontSize(
+-        QWebSettings::DefaultFontSize, browserDefaultFontSize);
+-  QWebSettings::globalSettings()->setFontSize(
+-        QWebSettings::DefaultFixedFontSize, browserFixedFontSize);
+-  QWebSettings::globalSettings()->setFontSize(
+-        QWebSettings::MinimumFontSize, browserMinFontSize);
+-  QWebSettings::globalSettings()->setFontSize(
+-        QWebSettings::MinimumLogicalFontSize, browserMinLogFontSize);
++        "browserMinLogFontSize", QWebEngineSettings::globalSettings()->fontSize(QWebEngineSettings::MinimumLogicalFontSize)).toInt();
++
++  QWebEngineSettings::globalSettings()->setFontFamily(
++        QWebEngineSettings::StandardFont, browserStandardFont);
++  QWebEngineSettings::globalSettings()->setFontFamily(
++        QWebEngineSettings::FixedFont, browserFixedFont);
++  QWebEngineSettings::globalSettings()->setFontFamily(
++        QWebEngineSettings::SerifFont, browserSerifFont);
++  QWebEngineSettings::globalSettings()->setFontFamily(
++        QWebEngineSettings::SansSerifFont, browserSansSerifFont);
++  QWebEngineSettings::globalSettings()->setFontFamily(
++        QWebEngineSettings::CursiveFont, browserCursiveFont);
++  QWebEngineSettings::globalSettings()->setFontFamily(
++        QWebEngineSettings::FantasyFont, browserFantasyFont);
++  QWebEngineSettings::globalSettings()->setFontSize(
++        QWebEngineSettings::DefaultFontSize, browserDefaultFontSize);
++  QWebEngineSettings::globalSettings()->setFontSize(
++        QWebEngineSettings::DefaultFixedFontSize, browserFixedFontSize);
++  QWebEngineSettings::globalSettings()->setFontSize(
++        QWebEngineSettings::MinimumFontSize, browserMinFontSize);
++  QWebEngineSettings::globalSettings()->setFontSize(
++        QWebEngineSettings::MinimumLogicalFontSize, browserMinLogFontSize);
+ 
+   updateFeedsEnable_ = settings.value("autoUpdatefeeds", false).toBool();
+   updateFeedsInterval_ = settings.value("autoUpdatefeedsTime", 10).toInt();
+@@ -2100,17 +2100,17 @@ void MainWindow::loadSettings()
+   defaultZoomPages_ = settings.value("defaultZoomPages", 100).toInt();
+   autoLoadImages_ = settings.value("autoLoadImages", true).toBool();
+ 
+-  QWebSettings::globalSettings()->setAttribute(
+-        QWebSettings::JavascriptEnabled, javaScriptEnable_);
+-  QWebSettings::globalSettings()->setAttribute(
+-        QWebSettings::PluginsEnabled, pluginsEnable_);
+-  QWebSettings::globalSettings()->setMaximumPagesInCache(maxPagesInCache_);
++  QWebEngineSettings::globalSettings()->setAttribute(
++        QWebEngineSettings::JavascriptEnabled, javaScriptEnable_);
++  QWebEngineSettings::globalSettings()->setAttribute(
++        QWebEngineSettings::PluginsEnabled, pluginsEnable_);
++//  QWebSettings::globalSettings()->setMaximumPagesInCache(maxPagesInCache_);
+ #ifdef WEBKIT_ALPHA
+   QWebSettings::globalSettings()->setAttribute(
+         QWebSettings::ErrorPageEnabled, false);
+ #endif
+-  QWebSettings::globalSettings()->setOfflineStorageDefaultQuota(0);
+-  QWebSettings::globalSettings()->setOfflineStoragePath(mainApp->dataDir());
++//  QWebSettings::globalSettings()->setOfflineStorageDefaultQuota(0);
++//  QWebSettings::globalSettings()->setOfflineStoragePath(mainApp->dataDir());
+ 
+   soundNewNews_ = settings.value("soundNewNews", true).toBool();
+   soundNotifyPath_ = settings.value("soundNotifyPath", mainApp->soundNotifyDefaultFile()).toString();
+@@ -3522,25 +3522,25 @@ void MainWindow::showOptionDlg(int index)
+ 
+   settings.beginGroup("Settings");
+   QString browserStandardFont = settings.value(
+-        "browserStandardFont", QWebSettings::globalSettings()->fontFamily(QWebSettings::StandardFont)).toString();
++        "browserStandardFont", QWebEngineSettings::globalSettings()->fontFamily(QWebEngineSettings::StandardFont)).toString();
+   QString browserFixedFont = settings.value(
+-        "browserFixedFont", QWebSettings::globalSettings()->fontFamily(QWebSettings::FixedFont)).toString();
++        "browserFixedFont", QWebEngineSettings::globalSettings()->fontFamily(QWebEngineSettings::FixedFont)).toString();
+   QString browserSerifFont = settings.value(
+-        "browserSerifFont", QWebSettings::globalSettings()->fontFamily(QWebSettings::SerifFont)).toString();
++        "browserSerifFont", QWebEngineSettings::globalSettings()->fontFamily(QWebEngineSettings::SerifFont)).toString();
+   QString browserSansSerifFont = settings.value(
+-        "browserSansSerifFont", QWebSettings::globalSettings()->fontFamily(QWebSettings::SansSerifFont)).toString();
++        "browserSansSerifFont", QWebEngineSettings::globalSettings()->fontFamily(QWebEngineSettings::SansSerifFont)).toString();
+   QString browserCursiveFont = settings.value(
+-        "browserCursiveFont", QWebSettings::globalSettings()->fontFamily(QWebSettings::CursiveFont)).toString();
++        "browserCursiveFont", QWebEngineSettings::globalSettings()->fontFamily(QWebEngineSettings::CursiveFont)).toString();
+   QString browserFantasyFont = settings.value(
+-        "browserFantasyFont", QWebSettings::globalSettings()->fontFamily(QWebSettings::FantasyFont)).toString();
++        "browserFantasyFont", QWebEngineSettings::globalSettings()->fontFamily(QWebEngineSettings::FantasyFont)).toString();
+   int browserDefaultFontSize = settings.value(
+-        "browserDefaultFontSize", QWebSettings::globalSettings()->fontSize(QWebSettings::DefaultFontSize)).toInt();
++        "browserDefaultFontSize", QWebEngineSettings::globalSettings()->fontSize(QWebEngineSettings::DefaultFontSize)).toInt();
+   int browserFixedFontSize = settings.value(
+-        "browserFixedFontSize", QWebSettings::globalSettings()->fontSize(QWebSettings::DefaultFixedFontSize)).toInt();
++        "browserFixedFontSize", QWebEngineSettings::globalSettings()->fontSize(QWebEngineSettings::DefaultFixedFontSize)).toInt();
+   int browserMinFontSize = settings.value(
+-        "browserMinFontSize", QWebSettings::globalSettings()->fontSize(QWebSettings::MinimumFontSize)).toInt();
++        "browserMinFontSize", QWebEngineSettings::globalSettings()->fontSize(QWebEngineSettings::MinimumFontSize)).toInt();
+   int browserMinLogFontSize = settings.value(
+-        "browserMinLogFontSize", QWebSettings::globalSettings()->fontSize(QWebSettings::MinimumLogicalFontSize)).toInt();
++        "browserMinLogFontSize", QWebEngineSettings::globalSettings()->fontSize(QWebEngineSettings::MinimumLogicalFontSize)).toInt();
+   settings.endGroup();
+ 
+   optionsDialog_->browserStandardFont_->setCurrentFont(QFont(browserStandardFont));
+@@ -3643,20 +3643,20 @@ void MainWindow::showOptionDlg(int index)
+   optionsDialog_->colorsTree_->topLevelItem(22)->setText(1, notifierBackgroundColor_);
+ 
+   NewsTabWidget *widget = (NewsTabWidget*)stackedWidget_->widget(TAB_WIDGET_PERMANENT);
+-  backWebPageAct_->setText(widget->webView_->page()->action(QWebPage::Back)->text());
+-  backWebPageAct_->setToolTip(widget->webView_->page()->action(QWebPage::Back)->toolTip() + " " + tr("(Browser)"));
+-  backWebPageAct_->setIcon(widget->webView_->page()->action(QWebPage::Back)->icon());
+-  backWebPageAct_->setShortcut(widget->webView_->page()->action(QWebPage::Back)->shortcut());
++  backWebPageAct_->setText(widget->webView_->page()->action(QWebEnginePage::Back)->text());
++  backWebPageAct_->setToolTip(widget->webView_->page()->action(QWebEnginePage::Back)->toolTip() + " " + tr("(Browser)"));
++  backWebPageAct_->setIcon(widget->webView_->page()->action(QWebEnginePage::Back)->icon());
++  backWebPageAct_->setShortcut(widget->webView_->page()->action(QWebEnginePage::Back)->shortcut());
+ 
+-  forwardWebPageAct_->setText(widget->webView_->page()->action(QWebPage::Forward)->text());
+-  forwardWebPageAct_->setToolTip(widget->webView_->page()->action(QWebPage::Forward)->toolTip() + " " + tr("(Browser)"));
+-  forwardWebPageAct_->setIcon(widget->webView_->page()->action(QWebPage::Forward)->icon());
+-  forwardWebPageAct_->setShortcut(widget->webView_->page()->action(QWebPage::Forward)->shortcut());
++  forwardWebPageAct_->setText(widget->webView_->page()->action(QWebEnginePage::Forward)->text());
++  forwardWebPageAct_->setToolTip(widget->webView_->page()->action(QWebEnginePage::Forward)->toolTip() + " " + tr("(Browser)"));
++  forwardWebPageAct_->setIcon(widget->webView_->page()->action(QWebEnginePage::Forward)->icon());
++  forwardWebPageAct_->setShortcut(widget->webView_->page()->action(QWebEnginePage::Forward)->shortcut());
+ 
+-  reloadWebPageAct_->setText(widget->webView_->page()->action(QWebPage::Reload)->text());
+-  reloadWebPageAct_->setToolTip(widget->webView_->page()->action(QWebPage::Reload)->toolTip() + " " + tr("(Browser)"));
+-  reloadWebPageAct_->setIcon(widget->webView_->page()->action(QWebPage::Reload)->icon());
+-  reloadWebPageAct_->setShortcut(widget->webView_->page()->action(QWebPage::Reload)->shortcut());
++  reloadWebPageAct_->setText(widget->webView_->page()->action(QWebEnginePage::Reload)->text());
++  reloadWebPageAct_->setToolTip(widget->webView_->page()->action(QWebEnginePage::Reload)->toolTip() + " " + tr("(Browser)"));
++  reloadWebPageAct_->setIcon(widget->webView_->page()->action(QWebEnginePage::Reload)->icon());
++  reloadWebPageAct_->setShortcut(widget->webView_->page()->action(QWebEnginePage::Reload)->shortcut());
+ 
+   optionsDialog_->loadActionShortcut(listActions_, &listDefaultShortcut_);
+ 
+@@ -3820,11 +3820,11 @@ void MainWindow::showOptionDlg(int index)
+   maxPagesInCache_ = optionsDialog_->maxPagesInCache_->value();
+   defaultZoomPages_ = optionsDialog_->defaultZoomPages_->value();
+ 
+-  QWebSettings::globalSettings()->setAttribute(
+-        QWebSettings::JavascriptEnabled, javaScriptEnable_);
+-  QWebSettings::globalSettings()->setAttribute(
+-        QWebSettings::PluginsEnabled, pluginsEnable_);
+-  QWebSettings::globalSettings()->setMaximumPagesInCache(maxPagesInCache_);
++  QWebEngineSettings::globalSettings()->setAttribute(
++        QWebEngineSettings::JavascriptEnabled, javaScriptEnable_);
++  QWebEngineSettings::globalSettings()->setAttribute(
++        QWebEngineSettings::PluginsEnabled, pluginsEnable_);
++//  QWebSettings::globalSettings()->setMaximumPagesInCache(maxPagesInCache_);
+ 
+   settings.beginGroup("Settings");
+ 
+@@ -3974,26 +3974,26 @@ void MainWindow::showOptionDlg(int index)
+   browserMinFontSize = optionsDialog_->browserMinFontSize_->value();
+   browserMinLogFontSize = optionsDialog_->browserMinLogFontSize_->value();
+ 
+-  QWebSettings::globalSettings()->setFontFamily(
+-        QWebSettings::StandardFont, browserStandardFont);
+-  QWebSettings::globalSettings()->setFontFamily(
+-        QWebSettings::FixedFont, browserFixedFont);
+-  QWebSettings::globalSettings()->setFontFamily(
+-        QWebSettings::SerifFont, browserSerifFont);
+-  QWebSettings::globalSettings()->setFontFamily(
+-        QWebSettings::SansSerifFont, browserSansSerifFont);
+-  QWebSettings::globalSettings()->setFontFamily(
+-        QWebSettings::CursiveFont, browserCursiveFont);
+-  QWebSettings::globalSettings()->setFontFamily(
+-        QWebSettings::FantasyFont, browserFantasyFont);
+-  QWebSettings::globalSettings()->setFontSize(
+-        QWebSettings::DefaultFontSize, browserDefaultFontSize);
+-  QWebSettings::globalSettings()->setFontSize(
+-        QWebSettings::DefaultFixedFontSize, browserFixedFontSize);
+-  QWebSettings::globalSettings()->setFontSize(
+-        QWebSettings::MinimumFontSize, browserMinFontSize);
+-  QWebSettings::globalSettings()->setFontSize(
+-        QWebSettings::MinimumLogicalFontSize, browserMinLogFontSize);
++  QWebEngineSettings::globalSettings()->setFontFamily(
++        QWebEngineSettings::StandardFont, browserStandardFont);
++  QWebEngineSettings::globalSettings()->setFontFamily(
++        QWebEngineSettings::FixedFont, browserFixedFont);
++  QWebEngineSettings::globalSettings()->setFontFamily(
++        QWebEngineSettings::SerifFont, browserSerifFont);
++  QWebEngineSettings::globalSettings()->setFontFamily(
++        QWebEngineSettings::SansSerifFont, browserSansSerifFont);
++  QWebEngineSettings::globalSettings()->setFontFamily(
++        QWebEngineSettings::CursiveFont, browserCursiveFont);
++  QWebEngineSettings::globalSettings()->setFontFamily(
++        QWebEngineSettings::FantasyFont, browserFantasyFont);
++  QWebEngineSettings::globalSettings()->setFontSize(
++        QWebEngineSettings::DefaultFontSize, browserDefaultFontSize);
++  QWebEngineSettings::globalSettings()->setFontSize(
++        QWebEngineSettings::DefaultFixedFontSize, browserFixedFontSize);
++  QWebEngineSettings::globalSettings()->setFontSize(
++        QWebEngineSettings::MinimumFontSize, browserMinFontSize);
++  QWebEngineSettings::globalSettings()->setFontSize(
++        QWebEngineSettings::MinimumLogicalFontSize, browserMinLogFontSize);
+ 
+   settings.beginGroup("Settings");
+   settings.setValue("browserStandardFont", browserStandardFont);
+@@ -6544,7 +6544,7 @@ void MainWindow::setBrowserPosition(QAction *action)
+ 
+ /** @brief Create tab with browser only (without news list)
+  *---------------------------------------------------------------------------*/
+-QWebPage *MainWindow::createWebTab(QUrl url)
++QWebEnginePage *MainWindow::createWebTab(QUrl url)
+ {
+   NewsTabWidget *widget = new NewsTabWidget(this, NewsTabWidget::TabTypeWeb);
+   int indexTab = addTab(widget);
+@@ -7160,7 +7160,7 @@ void MainWindow::slotReportProblem()
+ 
+ /** @brief Print browser page
+  *---------------------------------------------------------------------------*/
+-void MainWindow::slotPrint(QWebFrame *frame)
++void MainWindow::slotPrint(QWebEnginePage *frame)
+ {
+   if (currentNewsTab->type_ == NewsTabWidget::TabTypeDownloads) return;
+ 
+@@ -7177,7 +7177,7 @@ void MainWindow::slotPrint(QWebFrame *frame)
+ 
+ /** @brief Call print preview dialog
+  *---------------------------------------------------------------------------*/
+-void MainWindow::slotPrintPreview(QWebFrame *frame)
++void MainWindow::slotPrintPreview(QWebEnginePage *frame)
+ {
+   if (currentNewsTab->type_ == NewsTabWidget::TabTypeDownloads) return;
+ 
+@@ -7753,16 +7753,16 @@ void MainWindow::slotSavePageAs()
+   }
+   QFileInfo fileInfo(fileName);
+   if (fileInfo.suffix() == "txt") {
+-    file.write(currentNewsTab->webView_->page()->mainFrame()->toPlainText().toUtf8());
++//    file.write(currentNewsTab->webView_->page()->mainFrame()->toPlainText().toUtf8());
+   } else {
+-    QString html = currentNewsTab->webView_->page()->mainFrame()->toHtml();
+-    QzRegExp reg("news_descriptions", Qt::CaseInsensitive);
+-    html = html.replace(reg, title);
+-    reg.setPattern("<img class=\"quiterss-img\"[^>]+\\>");
+-    html = html.remove(reg);
+-    QTextCodec *codec = QTextCodec::codecForHtml(html.toUtf8(),
+-                                                 QTextCodec::codecForName("UTF-8"));
+-    file.write(codec->fromUnicode(html));
++//    QString html = currentNewsTab->webView_->page()->mainFrame()->toHtml();
++//    QzRegExp reg("news_descriptions", Qt::CaseInsensitive);
++//    html = html.replace(reg, title);
++//    reg.setPattern("<img class=\"quiterss-img\"[^>]+\\>");
++//    html = html.remove(reg);
++//    QTextCodec *codec = QTextCodec::codecForHtml(html.toUtf8(),
++//                                                 QTextCodec::codecForName("UTF-8"));
++//    file.write(codec->fromUnicode(html));
+   }
+   file.close();
+ }
+diff --git a/src/application/mainwindow.h b/src/application/mainwindow.h
+index 7c882e6d..aad52978 100755
+--- a/src/application/mainwindow.h
++++ b/src/application/mainwindow.h
+@@ -30,7 +30,7 @@
+ #endif
+ #endif
+ #include <QtSql>
+-#include <QtWebKit>
++#include <QtWebEngineWidgets/QtWebEngineWidgets>
+ #include <QPrintDialog>
+ #include <QPrintPreviewDialog>
+ #include <QPrinter>
+@@ -309,11 +309,11 @@ public slots:
+   void slotUpdateStatus(int feedId, bool changed = true);
+   void setNewsFilter(QAction*, bool clicked = true);
+   void slotCloseTab(int index);
+-  QWebPage *createWebTab(QUrl url = QUrl());
++  QWebEnginePage *createWebTab(QUrl url = QUrl());
+   void feedsModelReload(bool checkFilter = false);
+   void setStatusFeed(int feedId, QString status);
+-  void slotPrint(QWebFrame *frame = 0);
+-  void slotPrintPreview(QWebFrame* frame = 0);
++  void slotPrint(QWebEnginePage *frame = 0); //QWebFrame *frame = 0);
++  void slotPrintPreview(QWebEnginePage *frame = 0); //QWebFrame* frame = 0);
+ 
+ signals:
+   void signalQuitApp();
+diff --git a/src/main/globals.cpp b/src/main/globals.cpp
+index 2ac5ec7e..c30665f3 100644
+--- a/src/main/globals.cpp
++++ b/src/main/globals.cpp
+@@ -19,7 +19,7 @@
+ 
+ #ifdef HAVE_QT5
+ #include <QStandardPaths>
+-#include <QWebPage>
++#include <QWebEnginePage>
+ #else
+ #include <QDesktopServices>
+ #include <qwebkitversion.h>
+diff --git a/src/newstabwidget.cpp b/src/newstabwidget.cpp
+index 835f33b8..c414ce5f 100644
+--- a/src/newstabwidget.cpp
++++ b/src/newstabwidget.cpp
+@@ -365,13 +365,13 @@ void NewsTabWidget::createWebWidget()
+   webHomePageAct_->setIcon(QIcon(":/images/homePage"));
+ 
+   webToolBar_->addAction(webHomePageAct_);
+-  QAction *webAction = webView_->pageAction(QWebPage::Back);
++  QAction *webAction = webView_->pageAction(QWebEnginePage::Back);
+   webToolBar_->addAction(webAction);
+-  webAction = webView_->pageAction(QWebPage::Forward);
++  webAction = webView_->pageAction(QWebEnginePage::Forward);
+   webToolBar_->addAction(webAction);
+-  webAction = webView_->pageAction(QWebPage::Reload);
++  webAction = webView_->pageAction(QWebEnginePage::Reload);
+   webToolBar_->addAction(webAction);
+-  webAction = webView_->pageAction(QWebPage::Stop);
++  webAction = webView_->pageAction(QWebEnginePage::Stop);
+   webToolBar_->addAction(webAction);
+   webToolBar_->addSeparator();
+ 
+@@ -416,8 +416,8 @@ void NewsTabWidget::createWebWidget()
+   webWidget_->setMinimumHeight(100);
+   setWebWidgetVisible();
+ 
+-  webView_->page()->action(QWebPage::OpenLink)->disconnect();
+-  webView_->page()->action(QWebPage::OpenLinkInNewWindow)->disconnect();
++  webView_->page()->action(QWebEnginePage::OpenLinkInThisWindow)->disconnect();
++  webView_->page()->action(QWebEnginePage::OpenLinkInNewWindow)->disconnect();
+ 
+   urlExternalBrowserAct_ = new QAction(this);
+   urlExternalBrowserAct_->setIcon(QIcon(":/images/openBrowser"));
+@@ -439,9 +439,9 @@ void NewsTabWidget::createWebWidget()
+ 
+   connect(webView_, SIGNAL(titleChanged(QString)),
+           this, SLOT(webTitleChanged(QString)));
+-  connect(webView_->page()->action(QWebPage::OpenLink), SIGNAL(triggered()),
++  connect(webView_->page()->action(QWebEnginePage::OpenLinkInThisWindow), SIGNAL(triggered()),
+           this, SLOT(openLink()));
+-  connect(webView_->page()->action(QWebPage::OpenLinkInNewWindow), SIGNAL(triggered()),
++  connect(webView_->page()->action(QWebEnginePage::OpenLinkInNewWindow), SIGNAL(triggered()),
+           this, SLOT(openLinkInNewTab()));
+ 
+   connect(webView_, SIGNAL(showContextMenu(QPoint)),
+@@ -530,22 +530,22 @@ void NewsTabWidget::setSettings(bool init, bool newTab)
+     }
+ 
+     if (mainWindow_->externalBrowserOn_ <= 0) {
+-      webView_->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
++//      webView_->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
+     } else {
+-      webView_->page()->setLinkDelegationPolicy(QWebPage::DelegateExternalLinks);
++//      webView_->page()->setLinkDelegationPolicy(QWebPage::DelegateExternalLinks);
+     }
+ 
+-    webView_->page()->action(QWebPage::Back)->setShortcut(mainWindow_->backWebPageAct_->shortcut());
+-    webView_->page()->action(QWebPage::Forward)->setShortcut(mainWindow_->forwardWebPageAct_->shortcut());
+-    webView_->page()->action(QWebPage::Reload)->setShortcut(mainWindow_->reloadWebPageAct_->shortcut());
++    webView_->page()->action(QWebEnginePage::Back)->setShortcut(mainWindow_->backWebPageAct_->shortcut());
++    webView_->page()->action(QWebEnginePage::Forward)->setShortcut(mainWindow_->forwardWebPageAct_->shortcut());
++    webView_->page()->action(QWebEnginePage::Reload)->setShortcut(mainWindow_->reloadWebPageAct_->shortcut());
+ 
+-    QWebSettings::setObjectCacheCapacities(0, 0, 0);
++//    QWebSettings::setObjectCacheCapacities(0, 0, 0);
+   }
+ 
+   QModelIndex feedIndex = feedsModel_->indexById(feedId_);
+ 
+   if (init) {
+-    QWebSettings::clearMemoryCaches();
++//    QWebSettings::clearMemoryCaches();
+ 
+     if (type_ == TabTypeFeed) {
+       int displayEmbeddedImages = feedsModel_->dataField(feedIndex, "displayEmbeddedImages").toInt();
+@@ -559,7 +559,7 @@ void NewsTabWidget::setSettings(bool init, bool newTab)
+     } else {
+       autoLoadImages_ = mainWindow_->autoLoadImages_;
+     }
+-    webView_->settings()->setAttribute(QWebSettings::AutoLoadImages, autoLoadImages_);
++    webView_->settings()->setAttribute(QWebEngineSettings::AutoLoadImages, autoLoadImages_);
+ 
+     webView_->setZoomFactor(qreal(mainWindow_->defaultZoomPages_)/100.0);
+   }
+@@ -568,11 +568,11 @@ void NewsTabWidget::setSettings(bool init, bool newTab)
+   if (type_ == TabTypeFeed) {
+     int javaScriptEnable = feedsModel_->dataField(feedIndex, "javaScriptEnable").toInt();
+     if (javaScriptEnable == 2) {
+-      webView_->settings()->setAttribute(QWebSettings::JavascriptEnabled, true);
++      webView_->settings()->setAttribute(QWebEngineSettings::JavascriptEnabled, true);
+     } else if (javaScriptEnable == 1) {
+-      webView_->settings()->setAttribute(QWebSettings::JavascriptEnabled, mainWindow_->javaScriptEnable_);
++      webView_->settings()->setAttribute(QWebEngineSettings::JavascriptEnabled, mainWindow_->javaScriptEnable_);
+     } else if (javaScriptEnable == 0) {
+-      webView_->settings()->setAttribute(QWebSettings::JavascriptEnabled, false);
++      webView_->settings()->setAttribute(QWebEngineSettings::JavascriptEnabled, false);
+     }
+ 
+     int layoutDirection = feedsModel_->dataField(feedIndex, "layoutDirection").toInt();
+@@ -582,7 +582,7 @@ void NewsTabWidget::setSettings(bool init, bool newTab)
+       newsView_->setLayoutDirection(Qt::RightToLeft);
+     }
+   } else {
+-    webView_->settings()->setAttribute(QWebSettings::JavascriptEnabled, mainWindow_->javaScriptEnable_);
++    webView_->settings()->setAttribute(QWebEngineSettings::JavascriptEnabled, mainWindow_->javaScriptEnable_);
+   }
+ 
+   if (type_ < TabTypeWeb) {
+@@ -658,7 +658,7 @@ void NewsTabWidget::setAutoLoadImages(bool apply)
+   }
+ 
+   if (apply) {
+-    webView_->settings()->setAttribute(QWebSettings::AutoLoadImages, autoLoadImages_);
++    webView_->settings()->setAttribute(QWebEngineSettings::AutoLoadImages, autoLoadImages_);
+     if (autoLoadImages_) {
+       if ((webView_->title() == "news_descriptions") &&
+           (type_ == NewsTabWidget::TabTypeFeed)) {
+@@ -1367,9 +1367,9 @@ void NewsTabWidget::updateWebView(QModelIndex index)
+       locationBar_->setText(newsUrl.toString());
+       setWebToolbarVisible(true, false);
+ 
+-      webView_->history()->setMaximumItemCount(0);
++//      webView_->history()->setMaximumItemCount(0);
+       webView_->load(newsUrl);
+-      webView_->history()->setMaximumItemCount(100);
++//      webView_->history()->setMaximumItemCount(100);
+     } else {
+       openUrl(newsUrl);
+     }
+@@ -1579,10 +1579,10 @@ void NewsTabWidget::loadNewspaper(int refresh)
+   int scrollBarValue = 0;
+   int height = 0;
+   if (refresh != RefreshAll) {
+-    scrollBarValue = webView_->page()->mainFrame()->scrollBarValue(Qt::Vertical);
+-    height = webView_->page()->mainFrame()->contentsSize().height();
++//    scrollBarValue = webView_->page()->mainFrame()->scrollBarValue(Qt::Vertical);
++//    height = webView_->page()->mainFrame()->contentsSize().height();
+   }
+-  webView_->settings()->setAttribute(QWebSettings::AutoLoadImages, true);
++  webView_->settings()->setAttribute(QWebEngineSettings::AutoLoadImages, true);
+ 
+   QString htmlStr;
+   QUrl hostUrl;
+@@ -1622,11 +1622,11 @@ void NewsTabWidget::loadNewspaper(int refresh)
+     QString newsId = newsModel_->dataField(index.row(), "id").toString();
+ 
+     if (refresh == RefreshInsert) {
+-      QWebElement document = webView_->page()->mainFrame()->documentElement();
+-      QWebElement element = document.findFirst(QString("div[id=newsItem%1]").arg(newsId));
+-      if (!element.isNull()) {
+-        continue;
+-      }
++//      QWebElement document = webView_->page()->mainFrame()->documentElement();
++//      QWebElement element = document.findFirst(QString("div[id=newsItem%1]").arg(newsId));
++//      if (!element.isNull()) {
++//        continue;
++//      }
+     }
+ 
+     linkNewsString_ = getLinkNews(index.row());
+@@ -1834,20 +1834,20 @@ void NewsTabWidget::loadNewspaper(int refresh)
+ 
+     htmlStr = htmlStr.replace("src=\"//", "src=\"http://");
+ 
+-    QWebElement document = webView_->page()->mainFrame()->documentElement();
+-    QWebElement element = document.findFirst("body");
+-    if ((refresh == RefreshInsert) && (sortOrder == Qt::DescendingOrder))
+-      element.prependInside(htmlStr);
+-    else
+-      element.appendInside(htmlStr);
++//    QWebElement document = webView_->page()->mainFrame()->documentElement();
++//    QWebElement element = document.findFirst("body");
++//    if ((refresh == RefreshInsert) && (sortOrder == Qt::DescendingOrder))
++//      element.prependInside(htmlStr);
++//    else
++//      element.appendInside(htmlStr);
+     qApp->processEvents();
+   }
+ 
+-  webView_->settings()->setAttribute(QWebSettings::AutoLoadImages, autoLoadImages_);
+-  if ((refresh == RefreshInsert) && (sortOrder == Qt::DescendingOrder))
+-    scrollBarValue += webView_->page()->mainFrame()->contentsSize().height() - height;
+-  if (refresh != RefreshAll)
+-    webView_->page()->mainFrame()->setScrollBarValue(Qt::Vertical, scrollBarValue);
++  webView_->settings()->setAttribute(QWebEngineSettings::AutoLoadImages, autoLoadImages_);
++//  if ((refresh == RefreshInsert) && (sortOrder == Qt::DescendingOrder))
++//    scrollBarValue += webView_->page()->mainFrame()->contentsSize().height() - height;
++//  if (refresh != RefreshAll)
++//    webView_->page()->mainFrame()->setScrollBarValue(Qt::Vertical, scrollBarValue);
+ 
+   webView_->setUpdatesEnabled(true);
+ }
+@@ -1856,9 +1856,9 @@ void NewsTabWidget::loadNewspaper(int refresh)
+  *----------------------------------------------------------------------------*/
+ void NewsTabWidget::slotSetHtmlWebView(const QString &html)
+ {
+-  webView_->history()->setMaximumItemCount(0);
++//  webView_->history()->setMaximumItemCount(0);
+   webView_->setHtml(html);
+-  webView_->history()->setMaximumItemCount(100);
++//  webView_->history()->setMaximumItemCount(100);
+ }
+ 
+ void NewsTabWidget::hideWebContent()
+@@ -1934,10 +1934,10 @@ void NewsTabWidget::slotLinkHovered(const QString &link, const QString &, const
+ void NewsTabWidget::slotSetValue(int value)
+ {
+   emit loadProgress(value);
+-  QString str = QString(" %1 kB / %2 kB").
+-      arg(webView_->page()->bytesReceived()/1000).
+-      arg(webView_->page()->totalBytes()/1000);
+-  webViewProgressLabel_->setText(str);
++//  QString str = QString(" %1 kB / %2 kB").
++//      arg(webView_->page()->bytesReceived()/1000).
++//      arg(webView_->page()->totalBytes()/1000);
++//  webViewProgressLabel_->setText(str);
+ }
+ //----------------------------------------------------------------------------
+ void NewsTabWidget::slotLoadStarted()
+@@ -2231,8 +2231,8 @@ void NewsTabWidget::slotFindText(const QString &text)
+ {
+   QString objectName = findText_->findGroup_->checkedAction()->objectName();
+   if (objectName == "findInBrowserAct") {
+-    webView_->findText("", QWebPage::HighlightAllOccurrences);
+-    webView_->findText(text, QWebPage::HighlightAllOccurrences);
++//    webView_->findText("", QWebPage::HighlightAllOccurrences);
++//    webView_->findText(text, QWebPage::HighlightAllOccurrences);
+   } else {
+     int newsId = newsModel_->dataField(newsView_->currentIndex().row(), "id").toInt();
+ 
+@@ -2293,7 +2293,7 @@ void NewsTabWidget::slotFindText(const QString &text)
+ //----------------------------------------------------------------------------
+ void NewsTabWidget::slotSelectFind()
+ {
+-  webView_->findText("", QWebPage::HighlightAllOccurrences);
++//  webView_->findText("", QWebPage::HighlightAllOccurrences);
+   slotFindText(findText_->text());
+ }
+ //----------------------------------------------------------------------------
+@@ -2304,57 +2304,57 @@ void NewsTabWidget::showContextWebPage(const QPoint &p)
+   if (pageMenu) {
+     menu.addActions(pageMenu->actions());
+ 
+-    webView_->page()->action(QWebPage::OpenLink)->setText(tr("Open Link"));
+-    webView_->page()->action(QWebPage::OpenLinkInNewWindow)->setText(tr("Open in New Tab"));
+-    webView_->page()->action(QWebPage::DownloadLinkToDisk)->setText(tr("Save Link..."));
+-    webView_->page()->action(QWebPage::DownloadImageToDisk)->setText(tr("Save Image..."));
+-    webView_->page()->action(QWebPage::CopyLinkToClipboard)->setText(tr("Copy Link"));
+-    webView_->page()->action(QWebPage::Copy)->setText(tr("Copy"));
+-    webView_->page()->action(QWebPage::Back)->setText(tr("Go Back"));
+-    webView_->page()->action(QWebPage::Forward)->setText(tr("Go Forward"));
+-    webView_->page()->action(QWebPage::Stop)->setText(tr("Stop"));
+-    webView_->page()->action(QWebPage::Reload)->setText(tr("Reload"));
+-    webView_->page()->action(QWebPage::CopyImageToClipboard)->setText(tr("Copy Image"));
++    webView_->page()->action(QWebEnginePage::OpenLinkInThisWindow)->setText(tr("Open Link"));
++    webView_->page()->action(QWebEnginePage::OpenLinkInNewWindow)->setText(tr("Open in New Tab"));
++    webView_->page()->action(QWebEnginePage::DownloadLinkToDisk)->setText(tr("Save Link..."));
++    webView_->page()->action(QWebEnginePage::DownloadImageToDisk)->setText(tr("Save Image..."));
++    webView_->page()->action(QWebEnginePage::CopyLinkToClipboard)->setText(tr("Copy Link"));
++    webView_->page()->action(QWebEnginePage::Copy)->setText(tr("Copy"));
++    webView_->page()->action(QWebEnginePage::Back)->setText(tr("Go Back"));
++    webView_->page()->action(QWebEnginePage::Forward)->setText(tr("Go Forward"));
++    webView_->page()->action(QWebEnginePage::Stop)->setText(tr("Stop"));
++    webView_->page()->action(QWebEnginePage::Reload)->setText(tr("Reload"));
++    webView_->page()->action(QWebEnginePage::CopyImageToClipboard)->setText(tr("Copy Image"));
+ #if QT_VERSION >= 0x040800
+-    webView_->page()->action(QWebPage::CopyImageUrlToClipboard)->setText(tr("Copy Image Address"));
++    webView_->page()->action(QWebEnginePage::CopyImageUrlToClipboard)->setText(tr("Copy Image Address"));
+ #endif
+ 
+-    const QWebHitTestResult &hitTest = webView_->page()->mainFrame()->hitTestContent(p);
+-    if (!hitTest.linkUrl().isEmpty() && hitTest.linkUrl().scheme() != "javascript") {
+-      linkUrl_ = hitTest.linkUrl();
+-      if (mainWindow_->externalBrowserOn_ <= 0) {
+-        menu.addSeparator();
+-        menu.addAction(urlExternalBrowserAct_);
+-      }
+-    } else if (pageMenu->actions().indexOf(webView_->pageAction(QWebPage::Reload)) >= 0) {
+-      if (webView_->title() == "news_descriptions") {
+-        webView_->pageAction(QWebPage::Reload)->setVisible(false);
+-      } else {
+-        webView_->pageAction(QWebPage::Reload)->setVisible(true);
+-        menu.addSeparator();
+-      }
+-      menu.addAction(mainWindow_->autoLoadImagesToggle_);
+-      menu.addSeparator();
+-      menu.addAction(mainWindow_->printAct_);
+-      menu.addAction(mainWindow_->printPreviewAct_);
+-      menu.addSeparator();
+-      menu.addAction(mainWindow_->savePageAsAct_);
+-    } else if (hitTest.isContentEditable()) {
+-      for (int i = 0; i < menu.actions().count(); i++) {
+-        if ((i <= 1) && (menu.actions().at(i)->text() == "Direction")) {
+-          menu.actions().at(i)->setVisible(false);
+-          break;
+-        }
+-      }
+-      menu.insertSeparator(menu.actions().at(0));
+-      menu.insertAction(menu.actions().at(0), webView_->pageAction(QWebPage::Redo));
+-      menu.insertAction(menu.actions().at(0), webView_->pageAction(QWebPage::Undo));
+-    }
+-
+-    if (!hitTest.isContentEditable() && !hitTest.isContentSelected()) {
+-      menu.addSeparator();
+-      menu.addAction(mainWindow_->adBlockIcon()->menuAction());
+-    }
++//    const QWebHitTestResult &hitTest = webView_->page()->mainFrame()->hitTestContent(p);
++//    if (!hitTest.linkUrl().isEmpty() && hitTest.linkUrl().scheme() != "javascript") {
++//      linkUrl_ = hitTest.linkUrl();
++//      if (mainWindow_->externalBrowserOn_ <= 0) {
++//        menu.addSeparator();
++//        menu.addAction(urlExternalBrowserAct_);
++//      }
++//    } else if (pageMenu->actions().indexOf(webView_->pageAction(QWebEnginePage::Reload)) >= 0) {
++//      if (webView_->title() == "news_descriptions") {
++//        webView_->pageAction(QWebEnginePage::Reload)->setVisible(false);
++//      } else {
++//        webView_->pageAction(QWebEnginePage::Reload)->setVisible(true);
++//        menu.addSeparator();
++//      }
++//      menu.addAction(mainWindow_->autoLoadImagesToggle_);
++//      menu.addSeparator();
++//      menu.addAction(mainWindow_->printAct_);
++//      menu.addAction(mainWindow_->printPreviewAct_);
++//      menu.addSeparator();
++//      menu.addAction(mainWindow_->savePageAsAct_);
++//    } else if (hitTest.isContentEditable()) {
++//      for (int i = 0; i < menu.actions().count(); i++) {
++//        if ((i <= 1) && (menu.actions().at(i)->text() == "Direction")) {
++//          menu.actions().at(i)->setVisible(false);
++//          break;
++//        }
++//      }
++//      menu.insertSeparator(menu.actions().at(0));
++//      menu.insertAction(menu.actions().at(0), webView_->pageAction(QWebEnginePage::Redo));
++//      menu.insertAction(menu.actions().at(0), webView_->pageAction(QWebEnginePage::Undo));
++//    }
++
++//    if (!hitTest.isContentEditable() && !hitTest.isContentSelected()) {
++//      menu.addSeparator();
++//      menu.addAction(mainWindow_->adBlockIcon()->menuAction());
++//    }
+ 
+     menu.exec(webView_->mapToGlobal(p));
+   }
+@@ -2425,16 +2425,16 @@ void NewsTabWidget::setLabelNews(int labelId)
+ 
+     if ((newsId == currentNewsIdOld) &&
+         (webView_->title() == "news_descriptions")) {
+-      QWebFrame *frame = webView_->page()->mainFrame();
+-      QWebElement document = frame->documentElement();
+-      QWebElement element = document.findFirst(QString("table[id=labels%1]").arg(newsId));
+-      if (!element.isNull()) {
+-        webView_->settings()->setAttribute(QWebSettings::AutoLoadImages,true);
+-        element.removeAllChildren();
+-        QString labelsString = getHtmlLabels(index.row());
+-        element.appendInside(labelsString);
+-        webView_->settings()->setAttribute(QWebSettings::AutoLoadImages, autoLoadImages_);
+-      }
++//      QWebFrame *frame = webView_->page()->mainFrame();
++//      QWebElement document = frame->documentElement();
++//      QWebElement element = document.findFirst(QString("table[id=labels%1]").arg(newsId));
++//      if (!element.isNull()) {
++//        webView_->settings()->setAttribute(QWebSettings::AutoLoadImages,true);
++//        element.removeAllChildren();
++//        QString labelsString = getHtmlLabels(index.row());
++//        element.appendInside(labelsString);
++//        webView_->settings()->setAttribute(QWebSettings::AutoLoadImages, autoLoadImages_);
++//      }
+     }
+ 
+     QSqlQuery q;
+@@ -2473,14 +2473,14 @@ void NewsTabWidget::setLabelNews(int labelId)
+ 
+       if ((newsId == currentNewsIdOld) &&
+           (webView_->title() == "news_descriptions")) {
+-        QWebFrame *frame = webView_->page()->mainFrame();
+-        QWebElement document = frame->documentElement();
+-        QWebElement element = document.findFirst(QString("table[id=labels%1]").arg(newsId));
+-        if (!element.isNull()) {
+-          element.removeAllChildren();
+-          QString labelsString = getHtmlLabels(index.row());
+-          element.appendInside(labelsString);
+-        }
++//        QWebFrame *frame = webView_->page()->mainFrame();
++//        QWebElement document = frame->documentElement();
++//        QWebElement element = document.findFirst(QString("table[id=labels%1]").arg(newsId));
++//        if (!element.isNull()) {
++//          element.removeAllChildren();
++//          QString labelsString = getHtmlLabels(index.row());
++//          element.appendInside(labelsString);
++//        }
+       }
+ 
+       QSqlQuery q;
+@@ -2618,7 +2618,7 @@ void NewsTabWidget::slotShareNews(QAction *action)
+     } else {
+       title = webView_->title();
+       linkString = webView_->url().toString();
+-      content = webView_->page()->mainFrame()->toPlainText();
++//      content = webView_->page()->mainFrame()->toPlainText();
+     }
+ #if defined(Q_OS_WIN) || defined(Q_OS_OS2) || defined(Q_OS_MAC)
+     content = content.replace("\n", "%0A");
+@@ -2845,14 +2845,14 @@ void NewsTabWidget::savePageAsDescript()
+   QModelIndex curIndex = newsView_->currentIndex();
+   if (!curIndex.isValid()) return;
+ 
+-  QString html = webView_->page()->currentFrame()->toHtml().replace("'", "''");
+-  newsModel_->setData(
+-        newsModel_->index(curIndex.row(), newsModel_->fieldIndex("content")),
+-        html);
+-  int newsId = newsModel_->dataField(curIndex.row(), "id").toInt();
+-  QString qStr = QString("UPDATE news SET content='%1' WHERE id=='%2'").
+-      arg(html).arg(newsId);
+-  mainApp->sqlQueryExec(qStr);
++//  QString html = webView_->page()->currentFrame()->toHtml().replace("'", "''");
++//  newsModel_->setData(
++//        newsModel_->index(curIndex.row(), newsModel_->fieldIndex("content")),
++//        html);
++//  int newsId = newsModel_->dataField(curIndex.row(), "id").toInt();
++//  QString qStr = QString("UPDATE news SET content='%1' WHERE id=='%2'").
++//      arg(html).arg(newsId);
++//  mainApp->sqlQueryExec(qStr);
+ }
+ 
+ QString NewsTabWidget::getHtmlLabels(int row)
+@@ -2893,18 +2893,18 @@ void NewsTabWidget::actionNewspaper(QUrl url)
+         iconStr = "qrc:/images/bulletUnread";
+         titleStyle = "unread";
+       }
+-      QWebElement document = webView_->page()->mainFrame()->documentElement();
+-      QWebElement newsItem = document.findFirst(QString("div[id=newsItem%1]").arg(newsId));
+-      if (!newsItem.isNull()) {
+-        webView_->settings()->setAttribute(QWebSettings::AutoLoadImages, true);
+-        QWebElement element = newsItem.findFirst(QString("img[id=readAction%1]").arg(newsId));
+-        if (!element.isNull())
+-          element.setAttribute("src", iconStr);
+-        element = newsItem.findFirst(QString("a[id=title%1]").arg(newsId));
+-        if (!element.isNull())
+-          element.setAttribute("class", titleStyle);
+-        webView_->settings()->setAttribute(QWebSettings::AutoLoadImages, autoLoadImages_);
+-      }
++//      QWebElement document = webView_->page()->mainFrame()->documentElement();
++//      QWebElement newsItem = document.findFirst(QString("div[id=newsItem%1]").arg(newsId));
++//      if (!newsItem.isNull()) {
++//        webView_->settings()->setAttribute(QWebSettings::AutoLoadImages, true);
++//        QWebElement element = newsItem.findFirst(QString("img[id=readAction%1]").arg(newsId));
++//        if (!element.isNull())
++//          element.setAttribute("src", iconStr);
++//        element = newsItem.findFirst(QString("a[id=title%1]").arg(newsId));
++//        if (!element.isNull())
++//          element.setAttribute("class", titleStyle);
++//        webView_->settings()->setAttribute(QWebSettings::AutoLoadImages, autoLoadImages_);
++//      }
+     } else if (url.host() == "star.action.ui") {
+       int row = indexList.first().row();
+       if (newsModel_->dataField(row, "starred").toInt() == 0) {
+@@ -2914,16 +2914,16 @@ void NewsTabWidget::actionNewspaper(QUrl url)
+         slotSetItemStar(newsModel_->index(row, newsModel_->fieldIndex("starred")), 0);
+         iconStr = "qrc:/images/starOff";
+       }
+-      QWebElement document = webView_->page()->mainFrame()->documentElement();
+-      QWebElement newsItem = document.findFirst(QString("div[id=newsItem%1]").arg(newsId));
+-      if (!newsItem.isNull()) {
+-        QWebElement element = newsItem.findFirst(QString("img[id=starAction%1]").arg(newsId));
+-        if (!element.isNull()) {
+-          webView_->settings()->setAttribute(QWebSettings::AutoLoadImages, true);
+-          element.setAttribute("src", iconStr);
+-          webView_->settings()->setAttribute(QWebSettings::AutoLoadImages, autoLoadImages_);
+-        }
+-      }
++//      QWebElement document = webView_->page()->mainFrame()->documentElement();
++//      QWebElement newsItem = document.findFirst(QString("div[id=newsItem%1]").arg(newsId));
++//      if (!newsItem.isNull()) {
++//        QWebElement element = newsItem.findFirst(QString("img[id=starAction%1]").arg(newsId));
++//        if (!element.isNull()) {
++//          webView_->settings()->setAttribute(QWebSettings::AutoLoadImages, true);
++//          element.setAttribute("src", iconStr);
++//          webView_->settings()->setAttribute(QWebSettings::AutoLoadImages, autoLoadImages_);
++//        }
++//      }
+     } else if (url.host() == "labels.menu.ui") {
+       newsView_->selectionModel()->clearSelection();
+       newsView_->selectionModel()->select(
+@@ -2952,11 +2952,11 @@ void NewsTabWidget::actionNewspaper(QUrl url)
+       newsView_->selectionModel()->select(
+             indexList.first(), QItemSelectionModel::Select|QItemSelectionModel::Rows);
+       deleteNews();
+-      QWebElement document = webView_->page()->mainFrame()->documentElement();
+-      QWebElement newsItem = document.findFirst(QString("div[id=newsItem%1]").arg(newsId));
+-      if (!newsItem.isNull()) {
+-        newsItem.removeFromDocument();
+-      }
++//      QWebElement document = webView_->page()->mainFrame()->documentElement();
++//      QWebElement newsItem = document.findFirst(QString("div[id=newsItem%1]").arg(newsId));
++//      if (!newsItem.isNull()) {
++//        newsItem.removeFromDocument();
++//      }
+     }
+   }
+ }
+diff --git a/src/newstabwidget.h b/src/newstabwidget.h
+index f6d86345..0e9dfbaf 100644
+--- a/src/newstabwidget.h
++++ b/src/newstabwidget.h
+@@ -24,7 +24,7 @@
+ #include <QtGui>
+ #endif
+ #include <QtSql>
+-#include <QtWebKit>
++#include <QtWebEngineWidgets/QtWebEngineWidgets>
+ 
+ #include "feedsproxymodel.h"
+ #include "feedsmodel.h"
+diff --git a/src/plugins/clicktoflash.h b/src/plugins/clicktoflash.h
+index e4a5c1fa..e8acb9fc 100644
+--- a/src/plugins/clicktoflash.h
++++ b/src/plugins/clicktoflash.h
+@@ -61,7 +61,7 @@
+ 
+ #include <QUrl>
+ #include <QWidget>
+-#include <QWebElement>
++//#include <QWebElement>
+ 
+ class QToolButton;
+ class QHBoxLayout;
+diff --git a/src/updateappdialog.cpp b/src/updateappdialog.cpp
+index 4f9d4057..03b83228 100644
+--- a/src/updateappdialog.cpp
++++ b/src/updateappdialog.cpp
+@@ -94,7 +94,7 @@ void UpdateAppDialog::disconnectObjects()
+   networkManagerProxy_->disconnectObjects();
+ 
+   if (page_ != NULL) {
+-    QWebSettings::clearMemoryCaches();
++//    QWebSettings::clearMemoryCaches();
+     page_->disconnect(this);
+     delete page_;
+   }
+diff --git a/src/updateappdialog.h b/src/updateappdialog.h
+index fb9a1490..fb32e4e7 100644
+--- a/src/updateappdialog.h
++++ b/src/updateappdialog.h
+@@ -19,8 +19,7 @@
+ #define UPDATEAPPDIALOG_H
+ 
+ #include <QNetworkReply>
+-#include <QWebPage>
+-#include <QWebFrame>
++#include <QWebEnginePage>
+ 
+ #include "dialog.h"
+ #include "networkmanagerproxy.h"
+@@ -48,7 +47,7 @@ private:
+   QString lang_;
+   bool showDialog_;
+ 
+-  QWebPage *page_;
++  QWebEnginePage *page_;
+   NetworkManagerProxy *networkManagerProxy_;
+   QNetworkReply *reply_;
+   QNetworkReply *historyReply_;
+diff --git a/src/webview/rssdetectionwidget.cpp b/src/webview/rssdetectionwidget.cpp
+index 5bb42210..560e7a34 100644
+--- a/src/webview/rssdetectionwidget.cpp
++++ b/src/webview/rssdetectionwidget.cpp
+@@ -23,7 +23,7 @@
+ 
+ #include <QToolTip>
+ #include <QPushButton>
+-#include <QWebFrame>
++#include <QWebEnginePage>
+ 
+ RSSDetectionWidget::RSSDetectionWidget(WebView* view, QWidget* parent)
+   : QFrame(parent, Qt::Popup)
+@@ -38,42 +38,42 @@ RSSDetectionWidget::RSSDetectionWidget(WebView* view, QWidget* parent)
+   gridLayout_->setMargin(5);
+   gridLayout_->setSpacing(5);
+ 
+-  QWebFrame* frame = view_->page()->mainFrame();
+-  QWebElementCollection links = frame->findAllElements("link[type=\"application/rss+xml\"]");
+-
+-  int cols = links.count() / 10 == 0 ? 1 : links.count() / 10;
+-  int row = 0;
+-
+-  for (int i = 0; i < links.count(); i++) {
+-    QWebElement element = links.at(i);
+-    QString title = element.attribute("title");
+-    const QUrl url = QUrl::fromEncoded(element.attribute("href").toUtf8());
+-    if (url.isEmpty()) {
+-      continue;
+-    }
+-
+-    if (title.isEmpty()) {
+-      title = tr("Untitled feed");
+-    }
+-
+-    QPushButton* button = new QPushButton(this);
+-    button->setStyleSheet("QPushButton {text-align:left; border: none; padding: 0px;}"
+-                          "QPushButton:hover {color: #1155CC;}");
+-    button->setCursor(Qt::PointingHandCursor);
+-    button->setText(title);
+-    button->setToolTip(url.toString());
+-    button->setProperty("rss-url", url);
+-    button->setProperty("rss-title", title);
+-
+-    int pos = i % cols > 0 ? (i % cols) * 2 : 0;
+-
+-    gridLayout_->addWidget(button, row, pos);
+-    connect(button, SIGNAL(clicked()), this, SLOT(addRss()));
+-
+-    if (i % cols == cols - 1) {
+-      row++;
+-    }
+-  }
++//  QWebFrame* frame = view_->page()->mainFrame();
++//  QWebElementCollection links = frame->findAllElements("link[type=\"application/rss+xml\"]");
++
++//  int cols = links.count() / 10 == 0 ? 1 : links.count() / 10;
++//  int row = 0;
++
++//  for (int i = 0; i < links.count(); i++) {
++//    QWebElement element = links.at(i);
++//    QString title = element.attribute("title");
++//    const QUrl url = QUrl::fromEncoded(element.attribute("href").toUtf8());
++//    if (url.isEmpty()) {
++//      continue;
++//    }
++
++//    if (title.isEmpty()) {
++//      title = tr("Untitled feed");
++//    }
++
++//    QPushButton* button = new QPushButton(this);
++//    button->setStyleSheet("QPushButton {text-align:left; border: none; padding: 0px;}"
++//                          "QPushButton:hover {color: #1155CC;}");
++//    button->setCursor(Qt::PointingHandCursor);
++//    button->setText(title);
++//    button->setToolTip(url.toString());
++//    button->setProperty("rss-url", url);
++//    button->setProperty("rss-title", title);
++
++//    int pos = i % cols > 0 ? (i % cols) * 2 : 0;
++
++//    gridLayout_->addWidget(button, row, pos);
++//    connect(button, SIGNAL(clicked()), this, SLOT(addRss()));
++
++//    if (i % cols == cols - 1) {
++//      row++;
++//    }
++//  }
+ }
+ 
+ RSSDetectionWidget::~RSSDetectionWidget()
+@@ -101,7 +101,7 @@ void RSSDetectionWidget::addRss()
+     QUrl url = button->property("rss-url").toUrl();
+ 
+     if (url.isRelative()) {
+-      url = view_->page()->mainFrame()->baseUrl().resolved(url);
++//      url = view_->page()->mainFrame()->baseUrl().resolved(url);
+     }
+ 
+     if (!url.isValid()) {
+diff --git a/src/webview/webpage.cpp b/src/webview/webpage.cpp
+index 754eb646..f0ce45dd 100644
+--- a/src/webview/webpage.cpp
++++ b/src/webview/webpage.cpp
+@@ -19,7 +19,7 @@
+ 
+ #include "mainapplication.h"
+ #include "networkmanagerproxy.h"
+-#include "webpluginfactory.h"
++//#include "webpluginfactory.h"
+ #include "adblockicon.h"
+ #include "adblockmanager.h"
+ 
+@@ -30,17 +30,18 @@
+ QList<WebPage*> WebPage::livingPages_;
+ 
+ WebPage::WebPage(QObject *parent)
+-  : QWebPage(parent)
++  : QWebEnginePage(parent)
+   , loadProgress_(-1)
+ {
+   networkManagerProxy_ = new NetworkManagerProxy(this, this);
+-  setNetworkAccessManager(networkManagerProxy_);
++//  setNetworkAccessManager(networkManagerProxy_);
+ 
+-  setPluginFactory(new WebPluginFactory(this));
+-  setForwardUnsupportedContent(true);
++//  setPluginFactory(new WebPluginFactory(this));
++//  setForwardUnsupportedContent(true);
+ 
+-  action(QWebPage::OpenFrameInNewWindow)->setVisible(false);
+-  action(QWebPage::OpenImageInNewWindow)->setVisible(false);
++//  action(QWebEnginePage::OpenFrameInNewWindow)->setVisible(false);
++//  action(QWebEnginePage::OpenImageInNewWindow)->setVisible(false);
++  action(QWebEnginePage::OpenLinkInNewWindow)->setVisible(false);
+ 
+   connect(this, SIGNAL(loadProgress(int)), this, SLOT(progress(int)));
+   connect(this, SIGNAL(loadFinished(bool)), this, SLOT(finished()));
+@@ -52,8 +53,8 @@ WebPage::WebPage(QObject *parent)
+   connect(this, SIGNAL(printRequested(QWebFrame*)),
+           mainApp->mainWindow(), SLOT(slotPrint(QWebFrame*)));
+ #if QT_VERSION >= 0x050905
+-  connect(this, SIGNAL(fullScreenRequested(QWebFullScreenRequest)),
+-          this, SLOT(slotFullScreenRequested(QWebFullScreenRequest)));
++//  connect(this, &QWebEnginePage::fullScreenRequested,
++//          this, &WebPage::slotFullScreenRequested);
+ #endif
+   livingPages_.append(this);
+ }
+@@ -71,17 +72,18 @@ void WebPage::disconnectObjects()
+   networkManagerProxy_->disconnectObjects();
+ }
+ 
+-bool WebPage::acceptNavigationRequest(QWebFrame *frame,
++bool WebPage::acceptNavigationRequest(QWebEnginePage *frame,
+                                       const QNetworkRequest &request,
+                                       NavigationType type)
+ {
+   lastRequestType_ = type;
+   lastRequestUrl_ = request.url();
+ 
+-  return QWebPage::acceptNavigationRequest(frame,request,type);
++//  return QWebPage::acceptNavigationRequest(frame,request,type);
++  return QWebEnginePage::acceptNavigationRequest(request.url(), type, true);
+ }
+ 
+-QWebPage *WebPage::createWindow(WebWindowType type)
++QWebEnginePage *WebPage::createWindow(WebWindowType type)
+ {
+   Q_UNUSED(type)
+ 
+@@ -166,15 +168,15 @@ void WebPage::handleUnsupportedContent(QNetworkReply* reply)
+     if (reply->header(QNetworkRequest::ContentTypeHeader).isValid()) {
+       QString requestUrl = reply->request().url().toString(QUrl::RemoveFragment | QUrl::RemoveQuery);
+       if (requestUrl.endsWith(QLatin1String(".swf"))) {
+-        const QWebElement &docElement = mainFrame()->documentElement();
+-        const QWebElement &object = docElement.findFirst(QString("object[src=\"%1\"]").arg(requestUrl));
+-        const QWebElement &embed = docElement.findFirst(QString("embed[src=\"%1\"]").arg(requestUrl));
+-
+-        if (!object.isNull() || !embed.isNull()) {
+-          qDebug() << "WebPage::UnsupportedContent" << url << "Attempt to download flash object on site!";
+-          reply->deleteLater();
+-          return;
+-        }
++//        const QWebElement &docElement = mainFrame()->documentElement();
++//        const QWebElement &object = docElement.findFirst(QString("object[src=\"%1\"]").arg(requestUrl));
++//        const QWebElement &embed = docElement.findFirst(QString("embed[src=\"%1\"]").arg(requestUrl));
++
++//        if (!object.isNull() || !embed.isNull()) {
++//          qDebug() << "WebPage::UnsupportedContent" << url << "Attempt to download flash object on site!";
++//          reply->deleteLater();
++//          return;
++//        }
+       }
+       mainApp->downloadManager()->handleUnsupportedContent(reply, mainApp->mainWindow()->askDownloadLocation_);
+       return;
+@@ -242,7 +244,7 @@ void WebPage::cleanBlockedObjects()
+     return;
+   }
+ 
+-  const QWebElement docElement = mainFrame()->documentElement();
++//  const QWebElement docElement = mainFrame()->documentElement();
+ 
+   foreach (const AdBlockedEntry &entry, adBlockedEntries_) {
+     const QString urlString = entry.url.toString();
+@@ -262,40 +264,40 @@ void WebPage::cleanBlockedObjects()
+     }
+ 
+     QString selector("img[src$=\"%1\"], iframe[src$=\"%1\"],embed[src$=\"%1\"]");
+-    QWebElementCollection elements = docElement.findAll(selector.arg(urlEnd));
++//    QWebElementCollection elements = docElement.findAll(selector.arg(urlEnd));
+ 
+-    foreach (QWebElement element, elements) {
+-      QString src = element.attribute("src");
+-      src.remove(QLatin1String("../"));
++//    foreach (QWebElement element, elements) {
++//      QString src = element.attribute("src");
++//      src.remove(QLatin1String("../"));
+ 
+-      if (urlString.contains(src)) {
+-        element.setStyleProperty("display", "none");
+-      }
+-    }
++//      if (urlString.contains(src)) {
++//        element.setStyleProperty("display", "none");
++//      }
++//    }
+   }
+ 
+   // Apply domain-specific element hiding rules
+-  QString elementHiding = manager->elementHidingRulesForDomain(mainFrame()->url());
+-  if (elementHiding.isEmpty()) {
+-    return;
+-  }
++//  QString elementHiding = manager->elementHidingRulesForDomain(mainFrame()->url());
++//  if (elementHiding.isEmpty()) {
++//    return;
++//  }
+ 
+-  elementHiding.append(QLatin1String("\n</style>"));
++//  elementHiding.append(QLatin1String("\n</style>"));
+ 
+-  QWebElement bodyElement = docElement.findFirst("body");
+-  bodyElement.appendInside("<style type=\"text/css\">\n/* AdBlock */\n" + elementHiding);
++//  QWebElement bodyElement = docElement.findFirst("body");
++//  bodyElement.appendInside("<style type=\"text/css\">\n/* AdBlock */\n" + elementHiding);
+ 
+-  // When hiding some elements, scroll position of page will change
+-  // If user loaded anchor link in background tab (and didn't show it yet), fix the scroll position
+-  if (view() && !view()->isVisible() && !mainFrame()->url().fragment().isEmpty()) {
+-    mainFrame()->scrollToAnchor(mainFrame()->url().fragment());
+-  }
++//  // When hiding some elements, scroll position of page will change
++//  // If user loaded anchor link in background tab (and didn't show it yet), fix the scroll position
++//  if (view() && !view()->isVisible() && !mainFrame()->url().fragment().isEmpty()) {
++//    mainFrame()->scrollToAnchor(mainFrame()->url().fragment());
++//  }
+ }
+ 
+ #if QT_VERSION >= 0x050905
+-void WebPage::slotFullScreenRequested(QWebFullScreenRequest fullScreenRequest)
+-{
+-  fullScreenRequest.accept();
+-  mainApp->mainWindow()->webViewFullScreen(fullScreenRequest.toggleOn());
+-}
++//void WebPage::slotFullScreenRequested(QWebEngineFullScreenRequest fullScreenRequest)
++//{
++//  fullScreenRequest.accept();
++//  mainApp->mainWindow()->webViewFullScreen(fullScreenRequest.toggleOn());
++//}
+ #endif
+diff --git a/src/webview/webpage.h b/src/webview/webpage.h
+index 42beb51b..07688444 100644
+--- a/src/webview/webpage.h
++++ b/src/webview/webpage.h
+@@ -19,13 +19,13 @@
+ #define WEBPAGE_H
+ 
+ #include <QNetworkAccessManager>
+-#include <QWebPage>
++#include <QWebEnginePage>
+ #include <QSslCertificate>
+ 
+ class NetworkManagerProxy;
+ class AdBlockRule;
+ 
+-class WebPage : public QWebPage
++class WebPage : public QWebEnginePage
+ {
+   Q_OBJECT
+ public:
+@@ -43,7 +43,7 @@ public:
+ 
+   void disconnectObjects();
+ 
+-  bool acceptNavigationRequest(QWebFrame *frame,
++  bool acceptNavigationRequest(QWebEnginePage *frame,
+                                const QNetworkRequest &request,
+                                NavigationType type);
+   void populateNetworkRequest(QNetworkRequest &request);
+@@ -59,7 +59,7 @@ public:
+   bool containsRejectedCerts(const QList<QSslCertificate> &certs);
+ 
+ protected slots:
+-  QWebPage *createWindow(WebWindowType type);
++  QWebEnginePage *createWindow(QWebEnginePage::WebWindowType type);
+   void handleUnsupportedContent(QNetworkReply* reply);
+ 
+ private slots:
+@@ -69,13 +69,13 @@ private slots:
+   void cleanBlockedObjects();
+   void urlChanged(const QUrl &url);
+ #if QT_VERSION >= 0x050905
+-  void slotFullScreenRequested(QWebFullScreenRequest fullScreenRequest);
++//  void slotFullScreenRequested(QWebEngineFullScreenRequest fullScreenRequest);
+ #endif
+ 
+ private:
+   NetworkManagerProxy *networkManagerProxy_;
+ 
+-  QWebPage::NavigationType lastRequestType_;
++  QWebEnginePage::NavigationType lastRequestType_;
+   QUrl lastRequestUrl_;
+ 
+   bool adjustingScheduled_;
+diff --git a/src/webview/webview.cpp b/src/webview/webview.cpp
+index 42d2fb92..1b168908 100644
+--- a/src/webview/webview.cpp
++++ b/src/webview/webview.cpp
+@@ -25,7 +25,7 @@
+ #include <QMimeData>
+ 
+ WebView::WebView(QWidget *parent)
+-  : QWebView(parent)
++  : QWebEngineView(parent)
+   , buttonClick_(0)
+   , isLoading_(false)
+   , rssChecked_(false)
+@@ -57,7 +57,7 @@ void WebView::disconnectObjects()
+     dragStartPos_ = event->pos();
+   }
+ 
+-  QWebView::mousePressEvent(event);
++  QWebEngineView::mousePressEvent(event);
+ }
+ 
+ /*virtual*/ void WebView::mouseReleaseEvent(QMouseEvent *event)
+@@ -93,7 +93,7 @@ void WebView::disconnectObjects()
+     }
+   }
+ 
+-  QWebView::mouseReleaseEvent(event);
++  QWebEngineView::mouseReleaseEvent(event);
+ }
+ 
+ /*virtual*/ void WebView::wheelEvent(QWheelEvent *event)
+@@ -110,42 +110,42 @@ void WebView::disconnectObjects()
+     event->accept();
+     return;
+   }
+-  QWebView::wheelEvent(event);
++  QWebEngineView::wheelEvent(event);
+ }
+ 
+ void WebView::mouseMoveEvent(QMouseEvent* event)
+ {
+   if (event->buttons() != Qt::LeftButton) {
+-    QWebView::mouseMoveEvent(event);
++    QWebEngineView::mouseMoveEvent(event);
+     return;
+   }
+ 
+-  QSize viewSize;
+-  viewSize.setWidth(page()->viewportSize().width() -
+-                    page()->mainFrame()->scrollBarGeometry(Qt::Vertical).width());
+-  viewSize.setHeight(page()->viewportSize().height() -
+-                     page()->mainFrame()->scrollBarGeometry(Qt::Horizontal).height());
+-  if ((dragStartPos_.x() > viewSize.width()) || (dragStartPos_.y() > viewSize.height())) {
+-    QWebView::mouseMoveEvent(event);
+-    return;
+-  }
+-
+-  int manhattanLength = (event->pos() - dragStartPos_).manhattanLength();
+-  if (manhattanLength <= QApplication::startDragDistance()) {
+-    QWebView::mouseMoveEvent(event);
+-    return;
+-  }
+-
+-  const QWebHitTestResult &hitTest = page()->mainFrame()->hitTestContent(dragStartPos_);
+-  if (hitTest.linkUrl().isEmpty()) {
+-    QWebView::mouseMoveEvent(event);
+-    return;
+-  }
++//  QSize viewSize;
++//  viewSize.setWidth(page()->viewportSize().width() -
++//                    page()->mainFrame()->scrollBarGeometry(Qt::Vertical).width());
++//  viewSize.setHeight(page()->viewportSize().height() -
++//                     page()->mainFrame()->scrollBarGeometry(Qt::Horizontal).height());
++//  if ((dragStartPos_.x() > viewSize.width()) || (dragStartPos_.y() > viewSize.height())) {
++//    QWebEngineView::mouseMoveEvent(event);
++//    return;
++//  }
++
++//  int manhattanLength = (event->pos() - dragStartPos_).manhattanLength();
++//  if (manhattanLength <= QApplication::startDragDistance()) {
++//    QWebEngineView::mouseMoveEvent(event);
++//    return;
++//  }
++
++//  const QWebHitTestResult &hitTest = page()->mainFrame()->hitTestContent(dragStartPos_);
++//  if (hitTest.linkUrl().isEmpty()) {
++//    QWebView::mouseMoveEvent(event);
++//    return;
++//  }
+ 
+   QDrag *drag = new QDrag(this);
+   QMimeData *mime = new QMimeData;
+-  mime->setUrls(QList<QUrl>() << hitTest.linkUrl());
+-  mime->setText(hitTest.linkUrl().toString());
++//  mime->setUrls(QList<QUrl>() << hitTest.linkUrl());
++//  mime->setText(hitTest.linkUrl().toString());
+ 
+   drag->setMimeData(mime);
+   drag->exec();
+@@ -178,9 +178,9 @@ void WebView::checkRss()
+   }
+ 
+   rssChecked_ = true;
+-  QWebFrame* frame = page()->mainFrame();
+-  const QWebElementCollection links = frame->findAllElements("link[type=\"application/rss+xml\"]");
++//  QWebFrame* frame = page()->mainFrame();
++//  const QWebElementCollection links = frame->findAllElements("link[type=\"application/rss+xml\"]");
+ 
+-  hasRss_ = links.count() != 0;
+-  emit rssChanged(hasRss_);
++//  hasRss_ = links.count() != 0;
++//  emit rssChanged(hasRss_);
+ }
+diff --git a/src/webview/webview.h b/src/webview/webview.h
+index 01119196..c071d0c8 100644
+--- a/src/webview/webview.h
++++ b/src/webview/webview.h
+@@ -18,11 +18,11 @@
+ #ifndef WEBVIEW_H
+ #define WEBVIEW_H
+ 
+-#include <QWebView>
+-#include <QWebHistory>
+-#include <QWebPage>
+-#include <QWebFrame>
+-#include <QWebElement>
++#include <QWebEngineView>
++#include <QWebEngineHistory>
++#include <QWebEnginePage>
++//#include <QWebFrame>
++//#include <QWebEngineElement>
+ 
+ #define LEFT_BUTTON 0
+ #define MIDDLE_BUTTON 1
+@@ -31,7 +31,7 @@
+ #define LEFT_BUTTON_SHIFT 4
+ #define LEFT_BUTTON_ALT 5
+ 
+-class WebView : public QWebView
++class WebView : public QWebEngineView
+ {
+   Q_OBJECT
+ public:
+-- 
+2.43.0
+

@@ -1,0 +1,1894 @@
+From 550a8b81094568ee5333685f8df4dbaa186ad09a Mon Sep 17 00:00:00 2001
+From: Shilyaev Egor <egor.shilyaev@gmail.com>
+Date: Wed, 10 Feb 2021 09:06:50 +0500
+Subject: [PATCH 27/40] refactored: Copyright
+
+---
+ 3rdparty/sqlitex/sqlcachedresult.cpp         | 2 +-
+ 3rdparty/sqlitex/sqlcachedresult.h           | 2 +-
+ 3rdparty/sqlitex/sqlitedriver.cpp            | 2 +-
+ 3rdparty/sqlitex/sqlitedriver.h              | 2 +-
+ 3rdparty/sqlitex/sqliteextension.cpp         | 2 +-
+ 3rdparty/sqlitex/sqliteextension.h           | 2 +-
+ COPYING                                      | 2 +-
+ Info.plist                                   | 4 ++--
+ README.md                                    | 2 +-
+ quiterss.appdata.xml                         | 2 +-
+ src/aboutdialog.cpp                          | 4 ++--
+ src/aboutdialog.h                            | 2 +-
+ src/adblock/adblockaddsubscriptiondialog.cpp | 2 +-
+ src/adblock/adblockaddsubscriptiondialog.h   | 2 +-
+ src/adblock/adblockblockednetworkreply.cpp   | 2 +-
+ src/adblock/adblockblockednetworkreply.h     | 2 +-
+ src/adblock/adblockdialog.cpp                | 2 +-
+ src/adblock/adblockdialog.h                  | 2 +-
+ src/adblock/adblockicon.cpp                  | 2 +-
+ src/adblock/adblockicon.h                    | 2 +-
+ src/adblock/adblockmanager.cpp               | 2 +-
+ src/adblock/adblockmanager.h                 | 2 +-
+ src/adblock/adblockmatcher.cpp               | 2 +-
+ src/adblock/adblockmatcher.h                 | 2 +-
+ src/adblock/adblockrule.cpp                  | 2 +-
+ src/adblock/adblockrule.h                    | 2 +-
+ src/adblock/adblocksearchtree.cpp            | 2 +-
+ src/adblock/adblocksearchtree.h              | 2 +-
+ src/adblock/adblocksubscription.cpp          | 2 +-
+ src/adblock/adblocksubscription.h            | 2 +-
+ src/adblock/adblocktreewidget.cpp            | 2 +-
+ src/adblock/adblocktreewidget.h              | 2 +-
+ src/adblock/followredirectreply.cpp          | 2 +-
+ src/adblock/followredirectreply.h            | 2 +-
+ src/addfeedwizard.cpp                        | 2 +-
+ src/addfeedwizard.h                          | 2 +-
+ src/addfolderdialog.cpp                      | 2 +-
+ src/addfolderdialog.h                        | 2 +-
+ src/application/logfile.cpp                  | 2 +-
+ src/application/logfile.h                    | 2 +-
+ src/application/mainapplication.cpp          | 2 +-
+ src/application/mainapplication.h            | 2 +-
+ src/application/mainwindow.cpp               | 2 +-
+ src/application/mainwindow.h                 | 2 +-
+ src/application/settings.cpp                 | 2 +-
+ src/application/settings.h                   | 2 +-
+ src/application/splashscreen.cpp             | 2 +-
+ src/application/splashscreen.h               | 2 +-
+ src/categoriestreewidget.cpp                 | 2 +-
+ src/categoriestreewidget.h                   | 2 +-
+ src/cleanupwizard.cpp                        | 2 +-
+ src/cleanupwizard.h                          | 2 +-
+ src/common/common.cpp                        | 2 +-
+ src/common/common.h                          | 2 +-
+ src/common/delegatewithoutfocus.cpp          | 2 +-
+ src/common/delegatewithoutfocus.h            | 2 +-
+ src/common/dialog.cpp                        | 2 +-
+ src/common/dialog.h                          | 2 +-
+ src/common/lineedit.cpp                      | 2 +-
+ src/common/lineedit.h                        | 2 +-
+ src/customizetoolbardialog.cpp               | 2 +-
+ src/customizetoolbardialog.h                 | 2 +-
+ src/database/database.cpp                    | 2 +-
+ src/database/database.h                      | 2 +-
+ src/downloads/downloaditem.cpp               | 2 +-
+ src/downloads/downloaditem.h                 | 2 +-
+ src/downloads/downloadmanager.cpp            | 2 +-
+ src/downloads/downloadmanager.h              | 2 +-
+ src/faviconobject.cpp                        | 2 +-
+ src/faviconobject.h                          | 2 +-
+ src/feedpropertiesdialog.cpp                 | 2 +-
+ src/feedpropertiesdialog.h                   | 2 +-
+ src/feedsview/feedsmodel.cpp                 | 2 +-
+ src/feedsview/feedsmodel.h                   | 2 +-
+ src/feedsview/feedsview.cpp                  | 2 +-
+ src/feedsview/feedsview.h                    | 2 +-
+ src/findfeed.cpp                             | 2 +-
+ src/findfeed.h                               | 2 +-
+ src/findtext.cpp                             | 2 +-
+ src/findtext.h                               | 2 +-
+ src/labeldialog.cpp                          | 2 +-
+ src/labeldialog.h                            | 2 +-
+ src/main/globals.cpp                         | 2 +-
+ src/main/globals.h                           | 2 +-
+ src/main/main.cpp                            | 2 +-
+ src/network/authenticationdialog.cpp         | 2 +-
+ src/network/authenticationdialog.h           | 2 +-
+ src/network/cabundleupdater.cpp              | 2 +-
+ src/network/cabundleupdater.h                | 2 +-
+ src/network/cookiejar.cpp                    | 2 +-
+ src/network/cookiejar.h                      | 2 +-
+ src/network/networkmanager.cpp               | 2 +-
+ src/network/networkmanager.h                 | 2 +-
+ src/network/networkmanagerproxy.cpp          | 2 +-
+ src/network/networkmanagerproxy.h            | 2 +-
+ src/network/sslerrordialog.cpp               | 2 +-
+ src/network/sslerrordialog.h                 | 2 +-
+ src/newsfilters/filterrulesdialog.cpp        | 2 +-
+ src/newsfilters/filterrulesdialog.h          | 2 +-
+ src/newsfilters/itemaction.cpp               | 2 +-
+ src/newsfilters/itemaction.h                 | 2 +-
+ src/newsfilters/itemcondition.cpp            | 2 +-
+ src/newsfilters/itemcondition.h              | 2 +-
+ src/newsfilters/newsfiltersdialog.cpp        | 2 +-
+ src/newsfilters/newsfiltersdialog.h          | 2 +-
+ src/newstabwidget.cpp                        | 2 +-
+ src/newstabwidget.h                          | 2 +-
+ src/newsview/newsheader.cpp                  | 2 +-
+ src/newsview/newsheader.h                    | 2 +-
+ src/newsview/newsmodel.cpp                   | 2 +-
+ src/newsview/newsmodel.h                     | 2 +-
+ src/newsview/newsview.cpp                    | 2 +-
+ src/newsview/newsview.h                      | 2 +-
+ src/notifications/notificationsfeeditem.cpp  | 2 +-
+ src/notifications/notificationsfeeditem.h    | 2 +-
+ src/notifications/notificationsnewsitem.cpp  | 2 +-
+ src/notifications/notificationsnewsitem.h    | 2 +-
+ src/notifications/notificationswidget.cpp    | 2 +-
+ src/notifications/notificationswidget.h      | 2 +-
+ src/optionsdialog.cpp                        | 2 +-
+ src/optionsdialog.h                          | 2 +-
+ src/parseobject.cpp                          | 2 +-
+ src/parseobject.h                            | 2 +-
+ src/plugins/clicktoflash.cpp                 | 2 +-
+ src/plugins/clicktoflash.h                   | 2 +-
+ src/plugins/webpluginfactory.cpp             | 2 +-
+ src/plugins/webpluginfactory.h               | 2 +-
+ src/requestfeed.cpp                          | 2 +-
+ src/requestfeed.h                            | 2 +-
+ src/tabbar.cpp                               | 2 +-
+ src/tabbar.h                                 | 2 +-
+ src/updateappdialog.cpp                      | 2 +-
+ src/updateappdialog.h                        | 2 +-
+ src/updatefeeds.cpp                          | 2 +-
+ src/updatefeeds.h                            | 2 +-
+ src/webview/locationbar.cpp                  | 2 +-
+ src/webview/locationbar.h                    | 2 +-
+ src/webview/rssdetectionwidget.cpp           | 2 +-
+ src/webview/rssdetectionwidget.h             | 2 +-
+ src/webview/webpage.cpp                      | 2 +-
+ src/webview/webpage.h                        | 2 +-
+ src/webview/webview.cpp                      | 2 +-
+ src/webview/webview.h                        | 2 +-
+ 143 files changed, 145 insertions(+), 145 deletions(-)
+
+diff --git a/3rdparty/sqlitex/sqlcachedresult.cpp b/3rdparty/sqlitex/sqlcachedresult.cpp
+index 1a6e2416..c9c2ee77 100644
+--- a/3rdparty/sqlitex/sqlcachedresult.cpp
++++ b/3rdparty/sqlitex/sqlcachedresult.cpp
+@@ -1,7 +1,7 @@
+ /**************************************************************************
+ * Extensible SQLite driver for Qt4/Qt5
+ * Copyright (C) 2011-2012 Michał Męciński
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This library is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License version 2.1
+diff --git a/3rdparty/sqlitex/sqlcachedresult.h b/3rdparty/sqlitex/sqlcachedresult.h
+index e4b7e4a7..9a1ed900 100644
+--- a/3rdparty/sqlitex/sqlcachedresult.h
++++ b/3rdparty/sqlitex/sqlcachedresult.h
+@@ -1,7 +1,7 @@
+ /**************************************************************************
+ * Extensible SQLite driver for Qt4/Qt5
+ * Copyright (C) 2011-2012 Michał Męciński
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This library is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License version 2.1
+diff --git a/3rdparty/sqlitex/sqlitedriver.cpp b/3rdparty/sqlitex/sqlitedriver.cpp
+index 0de53ce2..30d922ee 100644
+--- a/3rdparty/sqlitex/sqlitedriver.cpp
++++ b/3rdparty/sqlitex/sqlitedriver.cpp
+@@ -1,7 +1,7 @@
+ /**************************************************************************
+ * Extensible SQLite driver for Qt4/Qt5
+ * Copyright (C) 2011-2012 Michał Męciński
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This library is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License version 2.1
+diff --git a/3rdparty/sqlitex/sqlitedriver.h b/3rdparty/sqlitex/sqlitedriver.h
+index 9defb73b..9f4e892a 100644
+--- a/3rdparty/sqlitex/sqlitedriver.h
++++ b/3rdparty/sqlitex/sqlitedriver.h
+@@ -1,7 +1,7 @@
+ /**************************************************************************
+ * Extensible SQLite driver for Qt4/Qt5
+ * Copyright (C) 2011-2012 Michał Męciński
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This library is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License version 2.1
+diff --git a/3rdparty/sqlitex/sqliteextension.cpp b/3rdparty/sqlitex/sqliteextension.cpp
+index 2505972f..8e26168a 100644
+--- a/3rdparty/sqlitex/sqliteextension.cpp
++++ b/3rdparty/sqlitex/sqliteextension.cpp
+@@ -1,7 +1,7 @@
+ /**************************************************************************
+ * Extensible SQLite driver for Qt4/Qt5
+ * Copyright (C) 2011-2012 Michał Męciński
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This library is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License version 2.1
+diff --git a/3rdparty/sqlitex/sqliteextension.h b/3rdparty/sqlitex/sqliteextension.h
+index c3f86999..5bb8248c 100644
+--- a/3rdparty/sqlitex/sqliteextension.h
++++ b/3rdparty/sqlitex/sqliteextension.h
+@@ -1,7 +1,7 @@
+ /**************************************************************************
+ * Extensible SQLite driver for Qt4/Qt5
+ * Copyright (C) 2011-2012 Michał Męciński
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This library is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License version 2.1
+diff --git a/COPYING b/COPYING
+index 07148b26..27202300 100644
+--- a/COPYING
++++ b/COPYING
+@@ -1,5 +1,5 @@
+ QuiteRSS
+-  Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++  Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ -----
+                     GNU GENERAL PUBLIC LICENSE
+                        Version 3, 29 June 2007
+diff --git a/Info.plist b/Info.plist
+index 3b9356b6..a1f9aeaf 100644
+--- a/Info.plist
++++ b/Info.plist
+@@ -9,7 +9,7 @@
+     <key>CFBundlePackageType</key>
+     <string>APPL</string>
+     <key>CFBundleGetInfoString</key>
+-    <string>@EXECUTABLE@ (C) 2011-2020 QuiteRSS Team</string>
++    <string>@EXECUTABLE@ (C) 2011-2021 QuiteRSS Team</string>
+     <key>CFBundleSignature</key>
+     <string>@TYPEINFO@</string>
+     <key>CFBundleExecutable</key>
+@@ -23,7 +23,7 @@
+     <key>CFBundleShortVersionString</key>
+     <string>0.19.4</string>
+     <key>NSHumanReadableCopyright</key>
+-    <string>(C) 2011-2020 QuiteRSS Team</string>
++    <string>(C) 2011-2021 QuiteRSS Team</string>
+     <key>NSPrincipalClass</key>
+     <string>NSApplication</string>
+     <key>NSHighResolutionCapable</key>
+diff --git a/README.md b/README.md
+index e8e3c598..379ff8b4 100644
+--- a/README.md
++++ b/README.md
+@@ -2,7 +2,7 @@
+ [![Build status](https://ci.appveyor.com/api/projects/status/5lr4m5jxf2ad4f5r/branch/master?svg=true)](https://ci.appveyor.com/project/Funcy-dcm/quiterss/branch/master)
+ [![Codacy Badge](https://api.codacy.com/project/badge/Grade/ed6473aef4dd4c5aba8cf1dbbc8c6383)](https://www.codacy.com/app/Funcy-dcm/quiterss?utm_source=github.com&utm_medium=referral&utm_content=QuiteRSS/quiterss&utm_campaign=badger)
+ 
+-Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ 
+ QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader written on Qt/C++
+ 
+diff --git a/quiterss.appdata.xml b/quiterss.appdata.xml
+index 9307ffc5..034262c2 100644
+--- a/quiterss.appdata.xml
++++ b/quiterss.appdata.xml
+@@ -1,5 +1,5 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+-<!-- Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com> -->
++<!-- Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com> -->
+ <component type="desktop-application">
+   <id>org.quiterss.quiterss</id>
+   <metadata_license>CC0-1.0</metadata_license>
+diff --git a/src/aboutdialog.cpp b/src/aboutdialog.cpp
+index fb926a58..643d25d2 100644
+--- a/src/aboutdialog.cpp
++++ b/src/aboutdialog.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+@@ -57,7 +57,7 @@ AboutDialog::AboutDialog(const QString &lang, QWidget *parent) :
+       arg(QT_VERSION_STR).arg(SQLITE_VERSION).arg(qWebKitVersion())
+       + "</P>"
+       + QString("<a href=\"%1\">%1</a>").arg("https://quiterss.org") +
+-      "<P>Copyright &copy; 2011-2020 QuiteRSS Team "
++      "<P>Copyright &copy; 2011-2021 QuiteRSS Team "
+       + QString("<a href=\"%1\">E-mail</a>").arg("mailto:quiterssteam@gmail.com") + "</P>"
+       "</CENTER></body></html>";
+   QLabel *infoLabel = new QLabel(appInfo);
+diff --git a/src/aboutdialog.h b/src/aboutdialog.h
+index 33e8d29c..c3b55e0c 100644
+--- a/src/aboutdialog.h
++++ b/src/aboutdialog.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/adblock/adblockaddsubscriptiondialog.cpp b/src/adblock/adblockaddsubscriptiondialog.cpp
+index 8c48dd6f..0e57e711 100644
+--- a/src/adblock/adblockaddsubscriptiondialog.cpp
++++ b/src/adblock/adblockaddsubscriptiondialog.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/adblock/adblockaddsubscriptiondialog.h b/src/adblock/adblockaddsubscriptiondialog.h
+index 6e9bc245..0225ecb2 100644
+--- a/src/adblock/adblockaddsubscriptiondialog.h
++++ b/src/adblock/adblockaddsubscriptiondialog.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/adblock/adblockblockednetworkreply.cpp b/src/adblock/adblockblockednetworkreply.cpp
+index 4d124985..d3e9fc9b 100644
+--- a/src/adblock/adblockblockednetworkreply.cpp
++++ b/src/adblock/adblockblockednetworkreply.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/adblock/adblockblockednetworkreply.h b/src/adblock/adblockblockednetworkreply.h
+index 6725398d..4515806c 100644
+--- a/src/adblock/adblockblockednetworkreply.h
++++ b/src/adblock/adblockblockednetworkreply.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/adblock/adblockdialog.cpp b/src/adblock/adblockdialog.cpp
+index 45f2c445..10667359 100644
+--- a/src/adblock/adblockdialog.cpp
++++ b/src/adblock/adblockdialog.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/adblock/adblockdialog.h b/src/adblock/adblockdialog.h
+index 4817ea93..73d59e4d 100644
+--- a/src/adblock/adblockdialog.h
++++ b/src/adblock/adblockdialog.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/adblock/adblockicon.cpp b/src/adblock/adblockicon.cpp
+index bad80b8f..3c3adc51 100644
+--- a/src/adblock/adblockicon.cpp
++++ b/src/adblock/adblockicon.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/adblock/adblockicon.h b/src/adblock/adblockicon.h
+index f3817258..7b98540a 100644
+--- a/src/adblock/adblockicon.h
++++ b/src/adblock/adblockicon.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/adblock/adblockmanager.cpp b/src/adblock/adblockmanager.cpp
+index 3cac0e8c..46e2a82f 100644
+--- a/src/adblock/adblockmanager.cpp
++++ b/src/adblock/adblockmanager.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/adblock/adblockmanager.h b/src/adblock/adblockmanager.h
+index bb87a2a2..25160ad8 100644
+--- a/src/adblock/adblockmanager.h
++++ b/src/adblock/adblockmanager.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/adblock/adblockmatcher.cpp b/src/adblock/adblockmatcher.cpp
+index 8b5e55bd..b5facbd3 100644
+--- a/src/adblock/adblockmatcher.cpp
++++ b/src/adblock/adblockmatcher.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/adblock/adblockmatcher.h b/src/adblock/adblockmatcher.h
+index add87ea4..d654f042 100644
+--- a/src/adblock/adblockmatcher.h
++++ b/src/adblock/adblockmatcher.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/adblock/adblockrule.cpp b/src/adblock/adblockrule.cpp
+index dc5bb1a4..0a0ab308 100644
+--- a/src/adblock/adblockrule.cpp
++++ b/src/adblock/adblockrule.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/adblock/adblockrule.h b/src/adblock/adblockrule.h
+index e9b07198..add72828 100644
+--- a/src/adblock/adblockrule.h
++++ b/src/adblock/adblockrule.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/adblock/adblocksearchtree.cpp b/src/adblock/adblocksearchtree.cpp
+index 7698fade..89ae4cb8 100644
+--- a/src/adblock/adblocksearchtree.cpp
++++ b/src/adblock/adblocksearchtree.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/adblock/adblocksearchtree.h b/src/adblock/adblocksearchtree.h
+index 73b5ee75..70d4e6b8 100644
+--- a/src/adblock/adblocksearchtree.h
++++ b/src/adblock/adblocksearchtree.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/adblock/adblocksubscription.cpp b/src/adblock/adblocksubscription.cpp
+index 91b5395c..c8ec18fe 100644
+--- a/src/adblock/adblocksubscription.cpp
++++ b/src/adblock/adblocksubscription.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/adblock/adblocksubscription.h b/src/adblock/adblocksubscription.h
+index 2671f2dd..a449df9b 100644
+--- a/src/adblock/adblocksubscription.h
++++ b/src/adblock/adblocksubscription.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/adblock/adblocktreewidget.cpp b/src/adblock/adblocktreewidget.cpp
+index f17024ec..fbb14f56 100644
+--- a/src/adblock/adblocktreewidget.cpp
++++ b/src/adblock/adblocktreewidget.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/adblock/adblocktreewidget.h b/src/adblock/adblocktreewidget.h
+index fd871e25..15ff09ba 100644
+--- a/src/adblock/adblocktreewidget.h
++++ b/src/adblock/adblocktreewidget.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/adblock/followredirectreply.cpp b/src/adblock/followredirectreply.cpp
+index 74fb0e08..0951b11d 100644
+--- a/src/adblock/followredirectreply.cpp
++++ b/src/adblock/followredirectreply.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/adblock/followredirectreply.h b/src/adblock/followredirectreply.h
+index 42e8495d..c92c58b3 100644
+--- a/src/adblock/followredirectreply.h
++++ b/src/adblock/followredirectreply.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/addfeedwizard.cpp b/src/addfeedwizard.cpp
+index abacd427..ce037721 100644
+--- a/src/addfeedwizard.cpp
++++ b/src/addfeedwizard.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/addfeedwizard.h b/src/addfeedwizard.h
+index fb4811c4..46ca0b20 100644
+--- a/src/addfeedwizard.h
++++ b/src/addfeedwizard.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/addfolderdialog.cpp b/src/addfolderdialog.cpp
+index f4ff849e..f171ca33 100644
+--- a/src/addfolderdialog.cpp
++++ b/src/addfolderdialog.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/addfolderdialog.h b/src/addfolderdialog.h
+index e63ac880..51211688 100644
+--- a/src/addfolderdialog.h
++++ b/src/addfolderdialog.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/application/logfile.cpp b/src/application/logfile.cpp
+index 4687da17..a95a0ff5 100644
+--- a/src/application/logfile.cpp
++++ b/src/application/logfile.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/application/logfile.h b/src/application/logfile.h
+index a1769819..bd8b89a0 100644
+--- a/src/application/logfile.h
++++ b/src/application/logfile.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/application/mainapplication.cpp b/src/application/mainapplication.cpp
+index 747dc430..81f10394 100644
+--- a/src/application/mainapplication.cpp
++++ b/src/application/mainapplication.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/application/mainapplication.h b/src/application/mainapplication.h
+index 48d168ef..420cbea3 100644
+--- a/src/application/mainapplication.h
++++ b/src/application/mainapplication.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/application/mainwindow.cpp b/src/application/mainwindow.cpp
+index 3f1ac747..3973e2b0 100755
+--- a/src/application/mainwindow.cpp
++++ b/src/application/mainwindow.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/application/mainwindow.h b/src/application/mainwindow.h
+index b0d798ff..7c882e6d 100755
+--- a/src/application/mainwindow.h
++++ b/src/application/mainwindow.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/application/settings.cpp b/src/application/settings.cpp
+index 6c58b54a..c2ac957a 100644
+--- a/src/application/settings.cpp
++++ b/src/application/settings.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/application/settings.h b/src/application/settings.h
+index 19f0f711..253cbe64 100644
+--- a/src/application/settings.h
++++ b/src/application/settings.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/application/splashscreen.cpp b/src/application/splashscreen.cpp
+index 120d1e77..9180fde1 100644
+--- a/src/application/splashscreen.cpp
++++ b/src/application/splashscreen.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/application/splashscreen.h b/src/application/splashscreen.h
+index eaaefc55..709e1896 100644
+--- a/src/application/splashscreen.h
++++ b/src/application/splashscreen.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/categoriestreewidget.cpp b/src/categoriestreewidget.cpp
+index 982868a1..6f62d2ac 100644
+--- a/src/categoriestreewidget.cpp
++++ b/src/categoriestreewidget.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/categoriestreewidget.h b/src/categoriestreewidget.h
+index 33b910c1..39413d70 100644
+--- a/src/categoriestreewidget.h
++++ b/src/categoriestreewidget.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/cleanupwizard.cpp b/src/cleanupwizard.cpp
+index 840270fc..57b45ddf 100644
+--- a/src/cleanupwizard.cpp
++++ b/src/cleanupwizard.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/cleanupwizard.h b/src/cleanupwizard.h
+index 7d57d6c0..02aac5e1 100644
+--- a/src/cleanupwizard.h
++++ b/src/cleanupwizard.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/common/common.cpp b/src/common/common.cpp
+index 48167368..9add418f 100644
+--- a/src/common/common.cpp
++++ b/src/common/common.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/common/common.h b/src/common/common.h
+index 7b5cb07d..193d1310 100644
+--- a/src/common/common.h
++++ b/src/common/common.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/common/delegatewithoutfocus.cpp b/src/common/delegatewithoutfocus.cpp
+index 7a1af6ed..3c2c5e72 100644
+--- a/src/common/delegatewithoutfocus.cpp
++++ b/src/common/delegatewithoutfocus.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/common/delegatewithoutfocus.h b/src/common/delegatewithoutfocus.h
+index 580188aa..0d167f2b 100644
+--- a/src/common/delegatewithoutfocus.h
++++ b/src/common/delegatewithoutfocus.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/common/dialog.cpp b/src/common/dialog.cpp
+index 7e3703e6..efce5ee8 100644
+--- a/src/common/dialog.cpp
++++ b/src/common/dialog.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/common/dialog.h b/src/common/dialog.h
+index ed9ff77f..9a6d2877 100644
+--- a/src/common/dialog.h
++++ b/src/common/dialog.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/common/lineedit.cpp b/src/common/lineedit.cpp
+index 90839474..55d013df 100644
+--- a/src/common/lineedit.cpp
++++ b/src/common/lineedit.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/common/lineedit.h b/src/common/lineedit.h
+index 22d3f0c3..cf9aec66 100644
+--- a/src/common/lineedit.h
++++ b/src/common/lineedit.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/customizetoolbardialog.cpp b/src/customizetoolbardialog.cpp
+index 904790a0..5af3230c 100644
+--- a/src/customizetoolbardialog.cpp
++++ b/src/customizetoolbardialog.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/customizetoolbardialog.h b/src/customizetoolbardialog.h
+index b517cd58..a16f9832 100644
+--- a/src/customizetoolbardialog.h
++++ b/src/customizetoolbardialog.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/database/database.cpp b/src/database/database.cpp
+index 2024ea84..c4d9540a 100755
+--- a/src/database/database.cpp
++++ b/src/database/database.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/database/database.h b/src/database/database.h
+index 6e26380e..68d7ab80 100755
+--- a/src/database/database.h
++++ b/src/database/database.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/downloads/downloaditem.cpp b/src/downloads/downloaditem.cpp
+index 92089c02..bd48e366 100644
+--- a/src/downloads/downloaditem.cpp
++++ b/src/downloads/downloaditem.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/downloads/downloaditem.h b/src/downloads/downloaditem.h
+index c44319bf..97e21476 100644
+--- a/src/downloads/downloaditem.h
++++ b/src/downloads/downloaditem.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/downloads/downloadmanager.cpp b/src/downloads/downloadmanager.cpp
+index 60cf3d1b..b8645727 100644
+--- a/src/downloads/downloadmanager.cpp
++++ b/src/downloads/downloadmanager.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/downloads/downloadmanager.h b/src/downloads/downloadmanager.h
+index fe6a645f..075314fd 100644
+--- a/src/downloads/downloadmanager.h
++++ b/src/downloads/downloadmanager.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/faviconobject.cpp b/src/faviconobject.cpp
+index e1d8824b..b250f423 100644
+--- a/src/faviconobject.cpp
++++ b/src/faviconobject.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/faviconobject.h b/src/faviconobject.h
+index c23da5b1..42f7b2a7 100644
+--- a/src/faviconobject.h
++++ b/src/faviconobject.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/feedpropertiesdialog.cpp b/src/feedpropertiesdialog.cpp
+index f4e0703a..23a4df42 100755
+--- a/src/feedpropertiesdialog.cpp
++++ b/src/feedpropertiesdialog.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/feedpropertiesdialog.h b/src/feedpropertiesdialog.h
+index 8ee59700..d39b2de7 100755
+--- a/src/feedpropertiesdialog.h
++++ b/src/feedpropertiesdialog.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+  * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+- * Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++ * Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+diff --git a/src/feedsview/feedsmodel.cpp b/src/feedsview/feedsmodel.cpp
+index 76d4bfb5..15531026 100644
+--- a/src/feedsview/feedsmodel.cpp
++++ b/src/feedsview/feedsmodel.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/feedsview/feedsmodel.h b/src/feedsview/feedsmodel.h
+index 0b81a033..94319578 100644
+--- a/src/feedsview/feedsmodel.h
++++ b/src/feedsview/feedsmodel.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/feedsview/feedsview.cpp b/src/feedsview/feedsview.cpp
+index 5c85d43c..6c9843af 100644
+--- a/src/feedsview/feedsview.cpp
++++ b/src/feedsview/feedsview.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/feedsview/feedsview.h b/src/feedsview/feedsview.h
+index 742d7de1..98ee55c5 100644
+--- a/src/feedsview/feedsview.h
++++ b/src/feedsview/feedsview.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/findfeed.cpp b/src/findfeed.cpp
+index 6460a8c8..3a904f52 100644
+--- a/src/findfeed.cpp
++++ b/src/findfeed.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/findfeed.h b/src/findfeed.h
+index 0431a486..9fd204c9 100644
+--- a/src/findfeed.h
++++ b/src/findfeed.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/findtext.cpp b/src/findtext.cpp
+index ba81cab1..89818f8f 100644
+--- a/src/findtext.cpp
++++ b/src/findtext.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/findtext.h b/src/findtext.h
+index 8d1a6306..87a1f6ab 100644
+--- a/src/findtext.h
++++ b/src/findtext.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/labeldialog.cpp b/src/labeldialog.cpp
+index cf5f95b3..a2606f52 100644
+--- a/src/labeldialog.cpp
++++ b/src/labeldialog.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/labeldialog.h b/src/labeldialog.h
+index 564d987c..5b638823 100644
+--- a/src/labeldialog.h
++++ b/src/labeldialog.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/main/globals.cpp b/src/main/globals.cpp
+index d59e19a9..2ac5ec7e 100644
+--- a/src/main/globals.cpp
++++ b/src/main/globals.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/main/globals.h b/src/main/globals.h
+index 0469b73f..84d36c4a 100644
+--- a/src/main/globals.h
++++ b/src/main/globals.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/main/main.cpp b/src/main/main.cpp
+index b2f68b44..0f849faf 100644
+--- a/src/main/main.cpp
++++ b/src/main/main.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/network/authenticationdialog.cpp b/src/network/authenticationdialog.cpp
+index 9e87106d..ecdcaa14 100644
+--- a/src/network/authenticationdialog.cpp
++++ b/src/network/authenticationdialog.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/network/authenticationdialog.h b/src/network/authenticationdialog.h
+index ce0d5769..65e67429 100644
+--- a/src/network/authenticationdialog.h
++++ b/src/network/authenticationdialog.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/network/cabundleupdater.cpp b/src/network/cabundleupdater.cpp
+index 09459a74..69a9dc40 100644
+--- a/src/network/cabundleupdater.cpp
++++ b/src/network/cabundleupdater.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/network/cabundleupdater.h b/src/network/cabundleupdater.h
+index 91a9dd36..2aec6274 100644
+--- a/src/network/cabundleupdater.h
++++ b/src/network/cabundleupdater.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/network/cookiejar.cpp b/src/network/cookiejar.cpp
+index 9d33b04e..3c38dfaa 100644
+--- a/src/network/cookiejar.cpp
++++ b/src/network/cookiejar.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/network/cookiejar.h b/src/network/cookiejar.h
+index 1f36c4c3..659a9c98 100644
+--- a/src/network/cookiejar.h
++++ b/src/network/cookiejar.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/network/networkmanager.cpp b/src/network/networkmanager.cpp
+index f9ba8fae..9b40ae6c 100644
+--- a/src/network/networkmanager.cpp
++++ b/src/network/networkmanager.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/network/networkmanager.h b/src/network/networkmanager.h
+index 2819a779..fc491ff1 100644
+--- a/src/network/networkmanager.h
++++ b/src/network/networkmanager.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/network/networkmanagerproxy.cpp b/src/network/networkmanagerproxy.cpp
+index 1d1613e1..aeb908f5 100644
+--- a/src/network/networkmanagerproxy.cpp
++++ b/src/network/networkmanagerproxy.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/network/networkmanagerproxy.h b/src/network/networkmanagerproxy.h
+index cd41e4b2..185684c4 100644
+--- a/src/network/networkmanagerproxy.h
++++ b/src/network/networkmanagerproxy.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/network/sslerrordialog.cpp b/src/network/sslerrordialog.cpp
+index 0e333fb8..d426d0f6 100644
+--- a/src/network/sslerrordialog.cpp
++++ b/src/network/sslerrordialog.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/network/sslerrordialog.h b/src/network/sslerrordialog.h
+index 432665bf..03b9e46c 100644
+--- a/src/network/sslerrordialog.h
++++ b/src/network/sslerrordialog.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/newsfilters/filterrulesdialog.cpp b/src/newsfilters/filterrulesdialog.cpp
+index 479ed66f..f23f3488 100644
+--- a/src/newsfilters/filterrulesdialog.cpp
++++ b/src/newsfilters/filterrulesdialog.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/newsfilters/filterrulesdialog.h b/src/newsfilters/filterrulesdialog.h
+index a9d9c4f7..4a9c8f04 100644
+--- a/src/newsfilters/filterrulesdialog.h
++++ b/src/newsfilters/filterrulesdialog.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/newsfilters/itemaction.cpp b/src/newsfilters/itemaction.cpp
+index f6cc5293..05e8d87f 100644
+--- a/src/newsfilters/itemaction.cpp
++++ b/src/newsfilters/itemaction.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/newsfilters/itemaction.h b/src/newsfilters/itemaction.h
+index a7f9dd70..2c3dbb11 100644
+--- a/src/newsfilters/itemaction.h
++++ b/src/newsfilters/itemaction.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/newsfilters/itemcondition.cpp b/src/newsfilters/itemcondition.cpp
+index 303b7476..e07091b2 100644
+--- a/src/newsfilters/itemcondition.cpp
++++ b/src/newsfilters/itemcondition.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/newsfilters/itemcondition.h b/src/newsfilters/itemcondition.h
+index 52eaecd0..bd44d602 100644
+--- a/src/newsfilters/itemcondition.h
++++ b/src/newsfilters/itemcondition.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/newsfilters/newsfiltersdialog.cpp b/src/newsfilters/newsfiltersdialog.cpp
+index ab15f07d..b8bffd2f 100644
+--- a/src/newsfilters/newsfiltersdialog.cpp
++++ b/src/newsfilters/newsfiltersdialog.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/newsfilters/newsfiltersdialog.h b/src/newsfilters/newsfiltersdialog.h
+index 5bc120a1..c142e683 100644
+--- a/src/newsfilters/newsfiltersdialog.h
++++ b/src/newsfilters/newsfiltersdialog.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/newstabwidget.cpp b/src/newstabwidget.cpp
+index bb1faf2e..835f33b8 100644
+--- a/src/newstabwidget.cpp
++++ b/src/newstabwidget.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/newstabwidget.h b/src/newstabwidget.h
+index 84163172..f6d86345 100644
+--- a/src/newstabwidget.h
++++ b/src/newstabwidget.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/newsview/newsheader.cpp b/src/newsview/newsheader.cpp
+index cefe99df..fbb6fff6 100644
+--- a/src/newsview/newsheader.cpp
++++ b/src/newsview/newsheader.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/newsview/newsheader.h b/src/newsview/newsheader.h
+index 90a8c540..acf2c292 100644
+--- a/src/newsview/newsheader.h
++++ b/src/newsview/newsheader.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/newsview/newsmodel.cpp b/src/newsview/newsmodel.cpp
+index bd937725..46e81e33 100644
+--- a/src/newsview/newsmodel.cpp
++++ b/src/newsview/newsmodel.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/newsview/newsmodel.h b/src/newsview/newsmodel.h
+index d0a29a50..568a90f6 100644
+--- a/src/newsview/newsmodel.h
++++ b/src/newsview/newsmodel.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/newsview/newsview.cpp b/src/newsview/newsview.cpp
+index 9244d163..86f6ccb3 100644
+--- a/src/newsview/newsview.cpp
++++ b/src/newsview/newsview.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/newsview/newsview.h b/src/newsview/newsview.h
+index 2f2f4afd..d1636a34 100644
+--- a/src/newsview/newsview.h
++++ b/src/newsview/newsview.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/notifications/notificationsfeeditem.cpp b/src/notifications/notificationsfeeditem.cpp
+index 9d5fb599..833151b8 100644
+--- a/src/notifications/notificationsfeeditem.cpp
++++ b/src/notifications/notificationsfeeditem.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/notifications/notificationsfeeditem.h b/src/notifications/notificationsfeeditem.h
+index 6e8c43e5..a5d2667f 100644
+--- a/src/notifications/notificationsfeeditem.h
++++ b/src/notifications/notificationsfeeditem.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/notifications/notificationsnewsitem.cpp b/src/notifications/notificationsnewsitem.cpp
+index d12e32b7..dd62e5c5 100644
+--- a/src/notifications/notificationsnewsitem.cpp
++++ b/src/notifications/notificationsnewsitem.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/notifications/notificationsnewsitem.h b/src/notifications/notificationsnewsitem.h
+index 551ff10f..6e601b77 100644
+--- a/src/notifications/notificationsnewsitem.h
++++ b/src/notifications/notificationsnewsitem.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/notifications/notificationswidget.cpp b/src/notifications/notificationswidget.cpp
+index 750317c3..b7915c69 100644
+--- a/src/notifications/notificationswidget.cpp
++++ b/src/notifications/notificationswidget.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/notifications/notificationswidget.h b/src/notifications/notificationswidget.h
+index 1211f7e4..2a2a8b6c 100644
+--- a/src/notifications/notificationswidget.h
++++ b/src/notifications/notificationswidget.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/optionsdialog.cpp b/src/optionsdialog.cpp
+index a595b7e4..a6e604a0 100755
+--- a/src/optionsdialog.cpp
++++ b/src/optionsdialog.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/optionsdialog.h b/src/optionsdialog.h
+index 5442fd03..09072189 100755
+--- a/src/optionsdialog.h
++++ b/src/optionsdialog.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/parseobject.cpp b/src/parseobject.cpp
+index 6f85daea..bb0208e4 100755
+--- a/src/parseobject.cpp
++++ b/src/parseobject.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/parseobject.h b/src/parseobject.h
+index 701e4a55..540a236f 100755
+--- a/src/parseobject.h
++++ b/src/parseobject.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/plugins/clicktoflash.cpp b/src/plugins/clicktoflash.cpp
+index 6d2f3628..d4eab23a 100644
+--- a/src/plugins/clicktoflash.cpp
++++ b/src/plugins/clicktoflash.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/plugins/clicktoflash.h b/src/plugins/clicktoflash.h
+index 40db3330..e4a5c1fa 100644
+--- a/src/plugins/clicktoflash.h
++++ b/src/plugins/clicktoflash.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/plugins/webpluginfactory.cpp b/src/plugins/webpluginfactory.cpp
+index 4d54c4fb..9b51468f 100644
+--- a/src/plugins/webpluginfactory.cpp
++++ b/src/plugins/webpluginfactory.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/plugins/webpluginfactory.h b/src/plugins/webpluginfactory.h
+index 79c2d5f7..38095ff7 100644
+--- a/src/plugins/webpluginfactory.h
++++ b/src/plugins/webpluginfactory.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/requestfeed.cpp b/src/requestfeed.cpp
+index 3d17e447..85a906b2 100644
+--- a/src/requestfeed.cpp
++++ b/src/requestfeed.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/requestfeed.h b/src/requestfeed.h
+index ea923ded..f315cd4c 100644
+--- a/src/requestfeed.h
++++ b/src/requestfeed.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/tabbar.cpp b/src/tabbar.cpp
+index 033a60a8..1da7fd6d 100644
+--- a/src/tabbar.cpp
++++ b/src/tabbar.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/tabbar.h b/src/tabbar.h
+index b9a36ada..ce4cf8e0 100644
+--- a/src/tabbar.h
++++ b/src/tabbar.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/updateappdialog.cpp b/src/updateappdialog.cpp
+index 59c4db6c..4f9d4057 100644
+--- a/src/updateappdialog.cpp
++++ b/src/updateappdialog.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/updateappdialog.h b/src/updateappdialog.h
+index 5ce67265..fb9a1490 100644
+--- a/src/updateappdialog.h
++++ b/src/updateappdialog.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/updatefeeds.cpp b/src/updatefeeds.cpp
+index 101fb236..1ac1b822 100644
+--- a/src/updatefeeds.cpp
++++ b/src/updatefeeds.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/updatefeeds.h b/src/updatefeeds.h
+index 9a89ba8b..22910353 100644
+--- a/src/updatefeeds.h
++++ b/src/updatefeeds.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/webview/locationbar.cpp b/src/webview/locationbar.cpp
+index 2d6b7a56..96702c51 100644
+--- a/src/webview/locationbar.cpp
++++ b/src/webview/locationbar.cpp
+@@ -1,6 +1,6 @@
+ /* =============================================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/webview/locationbar.h b/src/webview/locationbar.h
+index 0c002a3b..86efc69e 100644
+--- a/src/webview/locationbar.h
++++ b/src/webview/locationbar.h
+@@ -1,6 +1,6 @@
+ /* =============================================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/webview/rssdetectionwidget.cpp b/src/webview/rssdetectionwidget.cpp
+index ec55efbe..5bb42210 100644
+--- a/src/webview/rssdetectionwidget.cpp
++++ b/src/webview/rssdetectionwidget.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ * Copyright (C) 2010-2013  David Rosca <nowrep@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+diff --git a/src/webview/rssdetectionwidget.h b/src/webview/rssdetectionwidget.h
+index bdd86e38..d000acaf 100644
+--- a/src/webview/rssdetectionwidget.h
++++ b/src/webview/rssdetectionwidget.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ * Copyright (C) 2010-2013  David Rosca <nowrep@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+diff --git a/src/webview/webpage.cpp b/src/webview/webpage.cpp
+index 4d957f49..754eb646 100644
+--- a/src/webview/webpage.cpp
++++ b/src/webview/webpage.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/webview/webpage.h b/src/webview/webpage.h
+index 57cf330d..42beb51b 100644
+--- a/src/webview/webpage.h
++++ b/src/webview/webpage.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/webview/webview.cpp b/src/webview/webview.cpp
+index cd153207..42d2fb92 100644
+--- a/src/webview/webview.cpp
++++ b/src/webview/webview.cpp
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+diff --git a/src/webview/webview.h b/src/webview/webview.h
+index e3d067ff..01119196 100644
+--- a/src/webview/webview.h
++++ b/src/webview/webview.h
+@@ -1,6 +1,6 @@
+ /* ============================================================
+ * QuiteRSS is a open-source cross-platform RSS/Atom news feeds reader
+-* Copyright (C) 2011-2020 QuiteRSS Team <quiterssteam@gmail.com>
++* Copyright (C) 2011-2021 QuiteRSS Team <quiterssteam@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+-- 
+2.43.0
+

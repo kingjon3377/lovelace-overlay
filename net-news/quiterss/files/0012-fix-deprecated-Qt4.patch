@@ -1,0 +1,30 @@
+From c2768cee19a0b2b4e342a4fc29275f642c72669e Mon Sep 17 00:00:00 2001
+From: Shilyaev Egor <egor.shilyaev@gmail.com>
+Date: Fri, 15 May 2020 17:28:26 +0500
+Subject: [PATCH 12/40] =?UTF-8?q?fix:=20=D0=A3=D0=B4=D0=B0=D0=BB=D0=B5?=
+ =?UTF-8?q?=D0=BD=D0=B8=D0=B5=20=D0=BF=D1=80=D0=B5=D0=B4=D1=83=D0=BF=D1=80?=
+ =?UTF-8?q?=D0=B5=D0=B6=D0=B4=D0=B5=D0=BD=D0=B8=D0=B9=20"deprecated"=20(?=
+ =?UTF-8?q?=D0=BF=D0=BE=D0=B4=D0=B4=D0=B5=D1=80=D0=B6=D0=BA=D0=B0=20Qt4)?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+---
+ src/network/networkmanager.cpp | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/network/networkmanager.cpp b/src/network/networkmanager.cpp
+index e1731675..f9ba8fae 100644
+--- a/src/network/networkmanager.cpp
++++ b/src/network/networkmanager.cpp
+@@ -27,6 +27,7 @@
+ #include "cabundleupdater.h"
+ 
+ #include <QNetworkReply>
++#include <QSslConfiguration>
+ #include <QSslSocket>
+ #include <QDebug>
+ 
+-- 
+2.43.0
+

@@ -1,0 +1,25 @@
+From 0e9e4e71e59c7d2ccff7a0faa21b14f15ae81aa2 Mon Sep 17 00:00:00 2001
+From: Ivan Novikov <noviko-iva-money@yandex.ru>
+Date: Sat, 18 Dec 2021 16:40:31 +0300
+Subject: [PATCH 34/40] Fix a translation error with Export to OPML
+
+---
+ lang/quiterss_ru.qph | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/lang/quiterss_ru.qph b/lang/quiterss_ru.qph
+index 4e41ed37..7ba24704 100644
+--- a/lang/quiterss_ru.qph
++++ b/lang/quiterss_ru.qph
+@@ -719,7 +719,7 @@
+ </phrase>
+ <phrase>
+     <source>Export feeds to OPML file</source>
+-    <target>Экспортировать ленты из OPML-файла</target>
++    <target>Экспортировать ленты в OPML-файл</target>
+ </phrase>
+ <phrase>
+     <source>Loading history...</source>
+-- 
+2.43.0
+

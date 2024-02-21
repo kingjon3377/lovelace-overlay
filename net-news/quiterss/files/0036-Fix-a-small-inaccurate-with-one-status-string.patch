@@ -1,0 +1,25 @@
+From 75ca49475dac32281f4cc35c1653b81956b3140e Mon Sep 17 00:00:00 2001
+From: Ivan Novikov <noviko-iva-money@yandex.ru>
+Date: Sat, 18 Dec 2021 17:19:15 +0300
+Subject: [PATCH 36/40] Fix a small inaccurate with one status string
+
+---
+ lang/quiterss_ru.qph | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/lang/quiterss_ru.qph b/lang/quiterss_ru.qph
+index 4e41ed37..9813e549 100644
+--- a/lang/quiterss_ru.qph
++++ b/lang/quiterss_ru.qph
+@@ -675,7 +675,7 @@
+ </phrase>
+ <phrase>
+     <source>Clear status new on minimize to tray</source>
+-    <target>Очистить статус новые при минимизации в трей</target>
++    <target>Очистить статус &laquo;Новые&raquo; при минимизации в трей</target>
+ </phrase>
+ <phrase>
+     <source>Published</source>
+-- 
+2.43.0
+

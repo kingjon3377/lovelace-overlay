@@ -1,0 +1,34 @@
+From 51f6003dfec88434073d208f8dc41410e5751bd0 Mon Sep 17 00:00:00 2001
+From: Shilyaev Egor <egor.shilyaev@gmail.com>
+Date: Wed, 29 Apr 2020 23:32:13 +0500
+Subject: [PATCH 06/40] =?UTF-8?q?fix:=20=D0=9E=D1=88=D0=B8=D0=B1=D0=BA?=
+ =?UTF-8?q?=D0=B0=20=D0=BF=D1=80=D0=B8=20=D0=B7=D0=B0=D0=B3=D1=80=D1=83?=
+ =?UTF-8?q?=D0=B7=D0=BA=D0=B5=20=D0=BA=D0=BE=D0=BD=D1=82=D0=B5=D0=BD=D1=82?=
+ =?UTF-8?q?=D0=B0?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+---
+ src/webview/webpage.cpp | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/src/webview/webpage.cpp b/src/webview/webpage.cpp
+index bed9cae1..4d957f49 100644
+--- a/src/webview/webpage.cpp
++++ b/src/webview/webpage.cpp
+@@ -154,6 +154,11 @@ void WebPage::handleUnsupportedContent(QNetworkReply* reply)
+   if (!reply)
+     return;
+ 
++  WebView *webView = qobject_cast<WebView*>(view());
++  if (webView) {
++    webView->stop();
++  }
++
+   const QUrl &url = reply->url();
+ 
+   switch (reply->error()) {
+-- 
+2.43.0
+
