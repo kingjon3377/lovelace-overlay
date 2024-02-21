@@ -25,7 +25,7 @@ RDEPEND="${DEPEND}
 S="${WORKDIR}/${PN}-release-${PV}"
 
 src_install() {
-	default
+	cmake_src_install
 	dosym alchemyquest /usr/bin/openalchemist
 	domenu ${PN}.desktop openalchemist.desktop
 	insinto /usr/share/metainfo
