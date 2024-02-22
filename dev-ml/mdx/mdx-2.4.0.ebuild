@@ -22,8 +22,7 @@ RDEPEND="dev-ml/fmt:=
 	dev-ml/cmdliner:=
 	dev-ml/re:=
 	dev-ml/ocaml-version:=
-	dev-ml/odoc-parser:=
-	!<dev-ml/result-1.5"
+	>=dev-ml/result-1.5:="
 DEPEND="${RDEPEND}
 	test? (
 		dev-ml/lwt
