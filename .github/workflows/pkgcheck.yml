@@ -14,4 +14,4 @@ jobs:
     - name: Run pkgcheck
       uses: pkgcore/pkgcheck-action@v1
       with:
-        args: --keywords=-RedundantVersion,-MissingAccountIdentifier,-OldPackageUpdate --profiles=-default/linux/amd64/17.0/musl,-default/linux/amd64/17.0/musl/clang,-default/linux/amd64/17.0/x32,-default/linux/amd64/17.0/x32/systemd,-default/linux/amd64/17.0/musl/hardened,-default/linux/amd64/17.0/x32/systemd/merged-usr,-default/linux/amd64/17.0/musl/hardened/selinux
+        args: --keywords=-RedundantVersion,-MissingAccountIdentifier,-OldPackageUpdate --profiles=-default/linux/amd64/17.0/musl,-default/linux/amd64/17.0/musl/clang,-default/linux/amd64/17.0/x32,-default/linux/amd64/17.0/musl/hardened,-default/linux/amd64/17.0/x32/systemd/merged-usr,-default/linux/amd64/17.0/musl/hardened/selinux
