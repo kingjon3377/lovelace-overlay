@@ -14,6 +14,8 @@ SRC_URI="https://github.com/JimmXinu/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="~amd64"
+IUSE="test"
+RESTRICT="!test? ( test )"
 
 RDEPEND="${PYTHON_DEPS}
 	dev-python/requests[${PYTHON_USEDEP}]
@@ -27,6 +29,7 @@ RDEPEND="${PYTHON_DEPS}
 	dev-python/pillow[${PYTHON_USEDEP}]
 	dev-python/cloudscraper[${PYTHON_USEDEP}]"
 DEPEND="${RDEPEND}"
+BDEPEND="test? ( dev-python/pytest[${PYTHON_USEDEP}] )"
 
 # TODO: Add USE flag for calibre plugin
 
@@ -52,11 +55,11 @@ python_install_all() {
 	insinto /etc/fanficfare
 	doins fanficfare/defaults.ini
 	dodoc fanficfare/example.ini DESCRIPTION.rst
-	dosym fanficfare /usr/bin/ffd
 	dosym fanficfare /usr/bin/fff
 }
 
 python_test() {
+	epytest
 	local expected="Not Place_ but People-ao3_257191.epub"
 	cd "${T}"
 	rm -f "${expected}"

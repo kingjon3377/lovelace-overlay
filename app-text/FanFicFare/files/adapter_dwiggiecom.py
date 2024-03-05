@@ -164,24 +164,24 @@ class DwiggieComAdapter(BaseSiteAdapter):
         s.reverse()
         storyId_trimmed = s[0]
 
-        m = re.match('.*?<body[^>]*>(\s*<ul>)?(?P<content>.*?)(</body>|$)',
+        m = re.match(r'.*?<body[^>]*>(\s*<ul>)?(?P<content>.*?)(</body>|$)',
                      data, re.DOTALL)
         newdata = m.group('content')
         regex = re.compile(r'<a\ href\=\"' + storyId_trimmed +
-                           '[a-z]?.htm\">(Continued\ [Ii]n\ |Continue\ [Oo]n\ [Tt]o\ )?(the\ )?([Nn]ext\ [Ss]ection|[Ss]ection\ [0-9IVXCL]+)</a>')
+                           r'[a-z]?.htm\">(Continued\ [Ii]n\ |Continue\ [Oo]n\ [Tt]o\ )?(the\ )?([Nn]ext\ [Ss]ection|[Ss]ection\ [0-9IVXCL]+)</a>')
         newdata = re.sub(regex, '', newdata)
 
 
 #        pagesections = filter(lambda x: x!=None, re.split('(?m)<hr( \/)?>|<p>\s*<hr( \/)?>\s*<\/p>', newdata, re.MULTILINE))
 #        pagesections = filter(lambda x: x!=None, re.split('(?m)(<p>\s*)*<hr( \/)?>(\s*<\/p>)?', newdata, re.MULTILINE))
-        pagesections = filter(lambda x: x != None, re.split('<hr( \/)?>', newdata))
+        pagesections = filter(lambda x: x != None, re.split(r'<hr( \/)?>', newdata))
         pagesections = filter(lambda x: x.strip() != '/', pagesections)
 #        regex = re.compile(r'(href\="'+storyId_trimmed+'[a-z]?.htm$"')
 #        pagesections = filter(lambda x: re.search(re.compile(storyId_trimmed + "[a-z]?.htm$"),x)==None, pagesections)
         pagesections.pop(0)     # always remove header
 
         regex = re.compile(r'(?m)(href\="' + storyId_trimmed +
-                           '[a-z]?.htm\"|Copyright\ held\ by\ the\ author|<p>\s*(Section\ I|Beginning),\s*</?p>)', re.MULTILINE)
+                           r'[a-z]?.htm\"|Copyright\ held\ by\ the\ author|<p>\s*(Section\ I|Beginning),\s*</?p>)', re.MULTILINE)
         s = filter(lambda x: regex.search(x), pagesections)
 #        print(s)
         pagesections = filter(lambda x: not regex.search(x), pagesections)
@@ -267,7 +267,7 @@ class DwiggieComAdapter(BaseSiteAdapter):
 
 #         assign summary info
         desc = stripHTML(desc).replace(book, '').strip()
-        desc = re.sub('^.\s*', '', desc)
+        desc = re.sub(r'^.\s*', '', desc)
         if desc is not None:
             self.setDescription(url, desc)
 
