@@ -21,7 +21,7 @@ RDEPEND=">=virtual/jre-1.7
 	${COMMON_DEP}"
 BDEPEND=">=virtual/jdk-1.7
 	app-arch/unzip:0"
-DEPEND="test? ( dev-java/junit:4 dev-java/ant-junit4:0 )
+DEPEND="test? ( dev-java/junit:4 dev-java/ant[junit4] )
 	${COMMON_DEP}"
 
 RESTRICT="!test? ( test )"
