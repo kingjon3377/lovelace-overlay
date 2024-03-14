@@ -48,7 +48,7 @@ src_prepare() {
 }
 
 src_test() {
-	ANT_TASKS="ant-junit4" eant test
+	eant test
 }
 
 src_install() {
