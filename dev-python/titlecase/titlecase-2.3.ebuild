@@ -1,4 +1,4 @@
-# Copyright 2022 Gentoo Authors
+# Copyright 2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -12,7 +12,10 @@ HOMEPAGE="https://pypi.org/project/titlecase/ https://github.com/ppannuto/python
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
+IUSE="test"
 
 DEPEND="test? ( dev-python/regex[${PYTHON_USEDEP}] )"
 
-distutils_enable_tests nose
+# Tests require Nose, which is no longer supported
+RESTRICT=test
+#distutils_enable_tests nose

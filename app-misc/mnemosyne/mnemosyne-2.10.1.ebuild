@@ -35,7 +35,9 @@ RDEPEND="${DEPEND}
 "
 
 distutils_enable_sphinx mnemosyne/libmnemosyne/docs
-distutils_enable_tests nose
+# Tests in this version require Nose, which is no longer supported
+RESTRICT="test"
+#distutils_enable_tests nose
 
 python_compile() {
 	emake -C mnemosyne/pyqt_ui
