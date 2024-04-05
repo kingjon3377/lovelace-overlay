@@ -1,4 +1,4 @@
-# Copyright 1999-2023 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -21,10 +21,11 @@ DEPEND="${ADA_DEPS}"
 BDEPEND="app-arch/unzip"
 
 src_compile() {
-	# TODO: Use ada_export GNATMAKE and then ${GNATMAKE} instead of hardcoding 'gnatmake' here
+	ada_export GNATMAKE
 	for a in words makedict makestem makeewds makeefil makeinfl sorter wakedict
 	do
-		gnatmake ${CFLAGS} ${a} || die "Making ${a} failed"
+		# N.B. CFLAGS needs to be unquoted
+		"${GNATMAKE}" ${CFLAGS} ${a} || die "Making ${a} failed"
 	done
 	echo G | ./wakedict || die "Making dict failed."
 	./sorter <<- ENDHERE
@@ -57,7 +58,7 @@ src_install() {
 	insinto /usr/share/${PN}
 	doins DICTFILE.GEN UNIQUES.LAT STEMFILE.GEN INFLECTS.SEC INDXFILE.GEN \
 		ADDONS.LAT EWDSFILE.GEN
-	# TODO: Use make_wrapper from wrapper.eclass instead of having the wrapper premade in FILESDIR
+	# N.B. we can't use wrapper.eclass, since it doesn't allow changing CWD before executing the binary.
 	dobin "${FILESDIR}/latin"
 	fperms 755 /usr/libexec/${PN}/${PN}
 	dodoc HOWTO.txt "${FILESDIR}/README" wordsdoc.htm
