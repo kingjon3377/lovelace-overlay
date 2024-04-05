@@ -1,4 +1,4 @@
-# Copyright 2022 Gentoo Authors
+# Copyright 2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -20,7 +20,7 @@ RDEPEND="sys-libs/libseccomp
 DEPEND="${RDEPEND}
 	test? (
 		app-text/htmltidy
-		dev-build/valgrind
+		dev-debug/valgrind
 		www-client/links
 	)"
 
