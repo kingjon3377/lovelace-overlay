@@ -1,4 +1,4 @@
-# Copyright 1999-2023 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -27,8 +27,10 @@ HOMEPAGE="https://writer2latex.sourceforge.net"
 #SRC_URI="mirror://sourceforge/${PN}/${MY_P}.zip"
 SRC_URI="https://sourceforge.net/code-snapshots/svn/w/wr/writer2latex/code/${PN}-code-r${REV}-tags-${PV}.zip"
 
-SLOT="0"
+#S=${WORKDIR}/${PN}10
+S=${WORKDIR}/${PN}-code-r${REV}-tags-${PV}
 LICENSE="GPL-2"
+SLOT="0"
 KEYWORDS="~amd64"
 IUSE="doc examples"
 
@@ -36,8 +38,6 @@ DEPEND=">=virtual/jdk-1.8
 	virtual/latex-base"
 RDEPEND=">=virtual/jre-1.8"
 
-#S=${WORKDIR}/${PN}10
-S=${WORKDIR}/${PN}-code-r${REV}-tags-${PV}
 if [[ -n ${IS_SOURCE} ]]
 then
 	S_DISTRO=${S}/source/distro

@@ -1,4 +1,4 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -12,14 +12,13 @@ DESCRIPTION="Bible Retrieval System: UI for the Bible"
 HOMEPAGE="https://packages.debian.org/bible-kjv"
 SRC_URI="mirror://debian/pool/main/${MY_PN:0:1}/${MY_PN}/${MY_PN}_${PV}.tar.gz"
 
+#S="${WORKDIR}/${MY_PN}"
+S="${WORKDIR}/work"
 LICENSE="GPL-2+"
 SLOT="0"
 KEYWORDS="~amd64"
 
 RDEPEND="${DEPEND}"
-
-#S="${WORKDIR}/${MY_PN}"
-S="${WORKDIR}/work"
 
 src_prepare() {
 	sed -i -e 's:\([ 	]\)make\([ 	]\):\1$(MAKE)\2:g' -e "s:-ggdb:${CFLAGS}:" \

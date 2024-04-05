@@ -16,6 +16,7 @@ DESCRIPTION="Utility to merge EPUBs"
 HOMEPAGE="https://github.com/JimmXinu/EpubMerge"
 SRC_URI="https://github.com/JimmXinu/${MY_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
+S="${WORKDIR}/${MY_PN}-${PV}"
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
@@ -25,8 +26,6 @@ RDEPEND="${PYTHON_DEPS}
 DEPEND="${PYTHON_DEPS}"
 
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
-
-S="${WORKDIR}/${MY_PN}-${PV}"
 
 src_install() {
 	newbin "${PN}.py" "${PN}"

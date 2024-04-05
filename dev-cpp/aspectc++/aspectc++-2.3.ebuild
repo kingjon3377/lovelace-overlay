@@ -1,4 +1,4 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -7,23 +7,22 @@ inherit toolchain-funcs
 
 DESCRIPTION="AspectC++ is an AOP extension to C++"
 # In 2.3, upstream-provided .tar.gz is actually BZ2-compressed
+HOMEPAGE="https://www.aspectc.org/"
 SRC_URI="https://aspectc.org/releases/${PV}/ac-${PV}.tar.gz -> ac-${PV}.tar.bz2
 	mirror://debian/pool/main/a/${PN}/${PN}_${PV}+git20230726-1.debian.tar.xz"
-HOMEPAGE="https://www.aspectc.org/"
 RDEPEND="dev-libs/libxml2"
 DEPEND="${RDEPEND}
 	app-office/lyx
 	app-arch/xz-utils
 	app-text/docbook-sgml-utils"
 
-SLOT="0"
+S="${WORKDIR}/${PN}"
 LICENSE="GPL-2"
+SLOT="0"
 KEYWORDS="~amd64 ~x86"
 # TODO: add USE=debug, and if set pass TARGET=linux as an option to each
 # 'emake' call ... but that will probably change the location of the binaries
 # we should 'dobin'.
-
-S="${WORKDIR}/${PN}"
 
 src_prepare() {
 	mv "${WORKDIR}/debian" "${S}/debian" || die

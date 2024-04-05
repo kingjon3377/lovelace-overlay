@@ -1,4 +1,4 @@
-# Copyright 2019 Gentoo Authors
+# Copyright 2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -7,6 +7,7 @@ DESCRIPTION="Latin dictionary"
 HOMEPAGE="https://www.geocities.ws/mfp_99/glossator.html"
 SRC_URI="https://www.geocities.ws/mfp_99/gloss$(ver_rs 1- '').zip"
 
+S="${WORKDIR}"
 LICENSE="public-domain"
 SLOT="0"
 KEYWORDS="~amd64"
@@ -14,8 +15,6 @@ KEYWORDS="~amd64"
 RDEPEND="dev-lang/tcl
 	dev-lang/tk"
 BDEPEND="app-arch/unzip"
-
-S="${WORKDIR}"
 
 src_install() {
 	insinto /usr/share/${PN}

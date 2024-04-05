@@ -1,4 +1,4 @@
-# Copyright 2023 Gentoo Authors
+# Copyright 2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -16,6 +16,7 @@ DESCRIPTION="Utility to merge EPUBs"
 HOMEPAGE="https://github.com/JimmXinu/EpubMerge"
 SRC_URI="https://github.com/JimmXinu/${MY_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
+S="${WORKDIR}/${MY_PN}-${PV}"
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
@@ -25,8 +26,6 @@ RDEPEND="${PYTHON_DEPS}
 DEPEND="${PYTHON_DEPS}"
 
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
-
-S="${WORKDIR}/${MY_PN}-${PV}"
 
 PATCHES=(
 	"${FILESDIR}/${P}-d642d48b44065c7eff35ecebe9ad9abf56bc2137.patch"

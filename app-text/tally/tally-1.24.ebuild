@@ -1,4 +1,4 @@
-# Copyright 2021 Gentoo Authors
+# Copyright 2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -9,14 +9,13 @@ DESCRIPTION="print character count per character, including UTF-8 codes and unpr
 HOMEPAGE="https://www.dickgrune.com/Programs/utils/"
 SRC_URI="https://www.dickgrune.com/Programs/utils/${PN}_$(ver_rs 0- _).zip"
 
+S="${WORKDIR}"
 LICENSE="all-rights-reserved"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 
 RDEPEND="${DEPEND}"
 BDEPEND="app-arch/unzip"
-
-S="${WORKDIR}"
 
 PATCHES=( "${FILESDIR}/${P}-portability.patch" )
 

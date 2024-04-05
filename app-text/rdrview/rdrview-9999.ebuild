@@ -9,11 +9,10 @@ DESCRIPTION="Strip cruft from HTML (Readability)"
 HOMEPAGE="https://github.com/eafer/rdrview"
 EGIT_REPO_URI="https://github.com/eafer/${PN}.git"
 
-IUSE="test"
-
 LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="~amd64"
+IUSE="test"
 
 RDEPEND="sys-libs/libseccomp
 	dev-libs/libxml2:2

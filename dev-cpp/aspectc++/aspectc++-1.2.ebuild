@@ -1,4 +1,4 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -9,20 +9,19 @@ MY_VERSION=${PV/_}
 MY_P=ac-woven-${MY_VERSION}
 
 DESCRIPTION="AspectC++ is an AOP extension to C++"
-SRC_URI="https://www.aspectc.org/releases/${MY_VERSION}/${MY_P}.tar.gz"
 HOMEPAGE="https://www.aspectc.org/"
+SRC_URI="https://www.aspectc.org/releases/${MY_VERSION}/${MY_P}.tar.gz"
 RDEPEND="dev-libs/libxml2"
 DEPEND="${RDEPEND}
 	app-office/lyx"
 
-SLOT="0"
+S="${WORKDIR}/${PN}"
 LICENSE="GPL-2"
+SLOT="0"
 KEYWORDS="~amd64 ~x86"
 # TODO: add USE=debug, and if set pass TARGET=linux as an option to each
 # 'emake' call ... but that will probably change the location of the binaries
 # we should 'dobin'.
-
-S="${WORKDIR}/${PN}"
 
 PATCHES=(
 	# allow parallel makes in all subdirectories

@@ -1,4 +1,4 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -10,14 +10,13 @@ HOMEPAGE="ftp://ftp.penguin.cz/pub/users/mhi/wp2x"
 SRC_URI="ftp://ftp.penguin.cz/pub/users/mhi/${PN}/${P}-mhi.tar.bz2
 	mirror://debian/pool/main/w/${PN}/${PN}_${PV}-mhi-13.debian.tar.xz"
 
+S="${WORKDIR}/${P}-mhi"
 LICENSE="freedist"
 SLOT="0"
 KEYWORDS="amd64"
 
 DEPEND="${RDEPEND}"
 BDEPEND="app-arch/xz-utils"
-
-S="${WORKDIR}/${P}-mhi"
 
 src_prepare() {
 	for file in $(cat "${WORKDIR}/debian/patches/series");do

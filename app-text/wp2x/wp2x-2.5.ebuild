@@ -1,4 +1,4 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -9,6 +9,7 @@ DESCRIPTION="WordPerfect 5.x documents to whatever converter"
 HOMEPAGE="ftp://ftp.penguin.cz/pub/users/mhi/wp2x"
 SRC_URI="ftp://ftp.penguin.cz/pub/users/mhi/wp2x/${P}-mhi.tar.bz2"
 
+S="${WORKDIR}/${P}-mhi"
 LICENSE="freedist"
 SLOT="0"
 KEYWORDS="amd64"
@@ -16,8 +17,6 @@ KEYWORDS="amd64"
 RDEPEND="${DEPEND}"
 # Tests fail for some reason
 RESTRICT="test"
-
-S="${WORKDIR}/${P}-mhi"
 
 src_prepare() {
 	eapply "${FILESDIR}/wp2x_2.5-mhi-9.diff"

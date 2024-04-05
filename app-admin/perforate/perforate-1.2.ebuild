@@ -1,4 +1,4 @@
-# Copyright 1999-2023 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -9,13 +9,12 @@ DESCRIPTION="Utilities to save disk space"
 HOMEPAGE="https://packages.debian.org/sid/perforate https://perforate-linux.sourceforge.net/"
 SRC_URI="mirror://debian/pool/main/p/${PN}/${P/-/_}.orig.tar.gz"
 
+S="${WORKDIR}/${PN}-1.1"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64"
 
 RDEPEND="${DEPEND}"
-
-S="${WORKDIR}/${PN}-1.1"
 
 PATCHES=(
 	"${FILESDIR}"/perforate_1.2-5.diff
