@@ -1,4 +1,4 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -21,7 +21,9 @@ RDEPEND="dev-python/watchdog[${PYTHON_USEDEP}]"
 DEPEND="${RDEPEND}
 	test? ( dev-python/flake8[${PYTHON_USEDEP}] )"
 
-RESTRICT="!test? ( test )"
+#RESTRICT="!test? ( test )"
+# flake8 now fails (2023-10)
+RESTRICT=test
 
 src_prepare() {
 	sed -i -e 's/python/$(PYTHON)/g' -e 's/^test: lint/test:/' makefile || die
@@ -38,6 +40,3 @@ python_test() {
 }
 
 DOCS=( readme.mdpp readme.md )
-
-# flake8 now fails (2023-10)
-RESTRICT=test
