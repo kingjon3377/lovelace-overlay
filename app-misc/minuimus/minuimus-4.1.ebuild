@@ -1,4 +1,4 @@
-# Copyright 2023 Gentoo Authors
+# Copyright 2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -9,6 +9,7 @@ DESCRIPTION="file optimizer utility script"
 HOMEPAGE="https://birds-are-nice.me/software/minuimus.html"
 SRC_URI="https://birds-are-nice.me/software/${PN}.zip -> ${P}.zip"
 
+S="${WORKDIR}"
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64"
@@ -34,8 +35,6 @@ DEPEND="${RDEPEND}"
 BDEPEND="app-arch/unzip"
 
 PATCHES=( "${FILESDIR}/${P}_leanify_keep_icc.patch" )
-
-S="${WORKDIR}"
 
 pkg_postinst() {
 	optfeature app-misc/Leanify "Augment optimization with additional tricks"

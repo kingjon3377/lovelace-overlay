@@ -1,4 +1,4 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -9,6 +9,7 @@ DESCRIPTION="A two-level morphology tool for natural language processing"
 HOMEPAGE="https://www.issco.unige.ch/en/research/projects/MULTEXT.html https://packages.debian.org/mmorph"
 SRC_URI="mirror://debian/pool/main/m/${PN}/${PN}_${PV}.orig.tar.gz"
 
+S="${WORKDIR}/${P}.orig"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64"
@@ -16,8 +17,6 @@ KEYWORDS="amd64"
 RDEPEND="sys-libs/db:="
 DEPEND="${RDEPEND}"
 BDEPEND="sys-devel/flex"
-
-S="${WORKDIR}/${P}.orig"
 
 PATCHES=(
 	"${FILESDIR}/10_old-changes.patch"

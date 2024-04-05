@@ -11,6 +11,7 @@ DESCRIPTION="Latin--English dictionary."
 HOMEPAGE="http://archives.nd.edu/whitaker/words.htm"
 SRC_URI="http://archives.nd.edu/whitaker/wordsall.zip"
 
+S="${WORKDIR}"
 LICENSE="words"
 SLOT="0"
 KEYWORDS="amd64"
@@ -18,8 +19,6 @@ KEYWORDS="amd64"
 RDEPEND="${ADA_DEPS}"
 DEPEND="${ADA_DEPS}"
 BDEPEND="app-arch/unzip"
-
-S="${WORKDIR}"
 
 src_compile() {
 	# TODO: Use ada_export GNATMAKE and then ${GNATMAKE} instead of hardcoding 'gnatmake' here

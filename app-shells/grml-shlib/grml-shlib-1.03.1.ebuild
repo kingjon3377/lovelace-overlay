@@ -1,4 +1,4 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -7,6 +7,7 @@ DESCRIPTION="Generic shell library used in grml scripts"
 HOMEPAGE="http://grml.org"
 SRC_URI="http://deb.grml.org/pool/main/g/${PN}/${P/-1/_1}.tar.gz"
 
+S="${WORKDIR}/${PN}"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64"
@@ -18,8 +19,6 @@ RDEPEND="sys-apps/iproute2
 DEPEND="${RDEPEND}
 	doc? ( app-text/asciidoc
 	app-text/docbook-xsl-stylesheets )"
-
-S="${WORKDIR}/${PN}"
 
 src_prepare() {
 	sed -i -e 's:/usr/share/xml/docbook/stylesheet/nwalsh/manpages/docbook.xsl:/usr/share/sgml/docbook/xsl-stylesheets/manpages/docbook.xsl:g' \

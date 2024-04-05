@@ -1,4 +1,4 @@
-# Copyright 1999-2023 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 # Copyright 2002 Paul Thompson
@@ -18,8 +18,8 @@ SRC_URI="mirror://sourceforge/${PN}/${P}.tar.gz
 
 LICENSE="GPL-2"
 SLOT="0"
-IUSE="nls"
 KEYWORDS="~amd64 ~x86"
+IUSE="nls"
 
 # Libraries the Debian package depends on.
 RDEPEND="x11-libs/gtk+:3
