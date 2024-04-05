@@ -4,8 +4,8 @@
 EAPI=7
 
 DESCRIPTION="Generic shell library used in grml scripts"
-HOMEPAGE="http://grml.org"
-SRC_URI="http://deb.grml.org/pool/main/g/${PN}/${P/-1/_1}.tar.gz"
+HOMEPAGE="https://grml.org"
+SRC_URI="https://deb.grml.org/pool/main/g/${PN}/${P/-1/_1}.tar.gz"
 
 S="${WORKDIR}/${PN}"
 LICENSE="GPL-2"
