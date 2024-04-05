@@ -20,8 +20,12 @@ PATCHES=(
 	"${FILESDIR}/memcpy.patch"
 )
 
+src_prepare() {
+	default
+	sed -i -e 's@ -s @ @' Makefile || die
+}
+
 src_compile() {
-	# FIXME: This strips the generated binary
 	emake CC=$(tc-getCXX) CFLAGS="${CXXFLAGS}" PREFIX=/usr
 }
 
