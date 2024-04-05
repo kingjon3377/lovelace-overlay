@@ -1,6 +1,5 @@
 # Live ebuilds; repoman objects to leaving them unmasked
 ~app-forensics/simhash-9999
-~app-shells/grml-shlib-9999
 ~app-text/buthead-9999
 ~games-arcade/bombardier-9999
 ~games-misc/rolldice-9999
