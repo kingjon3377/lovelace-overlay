@@ -1,4 +1,4 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -12,12 +12,9 @@ LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 
-# TODO: What other Qt modules does it require?
-# FIXME: Support building on Qt 6
-RDEPEND="dev-qt/qtcharts:5
-	dev-qt/qtwidgets:5
-	dev-qt/qtnetwork:5
-	dev-qt/qtprintsupport:5"
+# qtbase for QtWidgets, QtNetwork, and QtPrintSupport
+RDEPEND="dev-qt/qtcharts:6
+	dev-qt/qtbase:6"
 DEPEND="${RDEPEND}"
 
 src_configure() {
