@@ -1,0 +1,8 @@
+diff -ru a/ao3download.py b/ao3download.py
+--- a/ao3download.py	2024-04-15 17:39:04.103535640 -0400
++++ b/ao3download.py	2024-04-15 17:38:41.789535640 -0400
+@@ -1,3 +1,4 @@
++#!/usr/bin/env python3
+ import AO3
+ import os.path
+ import argparse

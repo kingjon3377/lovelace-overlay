@@ -1,0 +1,12 @@
+diff -ru a/ao3download.py b/ao3download.py
+--- a/ao3download.py	2024-04-15 17:31:57.519535640 -0400
++++ b/ao3download.py	2024-04-15 17:31:29.067535640 -0400
+@@ -4,7 +4,7 @@
+ import re
+ import json
+ # import default settings
+-with open('settings.json') as json_file:
++with open('/etc/ao3downloader/settings.json') as json_file:
+     settings = json.load(json_file)
+     json_file.close()
+ save = settings["save_location"]
