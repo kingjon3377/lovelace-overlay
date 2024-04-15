@@ -1,0 +1,38 @@
+From f600cda864148fee236a8b12dc630dc6008aedab Mon Sep 17 00:00:00 2001
+From: encars28 <93652612+encars28@users.noreply.github.com>
+Date: Mon, 26 Dec 2022 19:02:31 +0100
+Subject: [PATCH] Warning for Mystery Works
+
+When the work is being loaded it warns the user if it's a Mystery Work and stops loading the rest, so that Mystery Works no longer cause an error.
+---
+ AO3/works.py | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
+
+diff --git a/AO3/works.py b/AO3/works.py
+index a2ea404..fe1159f 100644
+--- a/AO3/works.py
++++ b/AO3/works.py
+@@ -72,14 +72,20 @@ def reload(self, load_chapters=True):
+             load_chapters (bool, optional): If false, chapter text won't be parsed, and Work.load_chapters() will have to be called. Defaults to True.
+         """
+         
++        self._soup = self.request(f"https://archiveofourown.org/works/{self.id}?view_adult=true&view_full_work=true")
++
++        try: 
++            if "Error 404" in self._soup.find("h2", {"class", "heading"}).text:
++                raise utils.InvalidIdError("Cannot find work")
++        except AttributeError:
++            warnings.warn("This work failed to load. This is probably because the work is restricted or a Mystery Work")
++            return 
++
+         for attr in self.__class__.__dict__:
+             if isinstance(getattr(self.__class__, attr), cached_property):
+                 if attr in self.__dict__:
+                     delattr(self, attr)
+         
+-        self._soup = self.request(f"https://archiveofourown.org/works/{self.id}?view_adult=true&view_full_work=true")
+-        if "Error 404" in self._soup.find("h2", {"class", "heading"}).text:
+-            raise utils.InvalidIdError("Cannot find work")
+         if load_chapters:
+             self.load_chapters()
+         
