@@ -5,7 +5,7 @@ EAPI=7
 
 JAVA_PKG_IUSE="doc source"
 
-WANT_ANT_TASKS="ant-junit"
+ANT_TASKS="ant-junit"
 
 inherit java-pkg-2 java-ant-2
 
@@ -23,7 +23,10 @@ IUSE="test"
 
 RDEPEND=">=virtual/jre-1.7"
 BDEPEND=">=virtual/jdk-1.7"
-DEPEND="test? ( dev-java/junit:0 )"
+DEPEND="test? (
+		dev-java/junit:0
+		dev-java/ant:0[junit]
+	)"
 
 EANT_BUILD_TARGET=""
 EANT_DOC_TARGET=""
