@@ -1,0 +1,46 @@
+These tests commonly fail when the test suite is run again soon (or even
+several hours) after running it a first time, as apparently the test suite gets
+our IP (at least combined with the user agent used by the tests) on a temporary
+blacklist.
+diff -ru a/tests/test_save_api.py b/tests/test_save_api.py
+--- a/tests/test_save_api.py
++++ b/tests/test_save_api.py
+@@ -36,6 +36,7 @@
+     assert isinstance(save_api.timestamp(), datetime)
+ 
+ 
++@pytest.mark.xfail
+ def test_max_redirect_exceeded() -> None:
+     with pytest.raises(MaximumSaveRetriesExceeded):
+         url = f"https://{rndstr(30)}.gov"
+diff -ru a/tests/test_wrapper.py b/tests/test_wrapper.py
+--- a/tests/test_wrapper.py
++++ b/tests/test_wrapper.p
+@@ -1,4 +1,5 @@
+ from waybackpy.wrapper import Url
++import pytest
+ 
+ 
+ def test_oldest() -> None:
+@@ -25,6 +26,7 @@
+     assert "20101010" in str(wayback.archive_url)
+ 
+ 
++@pytest.mark.xfail
+ def test_total_archives() -> None:
+     wayback = Url("https://akamhy.github.io")
+     assert wayback.total_archives() > 10
+@@ -33,11 +35,13 @@
+     assert wayback.total_archives() == 0
+ 
+ 
++@pytest.mark.xfail
+ def test_known_urls() -> None:
+     wayback = Url("akamhy.github.io")
+     assert len(list(wayback.known_urls(subdomain=True))) > 40
+ 
+ 
++@pytest.mark.xfail
+ def test_Save() -> None:
+     wayback = Url("https://en.wikipedia.org/wiki/Asymptotic_equipartition_property")
+     wayback.save()
