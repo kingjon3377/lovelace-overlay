@@ -36,5 +36,5 @@ src_prepare() {
 
 python_install() {
 	distutils-r1_python_install
-	rm -r "$(python_get_sitedir)/tests"
+	rm -r "${ED}/$(python_get_sitedir)/tests"
 }
