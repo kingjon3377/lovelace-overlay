@@ -10,7 +10,7 @@ inherit java-pkg-2 java-ant-2
 DESCRIPTION="A programming language based on, and extending from, Java."
 
 HOMEPAGE="https://nice.sourceforge.net"
-SRC_URI="mirror://sourceforge/nice/Nice-${PV}-source.tgz"
+SRC_URI="https://downloads.sourceforge.net/nice/Nice-${PV}-source.tgz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64 ~x86"

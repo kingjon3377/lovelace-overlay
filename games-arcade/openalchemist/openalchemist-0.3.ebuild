@@ -7,7 +7,7 @@ inherit autotools desktop
 
 DESCRIPTION="NaturalChimie clone written with clanlib"
 HOMEPAGE="http://www.openalchemist.com/"
-SRC_URI="mirror://sourceforge/${PN}/${P}-src.tar.gz"
+SRC_URI="https://downloads.sourceforge.net/${PN}/${P}-src.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"

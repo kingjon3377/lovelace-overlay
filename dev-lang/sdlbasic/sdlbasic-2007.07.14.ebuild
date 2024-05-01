@@ -7,7 +7,7 @@ inherit toolchain-funcs flag-o-matic
 
 DESCRIPTION="BASIC interpreter for game development"
 HOMEPAGE="http://sdlbasic.altervista.org/main/index.php"
-SRC_URI="mirror://sourceforge/${PN}/source/$(ver_rs 1- '')/${PN/b/B}-src-${PV}.tgz"
+SRC_URI="https://downloads.sourceforge.net/${PN}/source/$(ver_rs 1- '')/${PN/b/B}-src-${PV}.tgz"
 
 LICENSE="LGPL-2.1"
 SLOT="0"

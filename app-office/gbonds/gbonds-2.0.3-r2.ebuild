@@ -13,7 +13,7 @@ inherit gnome2 autotools
 
 DESCRIPTION="A GNOME US savings bonds inventory program."
 HOMEPAGE="https://gbonds.sourceforge.net"
-SRC_URI="mirror://sourceforge/${PN}/${P}.tar.gz
+SRC_URI="https://downloads.sourceforge.net/${PN}/${P}.tar.gz
 	mirror://debian/pool/main/g/${PN}/${PN}_${PV}-17.debian.tar.xz"
 
 LICENSE="GPL-2"

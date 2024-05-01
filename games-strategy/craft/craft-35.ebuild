@@ -9,8 +9,8 @@ DESCRIPTION="Warcraft 2-like multi-player real-time strategy game"
 HOMEPAGE="https://sourceforge.net/projects/craft-vikings/"
 #HOMEPAGE="http://ftp.knoppix.nl/sunsite/games/strategy/"
 # TODO: Convert to PV=3.5 and use version-separator replacement to remove them for the filenames
-SRC_URI="mirror://sourceforge/${PN}-vikings/${PN}-vikings/${PN}-3.5/${PN}cc${PV}.tar.Z
-		doc? ( mirror://sourceforge/${PN}-vikings/${PN}-vikings/${PN}-3.5/${PN}doc.tar.Z )"
+SRC_URI="https://downloads.sourceforge.net/${PN}-vikings/${PN}-vikings/${PN}-3.5/${PN}cc${PV}.tar.Z
+		doc? ( https://downloads.sourceforge.net/${PN}-vikings/${PN}-vikings/${PN}-3.5/${PN}doc.tar.Z )"
 #SRC_URI="http://ftp.knoppix.nl/sunsite/games/strategy/craftcc35.tar.Z
 		#doc? ( http://ftp.knoppix.nl/sunsite/games/strategy/craftdoc.tar.Z )"
 

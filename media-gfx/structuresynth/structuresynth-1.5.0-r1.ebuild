@@ -7,7 +7,7 @@ inherit desktop qmake-utils
 
 DESCRIPTION="application for creating 3D structures"
 HOMEPAGE="https://structuresynth.sourceforge.net/"
-SRC_URI="mirror://sourceforge/${PN}/Structure%20Synth/Version%201.5%20%28Hinxton%29/StructureSynth-Source-v${PV}.zip"
+SRC_URI="https://downloads.sourceforge.net/${PN}/Structure%20Synth/Version%201.5%20%28Hinxton%29/StructureSynth-Source-v${PV}.zip"
 
 LICENSE="GPL-3"
 SLOT="0"

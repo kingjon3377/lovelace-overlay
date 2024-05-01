@@ -7,7 +7,7 @@ inherit desktop
 
 DESCRIPTION="compelling tile-placement puzzle game"
 HOMEPAGE="https://primrose.sourceforge.net/"
-SRC_URI="mirror://sourceforge/${PN}/${PN/p/P}_v${PV}_UnixSource.tar.gz"
+SRC_URI="https://downloads.sourceforge.net/${PN}/${PN/p/P}_v${PV}_UnixSource.tar.gz"
 
 LICENSE="public-domain"
 SLOT="0"

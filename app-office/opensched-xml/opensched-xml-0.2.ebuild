@@ -7,7 +7,7 @@ inherit toolchain-funcs
 
 DESCRIPTION="tool for project management (experimental XML version)"
 HOMEPAGE="https://opensched.sourceforge.net/"
-SRC_URI="mirror://sourceforge/opensched/experimental/${PN}.${PV}/${PN}.${PV}.tar.gz"
+SRC_URI="https://downloads.sourceforge.net/opensched/experimental/${PN}.${PV}/${PN}.${PV}.tar.gz"
 
 S="${WORKDIR}/${PN}.${PV}"
 LICENSE="GPL-2"

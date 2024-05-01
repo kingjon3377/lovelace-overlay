@@ -7,7 +7,7 @@ inherit autotools
 
 DESCRIPTION="C++ meta object runtime analyse and archiving"
 HOMEPAGE="https://libgenerics.sourceforge.net/"
-SRC_URI="mirror://sourceforge/${PN}/${P}.tar.gz"
+SRC_URI="https://downloads.sourceforge.net/${PN}/${P}.tar.gz"
 LICENSE="GPL-2"
 SLOT="1.2"
 KEYWORDS="amd64 ~x86"

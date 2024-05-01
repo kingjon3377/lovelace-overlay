@@ -7,7 +7,7 @@ inherit toolchain-funcs
 
 DESCRIPTION="Console based Rhyming Dictionary"
 HOMEPAGE="https://rhyme.sourceforge.net/"
-SRC_URI="mirror://sourceforge/rhyme/${P}.tar.gz"
+SRC_URI="https://downloads.sourceforge.net/rhyme/${P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"

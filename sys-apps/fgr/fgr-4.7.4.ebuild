@@ -5,7 +5,7 @@ EAPI=7
 
 DESCRIPTION="Fgr Command Find Tool"
 HOMEPAGE="https://xffm.sourceforge.net/fgr.html"
-SRC_URI="mirror://sourceforge/xffm/${PV}/${PN}/${P}.tar.bz2"
+SRC_URI="https://downloads.sourceforge.net/xffm/${PV}/${PN}/${P}.tar.bz2"
 
 LICENSE="GPL-2"
 SLOT="0"

@@ -7,7 +7,7 @@ inherit desktop
 
 DESCRIPTION="Complete batch renamer for Linux"
 HOMEPAGE="https://gprename.sourceforge.net"
-SRC_URI="mirror://sourceforge/${PN}/${PN}/${PV}/${P}.zip"
+SRC_URI="https://downloads.sourceforge.net/${PN}/${PN}/${PV}/${P}.zip"
 
 LICENSE="GPL-3"
 SLOT="0"

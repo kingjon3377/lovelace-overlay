@@ -5,7 +5,7 @@ EAPI=7
 
 DESCRIPTION="Spell Checker Oriented Word Lists"
 HOMEPAGE="https://wordlist.sourceforge.net/"
-SRC_URI="mirror://sourceforge/wordlist/${P}.tar.gz"
+SRC_URI="https://downloads.sourceforge.net/wordlist/${P}.tar.gz"
 
 LICENSE="public-domain Princeton"
 SLOT="0"

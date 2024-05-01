@@ -7,7 +7,7 @@ inherit gnome2 toolchain-funcs autotools
 
 DESCRIPTION="Audio file denoiser"
 HOMEPAGE="https://gwc.sourceforge.net/"
-SRC_URI="mirror://sourceforge/${PN}/${PN}2/${PV}/gtk-wave-cleaner-${PV}-01.tar.gz
+SRC_URI="https://downloads.sourceforge.net/${PN}/${PN}2/${PV}/gtk-wave-cleaner-${PV}-01.tar.gz
 	mirror://debian/pool/main/g/${PN}/${PN}_${PV}.01-1.debian.tar.xz"
 
 LICENSE="GPL-2"

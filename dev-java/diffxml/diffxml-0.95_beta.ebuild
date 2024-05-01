@@ -10,7 +10,7 @@ inherit java-pkg-2 java-ant-2
 
 DESCRIPTION="XML differencing and packaging tools"
 HOMEPAGE="https://diffxml.sourceforge.net"
-SRC_URI="mirror://sourceforge/${PN}/${PN}/${PV/_beta/%20BETA}/${PN}-src-${PV/_beta/B}.tar.gz"
+SRC_URI="https://downloads.sourceforge.net/${PN}/${PN}/${PV/_beta/%20BETA}/${PN}-src-${PV/_beta/B}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"

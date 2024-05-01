@@ -11,7 +11,7 @@ PROJ="thetimelineproj"
 
 DESCRIPTION="Timeline editing software"
 HOMEPAGE="https://thetimelineproj.sourceforge.net/"
-SRC_URI="mirror://sourceforge/${PROJ}/${PROJ}/${PV}/${P}.zip"
+SRC_URI="https://downloads.sourceforge.net/${PROJ}/${PROJ}/${PV}/${P}.zip"
 
 LICENSE="GPL-3"
 SLOT="0"

@@ -8,7 +8,7 @@ MY_P=${MY_PN}-${PV}stable
 
 DESCRIPTION="Another city simulator written with OpenGL & SDL"
 HOMEPAGE="https://opencity.sourceforge.net/"
-SRC_URI="mirror://sourceforge/${PN}/${MY_P}.tar.bz2"
+SRC_URI="https://downloads.sourceforge.net/${PN}/${MY_P}.tar.bz2"
 
 LICENSE="GPL-2"
 SLOT="0"

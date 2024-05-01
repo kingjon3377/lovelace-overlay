@@ -7,7 +7,7 @@ inherit gnome2 toolchain-funcs desktop
 
 DESCRIPTION="Audio file denoiser"
 HOMEPAGE="https://gwc.sourceforge.net/"
-SRC_URI="mirror://sourceforge/gwc/gwc2/${PV}-11/${P}-11.tgz"
+SRC_URI="https://downloads.sourceforge.net/gwc/gwc2/${PV}-11/${P}-11.tgz"
 
 LICENSE="GPL-2"
 SLOT="0"

@@ -7,7 +7,7 @@ inherit toolchain-funcs
 
 DESCRIPTION="semi-random text typer"
 HOMEPAGE="https://randtype.sourceforge.io/"
-SRC_URI="mirror://sourceforge/bjk/randtype/${PV}/${P}.tar.gz"
+SRC_URI="https://downloads.sourceforge.net/bjk/randtype/${PV}/${P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"

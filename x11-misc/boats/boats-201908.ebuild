@@ -9,7 +9,7 @@ inherit qmake-utils desktop
 
 DESCRIPTION="a race scenario drawing tool"
 HOMEPAGE="https://boats.sourceforge.net/"
-SRC_URI="mirror://sourceforge/${PN}/${PV}/${PN}_${PV}_src.tgz"
+SRC_URI="https://downloads.sourceforge.net/${PN}/${PV}/${PN}_${PV}_src.tgz"
 
 LICENSE="GPL-3"
 SLOT="0"

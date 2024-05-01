@@ -9,7 +9,7 @@ inherit java-pkg-2 java-ant-2
 
 DESCRIPTION="Java based map editor for roleplaying games"
 HOMEPAGE="https://mapcraft.glendale.org.uk/"
-SRC_URI="mirror://sourceforge/${PN}/${P}.tgz"
+SRC_URI="https://downloads.sourceforge.net/${PN}/${P}.tgz"
 S="${WORKDIR}/${PN}-0.3"
 LICENSE="GPL-2"
 SLOT="0"

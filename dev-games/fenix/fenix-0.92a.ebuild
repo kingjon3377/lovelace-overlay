@@ -11,7 +11,7 @@ DEBIAN_PATCH_V=12
 
 DESCRIPTION="development environment for making 2D games"
 HOMEPAGE="https://sourceforge.net/projects/fenix"
-SRC_URI="mirror://sourceforge/${PN}/${PN/f/F}/${PV}/${PN}092a-src-release.tgz
+SRC_URI="https://downloads.sourceforge.net/${PN}/${PN/f/F}/${PV}/${PN}092a-src-release.tgz
 	mirror://debian/pool/main/${PN:0:1}/${PN}/${PN}_${PV}.dfsg1-${DEBIAN_PATCH_V}.debian.tar.xz"
 
 LICENSE="GPL-2 FDL-1.2"

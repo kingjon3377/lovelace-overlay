@@ -7,7 +7,7 @@ inherit qmake-utils
 
 DESCRIPTION="educational BASIC programming environment for children"
 HOMEPAGE="https://www.basic256.org/"
-SRC_URI="mirror://sourceforge/kidbasic/${P/-/_}.orig.tar.gz"
+SRC_URI="https://downloads.sourceforge.net/kidbasic/${P/-/_}.orig.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"

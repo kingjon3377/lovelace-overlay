@@ -5,7 +5,7 @@ EAPI=7
 
 DESCRIPTION="Access Web sites as a FUSE filesystem"
 HOMEPAGE="https://sourceforge.net/projects/httpfs"
-SRC_URI="mirror://sourceforge/httpfs/${PN}/${P}.tar.gz"
+SRC_URI="https://downloads.sourceforge.net/httpfs/${PN}/${P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"

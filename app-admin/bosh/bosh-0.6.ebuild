@@ -5,7 +5,7 @@ EAPI=7
 
 DESCRIPTION="browse output of processes"
 HOMEPAGE="https://bosh.sourceforge.net/"
-SRC_URI="mirror://sourceforge/${PN}/${PN}/${PN}%20${PV}/${P}.tar.gz"
+SRC_URI="https://downloads.sourceforge.net/${PN}/${PN}/${PN}%20${PV}/${P}.tar.gz"
 
 LICENSE="GPL-3"
 SLOT="0"

@@ -5,7 +5,7 @@ EAPI=7
 
 DESCRIPTION="a simple email archiver"
 HOMEPAGE="https://adc-archmbox.sourceforge.net/"
-SRC_URI="mirror://sourceforge/adc-archmbox/${PN}/${PV}/${P}.tar.gz"
+SRC_URI="https://downloads.sourceforge.net/adc-archmbox/${PN}/${PV}/${P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"

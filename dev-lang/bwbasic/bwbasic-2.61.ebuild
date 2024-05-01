@@ -7,7 +7,7 @@ inherit toolchain-funcs edos2unix
 
 DESCRIPTION="Bywater BASIC Interpreter"
 HOMEPAGE="https://sourceforge.net/projects/bwbasic/"
-SRC_URI="mirror://sourceforge/${PN}/${PN}/version%20${PV}/${P}.zip"
+SRC_URI="https://downloads.sourceforge.net/${PN}/${PN}/version%20${PV}/${P}.zip"
 
 LICENSE="GPL-3"
 SLOT="0"

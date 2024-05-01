@@ -11,7 +11,7 @@ DESCRIPTION="A tool to analyze Java code"
 #HOMEPAGE="http://www.incava.org/projects/java/doctorj/"
 #SRC_URI="http://www.incava.org/files/${P}.tar.gz"
 HOMEPAGE="https://sourceforge.net/projects/doctorj"
-SRC_URI="mirror://sourceforge/${PN}/${PN}/${PV}/${P}.tar.gz"
+SRC_URI="https://downloads.sourceforge.net/${PN}/${PN}/${PV}/${P}.tar.gz"
 
 LICENSE="LGPL-2.1"
 SLOT="0"

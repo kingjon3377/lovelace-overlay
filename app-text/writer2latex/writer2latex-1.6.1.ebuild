@@ -24,7 +24,7 @@ fi
 
 DESCRIPTION="Converter from OpenDocument .odt format to LaTeX"
 HOMEPAGE="https://writer2latex.sourceforge.net"
-#SRC_URI="mirror://sourceforge/${PN}/${MY_P}.zip"
+#SRC_URI="https://downloads.sourceforge.net/${PN}/${MY_P}.zip"
 SRC_URI="https://sourceforge.net/code-snapshots/svn/w/wr/writer2latex/code/${PN}-code-r${REV}-tags-${PV}.zip"
 
 #S=${WORKDIR}/${PN}10

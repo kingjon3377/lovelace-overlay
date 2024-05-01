@@ -5,7 +5,7 @@ EAPI=7
 
 DESCRIPTION="training program to log physical activities of athletes"
 HOMEPAGE="https://kipina.sourceforge.net"
-SRC_URI="mirror://sourceforge/${PN}/${PN}/${PV}/${P}.tar.gz"
+SRC_URI="https://downloads.sourceforge.net/${PN}/${PN}/${PV}/${P}.tar.gz"
 
 LICENSE="GPL-3"
 SLOT="0"

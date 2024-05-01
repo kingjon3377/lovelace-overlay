@@ -7,7 +7,7 @@ inherit java-pkg-2 java-pkg-simple
 
 DESCRIPTION="Research Project Helper"
 HOMEPAGE="https://rphelper.sourceforge.net"
-SRC_URI="mirror://sourceforge/${PN}/${PN}/v${PV}-source/${PN}-source.zip -> ${P}.zip"
+SRC_URI="https://downloads.sourceforge.net/${PN}/${PN}/v${PV}-source/${PN}-source.zip -> ${P}.zip"
 
 LICENSE="GPL-2"
 SLOT="0"

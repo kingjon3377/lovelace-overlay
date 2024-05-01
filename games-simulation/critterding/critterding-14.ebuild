@@ -7,7 +7,7 @@ inherit cmake
 
 DESCRIPTION="AI evolution simulation"
 HOMEPAGE="https://critterding.sourceforge.net"
-SRC_URI="mirror://sourceforge/${PN}/${PN}/sources/${PN}-beta${PV}.tar.bz2"
+SRC_URI="https://downloads.sourceforge.net/${PN}/${PN}/sources/${PN}-beta${PV}.tar.bz2"
 
 LICENSE="GPL-3"
 SLOT="0"

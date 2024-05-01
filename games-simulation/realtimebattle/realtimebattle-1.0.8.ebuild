@@ -10,7 +10,7 @@ MY_P1S="RealTimeBattle-${PV}-Std"
 
 DESCRIPTION="A programming game in which robots controlled by programs fight each other."
 HOMEPAGE="https://realtimebattle.sourceforge.net/"
-SRC_URI="mirror://sourceforge/${PN}/${MY_P1E}.tar.gz "
+SRC_URI="https://downloads.sourceforge.net/${PN}/${MY_P1E}.tar.gz "
 
 LICENSE="GPL-2"
 KEYWORDS="amd64 x86"

@@ -11,7 +11,7 @@ MY_VD=$(ver_cut 1-2).0$(ver_cut 4)
 
 DESCRIPTION="Audio file denoiser"
 HOMEPAGE="https://gwc.sourceforge.net/"
-SRC_URI="mirror://sourceforge/${PN}/${PN}2/${MY_V}/gtk-wave-cleaner-${MY_VZ}.tar.gz
+SRC_URI="https://downloads.sourceforge.net/${PN}/${PN}2/${MY_V}/gtk-wave-cleaner-${MY_VZ}.tar.gz
 	mirror://debian/pool/main/g/${PN}/${PN}_${MY_VD}-1.debian.tar.xz"
 
 LICENSE="GPL-2"

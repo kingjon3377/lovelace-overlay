@@ -7,7 +7,7 @@ inherit cmake
 
 DESCRIPTION="perceptual image comparison tool"
 HOMEPAGE="https://pdiff.sourceforge.net"
-SRC_URI="mirror://sourceforge/pdiff/pdiff/${P}/${P}-src.tar.gz"
+SRC_URI="https://downloads.sourceforge.net/pdiff/pdiff/${P}/${P}-src.tar.gz"
 
 LICENSE="GPL-3"
 SLOT="0"

@@ -7,7 +7,7 @@ inherit toolchain-funcs
 
 DESCRIPTION="A Wave-to-Notes transcriber"
 HOMEPAGE="https://waon.sourceforge.net/"
-SRC_URI="mirror://sourceforge/waon/${P}.tar.gz"
+SRC_URI="https://downloads.sourceforge.net/waon/${P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"

@@ -5,7 +5,7 @@ EAPI=7
 
 DESCRIPTION="Tool for parsing flat and CSV files and converting them to different formats"
 HOMEPAGE="https://ff-extractor.sourceforge.net/"
-SRC_URI="mirror://sourceforge/${PN}/${PN}/${PV}/ffe-${PV}.tar.gz"
+SRC_URI="https://downloads.sourceforge.net/${PN}/${PN}/${PV}/ffe-${PV}.tar.gz"
 
 S="${WORKDIR}/ffe-${PV}"
 LICENSE="GPL-3"

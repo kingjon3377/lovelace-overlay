@@ -7,7 +7,7 @@ EAPI=7
 
 DESCRIPTION="is a game of dexterity where you match stones together"
 HOMEPAGE="https://krank.sourceforge.net/"
-SRC_URI="mirror://sourceforge/${PN}/${PN}/${PV}/${P}.tar.bz2"
+SRC_URI="https://downloads.sourceforge.net/${PN}/${PN}/${PV}/${P}.tar.bz2"
 
 LICENSE="public-domain"
 SLOT="0"
