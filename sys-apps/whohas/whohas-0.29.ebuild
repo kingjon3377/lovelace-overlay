@@ -13,7 +13,7 @@ KEYWORDS="amd64"
 IUSE="l10n_de"
 
 DEPEND="dev-perl/libwww-perl
-	dev-lang/perl[ithreads]"
+	dev-lang/perl[perl_features_ithreads]"
 RDEPEND="${DEPEND}
 	sys-apps/coreutils"
 
