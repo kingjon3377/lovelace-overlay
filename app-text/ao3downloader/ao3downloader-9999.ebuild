@@ -13,13 +13,12 @@ EGIT_REPO_URI="https://github.com/phthallo/${PN}.git"
 
 LICENSE="GPL-3"
 SLOT="0"
-KEYWORDS=""
 
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
 RDEPEND="${PYTHON_DEPS}
 	$(python_gen_cond_dep '
-		dev-python/ao3-cli[${PYTHON_USEDEP}]')"
+		app-text/ao3-cli[${PYTHON_USEDEP}]')"
 
 # TODO: Make more robust against absence of system config, and add per-user config support (from XDG dirs)
 PATCHES=( "${FILESDIR}/system_config.patch" "${FILESDIR}/shebang.patch" )
