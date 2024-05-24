@@ -3,5 +3,6 @@
 <pkgmetadata>
 <upstream>
 <remote-id type="sourceforge">freedict</remote-id>
+<remote-id type="github">freedict/fd-dictionaries</remote-id>
 </upstream>
 </pkgmetadata>
