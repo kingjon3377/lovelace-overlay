@@ -4,7 +4,7 @@
 EAPI=7
 
 USE_RUBY="ruby30 ruby31 ruby32"
-PYTHON_COMPAT=( python3_{9..12} )
+PYTHON_COMPAT=( python3_{9..13} )
 
 RUBY_FAKEGEM_NAME="pygments.rb"
 MY_P="${RUBY_FAKEGEM_NAME}-${PV}"

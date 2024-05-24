@@ -3,7 +3,7 @@
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_11 )
+PYTHON_COMPAT=( python3_1{1..2} )
 
 inherit git-r3 python-single-r1 edos2unix
 
