@@ -12,7 +12,10 @@ if [[ ${PV} == *9999* ]]; then
 	EGIT_REPO_URI="https://github.com/QuiteRSS/quiterss.git"
 	inherit git-r3
 else
-	SRC_URI="https://github.com/QuiteRSS/quiterss/archive/${PV}.tar.gz -> ${P}.tar.gz"
+	SRC_URI="https://github.com/QuiteRSS/quiterss/archive/${PV}.tar.gz -> ${P}.tar.gz
+		https://github.com/QuiteRSS/quiterss/commit/4bd7f02379572a5942b318e2a83e2079a8330f42.patch -> ${P}-0011-fix-1309-deprecated.patch
+		https://github.com/QuiteRSS/quiterss/commit/550a8b81094568ee5333685f8df4dbaa186ad09a.patch -> ${P}-0027-refactored-Copyright.patch
+		https://github.com/QuiteRSS/quiterss/commit/08b9f01170c9b25a0c5bad380dd0fc7037c6544b.patch -> ${P}-0039-build-webview-switch-to-QtWebEngine-was-QtWebKit.patch"
 	KEYWORDS="~amd64"
 fi
 
@@ -49,7 +52,7 @@ PATCHES=(
 	"${FILESDIR}/0008-fix-High-DPI.patch"
 	"${FILESDIR}/0009-fix-1291-Esc.patch"
 	"${FILESDIR}/0010-changed-Update-files-translations.patch"
-	"${FILESDIR}/0011-fix-1309-deprecated.patch"
+	"${DISTDIR}/${P}-0011-fix-1309-deprecated.patch"
 	"${FILESDIR}/0012-fix-deprecated-Qt4.patch"
 	"${FILESDIR}/0013-refactored-Copyright.patch"
 	"${FILESDIR}/0014-fix-deprecated-Qt4.patch"
@@ -61,7 +64,7 @@ PATCHES=(
 	"${FILESDIR}/0021-Update-README.md.patch"
 	"${FILESDIR}/0024-Update-INSTALL-add-sqlite-dev-package-neccessary.patch"
 	"${FILESDIR}/0025-Update-INSTALL-add-webkitwidgets-seem-necessary.patch"
-	"${FILESDIR}/0027-refactored-Copyright.patch"
+	"${DISTDIR}/${P}-0027-refactored-Copyright.patch"
 	"${FILESDIR}/0028-Install-appdata-file.patch"
 	"${FILESDIR}/0032-Turkish-language-fixes.patch"
 	"${FILESDIR}/0033-Fixes-of-translation-errors.patch"
@@ -69,7 +72,7 @@ PATCHES=(
 	"${FILESDIR}/0035-Change-to-ndash-for-Russian-typography.patch"
 	"${FILESDIR}/0036-Fix-a-small-inaccurate-with-one-status-string.patch"
 	"${FILESDIR}/0037-Update-quiterss_ru.qph.patch"
-	"${FILESDIR}/0039-build-webview-switch-to-QtWebEngine-was-QtWebKit.patch"
+	"${DISTDIR}/${P}-0039-build-webview-switch-to-QtWebEngine-was-QtWebKit.patch"
 	"${FILESDIR}/0040-fix-webview-Find-in-Browser-via-search-panel.patch"
 )
 
