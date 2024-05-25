@@ -15,7 +15,7 @@ SRC_URI="http://www.catb.org/~esr/comparator/${P}.tar.gz"
 
 LICENSE="BSD-2"
 SLOT="0"
-KEYWORDS="amd64 arm ~mips ppc ppc64 sparc x86"
+KEYWORDS="amd64 x86"
 
 DEPEND="=app-text/docbook-xml-dtd-4.1.2*
 	app-text/xmlto"
