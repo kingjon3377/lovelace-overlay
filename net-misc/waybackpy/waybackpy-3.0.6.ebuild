@@ -36,5 +36,6 @@ src_prepare() {
 
 python_install() {
 	distutils-r1_python_install
-	rm -r "${ED}/$(python_get_sitedir)/tests"
+	# FIXME: Find some way to not install the 'tests' package in the first place
+	rm -r "${ED}/$(python_get_sitedir | sed "s@^${EPREFIX}@@")/tests"
 }
