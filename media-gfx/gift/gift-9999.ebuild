@@ -1,4 +1,4 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -10,9 +10,11 @@ inherit autotools cvs
 
 DESCRIPTION="The GNU Image-Finding Tool"
 HOMEPAGE="https://www.gnu.org/software/gift/"
+S="${WORKDIR}/${PN}"
 LICENSE="LGPL-2.1"
 
 #IUSE="doc"
+SLOT="0"
 KEYWORDS="~amd64 ~x86"
 
 DEPEND="media-gfx/imagemagick
@@ -22,13 +24,9 @@ DEPEND="media-gfx/imagemagick
 
 RDEPEND="${DEPEND}"
 
-SLOT="0"
-
 GIFT_USER="gift"
 GIFT_HOME="/home/${GIFT_USER}/"
 GIFT_INIT="gnu-gift"
-
-S="${WORKDIR}/${PN}"
 
 PATCHES=(
 #	${FILESDIR}/${PN}-0.1.14-noDoc.patch # should be conditional on '!use doc'

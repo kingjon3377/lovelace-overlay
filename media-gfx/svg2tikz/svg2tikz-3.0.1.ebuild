@@ -9,13 +9,13 @@ DISTUTILS_USE_PEP517=poetry
 
 inherit distutils-r1
 
-KEYWORDS="~amd64"
 DESCRIPTION="SVG to PGF/TikZ converter"
 HOMEPAGE="https://github.com/xyz2tex/svg2tikz"
 SRC_URI="https://github.com/xyz2tex/${PN}/archive/refs/tags/v${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="GPL-2+"
 SLOT="0"
+KEYWORDS="~amd64"
 
 COMMON_DEPEND="$(python_gen_cond_dep 'dev-python/lxml[${PYTHON_USEDEP}]')"
 # FIXME: BDEPEND instead of DEPEND?

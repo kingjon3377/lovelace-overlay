@@ -1,4 +1,4 @@
-# Copyright 1999-2023 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -8,11 +8,11 @@ inherit autotools xdg-utils multilib libtool desktop
 DESCRIPTION="A free IDE based on a Basic interpreter with object extensions"
 HOMEPAGE="https://gambas.sourceforge.net/"
 
-SLOT="3"
 MY_PN="${PN}${SLOT}"
 MY_P="${MY_PN}-${PV}"
 SRC_URI="https://gitlab.com/${PN}/${PN}/-/archive/${PV}/${P}.tar.bz2"
 LICENSE="GPL-2"
+SLOT="3"
 
 KEYWORDS="~amd64"
 DEF_ON_FLAGS=( bzip2 cairo curl desktop gtk3 htmlview imageio media mime ncurses net

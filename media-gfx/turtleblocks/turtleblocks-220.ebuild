@@ -17,6 +17,7 @@ DESCRIPTION="a LOGO-like tool for teaching programming"
 HOMEPAGE="https://wiki.sugarlabs.org/go/Activities/Turtle_Art"
 SRC_URI="https://download.sugarlabs.org/sources/sucrose/fructose/TurtleArt/${MY_P}.tar.bz2"
 
+S="${WORKDIR}/${MY_P}"
 LICENSE="BSD-1"
 SLOT="0"
 KEYWORDS="~amd64"
@@ -28,8 +29,6 @@ DEPEND="x11-libs/gtk+:3
 		dev-python/pycurl[${PYTHON_USEDEP}]
 	')"
 RDEPEND="${DEPEND}"
-
-S="${WORKDIR}/${MY_P}"
 
 python_prepare_all() {
 	2to3 -w --no-diffs -n TurtleArt/turtleblocks.py TurtleArt/util/configfile.py \

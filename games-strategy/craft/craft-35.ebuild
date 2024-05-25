@@ -1,4 +1,4 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -14,12 +14,11 @@ SRC_URI="https://downloads.sourceforge.net/${PN}-vikings/${PN}-vikings/${PN}-3.5
 #SRC_URI="http://ftp.knoppix.nl/sunsite/games/strategy/craftcc35.tar.Z
 		#doc? ( http://ftp.knoppix.nl/sunsite/games/strategy/craftdoc.tar.Z )"
 
+S="${WORKDIR}"
 LICENSE="free-noncomm"
 SLOT="0"
 KEYWORDS="amd64"
 IUSE="doc"
-
-S="${WORKDIR}"
 
 src_unpack() {
 	unpack ${PN}cc${PV}.tar.Z

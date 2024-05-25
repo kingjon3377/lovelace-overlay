@@ -1,4 +1,4 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -14,6 +14,7 @@ SRC_URI="http://www.afnix.org/ftp/${PN}-src-${PV}.tgz
 	doc? ( http://www.afnix.org/ftp/${PN}-doc-${PV}.tgz )
 	mirror://debian/pool/main/a/${PN}/${PN}_${PV}-${DEBIAN_PATCH_V}.debian.tar.xz"
 
+S="${WORKDIR}/${PN}-src-${PV}"
 LICENSE="afnix"
 SLOT="0"
 KEYWORDS="~amd64"
@@ -22,8 +23,6 @@ IUSE="+doc"
 RDEPEND="sys-libs/ncurses:0="
 DEPEND="${RDEPEND}
 	app-arch/xz-utils"
-
-S="${WORKDIR}/${PN}-src-${PV}"
 
 # A test fails, in a way that looks like a problem with my local computer configuration
 RESTRICT=test

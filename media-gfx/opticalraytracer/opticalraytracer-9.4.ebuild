@@ -1,4 +1,4 @@
-# Copyright 1999-2023 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -10,6 +10,7 @@ DESCRIPTION="Virtual lens design workshop"
 HOMEPAGE="https://arachnoid.com/OpticalRayTracer"
 SRC_URI="https://arachnoid.com/${MY_PN}/resources/${MY_PN}_source.tar.bz2 -> ${P}.tar.bz2"
 
+S="${WORKDIR}"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64"
@@ -17,8 +18,6 @@ IUSE="doc source"
 
 DEPEND=">=virtual/jdk-1.7"
 RDEPEND=">=virtual/jre-1.7"
-
-S="${WORKDIR}"
 
 src_install() {
 	java-pkg-simple_src_install

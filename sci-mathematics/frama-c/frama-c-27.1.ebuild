@@ -1,4 +1,4 @@
-# Copyright 1999-2023 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -10,6 +10,7 @@ HOMEPAGE="https://frama-c.com"
 NAME="Cobalt"
 SRC_URI="https://frama-c.com/download/${P}-${NAME}.tar.gz"
 
+S="${WORKDIR}/${P}-${NAME}"
 LICENSE="LGPL-2"
 SLOT="0"
 KEYWORDS="~amd64"
@@ -38,8 +39,6 @@ DEPEND="
 RDEPEND="${DEPEND}"
 BDEPEND=">=dev-lang/ocaml-4.05.0[ocamlopt?]
 	doc? ( dev-ml/odoc )"
-
-S="${WORKDIR}/${P}-${NAME}"
 
 #src_configure(){
 	#econf $(use_enable gtk gui)

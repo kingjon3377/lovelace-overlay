@@ -1,4 +1,4 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -8,13 +8,12 @@ inherit toolchain-funcs
 DESCRIPTION="McCabe-style function complexity and line counting for C and C++"
 HOMEPAGE="https://gitlab.com/pmccabe/pmccabe"
 SRC_URI="https://gitlab.com/${PN}/${PN}/-/archive/v${PV}/${PN}-v${PV}.tar.bz2"
+S="${WORKDIR}/${PN}-v${PV}"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64"
 
 RDEPEND="${DEPEND}"
-
-S="${WORKDIR}/${PN}-v${PV}"
 
 src_prepare() {
 	sed -i \

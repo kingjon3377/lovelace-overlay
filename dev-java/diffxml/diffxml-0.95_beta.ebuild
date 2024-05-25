@@ -1,4 +1,4 @@
-# Copyright 1999-2023 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -12,15 +12,13 @@ DESCRIPTION="XML differencing and packaging tools"
 HOMEPAGE="https://diffxml.sourceforge.net"
 SRC_URI="https://downloads.sourceforge.net/${PN}/${PN}/${PV/_beta/%20BETA}/${PN}-src-${PV/_beta/B}.tar.gz"
 
+S="${WORKDIR}/${PN}"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64"
-
 IUSE="test"
 
 COMMON_DEP="dev-java/xpp3"
-
-S="${WORKDIR}/${PN}"
 
 RDEPEND=">=virtual/jre-1.7
 	${COMMON_DEP}"

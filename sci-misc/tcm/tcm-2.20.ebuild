@@ -1,4 +1,4 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -10,14 +10,13 @@ HOMEPAGE="http://wwwhome.cs.utwente.nl/~tcm/"
 #SRC_URI="http://www.sourcefiles.org/Programming/Toolkits/${P}.src.tar.gz"
 SRC_URI="mirror://ubuntu/pool/universe/t/tcm/${P/-/_}+TSQD.orig.tar.gz"
 
+S="${WORKDIR}/${P}+TSQD.orig"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64"
 
 DEPEND="x11-libs/motif:0"
 RDEPEND="${DEPEND}"
-
-S="${WORKDIR}/${P}+TSQD.orig"
 
 PATCHES=(
 	"${FILESDIR}/01_makefile.dpatch"

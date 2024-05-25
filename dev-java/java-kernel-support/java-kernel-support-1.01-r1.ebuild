@@ -1,4 +1,4 @@
-# Copyright 1999-2023 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -11,12 +11,12 @@ MY_P="${PN}-gentoo-${MY_PV}"
 DESCRIPTION="Java(tm) Binary Kernel Support for Linux"
 HOMEPAGE="http://www.linuxhq.com/java.html"
 SRC_URI="http://gentooexperimental.org/distfiles/${MY_P}.tar.bz2"
+
+S=${WORKDIR}/${PN}
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64 ~x86"
 RDEPEND=">=virtual/jre-1.7"
-
-S=${WORKDIR}/${PN}
 
 CONFIG_CHECK="BINFMT_MISC"
 ERROR_BINFMT_MISC="

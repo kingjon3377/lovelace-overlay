@@ -1,4 +1,4 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -9,6 +9,7 @@ DESCRIPTION="a puzzle game inspired by Tetris"
 HOMEPAGE="https://blockattack.net/"
 SRC_URI="https://github.com/${PN}/${PN}-game/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
+S="${WORKDIR}/${PN}-game-${PV}"
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64"
@@ -21,8 +22,6 @@ RDEPEND="dev-games/physfs
 	dev-libs/utfcpp"
 DEPEND="${RDEPEND}
 	dev-libs/boost"
-
-S="${WORKDIR}/${PN}-game-${PV}"
 
 PATCHES=( "${FILESDIR}/${PN}-2.6.0-utf8cpp.patch" "${FILESDIR}/${P}-no-compress-man.patch" )
 

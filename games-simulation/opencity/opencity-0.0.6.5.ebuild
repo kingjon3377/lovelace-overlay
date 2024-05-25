@@ -1,4 +1,4 @@
-# Copyright 1999-2023 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -10,6 +10,7 @@ DESCRIPTION="Another city simulator written with OpenGL & SDL"
 HOMEPAGE="https://opencity.sourceforge.net/"
 SRC_URI="https://downloads.sourceforge.net/${PN}/${MY_P}.tar.bz2"
 
+S=${WORKDIR}/${MY_P}
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
@@ -21,8 +22,6 @@ DEPEND="virtual/opengl
 		media-libs/sdl-net
 		media-libs/sdl-image"
 RDEPEND="${DEPEND}"
-
-S=${WORKDIR}/${MY_P}
 
 src_prepare() {
 	sed -i -e 's#^docsdir = $(datadir)/doc/$(PACKAGE)#docsdir = @docdir@#' docs/Makefile.in || die

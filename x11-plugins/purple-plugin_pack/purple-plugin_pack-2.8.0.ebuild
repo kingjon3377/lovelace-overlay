@@ -1,4 +1,4 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -11,6 +11,7 @@ DESCRIPTION="A package with many different plugins for pidgin and libpurple"
 HOMEPAGE="https://keep.imfreedom.org/pidgin/purple-plugin-pack/"
 SRC_URI="https://downloads.sourceforge.net/pidgin/${MY_PN//-/%20}/${PV}/${MY_P}.tar.xz"
 
+S="${WORKDIR}/${MY_P}"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64 ppc x86"
@@ -24,8 +25,6 @@ RDEPEND="
 DEPEND="${RDEPEND}
 	${PYTHON_DEPS}
 "
-
-S="${WORKDIR}/${MY_P}"
 
 src_configure() {
 	local emesonargs=(

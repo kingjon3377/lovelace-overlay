@@ -1,11 +1,10 @@
-# Copyright 1999-2023 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
 inherit toolchain-funcs readme.gentoo-r1 optfeature
 
-RESTRICT="mirror"
 DESCRIPTION="watchdog to ensure a realtime process won't hang the machine"
 HOMEPAGE="http://www.notam02.no/arkiv/src/"
 SRC_URI="http://www.notam02.no/arkiv/src/${P}.tar.gz"
@@ -13,6 +12,7 @@ SRC_URI="http://www.notam02.no/arkiv/src/${P}.tar.gz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64 x86"
+RESTRICT="mirror"
 
 DEPEND="gnome-base/libgtop:2=
 		x11-apps/xmessage

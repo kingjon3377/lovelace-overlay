@@ -1,4 +1,4 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 # From sunrise. TODO: add my changes to bug #294727. With changes from betagarden overlay.
@@ -15,6 +15,7 @@ HOMEPAGE="https://www.semicomplete.com/projects/keynav/"
 SRC_URI="mirror://debian/pool/main/${PN:0:1}/${PN}/${PN}_${PV}${DEB_REV}.orig.tar.gz
 	mirror://debian/pool/main/${PN:0:1}/${PN}/${PN}_${PV}${DEB_REV}${DEB_PATCH}.debian.tar.xz"
 
+S=${WORKDIR}/${PN}-master
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
@@ -30,8 +31,6 @@ RDEPEND="
 DEPEND="x11-base/xorg-proto
 	${RDEPEND}"
 BDEPEND="app-arch/xz-utils"
-
-S=${WORKDIR}/${PN}-master
 
 PATCHES=(
 	"${FILESDIR}/remove_debianisms.patch"

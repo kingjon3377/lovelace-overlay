@@ -1,4 +1,4 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -9,14 +9,13 @@ DESCRIPTION="BBC BASIC V interpreter"
 HOMEPAGE="http://brandy.matrixnetwork.co.uk/ https://github.com/stardot/MatrixBrandy/"
 SRC_URI="https://github.com/stardot/MatrixBrandy/archive/V${PV}.tar.gz -> ${P}.tar.gz"
 
+S="${WORKDIR}/Matrix${PN/b/B}-${PV}"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64"
 
 DEPEND="media-libs/libsdl"
 RDEPEND="${DEPEND}"
-
-S="${WORKDIR}/Matrix${PN/b/B}-${PV}"
 
 # Just rebuilds the main executable with different flags ...
 RESTRICT=test

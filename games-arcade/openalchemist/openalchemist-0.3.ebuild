@@ -1,4 +1,4 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -9,6 +9,7 @@ DESCRIPTION="NaturalChimie clone written with clanlib"
 HOMEPAGE="http://www.openalchemist.com/"
 SRC_URI="https://downloads.sourceforge.net/${PN}/${P}-src.tar.gz"
 
+S=${WORKDIR}/${P}-src
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
@@ -21,8 +22,6 @@ BDEPEND="app-arch/zip
 DEPEND="${RDEPEND}"
 
 PATCHES=( "${FILESDIR}/${P}-gentoo.patch" )
-
-S=${WORKDIR}/${P}-src
 
 DOCS=( NEWS README TODO ChangeLog )
 

@@ -11,6 +11,7 @@ DESCRIPTION="Curated host file for malware blocking"
 HOMEPAGE="https://github.com/StevenBlack/hosts"
 SRC_URI="https://github.com/StevenBlack/hosts/archive/refs/tags/${PV}.tar.gz -> ${P}.tar.gz"
 
+S="${WORKDIR}/hosts-${PV}"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64"
@@ -21,8 +22,6 @@ BDEPEND="${PYTHON_DEPS}
 	$(python_gen_any_dep '
 	                dev-python/requests[${PYTHON_USEDEP}]
 	')"
-
-S="${WORKDIR}/hosts-${PV}"
 
 python_check_deps() {
 	python_has_version -b "dev-python/requests[${PYTHON_USEDEP}]"

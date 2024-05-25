@@ -1,4 +1,4 @@
-# Copyright 1999-2023 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -11,16 +11,14 @@ DESCRIPTION="Compressed alternative to BitSet"
 HOMEPAGE="https://github.com/lemire/javaewah"
 SRC_URI="https://github.com/lemire/javaewah/archive/JavaEWAH-${PV}.tar.gz"
 
+S="${WORKDIR}/${PN}-JavaEWAH-${PV}"
 LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="~amd64"
-
 IUSE="examples"
 
 # TODO: Make a build-time dep only?
 COMMON_DEP="dev-java/junit:4"
-
-S="${WORKDIR}/${PN}-JavaEWAH-${PV}"
 
 RDEPEND=">=virtual/jre-1.7
 	${COMMON_DEP}"

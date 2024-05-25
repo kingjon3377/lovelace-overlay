@@ -1,4 +1,4 @@
-# Copyright 1999-2023 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -11,6 +11,7 @@ DESCRIPTION="Jar Bundler Ant Task"
 HOMEPAGE="https://github.com/UltraMixer/JarBundler"
 SRC_URI="https://github.com/UltraMixer/Jarbundler/archive/${PV}.tar.gz -> ${P}.tar.gz"
 
+S="${WORKDIR}/JarBundler-${PV}"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
@@ -31,8 +32,6 @@ src_prepare() {
 	rm -f examples/build.xml.old || die
 	default
 }
-
-S="${WORKDIR}/JarBundler-${PV}"
 
 JAVA_ANT_REWRITE_CLASSPATH="yes"
 

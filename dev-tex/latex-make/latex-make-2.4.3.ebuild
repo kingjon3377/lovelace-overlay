@@ -9,6 +9,7 @@ DESCRIPTION="A Makefile helper for LaTeX"
 HOMEPAGE="https://gitlab.inria.fr/latex-utils/latex-make"
 SRC_URI="https://gitlab.inria.fr/latex-utils/${PN}/-/archive/v${PV}/${PN}-v${PV}.tar.bz2"
 
+S="${WORKDIR}/${PN}-v${PV}"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64"
@@ -20,8 +21,6 @@ RDEPEND="${CDEPEND}
 	virtual/latex-base"
 DEPEND="${CDEPEND}
 	app-alternatives/bzip2"
-
-S="${WORKDIR}/${PN}-v${PV}"
 
 src_configure() {
 	# It aborts on unrecognized options, such as those provided by econf

@@ -1,4 +1,4 @@
-# Copyright 2023 Gentoo Authors
+# Copyright 2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -10,11 +10,10 @@ DESCRIPTION="O'Caml Graph Library (GTK UI portion)"
 HOMEPAGE="http://ocamlgraph.lri.fr/index.en.html"
 SRC_URI="https://github.com/backtracking/${BASE_PN}/releases/download/${PV}/${BASE_PN}-${PV}.tbz"
 
+S=${WORKDIR}/${BASE_PN}-${PV}
 LICENSE="LGPL-2.1"
 SLOT="0/${PV}"
 KEYWORDS="~amd64 ~x86"
-
-S=${WORKDIR}/${BASE_PN}-${PV}
 
 # * ocaml>=4.03.0
 # * stdlib-shims

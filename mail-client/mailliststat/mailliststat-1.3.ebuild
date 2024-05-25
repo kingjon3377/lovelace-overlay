@@ -1,4 +1,4 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -9,9 +9,11 @@ DESCRIPTION="Displays statistics about mbox files"
 HOMEPAGE="http://www.marki-online.net/MLS/"
 SRC_URI="http://www.marki-online.net/MLS/mls-${PV}.tgz"
 
+S="${WORKDIR}/mls-${PV}"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64"
+
 IUSE="nls"
 MY_LANGS="de es fr it pt-BR sk sr"
 for lang in ${MY_LANGS};do
@@ -20,8 +22,6 @@ done
 
 DEPEND="${RDEPEND}
 	nls? ( app-text/po4a )"
-
-S="${WORKDIR}/mls-${PV}"
 
 PATCHES=(
 	"${FILESDIR}/mailliststat_1.3-5.diff"

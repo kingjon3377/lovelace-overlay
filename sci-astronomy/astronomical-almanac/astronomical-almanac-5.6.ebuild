@@ -1,4 +1,4 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -10,14 +10,13 @@ HOMEPAGE="http://www.moshier.net/"
 # TODO: Use $PV in SRC_URI, just removing the version separator
 SRC_URI="http://www.moshier.net/aa-56.zip"
 
+S="${WORKDIR}/aa-$(ver_rs 1- '')"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64"
 
 DEPEND="${RDEPEND}"
 BDEPEND="app-arch/unzip"
-
-S="${WORKDIR}/aa-$(ver_rs 1- '')"
 
 # TODO: Update to current Debian patch version
 PATCHES=( "${FILESDIR}/astronomical-almanac_5.6-3.diff" )

@@ -1,4 +1,4 @@
-# Copyright 1999-2023 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -9,6 +9,7 @@ DESCRIPTION="Research Project Helper"
 HOMEPAGE="https://rphelper.sourceforge.net"
 SRC_URI="https://downloads.sourceforge.net/${PN}/${PN}/v${PV}-source/${PN}-source.zip -> ${P}.zip"
 
+S="${WORKDIR}"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64"
@@ -16,8 +17,6 @@ KEYWORDS="~amd64"
 BDEPEND=">=virtual/jdk-1.7
 	app-arch/unzip"
 RDEPEND=">=virtual/jre-1.7:*"
-
-S="${WORKDIR}"
 
 PATCHES=(
 	"${FILESDIR}/keyword_var_name.patch"

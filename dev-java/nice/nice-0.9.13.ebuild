@@ -1,4 +1,4 @@
-# Copyright 1999-2023 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -11,6 +11,9 @@ DESCRIPTION="A programming language based on, and extending from, Java."
 
 HOMEPAGE="https://nice.sourceforge.net"
 SRC_URI="https://downloads.sourceforge.net/nice/Nice-${PV}-source.tgz"
+
+NICE="nice-${PV}.orig"
+S="${WORKDIR}/${NICE}"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64 ~x86"
@@ -19,8 +22,6 @@ RDEPEND=">=virtual/jre-1.7:*
 		>=dev-java/javacc-3.2"
 BDEPEND=">=virtual/jdk-1.7"
 DEPEND="${RDEPEND}"
-NICE="nice-${PV}.orig"
-S="${WORKDIR}/${NICE}"
 #RESTRICT="test"
 
 PATCHES=( "${FILESDIR}/${P}.patch" )

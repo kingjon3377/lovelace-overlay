@@ -1,4 +1,4 @@
-# Copyright 1999-2023 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -11,6 +11,7 @@ DESCRIPTION="NaturalChimie clone written with clanlib"
 HOMEPAGE="http://www.openalchemist.com/"
 SRC_URI="https://kojipkgs.fedoraproject.org/packages/${PN}/${PV}/32.fc33/src/${P}-32.fc33.src.rpm"
 
+S=${WORKDIR}/${P}-src
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
@@ -35,8 +36,6 @@ PATCHES=(
 	"${FILESDIR}/${P}-py3_gtk3.patch"
 	"${FILESDIR}/${P}-gentoo.patch"
 )
-
-S=${WORKDIR}/${P}-src
 
 DOCS=( NEWS README TODO ChangeLog )
 

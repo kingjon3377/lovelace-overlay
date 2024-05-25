@@ -1,4 +1,4 @@
-# Copyright 1999-2023 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -13,9 +13,9 @@ HOMEPAGE="https://realtimebattle.sourceforge.net/"
 SRC_URI="https://downloads.sourceforge.net/${PN}/${MY_P1E}.tar.gz "
 
 LICENSE="GPL-2"
+SLOT=0
 KEYWORDS="amd64 x86"
 IUSE="perl nls java debug +doc"
-SLOT=0
 
 DEPEND="x11-libs/gtk+:2
 		perl? ( dev-lang/perl )

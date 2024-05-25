@@ -1,4 +1,4 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -9,13 +9,12 @@ DESCRIPTION="Bywater BASIC Interpreter"
 HOMEPAGE="https://sourceforge.net/projects/bwbasic/"
 SRC_URI="https://downloads.sourceforge.net/${PN}/${PN}/version%20${PV}/${P}.zip"
 
+S="${WORKDIR}"
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64"
 
 BDEPEND="app-arch/unzip"
-
-S="${WORKDIR}"
 
 PATCHES=( "${FILESDIR}/${P}-manpage.patch" )
 

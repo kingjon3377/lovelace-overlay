@@ -1,4 +1,4 @@
-# Copyright 1999-2023 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -11,14 +11,13 @@ DESCRIPTION="The GNU Bombing utility"
 HOMEPAGE="https://packages.debian.org/bombardier"
 SRC_URI="mirror://debian/pool/main/b/bombardier/${P/-/_}+${NMU_VER}.tar.gz"
 
+S="${WORKDIR}/${P}+${NMU_VER}"
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="amd64"
 
 DEPEND="acct-group/gamestat"
 RDEPEND="${DEPEND}"
-
-S="${WORKDIR}/${P}+${NMU_VER}"
 
 src_prepare() {
 	sed -i -e 's:/usr/games:/usr/bin:' Makefile || die "sed failed"

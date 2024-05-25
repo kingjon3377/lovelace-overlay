@@ -1,4 +1,4 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -7,6 +7,7 @@ DESCRIPTION="Remote software distribution system"
 HOMEPAGE="https://www.magnicomp.com/products/rdist/rdist.shtml"
 SRC_URI="https://www.magnicomp.com/download/rdist/${P/_/-}.tar.gz"
 
+S="${WORKDIR}/${P/_/-}"
 LICENSE="BSD"
 SLOT="1"
 KEYWORDS="amd64 x86"
@@ -15,8 +16,6 @@ IUSE="+crypt"
 BDEPEND="sys-devel/bison"
 RDEPEND="crypt? ( virtual/ssh )
 	net-libs/libnsl:="
-
-S="${WORKDIR}/${P/_/-}"
 
 PATCHES=( "${FILESDIR}/${P}-sandbox.patch" )
 

@@ -1,4 +1,4 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -9,6 +9,7 @@ DESCRIPTION="w3c-validator is a mark-up validator"
 HOMEPAGE="https://validator.w3.org/source/"
 SRC_URI="https://github.com/w3c/markup-validator/archive/validator-${PV/\./_}-release.tar.gz"
 
+S="${WORKDIR}/markup-validator-validator-${PV/\./_}-release"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64"
@@ -47,8 +48,6 @@ BDEPEND="dev-lang/perl"
 # g-cpan -g Encode-HanExtra HTML-Encoding SGML-Parser-OpenSP
 # Options:
 # g-cpan -g Encode-JIS2K HTML-Tidy
-
-S="${WORKDIR}/markup-validator-validator-${PV/\./_}-release"
 
 # Previous version didn't *have* tests, but this one errors out for some reason.
 RESTRICT="test"

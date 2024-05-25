@@ -1,4 +1,4 @@
-# Copyright 1999-2023 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -14,6 +14,7 @@ HOMEPAGE="https://gwc.sourceforge.net/"
 SRC_URI="https://downloads.sourceforge.net/${PN}/${PN}2/${MY_V}/gtk-wave-cleaner-${MY_VZ}.tar.gz
 	mirror://debian/pool/main/g/${PN}/${PN}_${MY_VD}-1.debian.tar.xz"
 
+S="${WORKDIR}/gtk-wave-cleaner-$(ver_cut 1-2)-0$(ver_cut 4)"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64"
@@ -24,8 +25,6 @@ RDEPEND="media-libs/libsndfile
 	media-libs/alsa-lib"
 DEPEND="${RDEPEND}
 	app-arch/xz-utils"
-
-S="${WORKDIR}/gtk-wave-cleaner-$(ver_cut 1-2)-0$(ver_cut 4)"
 
 src_prepare() {
 	mv "${WORKDIR}/debian" "${S}/debian" || die

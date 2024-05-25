@@ -1,4 +1,4 @@
-# Copyright 1999-2023 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -8,6 +8,7 @@ HOMEPAGE="https://www.eblong.com/zarf/spellcast.html"
 SRC_URI="https://www.eblong.com/zarf/ftp/${PN}.tar.Z
 	doc? ( mirror://debian/pool/non-free/s/spellcast-doc/spellcast-doc_1.5.tar.gz )"
 
+S="${WORKDIR}/${PN}"
 LICENSE="spellcast"
 SLOT="0"
 KEYWORDS="amd64"
@@ -15,8 +16,6 @@ IUSE="+doc"
 
 DEPEND="x11-libs/libX11"
 RDEPEND="${DEPEND}"
-
-S="${WORKDIR}/${PN}"
 
 src_install() {
 	dodir "${GAMES_BINDIR}"

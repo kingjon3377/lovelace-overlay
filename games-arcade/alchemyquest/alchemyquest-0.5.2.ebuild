@@ -9,6 +9,7 @@ DESCRIPTION="Modernization of OpenAlchemist"
 HOMEPAGE="https://gitlab.com/dulsi/alchemyquest https://identicalsoftware.com/alchemyquest/"
 SRC_URI="https://gitlab.com/dulsi/${PN}/-/archive/release-${PV}/${PN}-release-${PV}.tar.bz2"
 
+S="${WORKDIR}/${PN}-release-${PV}"
 LICENSE="GPL-2+ CC-BY-SA-2.0 CC-BY-SA-3.0"
 SLOT="0"
 KEYWORDS="~amd64"
@@ -21,8 +22,6 @@ DEPEND="media-libs/libsdl2:=
 	dev-libs/libzip:="
 RDEPEND="${DEPEND}
 	!!games-arcade/openalchemist"
-
-S="${WORKDIR}/${PN}-release-${PV}"
 
 src_install() {
 	cmake_src_install

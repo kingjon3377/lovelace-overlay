@@ -1,4 +1,4 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 # From Gentoo bug #132018
@@ -18,6 +18,7 @@ SRC_URI="http://www.aplusdev.org/Download/${MY_P}.tar.gz"
 #SRC_URI="mirror://debian/pool/main/a/aplus-fsf/aplus-fsf_${PV}.orig.tar.gz
 #	mirror://debian/pool/main/a/aplus-fsf/aplus-fsf_${PV}${PATCH_V}.diff.gz"
 
+S=${WORKDIR}/${PN}-fsf-${PV/22.4/22}
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64 x86"
@@ -26,8 +27,6 @@ IUSE="emacs"
 RDEPEND="net-libs/libnsl:=
 	x11-libs/libX11"
 DEPEND="${RDEPEND}"
-
-S=${WORKDIR}/${PN}-fsf-${PV/22.4/22}
 
 SITEFILE=50aplus-gentoo.el
 

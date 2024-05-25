@@ -1,4 +1,4 @@
-# Copyright 2023 Gentoo Authors
+# Copyright 2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -12,6 +12,7 @@ DESCRIPTION="Set of various utilities for Python applications"
 HOMEPAGE="https://pypi.org/project/Dreamy-Utilities/ https://github.com/DreamCobbler/dreamy-utilities"
 SRC_URI="https://files.pythonhosted.org/packages/source/${PN:0:1}/${PN}/${P/-/%20}.tar.gz"
 
+S="${WORKDIR}/${P/-/ }"
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64" # no ~x86 because not present in cloudscraper
@@ -23,8 +24,6 @@ RDEPEND="dev-python/Babel[${PYTHON_USEDEP}]
 	dev-python/termtables[${PYTHON_USEDEP}]
 	dev-python/titlecase[${PYTHON_USEDEP}]
 	dev-python/tldextract[${PYTHON_USEDEP}]"
-
-S="${WORKDIR}/${P/-/ }"
 
 src_prepare() {
 	sed -i -e 's@bs4@beautifulsoup4@' setup.py ${PN/-/_}.egg-info/requires.txt || die

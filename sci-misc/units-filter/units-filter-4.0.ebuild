@@ -1,4 +1,4 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -9,6 +9,7 @@ DESCRIPTION="Parser for expressions concerning physical values"
 HOMEPAGE="https://packages.debian.org/sid/units-filter"
 SRC_URI="mirror://debian/pool/main/u/${PN}/${P/r-/r_}.orig.tar.xz"
 
+S="${WORKDIR}/${PN}"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64"
@@ -19,8 +20,6 @@ DEPEND="${RDEPEND}"
 BDEPEND="app-arch/xz-utils
 	sys-devel/bison
 	sys-devel/flex"
-
-S="${WORKDIR}/${PN}"
 
 DOCS=( LISEZMOI README )
 

@@ -1,4 +1,4 @@
-# Copyright 1999-2023 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -9,9 +9,9 @@ DEBIAN_EXTRA_REV=+dfsg
 DEBIAN_PATCH_REV=1
 
 DESCRIPTION="Speech analysis and synthesis"
+HOMEPAGE="http://www.fon.hum.uva.nl/praat/"
 SRC_URI="https://github.com/${PN}/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz
 	mirror://debian/pool/main/p/${PN}/${P/-/_}${DEBIAN_EXTRA_REV}-${DEBIAN_PATCH_REV}.debian.tar.xz"
-HOMEPAGE="http://www.fon.hum.uva.nl/praat/"
 
 LICENSE="GPL-2"
 SLOT="0"

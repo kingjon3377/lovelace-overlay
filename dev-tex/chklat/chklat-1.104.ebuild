@@ -1,4 +1,4 @@
-# Copyright 2021 Gentoo Authors
+# Copyright 2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -9,6 +9,7 @@ DESCRIPTION="LaTeX static analysis checker"
 HOMEPAGE="https://www.dickgrune.com/Programs/LaTeXTools/chklat"
 SRC_URI="https://www.dickgrune.com/Programs/LaTeXTools/${PN}/${PN}_$(ver_rs 1 _).zip"
 
+S="${WORKDIR}"
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
@@ -16,8 +17,6 @@ KEYWORDS="~amd64 ~x86"
 RDEPEND="${DEPEND}"
 BDEPEND="app-arch/unzip
 	dev-texlive/texlive-latex"
-
-S="${WORKDIR}"
 
 src_prepare() {
 	default

@@ -1,4 +1,4 @@
-# Copyright 1999-2023 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -10,6 +10,7 @@ DESCRIPTION="Dependency management utility for jar files."
 HOMEPAGE="http://www.kirkk.com/main/Main/JarAnalyzer/"
 SRC_URI="http://www.kirkk.com/main/zip/JarAnalyzer-src-${PV}.zip"
 
+S="${WORKDIR}"
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="amd64"
@@ -25,8 +26,6 @@ DEPEND="test? ( dev-java/junit:4 dev-java/ant[junit4] )
 	${COMMON_DEP}"
 
 RESTRICT="!test? ( test )"
-
-S="${WORKDIR}"
 
 src_prepare() {
 	default

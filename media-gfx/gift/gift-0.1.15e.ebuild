@@ -1,4 +1,4 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -11,6 +11,7 @@ SRC_URI="https://alpha.gnu.org/gnu/${PN}/${P}.tar.gz"
 LICENSE="LGPL-2.1"
 
 #IUSE="doc"
+SLOT="0"
 KEYWORDS="amd64 ~x86"
 
 DEPEND="media-gfx/imagemagick
@@ -19,8 +20,6 @@ DEPEND="media-gfx/imagemagick
 	dev-perl/Text-Iconv"
 
 RDEPEND="${DEPEND}"
-
-SLOT="0"
 
 GIFT_USER="gift"
 GIFT_HOME="/home/${GIFT_USER}/"

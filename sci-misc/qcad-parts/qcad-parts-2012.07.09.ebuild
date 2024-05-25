@@ -1,4 +1,4 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -6,7 +6,6 @@ EAPI=7
 inherit readme.gentoo-r1
 
 DESCRIPTION="Collection of CAD files that can be used from the library browser of QCad"
-LICENSE="GPL-2"
 HOMEPAGE="https://qcad.org/en/qcad-add-ons"
 URI_BASE="https://qcad.org/archives/partlibrary/"
 URI_DATE=$(ver_rs 1- -)
@@ -25,8 +24,11 @@ SRC_URI="architecture? ( $(create_uri Architecture) )
 	processing? ( ${URI_BASE}Processing-2016-08-19.zip )
 	nounproject? ( $(create_uri thenounproject.com) )"
 
+S="${WORKDIR}"
+LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
+
 # TODO: There are a few more now, but the old ones still have their old dates.
 # Should we "version bump," split the package, or what?
 IUSE="+architecture +chemistry +electronics +gis +hydraulics +circuits +mechanics +misc +msr +processing +nounproject"
@@ -34,8 +36,6 @@ REQUIRED_USE="|| ( architecture electronics gis hydraulics circuits mechanics mi
 
 DEPEND="app-arch/unzip"
 RDEPEND="sci-misc/qcad"
-
-S="${WORKDIR}"
 
 DOC_CONTENTS="
 The QCad parts library was installed in

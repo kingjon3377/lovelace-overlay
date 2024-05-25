@@ -1,4 +1,4 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 # TODO: make sure this works, and fix it if it doesn't.
@@ -14,6 +14,7 @@ HOMEPAGE="https://sourceforge.net/projects/fenix"
 SRC_URI="https://downloads.sourceforge.net/${PN}/${PN/f/F}/${PV}/${PN}092a-src-release.tgz
 	mirror://debian/pool/main/${PN:0:1}/${PN}/${PN}_${PV}.dfsg1-${DEBIAN_PATCH_V}.debian.tar.xz"
 
+S="${WORKDIR}/Fenix"
 LICENSE="GPL-2 FDL-1.2"
 SLOT="0"
 KEYWORDS="amd64"
@@ -27,8 +28,6 @@ RDEPEND="media-libs/giflib
 DEPEND="${RDEPEND}
 	test? ( dev-perl/Test-Command )
 	app-arch/xz-utils"
-
-S="${WORKDIR}/Fenix"
 
 # Tests fail in a way I'm having a hard time debugging
 RESTRICT=test
