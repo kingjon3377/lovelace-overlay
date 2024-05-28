@@ -1,10 +1,10 @@
-# Copyright 2023 Gentoo Authors
+# Copyright 2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
 PYPI_NO_NORMALIZE=true
-PYTHON_COMPAT=( python3_{9..12} )
+PYTHON_COMPAT=( python3_{9..13} )
 DISTUTILS_EXT=1
 DISTUTILS_USE_PEP517=setuptools
 inherit distutils-r1 pypi
@@ -19,8 +19,14 @@ KEYWORDS="~amd64 ~x86"
 DEPEND="=app-text/mupdf-$(ver_cut 0-2)*:="
 RDEPEND="${DEPEND}"
 
+python_prepare_all() {
+	sed -i -e 's@build-backend = "setup"@build-backend = "setuptools.build_meta"@' pyproject.toml || die
+	distutils-r1_python_prepare_all
+}
+
 python_configure() {
 	export PYMUPDF_SETUP_MUPDF_BUILD= PYMUPDF_SETUP_MUPDF_TGZ= PYMUPDF_SETUP_MUPDF_THIRD=0
+	export PYMUPDF_INCLUDES="/usr/include:/usr/include/freetype2" PYMUPDF_SETUP_IMPLEMENTATIONS=a
 	default
 }
 
