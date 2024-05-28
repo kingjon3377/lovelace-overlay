@@ -8,7 +8,7 @@ DISTUTILS_USE_PEP517=setuptools
 inherit distutils-r1 pypi
 
 DESCRIPTION="Python implementation of kakasi - kana kanji simple inversion library"
-HOMEPAGE="https://pypi.org/project/pykakasi/ https://github.com/miurahr/pykakasi"
+HOMEPAGE="https://pypi.org/project/pykakasi/ https://codeberg.org/miurahr/pykakasi"
 
 LICENSE="GPL-3+"
 SLOT="0"
