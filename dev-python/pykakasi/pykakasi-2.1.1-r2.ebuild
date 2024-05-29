@@ -1,14 +1,13 @@
-# Copyright 2024 Gentoo Authors
+# Copyright 2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
-PYTHON_COMPAT=( python3_{9..12} )
-DISTUTILS_USE_PEP517=setuptools
+PYTHON_COMPAT=( python3_{8..10} )
 inherit distutils-r1 pypi
 
 DESCRIPTION="Python implementation of kakasi - kana kanji simple inversion library"
-HOMEPAGE="https://pypi.org/project/pykakasi/ https://codeberg.org/miurahr/pykakasi"
+HOMEPAGE="https://pypi.org/project/pykakasi/ https://github.com/miurahr/pykakasi"
 
 LICENSE="GPL-3+"
 SLOT="0"
@@ -23,7 +22,6 @@ DEPEND="test? (
 		)
 		doc? (
 			dev-python/sphinx[${PYTHON_USEDEP}]
-			dev-python/sphinx-py3doc-enhanced-theme[${PYTHON_USEDEP}]
 			dev-python/sphinx-rtd-theme[${PYTHON_USEDEP}]
 		)"
 BDEPEND="dev-python/setuptools-scm[${PYTHON_USEDEP}]"
@@ -36,5 +34,6 @@ EPYTEST_DESELECT=( tests/test_pykakasi_advanced.py::test_benchmark )
 
 src_prepare() {
 	sed -i -e '22,$d' tests/conftest.py || die
+	sed -i -e '/sphinx-py3doc-enhanced-theme/d' setup.cfg src/pykakasi.egg-info/requires.txt || die
 	default
 }
