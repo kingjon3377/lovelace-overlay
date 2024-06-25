@@ -14,6 +14,7 @@ DESCRIPTION="JavaScript to Python Translator & JavaScript interpreter in Python"
 HOMEPAGE="http://piter.io/projects/js2py/
 	https://github.com/PiotrDabkowski/Js2Py/
 	https://pypi.org/project/Js2Py/"
+SRC_URI="${SRC_URI} https://patch-diff.githubusercontent.com/raw/PiotrDabkowski/Js2Py/pull/327.patch -> ${P}-python3_12.patch"
 
 LICENSE="MIT"
 SLOT="0"
@@ -24,6 +25,8 @@ RDEPEND="
 	>=dev-python/tzlocal-1.2.0[${PYTHON_USEDEP}]
 	>=dev-python/six-1.10.0[${PYTHON_USEDEP}]
 "
+
+PATCHES=( "${DISTDIR}/${P}-python3_12.patch" )
 
 python_test() {
 	pushd ./tests >/dev/null || die
