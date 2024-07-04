@@ -18,7 +18,7 @@ DEPEND="${RDEPEND}
 S="${WORKDIR}/${PN}"
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS="~amd64"
 # TODO: add USE=debug, and if set pass TARGET=linux as an option to each
 # 'emake' call ... but that will probably change the location of the binaries
 # we should 'dobin'.
