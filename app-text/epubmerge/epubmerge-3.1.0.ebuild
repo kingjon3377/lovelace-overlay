@@ -3,8 +3,9 @@
 
 EAPI=7
 PYTHON_COMPAT=( python3_{9..13} )
+DISTUTILS_USE_PEP517=setuptools
 
-inherit python-r1
+inherit distutils-r1
 
 MY_PN=EpubMerge
 
@@ -21,23 +22,10 @@ LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 
-RDEPEND="${PYTHON_DEPS}
-	$(python_gen_cond_dep 'dev-python/six[${PYTHON_USEDEP}]')"
-DEPEND="${PYTHON_DEPS}"
+RDEPEND="$(python_gen_cond_dep 'dev-python/six[${PYTHON_USEDEP}]')"
 
-REQUIRED_USE="${PYTHON_REQUIRED_USE}"
+DOCS=( DESCRIPTION.rst README.md )
 
-src_install() {
-	newbin "${PN}.py" "${PN}"
-	python_replicate_script "${ED}"/usr/bin/"${PN}"
-
-	dodoc DESCRIPTION.rst README.md
-}
-
-test_impl() {
-	"${EPYTHON}" "${PN}.py" --help || die "simplest test failed"
-}
-
-src_test() {
-	python_foreach_impl test_impl
+python_test() {
+	"${EPYTHON}" "${PN}/${PN}.py" --help || die "simplest test failed"
 }
