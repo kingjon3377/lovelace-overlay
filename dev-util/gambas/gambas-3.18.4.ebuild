@@ -96,7 +96,7 @@ COMMON_DEPEND="
 	sqlite?	( dev-db/sqlite:3 )
 	svg?	( gnome-base/librsvg )
 	v4l?	(
-		media-tv/v4l-utils
+		media-libs/libv4l[utils]
 		media-libs/libpng:0
 		virtual/jpeg:0
 	)
