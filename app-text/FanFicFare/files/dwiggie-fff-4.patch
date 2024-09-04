@@ -1,0 +1,10 @@
+--- a/fanficfare/adapters/__init__.py	2013-05-26 08:18:33.000000000 -0400
++++ b/fanficfare/adapters/__init__.py	2013-05-24 10:16:10.000000000 -0400
+@@ -31,6 +31,7 @@
+ ## must import each adapter here.
+ 
+ from . import base_adapter
+ from . import base_efiction_adapter
++from . import adapter_dwiggiecom
+ from . import adapter_test1
+ from . import adapter_fanfictionnet
