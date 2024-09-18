@@ -40,7 +40,7 @@ RDEPEND="
 	dev-python/requests[${PYTHON_USEDEP}]
 	dev-python/httplib2[${PYTHON_USEDEP}]
 	media-gfx/imagemagick
-	dev-libs/libappindicator
+	dev-libs/libayatana-appindicator
 "
 
 distutils_enable_tests unittest
