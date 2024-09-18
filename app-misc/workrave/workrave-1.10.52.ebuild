@@ -30,7 +30,7 @@ RDEPEND="
 	>=dev-libs/libsigc++-2.2.4.2:2
 	appindicator? (
 		>=dev-libs/libdbusmenu-0.4[gtk3,introspection]
-		>=dev-libs/libindicator-0.4:3 )
+		dev-libs/libayatana-indicator:3 )
 	dbus? (
 		dev-libs/boost
 		dev-libs/dbus-glib
