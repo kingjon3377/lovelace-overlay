@@ -180,6 +180,7 @@ SRC_URI="https://github.com/devmatteini/${PN}/archive/refs/tags/${PV}.tar.gz -> 
 LICENSE="0BSD Apache-2.0 Apache-2.0-with-LLVM-exceptions BSD Boost-1.0 ISC MIT MPL-2.0 Unicode-DFS-2016 Unlicense ZLIB"
 SLOT="0"
 KEYWORDS="~amd64"
+IUSE="test"
 
 DEPEND=""
 RDEPEND="${DEPEND}"
@@ -188,6 +189,9 @@ BDEPEND=""
 # rust does not use *FLAGS from make.conf, silence portage warning
 # update with proper path to binaries this crate installs, omit leading /
 QA_FLAGS_IGNORED="usr/bin/${PN}"
+
+# Tests access the network
+PROPERTIES="test? ( test_network )"
 
 src_test() {
 	# tests depend on Docker
