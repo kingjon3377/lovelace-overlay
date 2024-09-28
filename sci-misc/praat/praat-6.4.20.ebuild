@@ -37,7 +37,6 @@ PATCHES=(
 	"${WORKDIR}/debian/patches/cross-build.patch"
 	"${WORKDIR}/debian/patches/dwtest-random-seed.patch"
 	"${WORKDIR}/debian/patches/honor-cppflags.patch"
-	"${WORKDIR}/debian/patches/drop-espeak-demonic-file.patch"
 	"${WORKDIR}/debian/patches/praat-launch-in-desktop.patch"
 )
 
