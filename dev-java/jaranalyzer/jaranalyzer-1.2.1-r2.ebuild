@@ -15,7 +15,7 @@ LICENSE="BSD"
 SLOT="0"
 KEYWORDS="amd64"
 
-COMMON_DEP="dev-java/ant-core:0
+COMMON_DEP="dev-java/ant:0
 	dev-java/bcel:0
 	dev-java/commons-lang:3.6"
 RDEPEND=">=virtual/jre-1.7
@@ -40,7 +40,7 @@ src_prepare() {
 	cp "${FILESDIR}/build.xml" . || die
 
 	cd lib/ || die
-	java-pkg_jar-from ant-core ant.jar
+	java-pkg_jar-from ant ant.jar
 	java-pkg_jar-from bcel
 	java-pkg_jar-from commons-lang-3.6
 	use test && java-pkg_jar-from --build-only junit-4
