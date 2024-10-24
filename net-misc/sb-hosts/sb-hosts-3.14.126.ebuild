@@ -52,6 +52,12 @@ src_compile() {
 
 src_install() {
 	insinto /etc
+	local_hostname="${HOSTNAME}"
+	if test -z "${local_hostname}";then
+		ewarn "HOSTNAME variable not available in ebuild environment"
+		local_hostname="$(hostname)"
+	fi
+	sed -i -e "s#@@HOSTNAME@@#${local_hostname}#" hosts || die
 	doins hosts
 	save_config myhosts whitelist.txt blacklist.txt
 	dodoc myhosts.example whitelist.example blacklist.example
