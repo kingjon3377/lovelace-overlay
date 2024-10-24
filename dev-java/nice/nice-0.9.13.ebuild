@@ -16,7 +16,7 @@ NICE="nice-${PV}.orig"
 S="${WORKDIR}/${NICE}"
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="amd64 ~x86"
+KEYWORDS="amd64"
 RDEPEND=">=virtual/jre-1.7:*
 		sys-apps/groff
 		>=dev-java/javacc-3.2"

@@ -14,7 +14,7 @@ SRC_URI="https://github.com/UltraMixer/Jarbundler/archive/${PV}.tar.gz -> ${P}.t
 S="${WORKDIR}/JarBundler-${PV}"
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS="~amd64"
 
 COMMON_DEP="
 	>=dev-java/ant-core-1.7:0

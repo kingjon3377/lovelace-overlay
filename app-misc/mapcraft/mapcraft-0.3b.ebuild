@@ -13,7 +13,7 @@ SRC_URI="https://downloads.sourceforge.net/${PN}/${P}.tgz"
 S="${WORKDIR}/${PN}-0.3"
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="amd64 x86"
+KEYWORDS="amd64"
 COMMON_DEPEND="dev-java/xerces:2
 	dev-java/xalan
 	dev-java/junit:0"
