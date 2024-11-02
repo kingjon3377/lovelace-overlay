@@ -28,8 +28,7 @@ src_install() {
 	dobin ${PN}
 	domenu resources/${PN}.desktop
 	for size in 32 16 48;do
-		insinto /usr/share/icons/${size}x${size}/mimetypes
-		doins ${size}x${size}/mimetypes/application-x-${PN}.png
+		doicon -s ${size} -c mimetypes ${size}x${size}/mimetypes/application-x-${PN}.png
 	done
 	for size in 32 16 48 128;do
 		doicon -s ${size}x${size} ${size}x${size}/apps/${PN}.png

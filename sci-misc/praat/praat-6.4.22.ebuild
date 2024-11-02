@@ -68,9 +68,8 @@ src_test() {
 src_install() {
 	dobin ${PN} ../debian/${PN}-launch
 	doicon ../debian/${PN}.xpm
-	insinto /usr/share/icons/hicolor/scalable/apps
 	all_svgs=( main/${PN}*.svg )
-	doins "${all_svgs[@]}"
+	doicon -s scalable "${all_svgs[@]}"
 	case "${#all_svgs[@]}" in
 		0) ewarn "main SVG icon missing" ;;
 		1) dosym "${all_svgs[@]}" /usr/share/icons/hicolor/scalable/apps/${PN}.svg ;;

@@ -30,13 +30,10 @@ src_install() {
 	domenu resources/${PN}.desktop
 	for size in 32 16 48 ; do
 		base=icons/hicolor/${size}x${size}
-		insinto /usr/share/${base}/mimetypes
-		doins images/${base}/mimetypes/application-x-${PN}.png
-		insinto /usr/share/${base}/apps
-		doins images/${base}/apps/${PN}.png
+		doicon -s ${size} -c mimetypes images/${base}/mimetypes/application-x-${PN}.png
+		doicon -s ${size} images/${base}/apps/${PN}.png
 	done
-	insinto /usr/share/icons/hicolor/128x128/apps
-	doins images/icons/hicolor/128x128/apps/${PN}.png
+	doicon -s 128 images/icons/hicolor/128x128/apps/${PN}.png
 	doicon images/icons/hicolor/128x128/apps/${PN}.png
 	insinto /usr/share/mime/packages
 	doins resources/${PN}.xml
