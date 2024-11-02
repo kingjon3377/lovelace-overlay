@@ -38,6 +38,7 @@ PATCHES=(
 	"${WORKDIR}/debian/patches/dwtest-random-seed.patch"
 	"${WORKDIR}/debian/patches/honor-cppflags.patch"
 	"${WORKDIR}/debian/patches/praat-launch-in-desktop.patch"
+	"${WORKDIR}/debian/patches/real-file-icon.patch"
 )
 
 src_prepare() {
@@ -68,14 +69,7 @@ src_test() {
 src_install() {
 	dobin ${PN} ../debian/${PN}-launch
 	doicon ../debian/${PN}.xpm
-	insinto /usr/share/icons/hicolor/scalable/apps
-	all_svgs=( main/${PN}*.svg )
-	doins "${all_svgs[@]}"
-	case "${#all_svgs[@]}" in
-		0) ewarn "main SVG icon missing" ;;
-		1) dosym "${all_svgs[@]}" /usr/share/icons/hicolor/scalable/apps/${PN}.svg ;;
-		*) ewarn "Too many SVG icons" ;;
-	esac
+	doicon -s scalable main/${PN}-480.svg
 	domenu main/${PN}.desktop
 	doman ${PN}.1 ${PN}-launch.1
 	newdoc ../debian/what-is-new ChangeLog
