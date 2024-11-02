@@ -18,7 +18,7 @@ KEYWORDS="~amd64"
 
 RDEPEND=">=virtual/jre-1.7:*
 	dev-java/commons-compress:0
-	>=dev-java/ant-core-1.7.0:0"
+	>=dev-java/ant-1.7.0:0"
 BDEPEND=">=virtual/jdk-1.7"
 DEPEND="${RDEPEND}"
 
@@ -50,7 +50,7 @@ src_prepare() {
 }
 
 JAVA_ANT_REWRITE_CLASSPATH="true"
-EANT_GENTOO_CLASSPATH="ant-core,commons-compress"
+EANT_GENTOO_CLASSPATH="ant,commons-compress"
 
 src_install() {
 	java-pkg_newjar "build/lib/${P}.jar" "${PN}.jar"

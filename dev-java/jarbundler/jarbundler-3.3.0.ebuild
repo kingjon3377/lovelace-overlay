@@ -17,7 +17,7 @@ SLOT="0"
 KEYWORDS="~amd64"
 
 COMMON_DEP="
-	>=dev-java/ant-core-1.7:0
+	>=dev-java/ant-1.7:0
 	>=dev-java/xerces-2.8.1:2"
 DEPEND="${COMMON_DEP}"
 BDEPEND=">=virtual/jdk-1.7"
@@ -35,7 +35,7 @@ src_prepare() {
 
 JAVA_ANT_REWRITE_CLASSPATH="yes"
 
-EANT_GENTOO_CLASSPATH="ant-core,xerces-2"
+EANT_GENTOO_CLASSPATH="ant,xerces-2"
 EANT_DOC_TARGET="javadocs"
 EANT_EXTRA_ARGS="-Dversion=${PV} -Dant.jar=/usr/share/ant/lib/ant.jar"
 
