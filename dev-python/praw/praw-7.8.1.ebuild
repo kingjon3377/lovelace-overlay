@@ -4,7 +4,7 @@
 EAPI=7
 
 PYTHON_COMPAT=( python3_{9..12} )
-DISTUTILS_USE_PEP517=setuptools
+DISTUTILS_USE_PEP517=flit
 inherit distutils-r1 pypi
 
 DESCRIPTION="Python Reddit API Wrapper"
@@ -35,6 +35,9 @@ DEPEND="test? (
 			dev-python/betamax-matchers[${PYTHON_USEDEP}]
 		)"
 
+# Doesn't detect tests; probably need to build from GH tarball instead
+RESTRICT=test
+
 src_unpack() {
 	for file in $A;do
 		case "${file}" in
@@ -45,14 +48,18 @@ src_unpack() {
 }
 
 src_prepare() {
-	mkdir -p "${S}/tests/integration/files" || die
+	put_in_place() {
+		test -f "${S}/${2}/${3}" && ewarn "${3} already present in ${2}"
+		cp "${1}" "${2}/${3}" || die
+	}
+	mkdir -p "${S}/tests/integration/files" "${S}/tests/unit" || die
 	for file in comment_ids.txt test.mp4 test.mov too_large.jpg;do
-		cp "${WORKDIR}/${PN}-7.4.0_${file}" "${S}/tests/integration/files/${file}" || die
+		put_in_place "${WORKDIR}/${PN}-7.4.0_${file}" "tests/integration/files" "${file}"
 	done
-	cp "${FILESDIR}/7.2.0_tests_integration_files"/* "${S}/tests/integration/files" || die
-	mkdir -p "${S}/${PN}/images" || die
-	cp "${S}/docs/logo/png/PRAW logo.png" "${S}/${PN}/images/" || die
-	cp "${FILESDIR}/tests_unit_${PN}.ini" "${S}/tests/unit/${PN}.ini" || die
+	for file in "${FILESDIR}/7.2.0_tests_integration_files"/*;do
+		put_in_place "${file}" "tests/integration/files" "${file##*/}"
+	done
+	put_in_place "${FILESDIR}/tests_unit_${PN}.ini" "tests/unit" "${PN}.ini"
 	default
 }
 
