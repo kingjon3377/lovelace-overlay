@@ -3,7 +3,7 @@
 
 EAPI=7
 
-ADA_COMPAT=( gcc_13 gnat_2021 gcc_12 gcc_14 gcc_15 )
+ADA_COMPAT=( gcc_13 gnat_2021 gcc_12 ) # gcc_14 gcc_15
 
 inherit ada
 
