@@ -22,7 +22,6 @@ RDEPEND="dev-python/beautifulsoup4[${PYTHON_USEDEP}]
 	dev-python/lxml[${PYTHON_USEDEP}]
 	dev-python/requests[${PYTHON_USEDEP}]
 "
-BDEPEND=""
 
 PATCHES=( "${FILESDIR}/85.patch" )
 
