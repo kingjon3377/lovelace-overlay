@@ -14,7 +14,7 @@ DESCRIPTION="Fast javascript parser based on esprima.js"
 HOMEPAGE="https://github.com/PiotrDabkowski/pyjsparser/
 	https://pypi.org/project/pyjsparser/"
 SRC_URI="https://github.com/PiotrDabkowski/${PN}/archive/${COMMIT}.tar.gz
-	-> ${P}.tar.gz"
+	-> ${P}.gh.tar.gz"
 S="${WORKDIR}"/${PN}-${COMMIT}
 
 RESTRICT="!test? ( test )"

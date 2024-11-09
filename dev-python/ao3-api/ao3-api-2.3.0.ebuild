@@ -12,7 +12,7 @@ DESCRIPTION="Unofficial ArchiveOfOurOwn (AO3) API"
 HOMEPAGE="https://github.com/ArmindoFlores/ao3_api
 	https://pypi.org/project/ao3-api/"
 # Not using PyPI tarball because it omits requirements.txt
-SRC_URI="https://github.com/ArmindoFlores/${PN/-/_}/archive/refs/tags/v${PV}.tar.gz -> ${P}.tar.gz"
+SRC_URI="https://github.com/ArmindoFlores/${PN/-/_}/archive/refs/tags/v${PV}.tar.gz -> ${P}.gh.tar.gz"
 
 LICENSE="MIT"
 SLOT="0"
