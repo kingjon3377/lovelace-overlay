@@ -189,6 +189,8 @@ QA_FLAGS_IGNORED="usr/bin/${PN}"
 # Tests access the network
 PROPERTIES="test? ( test_network )"
 
+RESTRICT="!test? ( test )"
+
 src_test() {
 	# tests depend on Docker
 	cargo_src_test -- --skip installed_successfully --skip wrong_privileges
