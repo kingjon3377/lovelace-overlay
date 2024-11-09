@@ -7,7 +7,7 @@ JAVA_PKG_IUSE="doc source"
 
 ANT_TASKS="ant-junit"
 
-inherit java-pkg-2 java-ant-2
+inherit java-pkg-2
 
 DESCRIPTION="A tool to analyze Java code"
 #HOMEPAGE="http://www.incava.org/projects/java/doctorj/"

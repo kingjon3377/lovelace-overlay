@@ -4,7 +4,7 @@
 EAPI=7
 JAVA_PKG_IUSE="doc source test"
 
-inherit java-pkg-2 java-ant-2
+inherit java-pkg-2
 
 DESCRIPTION="Dependency management utility for jar files."
 HOMEPAGE="http://www.kirkk.com/main/Main/JarAnalyzer/"

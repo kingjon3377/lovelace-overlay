@@ -7,7 +7,7 @@ OFFICE_EXTENSIONS=("writer2latex.oxt" "xhtml-config-sample.oxt" "writer2xhtml.ox
 
 OFFICE_REQ_USE=java
 
-inherit latex-package java-pkg-2 java-ant-2 office-ext-r1
+inherit latex-package java-pkg-2 office-ext-r1
 
 IS_SOURCE=true
 

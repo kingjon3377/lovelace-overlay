@@ -5,7 +5,7 @@ EAPI=7
 
 JAVA_PKG_IUSE="doc source"
 
-inherit java-pkg-2 java-ant-2
+inherit java-pkg-2
 
 DESCRIPTION="Ant tasks needing commons-compress"
 HOMEPAGE="https://ant.apache.org/antlibs/compress/index.html"

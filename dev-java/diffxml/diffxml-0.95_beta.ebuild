@@ -6,7 +6,7 @@ EAPI=7
 JAVA_PKG_IUSE="doc source"
 EANT_TEST_TARGET="fullTest"
 
-inherit java-pkg-2 java-ant-2
+inherit java-pkg-2
 
 DESCRIPTION="XML differencing and packaging tools"
 HOMEPAGE="https://diffxml.sourceforge.net"

@@ -5,7 +5,7 @@ EAPI=7
 
 EANT_GENTOO_CLASSPATH="xerces-2 xalan junit"
 
-inherit java-pkg-2 java-ant-2
+inherit java-pkg-2
 
 DESCRIPTION="Java based map editor for roleplaying games"
 HOMEPAGE="https://mapcraft.glendale.org.uk/"
@@ -27,11 +27,6 @@ PATCHES=(
 	"${FILESDIR}/internal-api.patch"
 	"${FILESDIR}/incompatible-type.patch"
 )
-
-src_prepare() {
-	java-ant_rewrite-classpath
-	default
-}
 
 src_compile() {
 	EANT_GENTOO_CLASSPATH="xerces-2 xalan junit" eant
