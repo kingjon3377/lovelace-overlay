@@ -18,7 +18,7 @@ SRC_URI="${SRC_URI} https://patch-diff.githubusercontent.com/raw/PiotrDabkowski/
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="amd64 ~arm arm64 ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sparc x86"
+KEYWORDS="amd64 ~arm arm64 ~hppa ~mips ~ppc ~ppc64 ~s390 ~sparc x86"
 
 RDEPEND="
 	>=dev-python/pyjsparser-2.5.1[${PYTHON_USEDEP}]
