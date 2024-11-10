@@ -19,7 +19,6 @@
 ~x11-plugins/mehturt-pidgin-9999
 ~x11-themes/unicode-emoji-9999
 ~app-text/rdrview-9999
-~sys-fs/apfs-9999
 ~sys-fs/apfs-fuse-9999
 ~x11-plugins/purple-discord-9999
 
