@@ -17,11 +17,11 @@ SRC_URI="https://github.com/PiotrDabkowski/${PN}/archive/${COMMIT}.tar.gz
 	-> ${P}.gh.tar.gz"
 S="${WORKDIR}"/${PN}-${COMMIT}
 
-RESTRICT="!test? ( test )"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="amd64 ~arm arm64 ~hppa ~mips ~ppc ~ppc64 ~s390 ~sparc x86"
 IUSE="test"
+RESTRICT="!test? ( test )"
 
 BDEPEND="
 	test? (
