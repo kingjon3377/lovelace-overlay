@@ -25,7 +25,7 @@ KEYWORDS="~amd64 ~x86"
 
 # As of 2.0.0, ocamlgraph ebuild still includes most(?) necessary deps
 RDEPEND=">=dev-ml/ocamlgraph-${PV}:=[ocamlopt?]
-	dev-ml/lablgtk:2=[ocamlopt?]
+	dev-ml/lablgtk:3=[ocamlopt?]
 	!!<dev-ml/ocamlgraph-2.0.0[gtk]"
 
 IUSE="+ocamlopt"
