@@ -33,7 +33,7 @@ DEPEND="
 		)
 		>=x11-libs/gtksourceview-2.8:2.0
 		>=gnome-base/libgnomecanvas-2.26
-		dev-ml/lablgtk:3[sourceview,gnomecanvas,ocamlopt?]
+		dev-ml/lablgtk:3[sourceview,ocamlopt?]
 	)"
 RDEPEND="${DEPEND}"
 BDEPEND=">=dev-lang/ocaml-4.05.0[ocamlopt?]"
