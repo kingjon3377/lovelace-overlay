@@ -56,12 +56,3 @@ media-sound/gwc
 # Fails to build; later version builds without issue.
 =games-strategy/vms-empire-1.15
 
-# Fails to build, dead upstream. Masked for removal
-=sci-misc/tcm-2.20
-
-# HOMEPAGE gone, and GTK 2 is on its way out. Masked for removal.
-=app-misc/glista-0.4-r1
-
-# Apparently no longer frama-c deps, so no longer needed here; to be removed.
-dev-ml/ppx_deriving_yaml
-dev-ml/yaml
