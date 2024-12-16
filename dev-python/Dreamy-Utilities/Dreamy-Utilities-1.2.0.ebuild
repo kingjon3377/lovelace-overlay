@@ -17,7 +17,7 @@ LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64" # no ~x86 because not present in cloudscraper
 
-RDEPEND="dev-python/Babel[${PYTHON_USEDEP}]
+RDEPEND="dev-python/babel[${PYTHON_USEDEP}]
 	dev-python/beautifulsoup4[${PYTHON_USEDEP}]
 	dev-python/cloudscraper[${PYTHON_USEDEP}]
 	dev-python/colorama[${PYTHON_USEDEP}]
