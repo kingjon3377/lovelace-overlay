@@ -21,7 +21,7 @@ RDEPEND="${PYTHON_DEPS}
 	$(python_gen_cond_dep '
 		dev-python/markdown[${PYTHON_USEDEP}]
 		dev-python/wxpython:4.0[${PYTHON_USEDEP}]
-		dev-python/pysvg[${PYTHON_USEDEP}]
+		dev-python/pysvg-py3[${PYTHON_USEDEP}]
 		dev-python/icalendar[${PYTHON_USEDEP}]
 		dev-python/humblewx[${PYTHON_USEDEP}]
 	')"
