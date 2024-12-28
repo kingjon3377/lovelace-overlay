@@ -1,0 +1,414 @@
+diff '--color=auto' -ru a/fiction_dl/Extractors/ExtractorAdultFanfiction.py b/fiction_dl/Extractors/ExtractorAdultFanfiction.py
+--- a/fiction_dl/Extractors/ExtractorAdultFanfiction.py	2024-12-28 12:19:22.396295298 -0500
++++ b/fiction_dl/Extractors/ExtractorAdultFanfiction.py	2024-12-28 12:05:27.873268593 -0500
+@@ -99,7 +99,7 @@
+         if (not URL) or (GetHostname(URL) not in self.GetSupportedHostnames()):
+             return None
+ 
+-        userIDMatch = re.search("profile\.php\?no=(\d+)", URL)
++        userIDMatch = re.search(r"profile\.php\?no=(\d+)", URL)
+         if not userIDMatch:
+             return None
+ 
+@@ -176,7 +176,7 @@
+         matchingStoryLinkElement = None
+ 
+         userProfileURL = userProfileAnchorElement["href"]
+-        userIDMatch = re.search("profile\.php\?no=(\d+)", userProfileURL)
++        userIDMatch = re.search(r"profile\.php\?no=(\d+)", userProfileURL)
+         if not userIDMatch:
+             return None
+ 
+@@ -207,12 +207,12 @@
+ 
+         summary = storyDescriptionContent[:locatedTextPosition].strip()
+ 
+-        publishedMatch = re.search("Posted \: (\d\d\d\d\-\d\d\-\d\d)", storyDescriptionContent)
++        publishedMatch = re.search(r"Posted \: (\d\d\d\d\-\d\d\-\d\d)", storyDescriptionContent)
+         if not publishedMatch:
+             logging.error("Couldn't find date published in story description.")
+             return False
+ 
+-        updatedMatch = re.search("Edited \: (\d\d\d\d\-\d\d\-\d\d)", storyDescriptionContent)
++        updatedMatch = re.search(r"Edited \: (\d\d\d\d\-\d\d\-\d\d)", storyDescriptionContent)
+         if not updatedMatch:
+             logging.error("Couldn't find date updated in story description.")
+             return False
+@@ -272,7 +272,7 @@
+         #
+         ##
+ 
+-        return re.sub("\&chapter\=(\d)+", "", URL)
++        return re.sub(r"\&chapter\=(\d)+", "", URL)
+ 
+     def _FindAllStoriesByUserElements(self, userID):
+ 
+@@ -315,7 +315,7 @@
+ 
+                 paginationElement = paginationElements[-1]
+ 
+-                lastPageIndexMatch = re.search("page=(\d+)", paginationElement["href"])
++                lastPageIndexMatch = re.search(r"page=(\d+)", paginationElement["href"])
+                 lastPageIndex = int(lastPageIndexMatch.group(1))
+ 
+             for pageIndex in range(1, lastPageIndex + 1):
+@@ -349,7 +349,7 @@
+             return None
+ 
+         match = re.search(
+-            "no=(\d+)",
++            r"no=(\d+)",
+             URL
+         )
+         if not match:
+diff '--color=auto' -ru a/fiction_dl/Extractors/ExtractorAO3.py b/fiction_dl/Extractors/ExtractorAO3.py
+--- a/fiction_dl/Extractors/ExtractorAO3.py	2024-12-28 12:19:26.229295420 -0500
++++ b/fiction_dl/Extractors/ExtractorAO3.py	2024-12-28 12:00:16.059258615 -0500
+@@ -465,7 +465,7 @@
+         if not URL:
+             return None
+ 
+-        storyIDMatch = re.search("/works/(\d+)", URL)
++        storyIDMatch = re.search(r"/works/(\d+)", URL)
+         if not storyIDMatch:
+             return None
+ 
+diff '--color=auto' -ru a/fiction_dl/Extractors/ExtractorFFNet.py b/fiction_dl/Extractors/ExtractorFFNet.py
+--- a/fiction_dl/Extractors/ExtractorFFNet.py	2024-12-28 12:19:29.264295517 -0500
++++ b/fiction_dl/Extractors/ExtractorFFNet.py	2024-12-28 12:08:03.968273588 -0500
+@@ -102,7 +102,7 @@
+         elif "/community/" in URL:
+             return self._ScanCollection(URL)
+ 
+-        userIDMatch = re.search("/u/(\d+)", URL)
++        userIDMatch = re.search(r"/u/(\d+)", URL)
+         if not userIDMatch:
+             return None
+ 
+@@ -125,7 +125,7 @@
+                 logging.error("Failed to retrieve story URL.")
+                 continue
+ 
+-            storyIDMatch = re.search("/s/(\d+)", linkElement["href"])
++            storyIDMatch = re.search(r"/s/(\d+)", linkElement["href"])
+             if not storyIDMatch:
+                 logging.error("Failed to retrieve story ID from its URL.")
+                 continue
+@@ -149,7 +149,7 @@
+         # Retrieve collection name and generate a normalized URL.
+ 
+         collectionNameAndIDMatch = re.search(
+-            "/community/([a-zA-Z0-9-]+)/(\d+)",
++            r"/community/([a-zA-Z0-9-]+)/(\d+)",
+             URL
+         )
+         if not collectionNameAndIDMatch:
+@@ -209,7 +209,7 @@
+                     logging.error("Failed to retrieve story URL.")
+                     continue
+ 
+-                storyIDMatch = re.search("/s/(\d+)", anchorElement["href"])
++                storyIDMatch = re.search(r"/s/(\d+)", anchorElement["href"])
+                 if not storyIDMatch:
+                     logging.error("Failed to retrieve story ID from its URL.")
+                     continue
+@@ -249,20 +249,20 @@
+ 
+         headerLines = headerElement.get_text().replace("Follow/Fav", "").split("\n")
+ 
+-        chapterCount = re.search("Chapters: (\d+)", headerLines[3])
++        chapterCount = re.search(r"Chapters: (\d+)", headerLines[3])
+         # If the story has just one chapter, this field won't be present.
+ 
+-        words = re.search("Words: ([\d,]+)", headerLines[3])
++        words = re.search(r"Words: ([\d,]+)", headerLines[3])
+         if not words:
+             logging.error("Word count field not found in header.")
+             return False
+ 
+-        datePublished = re.search("Published: ([\d//]+)", headerLines[3])
++        datePublished = re.search(r"Published: ([\d//]+)", headerLines[3])
+         if not datePublished:
+             logging.error("Date published field not found in header.")
+             return False
+ 
+-        dateUpdated = re.search("Updated: ([\d//]+)", headerLines[3])
++        dateUpdated = re.search(r"Updated: ([\d//]+)", headerLines[3])
+         # If the story has just one chapter, this field won't be present.
+ 
+         # Set the metadata.
+@@ -320,7 +320,7 @@
+         if (selectedChapterElement := soup.find("option", {"selected": True})):
+             title = selectedChapterElement.text.strip()
+ 
+-        if title and (titleMatch := re.search("\d+\. (.*)", title)):
++        if title and (titleMatch := re.search(r"\d+\. (.*)", title)):
+             title = titleMatch.group(1)
+ 
+         # Read the content.
+@@ -343,7 +343,7 @@
+         if not URL:
+             return None
+ 
+-        storyIDMatch = re.search("/s/(\d+)/", URL)
++        storyIDMatch = re.search(r"/s/(\d+)/", URL)
+         if not storyIDMatch:
+             return None
+ 
+@@ -360,7 +360,7 @@
+             # Dates on FF.net come in two formats: "m/d/yyyy" and "m/d".
+             # We want to convert the shorter format to the longer one.
+ 
+-            longDatePattern = re.compile("^\d+/\d+/\d+$")
++            longDatePattern = re.compile(r"^\d+/\d+/\d+$")
+ 
+             if not longDatePattern.match(date):
+                 date += f"/{datetime.now().year}"
+diff '--color=auto' -ru a/fiction_dl/Extractors/ExtractorFicWad.py b/fiction_dl/Extractors/ExtractorFicWad.py
+--- a/fiction_dl/Extractors/ExtractorFicWad.py	2024-12-28 12:19:32.022295606 -0500
++++ b/fiction_dl/Extractors/ExtractorFicWad.py	2024-12-28 12:08:40.889274769 -0500
+@@ -165,16 +165,16 @@
+ 
+         metadataText = metadataElement.get_text().strip()
+ 
+-        chapterCountMatch = re.search("Chapters:\s*(\d+)", metadataText)
++        chapterCountMatch = re.search(r"Chapters:\s*(\d+)", metadataText)
+ 
+-        datePublishedMatch = re.search("Published:\s*([0-9-]+)", metadataText)
++        datePublishedMatch = re.search(r"Published:\s*([0-9-]+)", metadataText)
+         if not datePublishedMatch:
+             logging.error("Date published not found.")
+             return False
+ 
+-        dateUpdatedMatch = re.search("Updated:\s*([0-9-]+)", metadataText)
++        dateUpdatedMatch = re.search(r"Updated:\s*([0-9-]+)", metadataText)
+ 
+-        wordCountMatch = re.search("(\d+)\s*words", metadataText)
++        wordCountMatch = re.search(r"(\d+)\s*words", metadataText)
+         if not wordCountMatch:
+             logging.error("Word count not found.")
+             return False
+diff '--color=auto' -ru a/fiction_dl/Extractors/ExtractorHentaiFoundry.py b/fiction_dl/Extractors/ExtractorHentaiFoundry.py
+--- a/fiction_dl/Extractors/ExtractorHentaiFoundry.py	2024-12-28 12:19:36.190295739 -0500
++++ b/fiction_dl/Extractors/ExtractorHentaiFoundry.py	2024-12-28 12:11:48.445280771 -0500
+@@ -99,7 +99,7 @@
+         if (not URL) or (GetHostname(URL) not in self.GetSupportedHostnames()):
+             return None
+ 
+-        usernameStoryIDMatch = re.search("/user/([a-zA-Z0-9_]+)/(\d+)", URL)
++        usernameStoryIDMatch = re.search(r"/user/([a-zA-Z0-9_]+)/(\d+)", URL)
+         if usernameStoryIDMatch:
+             return None
+ 
+@@ -118,7 +118,7 @@
+         pageCountDescription = pageCountDescriptionElement.get_text().strip()
+ 
+         pageCountDescriptionMatch = re.search(
+-            "Displaying (\d+)-(\d+) of (\d+) results",
++            r"Displaying (\d+)-(\d+) of (\d+) results",
+             pageCountDescription
+         )
+ 
+@@ -218,12 +218,12 @@
+         chapterCountWordCountDescription = StripHTML(
+             chapterCountWordCountElement.get_text().strip()
+         )
+-        chapterCountMatch = re.search("Chapters:\s+(\d+)", chapterCountWordCountDescription)
++        chapterCountMatch = re.search(r"Chapters:\s+(\d+)", chapterCountWordCountDescription)
+         if not chapterCountMatch:
+             logging.error("Chapter count not found.")
+             return False
+ 
+-        wordCountMatch = re.search("Words:\s+([0-9,]+)", chapterCountWordCountDescription)
++        wordCountMatch = re.search(r"Words:\s+([0-9,]+)", chapterCountWordCountDescription)
+         if not wordCountMatch:
+             logging.error("Word count not found.")
+             return False
+diff '--color=auto' -ru a/fiction_dl/Extractors/ExtractorHPFF.py b/fiction_dl/Extractors/ExtractorHPFF.py
+--- a/fiction_dl/Extractors/ExtractorHPFF.py	2024-12-28 12:19:40.023295862 -0500
++++ b/fiction_dl/Extractors/ExtractorHPFF.py	2024-12-28 12:10:47.359278816 -0500
+@@ -87,7 +87,7 @@
+         if (not URL) or (GetHostname(URL) not in self.GetSupportedHostnames()):
+             return None
+ 
+-        userIDMatch = re.search("uid=(\d+)", URL)
++        userIDMatch = re.search(r"uid=(\d+)", URL)
+         if not userIDMatch:
+             return None
+ 
+diff '--color=auto' -ru a/fiction_dl/Extractors/ExtractorLiterotica.py b/fiction_dl/Extractors/ExtractorLiterotica.py
+--- a/fiction_dl/Extractors/ExtractorLiterotica.py	2024-12-28 12:19:43.500295973 -0500
++++ b/fiction_dl/Extractors/ExtractorLiterotica.py	2024-12-28 12:12:00.333281152 -0500
+@@ -95,7 +95,7 @@
+ 
+         # Download author's profile page.
+ 
+-        userIDMatch = re.search("\?uid\=(\d+)", URL)
++        userIDMatch = re.search(r"\?uid\=(\d+)", URL)
+         if not userIDMatch:
+             return None
+ 
+diff '--color=auto' -ru a/fiction_dl/Extractors/ExtractorNajlepszaErotyka.py b/fiction_dl/Extractors/ExtractorNajlepszaErotyka.py
+--- a/fiction_dl/Extractors/ExtractorNajlepszaErotyka.py	2024-12-28 12:19:47.152296090 -0500
++++ b/fiction_dl/Extractors/ExtractorNajlepszaErotyka.py	2024-12-28 12:12:24.318281919 -0500
+@@ -297,7 +297,7 @@
+         #
+         ##
+ 
+-        titleMatch = re.search("(.+) \(.+\)", title)
++        titleMatch = re.search(r"(.+) \(.+\)", title)
+         if not titleMatch:
+             return title
+ 
+diff '--color=auto' -ru a/fiction_dl/Extractors/ExtractorSamAndJack.py b/fiction_dl/Extractors/ExtractorSamAndJack.py
+--- a/fiction_dl/Extractors/ExtractorSamAndJack.py	2024-12-28 12:19:50.644296202 -0500
++++ b/fiction_dl/Extractors/ExtractorSamAndJack.py	2024-12-28 12:12:55.177282907 -0500
+@@ -139,7 +139,7 @@
+                     continue
+ 
+                 storyIDMatch = re.search(
+-                    "sid=(\d+)",
++                    r"sid=(\d+)",
+                     linkElement["href"]
+                 )
+ 
+@@ -198,8 +198,8 @@
+ 
+         contentText = contentElement.get_text().strip()
+         summary = FindFirstMatch(contentText, "Summary: ([^\n]+)\n")
+-        datePublished = FindFirstMatch(contentText, "Published:\s*([a-zA-Z]+ \d+, \d+)")
+-        dateUpdated = FindFirstMatch(contentText, "Updated:\s*([a-zA-Z]+ \d+, \d+)")
++        datePublished = FindFirstMatch(contentText, r"Published:\s*([a-zA-Z]+ \d+, \d+)")
++        dateUpdated = FindFirstMatch(contentText, r"Updated:\s*([a-zA-Z]+ \d+, \d+)")
+ 
+         for element in soup.select("div#output > p > b > a"):
+ 
+diff '--color=auto' -ru a/fiction_dl/Extractors/ExtractorWhoFic.py b/fiction_dl/Extractors/ExtractorWhoFic.py
+--- a/fiction_dl/Extractors/ExtractorWhoFic.py	2024-12-28 12:19:53.986296309 -0500
++++ b/fiction_dl/Extractors/ExtractorWhoFic.py	2024-12-28 12:13:28.658283978 -0500
+@@ -228,7 +228,7 @@
+         if not URL:
+             return None
+ 
+-        return FindFirstMatch(URL, "sid=(\d+)")
++        return FindFirstMatch(URL, r"sid=(\d+)")
+ 
+     def _FindAdditionalMetadata(self, authorPageURL: str, storyID: str) -> Tuple[str, str, str]:
+ 
+@@ -342,7 +342,7 @@
+                 continue
+ 
+             storyIDMatch = re.search(
+-                "sid=(\d+)",
++                r"sid=(\d+)",
+                 element["href"]
+             )
+ 
+diff '--color=auto' -ru a/fiction_dl/Extractors/ExtractorXenForo.py b/fiction_dl/Extractors/ExtractorXenForo.py
+--- a/fiction_dl/Extractors/ExtractorXenForo.py	2024-12-28 12:19:58.495296453 -0500
++++ b/fiction_dl/Extractors/ExtractorXenForo.py	2024-12-28 12:13:50.374284673 -0500
+@@ -303,7 +303,7 @@
+         elif self.Story.Metadata.Title.startswith("Threadmarks for:"):
+             self.Story.Metadata.Title = self.Story.Metadata.Title[17:]
+ 
+-        titleProperMatch = re.search("(.+) \(.+\)", self.Story.Metadata.Title)
++        titleProperMatch = re.search(r"(.+) \(.+\)", self.Story.Metadata.Title)
+         if titleProperMatch:
+             self.Story.Metadata.Title = titleProperMatch.group(1)
+ 
+diff '--color=auto' -ru a/fiction_dl/Processors/TypographyProcessor.py b/fiction_dl/Processors/TypographyProcessor.py
+--- a/fiction_dl/Processors/TypographyProcessor.py	2024-12-28 12:20:06.412296706 -0500
++++ b/fiction_dl/Processors/TypographyProcessor.py	2024-12-28 12:17:22.133291449 -0500
+@@ -143,25 +143,25 @@
+             return None
+ 
+         # Example: ".." -> "…"
+-        content = re.sub("(\.){2,}", "…", content)
++        content = re.sub(r"(\.){2,}", "…", content)
+ 
+         # Example: ". . ." -> "…"
+-        content = re.sub("(\.\\s){2,}", "…", content)
++        content = re.sub(r"(\.\\s){2,}", "…", content)
+ 
+         # Example: "………" -> "…"
+         content = re.sub("…+", "…", content)
+ 
+         # Example: "…." -> "…"
+-        content = re.sub("…\.+", "…", content)
++        content = re.sub(r"…\.+", "…", content)
+ 
+         # Example: "???" -> "?"
+-        content = re.sub("\?+", "?", content)
++        content = re.sub(r"\?+", "?", content)
+ 
+         # Example: " - " -> " — "
+-        content = re.sub("(\\s)-(\\s)", r"\1—\2", content)
++        content = re.sub(r"(\\s)-(\\s)", r"\1—\2", content)
+ 
+         # Example: "-----" -> "—"
+-        content = re.sub("(\-){2,}", "—", content)
++        content = re.sub(r"(\-){2,}", "—", content)
+ 
+         return content
+ 
+@@ -182,37 +182,37 @@
+             return None
+ 
+         # Example: "  " -> " "
+-        content = re.sub("(\\s){2,}", " ", content)
++        content = re.sub(r"(\\s){2,}", " ", content)
+ 
+         # Example: "A , B" -> "A, B"
+-        content = re.sub("(\\s),(\\s)", r",\2", content)
++        content = re.sub(r"(\\s),(\\s)", r",\2", content)
+ 
+         # Example: "A ,B" -> "A, B"
+-        content = re.sub("(\\s),(\\S)", r", \2", content)
++        content = re.sub(r"(\\s),(\\S)", r", \2", content)
+ 
+         # Example: "A…B" -> "A… B"
+-        content = re.sub("(\\S)…(\\S)", r"\1… \2", content)
++        content = re.sub(r"(\\S)…(\\S)", r"\1… \2", content)
+ 
+         # Example: "A … B" -> "A… B"
+-        content = re.sub("(\\s)…(\\s)", r"…\2", content)
++        content = re.sub(r"(\\s)…(\\s)", r"…\2", content)
+ 
+         # Example: " ?" -> "?"
+-        content = re.sub("(\\s)\\?", "?", content)
++        content = re.sub(r"(\\s)\\?", "?", content)
+ 
+         # Example: " !" -> "!"
+-        content = re.sub("(\\s)\\!", "!", content)
++        content = re.sub(r"(\\s)\\!", "!", content)
+ 
+         # Example: "???" -> "?"
+-        content = re.sub("\?+", "?", content)
++        content = re.sub(r"\?+", "?", content)
+ 
+         # Example: "A- " -> "A— "
+-        content = re.sub("(\\S)-(\\s)", r"\1—\2", content)
++        content = re.sub(r"(\\S)-(\\s)", r"\1—\2", content)
+ 
+         # Example: " -A" -> " — A"
+-        content = re.sub("(\\s)-(\\S)", r" — \2", content)
++        content = re.sub(r"(\\s)-(\\S)", r" — \2", content)
+ 
+         # Example: "A—B" -> "A — B"
+-        content = re.sub("(\\S)—(\\S)", r"\1 — \2", content)
++        content = re.sub(r"(\\S)—(\\S)", r"\1 — \2", content)
+ 
+         return content
+ 
+diff '--color=auto' -ru a/fiction_dl/Utilities/Text.py b/fiction_dl/Utilities/Text.py
+--- a/fiction_dl/Utilities/Text.py	2024-12-28 12:20:11.780296878 -0500
++++ b/fiction_dl/Utilities/Text.py	2024-12-28 12:17:52.318292415 -0500
+@@ -55,7 +55,7 @@
+ 
+     title = Transliterate(prettifiedMetadata.Title)
+     title = GetSanitizedFileName(title)
+-    title = re.sub("\s+", " ", title)
++    title = re.sub(r"\s+", " ", title)
+ 
+     return title.strip()
+ 

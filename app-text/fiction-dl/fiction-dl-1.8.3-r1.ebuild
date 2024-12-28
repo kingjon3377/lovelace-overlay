@@ -33,10 +33,13 @@ RDEPEND="${DEPEND}
 	dev-python/pykakasi[${PYTHON_USEDEP}]
 	dev-python/pyopenssl[${PYTHON_USEDEP}]"
 
-# N.B. without this patch, depends on PyMuPDF for PDF output; we patch to drop
+# N.B. without the first patch, depends on PyMuPDF for PDF output; we patch to drop
 # that feature because building PyMuPDF against a system install of mupdf has
 # been failing for some time now.
-PATCHES=( "${FILESDIR}/${P}-drop-pdf.patch" )
+PATCHES=(
+	"${FILESDIR}/${P}-drop-pdf.patch"
+	"${FILESDIR}/${P}-syntax-warnings.patch"
+)
 
 src_prepare() {
 	sed -i -e '/opencv-python/d' -e 's@bs4@beautifulsoup4@' setup.py ${PN/-/_}.egg-info/requires.txt || die
