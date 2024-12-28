@@ -56,3 +56,8 @@ media-sound/gwc
 # Fails to build; later version builds without issue.
 =games-strategy/vms-empire-1.15
 
+# Fails to build, TODO: investigate further
+dev-python/PyMuPDF
+# Depends on PyMuPDF
+=app-text/fiction-dl-1.8.2
+

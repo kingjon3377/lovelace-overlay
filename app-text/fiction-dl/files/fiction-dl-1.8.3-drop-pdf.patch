@@ -1,0 +1,167 @@
+diff --git a/fiction_dl/Core/Application.py b/b/fiction_dl/Core/Application.py
+index 75cede1..501bb96 100644
+--- a/fiction_dl/Core/Application.py
++++ b/fiction_dl/Core/Application.py
+@@ -39,11 +39,9 @@ from fiction_dl.Formatters.FormatterEPUB import FormatterEPUB
+ from fiction_dl.Formatters.FormatterHTML import FormatterHTML
+ from fiction_dl.Formatters.FormatterMOBI import FormatterMOBI
+ from fiction_dl.Formatters.FormatterODT import FormatterODT
+-from fiction_dl.Formatters.FormatterPDF import FormatterPDF
+ from fiction_dl.Processors.SanitizerProcessor import SanitizerProcessor
+ from fiction_dl.Processors.TypographyProcessor import TypographyProcessor
+ from fiction_dl.Utilities.Extractors import CreateExtractor
+-from fiction_dl.Utilities.General import RenderPDFPageToBytes
+ from fiction_dl.Utilities.HTML import FindImagesInCode, MakeURLAbsolute
+ from fiction_dl.Utilities.Text import GetPrintableStoryTitle, Transliterate
+ import fiction_dl. Configuration as Configuration
+@@ -565,33 +563,6 @@ class Application:
+ 
+             self._interface.Text("Output file already exists.")
+ 
+-        # Format and save the stories to PDF.
+-
+-        self._interface.Comment("Saving as PDF... ", end = "")
+-
+-        coverImageData = None
+-
+-        formatter = FormatterPDF(self._arguments.Images)
+-
+-        if not self._arguments.LibreOffice.is_file():
+-
+-            self._interface.Text("This output format is unavailable.")
+-
+-        elif not filePaths["PDF"].is_file():
+-
+-            if not formatter.ConvertFromODT(filePaths["ODT"], filePaths["PDF"].parent, self._arguments.LibreOffice):
+-                self._interface.Text("Failed!")
+-
+-            else:
+-                self._interface.Text("Done!")
+-
+-        else:
+-
+-            self._interface.Text("Output file already exists.")
+-
+-        if filePaths["PDF"].is_file():
+-            coverImageData = RenderPDFPageToBytes(filePaths["PDF"], 0)
+-
+         # Format and save the stories to EPUB.
+ 
+         self._interface.Comment("Saving as EPUB... ", end = "")
+@@ -689,7 +660,6 @@ class Application:
+             "Directory": outputDirectoryPath,
+             "HTML" : outputDirectoryPath / (sanitizedTitle + ".html"),
+             "ODT"  : outputDirectoryPath / (sanitizedTitle + ".odt" ),
+-            "PDF"  : outputDirectoryPath / (sanitizedTitle + ".pdf" ),
+             "EPUB" : outputDirectoryPath / (sanitizedTitle + ".epub"),
+             "MOBI" : outputDirectoryPath / (sanitizedTitle + ".mobi"),
+         }
+@@ -704,10 +674,4 @@ class Application:
+                 "be generated."
+             )
+ 
+-        if not self._arguments.LibreOffice.is_file():
+-            notices.append(
+-                "\"LibreOffice\" doesn't seem to be installed on this machine. PDF output files will "
+-                "not be generated."
+-            )
+-
+-        return notices
+\ No newline at end of file
++        return notices
+diff --git a/fiction_dl/Utilities/General.py b/a/fiction_dl/Utilities/General.py
+deleted file mode 100644
+index bd63d4b..0000000
+--- a/fiction_dl/Utilities/General.py
++++ /dev/null
+@@ -1,61 +0,0 @@
+-####
+-#
+-# fiction-dl
+-# Copyright (C) (2020 - 2021) Benedykt Synakiewicz <dreamcobbler@outlook.com>
+-#
+-# This program is free software: you can redistribute it and/or modify
+-# it under the terms of the GNU General Public License as published by
+-# the Free Software Foundation, either version 3 of the License, or
+-# (at your option) any later version.
+-#
+-# This program is distributed in the hope that it will be useful,
+-# but WITHOUT ANY WARRANTY; without even the implied warranty of
+-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-# GNU General Public License for more details.
+-#
+-# You should have received a copy of the GNU General Public License
+-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-#
+-####
+-
+-#
+-#
+-#
+-# Imports.
+-#
+-#
+-#
+-
+-# Standard packages.
+-
+-from pathlib import Path
+-
+-# Non-standard packages.
+-
+-import fitz
+-
+-#
+-#
+-#
+-# Functions.
+-#
+-#
+-#
+-
+-def RenderPDFPageToBytes(documentFilePath: Path, pageIndex: int) -> bytes:
+-
+-    ##
+-    #
+-    # Renders given page of a PDF document to image, then returns the image data.
+-    #
+-    # @param documentFilePath The path to the document in question.
+-    # @param pageIndex        Index of the page to be rendered.
+-    #
+-    # @return Encoded image data, in JPEG format.
+-    #
+-    ##
+-
+-    document = fitz.open(documentFilePath)
+-    page = document.loadPage(pageIndex)
+-
+-    return page.getPixmap().getImageData(output = "jpeg")
+\ No newline at end of file
+diff --git a/fiction_dl.egg-info/requires.txt b/b/fiction_dl.egg-info/requires.txt
+index ec2afd2..194bc9f 100644
+--- a/fiction_dl.egg-info/requires.txt
++++ b/fiction_dl.egg-info/requires.txt
+@@ -1,4 +1,3 @@
+-PyMuPDF
+ bleach
+ bs4
+ dreamy-utilities>=1.2.0
+diff --git a/setup.py b/b/setup.py
+index 1d43491..2100e07 100644
+--- a/setup.py
++++ b/setup.py
+@@ -61,7 +61,6 @@ setup(
+     url = Configuration.ApplicationURL,
+ 
+     install_requires = [
+-        "PyMuPDF",
+         "bleach",
+         "bs4",
+         "dreamy-utilities>=1.2.0",
+@@ -123,4 +122,4 @@ setup(
+ 
+     python_requires = ">=3.8",
+ 
+-)
+\ No newline at end of file
++)
