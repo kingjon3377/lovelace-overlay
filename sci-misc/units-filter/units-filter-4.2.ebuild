@@ -1,4 +1,4 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -24,7 +24,7 @@ RDEPEND="app-text/recode
 	gui? (
 		gnome-base/librsvg
 		${PYTHON_DEPS}
-		$(python_gen_cond_dep 'dev-python/PyQt5[${PYTHON_USEDEP}]')
+		$(python_gen_cond_dep 'dev-python/pyqt5[${PYTHON_USEDEP}]')
 	)"
 DEPEND="${RDEPEND}"
 BDEPEND="app-arch/xz-utils

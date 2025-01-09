@@ -1,4 +1,4 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 # Bug #348280 -- tosubmit
@@ -23,4 +23,4 @@ RDEPEND="dev-python/utidylib[${PYTHON_USEDEP}]
 "
 DEPEND="${DEPEND}
 	dev-python/sqlalchemy[${PYTHON_USEDEP}]
-	dev-python/jinja[${PYTHON_USEDEP}]"
+	dev-python/jinja2[${PYTHON_USEDEP}]"

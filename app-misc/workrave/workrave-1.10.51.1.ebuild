@@ -1,4 +1,4 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -62,7 +62,7 @@ DEPEND="${RDEPEND}
 	dev-build/autoconf-archive
 	x11-base/xorg-proto
 	virtual/pkgconfig
-	dbus? ( dev-python/jinja )
+	dbus? ( dev-python/jinja2 )
 	doc? (
 		app-text/docbook-sgml-utils
 		app-text/xmlto )
