@@ -97,7 +97,7 @@ COMMON_DEPEND="
 	v4l?	(
 		media-libs/libv4l[utils]
 		media-libs/libpng:0
-		virtual/jpeg:0
+		media-libs/libjpeg-turbo:0=
 	)
 	xml?	(
 		dev-libs/libxml2:2
