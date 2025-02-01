@@ -1,0 +1,76 @@
+diff '--color=auto' -ru a/grabchars.c b/grabchars.c
+--- a/grabchars.c	2014-12-29 04:41:18.000000000 -0500
++++ b/grabchars.c	2025-01-28 21:29:31.896578922 -0500
+@@ -99,6 +99,10 @@
+ #include <ctype.h>
+ #include <stdlib.h>
+ #include <string.h>
++#include <unistd.h>
++#define _REGEX_RE_COMP
++#include <sys/types.h>
++#include <regex.h>
+ #include "grabchars.h"
+ 
+ /*	see globals.c */
+@@ -117,10 +120,7 @@
+ extern char *erase_buf;	/* DV: Malloc'ed later */
+ #endif
+ 
+-main (argc, argv)
+-int argc;
+-register char **argv;
+-{
++void main (int argc, char **argv) {
+ 	/* two signal/wrapup handling routines in sys.c */
+ 	int lets_go (), overtime ();
+ 
+diff '--color=auto' -ru a/grabchars.h b/grabchars.h
+--- a/grabchars.h	2014-12-29 04:42:26.000000000 -0500
++++ b/grabchars.h	2025-01-28 21:29:31.896578922 -0500
+@@ -33,3 +33,7 @@
+ 
+ typedef struct flag_type FLAG;
+ 
++void init_flags();
++void init_signal();
++void init_term();
++void handle_erase(char ch, int* cnt);
+diff '--color=auto' -ru a/sys.c b/sys.c
+--- a/sys.c	2014-12-29 04:37:06.000000000 -0500
++++ b/sys.c	2025-01-28 21:23:45.686592579 -0500
+@@ -50,7 +50,7 @@
+ #endif
+ 
+ /* initialize global flags */
+-init_flags ()
++void init_flags ()
+ {
+ 	flags->both = 0;
+ 	flags->check = 0;
+@@ -67,7 +67,7 @@
+ /*
+ **	initialize tty
+ */
+-init_term ()
++void init_term ()
+ {
+ 	/*	play havoc with the terminal :-) */
+ 
+@@ -98,7 +98,7 @@
+ }
+ 
+ /* handle the outside world */
+-init_signal ()
++void init_signal ()
+ {
+ 	int lets_go ();
+ 
+@@ -180,7 +180,7 @@
+ */
+ 
+ /*	DV: handle erase characters, kill characters, etc. */
+-handle_erase (ch, cnt)
++void handle_erase (ch, cnt)
+ char ch;
+ int *cnt;
+ {

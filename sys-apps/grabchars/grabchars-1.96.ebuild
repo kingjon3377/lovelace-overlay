@@ -1,4 +1,4 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -16,6 +16,8 @@ KEYWORDS="amd64"
 
 DEPEND="${RDEPEND}"
 BDEPEND="app-shells/tcsh"
+
+PATCHES=( "${FILESDIR}/implicit-function-declarations.patch" )
 
 src_unpack() {
 	srcrpm_unpack
