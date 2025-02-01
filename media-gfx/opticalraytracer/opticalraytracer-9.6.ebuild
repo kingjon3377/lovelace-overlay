@@ -16,8 +16,8 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE="doc source"
 
-DEPEND=">=virtual/jdk-1.7"
-RDEPEND=">=virtual/jre-1.7"
+DEPEND=">=virtual/jdk-1.8"
+RDEPEND=">=virtual/jre-1.8"
 
 src_install() {
 	java-pkg-simple_src_install
