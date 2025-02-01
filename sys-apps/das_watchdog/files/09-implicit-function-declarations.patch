@@ -1,0 +1,11 @@
+diff '--color=auto' -ru a/test_rt.c b/test_rt.c
+--- a/test_rt.c	2006-02-14 17:35:00.000000000 -0500
++++ b/test_rt.c	2025-01-28 21:18:58.846603887 -0500
+@@ -4,6 +4,7 @@
+ #include <sys/time.h>
+ #include <time.h>
+ #include <sched.h>
++#include <unistd.h>
+ 
+ int main() {
+ 	struct sched_param params;

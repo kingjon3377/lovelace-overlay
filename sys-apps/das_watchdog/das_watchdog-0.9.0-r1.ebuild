@@ -1,4 +1,4 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -33,6 +33,7 @@ PATCHES=(
 	"${FILESDIR}/06-Remove-duplicate-check-for-temp-i-0.patch"
 	"${FILESDIR}/07-The-result-of-fgetc-is-an-int-not-a-char.patch"
 	"${FILESDIR}/08-fix-memory-leak-on-realloc.patch"
+	"${FILESDIR}/09-implicit-function-declarations.patch"
 )
 
 src_prepare() {
