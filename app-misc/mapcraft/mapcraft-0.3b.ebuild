@@ -15,7 +15,7 @@ LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64"
 COMMON_DEPEND="dev-java/xerces:2
-	dev-java/xalan
+	dev-java/xalan:0
 	dev-java/junit:0"
 RDEPEND=">=virtual/jre-1.7
 	${COMMON_DEPEND}"
