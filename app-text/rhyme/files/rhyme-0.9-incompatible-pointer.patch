@@ -1,0 +1,24 @@
+diff '--color=auto' -ru a/setup.c b/setup.c
+--- a/setup.c	2025-01-28 23:40:12.439955632 -0500
++++ b/setup.c	2025-01-28 23:40:36.013288036 -0500
+@@ -16,7 +16,7 @@
+   {0,0,0,0}
+ };
+ 
+-void fatalError(char s[]) {
++void fatalError(const char s[]) {
+   fprintf(stderr, s);
+   exit(1);
+ }
+diff '--color=auto' -ru a/setup.h b/setup.h
+--- a/setup.h	2002-01-14 12:23:07.000000000 -0500
++++ b/setup.h	2025-01-28 23:40:42.919954430 -0500
+@@ -27,7 +27,7 @@
+ #define FLAG_MERGED 4
+ 
+ /*something to print if gdbm dies horribly*/
+-void fatalError(char s[]);
++void fatalError(const char s[]);
+ 
+ /*The wordfile, rhymefile and multiplefile are set by this function
+   The flags are the bits set by the command-line arguments.
