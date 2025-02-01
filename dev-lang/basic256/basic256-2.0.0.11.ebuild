@@ -1,4 +1,4 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -17,6 +17,11 @@ IUSE="l10n_en l10n_de l10n_es l10n_fr l10n_nl l10n_ru"
 RDEPEND="dev-qt/qtcore:5
 	dev-qt/qtgui:5
 	dev-qt/qtserialport:5
+	dev-qt/qtmultimedia:5
+	dev-qt/qtnetwork:5
+	dev-qt/qtsql:5
+	dev-qt/qtprintsupport:5
+	dev-qt/qtwidgets:5
 	media-libs/sdl-mixer
 	dev-db/sqlite:3
 	|| ( app-accessibility/espeak-ng app-accessibility/espeak )"
