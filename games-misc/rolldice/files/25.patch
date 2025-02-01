@@ -1,0 +1,23 @@
+From 5e53bade81d0fc972857889c1b690dcd830b439b Mon Sep 17 00:00:00 2001
+From: Caleb Xu <calebcenter@live.com>
+Date: Fri, 29 Sep 2023 10:43:09 -0400
+Subject: [PATCH] Add ctype.h header for isdigit function
+
+---
+ rolldice.h | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/rolldice.h b/rolldice.h
+index 80f084d..2829732 100644
+--- a/rolldice.h
++++ b/rolldice.h
+@@ -30,6 +30,9 @@
+ /* For some bounds */
+ #include <limits.h>
+ 
++/* For the isdigit() function */
++#include <ctype.h>
++
+ /* The following #defines give the position of each important dice-related
+  * number inside of the dice_nums array.  The final #define gives us the
+  * size of the dice_nums array, which should be the number of other 
