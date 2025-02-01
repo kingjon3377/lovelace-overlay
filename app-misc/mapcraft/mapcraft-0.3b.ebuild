@@ -24,9 +24,15 @@ DEPEND="${COMMON_DEPEND}"
 IUSE="doc source"
 
 PATCHES=(
+	"${FILESDIR}/eant.patch"
 	"${FILESDIR}/internal-api.patch"
 	"${FILESDIR}/incompatible-type.patch"
 )
+
+src_prepare() {
+	eapply "${PATCHES[@]}"
+	eapply_user
+}
 
 src_compile() {
 	EANT_GENTOO_CLASSPATH="xerces-2 xalan junit" eant

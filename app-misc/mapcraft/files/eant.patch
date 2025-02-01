@@ -1,0 +1,13 @@
+diff '--color=auto' -ru a/build.xml b/build.xml
+--- a/build.xml	2004-06-11 15:10:30.000000000 -0400
++++ b/build.xml	2025-02-01 11:28:46.137210425 -0500
+@@ -29,6 +29,9 @@
+         </copy>
+         <javac srcdir="${src.dir}" destdir="${build.dir}" debug="on">
+             <classpath refid="lib.path"/>
++	    <classpath>
++		<pathelement path="${gentoo.classpath}" />
++	    </classpath>
+         </javac>
+     </target>
+ 
