@@ -1,0 +1,142 @@
+From 613976535663abc254b5f48e2b22215fb55a675a Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Beno=C3=AEt=20Dejean?= <bdejean@gmail.com>
+Date: Fri, 1 May 2020 20:17:15 +0200
+Subject: [PATCH] Enable and fix compilation warnings.
+
+---
+ ForEachFile.c | 4 ++--
+ Makefile      | 3 ++-
+ Malloc.c      | 2 +-
+ compare.c     | 4 ++--
+ debug.c       | 3 ++-
+ options.c     | 2 ++
+ pass3.c       | 2 +-
+ 7 files changed, 12 insertions(+), 8 deletions(-)
+
+diff --git a/ForEachFile.c b/ForEachFile.c
+index a7b9166..991fe6d 100644
+--- a/ForEachFile.c
++++ b/ForEachFile.c
+@@ -122,8 +122,8 @@ do_dir(
+ 	Closedir(dir);
+ }
+ 
+-static MSDOS_sep = (Fchar)'\\';
+-static UNIX_sep = (Fchar)'/';
++static const char MSDOS_sep = (Fchar)'\\';
++static const char UNIX_sep = (Fchar)'/';
+ 
+ static void
+ clean_name(Fchar *Fn) {
+diff --git a/Makefile b/Makefile
+index 7bce7f6..6416dad 100644
+--- a/Makefile
++++ b/Makefile
+@@ -4,6 +4,7 @@
+ #
+ 
+ #VERSION="-DVERSION=\"3.0.2 of 2017-12-16\""	# uncomment for public version
++VERSION="-DVERSION=\"3.0.2-2 Debian\""
+ 
+ #	E N T R Y   P O I N T S
+ 
+diff --git a/Malloc.c b/Malloc.c
+index 39ed530..cde504f 100644
+--- a/Malloc.c
++++ b/Malloc.c
+@@ -57,7 +57,7 @@ struct alloc {	/* corresponds to an allocated block */
+ 
+ #define	HASH_SIZE	16381		/* largest prime under 2^16 */
+ static struct alloc *alloc_bucket[HASH_SIZE];
+-#define	alloc_bucket_for(x)	alloc_bucket[((unsigned int)(x)%HASH_SIZE)]
++#define	alloc_bucket_for(x)	alloc_bucket[((size_t)(x)%HASH_SIZE)]
+ 
+ 							/* MEMORY STATUS */
+ 
+diff --git a/compare.c b/compare.c
+index 189f607..2feb340 100644
+--- a/compare.c
++++ b/compare.c
+@@ -33,8 +33,8 @@ in_range(size_t i, const struct range *rg) {
+ 		return (rg->rg_start <= i && i < rg->rg_limit);
+ 	} else {
+ 		/* looped-around range */
+-		return (rg->rg_start <= i && i < end_of_text
+-			|| beginning_of_text <= i && i < rg->rg_limit);
++		return (rg->rg_start <= i && i < end_of_text)
++			|| (beginning_of_text <= i && i < rg->rg_limit);
+ 	}
+ }
+ 
+diff --git a/debug.c b/debug.c
+index e27c335..3828007 100644
+--- a/debug.c
++++ b/debug.c
+@@ -3,6 +3,7 @@
+ 	$Id: debug.c,v 1.8 2017-12-08 18:07:16 Gebruiker Exp $
+ */
+ 
++#include	<stdio.h>
+ #include	<stdlib.h>
+ #include	<unistd.h>
+ #include	<ctype.h>
+@@ -26,7 +27,7 @@
+ 
+ static void
+ wr_char(char ch) {
+-	write(2, &ch, 1);
++	fputc(ch, stderr);
+ }
+ 
+ static void
+diff --git a/options.c b/options.c
+index 0416f6e..59ccd78 100644
+--- a/options.c
++++ b/options.c
+@@ -121,6 +121,8 @@ opt_value(
+ 	case String:
+ 		*(const char **)op->op_value = string;
+ 		break;
++	default:
++		break;
+ 	}
+ 
+ 	return consumed;
+diff --git a/pass3.c b/pass3.c
+index 9c0be1b..7c4de66 100644
+--- a/pass3.c
++++ b/pass3.c
+@@ -185,7 +185,7 @@ print_line(FILE *f, pts max_line_length) {
+ 	utf8_box u; clear_utf8_box(&u);
+ 
+ 	int len;
+-	while (len = fill_ubox(f, &u)) {
++	while ((len = fill_ubox(f, &u))) {
+ 		/* take a critical look at what we've got */
+ 		char u0 = u.text[0];
+ 		if (u0 == '\n') break;			/* stop on end of line*/
+-- 
+2.26.0
+
+diff '--color=auto' -ru a/textlang.l b/textlang.l
+--- a/textlang.l	2017-12-15 12:23:52.000000000 -0500
++++ b/textlang.l	2025-01-29 21:12:18.868524003 -0500
+@@ -16,6 +16,7 @@
+ 
+ #include	"lex.h"
+ #include	"lang.h"
++#include "options.h"
+ 
+ /* General language front end data */
+ Token lex_token;
+diff '--color=auto' -ru a/8086lang.l b/8086lang.l
+--- a/8086lang.l	2017-12-15 12:23:49.000000000 -0500
++++ b/8086lang.l	2025-01-29 21:14:34.125185335 -0500
+@@ -16,6 +16,7 @@
+ #include	"idf.h"
+ #include	"lex.h"
+ #include	"lang.h"
++#include "sim.h"
+ 
+ /* General language front end data */
+ Token lex_token;

@@ -1,4 +1,4 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -19,6 +19,7 @@ BDEPEND="sys-devel/flex
 
 PATCHES=(
 	"${FILESDIR}/${P}-fix-configuration.patch"
+	"${FILESDIR}/0001-Enable-and-fix-compilation-warnings.patch"
 )
 
 DOCS=( ChangeLog README Similarity_Percentage_Computation.tex sim.pdf TechnReport ToDo )
