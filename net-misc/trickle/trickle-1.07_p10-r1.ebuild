@@ -6,7 +6,7 @@
 
 EAPI=7
 
-inherit autotools
+inherit autotools flag-o-matic
 
 # Version without the _p suffix
 MY_PV="${PV%%_p*}"
@@ -40,6 +40,7 @@ PATCHES=(
 src_prepare() {
 	default
 	sed -i -e "s@/lib/@/$(get_libdir)/@" configure.in || die
+	append-cflags $(test-flags-CC -Wno-implicit-function-declaration -Wno-incompatible-pointer-types)
 	eautoreconf
 }
 

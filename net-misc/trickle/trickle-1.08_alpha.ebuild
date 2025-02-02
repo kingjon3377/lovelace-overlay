@@ -6,7 +6,7 @@
 
 EAPI=7
 
-inherit autotools
+inherit autotools flag-o-matic
 
 DESCRIPTION="A lightweight userspace bandwidth shaper"
 HOMEPAGE="https://monkey.org/~marius/pages/trickle https://github.com/mariusae/trickle https://github.com/echiu64/trickle"
@@ -26,6 +26,7 @@ RDEPEND="${DEPEND}"
 src_prepare() {
 	default
 	sed -i -e "s@/lib/@/$(get_libdir)/@" configure.in || die
+	append-cflags $(test-flags-CC -Wno-implicit-function-declaration -Wno-incompatible-pointer-types)
 	eautoreconf
 }
 
