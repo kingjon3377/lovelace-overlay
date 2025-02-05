@@ -66,3 +66,7 @@ dev-python/PyMuPDF
 # earlier version. Masked for removal.
 dev-lang/aplus
 
+# Fails to build with GCC 14; apparently dead upstream; has been removed from
+# recent versions of Debian and Ubuntu. Masked for removal.
+net-misc/rdist
+
