@@ -30,3 +30,5 @@ RDEPEND="${PYTHON_DEPS}
 DEPEND="${RDEPEND}"
 
 distutils_enable_tests pytest
+
+PATCHES=( "${FILESDIR}/${P}-fix-syntax-error.patch" )

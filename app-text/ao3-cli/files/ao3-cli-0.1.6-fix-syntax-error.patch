@@ -1,0 +1,12 @@
+diff '--color=auto' -ru a/ao3_cli/utils/processing.py b/ao3_cli/utils/processing.py
+--- a/ao3_cli/utils/processing.py	2023-06-16 11:18:59.000000000 -0400
++++ b/ao3_cli/utils/processing.py	2025-02-02 13:22:44.416064820 -0500
+@@ -129,7 +129,7 @@
+ 
+ 
+ def sanitize_filename(file_name: str):
+-    forbidden_characters = '"*/:<>?\|'
++    forbidden_characters = '"*/:<>?\\|'
+     unicode_characters = '”⁎∕꞉‹›︖＼⏐'
+     for a, b in zip(forbidden_characters, unicode_characters):
+         file_name = file_name.replace(a, b)
