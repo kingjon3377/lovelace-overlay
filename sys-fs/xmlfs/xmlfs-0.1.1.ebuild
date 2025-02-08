@@ -1,7 +1,7 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
 inherit toolchain-funcs
 
@@ -18,6 +18,8 @@ DEPEND="sys-fs/fuse:0
 	dev-libs/icu:=
 	sys-libs/zlib"
 RDEPEND="${DEPEND}"
+
+PATCHES=( "${FILESDIR}/${P}-implicit-function-definitions.patch" )
 
 src_prepare() {
 	sed -i -e "s@^CC = .*@CC=$(tc-getCC)@" -e "s@^CFLAGS = .*@CFLAGS=${CFLAGS}@" Makefile || die
