@@ -53,6 +53,11 @@ OOO_EXTENSIONS="writer2latex.oxt writer2xhtml.oxt xhtml-config-sample.oxt"
 EANT_EXTRA_ARGS="-DOFFICE_HOME=${S}"
 EANT_BUILD_TARGET="all"
 
+PATCHES=(
+	"${FILESDIR}/add-jaxb-dep.patch"
+	"${FILESDIR}/eant.patch"
+)
+
 pkg_nofetch() {
 	einfo "If fetch of SVN snapshot fails, regenerate by visiting"
 	einfo "https://sourceforge.net/p/${PN}/code/${REV}/tarball?path=/tags/${PV}"
@@ -64,6 +69,11 @@ src_prepare(){
 		-e "/OFFICE_CLASSES/s:/usr/share/java:/usr/$(get_libdir)/libreoffice/program/classes/:" build.xml || die
 	# TODO: Unbundle libraries
 	default
+}
+
+src_compile() {
+	eant compile jar oxt
+	use doc && eant javadoc
 }
 
 src_install() {

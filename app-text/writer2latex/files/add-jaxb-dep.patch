@@ -1,0 +1,11 @@
+diff '--color=auto' -ru a/build.xml b/build.xml
+--- a/build.xml	2024-07-23 21:48:01.323866615 -0400
++++ b/build.xml	2024-07-23 22:05:58.308852186 -0400
+@@ -61,6 +61,7 @@
+         <!-- additional uno interfaces generated from idl -->
+         <pathelement path="${source.idl}/writer2latex"/>
+         <pathelement path="${source.idl}/writer2xhtml"/>
++	<pathelement path="/usr/share/jaxb-api-2/lib/jaxb-api.jar"></pathelement>
+     </path> 
+ 
+     <target name="all"
