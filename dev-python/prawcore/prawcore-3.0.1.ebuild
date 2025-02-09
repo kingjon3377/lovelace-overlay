@@ -1,4 +1,4 @@
-# Copyright 2024 Gentoo Authors
+# Copyright 2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -15,10 +15,10 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 
 DEPEND="test? (
-			>=dev-python/betamax-8[${PYTHON_USEDEP}]
-			<dev-python/betamax-9[${PYTHON_USEDEP}]
-			<dev-python/pytest-8[${PYTHON_USEDEP}]
-			<dev-python/urllib3-2[${PYTHON_USEDEP}]
+			>=dev-python/betamax-0.8[${PYTHON_USEDEP}]
+			!!>=dev-python/betamax-0.9[${PYTHON_USEDEP}]
+			!!>=dev-python/pytest-8[${PYTHON_USEDEP}]
+			!!>=dev-python/urllib3-2[${PYTHON_USEDEP}]
 			dev-python/betamax-matchers[${PYTHON_USEDEP}]
 			dev-python/betamax-serializers[${PYTHON_USEDEP}]
 			dev-python/mock[${PYTHON_USEDEP}]
