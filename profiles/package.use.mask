@@ -1,3 +1,6 @@
 # Compilation failure apparently in doc generation
 =sci-mathematics/frama-c-20.0 doc
 
+# Conflicts with all versions of dependencies currently in the tree
+=dev-python/prawcore-3.0.1 test
+
