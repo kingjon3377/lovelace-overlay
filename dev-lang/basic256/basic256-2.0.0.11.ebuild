@@ -24,7 +24,7 @@ RDEPEND="dev-qt/qtcore:5
 	dev-qt/qtwidgets:5
 	media-libs/sdl-mixer
 	dev-db/sqlite:3
-	|| ( app-accessibility/espeak-ng app-accessibility/espeak )"
+	app-accessibility/espeak-ng"
 DEPEND="${RDEPEND}
 	sys-devel/flex
 	sys-devel/bison"
