@@ -1,0 +1,21 @@
+Author: Andreas Tille <tille@debian.org>
+Last-Update: 2024-11-21
+Description: Avoid explicit RPATH
+Forwarded: no
+
+--- a/configure
++++ b/configure
+@@ -343,11 +343,8 @@ check_ncursesw () {
+ 	# traditional curses.h if both curses systems are installed.
+ 
+ 	DEFS="$DEFS -DHAVE_NCURSESW_CURSES_H"
+-	INCDIR_CURSES="-I/usr/include/ncurses6"
+-	RPATH_CURSES="-Wl,-rpath,/usr/lib64/ncurses6"
+-	LIBDIR_CURSES="-L/usr/lib64/ncurses6"
+-	PASS_TEXT=" (#include <ncursesw/curses.h>, -I/usr/include/ncurses6, \
+--L/usr/lib64/ncurses6)"
++	INCDIR_CURSES=""
++	PASS_TEXT=" (#include <ncursesw/curses.h>)"
+ 	test_curses && return # Linux NC6
+ 
+ 	INCDIR_CURSES=

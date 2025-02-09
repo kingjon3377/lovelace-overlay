@@ -1,0 +1,166 @@
+Author: Andreas Tille <tille@debian.org>
+Last-Update: 2024-11-21
+Description: Build latest upstream source with gcc-14
+Forwarded: https://github.com/n-t-roff/sc/issues/33
+Comment: Older patches for original source are all deactivated since
+  https://github.com/n-t-roff/sc seems to deal with those issues
+  successfully.  Here are the patches needed against this code base
+
+--- a/cmds.c
++++ b/cmds.c
+@@ -307,7 +307,7 @@ deleterow(register int arg)
+     int rs = maxrow - currow + 1;
+     struct frange *fr;
+     struct ent *obuf = NULL;
+-    char buf[50];
++    char buf[60];
+ 
+     if ((fr = find_frange(currow, curcol)))
+ 	rs = fr->or_right->row - currow + 1;
+@@ -315,7 +315,7 @@ deleterow(register int arg)
+ 	rs = rs > 0 ? rs : 0;
+ 	snprintf(buf, sizeof buf, "Can't delete %d row%s %d row%s left", arg,
+ 		(arg != 1 ? "s," : ","), rs, (rs != 1 ? "s" : ""));
+-	error(buf);
++	error("%s", buf);
+ 	return;
+     }
+     if (fr) {
+@@ -458,7 +458,7 @@ yankrow(int arg) {
+ 	rs = rs > 0 ? rs : 0;
+ 	snprintf(buf, sizeof buf, "Can't yank %d row%s %d row%s left", arg,
+ 		(arg != 1 ? "s," : ","), rs, (rs != 1 ? "s" : ""));
+-	error(buf);
++	error("%s", buf);
+ 	return;
+     }
+     sync_refs();
+@@ -505,14 +505,14 @@ void
+ yankcol(int arg) {
+     int cs = maxcol - curcol + 1;
+     int i, qtmp;
+-    char buf[50];
++    char buf[60];
+     struct ent *obuf = NULL;
+ 
+     if (cs - arg < 0) {
+     	cs = cs > 0 ? cs : 0;
+ 	snprintf(buf, sizeof buf, "Can't yank %d column%s %d column%s left",
+ 	    arg, (arg != 1 ? "s," : ","), cs, (cs != 1 ? "s" : ""));
+-	error(buf);
++	error("%s", buf);
+ 	return;
+     }
+     sync_refs();
+@@ -1177,13 +1177,13 @@ closecol(int arg)
+     struct ent **pp;
+     struct ent *p;
+     struct ent *obuf = NULL;
+-    char buf[50];
++    char buf[60];
+ 
+     if (cs - arg < 0) {
+     	cs = cs > 0 ? cs : 0;
+ 	snprintf(buf, sizeof buf, "Can't delete %d column%s %d column%s left",
+ 	    arg, (arg != 1 ? "s," : ","), cs, (cs != 1 ? "s" : ""));
+-	error(buf);
++	error("%s", buf);
+ 	return;
+     }
+     if (any_locked_cells(0, curcol, maxrow, curcol + arg - 1)) {
+@@ -2997,7 +2997,7 @@ readfile(char *fname, int eraseflg)
+ 		return 0;
+ 	    }
+ 	    *save = '|';
+-	    if ((strlen(save) + strlen(fname) + 2) > PATHLEN) {
++	    if ((strlen(save) + strlen(fname) + 4) > PATHLEN) {
+ 		error("Path too long");
+ 		return 0;
+ 	    }
+--- a/gram.y
++++ b/gram.y
+@@ -990,7 +990,7 @@ command:	S_LET var_or_range '=' e
+ 	|	S_QUERY			{ doquery(NULL, NULL, macrofd); }
+ 	|	S_QUERY '|' NUMBER	{ doquery(NULL, NULL, $3); }
+ 	|	S_GETKEY		{ dogetkey(); }
+-	|	S_ERROR STRING		{ error($2); }
++	|	S_ERROR STRING		{ error("%s", $2); }
+ 	|	S_STATUS			{ dostat(macrofd); }
+ 	|	S_STATUS '|' NUMBER	{ dostat($3); }
+ 	|	S_RECALC		{ EvalAll();
+@@ -1022,7 +1022,7 @@ command:	S_LET var_or_range '=' e
+ 					{ addplugin($2, $4, 'w'); } 
+ 	|       PLUGIN			{ *line = '|';
+ 					  snprintf(line + 1, sizeof(line) - 1,
+-					      $1);
++					      "%s", $1);
+ 					  readfile(line, 0);
+ 					  scxfree($1); }
+ 	|	/* nothing */
+--- a/interp.c
++++ b/interp.c
+@@ -2046,7 +2046,7 @@ str_search(char *s, int firstrow, int fi
+ 	scxfree(s);
+ 	tmp = scxmalloc(160);
+ 	regerror(errcode, &preg, tmp, sizeof(tmp));
+-	error(tmp);
++	error("%s", tmp);
+ 	scxfree(tmp);
+ 	return;
+     }
+@@ -2054,7 +2054,7 @@ str_search(char *s, int firstrow, int fi
+ #if defined(RE_COMP)
+     if ((tmp = re_comp(s)) != NULL) {
+ 	scxfree(s);
+-	error(tmp);
++	error("%s", tmp);
+ 	return;
+     }
+ #endif
+--- a/screen.c
++++ b/screen.c
+@@ -1053,7 +1053,7 @@ update(int anychanged)		/* did any cell
+     if (revmsg[0]) {
+ 	(void) move(0, 0);
+ 	(void) clrtoeol();	/* get rid of topline display */
+-	(void) printw(revmsg);
++	(void) printw("%s", revmsg);;
+ 	*revmsg = '\0';		/* don't show it again */
+ 	if (braille)
+ 	    if (message)
+@@ -1074,7 +1074,7 @@ update(int anychanged)		/* did any cell
+     if (revmsg[0]) {
+ 	(void) move(0, 0);
+ 	(void) clrtoeol();	/* get rid of topline display */
+-	(void) printw(revmsg);
++	(void) printw("%s", revmsg);;
+ 	*revmsg = '\0';		/* don't show it again */
+ 	if (braille)
+ 	    if (message)
+--- a/vi.c
++++ b/vi.c
+@@ -1539,13 +1539,13 @@ search_hist(void) {
+     if ((errcode = regcomp(last_search, line, REG_EXTENDED))) {
+ 	char *tmp = scxmalloc(160);
+ 	regerror(errcode, last_search, tmp, sizeof(tmp));
+-	error(tmp);
++	error("%s", tmp);
+ 	scxfree(tmp);
+ 	return;
+     }
+ #elif defined RE_COMP
+     if ((tmp = re_comp(line)) != NULL) {
+-	error(tmp);
++	error("%s", tmp);
+ 	return;
+     }
+ #elif defined REGCMP
+@@ -2030,7 +2030,7 @@ query(const char *s, char *data)
+ 	linelim = 0;
+     }
+     if (s != NULL) {
+-    	error(s);
++    	error("%s", s);
+     }
+ 
+     while (linelim >= 0) {
