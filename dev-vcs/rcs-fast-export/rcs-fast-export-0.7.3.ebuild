@@ -3,7 +3,7 @@
 
 EAPI=7
 
-USE_RUBY="ruby30 ruby31 ruby32 ruby33"
+USE_RUBY="ruby30 ruby31 ruby32 ruby33 ruby34"
 
 inherit ruby-ng optfeature
 
