@@ -1,4 +1,4 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -13,9 +13,12 @@ if [[ ${PV} == *9999* ]]; then
 	inherit git-r3
 else
 	SRC_URI="https://github.com/QuiteRSS/quiterss/archive/${PV}.tar.gz -> ${P}.tar.gz
-		https://github.com/QuiteRSS/quiterss/commit/4bd7f02379572a5942b318e2a83e2079a8330f42.patch -> ${P}-0011-fix-1309-deprecated.patch
-		https://github.com/QuiteRSS/quiterss/commit/550a8b81094568ee5333685f8df4dbaa186ad09a.patch -> ${P}-0027-refactored-Copyright.patch
-		https://github.com/QuiteRSS/quiterss/commit/08b9f01170c9b25a0c5bad380dd0fc7037c6544b.patch -> ${P}-0039-build-webview-switch-to-QtWebEngine-was-QtWebKit.patch"
+		https://github.com/QuiteRSS/quiterss/commit/4bd7f02379572a5942b318e2a83e2079a8330f42.patch ->
+			${P}-0011-fix-1309-deprecated.patch
+		https://github.com/QuiteRSS/quiterss/commit/550a8b81094568ee5333685f8df4dbaa186ad09a.patch ->
+			${P}-0027-refactored-Copyright.patch
+		https://github.com/QuiteRSS/quiterss/commit/08b9f01170c9b25a0c5bad380dd0fc7037c6544b.patch ->
+			${P}-0039-build-webview-switch-to-QtWebEngine-was-QtWebKit.patch"
 	KEYWORDS="~amd64"
 fi
 
