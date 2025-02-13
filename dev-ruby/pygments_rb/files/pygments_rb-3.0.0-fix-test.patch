@@ -1,0 +1,12 @@
+diff '--color=auto' -ru a/test/test_pygments.rb b/test/test_pygments.rb
+--- a/test/test_pygments.rb	2025-02-12 22:29:51.940473156 -0500
++++ b/test/test_pygments.rb	2025-02-12 22:36:08.036352918 -0500
+@@ -200,7 +200,7 @@
+   end
+ 
+   def test_css_colorful
+-    assert_match '.c { color: #888888 }', P.css(style: 'colorful')
++    assert_match '.c { color: #888 }', P.css(style: 'colorful')
+   end
+ end
+ 

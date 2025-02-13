@@ -39,6 +39,7 @@ ruby_add_rdepend ">=dev-ruby/multi_json-1.0.0"
 ruby_add_bdepend "dev-ruby/rake-compiler"
 
 PATCHES=(
+	"${FILESDIR}/${P}-fix-test.patch"
 )
 
 pkg_setup() {
