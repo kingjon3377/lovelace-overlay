@@ -3,7 +3,7 @@
 
 EAPI=7
 GNOME2_LA_PUNT="yes"
-PYTHON_COMPAT=( python3_{9..11} )
+PYTHON_COMPAT=( python3_{9..13} )
 
 inherit autotools gnome2 python-single-r1
 
