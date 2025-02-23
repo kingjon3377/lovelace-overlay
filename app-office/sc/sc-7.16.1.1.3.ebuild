@@ -9,8 +9,9 @@ DESCRIPTION="Spreadsheet Calculator"
 HOMEPAGE="https://github.com/n-t-roff/sc"
 SRC_URI="https://github.com/n-t-roff/${PN}/archive/refs/tags/$(ver_rs 2 _).tar.gz -> ${P}.tar.gz"
 
-SLOT="0"
+S="${WORKDIR}/${PN}-$(ver_rs 2 _)"
 LICENSE="Unlicense"
+SLOT="0"
 KEYWORDS="amd64 ppc sparc x86"
 
 COMMON_DEPEND="
@@ -22,8 +23,6 @@ DEPEND="
 RDEPEND="
 	${COMMON_DEPEND}
 "
-
-S="${WORKDIR}/${PN}-$(ver_rs 2 _)"
 
 PATCHES=(
 	"${FILESDIR}/${PN}-7.16.1.1.2-no-rpath.patch"
