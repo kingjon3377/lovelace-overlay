@@ -5,7 +5,7 @@ EAPI=7
 
 EGIT_REPO_URI="https://github.com/xyz2tex/svg2tikz.git"
 
-PYTHON_COMPAT=( python3_{9..13} )
+PYTHON_COMPAT=( python3_{11..13} )
 DISTUTILS_SINGLE_IMPL=yes
 DISTUTILS_USE_PEP517=poetry
 
