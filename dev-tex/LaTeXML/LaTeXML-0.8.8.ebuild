@@ -1,15 +1,24 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
 DIST_TEST="do"
 
-inherit texlive-common perl-module
+if [[ ${PV} == *9999 ]]; then
+	inherit texlive-common perl-module git-r3
+else
+	inherit texlive-common perl-module
+fi
 
 DESCRIPTION="LaTeX to XML converter in perl"
 HOMEPAGE="https://github.com/brucemiller/LaTeXML https://math.nist.gov/~BMiller/LaTeXML/"
-SRC_URI="https://dlmf.nist.gov/${PN}/releases/${P}.tar.gz"
+
+if [[ ${PV} == *9999 ]]; then
+	EGIT_REPO_URI="https://github.com/brucemiller/LaTeXML.git"
+else
+	SRC_URI="https://dlmf.nist.gov/${PN}/releases/${P}.tar.gz"
+fi
 
 LICENSE="public-domain"
 SLOT="0"
