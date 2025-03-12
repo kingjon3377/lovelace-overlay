@@ -1,0 +1,61 @@
+--- a/ao3_cli/utils/fetch_data.py	2025-03-11 22:43:43.895203409 -0400
++++ b/ao3_cli/utils/fetch_data.py	2025-03-12 00:22:59.716378482 -0400
+@@ -22,16 +22,27 @@
+ 
+ from .ao3 import ArchiveOfOurOwn
+ from .logging import init_log, download_processing_log
+-from .processing import check_url, save_data
++from .processing import check_url, save_data, get_format_type
+ 
+ bar_format = "{l_bar}{bar}| {n_fmt}/{total_fmt}, {rate_fmt}{postfix}, ETA: {remaining}"
+ console = Console()
+ 
+ 
+ class FetchData:
+-    def __init__(self, format_type="epub", out_dir="", force=False,
+-                 debug=False):
+-        self.format_type = format_type
++    format_type: int
++    out_dir: str
++    force: bool
++    debug: bool
++    exit_status: int
++    ao3_works_list: list[str] | None
++    ao3_series_list: list[str] | None
++
++    def __init__(self, format_type: int | str = "epub", out_dir="",
++                 force=False, debug=False):
++        if isinstance(format_type, int):
++            self.format_type = format_type
++        else:
++            self.format_type = get_format_type(format_type)
+         self.out_dir = out_dir
+         self.force = force
+         self.debug = debug
+@@ -268,11 +279,11 @@
+                 for i in ao3_series_works_html_h4:
+                     ao3_series_works_html.append(i)
+ 
+-                ao3_series_works_html = ""
++                ao3_series_works_html_final = ""
+                 for i in ao3_series_works_html_h4:
+-                    ao3_series_works_html += str(i)
++                    ao3_series_works_html_final += str(i)
+ 
+-                ao3_urls = BeautifulSoup(ao3_series_works_html, 'html.parser')
++                ao3_urls = BeautifulSoup(ao3_series_works_html_final, 'html.parser')
+ 
+                 for tag in ao3_urls.findAll('a', {'href': re.compile('/works/')}):
+                     self.ao3_works_list.append(
+diff '--color=auto' -ru a/tests/test_cli.py b/tests/test_cli.py
+--- a/tests/test_cli.py	2025-03-12 07:48:54.917954733 -0400
++++ b/tests/test_cli.py	2025-03-12 07:49:26.889039169 -0400
+@@ -7,7 +7,7 @@
+ 
+     with runner.isolated_filesystem():
+         result = runner.invoke(run_cli, [
+-            '-u https://archiveofourown.org/works/31950595'])
++            '-u', 'https://archiveofourown.org/works/31950595'])
+ 
+     assert not result.exception
+     assert result.exit_code == 0

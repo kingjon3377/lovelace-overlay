@@ -31,4 +31,7 @@ DEPEND="${RDEPEND}"
 
 distutils_enable_tests pytest
 
-PATCHES=( "${FILESDIR}/${P}-fix-syntax-error.patch" )
+PATCHES=(
+	"${FILESDIR}/${P}-fix-syntax-error.patch"
+	"${FILESDIR}/${P}-fix-return-code.patch"
+)
