@@ -1,4 +1,4 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -37,6 +37,7 @@ RDEPEND="x11-libs/libX11
 	dev-qt/designer:5
 	dev-qt/qtsql:5
 	dev-qt/qthelp:5
+	dev-qt/qtxmlpatterns:5
 	dev-qt/qtscript:5[scripttools]
 	"
 DEPEND="${RDEPEND}"
