@@ -34,11 +34,13 @@ src_prepare() {
 	default_src_prepare
 	sed -i -e 's,^prefix		:= /usr/local$,prefix		:= /usr,' \
 		-e 's,^man_dir		:= $(prefix)/man$,man_dir		:= $(DESTDIR)$(prefix)/man,' \
-		-e 's,^perl_dir	:= $(share_dir)/perl5$,perl_dir	:= $(DESTDIR)$(prefix)/'$(get_libdir)'/perl5/site_perl,' \
+		-e 's,^perl_dir	:= $(share_dir)/perl5$,perl_dir	:= $(DESTDIR)'$(perl_get_raw_vendorlib)',' \
 		Makefile || die "sed failed"
 }
 
+DOCS=( README debian/README.Debian debian/TODO )
+
 src_install() {
-	emake DESTDIR="${D}" install
-	dodoc README debian/README.Debian debian/TODO
+	default
+	dodoc "${DOCS[@]}"
 }

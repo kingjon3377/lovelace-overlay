@@ -34,10 +34,6 @@ src_prepare() {
 	default
 	sed -i -e 's,^prefix		:= /usr/local$,prefix		:= /usr,' \
 		-e 's,^man_dir		:= $(prefix)/man$,man_dir		:= $(DESTDIR)$(prefix)/man,' \
-		-e 's,^perl_dir	:= $(share_dir)/perl5$,perl_dir	:= $(DESTDIR)$(prefix)/lib/perl5/site_perl,' \
+		-e 's,^perl_dir	:= $(share_dir)/perl5$,perl_dir	:= $(DESTDIR)'$(perl_get_raw_vendorlib)',' \
 		Makefile || die "sed failed"
-}
-
-src_install() {
-	emake DESTDIR="${D}" install
 }
