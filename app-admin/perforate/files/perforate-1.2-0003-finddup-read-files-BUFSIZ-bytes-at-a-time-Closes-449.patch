@@ -1,0 +1,35 @@
+From: =?utf-8?b?0L3QsNCx?= <nabijaczleweli@nabijaczleweli.xyz>
+Date: Mon, 28 Oct 2024 19:48:49 +0100
+Subject: finddup: read files BUFSIZ bytes at a time (Closes: #449602)
+
+---
+ finddup | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/finddup b/finddup
+index 5981115..c69e08b 100755
+--- a/finddup
++++ b/finddup
+@@ -6,6 +6,7 @@
+ use strict;
+ use warnings;
+ 
++use POSIX;
+ use File::Find ();
+ use Digest::MD5;
+ use Getopt::Long;
+@@ -133,9 +134,12 @@ sub insert_md5
+    my $file = shift;
+    if (open(IN, "<", $file->[4]->[0]))
+    {
+-      my $md5 = Digest::MD5->new->addfile(*IN)->hexdigest;
+-      $md5 .= "\t".$file->[1]."\t".$file->[2]."\t".$file->[3] unless $opt->{'ignore-perms'};
++      my $check = Digest::MD5->new;
++      my $data;
++      $check->add($data) while sysread(IN, $data, BUFSIZ);
+       close IN;
++      my $md5 = $check->hexdigest;
++      $md5 .= "\t".$file->[1]."\t".$file->[2]."\t".$file->[3] unless $opt->{'ignore-perms'};
+       $md5list{$md5} = [] unless exists $md5list{$md5};
+       push @{$md5list{$md5}}, $file;
+    }

@@ -1,0 +1,24 @@
+From: Reuben Thomas <rrt@sc3d.org>
+Date: Mon, 28 Oct 2024 19:46:21 +0100
+Subject: Fix typos
+
+Last-Update: Sat, 9 Jan 2010 01:42:01 UTC
+Bug-Debian: https://bugs.debian.org/564302
+Remark: The other typo is fixed in mass-patch debian.patch
+---
+ finddup | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/finddup b/finddup
+index 2e35d57..5981115 100755
+--- a/finddup
++++ b/finddup
+@@ -173,7 +173,7 @@ for duplicate files.
+ 
+ finddup can optional hardlink such files to save space.
+ 
+-Files size 0 will not be reported or hardlinked as this might give problemes
++Files of size 0 will not be reported or hardlinked as this might give problemes
+ later.
+ 
+ This is a complete rewrite of the finddup in perl to handle several issues:
