@@ -1,4 +1,4 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 # TODO: Get improvements from version in Sunrise overlay.
@@ -18,7 +18,6 @@ KEYWORDS="amd64"
 IUSE="+latex"
 
 DEPEND="dev-perl/HTML-Parser
-	virtual/perl-I18N-LangTags
 	dev-perl/Roman
 	dev-perl/SGMLSpm
 	dev-perl/Text-Format
