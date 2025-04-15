@@ -35,6 +35,9 @@ DEPEND="test? (
 			dev-python/mock[${PYTHON_USEDEP}]
 		)"
 
-PATCHES=( "${FILESDIR}/${PN}-1.4.0-drop-pytest-coverage.patch" )
+PATCHES=(
+	"${FILESDIR}/${PN}-1.4.0-drop-pytest-coverage.patch"
+	"${FILESDIR}/${P}-pyproject-validation.patch"
+)
 
 distutils_enable_tests pytest

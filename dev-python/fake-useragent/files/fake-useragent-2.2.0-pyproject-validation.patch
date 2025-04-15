@@ -1,0 +1,12 @@
+diff '--color=auto' -ru a/pyproject.toml b/pyproject.toml
+--- a/pyproject.toml	2025-04-14 11:18:22.000000000 -0400
++++ b/pyproject.toml	2025-04-14 22:40:28.442203043 -0400
+@@ -6,7 +6,7 @@
+ [project]
+ name = "fake-useragent"
+ version = "2.2.0"
+-license = "Apache-2.0"
++license = {file = "LICENSE"} 
+ description = "Up-to-date simple useragent faker with real world database"
+ readme.content-type = "text/markdown"
+ readme.file = "README.md"
