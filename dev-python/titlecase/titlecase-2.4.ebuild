@@ -16,4 +16,6 @@ KEYWORDS="~amd64 ~x86"
 
 DEPEND="test? ( dev-python/regex[${PYTHON_USEDEP}] )"
 
+IUSE="test"
+
 distutils_enable_tests unittest
