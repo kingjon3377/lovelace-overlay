@@ -59,7 +59,7 @@ media-sound/gwc
 # Fails to build, TODO: investigate further
 dev-python/PyMuPDF
 # Depends on PyMuPDF
-=app-text/fiction-dl-1.8.2
+<=app-text/fiction-dl-1.8.2-r1
 
 # Fails to build with GCC 14, in ways I can't get working after hours of
 # trying; dead upstream, yet distributions that still have it are on an even
