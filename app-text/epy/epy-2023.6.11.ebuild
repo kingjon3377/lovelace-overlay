@@ -19,6 +19,10 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE="+mobi"
 
-RDEPEND="mobi? ( dev-python/mobi[${PYTHON_USEDEP}] )"
+RDEPEND="
+	mobi? ( dev-python/mobi[${PYTHON_USEDEP}] )
+	dev-python/filetype[${PYTHON_USEDEP}]"
+
+PATCHES=( "${FILESDIR}/${P}-drop_imghdr.patch" )
 
 #distutils_enable_tests pytest # Tests not included in tarball

@@ -1,0 +1,84 @@
+diff '--color=auto' -ru a/pyproject.toml b/pyproject.toml
+--- a/pyproject.toml	2023-06-11 01:07:43.015779500 -0400
++++ b/pyproject.toml	2025-05-09 22:49:59.729705568 -0400
+@@ -17,6 +17,7 @@
+ [tool.poetry.dependencies]
+ python = "^3.8"
+ windows-curses = { version = "*", markers = "platform_system == 'Windows'" }
++filetype = "^1.2.0"
+ 
+ [tool.poetry.dev-dependencies]
+ pynvim = "^0.4.3"
+diff '--color=auto' -ru a/src/epy_reader/tools/KindleUnpack/mobi_cover.py b/src/epy_reader/tools/KindleUnpack/mobi_cover.py
+--- a/src/epy_reader/tools/KindleUnpack/mobi_cover.py	2022-10-02 10:21:00.134726300 -0400
++++ b/src/epy_reader/tools/KindleUnpack/mobi_cover.py	2025-05-09 22:48:55.720772447 -0400
+@@ -4,11 +4,9 @@
+ 
+ from __future__ import unicode_literals, division, absolute_import, print_function
+ 
+-from .compatibility_utils import unicode_str
+-
+ from .unipath import pathof
+ import os
+-import imghdr
++import filetype
+ 
+ import struct
+ # note:  struct pack, unpack, unpack_from all require bytestring format
+@@ -33,8 +31,55 @@
+ """ The max height for the svg cover page. """
+ 
+ 
++def image_type_from_file(filename):
++    """From Sphinx's replacement for imghdr"""
++    with open(filename, 'rb') as f:
++        header = f.read(32)  # 32 bytes
++
++    # Bitmap
++    # https://en.wikipedia.org/wiki/BMP_file_format#Bitmap_file_header
++    if header.startswith(b'BM'):
++        return 'bmp'
++
++    # GIF
++    # https://en.wikipedia.org/wiki/GIF#File_format
++    if header.startswith((b'GIF87a', b'GIF89a')):
++        return 'gif'
++
++    # JPEG data
++    # https://en.wikipedia.org/wiki/JPEG_File_Interchange_Format#File_format_structure
++    if header.startswith(b'\xFF\xD8'):
++        return 'jpeg'
++
++    # Portable Network Graphics
++    # https://en.wikipedia.org/wiki/PNG#File_header
++    if header.startswith(b'\x89PNG\r\n\x1A\n'):
++        return 'png'
++
++    # Scalable Vector Graphics
++    # https://svgwg.org/svg2-draft/struct.html
++    if b'<svg' in header.lower():
++        return 'svg+xml'
++
++    # TIFF
++    # https://en.wikipedia.org/wiki/TIFF#Byte_order
++    if header.startswith((b'MM', b'II')):
++        return 'tiff'
++
++    # WebP
++    # https://en.wikipedia.org/wiki/WebP#Technology
++    if header.startswith(b'RIFF') and header[8:12] == b'WEBP':
++        return 'webp'
++
++    return None
++
++
+ def get_image_type(imgname, imgdata=None):
+-    imgtype = unicode_str(imghdr.what(pathof(imgname), imgdata))
++    if imgdata:
++        _type = filetype.image(bytearray(imgdata))
++        imgtype = _type.mime.split('/')[1] if _type else None
++    else:
++        imgtype = image_type_from_file(imgname)
+ 
+     # imghdr only checks for JFIF or Exif JPEG files. Apparently, there are some
+     # with only the magic JPEG bytes out there...
