@@ -1,9 +1,9 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
-PYTHON_COMPAT=( python3_{10..12} )
+PYTHON_COMPAT=( python3_{10..13} )
 DISTUTILS_USE_PEP517=hatchling
 
 inherit distutils-r1 pypi
@@ -20,8 +20,3 @@ RDEPEND="${DEPEND}"
 
 DOCS=( README.md )
 PATCHES=( "${FILESDIR}/${PN}-1.0.0-respect-paths.patch" )
-
-src_install() {
-	default
-	dodoc README.md
-}
