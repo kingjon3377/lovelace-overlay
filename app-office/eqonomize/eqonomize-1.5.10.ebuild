@@ -1,8 +1,8 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-inherit qmake-utils
+inherit qmake-utils xdg-utils
 
 DESCRIPTION="Personal Finances Manager for KDE."
 HOMEPAGE="https://eqonomize.github.io"
@@ -18,9 +18,18 @@ RDEPEND="dev-qt/qtcharts:6
 DEPEND="${RDEPEND}"
 
 src_configure() {
-	eqmake5 PREFIX="${EPREFIX}/usr" DOCUMENTATION_DIR="${EPREFIX}/usr/share/doc/${PF}/html"
+	eqmake5 PREFIX="${EPREFIX}/usr" DOCUMENTATION_DIR="${EPREFIX}/usr/share/doc/${PF}/html" ENABLE_QTCHARTS=yes
 }
 
 src_install() {
+	dodir /usr/share/icons/hicolor/64x64/apps/
 	INSTALL_ROOT="${D}" default
+}
+
+pkg_postinst() {
+	xdg_icon_cache_update
+}
+
+pkg_postrm() {
+	xdg_icon_cache_update
 }
