@@ -1,9 +1,9 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
-PYTHON_COMPAT=( python3_{11..12} )
+PYTHON_COMPAT=( python3_{11..13} )
 DISTUTILS_SINGLE_IMPL=yes
 DISTUTILS_USE_PEP517=poetry
 
@@ -23,7 +23,7 @@ DEPEND="${COMMON_DEPEND}
 	$(python_gen_cond_dep 'dev-python/sphinx-argparse[${PYTHON_USEDEP}]
 		dev-python/furo[${PYTHON_USEDEP}]')"
 RDEPEND="${COMMON_DEPEND}
-	media-gfx/inkscape[${PYTHON_SINGLE_USEDEP}]"
+	>=media-gfx/inkscape-1.4[${PYTHON_SINGLE_USEDEP}]"
 
 # FIXME: Tests depend on 'inkex', part of media-gfx/inkscape but not on standard Python package path
 RESTRICT="test"
