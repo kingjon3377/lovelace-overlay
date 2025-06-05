@@ -1,13 +1,16 @@
 # Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
 MY_PN=TurtleBlocks
 
 MY_P=${MY_PN}-${PV}
 
 DISTUTILS_SINGLE_IMPL=yes
+# PEP517 mode not tested, but this is now required for Manifest generation of
+# any version
+DISTUTILS_USE_PEP517=setuptools
 
 PYTHON_COMPAT=( python3_{9..13} )
 

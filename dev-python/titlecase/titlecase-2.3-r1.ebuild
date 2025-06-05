@@ -1,9 +1,12 @@
 # Copyright 2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
 PYTHON_COMPAT=( python3_{8..12} )
+# PEP517 mode not tested, but this is now required for Manifest generation of
+# any version
+DISTUTILS_USE_PEP517=setuptools
 inherit distutils-r1 pypi
 
 DESCRIPTION="Python libary to capitalize Strings per NYT Manual of Style"

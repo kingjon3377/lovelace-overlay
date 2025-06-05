@@ -3,7 +3,7 @@
 
 # Bug #348280 -- tosubmit
 
-EAPI=7
+EAPI=8
 
 PYTHON_COMPAT=( python3_{8..12} )
 DISTUTILS_USE_PEP517=setuptools
