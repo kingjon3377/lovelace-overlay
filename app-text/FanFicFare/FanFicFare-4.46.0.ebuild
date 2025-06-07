@@ -34,7 +34,7 @@ BDEPEND="test? ( dev-python/pytest[${PYTHON_USEDEP}] )"
 # TODO: Add USE flag for calibre plugin
 
 PATCHES=(
-	"${FILESDIR}/dwiggie-fff-4.patch"
+	"${FILESDIR}/${PN}-4.46.0-dwiggie.patch"
 	"${FILESDIR}/${PN}-2.2.20-system-config.patch"
 )
 

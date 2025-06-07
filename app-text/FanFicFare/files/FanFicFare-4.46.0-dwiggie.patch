@@ -1,0 +1,11 @@
+diff '--color=auto' -ru a/fanficfare/adapters/__init__.py b/fanficfare/adapters/__init__.py
+--- a/fanficfare/adapters/__init__.py	2025-06-07 12:21:49.435811092 -0400
++++ b/fanficfare/adapters/__init__.py	2025-06-07 12:23:33.999411377 -0400
+@@ -32,6 +32,7 @@
+ 
+ from . import base_adapter
+ from . import base_efiction_adapter
++from . import adapter_dwiggiecom
+ from . import adapter_test1
+ from . import adapter_test2
+ from . import adapter_test3
