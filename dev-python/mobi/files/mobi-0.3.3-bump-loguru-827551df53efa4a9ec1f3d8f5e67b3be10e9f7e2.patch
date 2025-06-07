@@ -1,0 +1,22 @@
+From 827551df53efa4a9ec1f3d8f5e67b3be10e9f7e2 Mon Sep 17 00:00:00 2001
+From: 1over137 <22680475+1over137@users.noreply.github.com>
+Date: Fri, 24 Nov 2023 20:01:17 +0000
+Subject: [PATCH] Update pyproject.toml
+
+---
+ pyproject.toml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/pyproject.toml b/pyproject.toml
+index 541ede9..9ea000e 100644
+--- a/pyproject.toml
++++ b/pyproject.toml
+@@ -18,7 +18,7 @@ mobiunpack = 'mobi.kindleunpack:main'
+ 
+ [tool.poetry.dependencies]
+ python = ">=3.7"
+-loguru = "^0.6"
++loguru = ">=0.6"
+ 
+ [tool.poetry.dev-dependencies]
+ pytest = "*"
