@@ -39,8 +39,10 @@ PATCHES=(
 	"${WORKDIR}/debian/patches/honor-cppflags.patch"
 	"${WORKDIR}/debian/patches/praat-launch-in-desktop.patch"
 	"${WORKDIR}/debian/patches/real-file-icon.patch"
-	"${WORKDIR}/debian/patches/phn-label-interval.patch"
+	"${WORKDIR}/debian/patches/local-icon-url.patch"
 )
+
+S="${WORKDIR}/${PN}.github.io-${PV}"
 
 src_prepare() {
 	default
