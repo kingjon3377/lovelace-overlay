@@ -10,7 +10,8 @@ MyP="${MyPN}-${PV}"
 
 DESCRIPTION="Port of OpenAI's Whisper model in C/C++ "
 HOMEPAGE="https://github.com/ggml-org/whisper.cpp"
-SRC_URI="https://github.com/ggml-org/whisper.cpp/archive/refs/tags/v${PV}.tar.gz -> ${MyP}.tar.gz"
+SRC_URI="https://github.com/ggml-org/whisper.cpp/archive/refs/tags/v${PV}.tar.gz -> ${MyP}.tar.gz
+	https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-base.en.bin -> ${P}-ggml-base.en.bin"
 
 S="${WORKDIR}/${MyP}"
 
@@ -30,6 +31,15 @@ RDEPEND="${DEPEND}"
 # Enabling multiple may lead to build failures, whisper-cpp won't use more than one either way
 REQUIRED_USE="?? ( blas cuda hip opencl )"
 
+PATCHES=(
+	"${FILESDIR}/whisper-${PV}-test-vad-sample-path.patch"
+)
+
+src_prepare() {
+	cmake_src_prepare
+	mv "${DISTDIR}/${P}-ggml-base.en.bin" "${S}/models/ggml-base.en.bin" || die
+}
+
 src_configure() {
 	# Note: CUDA and HIP are currently untested. Build failures may occur.
 	# Turning off examples causes errors during configure
@@ -38,7 +48,7 @@ src_configure() {
 		-DWHISPER_BUILD_EXAMPLES=ON
 		-DWHISPER_BLAS=$(usex blas)
 		-DWHISPER_CLBLAST=$(usex opencl)
-		-DWHISPER_CUBLAS=$(usex cuda)
+		-DGGML_CUDA=$(usex cuda)
 		-DWHISPER_FFMPEG=$(usex ffmpeg)
 		-DWHISPER_HIPBLAS=$(usex hip)
 		-DWHISPER_SDL2=$(usex sdl2)

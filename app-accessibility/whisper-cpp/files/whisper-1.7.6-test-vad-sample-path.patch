@@ -1,0 +1,30 @@
+diff '--color=auto' -ru a/tests/test-vad.cpp b/tests/test-vad.cpp
+--- a/tests/test-vad.cpp	2025-07-25 07:07:29.745556514 -0400
++++ b/tests/test-vad.cpp	2025-07-25 07:08:23.970897879 -0400
+@@ -48,8 +48,8 @@
+ }
+ 
+ int main() {
+-    std::string vad_model_path = "../../models/for-tests-silero-v5.1.2-ggml.bin";
+-    std::string sample_path    = "../../samples/jfk.wav";
++    std::string vad_model_path = "../../whisper.cpp-1.7.6/models/for-tests-silero-v5.1.2-ggml.bin";
++    std::string sample_path    = "../../whisper.cpp-1.7.6/samples/jfk.wav";
+ 
+     // Load the sample audio file
+     std::vector<float> pcmf32;
+diff '--color=auto' -ru a/tests/test-vad-full.cpp b/tests/test-vad-full.cpp
+--- a/tests/test-vad-full.cpp	2025-07-25 07:07:29.748889971 -0400
++++ b/tests/test-vad-full.cpp	2025-07-25 07:09:00.615588210 -0400
+@@ -13,9 +13,9 @@
+ #include <cassert>
+ 
+ int main() {
+-    std::string whisper_model_path = "../../models/ggml-base.en.bin";
+-    std::string vad_model_path     = "../../models/for-tests-silero-v5.1.2-ggml.bin";
+-    std::string sample_path        = "../../samples/jfk.wav";
++    std::string whisper_model_path = "../../whisper.cpp-1.7.6/models/ggml-base.en.bin";
++    std::string vad_model_path     = "../../whisper.cpp-1.7.6/models/for-tests-silero-v5.1.2-ggml.bin";
++    std::string sample_path        = "../../whisper.cpp-1.7.6/samples/jfk.wav";
+ 
+     // Load the sample audio file
+     std::vector<float> pcmf32;
