@@ -6,7 +6,7 @@ EAPI=7
 inherit toolchain-funcs virtualx desktop
 
 DEBIAN_EXTRA_REV=+dfsg
-DEBIAN_PATCH_REV=1
+DEBIAN_PATCH_REV=2
 
 DESCRIPTION="Speech analysis and synthesis"
 HOMEPAGE="http://www.fon.hum.uva.nl/praat/"
@@ -39,7 +39,10 @@ PATCHES=(
 	"${WORKDIR}/debian/patches/honor-cppflags.patch"
 	"${WORKDIR}/debian/patches/praat-launch-in-desktop.patch"
 	"${WORKDIR}/debian/patches/real-file-icon.patch"
+	"${WORKDIR}/debian/patches/local-icon-url.patch"
 )
+
+S="${WORKDIR}/${PN}.github.io-${PV}"
 
 src_prepare() {
 	default
