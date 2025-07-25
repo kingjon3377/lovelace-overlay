@@ -37,7 +37,7 @@ PATCHES=(
 
 src_prepare() {
 	cmake_src_prepare
-	mv "${DISTDIR}/${P}-ggml-base.en.bin" "${S}/models/ggml-base.en.bin" || die
+	cp "${DISTDIR}/${P}-ggml-base.en.bin" "${S}/models/ggml-base.en.bin" || die
 }
 
 src_configure() {
