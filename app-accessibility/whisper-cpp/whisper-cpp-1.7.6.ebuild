@@ -3,7 +3,7 @@
 
 EAPI=8
 
-inherit cmake
+inherit cmake cuda flag-o-matic
 
 MyPN="whisper.cpp"
 MyP="${MyPN}-${PV}"
@@ -36,6 +36,9 @@ PATCHES=(
 )
 
 src_prepare() {
+	filter-flags '*=native'
+	cuda_src_prepare
+	einfo "Using NVCCFLAGS \"${NVCCFLAGS}\""
 	cmake_src_prepare
 	cp "${DISTDIR}/${P}-ggml-base.en.bin" "${S}/models/ggml-base.en.bin" || die
 }
@@ -53,5 +56,10 @@ src_configure() {
 		-DWHISPER_HIPBLAS=$(usex hip)
 		-DWHISPER_SDL2=$(usex sdl2)
 	)
+	if test -n "${CMAKE_CUDA_ARCHITECTURES}";then
+		mycmakeargs+=(
+			-DCMAKE_CUDA_ARCHITECTURES="${CMAKE_CUDA_ARCHITECTURES}"
+		)
+	fi
 	cmake_src_configure
 }
