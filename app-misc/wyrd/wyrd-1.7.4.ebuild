@@ -41,5 +41,5 @@ src_install() {
 }
 
 src_test() {
-	emake test
+	PAGER=cat emake test
 }
