@@ -41,12 +41,12 @@ RDEPEND="
 	dev-libs/libevent:=
 	dev-libs/libxml2[icu]
 	dev-libs/libxslt
-	=dev-qt/qtcore-${QT5_PV}*
-	=dev-qt/qtdeclarative-${QT5_PV}*
-	=dev-qt/qtgui-${QT5_PV}*
-	=dev-qt/qtnetwork-${QT5_PV}*
-	=dev-qt/qtprintsupport-${QT5_PV}*
-	=dev-qt/qtwebchannel-${QT5_PV}*[qml]
+	>=dev-qt/qtcore-${QT5_PV}:5
+	>=dev-qt/qtdeclarative-${QT5_PV}:5
+	>=dev-qt/qtgui-${QT5_PV}:5
+	>=dev-qt/qtnetwork-${QT5_PV}:5
+	>=dev-qt/qtprintsupport-${QT5_PV}:5
+	>=dev-qt/qtwebchannel-${QT5_PV}:5[qml]
 	media-libs/fontconfig
 	media-libs/freetype
 	media-libs/harfbuzz:=
@@ -74,15 +74,15 @@ RDEPEND="
 	x11-libs/libXScrnSaver
 	x11-libs/libXtst
 	alsa? ( media-libs/alsa-lib )
-	designer? ( =dev-qt/designer-${QT5_PV}* )
-	geolocation? ( =dev-qt/qtpositioning-${QT5_PV}* )
+	designer? ( >=dev-qt/designer-${QT5_PV}:5 )
+	geolocation? ( >=dev-qt/qtpositioning-${QT5_PV}:5 )
 	kerberos? ( virtual/krb5 )
 	pulseaudio? ( media-libs/libpulse )
 	screencast? ( media-video/pipewire:= )
 	system-icu? ( >=dev-libs/icu-69.1:= )
 	widgets? (
-		=dev-qt/qtdeclarative-${QT5_PV}*[widgets]
-		=dev-qt/qtwidgets-${QT5_PV}*
+		>=dev-qt/qtdeclarative-${QT5_PV}:5[widgets]
+		>=dev-qt/qtwidgets-${QT5_PV}:5
 	)
 "
 DEPEND="${RDEPEND}
