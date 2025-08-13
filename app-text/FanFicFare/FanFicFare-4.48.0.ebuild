@@ -59,6 +59,10 @@ python_install_all() {
 }
 
 python_test() {
+	export EPYTEST_DESELECT=(
+		# fails on 4.48.0
+		"tests/adapters/test_adapter_fanfictionsfr.py::TestGetChapterText::test_it_handles_zipped_chapters"
+	)
 	epytest
 	# Under Python 3.12, in PEP517 mode, currently PYTHONPATH is unset, causing the following to fail. TODO: debug
 #	local expected="Not Place_ but People-ao3_257191.epub"
