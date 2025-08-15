@@ -19,8 +19,14 @@ IUSE="nls offensive"
 
 RDEPEND="
 	dev-libs/json-glib
-	net-im/pidgin[gui,ncurses]
+	net-im/pidgin:=[gui,ncurses]
 	app-text/gtkspell:2
+	app-text/enchant:2
+	dev-libs/glib:2
+	sys-libs/zlib
+	x11-libs/gdk-pixbuf:2
+	x11-libs/gtk+:2
+	x11-libs/pango
 "
 DEPEND="${RDEPEND}
 	${PYTHON_DEPS}
