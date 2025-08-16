@@ -1,0 +1,78 @@
+diff '--color=auto' -ru a/Makefile b/Makefile
+--- a/Makefile	2024-02-07 15:52:34.000000000 -0500
++++ b/Makefile	2025-08-16 10:15:07.565003432 -0400
+@@ -42,12 +42,12 @@
+ SYSTEM =	UNIX
+ 
+ # Locations
+-DIR =		/home/dick
+-BINDIR =	$(DIR)/bin.`$(DIR)/bin/arch`
+-MAN1DIR =	$(DIR)/man/man1
++DIR =		$(DESTDIR)/usr
++BINDIR =	$(DIR)/bin
++MAN1DIR =	$(DIR)/share/man/man1
+ 
+ # Commands
+-COPY =		cp -p
++COPY =		install -D
+ EXE =		#
+ LEX =		flex
+ LN =		ln
+@@ -60,27 +60,27 @@
+ ################################################################
+ # For MSDOS + MinGW
+ 
+-SYSTEM =	MSDOS
++#SYSTEM =	MSDOS
+ 
+ # Locations
+-DIR =		C:/BIN
+-BINDIR =	C:/BIN
+-MAN1DIR =	C:/BIN
++#DIR =		C:/BIN
++#BINDIR =	C:/BIN
++#MAN1DIR =	C:/BIN
+ 
+ # File names
+-NULLFILE =	nul
++#NULLFILE =	nul
+ 
+ # Commands (cp required, since xcopy cannot handle forward slashes)
+-COPY =		cp -p
+-EXE =		.exe
+-LEX =		flex
+-LN =		ln
+-ZIP =		zip -o
+-GROFF =		man2pdf
++#COPY =		cp -p
++#EXE =		.exe
++#LEX =		flex
++#LN =		ln
++#ZIP =		zip -o
++#GROFF =		man2pdf
+ 
+ ################################################################
+ # General, C compilation:
+-CC =		gcc -D$(SYSTEM)
++CC =		$(USER_CC) -D$(SYSTEM)
+ LINT =		lint -ansi -D$(SYSTEM)
+ LINTFLAGS =	-xh
+ 
+@@ -99,14 +99,14 @@
+ 
+ # Compiling
+ MEMORY =	-DMEMCHECK -DMEMCLOBBER
+-CFLAGS =	$(VERSION) $(MEMORY) -O4 # -Dlint -DLIB # for all db active
++CFLAGS =	$(VERSION) $(MEMORY) $(USER_CFLAGS) # -Dlint -DLIB # for all db active
+ LIBFLAGS =	#
+ LINTFLAGS =	-Dlint_test $(MEMORY) -h# -X
+-LOADFLAGS =	-s#			# strip symbol table
++LOADFLAGS =	$(LDFLAGS)
+ LOADER =	$(CC) $(LOADFLAGS)
+ 
+ # Debugging
+-CFLAGS +=	-DDEBUG
++#CFLAGS +=	-DDEBUG
+ 
+ #	T E S T   P A R A M E T E R S
+ 
