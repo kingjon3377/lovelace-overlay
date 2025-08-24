@@ -15,9 +15,9 @@ LICENSE="GPL-2"
 SLOT="3"
 
 KEYWORDS="~amd64"
-DEF_ON_FLAGS=( bzip2 cairo curl desktop gtk3 imageio media mime ncurses net
+DEF_ON_FLAGS=( bzip2 cairo curl desktop gtk imageio media mime ncurses net
 				opengl pcre pdf qt5 sdl sdlsound sqlite svg v4l xml zlib )
-DEF_OFF_FLAGS=( crypt dbus examples gmp gsl gtk httpd imageimlib jit mysql
+DEF_OFF_FLAGS=( crypt dbus examples gmp gsl httpd imageimlib jit mysql
 				postgres odbc openssl openal smtp )
 for flag in "${DEF_ON_FLAGS[@]}";do
 	IUSE+=" +${flag}"
@@ -26,11 +26,10 @@ for flag in "${DEF_OFF_FLAGS[@]}";do
 	IUSE+=" ${flag}"
 done
 
-REQUIRED_USE="gtk3? ( cairo ) gtk? ( cairo ) media? ( v4l ) mysql? ( zlib ) net? ( curl ) sdl? ( opengl ) xml? ( net ) net? ( mime )"
+REQUIRED_USE="gtk? ( cairo ) media? ( v4l ) mysql? ( zlib ) net? ( curl ) sdl? ( opengl ) xml? ( net ) net? ( mime )"
 
 # libcrypt.so is part of glibc
-# gtk? ( x11-libs/gtk+:2[cups] )
-# TODO: check gtk3, other, deps
+# TODO: check gtk, other, deps
 COMMON_DEPEND="
 	bzip2?	( app-arch/bzip2 )
 	cairo?	( x11-libs/cairo )
@@ -44,12 +43,6 @@ COMMON_DEPEND="
 	gmp?	( dev-libs/gmp:0 )
 	gsl?	( sci-libs/gsl )
 	gtk?	(
-		x11-libs/gtk+:2
-		x11-libs/cairo
-		svg? ( gnome-base/librsvg:2 )
-		x11-libs/gtkglext
-	)
-	gtk3? (
 		x11-libs/gtk+:3
 		x11-libs/cairo
 	)
@@ -156,8 +149,7 @@ src_configure() {
 		$(use_enable crypt) \
 		--disable-qt4 \
 		$(use_enable qt5) \
-		$(use_enable gtk) \
-		$(use_enable gtk3) \
+		$(use_enable gtk gtk3) \
 		$(use_enable opengl) \
 		$(use_enable desktop) \
 		$(use_enable pdf poppler) \
@@ -186,7 +178,7 @@ src_install() {
 	use jit && newdoc gb.jit/README gb.jit-README
 	use smtp && newdoc gb.net.smtp/README gb.net.smtp-README
 
-	if { use qt5 || use gtk || use gtk3; } ; then
+	if { use qt5 || use gtk; } ; then
 		domenu app/desktop/gambas3.desktop
 
 		newicon -s 128 app/src/${MY_PN}/img/logo/logo.png gambas3.png
@@ -198,7 +190,7 @@ src_install() {
 }
 
 my_xdg_update() {
-	{ use qt5 || use gtk || use gtk3; } && xdg_desktop_database_update
+	{ use qt5 || use gtk; } && xdg_desktop_database_update
 	xdg_mimeinfo_database_update
 }
 
