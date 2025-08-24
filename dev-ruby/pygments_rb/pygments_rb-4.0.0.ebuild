@@ -54,3 +54,9 @@ all_ruby_prepare() {
 	rm -r vendor || die "removing bundled libs failed"
 	eapply_user
 }
+
+each_ruby_install() {
+	each_fakegem_install
+	local gemsdir=$(ruby_fakegem_gemsdir)
+	fperms +x "${gemsdir}/gems/pygments.rb-${PV}/lib/pygments/mentos.py"
+}
