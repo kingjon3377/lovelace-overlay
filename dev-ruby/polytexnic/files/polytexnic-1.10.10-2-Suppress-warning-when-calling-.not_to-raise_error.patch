@@ -1,0 +1,28 @@
+From 2ab0e39aafb9c5292be658a08501f01fe7824af2 Mon Sep 17 00:00:00 2001
+From: Michael Hartl <mhartl@michaelhartl.com>
+Date: Sun, 11 May 2025 07:45:32 -0700
+Subject: [PATCH 2/4] Suppress warning when calling .not_to raise_error
+
+---
+ spec/spec_helper.rb | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/spec/spec_helper.rb b/spec/spec_helper.rb
+index 93e613e..3b00ce0 100644
+--- a/spec/spec_helper.rb
++++ b/spec/spec_helper.rb
+@@ -18,7 +18,10 @@ RSpec.configure do |config|
+   config.treat_symbols_as_metadata_keys_with_true_values = true
+   config.run_all_when_everything_filtered = true
+   config.filter_run :focus
+-
++  
++  # Prevent warnings when running `.not_to raise_error`
++  RSpec::Expectations.configuration.on_potential_false_positives = :nothing
++  
+   Polytexnic::Utils.set_test_mode!
+   config.before do
+     Polytexnic::Utils.set_test_mode!
+-- 
+2.49.1
+

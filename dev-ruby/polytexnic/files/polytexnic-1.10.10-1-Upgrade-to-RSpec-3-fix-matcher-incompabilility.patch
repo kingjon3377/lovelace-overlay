@@ -1,0 +1,149 @@
+From e3c4311cd35d26d17fcbd6668d55e66fa6b00eab Mon Sep 17 00:00:00 2001
+From: Michael Hartl <mhartl@michaelhartl.com>
+Date: Sun, 11 May 2025 07:44:55 -0700
+Subject: [PATCH 1/4] Upgrade to RSpec 3, fix matcher incompabilility
+
+---
+ Gemfile.lock                     | 47 ++++++++++++++++++++------------
+ polytexnic.gemspec               |  2 +-
+ spec/support/resemble_matcher.rb |  4 +--
+ 3 files changed, 32 insertions(+), 21 deletions(-)
+
+diff --git a/Gemfile.lock b/Gemfile.lock
+index fde8fe0..a5aff47 100644
+--- a/Gemfile.lock
++++ b/Gemfile.lock
+@@ -18,17 +18,19 @@ GEM
+       simplecov (>= 0.7)
+       term-ansicolor (= 1.2.2)
+       thor (= 0.18.1)
+-    diff-lcs (1.5.1)
++    diff-lcs (1.6.1)
+     docile (1.1.5)
+-    ffi (1.17.0-arm64-darwin)
++    ffi (1.17.2-arm64-darwin)
+     formatador (1.1.0)
+     growl (1.0.3)
+-    guard (2.18.1)
++    guard (2.19.1)
+       formatador (>= 0.2.4)
+       listen (>= 2.7, < 4.0)
++      logger (~> 1.6)
+       lumberjack (>= 1.0.12, < 2.0)
+       nenv (~> 0.1)
+       notiffany (~> 0.0)
++      ostruct (~> 0.6)
+       pry (>= 0.13.0)
+       shellany (~> 0.0)
+       thor (>= 0.18.1)
+@@ -43,22 +45,25 @@ GEM
+     listen (3.9.0)
+       rb-fsevent (~> 0.10, >= 0.10.3)
+       rb-inotify (~> 0.9, >= 0.9.10)
+-    logger (1.6.1)
++    logger (1.7.0)
+     lumberjack (1.2.10)
+     method_source (1.1.0)
+-    mime-types (3.6.0)
++    mime-types (3.7.0)
+       logger
+-      mime-types-data (~> 3.2015)
+-    mime-types-data (3.2024.1001)
++      mime-types-data (~> 3.2025, >= 3.2025.0507)
++    mime-types-data (3.2025.0507)
++    mini_portile2 (2.8.8)
+     msgpack (1.7.2)
+     multi_json (1.15.0)
+     nenv (0.3.0)
+-    nokogiri (1.15.2-arm64-darwin)
++    nokogiri (1.15.2)
++      mini_portile2 (~> 2.8.2)
+       racc (~> 1.4)
+     notiffany (0.1.3)
+       nenv (~> 0.1)
+       shellany (~> 0.0)
+-    pry (0.14.2)
++    ostruct (0.6.1)
++    pry (0.15.2)
+       coderay (~> 1.1)
+       method_source (~> 1.0)
+     pygments.rb (2.3.1)
+@@ -70,14 +75,19 @@ GEM
+     rest-client (1.6.7)
+       mime-types (>= 1.16)
+     rexml (3.4.1)
+-    rspec (2.99.0)
+-      rspec-core (~> 2.99.0)
+-      rspec-expectations (~> 2.99.0)
+-      rspec-mocks (~> 2.99.0)
+-    rspec-core (2.99.2)
+-    rspec-expectations (2.99.2)
+-      diff-lcs (>= 1.1.3, < 2.0)
+-    rspec-mocks (2.99.4)
++    rspec (3.13.0)
++      rspec-core (~> 3.13.0)
++      rspec-expectations (~> 3.13.0)
++      rspec-mocks (~> 3.13.0)
++    rspec-core (3.13.3)
++      rspec-support (~> 3.13.0)
++    rspec-expectations (3.13.4)
++      diff-lcs (>= 1.2.0, < 2.0)
++      rspec-support (~> 3.13.0)
++    rspec-mocks (3.13.4)
++      diff-lcs (>= 1.2.0, < 2.0)
++      rspec-support (~> 3.13.0)
++    rspec-support (3.13.3)
+     shellany (0.0.1)
+     simplecov (0.15.1)
+       docile (~> 1.1.0)
+@@ -91,6 +101,7 @@ GEM
+ 
+ PLATFORMS
+   arm64-darwin-21
++  arm64-darwin-24
+ 
+ DEPENDENCIES
+   coveralls
+@@ -98,7 +109,7 @@ DEPENDENCIES
+   guard-rspec
+   polytexnic!
+   rake
+-  rspec (= 2.99.0)
++  rspec (= 3.13.0)
+   simplecov (= 0.15.1)
+ 
+ BUNDLED WITH
+diff --git a/polytexnic.gemspec b/polytexnic.gemspec
+index 8f2f9c1..76f82fb 100644
+--- a/polytexnic.gemspec
++++ b/polytexnic.gemspec
+@@ -24,6 +24,6 @@ Gem::Specification.new do |gem|
+   gem.add_dependency 'kramdown', '2.4.0'
+   gem.add_dependency 'json', '2.7.2'
+ 
+-  gem.add_development_dependency 'rspec', '2.99.0'
++  gem.add_development_dependency 'rspec', '3.13.0'
+   gem.add_development_dependency 'simplecov', '0.15.1'
+ end
+diff --git a/spec/support/resemble_matcher.rb b/spec/support/resemble_matcher.rb
+index 8179fee..3262f89 100644
+--- a/spec/support/resemble_matcher.rb
++++ b/spec/support/resemble_matcher.rb
+@@ -9,12 +9,12 @@ RSpec::Matchers.define :resemble do |expected|
+       regex = %r{#{expected.to_s.robust}}
+     end
+ 
+-    failure_message_for_should do |actual|
++    failure_message do |actual|
+       debug_output(expected, actual)
+       "expected #{actual} to resemble #{expected}"
+     end
+ 
+-    failure_message_for_should_not do |actual|
++    failure_message_when_negated do |actual|
+       debug_output(expected, actual)
+       "expected #{actual} not to resemble #{expected}"
+     end
+-- 
+2.49.1
+
