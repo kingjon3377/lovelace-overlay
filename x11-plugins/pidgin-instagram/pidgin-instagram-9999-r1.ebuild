@@ -14,5 +14,8 @@ SLOT="0"
 KEYWORDS=""
 IUSE=""
 
-DEPEND="net-im/pidgin"
-RDEPEND="${DEPEND}"
+RDEPEND="net-im/pidgin:=
+	dev-libs/glib:2
+	dev-libs/json-glib
+	sys-libs/zlib"
+DEPEND="${RDEPEND}"
