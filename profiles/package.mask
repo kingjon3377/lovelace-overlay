@@ -21,6 +21,7 @@
 ~app-text/rdrview-9999
 ~sys-fs/apfs-fuse-9999
 ~x11-plugins/purple-discord-9999
+~x11-plugins/pidgin-instagram-9999
 
 # Doesn't yet build, more effort is needed to see what patches are still needed
 # or will apply, and probably we'll need to download the 'brt' source tarball
