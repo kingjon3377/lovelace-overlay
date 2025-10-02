@@ -6,12 +6,14 @@ EAPI=7
 inherit toolchain-funcs virtualx desktop
 
 DEBIAN_EXTRA_REV=+dfsg
-DEBIAN_PATCH_REV=2
+DEBIAN_PATCH_REV=1
 
 DESCRIPTION="Speech analysis and synthesis"
 HOMEPAGE="http://www.fon.hum.uva.nl/praat/"
+P_FOR_DEB=${P/-/_}
+P_FOR_DEB=${P_FOR_DEB/4a/4.a}
 SRC_URI="https://github.com/${PN}/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz
-	mirror://debian/pool/main/p/${PN}/${P/-/_}${DEBIAN_EXTRA_REV}-${DEBIAN_PATCH_REV}.debian.tar.xz"
+	mirror://debian/pool/main/p/${PN}/${P_FOR_DEB}${DEBIAN_EXTRA_REV}-${DEBIAN_PATCH_REV}.debian.tar.xz"
 
 LICENSE="GPL-2"
 SLOT="0"
@@ -39,7 +41,7 @@ PATCHES=(
 	"${WORKDIR}/debian/patches/honor-cppflags.patch"
 	"${WORKDIR}/debian/patches/praat-launch-in-desktop.patch"
 	"${WORKDIR}/debian/patches/real-file-icon.patch"
-	"${WORKDIR}/debian/patches/local-icon-url.patch"
+	"${WORKDIR}/debian/patches/avoid-dangling-hyperlinks.patch"
 )
 
 S="${WORKDIR}/${PN}.github.io-${PV}"
