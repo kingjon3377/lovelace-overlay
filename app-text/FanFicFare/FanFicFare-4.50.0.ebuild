@@ -60,7 +60,7 @@ python_install_all() {
 
 python_test() {
 	export EPYTEST_DESELECT=(
-		# fails on 4.48.0
+		# fails on 4.48.0 and 4.49.0
 		"tests/adapters/test_adapter_fanfictionsfr.py::TestGetChapterText::test_it_handles_zipped_chapters"
 	)
 	epytest
