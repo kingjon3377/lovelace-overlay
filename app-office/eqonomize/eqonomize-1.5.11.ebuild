@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-inherit qmake-utils
+inherit qmake-utils xdg-utils
 
 DESCRIPTION="Personal Finances Manager for KDE."
 HOMEPAGE="https://eqonomize.github.io"
@@ -22,7 +22,14 @@ src_configure() {
 }
 
 src_install() {
-	# FIXME: Use xdg.eclass or xdg-utils.eclass to update icon cache in postinst
 	dodir /usr/share/icons/hicolor/64x64/apps/
 	INSTALL_ROOT="${D}" default
+}
+
+pkg_postinst() {
+	xdg_icon_cache_update
+}
+
+pkg_postrm() {
+	xdg_icon_cache_update
 }
