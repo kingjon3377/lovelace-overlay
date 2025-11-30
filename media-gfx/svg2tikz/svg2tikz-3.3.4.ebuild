@@ -17,7 +17,10 @@ LICENSE="GPL-2+"
 SLOT="0"
 KEYWORDS="~amd64"
 
-COMMON_DEPEND="$(python_gen_cond_dep 'dev-python/lxml[${PYTHON_USEDEP}]')"
+COMMON_DEPEND="
+	$(python_gen_cond_dep 'dev-python/lxml[${PYTHON_USEDEP}]
+		dev-python/furo[${PYTHON_USEDEP}]
+		dev-python/sphinx-argparse[${PYTHON_USEDEP}]')"
 # FIXME: BDEPEND instead of DEPEND?
 DEPEND="${COMMON_DEPEND}
 	$(python_gen_cond_dep 'dev-python/sphinx-argparse[${PYTHON_USEDEP}]
@@ -27,6 +30,11 @@ RDEPEND="${COMMON_DEPEND}
 
 # FIXME: Tests depend on 'inkex', part of media-gfx/inkscape but not on standard Python package path
 RESTRICT="test"
+
+src_prepare() {
+	default
+	sed -i -e 's@"sphinxarg.ext", @@' docs/conf.py || die
+}
 
 src_install() {
 	distutils-r1_src_install
