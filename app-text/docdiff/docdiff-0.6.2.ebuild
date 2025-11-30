@@ -1,14 +1,14 @@
-# Copyright 1999-2023 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
-USE_RUBY="ruby30 ruby31 ruby32"
+USE_RUBY="ruby30 ruby31 ruby32 ruby33 ruby34"
 
 inherit ruby-ng
 
 DESCRIPTION="Compares two files word by word / char by char"
-HOMEPAGE="http://www.kt.rim.or.jp/~hisashim/docdiff/"
+HOMEPAGE="https://github.com/hisashim/docdiff"
 SRC_URI="https://github.com/hisashim/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="BSD"
