@@ -36,6 +36,7 @@ BDEPEND="test? ( dev-python/pytest[${PYTHON_USEDEP}] )"
 PATCHES=(
 	"${FILESDIR}/${PN}-4.46.0-dwiggie.patch"
 	"${FILESDIR}/${PN}-2.2.20-system-config.patch"
+	"${FILESDIR}/${PN}-4.52.0-fix-test.patch"
 )
 
 src_prepare() {
