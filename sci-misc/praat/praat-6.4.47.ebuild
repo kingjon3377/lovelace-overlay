@@ -11,7 +11,6 @@ DEBIAN_PATCH_REV=1
 DESCRIPTION="Speech analysis and synthesis"
 HOMEPAGE="http://www.fon.hum.uva.nl/praat/"
 P_FOR_DEB=${P/-/_}
-P_FOR_DEB=${P_FOR_DEB/4a/4.a}
 SRC_URI="https://github.com/${PN}/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz
 	mirror://debian/pool/main/p/${PN}/${P_FOR_DEB}${DEBIAN_EXTRA_REV}-${DEBIAN_PATCH_REV}.debian.tar.xz"
 
