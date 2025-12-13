@@ -16,13 +16,20 @@ SLOT="0"
 KEYWORDS="~amd64"
 
 RDEPEND="${DEPEND}"
+BDEPEND="dev-libs/md4c[md2html]"
+ruby_add_bdepend dev-ruby/asciidoctor
+
+all_ruby_prepare() {
+	sed -i -e '/TAR/d' Makefile || die
+}
 
 each_ruby_prepare() {
 	sed -i -e "s@^RUBY = ruby@RUBY = ${RUBY}@" Makefile || die
+	sed -i -e '/TAR/d' Makefile || die
 }
 
 all_ruby_compile() {
-	emake readme.en.html index.en.html
+	emake PREFIX="/usr" docs
 }
 
 each_ruby_test() {
