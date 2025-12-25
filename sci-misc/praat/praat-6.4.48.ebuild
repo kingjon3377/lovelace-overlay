@@ -41,6 +41,7 @@ PATCHES=(
 	"${WORKDIR}/debian/patches/praat-launch-in-desktop.patch"
 	"${WORKDIR}/debian/patches/real-file-icon.patch"
 	"${WORKDIR}/debian/patches/avoid-dangling-hyperlinks.patch"
+	"${WORKDIR}/debian/patches/drop-no-pie.patch"
 )
 
 S="${WORKDIR}/${PN}.github.io-${PV}"
