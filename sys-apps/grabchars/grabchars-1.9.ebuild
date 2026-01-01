@@ -1,4 +1,4 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2026 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -13,7 +13,7 @@ SRC_URI="${SRC_URI_BASE}/${P}/part01.gz -> ${P}-part01.shar.gz
 
 LICENSE="grabchars"
 SLOT="0"
-KEYWORDS="amd64"
+KEYWORDS="amd64 ~x64-macos"
 
 DEPEND="${DEPEND}
 	app-arch/sharutils
