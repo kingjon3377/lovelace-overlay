@@ -16,7 +16,7 @@
 #
 #	Uncomment the one that applies...
 #DEFS = -DBSD -DDV_ERASE -DSIGRET=void
-DEFS = -DSYS_V
+#DEFS = -DSYS_V
 
 SRCS =	globals.c grabchars.c sys.c
 OBJS =	globals.o grabchars.o sys.o

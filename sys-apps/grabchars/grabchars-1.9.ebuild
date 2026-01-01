@@ -26,7 +26,11 @@ src_unpack() {
 	unshar -d "${P}" *.shar || die
 }
 
-PATCHES=( "${FILESDIR}/headers.patch" "${FILESDIR}/warnings.patch" )
+PATCHES=(
+	"${FILESDIR}/headers.patch"
+	"${FILESDIR}/warnings.patch"
+	"${FILESDIR}/${P}-warnings.patch"
+)
 
 src_prepare() {
 	cp "${FILESDIR}/Makefile" "${S}/Makefile" || die
@@ -35,8 +39,13 @@ src_prepare() {
 
 src_compile() {
 	tc-export CC
+	if use x64-macos; then
+		arch_flags=(DEFS="-DBSD -DDV_ERASE -DSIGRET=void")
+	else
+		arch_flags=(DEFS="-DSYS_V")
+	fi
 	export USER_CFLAGS="${CFLAGS}"
-	default
+	default "${arch_flags[@]}"
 }
 
 src_install() {

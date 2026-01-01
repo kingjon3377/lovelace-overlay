@@ -1,0 +1,67 @@
+diff '--color=auto' -ru a/grabchars.c b/grabchars.c
+--- a/grabchars.c	2026-01-01 09:39:23.315361086 -0500
++++ b/grabchars.c	2026-01-01 09:46:55.691597294 -0500
+@@ -99,6 +99,10 @@
+ #include <ctype.h>
+ #include <stdlib.h>
+ #include <string.h>
++#include <unistd.h>
++#define _REGEX_RE_COMP
++#include <sys/types.h>
++#include <regex.h>
+ #include "grabchars.h"
+ 
+ /*	see globals.c */
+@@ -107,6 +111,11 @@
+ extern int exit_stat;
+ extern char *usage_statement[];
+ 
++/* see sys.c */
++extern void init_flags();
++extern void init_term();
++extern void init_signal();
++
+ /*
+ **	David Vezie (unicom!dv) took a great shot at putting in
+ **	erase/kill processing.  I need to test this some more, and I'll
+@@ -117,9 +126,7 @@
+ extern char *erase_buf;	/* DV: Malloc'ed later */
+ #endif
+ 
+-main (argc, argv)
+-int argc;
+-register char **argv;
++int main (int argc, register char **argv)
+ {
+ 	/* two signal/wrapup handling routines in sys.c */
+ 	__sighandler_t lets_go, overtime;
+diff '--color=auto' -ru a/sys.c b/sys.c
+--- a/sys.c	2026-01-01 09:48:13.961072569 -0500
++++ b/sys.c	2026-01-01 09:48:44.328827790 -0500
+@@ -47,7 +47,7 @@
+ #endif
+ 
+ /* initialize global flags */
+-init_flags ()
++void init_flags ()
+ {
+ 	flags->both = 0;
+ 	flags->check = 0;
+@@ -63,7 +63,7 @@
+ /*
+ **	initialize tty
+ */
+-init_term ()
++void init_term ()
+ {
+ 	/*	play havoc with the terminal :-) */
+ 
+@@ -94,7 +94,7 @@
+ }
+ 
+ /* handle the outside world */
+-init_signal ()
++void init_signal ()
+ {
+ 	__sighandler_t lets_go;
+ 
