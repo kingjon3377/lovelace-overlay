@@ -1,4 +1,4 @@
-# Copyright 1999-2025 Gentoo Authors
+# Copyright 1999-2026 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -36,6 +36,7 @@ BDEPEND="test? ( dev-python/pytest[${PYTHON_USEDEP}] )"
 PATCHES=(
 	"${FILESDIR}/${PN}-4.46.0-dwiggie.patch"
 	"${FILESDIR}/${PN}-2.2.20-system-config.patch"
+	"${FILESDIR}/${PN}-4.52.0-fix-test.patch"
 )
 
 src_prepare() {
@@ -60,7 +61,7 @@ python_install_all() {
 
 python_test() {
 	export EPYTEST_DESELECT=(
-		# fails on 4.48.0 - 4.51.0
+		# fails on 4.48.0 - 4.52.0
 		"tests/adapters/test_adapter_fanfictionsfr.py::TestGetChapterText::test_it_handles_zipped_chapters"
 	)
 	epytest
