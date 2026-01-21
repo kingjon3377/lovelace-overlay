@@ -12,7 +12,7 @@ SRC_URI="https://github.com/n-t-roff/${PN}/archive/refs/tags/$(ver_rs 2 _).tar.g
 S="${WORKDIR}/${PN}-$(ver_rs 2 _)"
 LICENSE="Unlicense"
 SLOT="0"
-KEYWORDS="amd64 ppc sparc x86"
+KEYWORDS="amd64 ppc sparc x86 ~x64-macos"
 
 COMMON_DEPEND="
 	>=sys-libs/ncurses-5.2:=
@@ -26,6 +26,7 @@ RDEPEND="
 
 PATCHES=(
 	"${FILESDIR}/${PN}-7.16.1.1.2-no-rpath.patch"
+	"${FILESDIR}/${P}-fix_mac_build.patch"
 )
 
 src_prepare() {
@@ -53,6 +54,6 @@ src_compile() {
 DOCS=( CHANGES CHANGES-git README README.md SC.MACROS TODO psc.doc sc-7.16.lsm sc.doc scqref.doc tutorial.sc xsc.doc )
 
 src_install() {
-	emake prefix="${D}/usr" install
+	emake prefix="${ED}/usr" install
 	einstalldocs
 }

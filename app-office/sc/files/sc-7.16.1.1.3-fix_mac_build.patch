@@ -1,0 +1,67 @@
+diff -ru a/format.c b/format.c
+--- a/format.c	2026-01-20 14:33:28.932253670 -0500
++++ b/format.c	2026-01-20 15:32:30.489572651 -0500
+@@ -95,6 +95,7 @@
+ #include <time.h>
+ #include <limits.h>
+ #include "compat.h"
++#include <math.h>
+ #include "sc.h"
+ 
+ #define EOS	'\0'
+@@ -504,7 +505,7 @@
+ 	"+03", "+06", "+09", "+12", "+15", "+18"
+     };
+     int engind = 0;
+-    double engmant, pow(), engabs, engexp;
++    double engmant, engabs, engexp;
+ 
+     if (buflen < width) return (false);
+     if (fmt >= 0 && fmt < COLFORMATS && colformat[fmt])
+diff -ru a/interp.c b/interp.c
+--- a/interp.c	2026-01-20 14:33:28.934183750 -0500
++++ b/interp.c	2026-01-20 15:33:40.445864552 -0500
+@@ -75,8 +75,8 @@
+ 
+ double	dolookup(struct enode * val, int minr, int minc, int maxr,
+ 	int maxc, int offr, int offc);
+-double	fn1_eval(double (*fn)(), double arg);
+-double	fn2_eval(double (*fn)(), double arg1, double arg2);
++double	fn1_eval(double (*fn)(double), double arg);
++double	fn2_eval(double (*fn)(double, double), double arg1, double arg2);
+ static int RealEvalAll(void);
+ int	constant(register struct enode *e);
+ void	RealEvalOne(register struct ent *p, int i, int j, int *chgct);
+@@ -1018,7 +1018,7 @@
+ }
+ 
+ double
+-fn1_eval(double (*fn)(), double a)
++fn1_eval(double (*fn)(double), double a)
+ {
+     double res;
+     errno = 0;
+@@ -1030,7 +1030,7 @@
+ }
+ 
+ double
+-fn2_eval(double (*fn)(), double arg1, double arg2)
++fn2_eval(double (*fn)(double, double), double arg1, double arg2)
+ {
+     double res;
+     errno = 0;
+diff -ru a/lex.c b/lex.c
+--- a/lex.c	2026-01-20 14:33:28.935457885 -0500
++++ b/lex.c	2026-01-20 15:34:18.726632219 -0500
+@@ -195,9 +195,9 @@
+ 	}
+     } else if ((*p == '.') || isdigit((int)*p)) {
+ #ifdef SIGVOID
+-	void (*sig_save)();
++	void (*sig_save)(int);
+ #else
+-	int (*sig_save)();
++	int (*sig_save)(int);
+ #endif
+ 	double v = 0.0;
+ 	int temp;
