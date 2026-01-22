@@ -12,7 +12,7 @@ SRC_URI="http://packages.psychotic.ninja/7/base/SRPMS/${P}-2.el7.psychotic.src.r
 
 LICENSE="grabchars"
 SLOT="0"
-KEYWORDS="amd64"
+KEYWORDS="amd64 ~x64-macos"
 
 DEPEND="${RDEPEND}"
 BDEPEND="app-shells/tcsh"
@@ -25,6 +25,9 @@ src_unpack() {
 
 src_compile() {
 	tc-export CC
+	if use x64-macos; then
+		sed -i -e 's@DEFS = -DSYS_V -DDV_ERASE@DEFS = -DBSD -DDV_ERASE -DSIGRET=void@' Makefile || die
+	fi
 	default
 }
 
