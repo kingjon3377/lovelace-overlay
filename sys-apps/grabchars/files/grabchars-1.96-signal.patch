@@ -1,0 +1,81 @@
+diff -ru a/grabchars.c b/grabchars.c
+--- a/grabchars.c	2026-01-22 17:43:19.550887195 -0500
++++ b/grabchars.c	2026-01-22 17:43:06.527345000 -0500
+@@ -259,7 +259,11 @@
+ 				** we must have some valid time >0 seconds to
+ 				** get here, so we'll set an alarm...
+ 				*/
++#ifdef BSD
++				(SIGRET) signal (SIGALRM, (sig_t) overtime);
++#else
+ 				(SIGRET) signal (SIGALRM, (sighandler_t) overtime);
++#endif
+ 				alarm ((unsigned int) timeout);
+ 				break;
+ 			case 'E':	/* DV: honor erase/kill flag */
+diff -ru a/sys.c b/sys.c
+--- a/sys.c	2026-01-22 17:43:19.551561095 -0500
++++ b/sys.c	2026-01-22 17:43:43.593057336 -0500
+@@ -100,13 +100,17 @@
+ /* handle the outside world */
+ void init_signal ()
+ {
+-	int lets_go ();
+ 
+ #ifdef BSD
++	sig_t lets_go;
+ 	(SIGRET) signal (SIGTSTP, lets_go);
+-#endif
++	(SIGRET) signal (SIGINT, lets_go);
++	(SIGRET) signal (SIGQUIT, lets_go);
++#else
++	int lets_go ();
+ 	(SIGRET) signal (SIGINT, (sighandler_t) lets_go);
+ 	(SIGRET) signal (SIGQUIT, (sighandler_t) lets_go);
++#endif
+ }
+ 
+ /*
+@@ -115,7 +119,11 @@
+ */
+ int overtime ()
+ {
++#ifdef BSD
++    void lets_go ();
++#else
+ 	int lets_go ();
++#endif
+ 	void handle_default ();
+ 
+ 	/* does not return */
+@@ -132,7 +140,11 @@
+ */
+ void handle_default ()
+ {
++#ifdef BSD
++    void lets_go ();
++#else
+ 	int lets_go ();
++#endif
+ 
+ 	if (! flags->silent) {
+ 		fputs (default_string, outfile);
+@@ -144,13 +156,15 @@
+ }
+ 
+ /*	clean up and get out of here... */
++#ifdef BSD
++void lets_go ()
++#else
+ int lets_go ()
++#endif
+ {
+ #ifdef BSD
+ 	ioctl (0, TIOCSETP, &orig);
+-#endif
+-
+-#ifdef SYS_V
++#elif SYS_V
+ 	ioctl(0, TCSETA, &orig);        /* Added 6/30/89 for Sys V - rjd */
+ #endif
+ 	(void) exit (exit_stat);

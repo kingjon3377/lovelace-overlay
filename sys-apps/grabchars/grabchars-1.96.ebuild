@@ -17,7 +17,11 @@ KEYWORDS="amd64 ~x64-macos"
 DEPEND="${RDEPEND}"
 BDEPEND="app-shells/tcsh"
 
-PATCHES=( "${FILESDIR}/implicit-function-declarations.patch" )
+PATCHES=(
+	"${FILESDIR}/implicit-function-declarations.patch"
+	"${FILESDIR}/${P}-regex.patch"
+	"${FILESDIR}/${P}-signal.patch"
+)
 
 src_unpack() {
 	srcrpm_unpack

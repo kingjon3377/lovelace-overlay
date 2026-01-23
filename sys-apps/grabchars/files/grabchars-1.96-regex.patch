@@ -1,0 +1,89 @@
+diff -ru a/grabchars.c b/grabchars.c
+--- a/grabchars.c	2026-01-22 07:41:45.325538655 -0500
++++ b/grabchars.c	2026-01-22 17:21:39.038567919 -0500
+@@ -54,7 +54,7 @@
+ **	note that arguments like "-n4" or "-n 4" are handled the same way
+ **
+ **	History:
+-**	
++**
+ **	Oct 1988: versions 1.0 - 1.1
+ **
+ **	November 6, 1988 (1.15)
+@@ -144,7 +144,10 @@
+ 	**	re_comp (), re_exec () let us do things
+ 	**	like "grabchars -c '[a-d]'" or "grabchars -c '[^a-z]'"...
+ 	*/
+-	char *re_comp (), *re_error;
++    regex_t regex;
++    int regcomp_ret;
++    int regexec_ret;
++    char re_error[100];
+ 	extern char valid_chars[128], default_string[128];
+ 	char ch, check_str[2];
+ 
+@@ -183,17 +186,17 @@
+ 				** "a-z", because we can check to
+ 				** see if we need to add brackets...
+ 				*/
+-				if (valid_chars[0] != '[' && 
++				if (valid_chars[0] != '[' &&
+ 				valid_chars[strlen (valid_chars) - 1] != ']')
+ 					sprintf (valid_chars, "%c%s%c",
+ 						'[', optarg, ']');
+ 
+-				if ((re_error = re_comp (valid_chars))
+-								!= NULL) {
+-					fprintf (stderr,
+-						"-c option: %s\n", re_error);
++				if ((regcomp_ret = regcomp(&regex, valid_chars, REG_BASIC)) != 0) {
++                    regerror(regcomp_ret, &regex, re_error, sizeof(re_error));
++					fprintf (stderr, "-c option: %s\n", re_error);
+ 					exit (-1);
+ 				}
++                regfree(&regex);
+ 				break;
+ 			case 'd':
+ 				flags->dflt = 1;
+@@ -226,12 +229,12 @@
+ 					fprintf (stderr, "-m option: minimum number of characters to read must be greater than zero\n");
+ 					exit (-1);
+ 				}
+-				if ((re_error = re_comp (valid_chars))
+-								!= NULL) {
+-					fprintf (stderr,
+-						"-c option: %s\n", re_error);
++				if ((regcomp_ret = regcomp(&regex, valid_chars, REG_BASIC)) != 0) {
++                    regerror(regcomp_ret, &regex, re_error, sizeof(re_error));
++					fprintf (stderr, "-c option: %s\n", re_error);
+ 					exit (-1);
+ 				}
++                regfree(&regex);
+ 				break;
+ 			case 'p':
+ 				fprintf (stdout, "%s", optarg);
+@@ -347,7 +350,14 @@
+ 		*/
+ 		if (flags->check) {
+ 			sprintf (check_str, "%c", ch);
+-			if (re_exec (check_str) != 1) {
++            if ((regcomp_ret = regcomp(&regex, check_str, REG_BASIC)) != 0) {
++                    regerror(regcomp_ret, &regex, re_error, sizeof(re_error));
++                    fprintf(stderr, "Failed to compile check_str regex: %s\n", re_error);
++                    exit(-2);
++            }
++            regexec_ret = regexec(&regex, check_str, 0, NULL, 0);
++            regfree(&regex);
++			if (regexec_ret != 0) {
+ 				num_read--;
+ 				continue;
+ 			}
+@@ -369,7 +379,7 @@
+ #ifdef DV_ERASE
+ 		if (! flags->silent && ! flags->erase) {
+ #else
+-		if (! flags->silent) { 
++		if (! flags->silent) {
+ #endif
+ 			putc (ch, outfile);
+ 			if (flags->both)
