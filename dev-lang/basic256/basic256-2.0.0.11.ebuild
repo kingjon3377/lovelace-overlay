@@ -1,7 +1,7 @@
-# Copyright 1999-2025 Gentoo Authors
+# Copyright 1999-2026 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
 inherit qmake-utils
 
@@ -25,8 +25,8 @@ RDEPEND="dev-qt/qtcore:5
 	media-libs/sdl-mixer
 	dev-db/sqlite:3
 	app-accessibility/espeak-ng"
-DEPEND="${RDEPEND}
-	sys-devel/flex
+DEPEND="${RDEPEND}"
+BDEPEND="sys-devel/flex
 	sys-devel/bison"
 
 DOCS=( ChangeLog CONTRIBUTORS )
