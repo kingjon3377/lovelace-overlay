@@ -20,8 +20,3 @@ RDEPEND="${DEPEND}"
 
 DOCS=( README.md )
 PATCHES=( "${FILESDIR}/${PN}-1.0.0-respect-paths.patch" )
-
-src_install() {
-	default
-	dodoc README.md
-}
