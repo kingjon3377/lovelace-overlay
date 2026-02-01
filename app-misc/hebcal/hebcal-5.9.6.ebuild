@@ -1,10 +1,9 @@
-# Copyright 1999-2025 Gentoo Authors
+# Copyright 1999-2026 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
 inherit go-module
-
 
 DESCRIPTION="perpetual Jewish calendar"
 HOMEPAGE="http://hebcal.github.io/ https://github.com/hebcal/hebcal"
@@ -25,6 +24,11 @@ KEYWORDS="~amd64"
 RDEPEND="${DEPEND}"
 
 DOCS=( AUTHORS NEWS.md README.md )
+
+src_prepare() {
+	sed -i -e 's@install -s@install@' Makefile || die
+	default
+}
 
 src_compile() {
 	emake all "PREFIX=${EPREFIX}/usr"
