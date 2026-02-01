@@ -33,6 +33,8 @@ DEPEND="${RDEPEND}
 	app-text/xmlto"
 BDEPEND="virtual/pandoc"
 
+IUSE="big-endian"
+
 PATCHES=(
 	"${WORKDIR}/debian/patches/use-ldflags.patch"
 	"${WORKDIR}/debian/patches/cross-build.patch"
@@ -41,6 +43,7 @@ PATCHES=(
 	"${WORKDIR}/debian/patches/praat-launch-in-desktop.patch"
 	"${WORKDIR}/debian/patches/real-file-icon.patch"
 	"${WORKDIR}/debian/patches/avoid-dangling-hyperlinks.patch"
+	"${WORKDIR}/debian/patches/drop-no-pie.patch"
 )
 
 S="${WORKDIR}/${PN}.github.io-${PV}"
@@ -49,7 +52,11 @@ src_prepare() {
 	default
 	# TODO: following line should be updated for non-linux etc. builds
 	# (Flammie does not have testing equipment)
-	cp "${S}/makefiles/makefile.defs.linux.alsa" "${S}/makefile.defs" || die
+	if use big-endian; then
+		cp "${S}/makefiles/makefile.defs.linux.alsa.BE" "${S}/makefile.defs" || die
+	else
+		cp "${S}/makefiles/makefile.defs.linux.alsa.LE" "${S}/makefile.defs" || die
+	fi
 	sed -i \
 		-e 's:^AR = ar:AR = $(USER_AR):' \
 		"${S}/makefile.defs" || die
