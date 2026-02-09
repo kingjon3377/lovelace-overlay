@@ -1,9 +1,9 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2026 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-inherit autotools
+inherit cmake
 
 DESCRIPTION="Lightweight curses spreadsheet based on GNU oleo"
 HOMEPAGE="https://github.com/blippy/neoleo"
@@ -19,22 +19,14 @@ BDEPEND="sys-devel/bison
 	sys-devel/flex
 	virtual/pkgconfig"
 
-PATCHES=(
-	"${FILESDIR}/neoleo-14.0-missing-header.patch"
-)
-
 src_prepare() {
 	default
-	eautoreconf
+	sed -i -e \
+		's@neoleo.1 DESTINATION ${CMAKE_INSTALL_PREFIX}/man/man1@neoleo.1 DESTINATION ${CMAKE_INSTALL_PREFIX}/share/man/man1@' \
+		doc/CMakeLists.txt doc/Man.cmake || die
+	cmake_src_prepare
 }
 
 src_test() {
-	TZ=UTC default
-}
-
-src_install() {
-	emake DESTDIR="${D}" generaldir="/usr/share/doc/${PF}" \
-		exampledir="/usr/share/doc/${PF}/examples" install
-	einstalldocs
-	rm "${D}/usr/share/doc/${PF}/INSTALL"-*
+	TZ=UTC cmake_src_test
 }
