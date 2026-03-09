@@ -1,4 +1,4 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2026 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -6,15 +6,16 @@ EAPI=7
 inherit toolchain-funcs
 
 DESCRIPTION="anagram generator"
-HOMEPAGE="https://packages.debian.org/wordplay"
+HOMEPAGE="https://github.com/mendelmunkis/wordplay
+	https://packages.debian.org/wordplay"
 SRC_URI="mirror://debian/pool/main/w/${PN}/${PN}_${PV}.orig.tar.gz
-	mirror://debian/pool/main/w/${PN}/${PN}_${PV}-21.debian.tar.xz"
+	mirror://debian/pool/main/w/${PN}/${PN}_${PV}-1.debian.tar.xz"
 
-S="${WORKDIR}/${P}.orig"
 LICENSE="wordplay"
 SLOT="0"
-KEYWORDS="amd64"
+KEYWORDS="~amd64"
 
+RDEPEND="dev-libs/icu:="
 DEPEND="${RDEPEND}"
 BDEPEND="app-arch/xz-utils"
 
