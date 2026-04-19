@@ -14,7 +14,7 @@ P_FOR_DEB=${P/-/_}
 SRC_URI="https://github.com/${PN}/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz
 	mirror://debian/pool/main/p/${PN}/${P_FOR_DEB}${DEBIAN_EXTRA_REV}-${DEBIAN_PATCH_REV}.debian.tar.xz"
 
-LICENSE="GPL-2"
+LICENSE="GPL-3+ BSD Boost-1.0 MIT LGPL-2+ LGPL-2.1+ GPL-1+ LGPL-2+ BSD-2 CC-BY-SA-4.0"
 SLOT="0"
 KEYWORDS="~amd64"
 
