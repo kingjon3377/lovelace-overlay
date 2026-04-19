@@ -14,10 +14,12 @@ SRC_URI="https://github.com/hisashim/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="~amd64"
+IUSE="test"
 
 RDEPEND="${DEPEND}"
 BDEPEND="dev-libs/md4c[md2html]"
 ruby_add_bdepend dev-ruby/asciidoctor
+ruby_add_bdepend "test? ( dev-ruby/test-unit )"
 
 all_ruby_prepare() {
 	sed -i -e '/TAR/d' Makefile || die
@@ -26,6 +28,7 @@ all_ruby_prepare() {
 each_ruby_prepare() {
 	sed -i -e "s@^RUBY = ruby@RUBY = ${RUBY}@" Makefile || die
 	sed -i -e '/TAR/d' Makefile || die
+#	sed -i -e 's@-I lib @-I./lib @' test/cli_test.rb || die
 }
 
 all_ruby_compile() {
@@ -33,7 +36,11 @@ all_ruby_compile() {
 }
 
 each_ruby_test() {
-	emake test
+	if ! test -f "${T}/docdiff.conf"; then
+		cp doc/example/docdiff.conf.example "${T}/docdiff.conf" || die
+	fi
+	export DOCDIFF_SYSTEM_CONFIG_FILE="${T}/docdiff.conf"
+	emake -j1 test
 }
 
 each_ruby_install() {
