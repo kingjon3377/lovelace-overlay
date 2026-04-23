@@ -33,8 +33,6 @@ DEPEND="${RDEPEND}
 	app-text/xmlto"
 BDEPEND="virtual/pandoc"
 
-IUSE="big-endian"
-
 PATCHES=(
 	"${WORKDIR}/debian/patches/use-ldflags.patch"
 	"${WORKDIR}/debian/patches/cross-build.patch"
@@ -52,11 +50,7 @@ src_prepare() {
 	default
 	# TODO: following line should be updated for non-linux etc. builds
 	# (Flammie does not have testing equipment)
-	if use big-endian; then
-		cp "${S}/makefiles/makefile.defs.linux.alsa.BE" "${S}/makefile.defs" || die
-	else
-		cp "${S}/makefiles/makefile.defs.linux.alsa.LE" "${S}/makefile.defs" || die
-	fi
+	cp "${S}/makefiles/makefile.defs.linux.alsa" "${S}/makefile.defs" || die
 	sed -i \
 		-e 's:^AR = ar:AR = $(USER_AR):' \
 		"${S}/makefile.defs" || die
