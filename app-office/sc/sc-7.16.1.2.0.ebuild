@@ -1,4 +1,4 @@
-# Copyright 1999-2025 Gentoo Authors
+# Copyright 1999-2026 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -12,7 +12,7 @@ SRC_URI="https://github.com/n-t-roff/${PN}/archive/refs/tags/$(ver_rs 2 _).tar.g
 S="${WORKDIR}/${PN}-$(ver_rs 2 _)"
 LICENSE="Unlicense"
 SLOT="0"
-KEYWORDS="amd64 ppc sparc x86 ~x64-macos"
+KEYWORDS="~amd64 ~ppc ~sparc ~x86 ~x64-macos"
 
 COMMON_DEPEND="
 	>=sys-libs/ncurses-5.2:=
@@ -26,7 +26,6 @@ RDEPEND="
 
 PATCHES=(
 	"${FILESDIR}/${PN}-7.16.1.1.2-no-rpath.patch"
-	"${FILESDIR}/${P}-fix_mac_build.patch"
 )
 
 src_prepare() {
