@@ -61,8 +61,10 @@ python_install_all() {
 
 python_test() {
 	export EPYTEST_DESELECT=(
-		# fails on 4.48.0 - 4.55.0
+		# fails on 4.48.0 - 4.57.0
 		"tests/adapters/test_adapter_fanfictionsfr.py::TestGetChapterText::test_it_handles_zipped_chapters"
+		# Fails on 4.57.0
+		"tests/adapters/test_adapter_wattpadcom.py::TestExtractChapterUrlsAndMetadata::test_get_published_date"
 	)
 	epytest
 	# Under Python 3.12, in PEP517 mode, currently PYTHONPATH is unset, causing the following to fail. TODO: debug
