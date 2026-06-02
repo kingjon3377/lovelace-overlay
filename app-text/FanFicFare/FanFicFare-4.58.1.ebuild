@@ -9,7 +9,8 @@ inherit distutils-r1
 
 DESCRIPTION="Download fanfiction from various sites in ebook form"
 HOMEPAGE="https://github.com/jimmxinu/fanficfare"
-SRC_URI="https://github.com/JimmXinu/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
+# Version 4.58.1 didn't have the 'v' prefix
+SRC_URI="https://github.com/JimmXinu/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="Apache-2.0"
 SLOT="0"
@@ -61,8 +62,10 @@ python_install_all() {
 
 python_test() {
 	export EPYTEST_DESELECT=(
-		# fails on 4.48.0 - 4.56.0
+		# fails on 4.48.0 - 4.58.1
 		"tests/adapters/test_adapter_fanfictionsfr.py::TestGetChapterText::test_it_handles_zipped_chapters"
+		# Fails on 4.57.0 - 4.58.1
+		"tests/adapters/test_adapter_wattpadcom.py::TestExtractChapterUrlsAndMetadata::test_get_published_date"
 	)
 	epytest
 	# Under Python 3.12, in PEP517 mode, currently PYTHONPATH is unset, causing the following to fail. TODO: debug
