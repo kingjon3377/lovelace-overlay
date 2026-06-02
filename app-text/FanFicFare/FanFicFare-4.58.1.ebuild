@@ -28,6 +28,7 @@ RDEPEND="${PYTHON_DEPS}
 	dev-python/requests-file[${PYTHON_USEDEP}]
 	app-arch/brotli[python,${PYTHON_USEDEP}]
 	dev-python/pillow[${PYTHON_USEDEP}]
+	dev-python/apsw[${PYTHON_USEDEP}]
 	dev-python/cloudscraper[${PYTHON_USEDEP}]"
 DEPEND="${RDEPEND}"
 BDEPEND="test? ( dev-python/pytest[${PYTHON_USEDEP}] )"
