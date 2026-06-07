@@ -1,9 +1,9 @@
-# Copyright 1999-2025 Gentoo Authors
+# Copyright 1999-2026 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 GNOME2_LA_PUNT="yes"
-PYTHON_COMPAT=( python3_{9..13} python3_13t )
+PYTHON_COMPAT=( python3_{9..14} )
 
 inherit autotools gnome2 python-single-r1
 

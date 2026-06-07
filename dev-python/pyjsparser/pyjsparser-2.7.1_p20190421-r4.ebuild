@@ -6,7 +6,7 @@ EAPI=8
 [[ ${PV} == *_p20190421 ]] && COMMIT=5465d037b30e334cb0997f2315ec1e451b8ad4c1
 
 DISTUTILS_USE_PEP517=setuptools
-PYTHON_COMPAT=( python3_{10..13} )
+PYTHON_COMPAT=( python3_{10..14} )
 
 inherit distutils-r1
 

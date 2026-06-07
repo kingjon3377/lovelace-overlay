@@ -1,10 +1,10 @@
-# Copyright 1999-2025 Gentoo Authors
+# Copyright 1999-2026 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
 # Its setup.py claims it's Python 3 compatible, but it appears not to be.
-PYTHON_COMPAT=( python3_{8..12} )
+PYTHON_COMPAT=( python3_{8..14} )
 # PYTHON_COMPAT=( python2_7 )
 # Doesn't actually support PEP517 mode AFAIK (certainly not tested), but this
 # is required for Manifest generation for any version of the package

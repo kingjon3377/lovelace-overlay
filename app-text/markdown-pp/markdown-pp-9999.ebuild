@@ -1,10 +1,10 @@
-# Copyright 1999-2025 Gentoo Authors
+# Copyright 1999-2026 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
 # Its setup.py claims it's Python 3 compatible, but it appears not to be.
-PYTHON_COMPAT=( python3_{8..13} python3_13t )
+PYTHON_COMPAT=( python3_{8..14} )
 DISTUTILS_USE_PEP517=setuptools
 
 inherit git-r3 distutils-r1

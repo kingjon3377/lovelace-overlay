@@ -1,11 +1,11 @@
-# Copyright 1999-2025 Gentoo Authors
+# Copyright 1999-2026 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 # Bug #348280 -- tosubmit
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{8..12} )
+PYTHON_COMPAT=( python3_{8..14} )
 DISTUTILS_USE_PEP517=setuptools
 
 EGIT_REPO_URI="https://github.com/arthurdejong/webcheck.git"

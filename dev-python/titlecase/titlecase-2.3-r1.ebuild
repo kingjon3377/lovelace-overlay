@@ -1,9 +1,9 @@
-# Copyright 2025 Gentoo Authors
+# Copyright 2026 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{8..12} )
+PYTHON_COMPAT=( python3_{8..14} )
 # PEP517 mode not tested, but this is now required for Manifest generation of
 # any version
 DISTUTILS_USE_PEP517=setuptools
