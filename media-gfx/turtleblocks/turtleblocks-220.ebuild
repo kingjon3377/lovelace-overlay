@@ -35,12 +35,10 @@ RDEPEND="${DEPEND}"
 
 FILES=( "${FILESDIR}/${P}-python-3.patch" )
 
+DISTUTILS_ARGS=(--no-sugar ) 
+
 python_prepare_all() {
 	distutils-r1_python_prepare_all
-}
-
-python_configure_all() {
-	mydistutilsargs=( --no-sugar )
 }
 
 src_install() {
