@@ -33,9 +33,9 @@ DEPEND="x11-libs/gtk+:3
 	')"
 RDEPEND="${DEPEND}"
 
+FILES=( "${FILESDIR}/${P}-python-3.patch" )
+
 python_prepare_all() {
-	2to3 -w --no-diffs -n TurtleArt/turtleblocks.py TurtleArt/util/configfile.py \
-		TurtleArt/util/sugariconify.py || die
 	distutils-r1_python_prepare_all
 }
 
