@@ -27,6 +27,7 @@ RDEPEND="${PYTHON_DEPS}
 	dev-python/requests-file[${PYTHON_USEDEP}]
 	app-arch/brotli[python,${PYTHON_USEDEP}]
 	dev-python/pillow[${PYTHON_USEDEP}]
+	dev-python/apsw[${PYTHON_USEDEP}]
 	dev-python/cloudscraper[${PYTHON_USEDEP}]"
 DEPEND="${RDEPEND}"
 BDEPEND="test? ( dev-python/pytest[${PYTHON_USEDEP}] )"
@@ -61,9 +62,9 @@ python_install_all() {
 
 python_test() {
 	export EPYTEST_DESELECT=(
-		# fails on 4.48.0 - 4.57.0
+		# fails on 4.48.0 - 4.59.0
 		"tests/adapters/test_adapter_fanfictionsfr.py::TestGetChapterText::test_it_handles_zipped_chapters"
-		# Fails on 4.57.0
+		# Fails on 4.57.0 - 4.59.0
 		"tests/adapters/test_adapter_wattpadcom.py::TestExtractChapterUrlsAndMetadata::test_get_published_date"
 	)
 	epytest
