@@ -4,7 +4,7 @@
 EAPI=8
 
 PYTHON_COMPAT=( python3_{9..14} )
-DISTUTILS_USE_PEP517=flit
+DISTUTILS_USE_PEP517=hatchling
 inherit distutils-r1 pypi
 
 DESCRIPTION="Low-level communication layer for PRAW 4+."
@@ -15,15 +15,16 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 
 DEPEND="test? (
-			dev-python/betamax[${PYTHON_USEDEP}]
-			dev-python/betamax-matchers[${PYTHON_USEDEP}]
-			dev-python/betamax-serializers[${PYTHON_USEDEP}]
-			dev-python/mock[${PYTHON_USEDEP}]
-			dev-python/testfixtures[${PYTHON_USEDEP}]
+			dev-python/vcrpy[${PYTHON_USEDEP}]
+			dev-python/coverage[${PYTHON_USEDEP}]
+		)
+		doc? (
+			dev-python/sphinx-autodoc-typehints[${PYTHON_USEDEP}]
+			dev-python/furo[${PYTHON_USEDEP}]
+			dev-python/sphinx[${PYTHON_USEDEP}]
 		)"
 RDEPEND="dev-python/requests[${PYTHON_USEDEP}]"
 
-# Fails to detect any tests
-RESTRICT=test
+IUSE="doc"
 
 distutils_enable_tests pytest
