@@ -16,17 +16,27 @@ SRC_URI="https://github.com/xyz2tex/${PN}/archive/refs/tags/v${PV}.tar.gz -> ${P
 LICENSE="GPL-2+"
 SLOT="0"
 KEYWORDS="~amd64"
+IUSE="doc"
 
-COMMON_DEPEND="$(python_gen_cond_dep 'dev-python/lxml[${PYTHON_USEDEP}]')"
+COMMON_DEPEND="
+	$(python_gen_cond_dep 'dev-python/lxml[${PYTHON_USEDEP}]
+		dev-python/pygobject[${PYTHON_USEDEP}]')"
 # FIXME: BDEPEND instead of DEPEND?
 DEPEND="${COMMON_DEPEND}
 	$(python_gen_cond_dep 'dev-python/sphinx-argparse[${PYTHON_USEDEP}]
-		dev-python/furo[${PYTHON_USEDEP}]')"
+		dev-python/furo[${PYTHON_USEDEP}]
+		dev-python/sphinx-copybutton[${PYTHON_USEDEP}]')
+	"
 RDEPEND="${COMMON_DEPEND}
 	>=media-gfx/inkscape-1.4[${PYTHON_SINGLE_USEDEP}]"
 
 # FIXME: Tests depend on 'inkex', part of media-gfx/inkscape but not on standard Python package path
 RESTRICT="test"
+
+src_prepare() {
+	default
+	sed -i -e 's@"sphinxarg.ext", @@' docs/conf.py || die
+}
 
 src_install() {
 	distutils-r1_src_install
