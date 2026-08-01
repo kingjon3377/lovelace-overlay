@@ -5,6 +5,7 @@
 
 EAPI=8
 
+RUST_MIN_VER="1.85.0"
 CRATES="
 	adler2@2.0.0
 	aho-corasick@0.7.19
@@ -266,5 +267,10 @@ RESTRICT="!test? ( test )"
 
 src_test() {
 	# tests depend on Docker
-	cargo_src_test -- --skip installed_successfully --skip wrong_privileges
+	local CARGO_SKIP_TESTS=(
+		installed_successfully 
+		wrong_privileges
+		upgrade_successfully
+	)
+	cargo_src_test
 }
