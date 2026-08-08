@@ -26,7 +26,7 @@ DEPEND="${CDEPEND}
 	test? (
 		app-arch/unrar
 		app-arch/unzip
-		app-arch/p7zip
+		|| ( app-arch/7zip[symlink] app-arch/p7zip )
 	)"
 
 RESTRICT="!test? ( test )"
