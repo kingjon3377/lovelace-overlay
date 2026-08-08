@@ -20,7 +20,7 @@ CDEPEND="dev-libs/libxml2
 RDEPEND="${CDEPEND}
 	rar? ( app-arch/unrar )
 	zip? ( app-arch/unzip )
-	7zip? ( app-arch/p7zip )
+	7zip? ( || ( app-arch/7zip[symlink] app-arch/p7zip ) )
 "
 DEPEND="${CDEPEND}
 	test? (
