@@ -33,9 +33,12 @@ DEPEND="x11-libs/gtk+:3
 	')"
 RDEPEND="${DEPEND}"
 
-FILES=( "${FILESDIR}/${P}-python-3.patch" )
+FILES=(
+	"${FILESDIR}/${P}-python-3.patch"
+	"${FILESDIR}/${P}-fix-no-sugar.patch"
+)
 
-DISTUTILS_ARGS=(--no-sugar ) 
+DISTUTILS_ARGS=(--no-sugar )
 
 python_prepare_all() {
 	distutils-r1_python_prepare_all
