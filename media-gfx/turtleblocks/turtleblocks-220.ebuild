@@ -33,7 +33,7 @@ DEPEND="x11-libs/gtk+:3
 	')"
 RDEPEND="${DEPEND}"
 
-FILES=(
+PATCHES=(
 	"${FILESDIR}/${P}-python-3.patch"
 	"${FILESDIR}/${P}-fix-no-sugar.patch"
 )
