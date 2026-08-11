@@ -14,5 +14,5 @@ LICENSE="|| ( Artistic GPL-1 GPL-2 GPL-3 )"
 SLOT="0"
 KEYWORDS="~amd64"
 
-DEPEND="dev-perl/Module-Build
-	>=dev-perl/Test-Pod-1.520.0"
+DEPEND=">=dev-perl/Test-Pod-1.520.0"
+BDEPEND="dev-perl/Module-Build"
