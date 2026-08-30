@@ -28,32 +28,24 @@ RDEPEND="x11-libs/libXmu
 	x11-libs/libSM
 	x11-libs/gtk+:2
 	x11-libs/motif:0
+	virtual/zlib:=
 	media-libs/alsa-lib"
 DEPEND="${RDEPEND}
 	app-text/xmlto"
 BDEPEND="virtual/pandoc"
 
 PATCHES=(
-	"${WORKDIR}/debian/patches/use-ldflags.patch"
-	"${WORKDIR}/debian/patches/cross-build.patch"
 	"${WORKDIR}/debian/patches/dwtest-random-seed.patch"
-	"${WORKDIR}/debian/patches/honor-cppflags.patch"
 	"${WORKDIR}/debian/patches/praat-launch-in-desktop.patch"
-	"${WORKDIR}/debian/patches/real-file-icon.patch"
 	"${WORKDIR}/debian/patches/avoid-dangling-hyperlinks.patch"
 	"${WORKDIR}/debian/patches/drop-no-pie.patch"
+	"${WORKDIR}/debian/patches/use-system-zlib.patch"
 )
 
 S="${WORKDIR}/${PN}.github.io-${PV}"
 
 src_prepare() {
 	default
-	# TODO: following line should be updated for non-linux etc. builds
-	# (Flammie does not have testing equipment)
-	cp "${S}/makefiles/makefile.defs.linux.alsa" "${S}/makefile.defs" || die
-	sed -i \
-		-e 's:^AR = ar:AR = $(USER_AR):' \
-		"${S}/makefile.defs" || die
 	sed -n '/^R"~~~(/,/^)~~~"/{/^R"~~~(/!{/^)~~~"/!p}}' fon/manual_whatsnew.cpp > ../debian/what-is-new || die
 }
 
@@ -61,7 +53,8 @@ src_compile() {
 	emake CC="$(tc-getCC) -fexcess-precision=fast ${CFLAGS}" \
 		CXX="$(tc-getCXX) -fexcess-precision=fast ${CXXFLAGS}" \
 		CPP="$(tc-getCPP) ${CPPFLAGS}" AR="$(tc-getAR)" \
-		"USER_AR=$(tc-getAR)" "LINK=$(tc-getCXX) ${LDFLAGS} -Wl,--as-needed"
+		USE_SYS_ZLIB=yes PRAAT_ARCH=native PRAAT_AUDIO=alsa \
+		"LINK=$(tc-getCXX) ${LDFLAGS} -Wl,--as-needed"
 	for file in ${PN} ${PN}-launch;do
 		pandoc --standalone --to man "${WORKDIR}/debian/${file}.md" -o "${file}.1" || die
 	done
@@ -69,11 +62,12 @@ src_compile() {
 
 src_test() {
 	PRAAT="${S}/${PN}" virtx "${WORKDIR}/debian/tests/run-tests" || die
+	# TODO: This might not run if FEATURES=test-fail-continue and tests fail
+	emake clean-test
 }
 
 src_install() {
 	dobin ${PN} ../debian/${PN}-launch
-	doicon ../debian/${PN}.xpm
 	doicon -s scalable main/${PN}-480.svg
 	domenu main/${PN}.desktop
 	doman ${PN}.1 ${PN}-launch.1
