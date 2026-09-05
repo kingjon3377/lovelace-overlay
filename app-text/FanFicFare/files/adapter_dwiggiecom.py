@@ -20,7 +20,6 @@ import re
 
 from ..htmlcleanup import stripHTML
 from .. import exceptions as exceptions
-from ..six.moves.urllib.error import HTTPError
 
 from .base_adapter import BaseSiteAdapter,  makeDate
 
@@ -97,8 +96,8 @@ class DwiggieComAdapter(BaseSiteAdapter):
         try:
             data = self.get_request(url)
 
-        except HTTPError as e:
-            if e.code == 404:
+        except exceptions.HTTPErrorFFF as e:
+            if e.status_code == 404:
                 # need to change the exception returned
                 raise exceptions.StoryDoesNotExist(self.meta)
             else:
