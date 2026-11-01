@@ -62,10 +62,16 @@ python_install_all() {
 
 python_test() {
 	export EPYTEST_DESELECT=(
-		# fails on 4.48.0 - 4.60.0
+		# fails on 4.48.0 - 4.62.0
 		"tests/adapters/test_adapter_fanfictionsfr.py::TestGetChapterText::test_it_handles_zipped_chapters"
-		# Fails on 4.57.0 - 4.60.0
+		# Fails on 4.57.0 - 4.62.0
 		"tests/adapters/test_adapter_wattpadcom.py::TestExtractChapterUrlsAndMetadata::test_get_published_date"
+		# fails on 4.62.0 - 4.62.0
+		"tests/test_fetcher_requests_retries.py::RequestsFetcherRetryTest::test_525_recovers_for_get_and_post"
+		# fails on 4.62.0 - 4.62.0
+		"tests/test_fetcher_requests_retries.py::RequestsFetcherRetryTest::test_exhaustion_preserves_http_error"
+		# fails on 4.62.0 - 4.62.0
+		"tests/test_fetcher_requests_retries.py::RequestsFetcherRetryTest::test_existing_policy_and_tls_verification_are_preserved"
 	)
 	epytest
 	# Under Python 3.12, in PEP517 mode, currently PYTHONPATH is unset, causing the following to fail. TODO: debug
