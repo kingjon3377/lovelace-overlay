@@ -40,6 +40,7 @@ src_prepare() {
 	sed -e "s|@QT_INCLUDEDIR@|${QT6_HEADERDIR}|" "${FILESDIR}/qtsinglecoreapplication.prf.in" > "qtsinglecoreapplication.prf" || die
 	default
 	sed -i -E -e 's,.include,\0 <QRegularExpression>\n\0,' -e 's,QRegExp,QRegularExpression,g' src/qtlocalpeer.cpp || die
+	sed -i -e "s@-head@-$(ver_cut 1-2)@" common.pri || die
 }
 
 src_configure() {

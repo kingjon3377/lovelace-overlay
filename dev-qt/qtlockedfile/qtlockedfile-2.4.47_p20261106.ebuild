@@ -26,6 +26,7 @@ src_prepare() {
 	# calls cmake_src_prepare, which aborts
 	_qt6-build_prepare_env
 	sed -e "s|@QT_INCLUDEDIR@|${QT6_HEADERDIR}|" "${FILESDIR}/${PN}.prf.in" > "${PN}.prf" || die
+	sed -i -e "s@-head@-$(ver_cut 1-2)@" common.pri || die
 	default
 }
 
