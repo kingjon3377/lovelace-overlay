@@ -1,6 +1,6 @@
-diff -rupN buildlib/buildcorelib.pro.old buildlib/buildcorelib.pro
---- buildlib/buildcorelib.pro.old	1969-12-31 19:00:00.000000000 -0500
-+++ buildlib/buildcorelib.pro	2010-07-21 22:09:10.000000000 -0400
+diff -rupN buildlib/buildcorelib.pro buildlib/buildcorelib.pro
+--- a/buildlib/buildcorelib.pro	1969-12-31 19:00:00.000000000 -0500
++++ b/buildlib/buildcorelib.pro	2010-07-21 22:09:10.000000000 -0400
 @@ -0,0 +1,13 @@
 +TEMPLATE=lib
 +CONFIG += qt dll qtsinglecoreapplication-buildlib
@@ -15,9 +15,9 @@ diff -rupN buildlib/buildcorelib.pro.old buildlib/buildcorelib.pro
 +}
 +target.path = $$DESTDIR
 +INSTALLS += target
-diff -rupN common.pri.old common.pri
---- common.pri.old	2015-09-13 18:29:19.955577604 +0200
-+++ common.pri	2015-09-13 18:32:21.054587906 +0200
+diff -rupN common.pri common.pri
+--- a/common.pri	2015-09-13 18:29:19.955577604 +0200
++++ b/common.pri	2015-09-13 18:32:21.054587906 +0200
 @@ -5,10 +5,12 @@ greaterThan(QT_MAJOR_VERSION, 5)|\
    if(equals(QT_MAJOR_VERSION, 5):greaterThan(QT_MINOR_VERSION, 4))|\
    if(equals(QT_MAJOR_VERSION, 5):equals(QT_MINOR_VERSION, 4):greaterThan(QT_PATCH_VERSION, 1)) {
@@ -32,9 +32,9 @@ diff -rupN common.pri.old common.pri
  QTSINGLEAPPLICATION_LIBDIR = $$PWD/lib
 -unix:qtsingleapplication-uselib:!qtsingleapplication-buildlib:QMAKE_RPATHDIR += $$QTSINGLEAPPLICATION_LIBDIR
 +QTSINGLECOREAPPLICATION_LIBDIR = $$PWD/lib
-diff -rupN qtsingleapplication.pro.old qtsingleapplication.pro
---- qtsingleapplication.pro.old	2009-12-16 05:43:33.000000000 -0500
-+++ qtsingleapplication.pro	2010-07-21 22:09:10.000000000 -0400
+diff -rupN qtsingleapplication.pro qtsingleapplication.pro
+--- a/qtsingleapplication.pro	2009-12-16 05:43:33.000000000 -0500
++++ b/qtsingleapplication.pro	2010-07-21 22:09:10.000000000 -0400
 @@ -1,5 +1,4 @@
  TEMPLATE=subdirs
  CONFIG += ordered
@@ -42,13 +42,13 @@ diff -rupN qtsingleapplication.pro.old qtsingleapplication.pro
 -qtsingleapplication-uselib:SUBDIRS=buildlib
 -SUBDIRS+=examples
 +qtsingleapplication-uselib:SUBDIRS=buildlib/buildlib.pro buildlib/buildcorelib.pro
-diff -rupN src/QtSingleCoreApplication.old src/QtSingleCoreApplication
---- src/QtSingleCoreApplication.old	1969-12-31 19:00:00.000000000 -0500
-+++ src/QtSingleCoreApplication	2010-07-21 22:09:10.000000000 -0400
+diff -rupN src/QtSingleCoreApplication src/QtSingleCoreApplication
+--- a/src/QtSingleCoreApplication	1969-12-31 19:00:00.000000000 -0500
++++ b/src/QtSingleCoreApplication	2010-07-21 22:09:10.000000000 -0400
 @@ -0,0 +1 @@
 +#include "qtsinglecoreapplication.h"
---- src/qtsinglecoreapplication.pri.old	2014-02-12 22:46:28.000000000 +0100
-+++ src/qtsinglecoreapplication.pri	2014-08-15 15:28:16.604289958 +0200
+--- a/src/qtsinglecoreapplication.pri	2014-02-12 22:46:28.000000000 +0100
++++ b/src/qtsinglecoreapplication.pri	2014-08-15 15:28:16.604289958 +0200
 @@ -1,10 +1,18 @@
 -INCLUDEPATH	+= $$PWD
 -DEPENDPATH      += $$PWD

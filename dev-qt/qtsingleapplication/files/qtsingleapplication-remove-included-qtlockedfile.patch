@@ -1,6 +1,6 @@
-diff -rupN src/qtlocalpeer.cpp.old src/qtlocalpeer.cpp
---- src/qtlocalpeer.cpp.old	2014-02-12 22:46:28.000000000 +0100
-+++ src/qtlocalpeer.cpp	2014-08-14 19:03:48.684940326 +0200
+diff -rupN src/qtlocalpeer.cpp src/qtlocalpeer.cpp
+--- a/src/qtlocalpeer.cpp	2014-02-12 22:46:28.000000000 +0100
++++ b/src/qtlocalpeer.cpp	2014-08-14 19:03:48.684940326 +0200
 @@ -55,15 +55,6 @@ static PProcessIdToSessionId pProcessIdT
  #include <unistd.h>
  #endif
@@ -26,10 +26,10 @@ diff -rupN src/qtlocalpeer.cpp.old src/qtlocalpeer.cpp
          return true;
  
      bool res = server->listen(socketName);
-I file binari src/.qtlocalpeer.cpp.swp e src/.qtlocalpeer.cpp.swp sono.old diversi
-diff -rupN src/qtlocalpeer.h.old src/qtlocalpeer.h
---- src/qtlocalpeer.h.old	2014-02-12 22:46:28.000000000 +0100
-+++ src/qtlocalpeer.h	2014-08-14 19:04:28.166323264 +0200
+I file binari src/.qtlocalpeer.cpp.swp e src/.qtlocalpeer.cpp.swp sono diversi
+diff -rupN src/qtlocalpeer.h src/qtlocalpeer.h
+--- a/src/qtlocalpeer.h	2014-02-12 22:46:28.000000000 +0100
++++ b/src/qtlocalpeer.h	2014-08-14 19:04:28.166323264 +0200
 @@ -68,7 +68,7 @@ protected:
      QString id;
      QString socketName;
@@ -39,9 +39,9 @@ diff -rupN src/qtlocalpeer.h.old src/qtlocalpeer.h
  
  private:
      static const char* ack;
-diff -rupN src/qtsingleapplication.pri.old src/qtsingleapplication.pri
---- src/qtsingleapplication.pri.old	2014-02-12 22:46:28.000000000 +0100
-+++ src/qtsingleapplication.pri	2014-08-14 19:05:18.161808149 +0200
+diff -rupN src/qtsingleapplication.pri src/qtsingleapplication.pri
+--- a/src/qtsingleapplication.pri	2014-02-12 22:46:28.000000000 +0100
++++ b/src/qtsingleapplication.pri	2014-08-14 19:05:18.161808149 +0200
 @@ -3,6 +3,7 @@ INCLUDEPATH += $$PWD
  DEPENDPATH += $$PWD
  QT *= network
@@ -50,8 +50,8 @@ diff -rupN src/qtsingleapplication.pri.old src/qtsingleapplication.pri
  
  qtsingleapplication-uselib:!qtsingleapplication-buildlib {
      LIBS += -L$$QTSINGLEAPPLICATION_LIBDIR -l$$QTSINGLEAPPLICATION_LIBNAME
---- src/qtsinglecoreapplication.pri.old	2014-08-15 16:21:57.614300927 +0200
-+++ src/qtsinglecoreapplication.pri	2014-08-15 16:22:34.117645461 +0200
+--- a/src/qtsinglecoreapplication.pri	2014-08-15 16:21:57.614300927 +0200
++++ b/src/qtsinglecoreapplication.pri	2014-08-15 16:22:34.117645461 +0200
 @@ -4,6 +4,7 @@ DEPENDPATH += $$PWD
  
  QT *= network

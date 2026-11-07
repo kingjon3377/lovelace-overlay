@@ -38,8 +38,8 @@ src_prepare() {
 	rm -rf ../qtlockedfile src/QtLocked* src/qtlocked* || die
 	sed -e "s|@QT_INCLUDEDIR@|${QT6_HEADERDIR}|" "${FILESDIR}/${PN}.prf.in" > "${PN}.prf" || die
 	sed -e "s|@QT_INCLUDEDIR@|${QT6_HEADERDIR}|" "${FILESDIR}/qtsinglecoreapplication.prf.in" > "qtsinglecoreapplication.prf" || die
-	sed -i -E -e 's,.include,\0 <QRegularExpression>\n\0,' -e 's,QRegExp,QRegularExpression,g' src/qtlocalpeer.cpp || die
 	default
+	sed -i -E -e 's,.include,\0 <QRegularExpression>\n\0,' -e 's,QRegExp,QRegularExpression,g' src/qtlocalpeer.cpp || die
 }
 
 src_configure() {
