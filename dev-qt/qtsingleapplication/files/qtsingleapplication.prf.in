@@ -1,0 +1,9 @@
+INCLUDEPATH *= @QT_INCLUDEDIR@/QtSolutions
+greaterThan(QT_MAJOR_VERSION, 4) {
+LIBS *= -lQt$${QT_MAJOR_VERSION}Solutions_SingleApplication-2.6
+} else {
+LIBS *= -lQtSolutions_SingleApplication-2.6
+}
+QT *= widgets
+QT *= network
+CONFIG *= qtlockedfile
