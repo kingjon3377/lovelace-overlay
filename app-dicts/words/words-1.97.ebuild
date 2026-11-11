@@ -1,9 +1,9 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2026 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
-ADA_COMPAT=( gcc_13 gcc_12 gcc_14 ) # gcc_15
+ADA_COMPAT=( gcc_1{2..6} )
 
 inherit ada
 
