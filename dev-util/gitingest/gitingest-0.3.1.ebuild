@@ -8,7 +8,7 @@ DISTUTILS_USE_PEP517=setuptools
 
 inherit pypi distutils-r1
 
-DESCRIPTION="LI tool to analyze and create text dumps of codebases for LLMs"
+DESCRIPTION="CLI tool to analyze and create text dumps of codebases for LLMs"
 HOMEPAGE="https://github.com/coderamp-labs/gitingest"
 
 LICENSE="MIT"
