@@ -1,0 +1,31 @@
+diff '--color=auto' -ru a/tests/server/test_flow_integration.py b/tests/server/test_flow_integration.py
+--- a/tests/server/test_flow_integration.py	2025-07-31 09:54:59.000000000 -0400
++++ b/tests/server/test_flow_integration.py	2026-11-16 23:27:17.410827148 -0500
+@@ -71,27 +71,6 @@
+ 
+ 
+ @pytest.mark.asyncio
+-async def test_invalid_repository_url(request: pytest.FixtureRequest) -> None:
+-    """Test handling of an invalid repository URL."""
+-    client = request.getfixturevalue("test_client")
+-    form_data = {
+-        "input_text": "https://github.com/nonexistent/repo",
+-        "max_file_size": 243,
+-        "pattern_type": "exclude",
+-        "pattern": "",
+-        "token": "",
+-    }
+-
+-    response = client.post("/api/ingest", json=form_data)
+-    # Should return 400 for invalid repository
+-    assert response.status_code == status.HTTP_400_BAD_REQUEST, f"Request failed: {response.text}"
+-
+-    # Check that response is JSON error
+-    response_data = response.json()
+-    assert "error" in response_data
+-
+-
+-@pytest.mark.asyncio
+ async def test_large_repository(request: pytest.FixtureRequest) -> None:
+     """Simulate analysis of a large repository with nested folders."""
+     client = request.getfixturevalue("test_client")

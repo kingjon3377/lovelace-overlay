@@ -1,0 +1,11 @@
+diff '--color=auto' -ru a/tests/query_parser/test_git_host_agnostic.py b/tests/query_parser/test_git_host_agnostic.py
+--- a/tests/query_parser/test_git_host_agnostic.py	2025-07-31 09:54:59.000000000 -0400
++++ b/tests/query_parser/test_git_host_agnostic.py	2026-11-16 23:18:16.779948690 -0500
+@@ -16,7 +16,6 @@
+ _REPOS: list[tuple[str, str, str]] = [
+     ("github.com", "tiangolo", "fastapi"),
+     ("gitlab.com", "gitlab-org", "gitlab-runner"),
+-    ("bitbucket.org", "na-dna", "llm-knowledge-share"),
+     ("gitea.com", "xorm", "xorm"),
+     ("codeberg.org", "forgejo", "forgejo"),
+     ("git.rwth-aachen.de", "medialab", "19squared"),
