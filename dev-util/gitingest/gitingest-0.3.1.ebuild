@@ -42,6 +42,8 @@ PATCHES=(
 	"${FILESDIR}/${P}-skip-bitbucket-tests.patch"
 	# This test also hangs until it gets input, then succeeds.
 	"${FILESDIR}/${P}-remove-interactive-test.patch"
+	# Test failures due to trying to use the network, apparently
+	"${FILESDIR}/${P}-remove-tests-using-network.patch"
 )
 
 distutils_enable_tests pytest

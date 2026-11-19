@@ -1,0 +1,319 @@
+diff '--color=auto' -ru a/tests/test_summary.py b/tests/test_summary.py
+--- a/tests/test_summary.py	2025-07-31 09:54:59.000000000 -0400
++++ b/tests/test_summary.py	2026-11-16 23:42:34.056689590 -0500
+@@ -23,66 +23,6 @@
+ ]
+ 
+ 
+-@pytest.mark.parametrize(("path_type", "path"), PATH_CASES)
+-@pytest.mark.parametrize(("ref_type", "ref"), REF_CASES)
+-def test_ingest_summary(path_type: str, path: str, ref_type: str, ref: str) -> None:
+-    """Assert that ``gitingest.ingest()`` emits a concise, 5-or-6-line summary.
+-
+-    - Non-'main” refs → 5 key/value pairs + blank line (6 total).
+-    - 'main” branch   → ref line omitted (5 total).
+-    - Required keys:
+-        - Repository
+-        - ``ref_type`` (absent on 'main”)
+-        - File│Subpath (chosen by ``path_type``)
+-        - Lines│Files analyzed (chosen by ``path_type``)
+-        - Estimated tokens (positive integer)
+-
+-    Any missing key, wrong value, or incorrect line count should fail.
+-
+-    Parameters
+-    ----------
+-    path_type : {"tree", "blob"}
+-        GitHub object type under test.
+-    path : str
+-        The repository sub-path or file path to feed into the URL.
+-    ref_type : {"Branch", "Tag", "Commit"}
+-        Label expected on line 2 of the summary (absent if `ref` is "main").
+-    ref : str
+-        Actual branch name, tag, or commit hash.
+-
+-    """
+-    is_main_branch = ref == "main"
+-    is_blob = path_type == "blob"
+-    expected_lines = _calculate_expected_lines(ref_type, is_main_branch=is_main_branch)
+-    expected_non_empty_lines = expected_lines - 1
+-
+-    summary, _, _ = ingest(f"https://github.com/{REPO}/{path_type}/{ref}{path}")
+-    lines = summary.splitlines()
+-    parsed_lines = dict(line.split(": ", 1) for line in lines if ": " in line)
+-
+-    assert parsed_lines["Repository"] == REPO
+-
+-    if is_main_branch:
+-        # We omit the 'Branch' line for 'main' branches.
+-        assert ref_type not in parsed_lines
+-    else:
+-        assert parsed_lines[ref_type] == ref
+-
+-    if is_blob:
+-        assert parsed_lines["File"] == Path(path).name
+-        assert "Lines" in parsed_lines
+-    else:  # 'tree'
+-        assert parsed_lines["Subpath"] == path
+-        assert "Files analyzed" in parsed_lines
+-
+-    token_match = re.search(r"\d+", parsed_lines["Estimated tokens"])
+-    assert token_match, "'Estimated tokens' should contain a number"
+-    assert int(token_match.group()) > 0
+-
+-    assert len(lines) == expected_lines
+-    assert len(parsed_lines) == expected_non_empty_lines
+-
+-
+ def _calculate_expected_lines(ref_type: str, *, is_main_branch: bool) -> int:
+     """Calculate the expected number of lines in the summary.
+ 
+diff '--color=auto' -ruN a/tests/query_parser/test_git_host_agnostic.py b/tests/query_parser/test_git_host_agnostic.py
+--- a/tests/query_parser/test_git_host_agnostic.py	2026-11-19 07:41:00.250037374 -0500
++++ b/tests/query_parser/test_git_host_agnostic.py	1969-12-31 19:00:00.000000000 -0500
+@@ -1,78 +0,0 @@
+-"""Tests to verify that the query parser is Git host agnostic.
+-
+-These tests confirm that ``parse_query`` correctly identifies user/repo pairs and canonical URLs for GitHub, GitLab,
+-Bitbucket, Gitea, and Codeberg, even if the host is omitted.
+-"""
+-
+-from __future__ import annotations
+-
+-import pytest
+-
+-from gitingest.config import MAX_FILE_SIZE
+-from gitingest.query_parser import parse_remote_repo
+-from gitingest.utils.query_parser_utils import KNOWN_GIT_HOSTS, _is_valid_git_commit_hash
+-
+-# Repository matrix: (host, user, repo)
+-_REPOS: list[tuple[str, str, str]] = [
+-    ("github.com", "tiangolo", "fastapi"),
+-    ("gitlab.com", "gitlab-org", "gitlab-runner"),
+-    ("gitea.com", "xorm", "xorm"),
+-    ("codeberg.org", "forgejo", "forgejo"),
+-    ("git.rwth-aachen.de", "medialab", "19squared"),
+-    ("gitlab.alpinelinux.org", "alpine", "apk-tools"),
+-]
+-
+-
+-# Generate cartesian product of repository tuples with URL variants.
+-@pytest.mark.parametrize(("host", "user", "repo"), _REPOS, ids=[f"{h}:{u}/{r}" for h, u, r in _REPOS])
+-@pytest.mark.parametrize("variant", ["full", "noscheme", "slug"])
+-@pytest.mark.asyncio
+-async def test_parse_query_without_host(
+-    host: str,
+-    user: str,
+-    repo: str,
+-    variant: str,
+-) -> None:
+-    """Verify that ``parse_remote_repo`` handles URLs, host-omitted URLs and raw slugs."""
+-    # Build the input URL based on the selected variant
+-    if variant == "full":
+-        url = f"https://{host}/{user}/{repo}"
+-    elif variant == "noscheme":
+-        url = f"{host}/{user}/{repo}"
+-    else:  # "slug"
+-        url = f"{user}/{repo}"
+-
+-    expected_url = f"https://{host}/{user}/{repo}"
+-
+-    # For slug form with a custom host (not in KNOWN_GIT_HOSTS) we expect a failure,
+-    # because the parser cannot guess which domain to use.
+-    if variant == "slug" and host not in KNOWN_GIT_HOSTS:
+-        with pytest.raises(ValueError, match="Could not find a valid repository host"):
+-            await parse_remote_repo(url)
+-        return
+-
+-    query = await parse_remote_repo(url)
+-
+-    # Compare against the canonical dict while ignoring unpredictable fields.
+-    actual = query.model_dump(exclude={"id", "local_path", "ignore_patterns", "s3_url"})
+-
+-    assert "commit" in actual
+-    assert _is_valid_git_commit_hash(actual["commit"])
+-    del actual["commit"]
+-
+-    expected = {
+-        "host": host,
+-        "user_name": user,
+-        "repo_name": repo,
+-        "url": expected_url,
+-        "slug": f"{user}-{repo}",
+-        "subpath": "/",
+-        "type": None,
+-        "branch": None,
+-        "tag": None,
+-        "max_file_size": MAX_FILE_SIZE,
+-        "include_patterns": None,
+-        "include_submodules": False,
+-    }
+-
+-    assert actual == expected
+diff '--color=auto' -ruN a/tests/query_parser/test_query_parser.py b/tests/query_parser/test_query_parser.py
+--- a/tests/query_parser/test_query_parser.py	2025-07-31 09:54:59.000000000 -0400
++++ b/tests/query_parser/test_query_parser.py	2026-11-19 08:00:32.557746541 -0500
+@@ -267,29 +267,6 @@
+ 
+ 
+ @pytest.mark.asyncio
+-async def test_parse_query_with_branch() -> None:
+-    """Test ``parse_remote_repo`` when a branch is specified in a blob path.
+-
+-    Given "https://github.com/pandas-dev/pandas/blob/2.2.x/...":
+-    When ``parse_remote_repo`` is called,
+-    Then the branch should be identified, subpath set, and commit remain None.
+-    """
+-    url = "https://github.com/pandas-dev/pandas/blob/2.2.x/.github/ISSUE_TEMPLATE/documentation_improvement.yaml"
+-    query = await parse_remote_repo(url)
+-
+-    assert query.user_name == "pandas-dev"
+-    assert query.repo_name == "pandas"
+-    assert query.url == "https://github.com/pandas-dev/pandas"
+-    assert query.slug == "pandas-dev-pandas"
+-    assert query.id is not None
+-    assert query.subpath == "/.github/ISSUE_TEMPLATE/documentation_improvement.yaml"
+-    assert query.branch == "2.2.x"
+-    assert query.commit is not None
+-    assert _is_valid_git_commit_hash(query.commit)
+-    assert query.type == "blob"
+-
+-
+-@pytest.mark.asyncio
+ @pytest.mark.parametrize(
+     ("path", "expected_branch", "expected_subpath", "mock_name"),
+     [
+diff '--color=auto' -ruN a/tests/server/test_flow_integration.py b/tests/server/test_flow_integration.py
+--- a/tests/server/test_flow_integration.py	2026-11-19 07:59:43.033266145 -0500
++++ b/tests/server/test_flow_integration.py	2026-11-19 08:05:37.190327948 -0500
+@@ -43,130 +43,3 @@
+             shutil.rmtree(temp_dir)
+         except PermissionError as exc:
+             sys.stderr.write(f"Error cleaning up {temp_dir}: {exc}\n")
+-
+-
+-@pytest.mark.asyncio
+-async def test_remote_repository_analysis(request: pytest.FixtureRequest) -> None:
+-    """Test the complete flow of analyzing a remote repository."""
+-    client = request.getfixturevalue("test_client")
+-    form_data = {
+-        "input_text": "https://github.com/octocat/Hello-World",
+-        "max_file_size": 243,
+-        "pattern_type": "exclude",
+-        "pattern": "",
+-        "token": "",
+-    }
+-
+-    response = client.post("/api/ingest", json=form_data)
+-    assert response.status_code == status.HTTP_200_OK, f"Form submission failed: {response.text}"
+-
+-    # Check that response is JSON
+-    response_data = response.json()
+-    assert "content" in response_data
+-    assert response_data["content"]
+-    assert "repo_url" in response_data
+-    assert "summary" in response_data
+-    assert "tree" in response_data
+-    assert "content" in response_data
+-
+-
+-@pytest.mark.asyncio
+-async def test_large_repository(request: pytest.FixtureRequest) -> None:
+-    """Simulate analysis of a large repository with nested folders."""
+-    client = request.getfixturevalue("test_client")
+-    # TODO: ingesting a large repo take too much time (eg: godotengine/godot repository)
+-    form_data = {
+-        "input_text": "https://github.com/octocat/hello-world",
+-        "max_file_size": 10,
+-        "pattern_type": "exclude",
+-        "pattern": "",
+-        "token": "",
+-    }
+-
+-    response = client.post("/api/ingest", json=form_data)
+-    assert response.status_code == status.HTTP_200_OK, f"Request failed: {response.text}"
+-
+-    response_data = response.json()
+-    if response.status_code == status.HTTP_200_OK:
+-        assert "content" in response_data
+-        assert response_data["content"]
+-    else:
+-        assert "error" in response_data
+-
+-
+-@pytest.mark.asyncio
+-async def test_concurrent_requests(request: pytest.FixtureRequest) -> None:
+-    """Test handling of multiple concurrent requests."""
+-    client = request.getfixturevalue("test_client")
+-
+-    def make_request() -> None:
+-        form_data = {
+-            "input_text": "https://github.com/octocat/hello-world",
+-            "max_file_size": 243,
+-            "pattern_type": "exclude",
+-            "pattern": "",
+-            "token": "",
+-        }
+-        response = client.post("/api/ingest", json=form_data)
+-        assert response.status_code == status.HTTP_200_OK, f"Request failed: {response.text}"
+-
+-        response_data = response.json()
+-        if response.status_code == status.HTTP_200_OK:
+-            assert "content" in response_data
+-            assert response_data["content"]
+-        else:
+-            assert "error" in response_data
+-
+-    with ThreadPoolExecutor(max_workers=5) as executor:
+-        futures = [executor.submit(make_request) for _ in range(5)]
+-        for future in futures:
+-            future.result()
+-
+-
+-@pytest.mark.asyncio
+-async def test_large_file_handling(request: pytest.FixtureRequest) -> None:
+-    """Test handling of repositories with large files."""
+-    client = request.getfixturevalue("test_client")
+-    form_data = {
+-        "input_text": "https://github.com/octocat/Hello-World",
+-        "max_file_size": 1,
+-        "pattern_type": "exclude",
+-        "pattern": "",
+-        "token": "",
+-    }
+-
+-    response = client.post("/api/ingest", json=form_data)
+-    assert response.status_code == status.HTTP_200_OK, f"Request failed: {response.text}"
+-
+-    response_data = response.json()
+-    if response.status_code == status.HTTP_200_OK:
+-        assert "content" in response_data
+-        assert response_data["content"]
+-    else:
+-        assert "error" in response_data
+-
+-
+-@pytest.mark.asyncio
+-async def test_repository_with_patterns(request: pytest.FixtureRequest) -> None:
+-    """Test repository analysis with include/exclude patterns."""
+-    client = request.getfixturevalue("test_client")
+-    form_data = {
+-        "input_text": "https://github.com/octocat/Hello-World",
+-        "max_file_size": 243,
+-        "pattern_type": "include",
+-        "pattern": "*.md",
+-        "token": "",
+-    }
+-
+-    response = client.post("/api/ingest", json=form_data)
+-    assert response.status_code == status.HTTP_200_OK, f"Request failed: {response.text}"
+-
+-    response_data = response.json()
+-    if response.status_code == status.HTTP_200_OK:
+-        assert "content" in response_data
+-        assert "pattern_type" in response_data
+-        assert response_data["pattern_type"] == "include"
+-        assert "pattern" in response_data
+-        assert response_data["pattern"] == "*.md"
+-    else:
+-        assert "error" in response_data
