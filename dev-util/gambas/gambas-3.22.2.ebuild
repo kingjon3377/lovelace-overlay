@@ -74,8 +74,9 @@ COMMON_DEPEND="
 	pdf?	( app-text/poppler:= )
 	postgres?	( dev-db/postgresql:= )
 	qt6? (
-		dev-qt/qtbase:6=[gui,widgets,svg,printsupport]
+		dev-qt/qtbase:6=[gui,widgets]
 		x11-libs/libxcb:=
+		dev-qt/qtsvg:6=
 		dev-qt/qtwebview:6=
 		dev-qt/qtwebengine:6=
 		dev-qt/qtwayland:6=
