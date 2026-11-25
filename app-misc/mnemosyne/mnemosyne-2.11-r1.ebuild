@@ -20,17 +20,17 @@ IUSE="latex"
 # gtts = "^2.3.2" -> gTTS, in ::voyageur, ::HomeAssistantRepository, ::edgets
 # google-trans-new = "^1.1.9"
 DEPEND="
-	>=dev-python/pyqt5-5.6[gui,widgets,${PYTHON_USEDEP}]
+	>=dev-python/pyqt6-6.5[gui,widgets,${PYTHON_USEDEP}]
 "
 RDEPEND="${DEPEND}
 	dev-python/argon2-cffi[${PYTHON_USEDEP}]
-	>=dev-python/cheroot-5.0.0[${PYTHON_USEDEP}]
+	>=dev-python/cheroot-10.0.0[${PYTHON_USEDEP}]
 	dev-python/cherrypy[${PYTHON_USEDEP}]
 	dev-python/decorator[${PYTHON_USEDEP}]
 	dev-python/matplotlib[${PYTHON_USEDEP}]
 	dev-python/pillow[${PYTHON_USEDEP}]
 	dev-python/pyopengl[${PYTHON_USEDEP}]
-	>=dev-python/pyqtwebengine-5.6[${PYTHON_USEDEP}]
+	>=dev-python/pyqtwebengine-6.5[${PYTHON_USEDEP}]
 	>=dev-python/webob-1.4.0[${PYTHON_USEDEP}]
 	latex? (
 		app-text/dvipng
