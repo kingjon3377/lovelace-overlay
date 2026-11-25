@@ -11,7 +11,7 @@ SRC_URI="ftp://ftp.dict.org/pub/dict/pre/${MY_P}.tar.gz"
 S=${WORKDIR}
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="amd64 ppc ppc64 sparc x86"
+KEYWORDS="amd64 ppc ppc64 x86"
 
 DEPEND=">=app-text/dictd-1.5.5"
 
