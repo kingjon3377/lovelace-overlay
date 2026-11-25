@@ -15,10 +15,10 @@ LICENSE="GPL-2"
 SLOT="3"
 
 KEYWORDS="~amd64"
-DEF_ON_FLAGS=( bzip2 cairo curl desktop gtk imageio media mime ncurses net
-				opengl pcre pdf qt5 sdl sdlsound sqlite svg v4l xml zlib )
-DEF_OFF_FLAGS=( crypt dbus examples gmp gsl httpd imageimlib jit mysql
-				postgres odbc openssl openal smtp )
+DEF_ON_FLAGS=( bzip2 cairo curl dbus desktop gtk htmlview imageio media mime ncurses net
+				opengl pcre pdf qt6 sdl sdlsound sdl2 sqlite svg v4l xml zlib )
+DEF_OFF_FLAGS=( crypt examples gmp gsl httpd imageimlib jit mysql
+				postgres odbc openssl openal qt5 smtp )
 for flag in "${DEF_ON_FLAGS[@]}";do
 	IUSE+=" +${flag}"
 done
@@ -29,7 +29,8 @@ done
 REQUIRED_USE="gtk? ( cairo ) media? ( v4l ) mysql? ( zlib ) net? ( curl ) sdl? ( opengl ) xml? ( net ) net? ( mime )"
 
 # libcrypt.so is part of glibc
-# TODO: check gtk, other, deps
+# TODO: check gtk, htmlview, other, deps
+# TODO: What does sdl2 need beyond libsdl2? (And what USE flags on that package?)
 COMMON_DEPEND="
 	bzip2?	( app-arch/bzip2 )
 	cairo?	( x11-libs/cairo )
@@ -72,11 +73,12 @@ COMMON_DEPEND="
 	pcre?	( dev-libs/libpcre:3 )
 	pdf?	( app-text/poppler:= )
 	postgres?	( dev-db/postgresql:= )
-	qt5? (
-		dev-qt/qtgui:5
-		dev-qt/qtwebengine:5
-		dev-qt/qtcore:5
-		dev-qt/qtopengl:5
+	qt6? (
+		dev-qt/qtbase:6=[gui,widgets,svg,printsupport]
+		x11-libs/libxcb:=
+		dev-qt/qtwebview:6=
+		dev-qt/qtwebengine:6=
+		dev-qt/qtwayland:6=
 	)
 	sdl?	(
 		>=media-libs/sdl-image-1.2.6-r1
@@ -84,6 +86,7 @@ COMMON_DEPEND="
 		media-libs/sdl-ttf
 	)
 	sdlsound?	( media-libs/sdl-sound )
+	sdl2? ( media-libs/libsdl2 )
 	smtp?	( dev-libs/glib:2 )
 	sqlite?	( dev-db/sqlite:3 )
 	svg?	( gnome-base/librsvg )
@@ -110,24 +113,20 @@ RDEPEND="${COMMON_DEPEND}"
 
 src_prepare() {
 	default
-	sed -i -e 's@c++11@c++17@g' acinclude.m4 || die # Poppler header now uses C++17 constructs
 	eautoreconf
-	for dir in "${S}"/gb.*;do
-		if ! test -d "${dir}"; then
-			einfo "${dir} is not a directory, skipping eautoreconf"
-			continue
-		elif test -f "${dir}/.elibtoolized"; then
-			einfo "eautoreconf already ran in ${dir}, skipping"
-			continue
-		else
-			cd "${dir}" || die "Failed to enter ${dir}"
-			eautoreconf
-			cd "${S}" || die "Failed to return to \$S"
-		fi
-	done
+	while IFS= read -r -d $'\0' subdir;do
+		case "${subdir}" in
+		*TEMPLATE*) continue ;;
+		esac
+		test -f "${subdir}/configure" && continue
+		pushd "${subdir}" > /dev/null || die "Failed to cd to ${subdir}"
+		eautoreconf
+		popd > /dev/null || die "Failed to cd back from ${subdir}"
+	done < <(find . -name configure.ac -exec dirname {} -z \; | sort -u -z)
 }
 
 src_configure() {
+	# TODO: What about 'pdf' itself, instead of/as well as 'poppler'?
 	econf \
 		$(use_enable bzip2 bzlib2) \
 		$(use_enable zlib) \
@@ -143,15 +142,18 @@ src_configure() {
 		$(use_enable pcre) \
 		$(use_enable sdl) \
 		$(use_enable sdlsound) \
+		$(use_enable sdl2) \
 		$(use_enable xml libxml) \
 		$(use_enable xml) \
 		$(use_enable v4l) \
 		$(use_enable crypt) \
 		--disable-qt4 \
-		$(use_enable qt5) \
+		--disable-qt5 \
+		$(use_enable qt6) \
 		$(use_enable gtk gtk3) \
 		$(use_enable opengl) \
-		$(use_enable desktop) \
+		$(use_enable desktop x11) \
+		$(use_enable desktop keyring) \
 		$(use_enable pdf poppler) \
 		$(use_enable cairo) \
 		$(use_enable imageio) \
@@ -164,11 +166,14 @@ src_configure() {
 		$(use_enable jit) \
 		$(use_enable httpd) \
 		$(use_enable openssl) \
-		$(use_enable openal)
+		$(use_enable openal) \
+		$(use_enable htmlview)
 }
 
 src_install() {
 	DESTDIR="${D}" emake -j1 install XDG_UTILS= # Sometimes fails with "file exists" errors.
+
+	find "${ED}" -type f -name \*.la -delete || die
 
 	dodoc AUTHORS README TODO
 	use net && newdoc gb.net/src/doc/README gb.net-README
@@ -178,7 +183,7 @@ src_install() {
 	use jit && newdoc gb.jit/README gb.jit-README
 	use smtp && newdoc gb.net.smtp/README gb.net.smtp-README
 
-	if { use qt5 || use gtk; } ; then
+	if { use qt6 || use gtk; } ; then
 		domenu app/desktop/gambas3.desktop
 
 		newicon -s 128 app/src/${MY_PN}/img/logo/logo.png gambas3.png
@@ -187,6 +192,9 @@ src_install() {
 		insinto /usr/share/mime/application
 		doins app/mime/*.xml main/mime/*.xml
 	fi
+
+	# Package installs the same file in both the deprecated and current places.
+	rm "${D}/usr/share/appdata/gambas3.appdata.xml" || die "removing appdata file failed"
 }
 
 my_xdg_update() {
