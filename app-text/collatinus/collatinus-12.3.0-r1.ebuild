@@ -18,9 +18,7 @@ RDEPEND="dev-qt/qtbase:6=[gui,widgets,network]
 	dev-qt/qtsvg:6=
 	x11-libs/libdrm
 	dev-libs/quazip:0=
-	dev-qt/qttools:6=[linguist]
-	dev-qt/qtprintsupport:5
-	dev-qt/qtwidgets:5"
+	dev-qt/qttools:6=[linguist]"
 DEPEND="${RDEPEND}"
 BDEPEND=" app-arch/xz-utils
 	media-gfx/inkscape
