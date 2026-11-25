@@ -24,7 +24,7 @@ RDEPEND="app-arch/brotli
 	media-libs/libwebp
 	app-text/mupdf
 	media-gfx/optipng
-	app-arch/p7zip
+	app-arch/7zip
 	app-text/poppler
 	app-text/qpdf
 	app-arch/unrar
