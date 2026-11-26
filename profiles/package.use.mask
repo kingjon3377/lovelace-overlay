@@ -4,3 +4,6 @@
 # Conflicts with all versions of dependencies currently in the tree
 =dev-python/prawcore-3.0.2 test
 
+# Requires treecleaned version of dev-python/redis
+=dev-python/slowapi-0.1.10 redis
+
